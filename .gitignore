@@ -1,0 +1,7 @@
+/build32/
+/dist/
+/assets/
+/ROMandOBBfileHere/*
+!/ROMandOBBfileHere/README.txt
+/.vs/
+*.user

@@ -1,0 +1,12 @@
+{
+  "version": 5,
+  "configurePresets": [{
+    "name": "windows-game",
+    "generator": "Visual Studio 17 2022",
+    "architecture": "Win32",
+    "binaryDir": "${sourceDir}/build32"
+  }],
+  "buildPresets": [
+    {"name": "windows-game", "configurePreset": "windows-game", "configuration": "Release"}
+  ]
+}

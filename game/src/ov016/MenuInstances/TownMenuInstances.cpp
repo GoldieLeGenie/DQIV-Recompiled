@@ -1,0 +1,52 @@
+#pragma ipa file
+#include "ov016/TownMenu_ROOT/TownMenu_ROOT.hpp"
+#include "ov016/UnkTownMenu_02178a58/UnkTownMenu_02178a58.hpp"
+#include "main/menu/TownMenu_PARTY_TALK.hpp"
+#include "ov016/TownShopMenu/TownShopMenu.hpp"
+#include "ov016/TownMenu_MAGIC/TownMenu_MAGIC_ROOT.hpp"
+#include "ov016/TownMenu_MAGIC/TownMenu_MAGIC_CHARSELECT.hpp"
+#include "ov016/TownMenu_MAGIC/TownMenu_MAGIC_MOVE.hpp"
+#include "ov016/TownMenu_ITEM/TownMenuItemSelectChara.hpp"
+#include "ov016/UnkTownMenu_02176fa0/UnkTownMenu_02176fa0.hpp"
+#include "ov016/TownMenu_ITEM/TownMenuItemSelectTargetChara.hpp"
+#include "ov016/TownMenu_ITEM/TownMenuItemSelectTargetItem.hpp"
+#include "ov016/TownMenu_ITEM/TownMenuItemSelectCommand.hpp"
+#include "ov016/TownMenu_ITEM/TownMenuItemMessage.hpp"
+#include "ov016/TownMenu_ITEM/TownMenu_ITEM_USE.hpp"
+#include "ov016/TownMenu_ITEM/TownMenu_ITEM_MOVE.hpp"
+#include "ov016/TownMenu_ITEM/TownMenu_ITEM_CHECKTARGET.hpp"
+#include "ov016/TownMenu_ITEM/TownMenu_ITEM_EQUIPCHECK.hpp"
+#include "ov016/TownMenu_STATUS/TownMenu_STATUS.hpp"
+#include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_ROOT.hpp"
+#include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_TACTICS.hpp"
+#include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_EQUIP.hpp"
+#include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_SHIFT_PARTY.hpp"
+#include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_SETTING.hpp"
+#include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_CAREER.hpp"
+
+// global instances of the town menus
+THUMB
+TownMenu_ROOT gTownMenu_ROOT;
+UnkTownMenu_02178a58 gUnkTownMenu_02178a58;
+TownMenu_PARTY_TALK gTownMenu_PARTY_TALK;
+TownShopMenu gTownShopMenu;
+TownMenu_MAGIC_ROOT gTownMenu_MAGIC_ROOT;
+TownMenu_MAGIC_CHARSELECT gTownMenu_MAGIC_CHARSELECT;
+TownMenu_MAGIC_MOVE gTownMenu_MAGIC_MOVE;
+TownMenuItemSelectChara gTownMenuItemSelectChara;
+UnkTownMenu_02176fa0 gUnkTownMenu_02176fa0;
+TownMenuItemSelectTargetChara gTownMenuItemSelectTargetChara;
+TownMenuItemSelectTargetItem gTownMenuItemSelectTargetItem;
+TownMenuItemSelectCommand gTownMenuItemSelectCommand;
+TownMenuItemMessage gTownMenuItemMessage;
+TownMenu_ITEM_USE gTownMenu_ITEM_USE;
+TownMenu_ITEM_MOVE gTownMenu_ITEM_MOVE;
+TownMenu_ITEM_CHECKTARGET gTownMenu_ITEM_CHECKTARGET;
+TownMenu_ITEM_EQUIPCHECK gTownMenu_ITEM_EQUIPCHECK;
+TownMenu_STATUS gTownMenu_STATUS;
+TownMenu_OPERATION_ROOT gTownMenu_OPERATION_ROOT;
+TownMenu_OPERATION_TACTICS gTownMenu_OPERATION_TACTICS;
+TownMenu_OPERATION_EQUIP gTownMenu_OPERATION_EQUIP;
+TownMenu_OPERATION_SHIFT_PARTY gTownMenu_OPERATION_SHIFT_PARTY;
+TownMenu_OPERATION_SETTING gTownMenu_OPERATION_SETTING;
+TownMenu_OPERATION_CAREER gTownMenu_OPERATION_CAREER;

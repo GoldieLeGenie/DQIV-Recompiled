@@ -1,0 +1,38 @@
+#pragma once
+#include "nitro/fx.hpp"
+extern int renderLiteral_B4y;
+extern int renderLiteral_B5y;
+extern int renderLiteral_B2z;
+extern int renderLiteral_B4x;
+extern int renderLiteral_B1x;
+extern int renderLiteral_B5x;
+extern int renderLiteral_B1z;
+extern int renderLiteral_B2y;
+extern int renderLiteral_B3x;
+extern int renderLiteral_B3y;
+extern long renderLiteral_one;
+extern int renderLiteral_B4z;
+extern int renderLiteral_B1y;
+extern int renderLiteral_B2x;
+extern int renderLiteral_B9y;
+extern int renderLiteral_B3z;
+extern int renderLiteral_B9z;
+extern int renderLiteral_B9x;
+extern int renderLiteral_B8z;
+extern int renderLiteral_B8y;
+extern int renderLiteral_B8x;
+extern int renderLiteral_B7z;
+extern int renderLiteral_B7y;
+extern int renderLiteral_B7x;
+extern int renderLiteral_B6z;
+extern int renderLiteral_B6y;
+extern int renderLiteral_B6x;
+extern int renderLiteral_B5z;
+extern const VecFx32 renderTemplate0;
+extern const VecFx32 renderTemplate1;
+extern const VecFx32 renderTemplate2;
+extern const VecFx32 renderTemplate3;
+extern const VecFx32 renderTemplate4;
+extern const VecFx32 renderTemplate5;
+extern const VecFx32 renderTemplate6;
+extern const VecFx32 renderTemplate7;
