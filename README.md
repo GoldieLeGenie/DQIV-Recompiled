@@ -158,15 +158,16 @@ The project contains no game data: it comes from your own copies of the game. Pu
 | The **Android version's data file** (`main.xxxxx.com.square_enix.android_googleplay.dq4.obb`) | optional: HD music and sound effects; without it, the game uses the DS sound |
 
 You also need:
-- CMake 3.24 or later;
-- Visual Studio 2022 (C++) and the Windows SDK;
+- Visual Studio 2022 (the free Community edition is enough) with the **Desktop development with C++** workload, which brings the Windows SDK and CMake;
 - Internet access on the first build: SDL3 and stb_vorbis are downloaded and checked.
 
-Then run:
+Then double-click **`build.bat`**, or run in a terminal:
 
 ```bash
 powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
+
+The window stays open at the end: it shows `Created dist\DragonQuestIV.exe`, or an `ERROR:` line saying what is missing (Visual Studio's C++ workload, CMake, the ROM). The first build takes a few minutes.
 
 The script:
 1. compiles the game;
@@ -190,4 +191,5 @@ The build is 32-bit (Win32), because the original game resources contain 32-bit 
 | `icon\` | the game's icon (`DragonQuestIV.ico`, built into the executable) |
 | `docs\images\` | the pictures of this page |
 | `cmake\` | placement of the game's modules (DS overlays) |
+| `build.bat` | double-click to run `build.ps1` |
 | `build.ps1` | builds the game and creates `dist\DragonQuestIV.exe` |
