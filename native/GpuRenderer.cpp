@@ -775,9 +775,12 @@ void GpuRenderer::render3D(std::span<const GpuBatch> batches,const GxRasterState
             bool front=true;
             for(unsigned i=0;i<3&&front;++i)front=t[i].clip[3]>0;
             if(front) {
-                // DS screen pixels (texture coordinates taken as affine over half a pixel).
+                // DS screen pixels (texture coordinates taken as affine over half a pixel);
+                // the wide battle scene spans the whole canvas, as wide as it is.
+                const bool wideScene=triangle.perspective&&wideBattleFrame();
+                const float unitX=wideScene?dualScreen().canvasWidth*0.5f:128.f,unitY=wideScene?192.f:96.f;
                 float x[3],y[3];
-                for(unsigned i=0;i<3;++i) {x[i]=t[i].clip[0]/t[i].clip[3]*128;y[i]=t[i].clip[1]/t[i].clip[3]*96;}
+                for(unsigned i=0;i<3;++i) {x[i]=t[i].clip[0]/t[i].clip[3]*unitX;y[i]=t[i].clip[1]/t[i].clip[3]*unitY;}
                 const float ex1=x[1]-x[0],ey1=y[1]-y[0],ex2=x[2]-x[0],ey2=y[2]-y[0];
                 const float det=ex1*ey2-ex2*ey1;
                 if(std::abs(det)>0.5f) {
@@ -791,7 +794,27 @@ void GpuRenderer::render3D(std::span<const GpuBatch> batches,const GxRasterState
                     // would cover the neighbouring parts' outlines).
                     const float texelsPerPixel=std::sqrt(std::abs(dudx*dvdy-dudy*dvdx));
                     const float grow=std::clamp(0.6f/std::max(texelsPerPixel,1e-3f),0.5f,3.f);
-                    for(unsigned i=0;i<3;++i) {
+                    // A card (every corner on its picture's rectangle) grows as
+                    // a whole, in its texture: the two triangles of a part keep
+                    // a straight common outline. Grown corner by corner, the
+                    // acute corner at its diagonal pulled that outline inwards
+                    // and left a hairline between two parts (a bullfinch's legs).
+                    float u0=t[0].u,u1=t[0].u,v0=t[0].v,v1=t[0].v;
+                    for(unsigned i=1;i<3;++i) {u0=std::min(u0,t[i].u);u1=std::max(u1,t[i].u);v0=std::min(v0,t[i].v);v1=std::max(v1,t[i].v);}
+                    constexpr float corner=0.05f;
+                    bool card=u1-u0>corner&&v1-v0>corner;
+                    for(unsigned i=0;i<3&&card;++i)
+                        card=(std::abs(t[i].u-u0)<corner||std::abs(t[i].u-u1)<corner)&&(std::abs(t[i].v-v0)<corner||std::abs(t[i].v-v1)<corner);
+                    const float jacobian=dudx*dvdy-dudy*dvdx;
+                    if(card&&std::abs(jacobian)>1e-6f) {
+                        const float texels=std::max(0.6f,0.5f*texelsPerPixel);
+                        for(unsigned i=0;i<3;++i) {
+                            const float du=std::abs(t[i].u-u0)<corner?-texels:texels,dv=std::abs(t[i].v-v0)<corner?-texels:texels;
+                            const float ox=(dvdy*du-dudy*dv)/jacobian,oy=(dudx*dv-dvdx*du)/jacobian;
+                            grown[i].clip[0]+=ox/unitX*t[i].clip[3];grown[i].clip[1]+=oy/unitY*t[i].clip[3];
+                            grown[i].u+=du;grown[i].v+=dv;
+                        }
+                    } else for(unsigned i=0;i<3;++i) {
                         // Each corner moves out along both its edges' normals.
                         const unsigned a=(i+2)%3,b=(i+1)%3;
                         auto normal=[&](unsigned from,unsigned to,float& nx,float& ny) {
@@ -801,7 +824,7 @@ void GpuRenderer::render3D(std::span<const GpuBatch> batches,const GxRasterState
                         float n1x,n1y,n2x,n2y;normal(a,i,n1x,n1y);normal(i,b,n2x,n2y);
                         const float dot=std::max(n1x*n2x+n1y*n2y,-0.5f);
                         const float ox=grow*(n1x+n2x)/(1+dot),oy=grow*(n1y+n2y)/(1+dot);
-                        grown[i].clip[0]+=ox/128*t[i].clip[3];grown[i].clip[1]+=oy/96*t[i].clip[3];
+                        grown[i].clip[0]+=ox/unitX*t[i].clip[3];grown[i].clip[1]+=oy/unitY*t[i].clip[3];
                         grown[i].u+=dudx*ox+dudy*oy;grown[i].v+=dvdx*ox+dvdy*oy;
                     }
                 }

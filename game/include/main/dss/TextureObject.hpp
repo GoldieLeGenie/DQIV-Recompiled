@@ -34,6 +34,7 @@ struct TextureObject {
     void unkfunc_02086798(int flag);            // relocate, allocate the VRAM and transfer
 #ifdef DQIV_NATIVE
     void setupReadOnly(const TextureObject& source, int flag);
+    int relocated(int field) const;             // a file offset made an address, once
 #endif
     void unkfunc_02086868();                    // free the VRAM
     void unkfunc_020868dc();                    // allocate the VRAM

@@ -4,6 +4,7 @@
 #include "nitro/g3.hpp"
 #ifdef DQIV_NATIVE
 #include "GameServices.hpp"
+#include <cstdint>
 #endif
 
 ARM TextureObject::TextureObject()
@@ -31,6 +32,12 @@ void TextureObject::setupReadOnly(const TextureObject& source, int flag)
     unkfunc_020868dc();
     unkfunc_02086968(flag != 0);
 }
+
+int TextureObject::relocated(int field) const
+{
+    const unsigned char* header = (const unsigned char*)this;
+    return (unsigned int)field >= (unsigned int)(std::uintptr_t)header ? field : (int)(header + field);
+}
 #endif
 
 ARM void TextureObject::unkfunc_02086798(int flag)
@@ -39,8 +46,18 @@ ARM void TextureObject::unkfunc_02086798(int flag)
         return;
     }
     unk_14 |= 1;
+#ifdef DQIV_NATIVE
+    // A released texture keeps its addresses (unkfunc_02086868 clears the flag
+    // only): set up again, the DS added its address a second time and read
+    // far outside the file (a town closing after a character changed pose,
+    // as Maya dancing at the start of chapter 4). Addresses already made
+    // point past this header; file offsets are far smaller.
+    unk_34 = relocated(unk_34);
+    unk_3c = relocated(unk_3c);
+#else
     unk_34 = (int)((unsigned char*)this + unk_34);
     unk_3c = (int)((unsigned char*)this + unk_3c);
+#endif
 #ifndef DQIV_NATIVE
     unk_30 = unkfunc_0207ebc0(unk_30, 0x400);
     unk_38 = unkfunc_0207ebc0(unk_38, 0x20);
@@ -57,8 +74,13 @@ ARM void TextureObject::unkfunc_02086798(int flag)
     }
 #endif
     if (unk_18 == 1 || unk_18 == 2) {
+#ifdef DQIV_NATIVE
+        unk_54 = relocated(unk_54);
+        unk_5c = relocated(unk_5c);
+#else
         unk_54 = (int)((unsigned char*)this + unk_54);
         unk_5c = (int)((unsigned char*)this + unk_5c);
+#endif
 #ifndef DQIV_NATIVE
         unk_50 = unkfunc_0207ebc0(unk_50, 0x400);
         unk_58 = unkfunc_0207ebc0(unk_58, 0x20);
