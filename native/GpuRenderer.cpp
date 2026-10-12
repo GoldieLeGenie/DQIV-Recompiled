@@ -1,4 +1,5 @@
 #include "GpuRenderer.hpp"
+#include "DualScreen.hpp"
 #include "HdPictures.hpp"
 #include "GlLoader.hpp"
 #include "GxTextures.hpp"
@@ -77,6 +78,15 @@ void main() {
         // Sheet parts read the full-size texels: smaller mipmap levels mix in
         // the neighbouring pictures of the sheet.
         vec4 texel=(flags&4u)!=0u?textureLod(uTexture,uv/vSize,0.0):texture(uTexture,uv/vSize);
+        if((flags&4u)!=0u) {
+            // A part's outline follows its own texels exactly: filtering would
+            // blend in the transparent texels beside a seam between two parts
+            // and open a line there (enlarged monsters). Colours stay filtered.
+            ivec2 size=textureSize(uTexture,0);
+            vec4 sharp=texelFetch(uTexture,clamp(ivec2(floor(uv/vSize*vec2(size))),ivec2(0),size-1),0);
+            vec3 colour=texel.a>0.01?texel.rgb/texel.a:(sharp.a>0.0?sharp.rgb/sharp.a:vec3(0.0));
+            texel=vec4(colour*sharp.a,sharp.a);
+        }
         float textureAlpha=texel.a*31.0;
         vec3 textureColor=texel.a>0.0?texel.rgb/texel.a*63.0:vec3(0.0);
         if(mode==1u) color=mix(color,textureColor,clamp(textureAlpha/31.0,0.0,1.0));
@@ -182,6 +192,8 @@ uniform int uSides;
 uniform int uBackdrop3D;
 uniform vec4 uInset;
 uniform int uPlaced;
+uniform float uTopScale;
+uniform int uBand;
 uniform float uInsetAlpha;
 uniform vec4 uScreen0;
 uniform vec4 uScreen1;
@@ -281,6 +293,26 @@ void main() {
     // one presented pixel of blending at their borders.
     vec2 cell=vec2(p.x-(uCanvas.x-256.0)*0.5,p.y)-0.5;
     float scale=uScale;
+    bool topCell=false;
+    if(uTopScale<1.0&&p.y<192.0) {
+        // The smaller top screen at the canvas top; elsewhere the 3D scene.
+        vec2 local=(p-vec2((uCanvas.x-256.0*uTopScale)*0.5,0.0))/uTopScale;
+        if(all(greaterThanEqual(local,vec2(0.0)))&&all(lessThan(local,vec2(256.0,192.0)))) {cell=local-0.5;scale=uScale*uTopScale;topCell=true;}
+        else cell=vec2(-2.0,clamp(local.y,0.0,191.0));
+    }
+    if(uBand!=0&&!topCell) {
+        // The bottom screen's band: its plates above it (recipe rows 384..;
+        // only below a smaller top screen) and beside it (rows 448.., left
+        // then right), where they are opaque.
+        vec2 b=vec2(p.x-(uCanvas.x-256.0)*0.5,p.y-128.0),at=vec2(-1.0);
+        int first=0;
+        if(b.y>=0.0&&b.y<64.0&&b.x>=0.0&&b.x<256.0) {if(uTopScale<1.0) {at=vec2(b.x,384.0+b.y);first=384;}}
+        else if(b.y>=0.0&&b.y<256.0&&b.x>=-128.0&&b.x<0.0) {at=vec2(b.x+128.0,448.0+b.y);first=448;}
+        else if(b.y>=0.0&&b.y<256.0&&b.x>=256.0&&b.x<384.0) {at=vec2(b.x-128.0,448.0+b.y);first=448;}
+        if(first!=0&&(int(texelFetch(uRecipe1,ivec2(at),0).a*255.0+0.5)&8)==0) {
+            cell=at-0.5;rowFirst=first;rowLast=first==384?447:703;
+        }
+    }
     if(uPlaced!=0) {
         // Each screen in its own rectangle; nothing elsewhere.
         vec2 a=(p-uScreen0.xy)/max(uScreen0.zw,vec2(1e-6)),b=(p-uScreen1.xy)/max(uScreen1.zw,vec2(1e-6));
@@ -568,7 +600,12 @@ void GpuRenderer::finishUpload(GpuTexture& entry,const std::vector<std::uint32_t
     } else if(anisotropy_)gl::TexParameteri(GL_TEXTURE_2D,0x84fe,8);
     entry.hash=hash;entry.width=texture.width;entry.height=texture.height;entry.generation=texture.version;
 }
+void GpuRenderer::dropTextures() {
+    for(auto& [key,entry]:textures_)if(entry.name) {samplingState_.erase(entry.name);gl::DeleteTextures(1,&entry.name);}
+    textures_.clear();upgrades_.clear();
+}
 void GpuRenderer::prepareTextures(std::span<const GpuBatch> batches,GxTextures& textures,const GxRenderOptions& options) {
+    if(uploadedScale_!=settings.textureScale) {dropTextures();uploadedScale_=settings.textureScale;}
     // The textures this frame shows for the first time (a new map brings
     // dozens): their upscaling runs in parallel before the uploads.
     if(!(options.displayControl&1))return;
@@ -725,8 +762,16 @@ void GpuRenderer::render3D(std::span<const GpuBatch> batches,const GxRasterState
         // around, their texture carried on (the margin repeats their edge
         // texels), so neighbouring parts overlap instead.
         std::array<GxVertex,3> grown=triangle.vertices;
+        // Battle sprites land on the DS pixel grid, as on the console.
+        std::array<GxVertex,3> snapped=triangle.vertices;
+        if(keepInside&&triangle.perspective&&wideBattleFrame())for(auto& v:snapped)if(v.clip[3]>0) {
+            float x=v.clip[0]/v.clip[3],y=v.clip[1]/v.clip[3];
+            snapBattlePoint(x,y);
+            v.clip[0]=x*v.clip[3];v.clip[1]=y*v.clip[3];
+        }
+        grown=snapped;
         if(keepInside&&!polygon.translucent) {
-            const auto& t=triangle.vertices;
+            const auto& t=snapped;
             bool front=true;
             for(unsigned i=0;i<3&&front;++i)front=t[i].clip[3]>0;
             if(front) {
@@ -741,7 +786,11 @@ void GpuRenderer::render3D(std::span<const GpuBatch> batches,const GxRasterState
                     const float dudx=(du1*ey2-du2*ey1)/det,dudy=(du2*ex1-du1*ex2)/det;
                     const float dvdx=(dv1*ey2-dv2*ey1)/det,dvdy=(dv2*ex1-dv1*ex2)/det;
                     const float side=det>0?1.f:-1.f;
-                    constexpr float grow=0.5f;
+                    // Half a DS pixel, more for an enlarged sprite (battle zoom):
+                    // the overlap covers a good half of one of its texels (more
+                    // would cover the neighbouring parts' outlines).
+                    const float texelsPerPixel=std::sqrt(std::abs(dudx*dvdy-dudy*dvdx));
+                    const float grow=std::clamp(0.6f/std::max(texelsPerPixel,1e-3f),0.5f,3.f);
                     for(unsigned i=0;i<3;++i) {
                         // Each corner moves out along both its edges' normals.
                         const unsigned a=(i+2)%3,b=(i+1)%3;
@@ -768,8 +817,11 @@ void GpuRenderer::render3D(std::span<const GpuBatch> batches,const GxRasterState
             out.texture[0]=v.u;out.texture[1]=v.v+worldRow;out.texture[2]=size[0];out.texture[3]=size[1];
             out.params[0]=attributes;out.params[1]=parameters;
             // Overlays placed on one screen of a larger target stop at that
-            // screen's edges, as the hardware clips them.
-            if(target==&placement.screen) {
+            // screen's edges, as the hardware clips them; in wide battles the
+            // nearly invisible ones (alpha 1: the light around a target, which
+            // only keeps the dimming overlay of its polygon ID away) follow the
+            // monsters beside that screen.
+            if(target==&placement.screen&&!(wideBattleFrame()&&alpha<=1)) {
                 const float w=v.clip[3];
                 out.clip[0]=w+v.clip[0];out.clip[1]=w-v.clip[0];out.clip[2]=w+v.clip[1];out.clip[3]=w-v.clip[1];
             } else out.clip[0]=out.clip[1]=out.clip[2]=out.clip[3]=1;
@@ -1038,6 +1090,8 @@ void GpuRenderer::present(const GpuLayout& layout,std::span<const std::uint32_t>
     gl::Uniform2f(uniform(composeProgram_,"uCanvas"),layout.canvasWidth,layout.canvasHeight);
     gl::Uniform1i(uniform(composeProgram_,"uSides"),layout.sides&&fogged_[0].framebuffer?1:0);
     gl::Uniform1i(uniform(composeProgram_,"uPlaced"),layout.placed?1:0);
+    gl::Uniform1f(uniform(composeProgram_,"uTopScale"),layout.topScale);
+    gl::Uniform1i(uniform(composeProgram_,"uBand"),layout.band?1:0);
     gl::Uniform1f(uniform(composeProgram_,"uInsetAlpha"),layout.insetAlpha);
     gl::Uniform4f(uniform(composeProgram_,"uScreen0"),layout.screens[0][0],layout.screens[0][1],layout.screens[0][2],layout.screens[0][3]);
     gl::Uniform4f(uniform(composeProgram_,"uScreen1"),layout.screens[1][0],layout.screens[1][1],layout.screens[1][2],layout.screens[1][3]);

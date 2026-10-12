@@ -24,6 +24,8 @@ const char* padButtonName(int button,int language) {
     case SDL_GAMEPAD_BUTTON_DPAD_LEFT:return fr?"Croix gauche":"D-pad left";
     case SDL_GAMEPAD_BUTTON_DPAD_RIGHT:return fr?"Croix droite":"D-pad right";
     case SDL_GAMEPAD_BUTTON_MISC1:return "Share";
+    case padLeftTrigger:return "LT";
+    case padRightTrigger:return "RT";
     }
     return "?";
 }

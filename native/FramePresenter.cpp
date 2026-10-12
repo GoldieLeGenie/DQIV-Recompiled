@@ -149,6 +149,8 @@ void FramePresenter::frame(NitroVideo& video,const GxGeometry& geometry,const Gx
         layout_.insetAlpha=std::clamp((float(insetFrames_)-30.f)/20.f,0.f,1.f);
         batches.push_back({triangles,{},true,true,0});
     } else if(mode==Mode::battle) {
+        if(largeBattleFrame())layout_.topScale=largeBattleTopScale;
+        layout_.band=wideBattleFrame();
         // The camera already covers the canvas; overlays stay on the main screen.
         layout_.threeRects={GpuLayout::Rect{0,0,width,384},GpuLayout::Rect{0,0,0,0}};layout_.sides=true;layout_.backdrop3D=true;
         layout_.threeScreenBottom=!mainTop;
@@ -211,6 +213,7 @@ void FramePresenter::frame(NitroVideo& video,const GxGeometry& geometry,const Gx
     else if(capturing&&!fieldInset)window_.gpu().readNative(native3d_,false,source,screen);
     else native3d_.clear();
     display_.setWorldBackground(mode==Mode::menu);
+    display_.setBand(mode==Mode::battle&&wideBattleFrame());
     display_.frame(video,native3d_,mode==Mode::single||mode==Mode::battle||mode==Mode::menu);
     if(mode==Mode::joined||mode==Mode::split||mode==Mode::field||mode==Mode::effect) {
         // The main engine's graphics, before its display mode selects the capture.
@@ -242,6 +245,30 @@ void FramePresenter::frame(NitroVideo& video,const GxGeometry& geometry,const Gx
         for(unsigned plane=0;plane<Display::recipePlanes;++plane)
             std::copy_n(all.data()+plane*screenPixels*2,screenPixels*2,recipes_.data()+plane*planePixels);
         for(unsigned s=0;s<2;++s)empty_[s]=emptyScreen(all.subspan(s*screenPixels,screenPixels))?empty_[s]+1:0;
+        if(layout_.band) {
+            // The plates above the bottom screen: their colour, or the scene
+            // (the bare backdrop), with the bottom screen's master brightness.
+            const auto band=display_.band();
+            const std::uint32_t master=all[2*screenPixels*2+192*256]&0xff000000u;
+            // Above the screen: rows 384..447; beside it: rows 448..703, the
+            // left side in columns 0..127, the right one in 128..255.
+            const auto put=[&](unsigned at,std::uint32_t colour) {
+                recipes_[at]=colour>>24?colour&0x00ffffffu:0;
+                recipes_[planePixels+at]=colour>>24?0:8u<<24;
+                recipes_[2*planePixels+at]=master;recipes_[3*planePixels+at]=0;
+            };
+            if(band.size()==std::size_t(battleBandWidth)*battleBandHeight) {
+                for(int y=0;y<battleBandHeight;++y) {
+                    const auto row=band.subspan(std::size_t(y)*battleBandWidth,battleBandWidth);
+                    if(y<battleBandRows)
+                        for(int x=0;x<256;++x)put((384+y)*256+x,row[battleBandSide+x]);
+                    for(int x=0;x<battleBandSide;++x) {
+                        put((448+y)*256+x,row[x]);
+                        put((448+y)*256+battleBandSide+x,row[battleBandSide+256+x]);
+                    }
+                }
+            }
+        }
     }
     presentable_=true;
 }

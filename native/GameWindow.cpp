@@ -18,6 +18,8 @@ namespace pc {
 namespace {
 void require(bool ok) {if(!ok)throw std::runtime_error(SDL_GetError());}
 enum Overlay : unsigned {overlayFps=1};
+// Trigger travel (0..32767) past which it counts as pressed.
+constexpr int triggerThreshold=16000;
 }
 
 GameWindow::GameWindow(bool hidden,bool mute):hidden_(hidden) {
@@ -71,6 +73,8 @@ void GameWindow::applySettings() {
     gpu_->settings.autoQuality=s.quality==0;
     gpu_->settings.supersample=s.quality==0?4:s.quality;
     gpu_->settings.smoothTextures=s.smoothTextures;
+    // Textures not smoothed: the DS pixels as they are, without Scale2x.
+    gpu_->settings.textureScale=s.smoothTextures?4:1;
     const int rate=frameRates[std::clamp(s.frameRate,0,frameRateCount-1)];
     gpu_->settings.frameMilliseconds=1000.0/(rate?rate:240);
     fpsChanged_=true;
@@ -116,6 +120,15 @@ bool GameWindow::poll() {
             }
             continue;
         }
+        // A trigger pressed past half its travel binds like a button.
+        if(e.type==SDL_EVENT_GAMEPAD_AXIS_MOTION&&rebindWaiting()) {
+            const bool trigger=e.gaxis.axis==SDL_GAMEPAD_AXIS_LEFT_TRIGGER||e.gaxis.axis==SDL_GAMEPAD_AXIS_RIGHT_TRIGGER;
+            if(rebindPage()==pageGamepad&&trigger&&e.gaxis.value>triggerThreshold) {
+                gameSettings().pads[rebindAction()]=e.gaxis.axis==SDL_GAMEPAD_AXIS_LEFT_TRIGGER?padLeftTrigger:padRightTrigger;
+                cancelRebind();saveSettings();suppressInput_=true;
+            }
+            continue;
+        }
         if(e.type==SDL_EVENT_KEY_DOWN) {
             const auto key=e.key.key;
             if(e.key.repeat)continue;
@@ -155,9 +168,14 @@ bool GameWindow::poll() {
         if(!bound(SDLK_ESCAPE)&&keys[SDL_SCANCODE_ESCAPE])buttons|=2;
     }
     if(gamepad_&&focus) {
-        for(int i=0;i<buttonControlCount;++i)
-            if(SDL_GetGamepadButton(gamepad_,static_cast<SDL_GamepadButton>(controls.pads[i])))buttons|=1u<<controlBits[i];
-        if(SDL_GetGamepadButton(gamepad_,static_cast<SDL_GamepadButton>(controls.pads[controlPartyChat])))partyChat=true;
+        // A bound button, or a trigger pressed past half its travel.
+        auto pressed=[&](int pad) {
+            if(pad==padLeftTrigger)return SDL_GetGamepadAxis(gamepad_,SDL_GAMEPAD_AXIS_LEFT_TRIGGER)>triggerThreshold;
+            if(pad==padRightTrigger)return SDL_GetGamepadAxis(gamepad_,SDL_GAMEPAD_AXIS_RIGHT_TRIGGER)>triggerThreshold;
+            return SDL_GetGamepadButton(gamepad_,static_cast<SDL_GamepadButton>(pad));
+        };
+        for(int i=0;i<buttonControlCount;++i)if(pressed(controls.pads[i]))buttons|=1u<<controlBits[i];
+        if(pressed(controls.pads[controlPartyChat]))partyChat=true;
         // The left stick moves too.
         const int x=SDL_GetGamepadAxis(gamepad_,SDL_GAMEPAD_AXIS_LEFTX),y=SDL_GetGamepadAxis(gamepad_,SDL_GAMEPAD_AXIS_LEFTY);
         if(x>16000)buttons|=16;if(x<-16000)buttons|=32;if(y<-16000)buttons|=64;if(y>16000)buttons|=128;

@@ -27,6 +27,11 @@ public:
     // mode selects VRAM or main memory output: what the capture unit sees.
     std::span<const std::uint32_t> mainGraphicsRecipes() const {return graphicsRecipes_;}
     bool mainOnTop() const {return mainTop_;}
+    // Large battles: the bottom screen's name plates and their cursor
+    // standing outside it, in the band around it (battleBandWidth x
+    // battleBandHeight ARGB, alpha 0: none; the screen itself stays empty).
+    void setBand(bool on) {bandOn_=on;}
+    std::span<const std::uint32_t> band() const {return band_;}
     // The presenter keeps a picture of the world (3D target 0, the whole
     // canvas): recipes then show it where menus show their captured copy of
     // it (an untransformed direct-colour BG2 bitmap on the main engine) and
@@ -48,7 +53,8 @@ private:
     std::vector<std::uint32_t> hdBlocks_;
     std::array<std::vector<std::uint32_t>,4> hdTags_;
     std::vector<std::uint32_t> screens_,graphics_,main_,sub_,recipes_,mainRecipes_,subRecipes_,graphicsRecipes_;
-    bool mainTop_=true,world_=false;
+    bool mainTop_=true,world_=false,bandOn_=false;
+    std::vector<std::uint32_t> band_;
     void engine(NitroVideo&,bool,std::span<const std::uint32_t>,std::vector<std::uint32_t>&,std::vector<std::uint32_t>&);
     // Rows y0..y1 only, so bands of rows can be built in parallel.
     void background(NitroVideo&,bool,unsigned,std::uint32_t,unsigned y0,unsigned y1);

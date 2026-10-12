@@ -78,7 +78,7 @@ The camera zooms from 50% to 200% in towns, dungeons and on the world map. Use t
 
 ### 16:9 battles
 
-The battle scene covers the whole picture: the sky continues above, the sides are wider, and the top screen's status windows stay on top. Names, cursor and target circle stay on the monsters, as on the DS.
+Battles fill the 16:9 picture: the party's windows are drawn a little smaller at the top, the commands keep their place at the bottom, and the scene is zoomed so that the monsters fill the room between them, groups of four included (up to twice their DS size; 1.15 to 1.5 times for the tallest bosses such as Estark, seen whole). The monsters' names, the damage numbers and the light on the targeted monster follow the monsters outside the DS bottom screen, above it and beside it; monsters and names never touch the windows or the menus. Settings > Display > Battle display also offers **Panorama** (the scene over the whole picture, with the party's windows on top; Battle zoom brings the monsters closer, bosses are fitted under the windows) and **DS screens** (the original two screens).
 
 ![A 16:9 battle](docs/images/battle.jpg)
 
@@ -131,8 +131,10 @@ The same screen, in the game's style, opens from "Settings" in the adventure log
   - frames per second: 60, 120, 144, 165, 240 or unlimited;
   - camera zoom;
   - 16:9 or DS screens, stretching;
-  - vertical sync, 3D quality, smooth textures.
-- **Keyboard** and **Gamepad**: the key or button for each action (A, B, X, Y, L, R, Start, Select, directions, party chat). Press A on a line, then the new key; Escape cancels. "Default controls" restores the page.
+  - battle display: Large (default: monsters zoomed to fill the battle area), Panorama (zoom set below), or the DS's two original screens;
+  - battle zoom (Panorama battles): 100%, 125%, 150% or 175% (default), the monsters seen closer;
+  - vertical sync, 3D quality, smooth textures (No: the original DS pixels, without upscaling or filtering).
+- **Keyboard** and **Gamepad**: the key or button for each action (A, B, X, Y, L, R, Start, Select, directions, party chat); the gamepad's triggers (LT / RT) can be bound too. Press A on a line, then the new key or button; Escape cancels. "Default controls" restores the page.
 
 On laptops with two graphics chips, the game asks for the dedicated one (NVIDIA / AMD).
 

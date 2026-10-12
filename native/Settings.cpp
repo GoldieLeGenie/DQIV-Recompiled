@@ -30,6 +30,9 @@ void loadSettings() {
         else if(key=="fullscreen")s.fullscreen=value!=0;
         else if(key=="windowSize")s.windowSize=std::clamp(value,0,windowSizeCount-1);
         else if(key=="wide")s.wide=value!=0;
+        else if(key=="battleLayout")s.battleLayout=std::clamp(value,0,battleLayoutCount-1);
+        else if(key=="wideBattles"&&value==0)s.battleLayout=battleDsScreens; // earlier versions
+        else if(key=="battleZoom")s.battleZoom=std::clamp(value,100,175);
         else if(key=="stretch")s.stretch=value!=0;
         else if(key=="vsync")s.vsync=value!=0;
         else if(key=="quality")s.quality=std::clamp(value,0,4);
@@ -56,7 +59,7 @@ void saveSettings() {
     std::ofstream file(path,std::ios::trunc);
     const auto& s=gameSettings();
     file<<"language="<<s.language<<"\nshowFps="<<s.showFps<<"\nfullscreen="<<s.fullscreen<<"\nwindowSize="<<s.windowSize
-        <<"\nwide="<<s.wide<<"\nstretch="<<s.stretch<<"\nvsync="<<s.vsync<<"\nquality="<<s.quality
+        <<"\nwide="<<s.wide<<"\nbattleLayout="<<s.battleLayout<<"\nbattleZoom="<<s.battleZoom<<"\nstretch="<<s.stretch<<"\nvsync="<<s.vsync<<"\nquality="<<s.quality
         <<"\nsmoothTextures="<<s.smoothTextures<<"\nvolume="<<s.volume<<"\ntextSpeed="<<s.textSpeed<<"\nframeRate="<<s.frameRate<<"\nbattleBoost="<<s.battleBoost<<"\ncameraZoom="<<s.cameraZoom<<"\nmobileSound="<<s.mobileSound<<"\n";
     for(int i=0;i<controlCount;++i)file<<"key"<<i<<"="<<s.keys[i]<<"\npad"<<i<<"="<<s.pads[i]<<"\n";
 }
@@ -76,12 +79,18 @@ const char* japanese(const char* en) {
         {"Battle speed","せんとうの はやさ"},
         {"Camera zoom","カメラズーム"},
         {"DS screens","DSのがめん"},
+        {"Battle display","せんとうの がめん"},
+        {"Battle zoom","せんとうの ズーム"},
+        {"Panorama battles: the monsters seen closer.","パノラマの せんとう: モンスターを ちかくに みせる。"},
+        {"Large","おおきく"},
+        {"Panorama","パノラマ"},
+        {"Large: monsters zoomed to fill the battle area; Panorama: the zoom below.","おおきく: モンスターを おおきく みせる、パノラマ: したの ズーム。"},
         {"Default controls","しょきせっていに もどす"},
         {"Display","がめん"},
         {"Down","した"},
         {"Fast","はやい"},
         {"Fills the window instead of keeping proportions.","たてよこの ひりつを かえて ウィンドウに あわせる。"},
-        {"Filtered 3D textures (No: sharp pixels).","3Dテクスチャを なめらかにする (いいえ: ドットのまま)。"},
+        {"Smoothed 3D textures (No: the original DS pixels).","3Dテクスチャを なめらかにする (いいえ: DSの ドットのまま)。"},
         {"Frame rate","フレームレート"},
         {"Frames per second, top left.","1びょうあたりの フレームすう (ひだりうえ)。"},
         {"Full screen","フルスクリーン"},
@@ -191,6 +200,8 @@ const char* settingLabel(int item,int language) {
     case settingFullscreen:return pick(language,"Full screen","Plein écran","Vollbild","Schermo intero","Pantalla completa");
     case settingWindowSize:return pick(language,"Window size","Taille de la fenêtre","Fenstergröße","Dimensione finestra","Tamaño de ventana");
     case settingPicture:return pick(language,"Picture","Format de l'image","Bildformat","Formato immagine","Formato de imagen");
+    case settingBattleView:return pick(language,"Battle display","Affichage des combats","Kampfanzeige","Schermata di battaglia","Pantalla de combate");
+    case settingBattleZoom:return pick(language,"Battle zoom","Zoom des combats","Kampf-Zoom","Zoom battaglia","Zoom de combate");
     case settingStretch:return pick(language,"Stretch picture","Étirer l'image","Bild strecken","Allarga immagine","Estirar imagen");
     case settingVsync:return pick(language,"Vertical sync","Synchro verticale","V-Sync","Sincronia verticale","Sincronía vertical");
     case settingQuality:return pick(language,"3D quality","Qualité 3D","3D-Qualität","Qualità 3D","Calidad 3D");
@@ -217,6 +228,11 @@ std::string settingValue(int item,int language) {
     case settingFullscreen:return yesNo(s.fullscreen,language);
     case settingWindowSize:return std::to_string(windowSizes[s.windowSize][0])+"x"+std::to_string(windowSizes[s.windowSize][1]);
     case settingPicture:return s.wide?"16:9":pick(language,"DS screens","Écrans DS","DS-Bildschirme","Schermi DS","Pantallas DS");
+    case settingBattleView:
+        if(s.battleLayout==battleLarge)return pick(language,"Large","Grand","Groß","Grande","Grande");
+        if(s.battleLayout==battlePanorama)return pick(language,"Panorama","Panorama","Panorama","Panorama","Panorama");
+        return pick(language,"DS screens","Écrans DS","DS-Bildschirme","Schermi DS","Pantallas DS");
+    case settingBattleZoom:return std::to_string(s.battleZoom)+"%";
     case settingStretch:return yesNo(s.stretch,language);
     case settingVsync:return yesNo(s.vsync,language);
     case settingQuality:
@@ -245,11 +261,16 @@ const char* settingHint(int item,int language) {
     case settingLanguage:return pick(language,"Language of the game's texts.","Langue des textes du jeu.","Sprache der Spieltexte.","Lingua dei testi del gioco.","Idioma de los textos del juego.");
     case settingFps:return pick(language,"Frames per second, top left.","Images par seconde, en haut à gauche.","Bilder pro Sekunde, oben links.","Fotogrammi al secondo, in alto a sinistra.","Imágenes por segundo, arriba a la izquierda.");
     case settingWindowSize:return pick(language,"Size in windowed mode.","Taille en mode fenêtré.","Größe im Fenstermodus.","Dimensione in modalità finestra.","Tamaño en modo ventana.");
+    case settingBattleZoom:return pick(language,"Panorama battles: the monsters seen closer.","Combats en panorama : les monstres vus de plus près.",
+        "Panorama-Kämpfe: die Monster näher gesehen.","Battaglie panorama: i mostri visti più da vicino.","Combates panorámicos: los monstruos vistos más de cerca.");
+    case settingBattleView:return pick(language,"Large: monsters zoomed to fill the battle area; Panorama: the zoom below.",
+        "Grand : monstres agrandis pour remplir la zone de combat ; Panorama : le zoom ci-dessous.","Groß: Monster vergrößert, um den Kampfbereich zu füllen; Panorama: der Zoom unten.",
+        "Grande: mostri ingranditi per riempire l'area di battaglia; Panorama: lo zoom sotto.","Grande: monstruos ampliados para llenar la zona de combate; Panorama: el zoom de abajo.");
     case settingPicture:return pick(language,"16:9 fills the screen; DS screens keeps the original layout.","16:9 remplit l'écran ; Écrans DS garde la disposition d'origine.","16:9 füllt den Bildschirm; DS-Bildschirme: Original.","16:9 riempie lo schermo; Schermi DS: disposizione originale.","16:9 llena la pantalla; Pantallas DS: disposición original.");
     case settingStretch:return pick(language,"Fills the window instead of keeping proportions.","Remplit la fenêtre au lieu de garder les proportions.","Füllt das Fenster statt die Proportionen zu halten.","Riempie la finestra invece di mantenere le proporzioni.","Llena la ventana en lugar de mantener las proporciones.");
     case settingVsync:return pick(language,"Avoids tearing.","Évite les déchirures de l'image.","Verhindert Bildrisse.","Evita lo strappo dell'immagine.","Evita el desgarro de la imagen.");
     case settingQuality:return pick(language,"3D supersampling; Auto adapts to the graphics card.","Suréchantillonnage 3D ; Auto s'adapte à la carte graphique.","3D-Supersampling; Auto passt sich der Grafikkarte an.","Supersampling 3D; Auto si adatta alla scheda video.","Supermuestreo 3D; Auto se adapta a la tarjeta gráfica.");
-    case settingTextures:return pick(language,"Filtered 3D textures (No: sharp pixels).","Textures 3D filtrées (Non : pixels nets).","Gefilterte 3D-Texturen (Nein: scharfe Pixel).","Texture 3D filtrate (No: pixel nitidi).","Texturas 3D filtradas (No: píxeles nítidos).");
+    case settingTextures:return pick(language,"Smoothed 3D textures (No: the original DS pixels).","Textures 3D lissées (Non : les pixels d'origine de la DS).","Geglättete 3D-Texturen (Nein: die originalen DS-Pixel).","Texture 3D levigate (No: i pixel originali del DS).","Texturas 3D suavizadas (No: los píxeles originales de DS).");
     case settingVolume:return pick(language,"Overall volume.","Volume général.","Gesamtlautstärke.","Volume generale.","Volumen general.");
     case settingMobileSound:return pick(language,"Music and sounds: smartphone recordings or the DS synthesizer.","Musiques et bruitages : enregistrements de la version mobile ou synthé de la DS.","Musik und Klänge: Aufnahmen der Smartphone-Version oder DS-Synthesizer.","Musica e suoni: registrazioni della versione mobile o sintetizzatore DS.","Música y sonidos: grabaciones de la versión móvil o sintetizador de DS.");
     case settingTextSpeed:return pick(language,"How fast dialogue text appears.","Vitesse d'affichage des dialogues.","Wie schnell Dialogtext erscheint.","Velocità di comparsa dei dialoghi.","Velocidad de aparición de los diálogos.");
@@ -266,6 +287,8 @@ bool changeSetting(int item,int step) {
     case settingFullscreen:s.fullscreen=!s.fullscreen;return true;
     case settingWindowSize:s.windowSize=cycle(s.windowSize,0,windowSizeCount-1);return true;
     case settingPicture:s.wide=!s.wide;return true;
+    case settingBattleView:s.battleLayout=cycle(s.battleLayout,0,battleLayoutCount-1);return true;
+    case settingBattleZoom:s.battleZoom=cycle(s.battleZoom/25-4,0,3)*25+100;return true;
     case settingStretch:s.stretch=!s.stretch;return true;
     case settingVsync:s.vsync=!s.vsync;return true;
     case settingQuality:s.quality=cycle(s.quality,0,4);return true;

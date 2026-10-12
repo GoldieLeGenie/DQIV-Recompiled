@@ -1,6 +1,7 @@
 #include "Display.hpp"
 #include "HdPictures.hpp"
 #include "Profile.hpp"
+#include "DualScreen.hpp"
 #include <cstdio>
 #include <cstdlib>
 #include <execution>
@@ -125,10 +126,22 @@ void Display::objects(NitroVideo& video,bool sub,unsigned control,unsigned y0,un
             pa=static_cast<std::int16_t>(word(video.oam(),m+6));pb=static_cast<std::int16_t>(word(video.oam(),m+14));
             pc=static_cast<std::int16_t>(word(video.oam(),m+22));pd=static_cast<std::int16_t>(word(video.oam(),m+30));
         }
+        // Large battles: the parts of plates outside the bottom screen (their
+        // signed places) go to the band, once per frame (the first band of rows).
+        const bool bottomScreen=sub==((r16(video,0x04000304)&0x8000)!=0);
+        const int left=(b&511)>=384?int(b&511)-512:int(b&511),top=(a&255)>=192?int(a&255)-256:int(a&255);
+        // Sprites parked just below the screen (y 192..199) are not plates.
+        const bool toBand=bandOn_&&bottomScreen&&y0==0&&mode<2&&top>=-56;
         for(int dy=0;dy<rh;++dy) {
-            const unsigned y=((a&255)+dy)&255;if(y<y0||y>=y1)continue;
+            const unsigned y=((a&255)+dy)&255;
+            const int bandY=top+dy;
+            const bool screenRow=y>=y0&&y<y1,bandRow=toBand&&bandY>=-pc::battleBandRows&&bandY<192;
+            if(!screenRow&&!bandRow)continue;
             for(int dx=0;dx<rw;++dx) {
-                const unsigned x=((b&511)+dx)&511;if(x>=256)continue;
+                const unsigned x=((b&511)+dx)&511;
+                const int bandX=left+dx;
+                const bool inBand=bandRow&&bandX>=-pc::battleBandSide&&bandX<256+pc::battleBandSide&&(bandY<0||bandX<0||bandX>=256);
+                if(!inBand&&(!screenRow||x>=256))continue;
                 int u=dx,v=dy;
                 if(a&0x1000) {u-=u%mx;v-=v%my;}
                 if(affine) {const int ax=u-rw/2,ay=v-rh/2;u=((ax*pa+ay*pb)>>8)+w/2;v=((ax*pc+ay*pd)>>8)+h/2;}
@@ -154,6 +167,11 @@ void Display::objects(NitroVideo& video,bool sub,unsigned control,unsigned y0,un
                     if(eight&&(control&0x80000000))color=word(objPalette_,(c>>12)*512+index*2);
                     else color=word(video.palette(),(sub?0x600:0x200)+(index+(!eight?(c>>12)*16:0))*2);
                 }
+                if(inBand) {
+                    auto& dest=band_[(bandY+pc::battleBandRows)*pc::battleBandWidth+bandX+pc::battleBandSide];
+                    if(!dest)dest=0xff000000u|(rgb(color)&0xffffffu);
+                    continue;
+                }
                 const auto p=y*256+x;
                 if(mode==2) {objWindow_[p]=1;continue;}
                 auto& dest=layers_[4][p];const unsigned priority=(c>>10)&3;
@@ -170,6 +188,9 @@ void Display::engine(NitroVideo& video,bool sub,std::span<const std::uint32_t> t
     ProfileScope timing("display-read");
     for(auto& layer:layers_)std::fill(layer.begin(),layer.end(),Pixel{});
     std::fill(objWindow_.begin(),objWindow_.end(),static_cast<unsigned char>(0));
+    if(sub==((r16(video,0x04000304)&0x8000)!=0)) {
+        band_.assign(std::size_t(pc::battleBandWidth)*pc::battleBandHeight,0u);
+    }
     video.readDisplay(sub?0x06200000:0x06000000,bg_);video.readDisplay(sub?0x06600000:0x06400000,obj_);
     video.readExtendedPalette(sub,false,bgPalette_);video.readExtendedPalette(sub,true,objPalette_);
     // Extended palettes would give the pictures other colours: none then.

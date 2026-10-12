@@ -6,6 +6,9 @@
 #include "main/text/TextAPI.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/menu/UnkMenuPartsDraw.hpp"
+#ifdef DQIV_NATIVE
+#include "DualScreen.hpp"
+#endif
 
 BattleMonsterNamePlate gBattleMonsterNamePlate;
 
@@ -101,8 +104,14 @@ THUMB void BattleMonsterNamePlate::setMonsterParameter(int group, int monsterCou
 THUMB short BattleMonsterNamePlate::getGroupCenter(int group)
 {
     int* rect;
+#ifdef DQIV_NATIVE
+    // Large battles: the monsters may stand beside the screen.
+    int max = -pc::battlePlateSide();
+    int min = MAX_DISPLAY_SIZE_X + pc::battlePlateSide();
+#else
     int max = 0;
     int min = MAX_DISPLAY_SIZE_X;
+#endif
     int maxCount = g_monster.getCount();
     for (int i = 0; i < maxCount; i++) {
         if (g_monster.getMonsterStatus(i)->isBattleEnable()) {
@@ -212,26 +221,50 @@ THUMB void BattleMonsterNamePlate::adjustPlateCenter(Monster_DATA& monster, bool
 {
     int subCenter = monster.center - (monster.leng >> 1);
     int addCenter = monster.center + (monster.leng >> 1);
-    if (subCenter < CURSOR_BLANK) {
-        monster.center -= subCenter - CURSOR_BLANK;
+#ifdef DQIV_NATIVE
+    const int left = CURSOR_BLANK - pc::battlePlateSide(), right = MAX_DISPLAY_SIZE_X + pc::battlePlateSide();
+#else
+    const int left = CURSOR_BLANK, right = MAX_DISPLAY_SIZE_X;
+#endif
+    if (subCenter < left) {
+        monster.center -= subCenter - left;
         if (!pumpUp) {
             monster.height -= PLATE_SIZE;
         }
     }
-    if (addCenter > MAX_DISPLAY_SIZE_X) {
-        monster.center -= addCenter - MAX_DISPLAY_SIZE_X;
+    if (addCenter > right) {
+        monster.center -= addCenter - right;
         if (!pumpUp) {
             monster.height -= PLATE_SIZE;
         }
     }
+#ifdef DQIV_NATIVE
+    if (monster.height < pc::battlePlateTop()) {
+        monster.height += PLATE_SIZE;
+    }
+#else
     if (monster.height < 0) {
         monster.height += PLATE_SIZE;
     }
+#endif
 }
 
 THUMB void BattleMonsterNamePlate::adjustPosition(int no)
 {
     int height = monsterData_[no].height;
+#ifdef DQIV_NATIVE
+    // Large 16:9 battles: the plate may stand above the bottom screen.
+    if (pc::battlePlateTop() < 0) {
+        const int above = height - BLANK_SIZE;
+        int rectSize = above >= 0 ? above / PLATE_SIZE : -((-above + PLATE_SIZE - 1) / PLATE_SIZE);
+        if (above - rectSize * PLATE_SIZE < PLATE_SIZE / 2) {
+            rectSize--;
+        }
+        height = rectSize * PLATE_SIZE + BLANK_SIZE;
+        monsterData_[no].height = height < pc::battlePlateTop() ? pc::battlePlateTop() : height;
+        return;
+    }
+#endif
     if (height < PLATE_SIZE + BLANK_SIZE) {
         monsterData_[no].height = BLANK_SIZE;
         return;

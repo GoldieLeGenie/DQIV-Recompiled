@@ -5,11 +5,13 @@ namespace pc {
 // How fast dialogue text appears.
 enum TextSpeed {textSlow,textNormal,textFast,textInstant,textSpeedCount};
 struct GameSettings {
-    int language=2;          // game language: 0 Japanese, 1 English, 2 French, 3 German, 4 Italian, 5 Spanish
+    int language=1;          // game language: 0 Japanese, 1 English, 2 French, 3 German, 4 Italian, 5 Spanish
     bool showFps=false;
     bool fullscreen=false;
     int windowSize=1;        // index into windowSizes
     bool wide=true;          // 16:9 picture, or the DS screens' width
+    int battleLayout=0;      // battles: BattleLayout
+    int battleZoom=175;      // percent: the 16:9 battle scene seen closer (100, 125, 150, 175)
     bool stretch=false;
     bool vsync=true;
     int quality=0;           // 0 automatic, otherwise the supersampling factor (1..4)
@@ -22,15 +24,21 @@ struct GameSettings {
     int cameraZoom=100;       // percent: above 100 closer, below farther
     bool mobileSound=true;    // the smartphone version's music and sounds instead of the DS sequences
     // Controls, in the order of controlBits then party chat: an SDL keycode
-    // and an SDL gamepad button.
+    // and an SDL gamepad button (or padLeftTrigger / padRightTrigger).
     unsigned keys[13]={'z','x','s','a','q','w',0x0d,0x400000e5,0x40000052,0x40000051,0x40000050,0x4000004f,'e'};
     // Party chat on B: the game only takes it outside menus (B does nothing there).
     int pads[13]={0,1,3,2,9,10,6,4,11,12,13,14,1};
 };
+// Battles in 16:9: the scene zoomed to fill the room between the party's
+// windows (smaller, at the top) and the commands (large), the scene over the
+// whole picture with the battle zoom setting (panorama), or the DS's two screens.
+enum BattleLayout {battleLarge,battlePanorama,battleDsScreens,battleLayoutCount};
 // The DS buttons the controls set, in the order the settings list them:
 // A, B, X, Y, L, R, Start, Select, Up, Down, Left, Right (bits of the DS pad).
 inline constexpr unsigned controlBits[12]={0,1,10,11,9,8,3,2,6,7,5,4};
 inline constexpr int buttonControlCount=12;
+// The gamepad's triggers are axes in SDL: these codes bind them like buttons.
+inline constexpr int padLeftTrigger=100,padRightTrigger=101;
 // After the DS buttons: talk to the party at once.
 inline constexpr int controlPartyChat=12;
 inline constexpr int controlCount=13;
@@ -73,7 +81,7 @@ void saveSettings();
 // The settings, as the game's menus list them.
 enum SettingItem {settingLanguage,settingFps,settingFullscreen,settingWindowSize,settingPicture,settingStretch,
     settingVsync,settingQuality,settingTextures,settingVolume,settingTextSpeed,settingFrameRate,settingBattleBoost,
-    settingCameraZoom,settingMobileSound,settingCount};
+    settingCameraZoom,settingMobileSound,settingBattleView,settingBattleZoom,settingCount};
 inline constexpr int cameraZoomMin=50,cameraZoomMax=200;
 // Changes the camera zoom by `step` (percent); for the mouse wheel and the right stick.
 void zoomCamera(int step);

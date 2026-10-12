@@ -45,7 +45,7 @@ struct GpuFogSplit {
 struct GpuLayout {
     using Rect=std::array<float,4>; // x, y, width, height in DS pixels; empty when unused
     // Recipe rows: both screens (384), then the inset screen's (192).
-    static constexpr unsigned recipeRows=576;
+    static constexpr unsigned recipeRows=704;
     Rect inset{0,0,0,0}; // the top screen shown small, with 3D target 1
     float insetAlpha=1;
     float canvasWidth=256,canvasHeight=384;
@@ -57,6 +57,11 @@ struct GpuLayout {
     // instead of stacked in the canvas centre; a zero width hides it.
     bool placed=false;
     std::array<Rect,2> screens{Rect{0,0,0,0},Rect{0,0,0,0}};
+    // Large battles: the top screen drawn at this scale at the canvas top, the
+    // 3D around it. Wide battles: recipe rows 384.. hold the band around the
+    // bottom screen (its plates above and beside it).
+    float topScale=1;
+    bool band=false;
 };
 struct GpuSettings {
     // Highest supersampling factor; lowered automatically while the GPU cannot
@@ -64,7 +69,8 @@ struct GpuSettings {
     int supersample=4;
     bool autoQuality=true;
     bool smoothTextures=true;
-    // Pixel-art upscaling of textures before filtering: 1, 2 or 4 (Scale2x passes).
+    // Pixel-art upscaling of textures before filtering: 1, 2 or 4 (Scale2x
+    // passes). 1 keeps the DS pixels exactly (textures not smoothed).
     int textureScale=4;
     // The time a frame may take on the GPU (1 / frame rate), for autoQuality.
     double frameMilliseconds=1000.0/60;
@@ -117,6 +123,9 @@ private:
         const struct Texture&,bool mipmaps);
     bool anisotropyChecked_=false,anisotropy_=false;
     void prepareTextures(std::span<const GpuBatch>,GxTextures&,const GxRenderOptions&);
+    // Uploaded textures are dropped when the upscaling changes (settings).
+    int uploadedScale_=0;
+    void dropTextures();
     void upgradeTextures();
     // Textures uploaded without upscaling, waiting to be upscaled.
     struct Upgrade {std::uint64_t key;Texture texture;std::uint64_t hash;};

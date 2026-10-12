@@ -22,6 +22,7 @@
 #include <nitro/os/interrupt.h>
 #ifdef DQIV_NATIVE
 #include "DualScreen.hpp"
+#include "Settings.hpp"
 #include "main/dss/DisplayPlugin.hpp"
 #include "main/effect/UnkScreenEffectManager.hpp"
 #include "main/global/GlobalDQ4.hpp"
@@ -152,8 +153,11 @@ ARM void GlobalGamePart::vf0c()
                         data_0210bb94.unkfunc_02058114(TOWN_PART) && !effects->unkfunc_0202af54() && !chapterTitle);
     pc::setWideFieldFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
                           data_0210bb94.unkfunc_02058114(FIELD_PART) && !effects->unkfunc_0202af54());
-    pc::setWideBattleFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_SINGLE3D &&
-                           data_0210bb94.unkfunc_02058114(BATTLE_PART)); // battles never draw screen effects
+    // Battles never draw screen effects; the player may keep their DS layout.
+    pc::setWideBattleFrame(pc::dualScreen().unified && pc::gameSettings().battleLayout != pc::battleDsScreens &&
+                           data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_SINGLE3D && data_0210bb94.unkfunc_02058114(BATTLE_PART));
+    // The large layout needs room beside the enlarged battle screen (16:9).
+    pc::setLargeBattle(pc::gameSettings().battleLayout == pc::battleLarge && pc::dualScreen().canvasWidth >= 600);
     // Scenes without a world place their screens as panels; the monster book
     // only uses the bottom screen.
     pc::setPanelLayout(pc::dualScreen().unified && (chapterTitle || (!data_0210bb94.unkfunc_02058114(TOWN_PART) &&
