@@ -238,7 +238,15 @@ ARM void BillboardCharacter::unkfunc_02049494(int index)
 ARM void BillboardCharacter::setCameraDirection(const dss::Fix32Vector3* direction)
 {
     if (!(flag_ & FLAG_SLEEP)) {
+#ifdef DQIV_NATIVE
+        // A requested reload (after the travel door) is done when the facing's
+        // texture is chosen. On the DS the party skips every other frame's
+        // draw, which forces that choice; the joined picture draws it every
+        // frame, so the reload waited for the first step (thin lines meanwhile).
+        if (direction_ == preDirection_ && changeAngle_ == 0 && !(flag_ & (FLAG_DRAW_RESET | FLAG_RELOAD))) {
+#else
         if (direction_ == preDirection_ && changeAngle_ == 0 && !(flag_ & FLAG_DRAW_RESET)) {
+#endif
             return;
         }
         preDirection_ = direction_;
