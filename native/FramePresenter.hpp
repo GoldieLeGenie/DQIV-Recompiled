@@ -3,6 +3,7 @@
 #include "GameWindow.hpp"
 #include "GxGeometry.hpp"
 #include <array>
+#include <future>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -43,6 +44,7 @@ private:
     bool effectWorld_=false; // the world picture was kept for screen effects
     unsigned held_=0; // frames the last picture was held (leaving a menu)
     unsigned insetFrames_=0; // field frames since the inset map was first drawn
+    unsigned emptyWorldFrames_=0; // field frames in a row without the world (layer 0)
     bool presentable_=false,seen3d_=false;
     Mode worldMode_=Mode::single; // the last mode other than menu
     bool worldKept_=false; // 3D target 0 holds the world over the whole canvas (joined, field)
@@ -52,6 +54,13 @@ private:
     std::array<unsigned,2> empty_{};
     bool panelsShown_=false;
     void placePanels(float width);
+    // How each current triangle is drawn between the last two frames.
+    struct Plan {
+        enum How : char {still,blend,shift}; // in place, its corners on their way, its shape moved
+        std::vector<int> pairs; // per current triangle: its previous one, or -1
+        std::vector<char> how;
+        std::vector<std::pair<int,int>> corners; // corner (triangle*3+corner) taking a moved one's place
+    };
     // The last two frames' 3D batches, for presentBetween.
     struct Interpolation {
         bool valid=false;
@@ -62,8 +71,7 @@ private:
         std::vector<float> moves;
         std::vector<int> left,right; // scene triangles of the previous and current frame
         std::vector<std::array<int,3>> aligned;
-        std::vector<char> movedTriangles;
-        std::unordered_map<std::uint64_t,std::array<float,4>> corners; // current corner -> drawn place
+        std::unordered_map<std::uint64_t,int> corners; // current corner -> the moved one (triangle*3+corner)
         std::unordered_multimap<std::uint64_t,int> still; // unchanged previous triangles
         std::unordered_set<std::uint64_t> unsteady; // battle sprite sheets changing picture
         std::vector<std::vector<int>> grid;
@@ -73,7 +81,11 @@ private:
         int width=0,height=0;
         GpuFogSplit fog;
         unsigned slot=0;
+        std::vector<Plan> plans; // per batch
+        std::future<void> planning; // planBetween, on another core (last: waited for first)
     } interpolation_;
+    // Pairs the current frame's triangles with the previous one's (Plan).
+    void planBetween(bool battle);
     void keepForInterpolation(int mode,const std::vector<GpuBatch>& batches,const GxRasterState& state,
         const GxRenderOptions& options,int width,int height,const GpuFogSplit& fog,unsigned slot);
     static bool emptyScreen(std::span<const std::uint32_t> screenRecipes);

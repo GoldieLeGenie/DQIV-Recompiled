@@ -20,7 +20,7 @@ void profileFrame(unsigned every) {
     if(chosen>0)every=chosen;
     if(!profiling()||++frames<every)return;
     std::printf("Profile per frame:");
-    for(const auto& [stage,total]:totals())std::printf(" %s %.0fus/%u",stage.c_str(),total.microseconds/frames,total.count/frames);
+    for(const auto& [stage,total]:totals())std::printf(" %s %.0fus/%.2f",stage.c_str(),total.microseconds/frames,double(total.count)/frames);
     std::printf("\n");std::fflush(stdout);
     totals().clear();frames=0;
 }

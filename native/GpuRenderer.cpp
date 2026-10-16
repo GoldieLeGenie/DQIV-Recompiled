@@ -1040,7 +1040,9 @@ void GpuRenderer::readNative(std::vector<std::uint32_t>& pixels,bool immediate,c
 void GpuRenderer::present(const GpuLayout& layout,std::span<const std::uint32_t> recipes,int windowWidth,int windowHeight,bool stretch) {
     constexpr std::size_t plane=std::size_t(256)*GpuLayout::recipeRows;
     if(recipes.size()!=plane*4)throw std::runtime_error("Composition recipes have an unexpected size");
-    for(unsigned plane=0;plane<4;++plane) {
+    const bool upload=recipesChanged||layout.sides!=uploadedSides_;
+    recipesChanged=false;uploadedSides_=layout.sides;
+    for(unsigned plane=0;plane<4&&upload;++plane) {
         gl::BindTexture(GL_TEXTURE_2D,recipeTextures_[plane]);
         gl::PixelStorei(GL_UNPACK_ALIGNMENT,4);
         gl::TexSubImage2D(GL_TEXTURE_2D,0,0,0,256,GpuLayout::recipeRows,GL_BGRA,GL_UNSIGNED_BYTE,recipes.data()+plane*std::size_t(256)*GpuLayout::recipeRows);
@@ -1058,7 +1060,7 @@ void GpuRenderer::present(const GpuLayout& layout,std::span<const std::uint32_t>
         gl::TexSubImage2D(GL_TEXTURE_2D,0,(upload.cell%hdAtlasCells)*hdCellSize,(upload.cell/hdAtlasCells)*hdCellSize,
             hdCellSize,hdCellSize,GL_BGRA,GL_UNSIGNED_BYTE,pixels.data());
     }
-    if(layout.sides) {
+    if(layout.sides&&upload) {
         // Per row, the column whose 3D effects continue beside the screens: the
         // nearest one showing the 3D layer directly (recipe kind 1), searched
         // from that side for 33 columns, then from the other edge for 32.

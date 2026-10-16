@@ -42,6 +42,44 @@ extern "C" {
 #include <windows.h>
 
 static_assert(sizeof(void*) == 4, "The original game resources contain 32-bit pointers");
+
+namespace {
+// The game's frame (the DS game, its 3D and the frames between) runs on this
+// thread: on processors with fast and efficient cores (Intel 12th generation
+// and later) Windows may give it an efficient one, or slow it down to save
+// power. It asks for the fast cores and full speed.
+void preferFastCores() {
+    PROCESS_POWER_THROTTLING_STATE process{PROCESS_POWER_THROTTLING_CURRENT_VERSION,PROCESS_POWER_THROTTLING_EXECUTION_SPEED,0};
+    SetProcessInformation(GetCurrentProcess(),ProcessPowerThrottling,&process,sizeof(process));
+    THREAD_POWER_THROTTLING_STATE thread{THREAD_POWER_THROTTLING_CURRENT_VERSION,THREAD_POWER_THROTTLING_EXECUTION_SPEED,0};
+    SetThreadInformation(GetCurrentThread(),ThreadPowerThrottling,&thread,sizeof(thread));
+    SetPriorityClass(GetCurrentProcess(),ABOVE_NORMAL_PRIORITY_CLASS);
+    ULONG size=0;
+    GetSystemCpuSetInformation(nullptr,0,&size,GetCurrentProcess(),0);
+    if(!size)return;
+    std::vector<unsigned char> buffer(size);
+    auto* first=reinterpret_cast<SYSTEM_CPU_SET_INFORMATION*>(buffer.data());
+    if(!GetSystemCpuSetInformation(first,size,&size,GetCurrentProcess(),0))return;
+    BYTE fastest=0;std::vector<ULONG> all,fast;
+    for(int pass=0;pass<2;++pass) {
+        for(ULONG at=0;at<size;) {
+            const auto* set=reinterpret_cast<const SYSTEM_CPU_SET_INFORMATION*>(buffer.data()+at);
+            if(set->Type==CpuSetInformation) {
+                const BYTE efficiency=set->CpuSet.EfficiencyClass;
+                if(pass==0) {fastest=std::max(fastest,efficiency);all.push_back(set->CpuSet.Id);}
+                else if(efficiency==fastest)fast.push_back(set->CpuSet.Id);
+            }
+            at+=set->Size;
+        }
+    }
+    // Only when some cores are slower: elsewhere Windows chooses best.
+    if(!fast.empty()&&fast.size()<all.size()) {
+        SetThreadSelectedCpuSets(GetCurrentThread(),fast.data(),ULONG(fast.size()));
+        std::printf("Fast cores: %zu of %zu\n",fast.size(),all.size());
+    }
+}
+}
+
 static_assert(sizeof(DataObject) == 0x10);
 static_assert(sizeof(UnkGameApplication) == 0xb4);
 std::span<const pc::OverlayImage> gameOverlayImages();
@@ -98,6 +136,7 @@ int main() {
     try {
         std::cout.setf(std::ios::unitbuf);
         pc::loadSettings();
+        preferFastCores();
         pc::Assets assets=openResources();
         pc::GameWindow window(false,false);
         // Both DS screens become one picture, presented by the GPU.

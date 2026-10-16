@@ -50,6 +50,7 @@ private:
     bool partyChatHeld_=false; // the party chat control was down at the last poll
     void measureBetween(std::uint64_t cost);
     std::uint64_t betweenCost_=4'000'000; // nanoseconds an interpolated frame takes
+    std::uint64_t nextShown_=0; // when the next interpolated frame is due (a steady cadence across the game's frames)
     void drawInterface(int width,int height);
     void setFullscreen(bool);
 };

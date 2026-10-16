@@ -1,4 +1,5 @@
 #include "FramePresenter.hpp"
+#include <future>
 #include "DualScreen.hpp"
 #include "NitroVideo.hpp"
 #include "Profile.hpp"
@@ -148,6 +149,8 @@ void FramePresenter::frame(NitroVideo& video,const GxGeometry& geometry,const Gx
         if(seen3d_)++insetFrames_;
         layout_.insetAlpha=std::clamp((float(insetFrames_)-30.f)/20.f,0.f,1.f);
         batches.push_back({triangles,{},true,true,0});
+        const bool world=std::any_of(triangles.begin(),triangles.end(),[](const GxTriangle& t){return t.layer==0;});
+        emptyWorldFrames_=world?0:emptyWorldFrames_+1;
     } else if(mode==Mode::battle) {
         if(largeBattleFrame())layout_.topScale=largeBattleTopScale;
         layout_.band=wideBattleFrame();
@@ -190,7 +193,11 @@ void FramePresenter::frame(NitroVideo& video,const GxGeometry& geometry,const Gx
     // A hidden screen (panel layouts) still renders at a usable size.
     const auto renderRect=layout_.threeRects[slot][2]>=1?layout_.threeRects[slot]:GpuLayout::Rect{0,0,256,192};
     int targetWidth=0,targetHeight=0;pixels(renderRect,targetWidth,targetHeight);
-    if(mode!=Mode::menu&&!(frozen&&worldKept_&&(mode==Mode::joined||mode==Mode::field))) {
+    // Some field scenes (the end of chapter 2 leaving Zamoksva) send frames
+    // without the world now and then: the last world stays meanwhile instead
+    // of a black flash (a lasting empty world shows as such).
+    const bool worldMissing=mode==Mode::field&&emptyWorldFrames_>0&&emptyWorldFrames_<=3;
+    if(mode!=Mode::menu&&!((frozen||worldMissing)&&worldKept_&&(mode==Mode::joined||mode==Mode::field))) {
         ProfileScope timing("render3D");
         window_.gpu().render3D(batches,frameState,textures_,options,targetWidth,targetHeight,fogSplit,slot);
         worldKept_=mode==Mode::joined||mode==Mode::field;
@@ -270,7 +277,7 @@ void FramePresenter::frame(NitroVideo& video,const GxGeometry& geometry,const Gx
             }
         }
     }
-    presentable_=true;
+    presentable_=true;window_.gpu().recipesChanged=true;
 }
 void FramePresenter::present() {
     ProfileScope timing("present");
@@ -281,6 +288,7 @@ void FramePresenter::present() {
 void FramePresenter::keepForInterpolation(int mode,const std::vector<GpuBatch>& batches,const GxRasterState& state,
     const GxRenderOptions& options,int width,int height,const GpuFogSplit& fog,unsigned slot) {
     auto& kept=interpolation_;
+    if(kept.planning.valid())kept.planning.get(); // it reads the frames replaced here
     const bool same=kept.mode==mode&&kept.width==width&&kept.height==height&&kept.slot==slot&&kept.current.size()==batches.size();
     std::swap(kept.previous,kept.current);
     kept.current.resize(batches.size());
@@ -288,14 +296,20 @@ void FramePresenter::keepForInterpolation(int mode,const std::vector<GpuBatch>& 
     kept.valid=same&&window_.interpolating();
     kept.mode=mode;kept.batches=batches;kept.state=state;kept.options=options;
     kept.width=width;kept.height=height;kept.fog=fog;kept.slot=slot;
+    // The pairing of the two frames' triangles is the same for every frame
+    // between them: another core works it out while this one goes on with the
+    // game's frame.
+    if(kept.valid) {
+        const bool battle=mode==int(Mode::battle);
+        kept.planning=std::async(std::launch::async,[this,battle] {planBetween(battle);});
+    }
 }
-bool FramePresenter::presentBetween(float alpha) {
+void FramePresenter::planBetween(bool battle) {
     auto& kept=interpolation_;
-    if(!kept.valid||!presentable_)return false;
-    kept.work.resize(kept.current.size());
+    kept.plans.resize(kept.current.size());
     for(std::size_t b=0;b<kept.current.size();++b) {
-        const auto& from=kept.previous[b];const auto& to=kept.current[b];auto& out=kept.work[b];
-        out=to;
+        const auto& from=kept.previous[b];const auto& to=kept.current[b];const auto& out=to;
+        auto& plan=kept.plans[b];
         // The scene's triangles (perspective) come mostly in the same order from
         // frame to frame (an object may appear or vanish): each one is paired with
         // the next one of the previous frame with the same material, a few places
@@ -443,14 +457,13 @@ bool FramePresenter::presentBetween(float alpha) {
             return same(previous,triangle)&&sameUv;
         };
         const auto sheet=[](const GxTriangle& t){return std::uint64_t(t.material.texture&0x3ff0ffffu)|(std::uint64_t(t.material.palette)<<32);};
-        const bool battle=kept.mode==int(Mode::battle);
         auto& unsteady=kept.unsteady;unsteady.clear();
         if(battle)for(std::size_t j=0;j<out.size();++j)
             if(out[j].perspective&&(pairs[j]<0||!picture(from[std::size_t(pairs[j])],out[j])))unsteady.insert(sheet(out[j]));
-        auto& movedTriangles=kept.movedTriangles;movedTriangles.assign(out.size(),0);
+        plan.pairs=pairs;plan.how.assign(out.size(),0);
         for(std::size_t j=0;j<out.size();++j) {
             if(pairs[j]<0)continue;
-            const auto& previous=from[std::size_t(pairs[j])];auto& triangle=out[j];
+            const auto& previous=from[std::size_t(pairs[j])];const auto& triangle=out[j];
             // Unless it jumped (another object, a cut). Neighbours must all move
             // alike, or their shared edges would open.
             bool near=true;
@@ -467,19 +480,9 @@ bool FramePresenter::presentBetween(float alpha) {
             // changes picture, the whole sprite stays where it is now (moving
             // only some would put the body over the face).
             if(battle&&unsteady.count(sheet(triangle)))continue;
-            movedTriangles[j]=1;
-            if(picture(previous,triangle)) {
-                for(unsigned v=0;v<3;++v)for(unsigned k=0;k<4;++k) {
-                    auto& value=triangle.vertices[v].clip[k];
-                    value=previous.vertices[v].clip[k]+(value-previous.vertices[v].clip[k])*alpha;
-                }
-            } else {
-                // Another picture (a sprite's next frame): its own shape, only
-                // moved, by its first corner's way (shared by a quad's two triangles).
-                std::array<float,4> back;
-                for(unsigned k=0;k<4;++k)back[k]=(triangle.vertices[0].clip[k]-previous.vertices[0].clip[k])*(1-alpha);
-                for(unsigned v=0;v<3;++v)for(unsigned k=0;k<4;++k)triangle.vertices[v].clip[k]-=back[k];
-            }
+            // The same picture moves corner by corner; another picture (a
+            // sprite's next frame) keeps its own shape, only moved.
+            plan.how[j]=picture(previous,triangle)?Plan::blend:Plan::shift;
         }
         // A corner shared with a moved triangle moves with it, so that meshes
         // stay closed (a triangle left in place would open its edges).
@@ -489,11 +492,40 @@ bool FramePresenter::presentBetween(float alpha) {
             for(const float f:c)h=(h^std::bit_cast<std::uint32_t>(f))*1099511628211ull;
             return h;
         };
-        for(std::size_t j=0;j<out.size();++j)if(movedTriangles[j])
-            for(unsigned v=0;v<3;++v)corners.emplace(cornerKey(to[j].vertices[v].clip),out[j].vertices[v].clip);
-        if(!corners.empty())for(std::size_t j=0;j<out.size();++j)if(out[j].perspective&&!movedTriangles[j])
+        for(std::size_t j=0;j<out.size();++j)if(plan.how[j])
+            for(unsigned v=0;v<3;++v)corners.emplace(cornerKey(to[j].vertices[v].clip),int(j*3+v));
+        plan.corners.clear();
+        if(!corners.empty())for(std::size_t j=0;j<out.size();++j)if(out[j].perspective&&!plan.how[j])
             for(unsigned v=0;v<3;++v)
-                if(const auto found=corners.find(cornerKey(to[j].vertices[v].clip));found!=corners.end())out[j].vertices[v].clip=found->second;
+                if(const auto found=corners.find(cornerKey(to[j].vertices[v].clip));found!=corners.end())
+                    plan.corners.push_back({int(j*3+v),found->second});
+    }
+}
+bool FramePresenter::presentBetween(float alpha) {
+    auto& kept=interpolation_;
+    if(!kept.valid||!presentable_)return false;
+    if(kept.planning.valid()) {ProfileScope timing("between-wait");kept.planning.get();}
+    kept.work.resize(kept.current.size());
+    for(std::size_t b=0;b<kept.current.size();++b) {
+        const auto& from=kept.previous[b];const auto& plan=kept.plans[b];auto& out=kept.work[b];
+        out=kept.current[b];
+        for(std::size_t j=0;j<out.size();++j) {
+            if(!plan.how[j])continue;
+            const auto& previous=from[std::size_t(plan.pairs[j])];auto& triangle=out[j];
+            if(plan.how[j]==Plan::blend) {
+                for(unsigned v=0;v<3;++v)for(unsigned k=0;k<4;++k) {
+                    auto& value=triangle.vertices[v].clip[k];
+                    value=previous.vertices[v].clip[k]+(value-previous.vertices[v].clip[k])*alpha;
+                }
+            } else {
+                // By its first corner's way (shared by a quad's two triangles).
+                std::array<float,4> back;
+                for(unsigned k=0;k<4;++k)back[k]=(triangle.vertices[0].clip[k]-previous.vertices[0].clip[k])*(1-alpha);
+                for(unsigned v=0;v<3;++v)for(unsigned k=0;k<4;++k)triangle.vertices[v].clip[k]-=back[k];
+            }
+        }
+        for(const auto& [corner,source]:plan.corners)
+            out[std::size_t(corner/3)].vertices[corner%3].clip=out[std::size_t(source/3)].vertices[source%3].clip;
         kept.batches[b].triangles=out;
     }
     {

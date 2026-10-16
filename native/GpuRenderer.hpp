@@ -88,6 +88,9 @@ public:
     // Set while drawing an interpolated frame: its textures are this frame's
     // (no new uploads or upscaling then).
     bool betweenFrame=false;
+    // The composition recipes changed since the last present: they are uploaded
+    // again (frames between two game frames reuse them).
+    bool recipesChanged=true;
     // Renders into 3D target `slot` (0 or 1), kept until it is rendered again.
     void render3D(std::span<const GpuBatch>,const GxRasterState&,GxTextures&,const GxRenderOptions&,int width,int height,
         const GpuFogSplit& fog={},unsigned slot=0);
@@ -110,6 +113,7 @@ public:
     void drawOverlay(unsigned id,std::span<const std::uint32_t> pixels,int width,int height,bool changed,
         int x,int y,int windowWidth,int windowHeight);
 private:
+    bool uploadedSides_=false; // the side columns uploaded with the recipes
     struct Target {unsigned framebuffer=0,color=0,attributes=0,depth=0;int width=0,height=0;};
     struct GpuTexture {unsigned name=0;std::uint64_t hash=0,generation=~0ull,lastUse=0;int width=0,height=0;};
     void resize(Target&,int width,int height,bool attributes,bool depth);

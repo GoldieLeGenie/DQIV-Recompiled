@@ -281,19 +281,28 @@ void GameWindow::pace() {
         // as long as one more fits before the next game frame.
         const int target=frameRateTarget();
         const std::uint64_t step=target?1'000'000'000ull/std::uint64_t(target):0;
-        std::uint64_t next=0;bool shown=false;
+        // The frames keep one cadence across the game's frames: the time left
+        // after a game frame is used from where the cadence stands, not from a
+        // fresh start (which would fit only two frames of 144 in each 60th).
+        const auto keepCadence=[&](std::uint64_t now) {nextShown_=now-nextShown_<step?nextShown_+step:now+step;};
+        bool shown=false;
         for(;;) {
             const auto now=SDL_GetTicksNS();
             if(now+betweenCost_>=deadline_)break;
-            if(now<next) {SDL_DelayPrecise(std::min(next,deadline_-betweenCost_)-now);continue;}
+            // One that would end after the game's next frame starts comes
+            // early instead (up to half a step), as long as it fits now.
+            if(now<nextShown_&&(nextShown_+betweenCost_<deadline_||nextShown_-now>step/2)) {
+                if(nextShown_+betweenCost_>=deadline_)break;
+                SDL_DelayPrecise(nextShown_-now);continue;
+            }
             const float alpha=std::clamp(float(double(std::int64_t(now-start))/double(period)),0.f,1.f);
             if(!interpolator_(alpha))break;
             measureBetween(SDL_GetTicksNS()-now);
-            shown=true;next=now+step;
+            shown=true;keepCadence(now);
         }
         if(!shown) {
             const auto now=SDL_GetTicksNS();
-            if(interpolator_(1.f))measureBetween(SDL_GetTicksNS()-now);
+            if(interpolator_(1.f))measureBetween(SDL_GetTicksNS()-now),keepCadence(now);
             // An estimate made by a slow frame (a map loading) comes back down.
             betweenCost_=betweenCost_*3/4;
         }
