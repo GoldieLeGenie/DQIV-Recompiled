@@ -152,7 +152,7 @@ ARM void GlobalGamePart::vf0c()
     pc::setUnifiedFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
                         data_0210bb94.unkfunc_02058114(TOWN_PART) && !effects->unkfunc_0202af54() && !chapterTitle);
     pc::setWideFieldFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
-                          data_0210bb94.unkfunc_02058114(FIELD_PART) && !effects->unkfunc_0202af54());
+                          data_0210bb94.unkfunc_02058114(FIELD_PART) && !effects->unkfunc_0202af54() && !chapterTitle);
     // Battles never draw screen effects; the player may keep their DS layout.
     pc::setWideBattleFrame(pc::dualScreen().unified && pc::gameSettings().battleLayout != pc::battleDsScreens &&
                            data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_SINGLE3D && data_0210bb94.unkfunc_02058114(BATTLE_PART));
