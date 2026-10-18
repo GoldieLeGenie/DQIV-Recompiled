@@ -239,7 +239,7 @@ THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217aa8c()
     s_parts[2].x_ = speedItem_.active_ * 32 + 0x66;
     s_parts[3].x_ = 0xc;
     s_parts[3].y_ = (mode_ - 2) * 0x1c + 0x58;
-    unkfunc_02050ea8(s_parts, 0);
+    drawMenuPartsPlain(s_parts, 0);
 }
 
 THUMB int TownMenu_OPERATION_SETTING::unkfunc_0217aad4()

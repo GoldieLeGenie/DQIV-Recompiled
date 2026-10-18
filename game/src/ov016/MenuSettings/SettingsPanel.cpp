@@ -30,7 +30,7 @@ void text(UnkMenuParts* parts, char* line, int x, int y)
     int param = (int)line;
     parts[0].x_ = x;
     parts[0].y_ = y;
-    unkfunc_02050ee0(parts, &param, 0, 0, 1);
+    drawMenuParts(parts, &param, 0, 0, 1);
 }
 void copy(char* destination, int size, const char* source)
 {

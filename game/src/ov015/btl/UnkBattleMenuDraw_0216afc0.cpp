@@ -235,7 +235,7 @@ THUMB void unkfunc_0216aff8(int x, int y, int hp, status::HaveStatusInfo* info)
     if (hp > hpMax / 4 - 1 && param[1] < 26) {
         param[1] = 26;
     }
-    unkfunc_02050ee0(s_parts_02176b46, param, x, y, g_menuTextColors[unkfunc_0216b9a8(info, hp)]);
+    drawMenuParts(s_parts_02176b46, param, x, y, g_menuTextColors[unkfunc_0216b9a8(info, hp)]);
 }
 
 THUMB void unkfunc_0216b07c(status::HaveStatusInfo* info, int hp, int flag)
@@ -318,7 +318,7 @@ THUMB void unkfunc_0216b0a0(int group)
         if (group == plateGroup || group == -1) {
             unkfunc_02050e44(i, x, y, drawID, 1);
             if (group == plateGroup) {
-                unkfunc_02050ebc(s_parts_021767d4, 0, x, y + 8);
+                drawMenuPartsAt(s_parts_021767d4, 0, x, y + 8);
             }
         } else {
             unkfunc_02050e44(i, x, y, drawID, 0);
@@ -372,16 +372,16 @@ THUMB void unkfunc_0216b134(int command, int x, int y, int flag)
         return;
     }
     if (flag == 0 && param[0] != -1) {
-        unkfunc_02050ee0(s_parts_02176b0e, param, x, y, g_menuTextColors[0]);
-        unkfunc_02050ebc(s_parts_02176860, 0, x, y);
+        drawMenuParts(s_parts_02176b0e, param, x, y, g_menuTextColors[0]);
+        drawMenuPartsAt(s_parts_02176860, 0, x, y);
     } else {
-        unkfunc_02050ee0(s_parts_02176b0e, param, x, y, g_menuTextColors[0]);
+        drawMenuParts(s_parts_02176b0e, param, x, y, g_menuTextColors[0]);
     }
 }
 
 THUMB void unkfunc_0216b254(int x, int y, int message)
 {
-    unkfunc_02050ee0(s_parts_021767f0, &message, x, y, g_menuTextColors[0]);
+    drawMenuParts(s_parts_021767f0, &message, x, y, g_menuTextColors[0]);
 }
 
 THUMB void unkfunc_0216b27c(int x, int y, int max, int page)
@@ -390,7 +390,7 @@ THUMB void unkfunc_0216b27c(int x, int y, int max, int page)
         int param[4] = { 0, (int)"\xff\xfe\xa7\x24", 0, 0xd };
         param[0] = page + 1;
         param[2] = max + 1;
-        unkfunc_02050ee0(s_parts_02176b8c, param, x, y - 8, g_menuTextColors[0]);
+        drawMenuParts(s_parts_02176b8c, param, x, y - 8, g_menuTextColors[0]);
     }
 }
 
@@ -402,13 +402,13 @@ THUMB void unkfunc_0216b2c4(int x, int y, int item, int flag)
     if (flag) {
         param[2] = 0xa0000041;
     }
-    unkfunc_02050ee0(s_parts_02176bd2, param, x, y, g_menuTextColors[0]);
+    drawMenuParts(s_parts_02176bd2, param, x, y, g_menuTextColors[0]);
 }
 
 THUMB void unkfunc_0216b314(int x, int y, int action)
 {
     int param = unkfunc_0201e674(action);
-    unkfunc_02050ee0(s_parts_02176844, &param, x, y, g_menuTextColors[0]);
+    drawMenuParts(s_parts_02176844, &param, x, y, g_menuTextColors[0]);
 }
 
 THUMB void unkfunc_0216b344(status::HaveStatusInfo* info, int index)
@@ -433,13 +433,13 @@ THUMB void unkfunc_0216b344(status::HaveStatusInfo* info, int index)
     int color = btl::BattleMenuPlayerControl::getSingleton()->getHPColor(index);
     int x = (index % 2) * 120 + 12;
     int y = (index / 2) * 64 + 20;
-    unkfunc_02050ee0(s_parts_02176dbc, param, x, y, g_menuTextColors[color]);
+    drawMenuParts(s_parts_02176dbc, param, x, y, g_menuTextColors[color]);
     if (!btl::BattleMenuPlayerControl::getSingleton()->isConditionChange(index)) {
         if (info->haveStatus_.isBattleNpc_) {
             param[7] = 0xa0000073;
-            unkfunc_02050ee0(s_parts_02176a58, param, x, y, g_menuTextColors[color]);
+            drawMenuParts(s_parts_02176a58, param, x, y, g_menuTextColors[color]);
         } else {
-            unkfunc_02050ee0(s_parts_02176a2e, param, x, y, g_menuTextColors[color]);
+            drawMenuParts(s_parts_02176a2e, param, x, y, g_menuTextColors[color]);
         }
     }
 }
@@ -448,7 +448,7 @@ THUMB void unkfunc_0216b460(int x, int y, status::HaveStatusInfo* info)
 {
     status::g_Party.getSortIndex(info->haveStatus_.playerIndex_);
     int color = unkfunc_0216b980(info);
-    unkfunc_02050ebc(s_parts_02176a82, 0, x, y);
+    drawMenuPartsAt(s_parts_02176a82, 0, x, y);
     int level[2] = { (int)":", 0 };
     level[1] = info->haveStatus_.level_;
     int status[9] = { 0, 0xa0000013, 0xa0000001, 0, 0, 0xa0000002, 0, 0, (int)"\xff\xfe\xa7\x24" };
@@ -462,17 +462,17 @@ THUMB void unkfunc_0216b460(int x, int y, status::HaveStatusInfo* info)
     power[3] = info->getDefence(0);
     if (info->haveStatus_.isBattleNpc_) {
         level[1] = 0xa0000073;
-        unkfunc_02050ee0(s_parts_02176932, level, x, y, g_menuTextColors[color]);
+        drawMenuParts(s_parts_02176932, level, x, y, g_menuTextColors[color]);
     } else {
-        unkfunc_02050ee0(s_parts_02176908, level, x, y, g_menuTextColors[color]);
+        drawMenuParts(s_parts_02176908, level, x, y, g_menuTextColors[color]);
     }
-    unkfunc_02050ee0(s_parts_02176d22, status, x, y, g_menuTextColors[color]);
-    unkfunc_02050ee0(s_parts_02176c5e, power, x, y, g_menuTextColors[color]);
+    drawMenuParts(s_parts_02176d22, status, x, y, g_menuTextColors[color]);
+    drawMenuParts(s_parts_02176c5e, power, x, y, g_menuTextColors[color]);
 }
 
 THUMB void unkfunc_0216b590(int* list, int count, int page)
 {
-    unkfunc_02050ea8(s_parts_021768d0, 0);
+    drawMenuPartsPlain(s_parts_021768d0, 0);
     int pageMax = (count - 1) / 4;
     int num = (count - 1) % 4 + 1;
     if (pageMax != page) {
@@ -486,7 +486,7 @@ THUMB void unkfunc_0216b590(int* list, int count, int page)
     }
     int param = 0xd;
     if (pageMax > 0) {
-        unkfunc_02050ee0(s_parts_0217687c, &param, 0xc4, 0x80, g_menuTextColors[0]);
+        drawMenuParts(s_parts_0217687c, &param, 0xc4, 0x80, g_menuTextColors[0]);
     }
 }
 
@@ -503,20 +503,20 @@ THUMB void unkfunc_0216b638(status::HaveStatusInfo* info, int x, int y)
     if (info->isSpell()) {
         param[i] = 0xa0000044;
     }
-    unkfunc_02050ee0(s_parts_021769da, param, x, y, g_menuTextColors[unkfunc_0216b980(info)]);
+    drawMenuParts(s_parts_021769da, param, x, y, g_menuTextColors[unkfunc_0216b980(info)]);
 }
 
 THUMB void unkfunc_0216b6cc()
 {
     int param = 5;
-    unkfunc_02050ea8(s_parts_02176828, &param);
+    drawMenuPartsPlain(s_parts_02176828, &param);
 }
 
 THUMB void unkfunc_0216b6e0(status::HaveStatusInfo* info, int a, int b, int c, int index)
 {
     unkfunc_02050698(0, 0);
     int x = index * 64;
-    unkfunc_02050ebc(s_parts_02176a04, 0, x, 0x78);
+    drawMenuPartsAt(s_parts_02176a04, 0, x, 0x78);
     int color = btl::BattleMenuPlayerControl::getSingleton()->getHPColor(index);
     int param[8];
     dss::memset(param, 0, sizeof(param));
@@ -532,12 +532,12 @@ THUMB void unkfunc_0216b6e0(status::HaveStatusInfo* info, int a, int b, int c, i
     if (!btl::BattleMenuPlayerControl::getSingleton()->isConditionChange(index)) {
         if (info->haveStatus_.isBattleNpc_) {
             param[7] = 0xa0000073;
-            unkfunc_02050ee0(s_parts_0217695c, param, x, 0x78, g_menuTextColors[color]);
+            drawMenuParts(s_parts_0217695c, param, x, 0x78, g_menuTextColors[color]);
         } else {
-            unkfunc_02050ee0(s_parts_02176aac, param, x, 0x78, g_menuTextColors[color]);
+            drawMenuParts(s_parts_02176aac, param, x, 0x78, g_menuTextColors[color]);
         }
     }
-    unkfunc_02050ee0(s_parts_02176cc0, param, x, 0x78, g_menuTextColors[color]);
+    drawMenuParts(s_parts_02176cc0, param, x, 0x78, g_menuTextColors[color]);
 }
 
 THUMB void unkfunc_0216b7d4(int index, int value, int message, int color)
@@ -548,9 +548,9 @@ THUMB void unkfunc_0216b7d4(int index, int value, int message, int color)
         int param[3] = { 0, (int)"\xff\xfe\xbe\x24", 0 };
         param[2] = message;
         param[0] = value;
-        unkfunc_02050ee0(s_parts_02176ad6, param, x, 0x10, g_menuTextColors[color]);
+        drawMenuParts(s_parts_02176ad6, param, x, 0x10, g_menuTextColors[color]);
     } else if (value != -1) {
-        unkfunc_02050ee0(s_parts_0217679c, &value, x, 0x10, g_menuTextColors[color]);
+        drawMenuParts(s_parts_0217679c, &value, x, 0x10, g_menuTextColors[color]);
     }
 }
 
@@ -558,32 +558,32 @@ THUMB void unkfunc_0216b858(int x, int y, int value, int type)
 {
     switch (type) {
     case 0:
-        unkfunc_02050ebc(s_parts_0217680c, &value, x, y);
+        drawMenuPartsAt(s_parts_0217680c, &value, x, y);
         break;
     case 1:
-        unkfunc_02050ebc(s_parts_02176898, &value, x, y);
+        drawMenuPartsAt(s_parts_02176898, &value, x, y);
         break;
     case 2:
-        unkfunc_02050ebc(s_parts_021768ec, &value, x, y);
+        drawMenuPartsAt(s_parts_021768ec, &value, x, y);
         break;
     case 3:
-        unkfunc_02050ebc(s_parts_021767b8, &value, x, y);
+        drawMenuPartsAt(s_parts_021767b8, &value, x, y);
         break;
     }
 }
 
 THUMB void unkfunc_0216b8d0(int mp, int useMp)
 {
-    unkfunc_02050ebc(s_parts_021769b0, 0, 0x88, 0xa0);
+    drawMenuPartsAt(s_parts_021769b0, 0, 0x88, 0xa0);
     int param[4] = { 0xa000003e, 0, (int)"\xff\xfe\xa7\x24", 0 };
     param[1] = useMp;
     param[3] = mp;
-    unkfunc_02050ee0(s_parts_02176c18, param, 0x88, 0xa0, g_menuTextColors[0]);
+    drawMenuParts(s_parts_02176c18, param, 0x88, 0xa0, g_menuTextColors[0]);
 }
 
 THUMB void unkfunc_0216b91c(int x, int y, int icon)
 {
-    unkfunc_02050ebc(s_parts_02176986, &icon, x, y);
+    drawMenuPartsAt(s_parts_02176986, &icon, x, y);
 }
 
 THUMB void unkfunc_0216b938(int x, int y, status::HaveStatusInfo* info, int flag)
@@ -591,7 +591,7 @@ THUMB void unkfunc_0216b938(int x, int y, status::HaveStatusInfo* info, int flag
     int index = info->haveStatus_.playerIndex_;
     if (flag == 1) {
         int icon = info->haveStatus_.iconIndex_;
-        unkfunc_02050ebc(s_parts_021768b4, &icon, x, y);
+        drawMenuPartsAt(s_parts_021768b4, &icon, x, y);
         BattleMenuFace::getSingleton()->setDisplayOn(index, x, y);
     } else {
         BattleMenuFace::getSingleton()->setDisplayOff(index);
@@ -659,5 +659,5 @@ THUMB void unkfunc_0216b9e8(int flag)
 THUMB void unkfunc_unused_12(int index)
 {
     int message[8] = { 0xa0000019, 0xa000001a, 0xa0000016, 0xa0000017, 0xa0000015, 0xa0000018, 0xa0000014, 0 };
-    unkfunc_02050ee0(s_parts_021767f0, &message[index], 0, 0, g_menuTextColors[0]);
+    drawMenuParts(s_parts_021767f0, &message[index], 0, 0, g_menuTextColors[0]);
 }

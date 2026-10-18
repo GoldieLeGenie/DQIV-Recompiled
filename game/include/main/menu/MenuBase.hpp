@@ -152,6 +152,6 @@ struct MENUITEM_DATA {
 void unkfunc_020518f8(MENUITEM_DATA* data, int x, int y);     // sets data->x/y
 
 extern "C" {
-    extern int g_menuTextColors[];      /* draw flags passed as the last argument of unkfunc_02050ee0 */
+    extern int g_menuTextColors[];      /* draw flags passed as the last argument of drawMenuParts */
 }
 

@@ -1,6 +1,10 @@
 #include "main/menu/UnkMenuPartsDraw.hpp"
 #include "main/menu/UnkMenuDisplays.hpp"
 #include "main/text/TextAPI.hpp"
+#ifdef DQIV_NATIVE
+#include "GameServices.hpp"
+#include <string.h>
+#endif
 
 static int s_textX;                             // end of the last text, for following texts
 static int s_textY;
@@ -36,27 +40,67 @@ THUMB void unkfunc_02050e88(int x, int y, int value, int delay)
     data_020f530c.hopping_.unkfunc_02055fbc(x, y, value, delay);
 }
 
-THUMB void unkfunc_02050ea8(UnkMenuParts* parts, int* param)
+THUMB void drawMenuPartsPlain(UnkMenuParts* parts, int* param)
 {
-    unkfunc_02050ee0(parts, param, 0, 0, -1);
+    drawMenuParts(parts, param, 0, 0, -1);
 }
 
-THUMB void unkfunc_02050ebc(UnkMenuParts* parts, int* param, int x, int y)
+THUMB void drawMenuPartsAt(UnkMenuParts* parts, int* param, int x, int y)
 {
-    unkfunc_02050ee0(parts, param, x, y, -1);
+    drawMenuParts(parts, param, x, y, -1);
 }
 
-THUMB void unkfunc_02050ed0(UnkMenuParts* parts, int* param, int color)
+THUMB void drawMenuPartsColored(UnkMenuParts* parts, int* param, int color)
 {
-    unkfunc_02050ee0(parts, param, 0, 0, color);
+    drawMenuParts(parts, param, 0, 0, color);
 }
 
-THUMB void unkfunc_02050ee0(UnkMenuParts* parts, int* param, int x, int y, int color)
+#ifdef DQIV_NATIVE
+// The text color of a comparison arrow (a number, the arrow, a number: shops,
+// equipping, handing an item over): green (12, loadSystemTextPalettes) when
+// the value goes up, red (9) when it goes down; 0 for any other part.
+static int comparisonArrowColor(UnkMenuParts* parts, UnkMenuParts* part, int* param)
+{
+    if (part->type_ != 13 || part->getTextColor() != 0) {
+        return 0;
+    }
+    const int value = part->getValue(param);
+    if (!pc::isGameTextPointer(static_cast<unsigned int>(value)) || strcmp((const char*)value, "\xff\xfe\xaf\x24") != 0) {
+        return 0;
+    }
+    UnkMenuParts* before = NULL;
+    UnkMenuParts* after = NULL;
+    for (UnkMenuParts* other = parts; other->type_ != 0xff; other++) {
+        if (other->type_ == 15 && other->index_ == part->index_ - 1) {
+            before = other;
+        }
+        if (other->type_ == 15 && other->index_ == part->index_ + 1) {
+            after = other;
+        }
+    }
+    if (before == NULL || after == NULL) {
+        return 0;
+    }
+    const int from = before->getValue(param);
+    const int to = after->getValue(param);
+    return to > from ? 12 : to < from ? 9 : 0;
+}
+#endif
+
+THUMB void drawMenuParts(UnkMenuParts* parts, int* param, int x, int y, int color)
 {
     s_textX = 0;
     s_textY = 0;
+#ifdef DQIV_NATIVE
+    UnkMenuParts* first = parts;
+#endif
     while (parts->type_ != 0xff) {
+#ifdef DQIV_NATIVE
+        const int arrow = comparisonArrowColor(first, parts, param);
+        drawMenuPart(parts, param, x, y, arrow ? arrow : color);
+#else
         drawMenuPart(parts, param, x, y, color);
+#endif
         parts++;
     }
 }

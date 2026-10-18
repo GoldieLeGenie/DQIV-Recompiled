@@ -31,7 +31,7 @@ THUMB void unkfunc_unused(int active)
         { 0x0d, 0x09, (short)0xf000, 3, 0xb2, 0x72, 0x42, 0xa },
         { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
     };
-    unkfunc_02050ed0(parts, &active, 1);
+    drawMenuPartsColored(parts, &active, 1);
 }
 
 THUMB void unkfunc_02173d7c()
@@ -46,7 +46,7 @@ THUMB void unkfunc_02173d7c()
     param[0] = 0xa000006a;
     param[1] = 0xa000006b;
     param[2] = 0xa000006d;
-    unkfunc_02050ed0(parts, param, 1);
+    drawMenuPartsColored(parts, param, 1);
 }
 
 THUMB void unkfunc_02173da4(int x, int y)
@@ -59,7 +59,7 @@ THUMB void unkfunc_02173da4(int x, int y)
     int param;
     for (int i = 0; i < 5; i++) {
         param = (int)number[i];
-        unkfunc_02050ee0(parts, &param, x + i * 32, y, 1);
+        drawMenuParts(parts, &param, x + i * 32, y, 1);
     }
 }
 
@@ -87,7 +87,7 @@ THUMB void unkfunc_02173dec(int value, int index, int bookOfBeasts, int heroLeve
         param[1] = value;
         param[2] = unit[index];
     }
-    unkfunc_02050ee0(parts, param, 0, (index + 1) * 14, 1);
+    drawMenuParts(parts, param, 0, (index + 1) * 14, 1);
 }
 
 THUMB void unkfunc_02173e7c(int time, int type)
@@ -120,7 +120,7 @@ THUMB void unkfunc_02173e7c(int time, int type)
     if (type == 2) {
         param[0] = 0xa000019b;
     }
-    unkfunc_02050ee0(parts, param, 0, 0, 1);
+    drawMenuParts(parts, param, 0, 0, 1);
 }
 
 THUMB void unkfunc_02173f24(int title)
@@ -133,7 +133,7 @@ THUMB void unkfunc_02173f24(int title)
     int param[2];
     param[0] = 0xa0000199;
     param[1] = title - 0x20000000;
-    unkfunc_02050ed0(parts, param, 1);
+    drawMenuPartsColored(parts, param, 1);
 }
 
 THUMB void unkfunc_02173f4c(int type)
@@ -150,7 +150,7 @@ THUMB void unkfunc_02173f4c(int type)
         param[0] = 0xa000019a;
     }
     param[1] = 0x11;
-    unkfunc_02050ed0(parts, param, 1);
+    drawMenuPartsColored(parts, param, 1);
 }
 
 THUMB void unkfunc_02173f7c(int index)
@@ -174,7 +174,7 @@ THUMB void unkfunc_02173f7c(int index)
     } else {
         title = msg[index];
     }
-    unkfunc_02050ee0(titleParts, &title, 0x30, 0x20, 1);
+    drawMenuParts(titleParts, &title, 0x30, 0x20, 1);
     int param[2];
     int item[7] = { 0 };
     int num = 0;
@@ -252,6 +252,6 @@ THUMB void unkfunc_02173f7c(int index)
         } else {
             param[1] = status::UseItem::getBuyPrice(item[i]);
         }
-        unkfunc_02050ee0(itemParts, param, 0x30, 0x20 + i * 16, 1);
+        drawMenuParts(itemParts, param, 0x30, 0x20 + i * 16, 1);
     }
 }

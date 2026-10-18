@@ -196,7 +196,7 @@ THUMB void CommonMenu_APITEST::menuDraw()
     int param[2];
     param[0] = page_;
     param[1] = (int)title_;
-    unkfunc_02050ee0(parts, param, 0, 0, 1);
+    drawMenuParts(parts, param, 0, 0, 1);
     unkfunc_02025e4c();
 }
 
@@ -228,7 +228,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02025f70()
     param[7] = (int)L"\xff0f\x24b6\x24b7\x24b8\x24b9\x24ba\x24bb\x24bc\x24bd\x24be\x24bf\x24c0\x24c1\x24c2\x24c3\x24c4\x24c5\x24c6\x24c7\x24c8\x24c9\x24ca\x24cb\x24cc\x24cd\x24ce\x24cf \x8a18\x53f7\x9818\x57df\xff12";  // ／ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ 記号領域２
     param[8] = 1234;
     param[9] = (int)L"\xff11" L"1\xff0f\x65e5\x672c\x3042\x3044\x3046\x3048\x304a";  // １1／日本あいうえお
-    unkfunc_02050ee0(parts, param, 0, 0, 1);
+    drawMenuParts(parts, param, 0, 0, 1);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_02026020()
@@ -240,7 +240,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026020()
         { 0x01, 0x00, (short)0xf000, 0, 0x00, 0x18, 0x100, 0x90 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
-    unkfunc_02050ea8(parts, NULL);
+    drawMenuPartsPlain(parts, NULL);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_02026050()
@@ -273,7 +273,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026050()
         for (int i = 0; i < 12; i++) {
             param[i] = i;
         }
-        unkfunc_02050ea8(parts, param);
+        drawMenuPartsPlain(parts, param);
     }
     if (s_iconPage == 1) {
         UnkMenuParts parts[] = {
@@ -295,7 +295,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026050()
         for (int i = 0; i < 12; i++) {
             param[i] = i;
         }
-        unkfunc_02050ea8(parts, param);
+        drawMenuPartsPlain(parts, param);
     }
     unkfunc_02050494();
 }
@@ -306,7 +306,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020260fc()
     UnkMenuParts parts[] = {
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
-    unkfunc_02050ea8(parts, NULL);
+    drawMenuPartsPlain(parts, NULL);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_0202612c()
@@ -319,7 +319,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202612c()
         { 0x04, 0x00, (short)0xe000, 0, 0x20, 0x70, 0x40, 0x20 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
-    unkfunc_02050ea8(parts, NULL);
+    drawMenuPartsPlain(parts, NULL);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_0202615c()
@@ -336,7 +336,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202615c()
         { 0x06, 0x03, (short)0xe000, 12, 0x00, 0xb0, 0x100, 0x10 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
-    unkfunc_02050ea8(parts, NULL);
+    drawMenuPartsPlain(parts, NULL);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_0202618c()
@@ -353,7 +353,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202618c()
         { 0x08, 0xf0, (short)0xe000, 0, 0x20, 0x88, 0x40, 0x18 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
-    unkfunc_02050ea8(parts, NULL);
+    drawMenuPartsPlain(parts, NULL);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_020261bc()
@@ -365,7 +365,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020261bc()
     };
     int param[32];
     param[0] = unk_20 + 1;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_020261f0()
@@ -395,7 +395,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020261f0()
     param[3] = 123;
     param[4] = 123456;
     param[5] = 123456789;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
     UnkMenuParts parts2[] = {
         { 0x04, 0x00, (short)0xf000, 0, 0x68, 0x00, 0x20, 0x20 },
         { 0x04, 0x00, (short)0xf000, 0, 0x80, 0x00, 0x20, 0x20 },
@@ -411,7 +411,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020261f0()
         { 0x08, 0xf0, (short)0xf000, 0, 0xe0, 0x00, 0x20, 0x20 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
-    unkfunc_02050ea8(parts2, NULL);
+    drawMenuPartsPlain(parts2, NULL);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_0202626c()
@@ -423,7 +423,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202626c()
     };
     int param[32];
     param[0] = unk_20;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_020262a0()
@@ -449,7 +449,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020262a0()
     param[1] = s_meter1;
     param[2] = s_meter2;
     param[3] = s_meter3;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
     s_meter0 = (s_meter0 < 100) ? s_meter0 + 1 : 0;
     s_meter1 = (s_meter1 < 100) ? s_meter1 + 1 : 0;
     s_meter2 = (s_meter2 < 100) ? s_meter2 + 1 : 0;
@@ -467,7 +467,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026330()
     param[1] = (int)L"\x3069\x3046\x3050";  // どうぐ
     param[2] = (int)L"\x3069\x3046\x3050\x3092";  // どうぐを
     param[3] = (int)L"\x3069";  // ど
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_02026380()
@@ -481,7 +481,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026380()
     param[1] = 123;
     param[2] = 999;
     param[3] = 999999;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_020263c8()
@@ -506,7 +506,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020263c8()
     for (int i = 0; i < 12; i++) {
         param[i] = unk_20 + i;
     }
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_02026408()
@@ -531,7 +531,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026408()
     for (int i = 0; i < 12; i++) {
         param[i] = unk_20 + i;
     }
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_02026448()
@@ -556,7 +556,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026448()
     for (int i = 0; i < 12; i++) {
         param[i] = unk_20 + i + 1000;
     }
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_0202648c()
@@ -581,7 +581,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202648c()
     for (int i = 0; i < 12; i++) {
         param[i] = unk_20 + i + 1000;
     }
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_020264d0()
@@ -621,7 +621,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026534()
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
     int param[32];
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_02026570()
@@ -676,7 +676,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026570()
     param[5] = 123456789;
     param[6] = (int)L"\xfeff\x24cf";
     param[7] = 0x50000001;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_020265d8()
@@ -702,7 +702,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020265d8()
     param[2] = (int)text3;
     param[3] = 0xa0000014;
     param[3] = 0xe0000307;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_02026668()
@@ -715,7 +715,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026668()
     };
     int param[32];
     param[0] = (int)text;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_020266a0()
@@ -733,7 +733,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020266a0()
     int param[32];
     param[0] = (int)text1;
     param[1] = (int)text2;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_020266e0(int x, int y, int w, int h)
@@ -746,7 +746,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020266e0(int x, int y, int w, int h)
     parts[0].y_ = y;
     parts[0].w_ = w;
     parts[0].h_ = h;
-    unkfunc_02050ea8(parts, NULL);
+    drawMenuPartsPlain(parts, NULL);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_02026714()
@@ -776,7 +776,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026760()
         { 0x17, 0x00, (short)0xf000, 3, 0x20, 0x80, 0x40, 0x00 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
-    unkfunc_02050ea8(parts, NULL);
+    drawMenuPartsPlain(parts, NULL);
 }
 
 THUMB void CommonMenu_APITEST::unkfunc_02026790()
@@ -794,5 +794,5 @@ THUMB void CommonMenu_APITEST::unkfunc_02026790()
     param[1] = 2;
     param[2] = 3;
     param[3] = 4;
-    unkfunc_02050ea8(parts, param);
+    drawMenuPartsPlain(parts, param);
 }

@@ -106,7 +106,7 @@ THUMB void MaterielMenu_LOAD::menuDraw()
             { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x10, 0x90, 0xe },
             { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
         };
-        unkfunc_02050ee0(entry, &param, 0, rootCount() * 14, 1);
+        drawMenuParts(entry, &param, 0, rootCount() * 14, 1);
         unkfunc_02177bac(8, 8, 0xa0, resume_ == 1 ? 0x48 + 16 : 0x38 + 16, -1);
         rootItem_.drawActive();
         return;

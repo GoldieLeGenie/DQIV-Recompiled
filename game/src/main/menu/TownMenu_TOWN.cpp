@@ -74,16 +74,16 @@ ARM void TownMenu_TOWN::menuDraw()
         return;
     }
     if (unk_84) {
-        unkfunc_02050ea8(s_cameraParts, NULL);
+        drawMenuPartsPlain(s_cameraParts, NULL);
     }
     if (unk_88) {
-        unkfunc_02050ea8(s_mapParts, NULL);
+        drawMenuPartsPlain(s_mapParts, NULL);
     }
     if (unk_8c) {
-        unkfunc_02050ea8(s_shopParts, NULL);
+        drawMenuPartsPlain(s_shopParts, NULL);
     }
     if (unk_90) {
-        unkfunc_02050ea8(s_menuIconParts, NULL);
+        drawMenuPartsPlain(s_menuIconParts, NULL);
     }
     menuItem_.drawActive();
     if (!unk_94) {
@@ -97,7 +97,7 @@ ARM void TownMenu_TOWN::menuDraw()
     if (unk_94 == 2) {
         text[1] = "@\x83\x56\x83\x87\x83\x62\x83\x76\x82\xa2\x82\xbf\x82\xe7\x82\xf1";  // "@ショップいちらん" (shop list)
     }
-    unkfunc_02050ea8(s_messageParts, (int*)text);
+    drawMenuPartsPlain(s_messageParts, (int*)text);
 }
 
 ARM void TownMenu_TOWN::menuUpdate()

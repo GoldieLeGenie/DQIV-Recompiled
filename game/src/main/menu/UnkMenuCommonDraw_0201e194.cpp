@@ -84,7 +84,7 @@ THUMB void unkfunc_0201e194(int x, int y, int w, int h, int lineY)
     s_frameParts[0].y_ = y;
     s_frameParts[0].w_ = w;
     s_frameParts[0].h_ = h;
-    unkfunc_02050ea8(s_frameParts, NULL);
+    drawMenuPartsPlain(s_frameParts, NULL);
     if (lineY > 0) {
         unkfunc_0201e1c4(x, lineY, w);
     }
@@ -93,7 +93,7 @@ THUMB void unkfunc_0201e194(int x, int y, int w, int h, int lineY)
 // not in the ROM (dead-stripped), its parts list is still in .data
 THUMB void unkfunc_unused_13()
 {
-    unkfunc_02050ea8(s_unusedParts, NULL);
+    drawMenuPartsPlain(s_unusedParts, NULL);
 }
 
 THUMB void unkfunc_0201e1c4(int x, int y, int w)
@@ -105,7 +105,7 @@ THUMB void unkfunc_0201e1c4(int x, int y, int w)
     parts[0].x_ = x;
     parts[0].y_ = y;
     parts[0].w_ = w;
-    unkfunc_02050ea8(parts, NULL);
+    drawMenuPartsPlain(parts, NULL);
 }
 
 THUMB void unkfunc_0201e1f4()
@@ -128,7 +128,7 @@ THUMB void unkfunc_0201e234()
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
     int param = 5;
-    unkfunc_02050ea8(parts, &param);
+    drawMenuPartsPlain(parts, &param);
 }
 
 THUMB void unkfunc_0201e260()
@@ -194,12 +194,12 @@ THUMB void unkfunc_0201e350(int x, int y, int coin)
         parts[0].x_ = 0xb6;
         parts[0].w_ = 0x38;
         unkfunc_02050698(0, 0);
-        unkfunc_02050ed0(parts, param, g_menuTextColors[0]);
+        drawMenuPartsColored(parts, param, g_menuTextColors[0]);
         unkfunc_0201e194(0xb0, 0xa0, 0x50, 0x20, -1);
     } else {
         parts[0].x_ = x + 6;
         parts[0].w_ = 0x38;
-        unkfunc_02050ed0(parts, param, g_menuTextColors[0]);
+        drawMenuPartsColored(parts, param, g_menuTextColors[0]);
         unkfunc_0201e194(x, y, 0x50, 0x20, -1);
     }
 }
@@ -248,8 +248,8 @@ THUMB void unkfunc_0201e3f4(int index, int mode)
         level[2] = (int)"@?";
         parts = s_statusAltParts;
     }
-    unkfunc_02050ee0(s_statusBigParts, param, x, y, g_menuTextColors[unkfunc_0201e2f4(info)]);
-    unkfunc_02050ee0(parts, level, x, y, g_menuTextColors[unkfunc_0201e2f4(info)]);
+    drawMenuParts(s_statusBigParts, param, x, y, g_menuTextColors[unkfunc_0201e2f4(info)]);
+    drawMenuParts(parts, level, x, y, g_menuTextColors[unkfunc_0201e2f4(info)]);
     unkfunc_0201e194(frameX, frameY, 0x70, 0x68, lineY);
 }
 
@@ -316,7 +316,7 @@ THUMB void unkfunc_0201e554(status::HaveStatusInfo* info, int pos)
         unkfunc_0207f840(&data_0211a60c, picture);
     }
 #endif
-    unkfunc_02050ee0(s_memberParts, param, pos << 6, 0, g_menuTextColors[unkfunc_0201e2f4(info)]);
+    drawMenuParts(s_memberParts, param, pos << 6, 0, g_menuTextColors[unkfunc_0201e2f4(info)]);
 }
 
 THUMB int unkfunc_0201e674(int action)

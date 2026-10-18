@@ -180,7 +180,7 @@ THUMB void unkfunc_0216fd58(int coin, int flag)
     } else {
         s_parts_02181fd0[2].type_ = 0xf;
     }
-    unkfunc_02050ed0(s_parts_02181fd0, param, 1);
+    drawMenuPartsColored(s_parts_02181fd0, param, 1);
 }
 
 THUMB void unkfunc_0216fda0(int* monsterName, int* monsterFlag)

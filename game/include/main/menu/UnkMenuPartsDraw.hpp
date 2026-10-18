@@ -30,9 +30,9 @@ void unkfunc_02050e44(int index, int x, int y, int priority, int flag);    // sh
 void unkfunc_native_platePalette(int index, int palette);                 // a name plate letters' OBJ palette
 #endif
 void unkfunc_02050e88(int x, int y, int value, int delay);                 // hopping number
-void unkfunc_02050ea8(UnkMenuParts* parts, int* param);
-void unkfunc_02050ebc(UnkMenuParts* parts, int* param, int x, int y);
-void unkfunc_02050ed0(UnkMenuParts* parts, int* param, int color);
-void unkfunc_02050ee0(UnkMenuParts* parts, int* param, int x, int y, int color);
+void drawMenuPartsPlain(UnkMenuParts* parts, int* param);
+void drawMenuPartsAt(UnkMenuParts* parts, int* param, int x, int y);
+void drawMenuPartsColored(UnkMenuParts* parts, int* param, int color);
+void drawMenuParts(UnkMenuParts* parts, int* param, int x, int y, int color);
 void unkfunc_02050f1c(UnkMenuParts* part, int* param, int x, int y);
 void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int color);

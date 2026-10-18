@@ -29,7 +29,7 @@ THUMB void UnkTownMenu_02178a58::menuDraw()
         if (unk_1c == 2) {
             param[1] = 0x80000088;
         }
-        unkfunc_02050ea8(s_parts, param);
+        drawMenuPartsPlain(s_parts, param);
     }
 }
 
