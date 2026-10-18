@@ -187,6 +187,9 @@ bool GameWindow::poll() {
         const int zoom=SDL_GetGamepadAxis(gamepad_,SDL_GAMEPAD_AXIS_RIGHTY);
         if(zoom<-16000||zoom>16000) {zoomCamera(zoom<0?1:-1);stickZoom_=true;}
         else if(stickZoom_) {stickZoom_=false;if(settingsUsed_)saveSettings();}
+        // Left and right, it turns the camera as R and L do (in towns, while held).
+        const int turn=SDL_GetGamepadAxis(gamepad_,SDL_GAMEPAD_AXIS_RIGHTX);
+        if(turn>16000)buttons|=256;if(turn<-16000)buttons|=512;
     }
     // While a control is being bound, and until the key that bound it is
     // released, the game gets no input.
