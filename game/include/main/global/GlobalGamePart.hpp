@@ -34,8 +34,8 @@ enum GAME_PART {
 };
 
 // Base of the game parts (TownPart, FieldPart, BattlePart, CasinoPart, BookPart...). DS: it is also the
-// GlobalDQ4 task, the UnkGameTask slots call the part virtuals (TU 0x0203ed64, not decompiled)
-struct GlobalGamePart : UnkGameTask {
+// GlobalDQ4 task, the GlobalDQ4Task slots call the part virtuals (TU 0x0203ed64, not decompiled)
+struct GlobalGamePart : GlobalDQ4Task {
     virtual void vf00();
     virtual void vf04();
     virtual void vf08();
@@ -53,7 +53,7 @@ struct GlobalGamePart : UnkGameTask {
 };
 
 // DS-only: parts run every frame on top of the current game part (fade, wait, debug menu...)
-struct UnkGlobalPart {
+struct GlobalPartBase {
 #ifdef DQIV_NATIVE
     virtual void update() = 0;
     virtual void draw();
@@ -66,14 +66,14 @@ struct UnkGlobalPart {
 };
 
 struct GlobalGamePartManager {
-    UnkGlobalPart* part_[8];                    // 0x00
+    GlobalPartBase* part_[8];                    // 0x00
 
     GlobalGamePartManager();
     ~GlobalGamePartManager();
     void unkfunc_020581f4();                    //
     void unkfunc_02058244();                    //
-    void unkfunc_02058294(UnkGlobalPart* part);    // add
-    void unkfunc_020582b8(UnkGlobalPart* part);    // remove
+    void unkfunc_02058294(GlobalPartBase* part);    // add
+    void unkfunc_020582b8(GlobalPartBase* part);    // remove
 };
 
 extern GlobalGamePartManager g_GlobalGamePartManager;

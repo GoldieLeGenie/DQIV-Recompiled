@@ -13,9 +13,9 @@
 #include "ov000/town/TownPlayerManager.hpp"
 
 static int s_frame;
-UnkDebugInfo g_DebugInfo;
+DebugInfo g_DebugInfo;
 
-THUMB void UnkDebugInfo::initialize()
+THUMB void DebugInfo::initialize()
 {
     lastX_ = 0xfe02;
     lastY_ = 0xfe02;
@@ -24,7 +24,7 @@ THUMB void UnkDebugInfo::initialize()
     clearMessageIDs();
 }
 
-THUMB void UnkDebugInfo::draw()
+THUMB void DebugInfo::draw()
 {
     char* name = g_Stage.getMapName();
     if (name != NULL) {
@@ -60,13 +60,13 @@ THUMB void UnkDebugInfo::draw()
     }
 }
 
-THUMB void UnkDebugInfo::drawArrayWarnings(int x, int y)
+THUMB void DebugInfo::drawArrayWarnings(int x, int y)
 {
     int count = getArrayErrorCount();
     debugPrint(x + 8, y, "ARRAY WARNING!");
     for (int i = 0; i < 16; i++) {
         if (i < count) {
-            UnkArrayWarning* warning = getArrayError(i);
+            ArrayErrorEntry* warning = getArrayError(i);
             debugConsolePrintf(x, y + i + 1, "ARRAY OVER %3d/%3d %08x", warning->index_, warning->size_, warning->caller_);
         } else {
             debugPrint(x, y + i + 1, "----");
@@ -76,7 +76,7 @@ THUMB void UnkDebugInfo::drawArrayWarnings(int x, int y)
     s_frame++;
 }
 
-THUMB void UnkDebugInfo::drawPosition(int x, int y)
+THUMB void DebugInfo::drawPosition(int x, int y)
 {
     dss::Fix32Vector3 pos;
     short dir;
@@ -123,14 +123,14 @@ THUMB void UnkDebugInfo::drawPosition(int x, int y)
     drawDebugWindow(x, y, 26, 2);
 }
 
-THUMB void UnkDebugInfo::clearMessageIDs()
+THUMB void DebugInfo::clearMessageIDs()
 {
     for (int i = 0; i < 16; i++) {
         messageID_[i] = -1;
     }
 }
 
-THUMB void UnkDebugInfo::addMessageID(int messageID)
+THUMB void DebugInfo::addMessageID(int messageID)
 {
     for (int i = 0; i < 16; i++) {
         if (messageID_[i] == -1) {
@@ -140,7 +140,7 @@ THUMB void UnkDebugInfo::addMessageID(int messageID)
     }
 }
 
-THUMB void UnkDebugInfo::drawMessageIDs(int x, int y)
+THUMB void DebugInfo::drawMessageIDs(int x, int y)
 {
     debugPrint(x, y, "MessID");
     for (int i = 0; i < 16; i++) {
@@ -153,7 +153,7 @@ THUMB void UnkDebugInfo::drawMessageIDs(int x, int y)
     drawDebugWindow(x, y, 6, 17);
 }
 
-THUMB void UnkDebugInfo::drawFlags(int x, int y)
+THUMB void DebugInfo::drawFlags(int x, int y)
 {
     drawFlagTable(x, y, 'G', &g_AreaFlag, areaFlagIndex_, 5, &areaFlag_);
     drawFlagTable(x, y + 7, 'A', &g_LocalFlag, localFlagIndex_, 5, &localFlag_);
@@ -163,7 +163,7 @@ THUMB void UnkDebugInfo::drawFlags(int x, int y)
     drawDebugBox(0, 14, 24, 6);
 }
 
-THUMB void UnkDebugInfo::drawFlagTable(int x, int y, char name, status::GameFlag* flag, int index, int lines, status::GameFlag* prev)
+THUMB void DebugInfo::drawFlagTable(int x, int y, char name, status::GameFlag* flag, int index, int lines, status::GameFlag* prev)
 {
     static char line[] = "+--- - - - - - - - - - -";
     static char header[] = "-flg 0 1 2 3 4 5 6 7 8 9";
@@ -200,7 +200,7 @@ THUMB void UnkDebugInfo::drawFlagTable(int x, int y, char name, status::GameFlag
     }
 }
 
-THUMB void UnkDebugInfo::drawWorldTime(int x, int y)
+THUMB void DebugInfo::drawWorldTime(int x, int y)
 {
     const char* zone = "";
     switch (cmn::WorldLocation::getCurrentTimeZone()) {
@@ -225,7 +225,7 @@ THUMB void UnkDebugInfo::drawWorldTime(int x, int y)
     drawDebugWindow(x, y, 9, 3);
 }
 
-THUMB void UnkDebugInfo::drawWalkCounter(int x, int y)
+THUMB void DebugInfo::drawWalkCounter(int x, int y)
 {
     if (g_GlobalDQ4.unkfunc_0205810c() == 12) {
         debugConsolePrintf(x, y, "WALK");
@@ -236,7 +236,7 @@ THUMB void UnkDebugInfo::drawWalkCounter(int x, int y)
     }
 }
 
-THUMB void UnkDebugInfo::drawPlayTime(int x, int y)
+THUMB void DebugInfo::drawPlayTime(int x, int y)
 {
     unsigned int time = status::g_Game.getPlayTime();
     debugConsolePrintf(x, y, "PLAY TIME");
@@ -246,7 +246,7 @@ THUMB void UnkDebugInfo::drawPlayTime(int x, int y)
     drawDebugWindow(x, y, 11, 2);
 }
 
-THUMB void UnkDebugInfo::drawHeap(int x, int y)
+THUMB void DebugInfo::drawHeap(int x, int y)
 {
     debugConsolePrintf(x, y, "HEAP");
     debugConsolePrintf(x, y + 1, "%3dK", getAppHeapFreeSize(&g_appHeap) >> 10);
@@ -255,7 +255,7 @@ THUMB void UnkDebugInfo::drawHeap(int x, int y)
     drawDebugWindow(x, y, 5, 4);
 }
 
-THUMB void UnkDebugInfo::setShowArrayWarning(int show)
+THUMB void DebugInfo::setShowArrayWarning(int show)
 {
     showArrayWarning_ = show;
 }

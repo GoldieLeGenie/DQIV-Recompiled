@@ -6,29 +6,29 @@
 
 NNSG3dResTex* g_lastLoadedTex;
 
-ARM UnkModelMember::UnkModelMember()
+ARM ModelResource::ModelResource()
 {
     unk_00 = NULL;
     unk_04 = NULL;
 }
 
-ARM void UnkModelMember::unkfunc_02083354(void* data)
+ARM void ModelResource::unkfunc_02083354(void* data)
 {
     unkfunc_02083384(data);
 }
 
-ARM void UnkModelMember::unkfunc_02083360()
+ARM void ModelResource::unkfunc_02083360()
 {
     unkfunc_02083454();
 }
 
-ARM void UnkModelMember::unkfunc_0208336c()
+ARM void ModelResource::unkfunc_0208336c()
 {
     unkfunc_02083530();
     unkfunc_02083460();
 }
 
-ARM void UnkModelMember::unkfunc_02083384(void* data)
+ARM void ModelResource::unkfunc_02083384(void* data)
 {
     unk_00 = data;
     unkfunc_02083460();
@@ -41,12 +41,12 @@ ARM void UnkModelMember::unkfunc_02083384(void* data)
     }
 }
 
-ARM void UnkModelMember::unkfunc_02083454()
+ARM void ModelResource::unkfunc_02083454()
 {
     unkfunc_02083530();
 }
 
-ARM void UnkModelMember::unkfunc_02083460()
+ARM void ModelResource::unkfunc_02083460()
 {
     NNSG3dResMdlSet* mdlSet = func_0206e8c0(unk_00);
     NNSG3dResTex* tex = func_0206e8d0(unk_00);
@@ -71,7 +71,7 @@ ARM void UnkModelMember::unkfunc_02083460()
     func_0206abb4(mdlSet, tex);
 }
 
-ARM void UnkModelMember::unkfunc_02083530()
+ARM void ModelResource::unkfunc_02083530()
 {
     NNSG3dResMdlSet* mdlSet = func_0206e8c0(unk_00);
     NNSG3dResTex* tex = func_0206e8d0(unk_00);
@@ -93,12 +93,12 @@ ARM void UnkModelMember::unkfunc_02083530()
     unk_08 = NULL;
 }
 
-ARM void* UnkModelMember::unkfunc_020835c8()
+ARM void* ModelResource::unkfunc_020835c8()
 {
     return unk_00;
 }
 
-ARM NNSG3dResMdl* UnkModelMember::unkfunc_020835d0()
+ARM NNSG3dResMdl* ModelResource::unkfunc_020835d0()
 {
     return unk_04;
 }

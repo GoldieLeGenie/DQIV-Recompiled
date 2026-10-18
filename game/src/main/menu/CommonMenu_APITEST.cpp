@@ -6,7 +6,7 @@
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/menu/TownMenu_TOWN.hpp"
 #include "main/menu/MenuBg.hpp"
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Pad.hpp"
@@ -26,7 +26,7 @@ THUMB void CommonMenu_APITEST::menuSetup()
 
 THUMB void CommonMenu_APITEST::menuExecute()
 {
-    UnkMenuFaceDisplay* face = &g_MenuDisplays.face_;
+    MenuFaceDisplay* face = &g_MenuDisplays.face_;
     face->mode_ = 11;
     face->loadLoadingAnim();
     face->setPriority(0);
@@ -188,7 +188,7 @@ THUMB void CommonMenu_APITEST::menuDraw()
         drawFourFacesTestPage();
         break;
     }
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0f, 0x0a, (short)0xf100, 0, 0x08, 0x08, 0x20, 0x10 },
         { 0x0d, 0x08, (short)0xf100, 1, 0x30, 0x08, 0x80, 0x10 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
@@ -203,7 +203,7 @@ THUMB void CommonMenu_APITEST::menuDraw()
 THUMB void CommonMenu_APITEST::drawCursorTestPage()
 {
     title_ = "@\x83J\x81[\x83\x5c\x83\x8b\x83" "e\x83X\x83g";  // @カーソルテスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x15, 0xb0, 0x0000, 0, 0x0a, 0x0a, 0x00, 0x00 },
         { 0x15, 0xb1, 0x0000, 0, 0x14, 0x14, 0x00, 0x00 },
         { 0x15, 0xb2, 0x0000, 0, 0x1e, 0x1e, 0x00, 0x00 },
@@ -234,7 +234,7 @@ THUMB void CommonMenu_APITEST::drawCursorTestPage()
 THUMB void CommonMenu_APITEST::drawWindowTestPage()
 {
     title_ = "@\x83" "E\x83" "B\x83\x93\x83h\x83" "E\x82\xcc\x83" "e\x83X\x83g";  // @ウィンドウのテスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x01, 0x00, (short)0xf000, 0, 0x68, 0x00, 0x98, 0x20 },
         { 0x01, 0x00, (short)0xf000, 0, 0x00, 0xa0, 0x68, 0x20 },
         { 0x01, 0x00, (short)0xf000, 0, 0x00, 0x18, 0x100, 0x90 },
@@ -254,7 +254,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage()
         s_iconPage = 1;
     }
     if (s_iconPage == 0) {
-        UnkMenuParts parts[] = {
+        MenuPartsEntry parts[] = {
             { 0x0c, 0xf0, 0x0000, 0, 0x48, 0x20, 0x20, 0x20 },
             { 0x0c, 0xf0, 0x0000, 1, 0x68, 0x20, 0x20, 0x20 },
             { 0x0c, 0xf0, 0x0000, 2, 0x88, 0x20, 0x20, 0x20 },
@@ -276,7 +276,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage()
         drawMenuPartsPlain(parts, param);
     }
     if (s_iconPage == 1) {
-        UnkMenuParts parts[] = {
+        MenuPartsEntry parts[] = {
             { 0x0c, 0xf5, 0x0000, 0, 0x48, 0x20, 0x20, 0x20 },
             { 0x0c, 0xf5, 0x0000, 1, 0x68, 0x20, 0x20, 0x20 },
             { 0x0c, 0xf5, 0x0000, 2, 0x88, 0x20, 0x20, 0x20 },
@@ -303,7 +303,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage()
 THUMB void CommonMenu_APITEST::drawCircleTestPage()
 {
     title_ = "@\x89~\x82\xf0\x95`\x89\xe6\x82\xb7\x82\xe9\x83" "e\x83X\x83g(\x96v)";  // @円を描画するテスト(没)
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
     drawMenuPartsPlain(parts, NULL);
@@ -312,7 +312,7 @@ THUMB void CommonMenu_APITEST::drawCircleTestPage()
 THUMB void CommonMenu_APITEST::drawPlateFrameTestPage()
 {
     title_ = "@\x94w\x8ci\x94\xc2\x83" "e\x83X\x83g\x81" "A\x83t\x83\x8c\x81[\x83\x80\x83" "e\x83X\x83g";  // @背景板テスト、フレームテスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x03, 0xd1, (short)0xf000, 0, 0x00, 0x10, 0x30, 0x20 },
         { 0x03, 0xd1, (short)0xe000, 0, 0x80, 0x10, 0x30, 0x20 },
         { 0x04, 0x00, (short)0xf000, 0, 0x20, 0x20, 0x40, 0x20 },
@@ -325,7 +325,7 @@ THUMB void CommonMenu_APITEST::drawPlateFrameTestPage()
 THUMB void CommonMenu_APITEST::drawSystemFontTestPage()
 {
     title_ = "@\x83V\x83X\x83" "e\x83\x80\x83t\x83H\x83\x93\x83g\x83" "e\x83X\x83g";  // @システムフォントテスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x06, 0x00, (short)0xf000, 12, 0x00, 0x08, 0x100, 0x10 },
         { 0x06, 0x01, (short)0xf000, 12, 0x00, 0x20, 0x100, 0x10 },
         { 0x06, 0x02, (short)0xf000, 12, 0x00, 0x38, 0x100, 0x10 },
@@ -342,7 +342,7 @@ THUMB void CommonMenu_APITEST::drawSystemFontTestPage()
 THUMB void CommonMenu_APITEST::drawAutoConnectTestPage()
 {
     title_ = "@\x8e\xa9\x93\xae\x90\xda\x91\xb1\x83" "e\x83X\x83g";  // @自動接続テスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x04, 0x00, (short)0xf000, 0, 0x20, 0x20, 0x40, 0x20 },
         { 0x04, 0x00, (short)0xf000, 0, 0x20, 0x48, 0x40, 0x20 },
         { 0x08, 0xf0, (short)0xf000, 0, 0x20, 0x40, 0x40, 0x08 },
@@ -359,7 +359,7 @@ THUMB void CommonMenu_APITEST::drawAutoConnectTestPage()
 THUMB void CommonMenu_APITEST::drawFaceTestPage()
 {
     title_ = "@\x8a\xe7\x95\x5c\x8e\xa6\x83" "e\x83X\x83g";  // @顔表示テスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0a, 0x00, 0x0000, 0, 0x10, 0x80, 0x00, 0x00 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
@@ -371,7 +371,7 @@ THUMB void CommonMenu_APITEST::drawFaceTestPage()
 THUMB void CommonMenu_APITEST::drawTextTestPage()
 {
     title_ = "@\x95\xb6\x8e\x9a\x95\x5c\x8e\xa6\x83" "e\x83X\x83g";  // @文字表示テスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0f, 0x0a, (short)0xf100, 3, 0x3c, 0x00, 0x80, 0x10 },
         { 0x0f, 0x08, (short)0xf100, 3, 0x40, 0x00, 0x80, 0x10 },
         { 0x0d, 0x04, (short)0xf100, 0, 0x3c, 0x00, 0x80, 0x10 },
@@ -396,7 +396,7 @@ THUMB void CommonMenu_APITEST::drawTextTestPage()
     param[4] = 123456;
     param[5] = 123456789;
     drawMenuPartsPlain(parts, param);
-    UnkMenuParts parts2[] = {
+    MenuPartsEntry parts2[] = {
         { 0x04, 0x00, (short)0xf000, 0, 0x68, 0x00, 0x20, 0x20 },
         { 0x04, 0x00, (short)0xf000, 0, 0x80, 0x00, 0x20, 0x20 },
         { 0x04, 0x00, (short)0xf000, 0, 0x98, 0x00, 0x20, 0x20 },
@@ -417,7 +417,7 @@ THUMB void CommonMenu_APITEST::drawTextTestPage()
 THUMB void CommonMenu_APITEST::drawBattleBgTestPage()
 {
     title_ = "@\x90\xed\x93\xac\x94w\x8ci";  // @戦闘背景
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x10, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
@@ -433,7 +433,7 @@ THUMB void CommonMenu_APITEST::drawMeterTestPage()
     static int s_meter2 = 20;
     static int s_meter3 = 30;
     title_ = "@\x83\x81\x81[\x83^";  // @メータ
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x01, 0x00, (short)0xf000, 0, 0x00, 0xa0, 0x40, 0x20 },
         { 0x01, 0x00, (short)0xf000, 0, 0x40, 0xa0, 0x40, 0x20 },
         { 0x01, 0x00, (short)0xf000, 0, 0x80, 0xa0, 0x40, 0x20 },
@@ -459,7 +459,7 @@ THUMB void CommonMenu_APITEST::drawMeterTestPage()
 THUMB void CommonMenu_APITEST::drawStringPlateTestPage()
 {
     title_ = "@\x95\xb6\x8e\x9a\x97\xf1\x94\xc2";  // @文字列板
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
     int param[32];
@@ -473,7 +473,7 @@ THUMB void CommonMenu_APITEST::drawStringPlateTestPage()
 THUMB void CommonMenu_APITEST::drawNumberPlateTestPage()
 {
     title_ = "@\x90\x94\x8e\x9a\x97\xf1\x94\xc2";  // @数字列板
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
     int param[32];
@@ -487,7 +487,7 @@ THUMB void CommonMenu_APITEST::drawNumberPlateTestPage()
 THUMB void CommonMenu_APITEST::drawIconTestPage2()
 {
     title_ = "@\x83" "A\x83" "C\x83R\x83\x93\x82\xcc\x83" "e\x83X\x83g";  // @アイコンのテスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0c, 0xf1, 0x0000, 0, 0x48, 0x20, 0x20, 0x20 },
         { 0x0c, 0xf1, 0x0000, 1, 0x68, 0x20, 0x20, 0x20 },
         { 0x0c, 0xf1, 0x0000, 2, 0x88, 0x20, 0x20, 0x20 },
@@ -512,7 +512,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage2()
 THUMB void CommonMenu_APITEST::drawIconTestPage3()
 {
     title_ = "@\x83" "A\x83" "C\x83R\x83\x93\x82\xcc\x83" "e\x83X\x83g";  // @アイコンのテスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0c, 0xf2, 0x0000, 0, 0x48, 0x20, 0x18, 0x18 },
         { 0x0c, 0xf2, 0x0000, 1, 0x68, 0x20, 0x18, 0x18 },
         { 0x0c, 0xf2, 0x0000, 2, 0x88, 0x20, 0x18, 0x18 },
@@ -537,7 +537,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage3()
 THUMB void CommonMenu_APITEST::drawIconTestPage4()
 {
     title_ = "@\x83" "A\x83" "C\x83R\x83\x93\x82\xcc\x83" "e\x83X\x83g";  // @アイコンのテスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0c, 0xf3, 0x0000, 0, 0x48, 0x20, 0x20, 0x20 },
         { 0x0c, 0xf3, 0x0000, 1, 0x68, 0x20, 0x20, 0x20 },
         { 0x0c, 0xf3, 0x0000, 2, 0x88, 0x20, 0x20, 0x20 },
@@ -562,7 +562,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage4()
 THUMB void CommonMenu_APITEST::drawIconTestPage5()
 {
     title_ = "@\x83" "A\x83" "C\x83R\x83\x93\x82\xcc\x83" "e\x83X\x83g";  // @アイコンのテスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0c, 0xf4, 0x0000, 0, 0x48, 0x20, 0x18, 0x18 },
         { 0x0c, 0xf4, 0x0000, 1, 0x68, 0x20, 0x18, 0x18 },
         { 0x0c, 0xf4, 0x0000, 2, 0x88, 0x20, 0x18, 0x18 },
@@ -605,7 +605,7 @@ THUMB void CommonMenu_APITEST::drawConnectLineTestPage()
 {
     title_ = "@\x90\xda\x91\xb1\x90\xfc";  // @接続線
     drawTestWindow(0, 0, 0x100, 0xc0);
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x06, 0x00, (short)0xf000, 12, 0x08, 0x20, 0xf0, 0x08 },
         { 0x06, 0x00, (short)0xf000, 12, 0x00, 0x20, 0x08, 0x08 },
         { 0x06, 0x01, (short)0xf000, 12, 0xf8, 0x20, 0x08, 0x08 },
@@ -627,7 +627,7 @@ THUMB void CommonMenu_APITEST::drawConnectLineTestPage()
 THUMB void CommonMenu_APITEST::drawTextConcatTestPage()
 {
     title_ = "@\x95\xb6\x8e\x9a\x98" "A\x8c\x8b\x83" "e\x83X\x83g";  // @文字連結テスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0d, 0x04, (short)0xf100, 0, 0x40, 0x00, 0x64, 0x10 },
         { 0x0d, 0x07, (short)0xf100, 6, 0x0a, 0x00, 0x80, 0x10 },
         { 0x0d, 0x07, (short)0xf100, 0, 0x00, 0x00, 0x80, 0x10 },
@@ -689,7 +689,7 @@ THUMB void CommonMenu_APITEST::drawWidthConvertTestPage()
     translateText(g_fullWidthCharTable, g_asciiCharTable, text2, sizeof(text2), text);
     translateText(g_fullWidthCharTable, g_asciiCharTable, text3, sizeof(text3), text);
     title_ = "@\x94\xbc\x8ap\x91S\x8ap\x95\xcf\x8a\xb7\x83" "e\x83X\x83g";  // @半角全角変換テスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0d, 0x04, (short)0xf100, 0, 0x40, 0x30, 0x64, 0x10 },
         { 0x0d, 0x04, (short)0xf100, 1, 0x40, 0x48, 0x64, 0x10 },
         { 0x0d, 0x04, (short)0xf100, 2, 0x40, 0x60, 0x64, 0x10 },
@@ -709,7 +709,7 @@ THUMB void CommonMenu_APITEST::drawWidthConvertTestPage2()
 {
     title_ = "@\x94\xbc\x8ap\x91S\x8ap\x95\xcf\x8a\xb7\x83" "e\x83X\x83g";  // @半角全角変換テスト
     const char* text = "@\x8c\xbe";  // @言
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0d, 0x04, (short)0xf100, 0, 0x40, 0x30, 0x64, 0x10 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
@@ -723,7 +723,7 @@ THUMB void CommonMenu_APITEST::drawWidthDisplayTestPage()
     const char* text1 = "@\x82\xa0\x82\xa2\x82\xa4\x82\xa6\x82\xa8\x8a\xbf\x8e\x9a";  // @あいうえお漢字
     const char* text2 = "@Abcdefghijk";  // @Abcdefghijk
     title_ = "@\x94\xbc\x8ap\x91S\x8ap\x95\x5c\x8e\xa6\x83" "e\x83X\x83g";  // @半角全角表示テスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x0d, 0x06, (short)0xf100, 0, 0x40, 0x30, 0x40, 0x10 },
         { 0x0d, 0x08, (short)0xf100, 1, 0x80, 0x30, 0x40, 0x10 },
         { 0x0d, 0x0a, (short)0xf100, 0, 0x40, 0x60, 0x40, 0x10 },
@@ -738,7 +738,7 @@ THUMB void CommonMenu_APITEST::drawWidthDisplayTestPage()
 
 THUMB void CommonMenu_APITEST::drawTestWindow(int x, int y, int w, int h)
 {
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x01, 0x00, (short)0xf000, 0, 0x00, 0x00, 0x00, 0x00 },
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
@@ -763,7 +763,7 @@ THUMB void CommonMenu_APITEST::drawNamePlateTestPage()
 THUMB void CommonMenu_APITEST::drawNewFrameTestPage()
 {
     title_ = "@\x90V\x83t\x83\x8c\x81[\x83\x80\x83" "e\x83X\x83g";  // @新フレームテスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x01, 0x00, (short)0xf000, 0, 0xa0, 0x30, 0x40, 0x80 },
         { 0x16, 0x00, (short)0xf000, 0, 0xa0, 0x50, 0x40, 0x00 },
         { 0x16, 0x00, (short)0xf000, 1, 0xa0, 0x60, 0x40, 0x00 },
@@ -782,7 +782,7 @@ THUMB void CommonMenu_APITEST::drawNewFrameTestPage()
 THUMB void CommonMenu_APITEST::drawFourFacesTestPage()
 {
     title_ = "@\x8a\xe7" "4\x95\x5c\x8e\xa6\x83" "e\x83X\x83g";  // @顔4表示テスト
-    UnkMenuParts parts[] = {
+    MenuPartsEntry parts[] = {
         { 0x09, 0x00, 0x0000, 0, 0x08, 0x40, 0x00, 0x00 },
         { 0x09, 0x00, 0x0001, 1, 0x48, 0x40, 0x00, 0x00 },
         { 0x09, 0x00, 0x0002, 2, 0x88, 0x40, 0x00, 0x00 },

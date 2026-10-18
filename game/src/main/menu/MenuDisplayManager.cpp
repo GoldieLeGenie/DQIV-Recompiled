@@ -1,8 +1,8 @@
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 #include "main/dss/Display.hpp"
 #include "main/menu/MenuSystem.hpp"
 
-UnkMenuDisplays g_MenuDisplays;
+MenuDisplays g_MenuDisplays;
 
 THUMB void setupMenuDisplays()
 {
@@ -44,8 +44,8 @@ THUMB void disableMenuDisplays()
 
 THUMB void updateMenuDisplays()
 {
-    UnkOamBuffer* main = getOamBufferAtY(0);
-    UnkOamBuffer* sub = getOamBufferAtY(192);
+    OamBuffer* main = getOamBufferAtY(0);
+    OamBuffer* sub = getOamBufferAtY(192);
     g_MenuDisplays.message_.update(main, sub);
     g_MenuDisplays.yesNo_.update(main, sub);
     g_MenuDisplays.face_.update(main, sub);
@@ -65,8 +65,8 @@ THUMB void updateMenuDisplays()
 
 THUMB void executeMenuDisplays()
 {
-    UnkOamBuffer* main = getOamBufferAtY(0);
-    UnkOamBuffer* sub = getOamBufferAtY(192);
+    OamBuffer* main = getOamBufferAtY(0);
+    OamBuffer* sub = getOamBufferAtY(192);
     g_MenuDisplays.message_.execute(main, sub);
     g_MenuDisplays.yesNo_.execute(main, sub);
     g_MenuDisplays.face_.execute(main, sub);
@@ -86,8 +86,8 @@ THUMB void executeMenuDisplays()
 
 THUMB void drawMenuDisplays()
 {
-    UnkOamBuffer* main = getOamBufferAtY(0);
-    UnkOamBuffer* sub = getOamBufferAtY(192);
+    OamBuffer* main = getOamBufferAtY(0);
+    OamBuffer* sub = getOamBufferAtY(192);
     g_MenuDisplays.face_.draw(main, sub);
     g_MenuDisplays.icon_.draw(main, sub);
     g_MenuDisplays.sprite_.draw(main, sub);

@@ -5,11 +5,11 @@
 static int s_animIndex[10] = { 0, 1, 2, 3, 4, 3, 2, 1, 0, -1 };
 static int s_animWait[10] = { 2, 3, 4, 5, 6, 5, 4, 3, 2, -1 };
 
-THUMB UnkMenuArrowDisplay::UnkMenuArrowDisplay()
+THUMB MenuArrowDisplay::MenuArrowDisplay()
 {
 }
 
-THUMB void UnkMenuArrowDisplay::setup(int id)
+THUMB void MenuArrowDisplay::setup(int id)
 {
     id_ = id;
     count_ = 0;
@@ -19,17 +19,17 @@ THUMB void UnkMenuArrowDisplay::setup(int id)
     setType(2);
 }
 
-THUMB void UnkMenuArrowDisplay::update(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuArrowDisplay::update(OamBuffer* main, OamBuffer* sub)
 {
     count_ = 0;
     updateAnim();
 }
 
-THUMB void UnkMenuArrowDisplay::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuArrowDisplay::execute(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuArrowDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuArrowDisplay::draw(OamBuffer* main, OamBuffer* sub)
 {
     int blink = (frame_ & 0x20) ? FALSE : TRUE;
     frame_++;
@@ -88,12 +88,12 @@ THUMB void UnkMenuArrowDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     }
 }
 
-THUMB int UnkMenuArrowDisplay::getAnimCharName()
+THUMB int MenuArrowDisplay::getAnimCharName()
 {
     return s_animIndex[animIndex_] * 2 + 0x1ca;
 }
 
-THUMB void UnkMenuArrowDisplay::updateAnim()
+THUMB void MenuArrowDisplay::updateAnim()
 {
     if (animWait_ < s_animWait[animIndex_]) {
         animWait_++;
@@ -106,7 +106,7 @@ THUMB void UnkMenuArrowDisplay::updateAnim()
     }
 }
 
-THUMB void UnkMenuArrowDisplay::addArrow(int x, int y, int kind, int flag)
+THUMB void MenuArrowDisplay::addArrow(int x, int y, int kind, int flag)
 {
     posX_[count_] = x;
     posY_[count_] = y;
@@ -116,7 +116,7 @@ THUMB void UnkMenuArrowDisplay::addArrow(int x, int y, int kind, int flag)
     setEnable(1);
 }
 
-THUMB void UnkMenuArrowDisplay::resetBlink()
+THUMB void MenuArrowDisplay::resetBlink()
 {
     frame_ = 0;
 }

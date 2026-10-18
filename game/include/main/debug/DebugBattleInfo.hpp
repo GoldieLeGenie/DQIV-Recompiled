@@ -4,7 +4,7 @@
 #include "main/status/HaveStatusInfo.hpp"
 
 // Debug battle page: status of one player or monster
-struct UnkDebugBattleInfo : UnkDebugDisplay {
+struct DebugBattleInfo : DebugDisplay {
     // vtable                                   // 0x00
     int type_;                                  // 0x04  1: player, 2: monster
     int index_;                                 // 0x08
@@ -17,4 +17,4 @@ struct UnkDebugBattleInfo : UnkDebugDisplay {
     void drawStatusInfo(int x, int y, status::HaveStatusInfo* info);
 };
 
-extern UnkDebugBattleInfo g_DebugBattleInfo;
+extern DebugBattleInfo g_DebugBattleInfo;

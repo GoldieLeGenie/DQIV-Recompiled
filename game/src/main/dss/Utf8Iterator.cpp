@@ -2,7 +2,7 @@
 
 #include "main/dss/Utf8Iterator.hpp"
 
-ARM UnkTextIterator::UnkTextIterator()
+ARM TextIterator::TextIterator()
 {
     unk_04 = 0;
     buf_ = NULL;
@@ -14,7 +14,7 @@ ARM UnkTextIterator::UnkTextIterator()
     lengthValid_ = 0;
 }
 
-ARM void UnkTextIterator::setText(const char* text)
+ARM void TextIterator::setText(const char* text)
 {
     buf_ = (char*)text;
     pos_ = 0;
@@ -25,7 +25,7 @@ ARM void UnkTextIterator::setText(const char* text)
     size_ = 0;
 }
 
-ARM void UnkTextIterator::setBuffer(char* text, int size)
+ARM void TextIterator::setBuffer(char* text, int size)
 {
     buf_ = text;
     pos_ = 0;
@@ -36,7 +36,7 @@ ARM void UnkTextIterator::setBuffer(char* text, int size)
     size_ = size;
 }
 
-ARM void UnkTextIterator::initBuffer(char* buf, int size)
+ARM void TextIterator::initBuffer(char* buf, int size)
 {
     buf_ = buf;
     pos_ = 0;
@@ -49,7 +49,7 @@ ARM void UnkTextIterator::initBuffer(char* buf, int size)
     buf_[pos_ + 1] = 0;
 }
 
-ARM int UnkTextIterator::getCount()
+ARM int TextIterator::getCount()
 {
     if (countValid_ == 0) {
         count_ = countChars();
@@ -58,7 +58,7 @@ ARM int UnkTextIterator::getCount()
     return count_;
 }
 
-ARM int UnkTextIterator::getLength()
+ARM int TextIterator::getLength()
 {
     if (lengthValid_ == 0) {
         length_ = getByteLength();
@@ -67,7 +67,7 @@ ARM int UnkTextIterator::getLength()
     return length_;
 }
 
-ARM void UnkTextIterator::truncate(int pos)
+ARM void TextIterator::truncate(int pos)
 {
     buf_[pos] = 0;
     countValid_ = 0;
@@ -257,7 +257,7 @@ static inline int isSeparator(int c)
     return separator;
 }
 
-ARM int readNextWord(UnkTextIterator* src, char* buf, int size)
+ARM int readNextWord(TextIterator* src, char* buf, int size)
 {
     int found = 0;
     Utf8Iterator dst;

@@ -1,7 +1,7 @@
 #include "main/dss/SystemText.hpp"
 #include "main/dss/Display.hpp"
 #include "main/dss/BgBuffer.hpp"
-#include "main/menu/UnkMenuIconDisplay.hpp"
+#include "main/menu/MenuIconDisplay.hpp"
 
 void* g_systemTextResources[5];
 
@@ -44,7 +44,7 @@ ARM void loadSystemTextChars(int type, int screen1, int screen2)
         second = 0;
     }
     requestVramCopy(getBgCharVramType(screen1), 0, getSystemTextData(0), 0x1000);
-    UnkCharBuffer buffer;
+    BgCharBuffer buffer;
     void* chr = getSystemTextData(3);
     initCharBuffer(&buffer, chr, 0x20, 8);
     requestVramCopy(0x13, 0x2000, chr, 0x2000);
@@ -87,10 +87,10 @@ ARM void loadSystemTextPalettes(int type, int screen1, int screen2)
 #else
     unsigned short* textPalette = palette1;
 #endif
-    UnkPaletteBuffer* bg = getBgPaletteBuffer(screen1);
+    PaletteBuffer* bg = getBgPaletteBuffer(screen1);
     bg->loadColors(0xe, 0, palette1 + 0x10, 0x10);
     bg->loadColors(0xf, 0, textPalette, 0x10);
-    UnkPaletteBuffer* obj = getObjPaletteBuffer(0);
+    PaletteBuffer* obj = getObjPaletteBuffer(0);
     obj->loadColors(0xe, 0, palette2 + 0x10, 0x10);
     obj->loadColors(0xf, 0, palette2, 0x10);
     if (second == 0) {

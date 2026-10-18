@@ -6,7 +6,7 @@
 
 // Application object of the game: system/graphics init, system fonts and graphics, part registration
 /* vtable 0x020bb958 */
-struct UnkGameApplication : UnkApplication {
+struct GameApplication : DssApplication {
     virtual void vf00();                        // system init: heap, files, language, resources, sound
     virtual void vf04();                        // graphics init
     virtual void vf08();                        // print the build date
@@ -26,7 +26,7 @@ struct UnkGameApplication : UnkApplication {
     DataObject objChar_;                        // 0x94 data/G2D/SYSTEM/obj.bgc
     DataObject objPltt_;                        // 0xA4 data/G2D/SYSTEM/obj.bgp
 
-    ~UnkGameApplication();
+    ~GameApplication();
     void unkfunc_02008768();                    // init the global managers
     static void unkfunc_020087b4();             // per-frame: count the play time
     static void unkfunc_020087cc();             // clear Global::partChangeFlag_
@@ -34,13 +34,13 @@ struct UnkGameApplication : UnkApplication {
 };
 
 // Build date/time of the game (__DATE__ / __TIME__), printed on the debug menu
-struct UnkAppBuildDate {
+struct AppBuildDate {
     const char* date_;                          // 0x00 "Mmm dd yyyy"
     char dateString_[0x10];                     // 0x04 "yy/mm/dd"
     char time_[0x10];                           // 0x14 "hh:mm:ss"
 
     // The original used __DATE__ / __TIME__ (build of Mar 19 2008, 15:58:00).
-    UnkAppBuildDate()
+    AppBuildDate()
     {
         const char* date = "Mar 19 2008";
         date_ = "Mar 19 2008";
@@ -49,8 +49,8 @@ struct UnkAppBuildDate {
     }
 };
 
-extern UnkGameApplication g_GameApplication;        // run by main()
-extern UnkAppBuildDate g_appBuildDate;
+extern GameApplication g_GameApplication;        // run by main()
+extern AppBuildDate g_appBuildDate;
 extern int data_020c4f70[2];
 
 void unkfunc_unused_14();

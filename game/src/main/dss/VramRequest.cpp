@@ -3,11 +3,11 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/UnkMemory.hpp"
 
-ARM void UnkOamBuffer::init()
+ARM void OamBuffer::init()
 {
 }
 
-ARM void UnkOamBuffer::clear()
+ARM void OamBuffer::clear()
 {
     func_0206785c(0xc0, oam_, sizeof(oam_));
     prevCount_ = count_;
@@ -15,34 +15,34 @@ ARM void UnkOamBuffer::clear()
     unk_408 = 0;
 }
 
-ARM void UnkOamBuffer::requestTransfer(int type)
+ARM void OamBuffer::requestTransfer(int type)
 {
     requestVramCopy(type, 0, oam_, sizeof(oam_));
 }
 
-ARM GXOamAttr* UnkOamBuffer::allocEntry()
+ARM GXOamAttr* OamBuffer::allocEntry()
 {
     GXOamAttr* oam = &oam_[count_];
     count_++;
     return oam;
 }
 
-ARM void UnkPaletteBuffer::requestTransfer(int type)
+ARM void PaletteBuffer::requestTransfer(int type)
 {
     requestVramCopy(type, 0, color_, sizeof(color_));
 }
 
-ARM void UnkPaletteBuffer::setColor(int index, int color, unsigned short rgb)
+ARM void PaletteBuffer::setColor(int index, int color, unsigned short rgb)
 {
     color_[index * 16 + color] = rgb;
 }
 
-ARM void UnkPaletteBuffer::loadColors(int index, int color, const void* src, int count)
+ARM void PaletteBuffer::loadColors(int index, int color, const void* src, int count)
 {
     MI_CpuCopyU32(src, &color_[index * 16 + color], count * 2);
 }
 
-ARM void UnkVramRequestQueue::init()
+ARM void VramRequestQueue::init()
 {
     for (int i = 0; i < 128; i++) {
         request_[i].active_ = 0;
@@ -51,12 +51,12 @@ ARM void UnkVramRequestQueue::init()
     lines_ = 0;
 }
 
-UnkVramRequestQueue g_VramRequestQueue;
+VramRequestQueue g_VramRequestQueue;
 
 ARM void flushVramRequests()
 {
     int start;
-    UnkVramRequest* request;
+    VramRequest* request;
     int size;
     int i;
     size = 0;
@@ -72,10 +72,10 @@ ARM void flushVramRequests()
     g_VramRequestQueue.lines_ = end - start;
 }
 
-ARM UnkVramRequest* requestCompressedVramCopy(int type, int offset, void* data, int size)
+ARM VramRequest* requestCompressedVramCopy(int type, int offset, void* data, int size)
 {
     void* buffer = uncompressAlloc(data);
-    UnkVramRequest* request = requestVramCopy(type, offset, buffer, getUncompressedSize(data));
+    VramRequest* request = requestVramCopy(type, offset, buffer, getUncompressedSize(data));
     if (request != NULL) {
         request->buffer_ = buffer;
         return request;
@@ -84,10 +84,10 @@ ARM UnkVramRequest* requestCompressedVramCopy(int type, int offset, void* data, 
     return NULL;
 }
 
-ARM UnkVramRequest* requestVramCopy(int type, int offset, const void* src, int size)
+ARM VramRequest* requestVramCopy(int type, int offset, const void* src, int size)
 {
     for (int i = 0; i < 128; i++) {
-        UnkVramRequest* request = &g_VramRequestQueue.request_[i];
+        VramRequest* request = &g_VramRequestQueue.request_[i];
         if (request->active_ == 0) {
             void* base = g_VramRequestQueue.getDestination(type);
             request->active_ = 1;
@@ -103,7 +103,7 @@ ARM UnkVramRequest* requestVramCopy(int type, int offset, const void* src, int s
     return NULL;
 }
 
-ARM void* UnkVramRequestQueue::getDestination(int type)
+ARM void* VramRequestQueue::getDestination(int type)
 {
     switch (type) {
     case 4:
@@ -158,7 +158,7 @@ ARM void* UnkVramRequestQueue::getDestination(int type)
     return NULL;
 }
 
-ARM int UnkVramRequestQueue::executeRequest(UnkVramRequest* request)
+ARM int VramRequestQueue::executeRequest(VramRequest* request)
 {
 #ifdef DQIV_NATIVE
     pcVideoCopy((unsigned int)getDestination(request->type_) + request->offset_, request->src_, request->size_);

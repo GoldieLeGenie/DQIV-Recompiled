@@ -2,12 +2,12 @@
 #include "ov000/town/TownWindowSystem.hpp"
 #include "ov000/town/TownImageMap.hpp"
 #include "ov000/town/TownShopListMap.hpp"
-#include "ov000/town/UnkImageMap.hpp"
+#include "ov000/town/TownGlobalMap.hpp"
 #include "main/global/Global.hpp"
 
 static TownImageMap imageMap;
 static TownShopListMap shopListMap;
-static UnkImageMap_02141f6c unkImageMap;
+static TownGlobalMap unkImageMap;
 
 ARM TownWindowSystem::TownWindowSystem()
 {

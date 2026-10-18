@@ -3,7 +3,7 @@
 #include "main/menu/MenuDisplay.hpp"
 
 // Queued frame piece (one sprite)
-struct UnkMenuFrameRequest {
+struct MenuFrameRequest {
     int chr_;                                   // 0x00
     int shape_;                                 // 0x04
     int x_;                                     // 0x08
@@ -13,19 +13,19 @@ struct UnkMenuFrameRequest {
     int effect_;                                // 0x18
     int mode_;                                  // 0x1C
 
-    void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
+    void draw(OamBuffer* main, OamBuffer* sub);
 };
 
 // Frames drawn as sprites, queued each frame (g_MenuDisplays.frames_)
-struct UnkMenuFrameDisplay : UnkMenuDisplay {
-    UnkMenuFrameRequest requests_[128];         // 0x0030
+struct MenuFrameDisplay : MenuDisplay {
+    MenuFrameRequest requests_[128];         // 0x0030
     int requestCount_;                          // 0x1030
 
-    UnkMenuFrameDisplay();
+    MenuFrameDisplay();
     virtual void setup(int id);
-    virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
-    virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
-    virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
+    virtual void update(OamBuffer* main, OamBuffer* sub);
+    virtual void execute(OamBuffer* main, OamBuffer* sub);
+    virtual void draw(OamBuffer* main, OamBuffer* sub);
     void addFrame(int x, int y, int w, int h, int priority, int palette);   // translucent
     void addRoundedFrame(int x, int y, int w, int h, int priority, int palette);   // rounded corners, translucent
     void addOpaqueFrame(int x, int y, int w, int h, int priority, int palette);   // opaque

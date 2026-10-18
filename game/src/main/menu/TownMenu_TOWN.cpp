@@ -3,24 +3,24 @@
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/status/OptionStatus.hpp"
 
-static UnkMenuParts s_menuIconParts[] = {
+static MenuPartsEntry s_menuIconParts[] = {
     {0x13, 0, 0, 5, 0x50, 0xa0, 0, 0},
     {0xff, 0, 0, 0, 0, 0, 0, 0},
 };
-static UnkMenuParts s_shopParts[] = {
+static MenuPartsEntry s_shopParts[] = {
     {0x13, 0, 0, 3, 0xc0, 0xa0, 0, 0},
     {0xff, 0, 0, 0, 0, 0, 0, 0},
 };
-static UnkMenuParts s_mapParts[] = {
+static MenuPartsEntry s_mapParts[] = {
     {0x13, 0, 0, 2, 0xa0, 0xa0, 0, 0},
     {0xff, 0, 0, 0, 0, 0, 0, 0},
 };
-static UnkMenuParts s_cameraParts[] = {
+static MenuPartsEntry s_cameraParts[] = {
     {0x13, 0, 0, 0, 0, 0xa0, 0, 0},
     {0x13, 0, 0, 1, 0xe0, 0xa0, 0, 0},
     {0xff, 0, 0, 0, 0, 0, 0, 0},
 };
-static UnkMenuParts s_messageParts[] = {
+static MenuPartsEntry s_messageParts[] = {
     {1, 0, -0x1000, 0, 0x40, 0x48, 0x78, 0x28},
     {0xd, 9, -0xf00, 0, 0x53, 0x50, 0x58, 0x10},
     {0xd, 9, -0xf00, 1, 0x50, 0x5a, 0x58, 0xe},

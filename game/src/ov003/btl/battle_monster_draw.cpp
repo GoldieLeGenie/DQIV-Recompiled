@@ -30,7 +30,7 @@ THUMB void btl::BattleMonster::setup(int monsterGroup, int monsterIndex)
 
 THUMB void btl::BattleMonster::cleanup()
 {
-    UnkCharacterPalette* palette = &monsterDraw_.palette_;
+    CharacterPalette* palette = &monsterDraw_.palette_;
     if (palette->enable_) {
         paletteAnim_.unkfunc_0205b648();
         palette->enable_ = 0;
@@ -64,7 +64,7 @@ THUMB void btl::BattleMonster::setPosition(const dss::Fix32Vector3& pos)
 
 THUMB void btl::BattleMonster::draw()
 {
-    UnkCharacterPalette* palette = &monsterDraw_.palette_;
+    CharacterPalette* palette = &monsterDraw_.palette_;
     if (palette->enable_) {
         paletteAnim_.unkfunc_0205b584(palette->unk_408, palette->unk_404);
         if (paletteAnim_.unkfunc_0205b628()) {

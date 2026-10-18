@@ -68,7 +68,7 @@ ARM void SpriteCharacter::draw()
         return;
     }
     execute();
-    UnkSprite2D::draw();
+    Sprite2D::draw();
     if (flag_.check(FLAG_SHADOW)) {
         shadow_.draw();
     }
@@ -221,7 +221,7 @@ ARM void SpriteShadow::unkfunc_0204b7e4()
 ARM void SpriteShadow::draw()
 {
     if (s_shadowDraw) {
-        UnkSprite2D::draw();
+        Sprite2D::draw();
     }
 }
 

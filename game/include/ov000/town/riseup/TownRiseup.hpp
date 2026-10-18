@@ -8,7 +8,7 @@
 #include "main/cmn/CommonEffect.hpp"
 #include "main/cmn/CommonEffectResource.hpp"
 
-struct BillboardItem : UnkTextureBillboard {
+struct BillboardItem : TextureBillboard {
     DataObject data_;                           // 0xB8
 
     BillboardItem();

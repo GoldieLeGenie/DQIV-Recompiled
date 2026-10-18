@@ -12,7 +12,7 @@
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/MenuCommonDraw.hpp"
 
-static UnkMenuParts s_parts[] = {
+static MenuPartsEntry s_parts[] = {
     { 0x15, 0xb5, 0, 0, 0, 0x58, 0, 0 },
     { 0x15, 0xb5, 0, 0, 0, 0x74, 0, 0 },
     { 0x15, 0xb5, 0, 0, 0, 0x90, 0, 0 },

@@ -2,7 +2,7 @@
 #include <globaldefs.h>
 
 // VRAM transfer task (NitroSystem)
-struct UnkVramTransferTask {
+struct VramTransferTask {
     int type_;                                  // 0x00
     void* src_;                                 // 0x04
     int address_;                               // 0x08
@@ -10,17 +10,17 @@ struct UnkVramTransferTask {
 };
 
 // texture/palette VRAM managers and the VRAM transfer queue of the dss engine
-struct UnkVramTransfer {
+struct VramTransferManager {
     int unk_00;                                 // 0x00
     int unk_04;                                 // 0x04 palette VRAM in use
     unsigned int unk_08;                        // 0x08 texture VRAM size
     int texSize_;                               // 0x0C
-    UnkVramTransferTask tasks_[0x80];           // 0x10
+    VramTransferTask tasks_[0x80];           // 0x10
     int unk_810;                                // 0x810
     int unk_814;                                // 0x814 transfer in the V-blank
 
-    UnkVramTransfer();
-    ~UnkVramTransfer();
+    VramTransferManager();
+    ~VramTransferManager();
     void initTransferQueue();                        // init the transfer queue
     void initVramManagers(int texSize, int plttSize); // init the texture/palette VRAM managers
     void unkfunc_02086278();
@@ -36,12 +36,12 @@ struct UnkVramTransfer {
     void doTransfers();                        // do the queued transfers
 };
 
-extern UnkVramTransfer g_VramTransfer;
+extern VramTransferManager g_VramTransfer;
 extern unsigned char g_plttVramManagerWork[0x800];      // palette VRAM manager work
 extern unsigned char g_texVramManagerWork[0x800];      // texture VRAM manager work
 
 extern "C" {
-    void func_02072800(UnkVramTransferTask* tasks, int count);             // NNS_GfdInitVramTransferManager
+    void func_02072800(VramTransferTask* tasks, int count);             // NNS_GfdInitVramTransferManager
     void func_02072824(void);                                               // NNS_GfdDoVramTransfer
     int func_02072884(int type, int address, void* src, unsigned int size); // NNS_GfdRegisterNewVramTransferTask
     int func_020728ec(void);

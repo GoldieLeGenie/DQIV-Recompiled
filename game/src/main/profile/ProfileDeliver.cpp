@@ -228,7 +228,7 @@ THUMB void profile::Profile::deliverDATA_ENVOY()
         }
         this->pENVOY++;
     }
-    UnkImmigrantTown::getSingleton()->rebuildResidents();
+    ImmigrantTown::getSingleton()->rebuildResidents();
     g_EnvoyManager.mode_ = 1;
     if (this->pENVOY->TYPE != 0xFF) {
         g_EnvoyManager.setEnable(1);

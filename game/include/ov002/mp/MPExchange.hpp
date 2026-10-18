@@ -3,7 +3,7 @@
 #include "main/cmn/EnvoyManager.hpp"
 #include "ov002/mp/WirelessHelper.hpp"
 
-// SYSMODE_* names printed by UnkMPExchange::getModeName
+// SYSMODE_* names printed by MPExchange::getModeName
 enum {
     SYSMODE_STOP = 0,
     SYSMODE_STOP_toREADY00 = 10,
@@ -26,14 +26,14 @@ enum {
     SYSMODE_FATAL_ERROR = 72
 };
 
-// Value written to UnkMPExchange::scanning_ by the scan callback
+// Value written to MPExchange::scanning_ by the scan callback
 enum UnkScanState {
     UNK_SCAN_STATE_0 = 0,
     UNK_SCAN_STATE_1 = 1
 };
 
 // Parent/child role sequence: 'C' (1) = scan as child, 'P' (2) = wait as parent
-struct UnkMPExchangeRole {
+struct MPExchangeRole {
     int mode_;                                  // 0x00 0: random, 1: always parent, 2: always child
     int index_;                                 // 0x04 current entry
     int next_;                                  // 0x08 next entry
@@ -53,17 +53,17 @@ struct UnkMPExchangeRole {
 };
 
 // Packet shared with the other DS
-struct UnkMPExchangePacket {
+struct MPExchangePacket {
     int state_;                                 // 0x00 0: lobby, 1: ready, 2: end
     int linkLevel_;                             // 0x04
     int pad_;                                   // 0x08
     int frame_;                                 // 0x0C
-    UnkEnvoyData data_;                         // 0x10
+    EnvoyData data_;                         // 0x10
 };
 
 
 // ov002: wireless exchange of the envoys, member of MPExchangePart
-struct UnkMPExchange {
+struct MPExchange {
     u16 nickName_[10];                          // 0x04 user game info
     u8 nickNameLength_;                         // 0x18
     u8 childCount_;                             // 0x19
@@ -79,7 +79,7 @@ struct UnkMPExchange {
     int unk_38;                                 // 0x38
     int unk_3c;                                 // 0x3C
     int unk_40;                                 // 0x40 scanned channel
-    UnkMPExchangeRole role_;                    // 0x44
+    MPExchangeRole role_;                    // 0x44
     int unk_f4;                                 // 0xF4
     int unk_f8;                                 // 0xF8 1: child
     int unk_fc;                                 // 0xFC received count
@@ -100,8 +100,8 @@ struct UnkMPExchange {
     virtual void sendPacket();            // send
 
     void printChildren();                    // print the children
-    void setSendData(UnkEnvoyData* data);  // data to send
-    UnkEnvoyData* getReceivedData();           // received data
+    void setSendData(EnvoyData* data);  // data to send
+    EnvoyData* getReceivedData();           // received data
     void start();                    // start
     void startRoleSelection();
     void update();                    // update
@@ -133,7 +133,7 @@ struct UnkMPExchange {
     alignas(32) static u8 recvBuffer_[0x1e0];
 };
 
-#define SEND_PACKET ((UnkMPExchangePacket*)UnkMPExchange::sendBuffer_)
-#define RECV_PACKET(i) (&((UnkMPExchangePacket*)UnkMPExchange::recvBuffer_)[i])
+#define SEND_PACKET ((MPExchangePacket*)MPExchange::sendBuffer_)
+#define RECV_PACKET(i) (&((MPExchangePacket*)MPExchange::recvBuffer_)[i])
 
 extern "C" void ov002_entry();

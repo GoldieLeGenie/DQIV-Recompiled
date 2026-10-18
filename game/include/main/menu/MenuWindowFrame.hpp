@@ -4,7 +4,7 @@
 
 // Window frame drawn as sprites on the sub screen, with its name tab, blinking key cursor and arrow
 // (g_MenuDisplays.windowFrame1_, windowFrame2_)
-struct UnkMenuWindowFrame : UnkMenuDisplay {
+struct MenuWindowFrame : MenuDisplay {
     int cursor_;                                // 0x30  key cursor shown
     int arrow_;                                 // 0x34  arrow shown
     int unk_38;                                 // 0x38
@@ -14,20 +14,20 @@ struct UnkMenuWindowFrame : UnkMenuDisplay {
     int blink_;                                 // 0x48
     int frameType_;                             // 0x4C  1: translucent
 
-    UnkMenuWindowFrame();
+    MenuWindowFrame();
     virtual void setup(int id);
-    virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
-    virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
-    virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
+    virtual void update(OamBuffer* main, OamBuffer* sub);
+    virtual void execute(OamBuffer* main, OamBuffer* sub);
+    virtual void draw(OamBuffer* main, OamBuffer* sub);
     void setNameWidth(int width);
     void setCursor(int cursor);
     void setArrow(int x, int y, int arrow);
     void setFrameType(int type);
-    void drawBorder(UnkOamBuffer* oam, int x, int y, int w, int h);
-    void drawBorderWithTab(UnkOamBuffer* oam, int x, int y, int w, int h, int tabW, int tabH);
-    void drawTopEdge(UnkOamBuffer* oam, int x, int y, int length);    // top edge
-    void drawBottomEdge(UnkOamBuffer* oam, int x, int y, int length);    // bottom edge
-    void drawLeftEdge(UnkOamBuffer* oam, int x, int y, int length);    // left edge
-    void drawRightEdge(UnkOamBuffer* oam, int x, int y, int length);    // right edge
-    void drawSprite(UnkOamBuffer* oam, int x, int y, int chr, int size);
+    void drawBorder(OamBuffer* oam, int x, int y, int w, int h);
+    void drawBorderWithTab(OamBuffer* oam, int x, int y, int w, int h, int tabW, int tabH);
+    void drawTopEdge(OamBuffer* oam, int x, int y, int length);    // top edge
+    void drawBottomEdge(OamBuffer* oam, int x, int y, int length);    // bottom edge
+    void drawLeftEdge(OamBuffer* oam, int x, int y, int length);    // left edge
+    void drawRightEdge(OamBuffer* oam, int x, int y, int length);    // right edge
+    void drawSprite(OamBuffer* oam, int x, int y, int chr, int size);
 };

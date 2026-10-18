@@ -3,19 +3,19 @@
 #include "main/dss/BgBuffer.hpp"
 
 // Sub screen window BG: characters + screen (data_020fb8f4)
-struct UnkMenuWindowBg {
-    UnkCharBuffer char_;                        // 0x0000
-    UnkScreenBuffer screen_;                    // 0x0010
+struct MenuWindowBg {
+    BgCharBuffer char_;                        // 0x0000
+    BgScreenBuffer screen_;                    // 0x0010
     char charData_[0xc000];                     // 0x0024  32x48 tiles
     unsigned short screenData_[0x600];          // 0xC024  32x48 cells
 
     void init();
-    UnkCharBuffer* getCharBuffer();
-    UnkScreenBuffer* getScreenBuffer();
+    BgCharBuffer* getCharBuffer();
+    BgScreenBuffer* getScreenBuffer();
 };
 
 // VRAM slot of 32 icon characters
-struct UnkMenuIconSlot {
+struct MenuIconSlot {
     unsigned int key_;                          // 0x00  icon type | index, -1: none
     int offset_;                                // 0x04  first character
     int state_;                                 // 0x08  0: free, 1: used this frame, 2: cached
@@ -29,7 +29,7 @@ struct UnkMenuIconSlot {
 };
 
 // Queued icon draw
-struct UnkMenuIconRequest {
+struct MenuIconRequest {
     int enable_;                                // 0x00
     int x_;                                     // 0x04
     int y_;                                     // 0x08
@@ -42,15 +42,15 @@ struct UnkMenuIconRequest {
 };
 
 // Sub screen icon BG with its VRAM character cache (data_02108518)
-struct UnkMenuIconBg {
+struct MenuIconBg {
     int enable_;                                // 0x0000
-    UnkScreenBuffer screen_;                    // 0x0004
+    BgScreenBuffer screen_;                    // 0x0004
     unsigned short screenData_[0x600];          // 0x0018
-    UnkMenuIconSlot slots_[28];                 // 0x0C18
-    UnkMenuIconRequest requests_[56];           // 0x0D68
+    MenuIconSlot slots_[28];                 // 0x0C18
+    MenuIconRequest requests_[56];           // 0x0D68
     int requestCount_;                          // 0x1388
 
-    UnkMenuIconBg();
+    MenuIconBg();
     void init(int enable);
     void loadPalettes();                    // load the icon palettes
     void clearScreen();                    // clear the screen
@@ -68,8 +68,8 @@ struct UnkMenuIconBg {
 };
 
 // Sub screen back BG with a color fade (data_020facbc)
-struct UnkMenuBackBg {
-    UnkScreenBuffer screen_;                    // 0x000
+struct MenuBackBg {
+    BgScreenBuffer screen_;                    // 0x000
     unsigned short screenData_[0x600];          // 0x014
     int enable_;                                // 0xC14
     int r_;                                     // 0xC18
@@ -82,19 +82,19 @@ struct UnkMenuBackBg {
     int unk_c34;                                // 0xC34
 
     void init();
-    UnkScreenBuffer* getScreenBuffer();
+    BgScreenBuffer* getScreenBuffer();
     void startFade(int r, int g, int b, int frame);
     void update();
 };
 
 // Sub screen menu BGs (g_MenuBg)
-struct UnkMenuBg {
+struct MenuBg {
     int transferCount_;                         // 0x0000  frames left to transfer the BGs
-    UnkMenuBackBg back_;                        // 0x0004
-    UnkMenuWindowBg window_;                    // 0x0C3C
-    UnkMenuIconBg icon_;                        // 0xD860
+    MenuBackBg back_;                        // 0x0004
+    MenuWindowBg window_;                    // 0x0C3C
+    MenuIconBg icon_;                        // 0xD860
 };
 
-extern UnkMenuBg g_MenuBg;
+extern MenuBg g_MenuBg;
 
 void requestMenuBgTransfer();                        // transfer the sub screen BGs on the next two frames

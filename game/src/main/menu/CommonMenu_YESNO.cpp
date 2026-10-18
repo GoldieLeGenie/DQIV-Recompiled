@@ -8,7 +8,7 @@
 #include "globaldefs.h"
 #include "main/sound/Sound.hpp"
 #include "main/menu/UiMsg.hpp"
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 
 static MENUITEM_DATA yesNoItemData[] = {
     {1, 2, 0xd0, 0x08, 0x28, 0x10},
@@ -21,7 +21,7 @@ THUMB void CommonMenu_YESNO::menuSetup()
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
     menuItem_.active_ = 0;
     menuItem_.enableLoopEdge_ = 1;
-    UnkMenuYesNoDisplay* const window = &g_MenuDisplays.yesNo_;
+    MenuYesNoDisplay* const window = &g_MenuDisplays.yesNo_;
     window->setEnable(1);
     window->setTexts(0xa0000064, 0xa0000065);
     window->setPosition(0xc0, 0xc0);

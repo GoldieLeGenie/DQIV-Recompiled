@@ -78,8 +78,8 @@ ARM void dss::Camera::setup()
 
 ARM void dss::Camera::calcPosition()
 {
-    dss::UnkMatrix43 rotX;
-    dss::UnkMatrix43 rotY;
+    dss::Matrix43 rotX;
+    dss::Matrix43 rotY;
     rotX.unkfunc_02088698(m_angle.vx);
     rotY.unkfunc_020886d0(m_angle.vy);
     direction_.setFix32(0, 0, 1);

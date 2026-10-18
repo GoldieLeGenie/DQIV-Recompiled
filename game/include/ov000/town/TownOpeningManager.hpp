@@ -12,9 +12,9 @@ struct TownOpeningManager {
     TextureObject m_staff_tex;                  // 0x090
     DataObject m_dssa_data[4];                  // 0x100 logo1..4.dssa
     DataObject m_staff_dssa_data;               // 0x140 staff.dssa
-    UnkDSSAObject m_dssa[4];                    // 0x150
+    DSSAScreenObject m_dssa[4];                    // 0x150
     DSSAObjectWithCamera m_dssa_camera;         // 0x3C0
-    UnkDSSAObject m_staff_dssa;                 // 0x460
+    DSSAScreenObject m_staff_dssa;                 // 0x460
     int m_enable;                               // 0x4FC
     int m_effect;                               // 0x500
     int m_effectCounter;                        // 0x504

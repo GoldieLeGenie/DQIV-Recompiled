@@ -1,6 +1,6 @@
 #pragma once
 #include "main/menu/MenuBase.hpp"
-#include "ov016/UnkNameEditKeyboard/NameEditKeyboard.hpp"
+#include "ov016/NameEditKeyboard/NameEditKeyboard.hpp"
 
 struct MaterielMenu_NameEdit : menu::MenuBase
 {
@@ -27,7 +27,7 @@ struct MaterielMenu_NameEdit : menu::MenuBase
     int unk_94;                         /* 0x94 */
     int unk_98;                         /* 0x98 */
     int bCloseEditTownName_;            /* 0x9C */
-    UnkNameEditKeyboard keyboard_;      /* 0xA0 */
+    NameEditKeyboard keyboard_;      /* 0xA0 */
 
     virtual void menuSetup();
     virtual void menuExecute();

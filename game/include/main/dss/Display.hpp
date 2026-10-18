@@ -5,7 +5,7 @@
 #include "main/dss/VramRequest.hpp"
 
 // BG used for the system text on each screen
-struct UnkDisplayText {
+struct DisplayTextBgs {
     int type_;                                  // 0x00 0: none, 1: main + sub, 2: sub + main, 3: alternated
     int screen1_;                               // 0x04 BG of the first screen
     int screen2_;                               // 0x08 BG of the second screen
@@ -15,7 +15,7 @@ struct UnkDisplayText {
 };
 
 // window of the main screen
-struct UnkDisplayWindow {
+struct DisplayWindow {
     int plane_;                                 // 0x00
     int x_;                                     // 0x04
     int y_;                                     // 0x08
@@ -24,21 +24,21 @@ struct UnkDisplayWindow {
 };
 
 // display manager: plugin, palettes and OAM shadow buffers, debug screen, windows, capture
-struct UnkDisplay {
+struct DssDisplay {
     dss::DisplayPlugin* plugin_;                // 0x0000
     dss::DisplayPlugin* nextPlugin_;            // 0x0004
     unsigned int frame_;                        // 0x0008
     unsigned short backColor_;                  // 0x000C
     unsigned short unk_0e;                      // 0x000E
     int blendMode_;                             // 0x0010
-    UnkPaletteBuffer bgPalette_[2];             // 0x0014
-    UnkPaletteBuffer objPalette_[2];            // 0x0414
-    UnkOamBuffer oam_[2];                       // 0x0814
-    UnkDisplayText text_;                       // 0x102C
-    UnkScreenBuffer screen_;                    // 0x1044 debug screen
+    PaletteBuffer bgPalette_[2];             // 0x0014
+    PaletteBuffer objPalette_[2];            // 0x0414
+    OamBuffer oam_[2];                       // 0x0814
+    DisplayTextBgs text_;                       // 0x102C
+    BgScreenBuffer screen_;                    // 0x1044 debug screen
     unsigned short screenData_[2][0x300];       // 0x1058
     int windowEnable_[2];                       // 0x1C58
-    UnkDisplayWindow window_[2];                // 0x1C60
+    DisplayWindow window_[2];                // 0x1C60
     char unk_1c88[0x50];                        // 0x1C88
     int capture_;                               // 0x1CD8
     int captureStep_;                           // 0x1CDC
@@ -47,11 +47,11 @@ struct UnkDisplay {
     int blendA_;                                // 0x1CE8
     int blendB_;                                // 0x1CEC
 
-    UnkDisplay() { init(); }
-    UnkDisplay* init();             // init
+    DssDisplay() { init(); }
+    DssDisplay* init();             // init
 };
 
-extern UnkDisplay g_Display;
+extern DssDisplay g_Display;
 
 void getCaptureOffset(int* x, int* y);          // capture position
 void setCaptureOffset(int x, int y);
@@ -65,15 +65,15 @@ int getDisplayFrame();                         // frame counter
 void setBackdropColor(unsigned short color);    // backdrop color
 void unkfunc_02081274(unsigned short value);
 void setDisplayBlendMode(int mode);                // blend mode
-UnkPaletteBuffer* getBgPaletteBuffer(int bg);     // BG palette (0-3 main, 4-7 sub)
-UnkPaletteBuffer* getObjPaletteBuffer(int screen); // OBJ palette
-UnkOamBuffer* getOamBuffer(int screen);     // OAM buffer
-UnkOamBuffer* getOamBufferAtY(int y);          // OAM buffer of a position (0: main screen, 192: sub screen)
+PaletteBuffer* getBgPaletteBuffer(int bg);     // BG palette (0-3 main, 4-7 sub)
+PaletteBuffer* getObjPaletteBuffer(int screen); // OBJ palette
+OamBuffer* getOamBuffer(int screen);     // OAM buffer
+OamBuffer* getOamBufferAtY(int y);          // OAM buffer of a position (0: main screen, 192: sub screen)
 int getTextBgAtY(int y);                    // text BG of a position
 int unkfunc_02081608(int y);
 void setDisplayTextBgs(int type, int screen1, int screen2, int unk_0c, int unk_10, int unk_14);
 int unkfunc_0208170c();
-UnkScreenBuffer* getDebugScreenBuffer();            // debug screen
+BgScreenBuffer* getDebugScreenBuffer();            // debug screen
 void setDisplayTextCounter(int counter);             // show the text
 void setWindow0Enable(int enable);              // window 0
 void setWindow1Enable(int enable);              // window 1

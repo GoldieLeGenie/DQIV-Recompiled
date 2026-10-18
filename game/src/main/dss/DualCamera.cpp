@@ -58,8 +58,8 @@ ARM void dss::DualCameraBase::update()
 ARM void dss::DualCameraBase::calcPosition()
 {
     updateCameraNo();
-    dss::UnkMatrix43 rotX;
-    dss::UnkMatrix43 rotY;
+    dss::Matrix43 rotX;
+    dss::Matrix43 rotY;
     Camera* camera = &unk_004;
     camera->calcPosition();
 }
@@ -154,8 +154,8 @@ ARM void dss::DualCamera::calcPosition()
         dir.normalize();
         unk_004.direction_ = dir;
     }
-    dss::UnkMatrix43 rotX;
-    dss::UnkMatrix43 rotY;
+    dss::Matrix43 rotX;
+    dss::Matrix43 rotY;
     rotX.unkfunc_02088698(unk_004.m_angle.vx);
     rotY.unkfunc_020886d0(unk_004.m_angle.vy);
     Fix32Vector3 up(0, 1, 0);

@@ -2,7 +2,7 @@
 #include "globaldefs.h"
 
 // Residents of the immigrant town: envoy type and map position of each one
-struct UnkImmigrantTown {
+struct ImmigrantTown {
     int count_;                                 // 0x00
     unsigned char type_[42];                    // 0x04
     unsigned char x_[42];                       // 0x2E (0xff: not placed)
@@ -12,7 +12,7 @@ struct UnkImmigrantTown {
     unsigned char queueX_[20];                  // 0x8C positions waiting for a resident
     unsigned char queueY_[20];                  // 0xA0
 
-    static UnkImmigrantTown* getSingleton();
+    static ImmigrantTown* getSingleton();
     void rebuildResidents();                    // rebuild the resident list from the envoys
     void resetPositions();                    // clear the positions
     void addResident(int type);

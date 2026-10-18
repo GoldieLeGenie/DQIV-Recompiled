@@ -2,7 +2,7 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/SystemText.hpp"
 
-ARM void initCharBuffer(UnkCharBuffer* buffer, void* buf, int width, int height)
+ARM void initCharBuffer(BgCharBuffer* buffer, void* buf, int width, int height)
 {
     buffer->buf_ = buf;
     buffer->width_ = width;
@@ -10,17 +10,17 @@ ARM void initCharBuffer(UnkCharBuffer* buffer, void* buf, int width, int height)
     buffer->pitch_ = width;
 }
 
-ARM void* getCharBufferTile(UnkCharBuffer* buffer, int x, int y)
+ARM void* getCharBufferTile(BgCharBuffer* buffer, int x, int y)
 {
     return (unsigned char*)buffer->buf_ + (y * buffer->pitch_ + x) * 0x20;
 }
 
-ARM void fillCharBuffer(UnkCharBuffer* buffer, unsigned int pattern)
+ARM void fillCharBuffer(BgCharBuffer* buffer, unsigned int pattern)
 {
     fillCharBufferRect(buffer, 0, 0, buffer->width_, buffer->height_, pattern);
 }
 
-ARM void fillCharBufferRect(UnkCharBuffer* buffer, int x, int y, int w, int h, unsigned int pattern)
+ARM void fillCharBufferRect(BgCharBuffer* buffer, int x, int y, int w, int h, unsigned int pattern)
 {
     if (x > buffer->width_ || y > buffer->height_) {
         return;
@@ -40,12 +40,12 @@ ARM void fillCharBufferRect(UnkCharBuffer* buffer, int x, int y, int w, int h, u
     }
 }
 
-ARM void setCharBufferPixel(UnkCharBuffer* buffer, int x, int y, int color)
+ARM void setCharBufferPixel(BgCharBuffer* buffer, int x, int y, int color)
 {
     setTilePixel(getCharBufferTile(buffer, x >> 3, y >> 3), x & 7, y & 7, color);
 }
 
-ARM void drawCharBufferSystemTile(UnkCharBuffer* buffer, int x, int y, int flip, int bank, unsigned short chr)
+ARM void drawCharBufferSystemTile(BgCharBuffer* buffer, int x, int y, int flip, int bank, unsigned short chr)
 {
     unsigned char* src = (unsigned char*)getSystemTextData(bank != 0) + chr * 0x20;
     void* dst = getCharBufferTile(buffer, x, y);
@@ -56,12 +56,12 @@ ARM void drawCharBufferSystemTile(UnkCharBuffer* buffer, int x, int y, int flip,
     }
 }
 
-ARM void initScreenBuffer(UnkScreenBuffer* buffer, void* buf, int width, int height)
+ARM void initScreenBuffer(BgScreenBuffer* buffer, void* buf, int width, int height)
 {
     initScreenBufferWithPitch(buffer, buf, width, height, width);
 }
 
-ARM void initScreenBufferWithPitch(UnkScreenBuffer* buffer, void* buf, int width, int height, int pitch)
+ARM void initScreenBufferWithPitch(BgScreenBuffer* buffer, void* buf, int width, int height, int pitch)
 {
     buffer->buf_ = (unsigned short*)buf;
     buffer->base_ = (unsigned short*)buf;
@@ -70,12 +70,12 @@ ARM void initScreenBufferWithPitch(UnkScreenBuffer* buffer, void* buf, int width
     buffer->pitch_ = pitch;
 }
 
-ARM unsigned short* getScreenBufferCell(UnkScreenBuffer* buffer, int x, int y)
+ARM unsigned short* getScreenBufferCell(BgScreenBuffer* buffer, int x, int y)
 {
     return buffer->buf_ + (y * buffer->pitch_ + x);
 }
 
-ARM void fillScreenBuffer(UnkScreenBuffer* buffer, unsigned short value)
+ARM void fillScreenBuffer(BgScreenBuffer* buffer, unsigned short value)
 {
     if (buffer->width_ == buffer->pitch_) {
         MI_CpuFillU16(value, buffer->buf_, buffer->width_ * buffer->height_ * 2);
@@ -86,7 +86,7 @@ ARM void fillScreenBuffer(UnkScreenBuffer* buffer, unsigned short value)
     }
 }
 
-ARM void fillScreenBufferRect(UnkScreenBuffer* buffer, int x, int y, int w, int h, unsigned short value)
+ARM void fillScreenBufferRect(BgScreenBuffer* buffer, int x, int y, int w, int h, unsigned short value)
 {
     unsigned short* p = getScreenBufferCell(buffer, x, y);
     if (w == buffer->pitch_) {
@@ -98,22 +98,22 @@ ARM void fillScreenBufferRect(UnkScreenBuffer* buffer, int x, int y, int w, int 
     }
 }
 
-ARM void fillScreenBufferTiles(UnkScreenBuffer* buffer, int x, int y, int w, int h, int palette, unsigned short chr)
+ARM void fillScreenBufferTiles(BgScreenBuffer* buffer, int x, int y, int w, int h, int palette, unsigned short chr)
 {
     fillScreenBufferRect(buffer, x, y, w, h, chr | (palette << 12));
 }
 
-ARM void fillScreenBufferTilesFlipped(UnkScreenBuffer* buffer, int x, int y, int w, int h, int palette, int vflip, int hflip, unsigned short chr)
+ARM void fillScreenBufferTilesFlipped(BgScreenBuffer* buffer, int x, int y, int w, int h, int palette, int vflip, int hflip, unsigned short chr)
 {
     fillScreenBufferRect(buffer, x, y, w, h, chr | (hflip << 10) | (vflip << 11) | (palette << 12));
 }
 
-ARM void setScreenBufferCell(UnkScreenBuffer* buffer, int x, int y, unsigned short value)
+ARM void setScreenBufferCell(BgScreenBuffer* buffer, int x, int y, unsigned short value)
 {
     *getScreenBufferCell(buffer, x, y) = value;
 }
 
-ARM void mapCharBufferToScreen(UnkScreenBuffer* buffer, int x, int y, int w, int h, int palette)
+ARM void mapCharBufferToScreen(BgScreenBuffer* buffer, int x, int y, int w, int h, int palette)
 {
     if (x > buffer->width_ || y > buffer->height_) {
         return;
@@ -157,7 +157,7 @@ ARM void mapCharBufferToScreen(UnkScreenBuffer* buffer, int x, int y, int w, int
     }
 }
 
-ARM void drawScreenBufferText(UnkScreenBuffer* buffer, int x, int y, const char* text)
+ARM void drawScreenBufferText(BgScreenBuffer* buffer, int x, int y, const char* text)
 {
     if (buffer->buf_ == NULL) {
         return;
@@ -172,7 +172,7 @@ ARM void drawScreenBufferText(UnkScreenBuffer* buffer, int x, int y, const char*
     }
 }
 
-ARM void clearScreenBuffer(UnkScreenBuffer* buffer, int palette)
+ARM void clearScreenBuffer(BgScreenBuffer* buffer, int palette)
 {
     if (palette == -1) {
         palette = 15;
@@ -180,7 +180,7 @@ ARM void clearScreenBuffer(UnkScreenBuffer* buffer, int palette)
     fillScreenBuffer(buffer, palette << 12);
 }
 
-ARM void clearScreenBufferRect(UnkScreenBuffer* buffer, int x, int y, int w, int h, int palette)
+ARM void clearScreenBufferRect(BgScreenBuffer* buffer, int x, int y, int w, int h, int palette)
 {
     if (palette == -1) {
         palette = 15;
@@ -188,7 +188,7 @@ ARM void clearScreenBufferRect(UnkScreenBuffer* buffer, int x, int y, int w, int
     fillScreenBufferRect(buffer, x, y, w, h, palette << 12);
 }
 
-ARM void unkfunc_0208066c(UnkScreenBuffer* buffer, int x, int y, int palette)
+ARM void unkfunc_0208066c(BgScreenBuffer* buffer, int x, int y, int palette)
 {
     if (palette == -1) {
         palette = 15;
@@ -196,7 +196,7 @@ ARM void unkfunc_0208066c(UnkScreenBuffer* buffer, int x, int y, int palette)
     setScreenBufferCell(buffer, x, y, (palette << 12) | 0x7f);
 }
 
-ARM void fillWindowBackRect(UnkScreenBuffer* buffer, int x, int y, int w, int h, int palette)
+ARM void fillWindowBackRect(BgScreenBuffer* buffer, int x, int y, int w, int h, int palette)
 {
     if (palette == -1) {
         palette = 15;
@@ -204,7 +204,7 @@ ARM void fillWindowBackRect(UnkScreenBuffer* buffer, int x, int y, int w, int h,
     fillScreenBufferRect(buffer, x, y, w, h, (palette << 12) | 7);
 }
 
-ARM void drawWindowBack(UnkScreenBuffer* buffer, int x, int y, int w, int h, int palette)
+ARM void drawWindowBack(BgScreenBuffer* buffer, int x, int y, int w, int h, int palette)
 {
     if (palette == -1) {
         palette = 15;
@@ -225,7 +225,7 @@ ARM void drawWindowBack(UnkScreenBuffer* buffer, int x, int y, int w, int h, int
     }
 }
 
-ARM void drawWindowBorder(UnkScreenBuffer* buffer, int x, int y, int w, int h, int palette)
+ARM void drawWindowBorder(BgScreenBuffer* buffer, int x, int y, int w, int h, int palette)
 {
     if (palette == -1) {
         palette = 15;
@@ -245,7 +245,7 @@ ARM void drawWindowBorder(UnkScreenBuffer* buffer, int x, int y, int w, int h, i
     }
 }
 
-ARM void drawScreenBufferHLine(UnkScreenBuffer* buffer, int x, int y, int w, int palette, int type)
+ARM void drawScreenBufferHLine(BgScreenBuffer* buffer, int x, int y, int w, int palette, int type)
 {
     int left;
     int mid;

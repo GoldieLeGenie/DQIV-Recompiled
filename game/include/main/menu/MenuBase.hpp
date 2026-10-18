@@ -124,7 +124,7 @@ struct MenuItem {
 }  // namespace menu
 
 // DS menu parts draw list entry (list terminated by type_ 0xff)
-struct UnkMenuParts {
+struct MenuPartsEntry {
     unsigned char type_;    /* 0x0 */  // 0xff: end of list
     unsigned char subType_; /* 0x1 */
     short attr_;            /* 0x2 */  // palette << 12 | color << 8 | icon slot

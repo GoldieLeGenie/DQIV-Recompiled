@@ -27,7 +27,7 @@ ARM void cmn::NonBattleActionManager::execute()
     if (startFlag_ != 0) {
         switch (status_) {
             case ACTION_RANARUTA:
-                if (!UnkScreenEffectManager::getSingleton()->current_->isEnd()) {
+                if (!ScreenEffectManager::getSingleton()->current_->isEnd()) {
                     return;
                 }
                 if (g_GlobalDQ4.unkfunc_02058114(12) == 1) {
@@ -63,7 +63,7 @@ ARM void cmn::NonBattleActionManager::execute()
                 g_Global.setRanarutaFlag(false);
                 return;
             case ACTION_RIREMITO:
-                if (!UnkScreenEffectManager::getSingleton()->current_->isEnd()) {
+                if (!ScreenEffectManager::getSingleton()->current_->isEnd()) {
                     return;
                 }
                 if (g_GlobalDQ4.unkfunc_02058114(12) == 1) {
@@ -83,7 +83,7 @@ ARM void cmn::NonBattleActionManager::execute()
                 g_Global.setRanarutaFlag(false);
                 return;
             case ACTION_BATTLE:
-                if (!UnkScreenEffectManager::getSingleton()->current_->isEnd()) {
+                if (!ScreenEffectManager::getSingleton()->current_->isEnd()) {
                     return;
                 }
                 if (g_GlobalDQ4.unkfunc_02058114(12) == 1) {
@@ -119,7 +119,7 @@ ARM void cmn::NonBattleActionManager::execute()
                     }
                     return;
                 }
-                if (!UnkScreenEffectManager::getSingleton()->current_->isEnd()) {
+                if (!ScreenEffectManager::getSingleton()->current_->isEnd()) {
                     return;
                 }
                 if (g_GlobalDQ4.unkfunc_02058114(12)) {
@@ -129,10 +129,10 @@ ARM void cmn::NonBattleActionManager::execute()
                     fld::FieldStage::getSingleton()->fieldData.pause_ = 0;
                     SpriteCharacter::setAllCharaAnim(1);
                 }
-                if (UnkScreenEffectManager::getSingleton()->effect3_.unk_20 != 0) {
+                if (ScreenEffectManager::getSingleton()->effect3_.unk_20 != 0) {
                     TownPlayerManager::getSingleton()->flagMapLink_ = 1;
-                    UnkScreenEffectManager::getSingleton()->stopEffect();
-                    UnkScreenEffectManager::getSingleton()->effect3_.setReverse(0);
+                    ScreenEffectManager::getSingleton()->stopEffect();
+                    ScreenEffectManager::getSingleton()->effect3_.setReverse(0);
                     TownPlayerManager::getSingleton()->partyDraw_.requestCharacterReload();
                     TownCharacterManager::getSingleton()->requestCharacterReload();
                     CharacterShadow::unkfunc_02049b94();
@@ -143,8 +143,8 @@ ARM void cmn::NonBattleActionManager::execute()
                     return;
                 }
                 g_Global.fadeOutBlack(0x14);
-                UnkScreenEffectManager::getSingleton();
-                UnkScreenEffectManager::unk_020edc40 = 1;
+                ScreenEffectManager::getSingleton();
+                ScreenEffectManager::unk_020edc40 = 1;
                 TownPlayerManager::getSingleton()->resetMapLink(RESET_EXIT_LOCK_TABI);
                 g_Global.setRanarutaFlag(false);
                 if (g_GlobalDQ4.unkfunc_02058114(12) == 1) {
@@ -168,31 +168,31 @@ ARM void cmn::NonBattleActionManager::execute()
                 break;
             case ACTION_RANARUTA:
                 SoundManager::playSe(0x23d, 0);
-                UnkScreenEffectManager::getSingleton()->startEffect(5);
+                ScreenEffectManager::getSingleton()->startEffect(5);
                 if (g_GlobalDQ4.unkfunc_02058114(12)) {
                     if (g_Stage.getTimeZone() == TIME_ZONE_DAYTIME || g_Stage.getTimeZone() == TIME_ZONE_EVENING) {
-                        UnkScreenEffectManager::getSingleton()->effect5_.unk_68 = 0;
+                        ScreenEffectManager::getSingleton()->effect5_.unk_68 = 0;
                     } else {
-                        UnkScreenEffectManager::getSingleton()->effect5_.unk_68 = 1;
+                        ScreenEffectManager::getSingleton()->effect5_.unk_68 = 1;
                     }
                 } else if (g_GlobalDQ4.unkfunc_02058114(14)) {
                     if (g_Stage.getWorldTime() < 0x840) {
-                        UnkScreenEffectManager::getSingleton()->effect5_.unk_68 = 0;
+                        ScreenEffectManager::getSingleton()->effect5_.unk_68 = 0;
                     } else {
-                        UnkScreenEffectManager::getSingleton()->effect5_.unk_68 = 1;
+                        ScreenEffectManager::getSingleton()->effect5_.unk_68 = 1;
                     }
                     FieldPlayerManager::getSingleton()->savePartyDrawInfo();
                 }
                 break;
             case ACTION_RIREMITO:
-                UnkScreenEffectManager::getSingleton()->startEffect(6);
+                ScreenEffectManager::getSingleton()->startEffect(6);
                 break;
             case ACTION_BATTLE:
-                UnkScreenEffectManager::getSingleton()->startEffect(4);
+                ScreenEffectManager::getSingleton()->startEffect(4);
                 break;
             case ACTION_TRAVELDOOR:
                 SoundManager::playSe(0x464, 0);
-                UnkScreenEffectManager::getSingleton()->startEffect(3);
+                ScreenEffectManager::getSingleton()->startEffect(3);
                 TownSystem::getSingleton()->defaultSELock_ = 1;
                 break;
         }

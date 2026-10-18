@@ -102,7 +102,7 @@ THUMB void MaterielMenu_LOAD::menuDraw()
             drawMessageColumnSmall(rootMessage, ROOT_COUNT, 0x18, 0x10);
         }
         int param = (int)s_settingsEntry;
-        UnkMenuParts entry[] = {
+        MenuPartsEntry entry[] = {
             { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x10, 0x90, 0xe },
             { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
         };

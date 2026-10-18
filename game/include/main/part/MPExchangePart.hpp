@@ -9,7 +9,7 @@ struct MPExchangePart : GlobalGamePart {
     int state_;                                 // 0x04
     int nextState_;                             // 0x08
     int counter_;                               // 0x0C frames in the state
-    UnkMPExchange exchange_;                    // 0x10
+    MPExchange exchange_;                    // 0x10
     int lcdCounter_;                            // 0x2D8
     int known_;                                 // 0x2DC received envoy already in the town
     int message_;                               // 0x2E0

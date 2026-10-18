@@ -1,13 +1,13 @@
 #pragma ipa file
 #include "ov016/TownMenu_ROOT/TownMenu_ROOT.hpp"
-#include "ov016/UnkTownMenu_02178a58/UnkTownMenu_02178a58.hpp"
+#include "ov016/TownMenuMapCaption/TownMenuMapCaption.hpp"
 #include "main/menu/TownMenu_PARTY_TALK.hpp"
 #include "ov016/TownShopMenu/TownShopMenu.hpp"
 #include "ov016/TownMenu_MAGIC/TownMenu_MAGIC_ROOT.hpp"
 #include "ov016/TownMenu_MAGIC/TownMenu_MAGIC_CHARSELECT.hpp"
 #include "ov016/TownMenu_MAGIC/TownMenu_MAGIC_MOVE.hpp"
 #include "ov016/TownMenu_ITEM/TownMenuItemSelectChara.hpp"
-#include "ov016/UnkTownMenu_02176fa0/UnkTownMenu_02176fa0.hpp"
+#include "ov016/TownMenuItemSelectItem/TownMenuItemSelectItem.hpp"
 #include "ov016/TownMenu_ITEM/TownMenuItemSelectTargetChara.hpp"
 #include "ov016/TownMenu_ITEM/TownMenuItemSelectTargetItem.hpp"
 #include "ov016/TownMenu_ITEM/TownMenuItemSelectCommand.hpp"
@@ -27,14 +27,14 @@
 // global instances of the town menus
 THUMB
 TownMenu_ROOT gTownMenu_ROOT;
-UnkTownMenu_02178a58 gUnkTownMenu_02178a58;
+TownMenuMapCaption gUnkTownMenu_02178a58;
 TownMenu_PARTY_TALK gTownMenu_PARTY_TALK;
 TownShopMenu gTownShopMenu;
 TownMenu_MAGIC_ROOT gTownMenu_MAGIC_ROOT;
 TownMenu_MAGIC_CHARSELECT gTownMenu_MAGIC_CHARSELECT;
 TownMenu_MAGIC_MOVE gTownMenu_MAGIC_MOVE;
 TownMenuItemSelectChara gTownMenuItemSelectChara;
-UnkTownMenu_02176fa0 gUnkTownMenu_02176fa0;
+TownMenuItemSelectItem gUnkTownMenu_02176fa0;
 TownMenuItemSelectTargetChara gTownMenuItemSelectTargetChara;
 TownMenuItemSelectTargetItem gTownMenuItemSelectTargetItem;
 TownMenuItemSelectCommand gTownMenuItemSelectCommand;

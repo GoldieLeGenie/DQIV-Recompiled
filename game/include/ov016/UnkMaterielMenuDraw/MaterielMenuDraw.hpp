@@ -6,12 +6,12 @@
 
 // materiel menu window drawing (shop, bank, church, picture book, extra menus)
 void drawShopRootCommands(bool bank, int type);
-void drawPartsInTextColorAt(UnkMenuParts* parts, int* param, int x, int y, int mode);
+void drawPartsInTextColorAt(MenuPartsEntry* parts, int* param, int x, int y, int mode);
 void drawShopEquipCompare();
 status::HaveStatusInfo* getPlayerHaveStatusInfo(status::PlayerStatus* player);
 void drawShopHeldCounts();
 void drawShopSackCount(int* count);
-void drawPartsInTextColor(UnkMenuParts* parts, int* param, int mode);
+void drawPartsInTextColor(MenuPartsEntry* parts, int* param, int mode);
 void drawShopItemKind();
 void drawShopBuyList(int flag);
 void drawCharaItemNames();

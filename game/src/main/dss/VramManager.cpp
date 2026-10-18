@@ -2,20 +2,20 @@
 #include "main/dss/VramManager.hpp"
 #include "nitro/os.hpp"
 
-UnkVramTransfer g_VramTransfer;
+VramTransferManager g_VramTransfer;
 
-ARM UnkVramTransfer::UnkVramTransfer()
+ARM VramTransferManager::VramTransferManager()
 {
     unk_00 = 0;
     unk_810 = 0;
     unk_814 = 1;
 }
 
-ARM UnkVramTransfer::~UnkVramTransfer()
+ARM VramTransferManager::~VramTransferManager()
 {
 }
 
-ARM void UnkVramTransfer::initTransferQueue()
+ARM void VramTransferManager::initTransferQueue()
 {
     func_02072800(tasks_, 0x80);
 }
@@ -23,7 +23,7 @@ ARM void UnkVramTransfer::initTransferQueue()
 unsigned char g_plttVramManagerWork[0x800];
 unsigned char g_texVramManagerWork[0x800];
 
-ARM void UnkVramTransfer::initVramManagers(int texSize, int plttSize)
+ARM void VramTransferManager::initVramManagers(int texSize, int plttSize)
 {
     texSize_ = texSize;
     unk_00 = 0;
@@ -39,54 +39,54 @@ ARM void UnkVramTransfer::initVramManagers(int texSize, int plttSize)
     func_02072fa8(plttSize, g_plttVramManagerWork, func_02072fa0(0x80), 1);
 }
 
-ARM void UnkVramTransfer::unkfunc_02086278()
+ARM void VramTransferManager::unkfunc_02086278()
 {
 }
 
-ARM int UnkVramTransfer::allocTexVram(int size)
+ARM int VramTransferManager::allocTexVram(int size)
 {
     return (*data_020c403c)(size, 0, 0);
 }
 
-ARM void UnkVramTransfer::freeTexVram(unsigned int handle)
+ARM void VramTransferManager::freeTexVram(unsigned int handle)
 {
     (*data_020c4040)(handle);
 }
 
-ARM int UnkVramTransfer::getTexVramAddr(unsigned int handle)
+ARM int VramTransferManager::getTexVramAddr(unsigned int handle)
 {
     return (handle & 0xffff) << 3;
 }
 
-ARM int UnkVramTransfer::getTexVramSize(unsigned int handle)
+ARM int VramTransferManager::getTexVramSize(unsigned int handle)
 {
     return ((handle & 0x7fff0000) >> 16) << 4;
 }
 
-ARM int UnkVramTransfer::allocPlttVram(int size)
+ARM int VramTransferManager::allocPlttVram(int size)
 {
     int handle = (*data_020c4044)(size, 0, 0);
     unk_04 += size;
     return handle;
 }
 
-ARM void UnkVramTransfer::freePlttVram(unsigned int handle)
+ARM void VramTransferManager::freePlttVram(unsigned int handle)
 {
     (*data_020c4048)(handle);
     unk_04 -= getPlttVramSize(handle);
 }
 
-ARM int UnkVramTransfer::getPlttVramAddr(unsigned int handle)
+ARM int VramTransferManager::getPlttVramAddr(unsigned int handle)
 {
     return (handle & 0xffff) << 3;
 }
 
-ARM int UnkVramTransfer::getPlttVramSize(unsigned int handle)
+ARM int VramTransferManager::getPlttVramSize(unsigned int handle)
 {
     return ((handle & 0xffff0000) >> 16) << 3;
 }
 
-ARM void UnkVramTransfer::transferToVram(int type, void* src, int address, unsigned int size, int flag)
+ARM void VramTransferManager::transferToVram(int type, void* src, int address, unsigned int size, int flag)
 {
     if (unk_814 != 0) {
         func_02072884(type, address, src, size);
@@ -123,7 +123,7 @@ ARM void UnkVramTransfer::transferToVram(int type, void* src, int address, unsig
     } while (remain != 0);
 }
 
-ARM void UnkVramTransfer::doTransfers()
+ARM void VramTransferManager::doTransfers()
 {
     func_02072824();
     unk_810 = 0;

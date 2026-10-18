@@ -6,9 +6,9 @@
 extern int g_menuPartsOriginX;                       // origin of the parts
 extern int g_menuPartsOriginY;
 extern int g_menuBgDrawEnabled;                       // 1: sub screen BGs set up
-extern UnkScreenBuffer* g_menuBackScreen;          // back BG screen
-extern UnkScreenBuffer* g_menuWindowScreen;          // window BG screen
-extern UnkCharBuffer* g_menuWindowChars;            // window BG characters
+extern BgScreenBuffer* g_menuBackScreen;          // back BG screen
+extern BgScreenBuffer* g_menuWindowScreen;          // window BG screen
+extern BgCharBuffer* g_menuWindowChars;            // window BG characters
 
 // Menu parts drawn on the sub screen BGs (window frames, tiles, texts, numbers, gauges, icons, faces, arrows)
 void setupMenuBgDraw(int enable);              // set up the sub screen BGs
@@ -30,9 +30,9 @@ void showNamePlate(int index, int x, int y, int priority, int flag);    // show 
 void unkfunc_native_platePalette(int index, int palette);                 // a name plate letters' OBJ palette
 #endif
 void showHoppingNumber(int x, int y, int value, int delay);                 // hopping number
-void drawMenuPartsPlain(UnkMenuParts* parts, int* param);
-void drawMenuPartsAt(UnkMenuParts* parts, int* param, int x, int y);
-void drawMenuPartsColored(UnkMenuParts* parts, int* param, int color);
-void drawMenuParts(UnkMenuParts* parts, int* param, int x, int y, int color);
-void drawMenuPartAt(UnkMenuParts* part, int* param, int x, int y);
-void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int color);
+void drawMenuPartsPlain(MenuPartsEntry* parts, int* param);
+void drawMenuPartsAt(MenuPartsEntry* parts, int* param, int x, int y);
+void drawMenuPartsColored(MenuPartsEntry* parts, int* param, int color);
+void drawMenuParts(MenuPartsEntry* parts, int* param, int x, int y, int color);
+void drawMenuPartAt(MenuPartsEntry* part, int* param, int x, int y);
+void drawMenuPart(MenuPartsEntry* part, int* param, int x, int y, int color);

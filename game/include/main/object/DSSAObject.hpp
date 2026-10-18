@@ -138,9 +138,9 @@ struct DSSAObject : Position {
     static int priorityShift_;
 };
 
-struct UnkDSSAObject : DSSAObject {
-    UnkDSSAObject() {}
-    ~UnkDSSAObject() {}
+struct DSSAScreenObject : DSSAObject {
+    DSSAScreenObject() {}
+    ~DSSAScreenObject() {}
     virtual void setupDraw();
     virtual void setupRoot();
     virtual void setupTRS(DSSAParts* parts);

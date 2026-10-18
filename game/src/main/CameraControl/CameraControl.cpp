@@ -67,9 +67,9 @@ ARM bool CameraControl::calc(dss::Fix32Vector3& arg_position, dss::Vector3<short
     dss::Fix32Vector3 cur_angle;
     dss::Fix32Vector3 cur_position;
     dss::Fix32Vector3 unused_vec0;
-    dss::UnkMatrix43 unused_mtx0;
+    dss::Matrix43 unused_mtx0;
     dss::Fix32Vector3 unused_vec1;
-    dss::UnkMatrix43 unused_mtx1;
+    dss::Matrix43 unused_mtx1;
 
     cur_angle.vx = seqData_[seqPhase_ - 1].angEnd.vx + seqData_[seqPhase_].ang.vx * dt_ +
                    seqData_[seqPhase_].ang_a.vx * dt_ * dt_ * 3 / 2;

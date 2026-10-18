@@ -12,9 +12,9 @@
 #include "main/task/PartTaskManager.hpp"
 #include "ov003/status/MonsterPartyWithDraw.hpp"
 
-UnkBattleTest g_AutoBattleTest;
+AutoBattleTest g_AutoBattleTest;
 
-ARM UnkBattleTest::UnkBattleTest()
+ARM AutoBattleTest::AutoBattleTest()
 {
     unk_00 = 0;
     firstTile_ = 1;
@@ -31,7 +31,7 @@ ARM UnkBattleTest::UnkBattleTest()
     counter_ = -1;
 }
 
-ARM void UnkBattleTest::update()
+ARM void AutoBattleTest::update()
 {
     switch (state_) {
     case 0:

@@ -1,32 +1,32 @@
 #include "main/menu/MenuFrameDisplay.hpp"
 #include "nitro/g2.hpp"
 
-THUMB UnkMenuFrameDisplay::UnkMenuFrameDisplay()
+THUMB MenuFrameDisplay::MenuFrameDisplay()
 {
     requestCount_ = 0;
     setType(2);
 }
 
-THUMB void UnkMenuFrameDisplay::setup(int id)
+THUMB void MenuFrameDisplay::setup(int id)
 {
     id_ = id;
     requestCount_ = 0;
 }
 
-THUMB void UnkMenuFrameDisplay::update(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuFrameDisplay::update(OamBuffer* main, OamBuffer* sub)
 {
     requestCount_ = 0;
 }
 
-THUMB void UnkMenuFrameDisplay::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuFrameDisplay::execute(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuFrameDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuFrameDisplay::draw(OamBuffer* main, OamBuffer* sub)
 {
     setEnable(1);
     if (isDrawable(main, sub)) {
-        UnkMenuFrameRequest* request = requests_;
+        MenuFrameRequest* request = requests_;
         for (int i = 0; i < requestCount_; i++) {
             request->draw(main, sub);
             request++;
@@ -35,17 +35,17 @@ THUMB void UnkMenuFrameDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     }
 }
 
-THUMB void UnkMenuFrameDisplay::addFrame(int x, int y, int w, int h, int priority, int palette)
+THUMB void MenuFrameDisplay::addFrame(int x, int y, int w, int h, int priority, int palette)
 {
     addFrameSprites(x, y, w, h, priority, palette, 0, 1);
 }
 
-THUMB void UnkMenuFrameDisplay::addRoundedFrame(int x, int y, int w, int h, int priority, int palette)
+THUMB void MenuFrameDisplay::addRoundedFrame(int x, int y, int w, int h, int priority, int palette)
 {
     addFrameSprites(x, y, w, h, priority, palette, 1, 1);
 }
 
-THUMB void UnkMenuFrameDisplay::addOpaqueFrame(int x, int y, int w, int h, int priority, int palette)
+THUMB void MenuFrameDisplay::addOpaqueFrame(int x, int y, int w, int h, int priority, int palette)
 {
     addFrameSprites(x, y, w, h, priority, palette, 0, 0);
 }
@@ -60,9 +60,9 @@ inline void G2_SetOBJAttrFrame(GXOamAttr* oam, int x, int y, int priority, int m
 }
 
 #pragma opt_propagation off
-THUMB void UnkMenuFrameRequest::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuFrameRequest::draw(OamBuffer* main, OamBuffer* sub)
 {
-    UnkOamBuffer* oam = NULL;
+    OamBuffer* oam = NULL;
     int screen = y_ / 192;
     int y = y_ % 192;
     if (screen == 0) {

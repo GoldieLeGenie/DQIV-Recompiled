@@ -1,7 +1,7 @@
 #pragma ipa file
 #include "main/dss/Display.hpp"
 #include "main/effect/ScreenEffect.hpp"
-#include "main/effect/UnkEffectCamera.hpp"
+#include "main/effect/ScreenEffectCamera.hpp"
 #include "main/object/DisplayCharacter.hpp"
 #include "main/dss/BgBuffer.hpp"
 #include "main/data/DataObject.hpp"
@@ -17,11 +17,11 @@ static dss::Vector3<dss::Fix16> s_vertexRightTop(0.5f, 0.375f, -0.0f);
 static dss::Vector3<dss::Fix16> s_vertexLeftTop(-0.5f, 0.375f, -0.0f);
 static dss::Vector2<dss::Fix32> s_texCoordLeftTop(0, 0);
 static dss::Vector2<dss::Fix32> s_texCoordRightTop(256, 0);
-UnkScreenEffectTile* UnkScreenEffect::tiles_;
+ScreenEffectTile* ScreenEffect::tiles_;
 static dss::Vector2<dss::Fix32> s_texCoordRightBottom(256, 192);
 static dss::Vector2<dss::Fix32> s_texCoordLeftBottom(0, 192);
 
-THUMB UnkScreenEffect::UnkScreenEffect()
+THUMB ScreenEffect::ScreenEffect()
 {
     scale_.value = 0x8000;
     columns_ = 32;
@@ -32,13 +32,13 @@ THUMB UnkScreenEffect::UnkScreenEffect()
     tiles_ = NULL;
 }
 
-THUMB UnkScreenEffect::~UnkScreenEffect()
+THUMB ScreenEffect::~ScreenEffect()
 {
 }
 
-THUMB void UnkScreenEffect::start()
+THUMB void ScreenEffect::start()
 {
-    UnkEffectCamera::getSingleton()->initialize();
+    ScreenEffectCamera::getSingleton()->initialize();
     dss::g_DISPLAYPLUGIN_DOUBLE3D.SetBlur(0x10, 0);
     flag_.clear();
     s_vertex.v[0] = s_vertexLeftBottom;
@@ -50,12 +50,12 @@ THUMB void UnkScreenEffect::start()
     s_texCoord.v[2] = s_texCoordRightTop;
     s_texCoord.v[3] = s_texCoordLeftTop;
     if (tiles_ == NULL) {
-        tiles_ = (UnkScreenEffectTile*)dssAlloc(&g_appHeap, sizeof(UnkScreenEffectTile) * columns_ * rows_, 0x20);
+        tiles_ = (ScreenEffectTile*)dssAlloc(&g_appHeap, sizeof(ScreenEffectTile) * columns_ * rows_, 0x20);
     }
     counter_ = 0;
 }
 
-THUMB int UnkScreenEffect::setupTiles()
+THUMB int ScreenEffect::setupTiles()
 {
     if (wait_ < 2) {
         wait_++;
@@ -97,14 +97,14 @@ THUMB int UnkScreenEffect::setupTiles()
     return 1;
 }
 
-THUMB void UnkScreenEffect::terminate()
+THUMB void ScreenEffect::terminate()
 {
     dssFree(&g_appHeap, tiles_);
     tiles_ = NULL;
-    UnkEffectCamera::getSingleton()->terminate();
+    ScreenEffectCamera::getSingleton()->terminate();
 }
 
-THUMB void UnkScreenEffect::update()
+THUMB void ScreenEffect::update()
 {
     if (flag_.check(1) == false && flag_.check(2) == false) {
         if (!setupTiles()) {
@@ -126,7 +126,7 @@ THUMB void UnkScreenEffect::update()
     }
 }
 
-THUMB void UnkScreenEffect::setPolygonParams(int polygonID)
+THUMB void ScreenEffect::setPolygonParams(int polygonID)
 {
     if (getDisplayFrame() & 1) {
         G3_TexImageParam(7, 1, 5, 5, 0, 0, 1, 0x20000);
@@ -136,10 +136,10 @@ THUMB void UnkScreenEffect::setPolygonParams(int polygonID)
     G3_PolygonAttr(0, 0, 0xc0, polygonID, alpha_, 0);
 }
 
-THUMB void UnkScreenEffect::draw()
+THUMB void ScreenEffect::draw()
 {
     if (flag_.check(2) != false) {
-        UnkEffectCamera::getSingleton()->draw();
+        ScreenEffectCamera::getSingleton()->draw();
         func_0206adcc();
         func_0206dcf0();
         for (int i = 0; i < columns_; i++) {

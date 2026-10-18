@@ -2,7 +2,7 @@
 #include <globaldefs.h>
 
 // heap block of the allocation log
-struct UnkHeapLogEntry {
+struct HeapLogEntry {
     int state_;                                 // 0x00 0: free, 1: allocated, 2: allocated before the mark
     void* addr_;                                // 0x04
     int size_;                                  // 0x08
@@ -10,8 +10,8 @@ struct UnkHeapLogEntry {
 };
 
 // allocation log of the dss heaps
-struct UnkHeapLog {
-    UnkHeapLogEntry entries_[100];              // 0x000
+struct HeapLog {
+    HeapLogEntry entries_[100];              // 0x000
     int enabled_;                               // 0x640
     int unk_644;                                // 0x644
 
@@ -23,4 +23,4 @@ struct UnkHeapLog {
 };
 
 extern char g_heapLogText[0x400];
-extern UnkHeapLog g_HeapLog;
+extern HeapLog g_HeapLog;

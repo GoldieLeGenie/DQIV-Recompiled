@@ -1,7 +1,7 @@
 #include "main/btl/BattleMapList.hpp"
 #include "main/dss/DssUtils.hpp"
 
-THUMB UnkBattleMapList::UnkBattleMapList()
+THUMB BattleMapList::BattleMapList()
 {
     group_ = 0;
     map_ = 0;
@@ -9,11 +9,11 @@ THUMB UnkBattleMapList::UnkBattleMapList()
     loaded_ = 0;
 }
 
-THUMB UnkBattleMapList::~UnkBattleMapList()
+THUMB BattleMapList::~BattleMapList()
 {
 }
 
-THUMB void UnkBattleMapList::load(const char* filename)
+THUMB void BattleMapList::load(const char* filename)
 {
     unkfunc_0205726c(filename, 0);
     group_ = 0;
@@ -22,17 +22,17 @@ THUMB void UnkBattleMapList::load(const char* filename)
     loaded_ = 1;
 }
 
-THUMB int UnkBattleMapList::isLoaded()
+THUMB int BattleMapList::isLoaded()
 {
     return loaded_;
 }
 
-THUMB char* UnkBattleMapList::getGroupName()
+THUMB char* BattleMapList::getGroupName()
 {
     return unkfunc_02057368(group_ + map_, 1);
 }
 
-THUMB void UnkBattleMapList::nextGroup()
+THUMB void BattleMapList::nextGroup()
 {
     int i = 0;
     char* name = unkfunc_02057368(group_ + map_, 1);
@@ -57,7 +57,7 @@ THUMB void UnkBattleMapList::nextGroup()
     }
 }
 
-THUMB void UnkBattleMapList::prevGroup()
+THUMB void BattleMapList::prevGroup()
 {
     int i = 0;
     int offset = 0;
@@ -91,12 +91,12 @@ THUMB void UnkBattleMapList::prevGroup()
     }
 }
 
-THUMB char* UnkBattleMapList::getMapName()
+THUMB char* BattleMapList::getMapName()
 {
     return unkfunc_02057368(group_ + map_ + unk_28, 2);
 }
 
-THUMB void UnkBattleMapList::nextMap()
+THUMB void BattleMapList::nextMap()
 {
     unkfunc_02057368(group_, 0);
     char* name = unkfunc_02057368(group_ + map_, 1);
@@ -109,7 +109,7 @@ THUMB void UnkBattleMapList::nextMap()
     }
 }
 
-THUMB void UnkBattleMapList::prevMap()
+THUMB void BattleMapList::prevMap()
 {
     unkfunc_02057368(group_, 0);
     char* name = unkfunc_02057368(group_ + map_, 1);

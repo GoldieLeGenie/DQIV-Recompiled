@@ -8,7 +8,7 @@
 #include "main/menu/MenuAPI.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
-#include "main/menu/UnkMenuIconDisplay.hpp"
+#include "main/menu/MenuIconDisplay.hpp"
 #include "main/status/GameStatus.hpp"
 #include "nitro/os.hpp"
 #include "main/menu/MenuPartsDraw.hpp"

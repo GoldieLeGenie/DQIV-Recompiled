@@ -37,7 +37,7 @@ ARM void GlobalGamePartManager::unkfunc_02058244()
     }
 }
 
-ARM void GlobalGamePartManager::unkfunc_02058294(UnkGlobalPart* part)
+ARM void GlobalGamePartManager::unkfunc_02058294(GlobalPartBase* part)
 {
     for (int i = 0; i < 8; i++) {
         if (part_[i] == 0) {
@@ -47,7 +47,7 @@ ARM void GlobalGamePartManager::unkfunc_02058294(UnkGlobalPart* part)
     }
 }
 
-ARM void GlobalGamePartManager::unkfunc_020582b8(UnkGlobalPart* part)
+ARM void GlobalGamePartManager::unkfunc_020582b8(GlobalPartBase* part)
 {
     for (int i = 0; i < 8; i++) {
         if (part_[i] == part) {

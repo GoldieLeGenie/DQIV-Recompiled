@@ -133,7 +133,7 @@ THUMB void status::StageStatus::setup(char *mapname)
         dss::strcmp(g_Global.getMapName(), map_casino) != 0 &&
         dss::strcmp(g_Global.getPrevMapName(), map_casino) != 0)
     {
-        UnkImmigrantTown::getSingleton()->resetPositions();
+        ImmigrantTown::getSingleton()->resetPositions();
     }
 
     g_Stage.setTimeZoneEnable((entry->byte_1 & 0x1E) << 0x17 >> 0x18);

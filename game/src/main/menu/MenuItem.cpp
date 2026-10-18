@@ -3,7 +3,7 @@
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/MenuArrowDisplay.hpp"
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 #include "main/dss/Camera.hpp"
 #include "main/dss/Pad.hpp"
 #include "main/sound/Sound.hpp"

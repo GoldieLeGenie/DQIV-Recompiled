@@ -1,12 +1,12 @@
 #include "main/menu/MenuWindowFrame.hpp"
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 #include "nitro/g2.hpp"
 
-THUMB UnkMenuWindowFrame::UnkMenuWindowFrame()
+THUMB MenuWindowFrame::MenuWindowFrame()
 {
 }
 
-THUMB void UnkMenuWindowFrame::setup(int id)
+THUMB void MenuWindowFrame::setup(int id)
 {
     id_ = id;
     cursor_ = 0;
@@ -17,15 +17,15 @@ THUMB void UnkMenuWindowFrame::setup(int id)
     setType(2);
 }
 
-THUMB void UnkMenuWindowFrame::update(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuWindowFrame::update(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuWindowFrame::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuWindowFrame::execute(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuWindowFrame::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuWindowFrame::draw(OamBuffer* main, OamBuffer* sub)
 {
     int blink;
     if (blink_ & 0x20) {
@@ -54,7 +54,7 @@ THUMB void UnkMenuWindowFrame::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
             G2_SetOBJAttr(sub->allocEntry(), x_ + w_ - 24, y + bottom + 8, 0, GX_OAM_MODE_NORMAL, 0,
                           GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_16, 0x152, 15, 0);
         }
-        UnkMenuFrameDisplay* frames = &g_MenuDisplays.frames_;
+        MenuFrameDisplay* frames = &g_MenuDisplays.frames_;
         if (frameType_ == 1) {
             frames->addFrame(x_ + 4, y_ + 4, w_ - 8, h_ - 8, 0, 15);
         } else {
@@ -73,7 +73,7 @@ THUMB void UnkMenuWindowFrame::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     }
 }
 
-THUMB void UnkMenuWindowFrame::setNameWidth(int width)
+THUMB void MenuWindowFrame::setNameWidth(int width)
 {
     if (width > 224) {
         width = 224;
@@ -81,7 +81,7 @@ THUMB void UnkMenuWindowFrame::setNameWidth(int width)
     nameWidth_ = width;
 }
 
-THUMB void UnkMenuWindowFrame::setCursor(int cursor)
+THUMB void MenuWindowFrame::setCursor(int cursor)
 {
     if (cursor_ == 0 && cursor == 1) {
         blink_ = 0;
@@ -89,19 +89,19 @@ THUMB void UnkMenuWindowFrame::setCursor(int cursor)
     cursor_ = cursor;
 }
 
-THUMB void UnkMenuWindowFrame::setArrow(int x, int y, int arrow)
+THUMB void MenuWindowFrame::setArrow(int x, int y, int arrow)
 {
     arrowX_ = x;
     arrowY_ = y;
     arrow_ = arrow;
 }
 
-THUMB void UnkMenuWindowFrame::setFrameType(int type)
+THUMB void MenuWindowFrame::setFrameType(int type)
 {
     frameType_ = type;
 }
 
-THUMB void UnkMenuWindowFrame::drawBorder(UnkOamBuffer* oam, int x, int y, int w, int h)
+THUMB void MenuWindowFrame::drawBorder(OamBuffer* oam, int x, int y, int w, int h)
 {
     drawSprite(oam, x, y, 0x109, 32);
     drawSprite(oam, x + w - 32, y, 0x10b, 32);
@@ -113,7 +113,7 @@ THUMB void UnkMenuWindowFrame::drawBorder(UnkOamBuffer* oam, int x, int y, int w
     drawRightEdge(oam, x + w - 8, y + 32, h - 64);
 }
 
-THUMB void UnkMenuWindowFrame::drawBorderWithTab(UnkOamBuffer* oam, int x, int y, int w, int h, int tabW, int tabH)
+THUMB void MenuWindowFrame::drawBorderWithTab(OamBuffer* oam, int x, int y, int w, int h, int tabW, int tabH)
 {
     drawSprite(oam, x, y - tabH, 0x109, 16);
     drawSprite(oam, x + w - 32, y, 0x10b, 32);
@@ -129,7 +129,7 @@ THUMB void UnkMenuWindowFrame::drawBorderWithTab(UnkOamBuffer* oam, int x, int y
     drawTopEdge(oam, x + tabW, y, w - tabW - 32);
 }
 
-THUMB void UnkMenuWindowFrame::drawTopEdge(UnkOamBuffer* oam, int x, int y, int length)
+THUMB void MenuWindowFrame::drawTopEdge(OamBuffer* oam, int x, int y, int length)
 {
     if (length <= 0) {
         return;
@@ -167,7 +167,7 @@ THUMB void UnkMenuWindowFrame::drawTopEdge(UnkOamBuffer* oam, int x, int y, int 
     }
 }
 
-THUMB void UnkMenuWindowFrame::drawBottomEdge(UnkOamBuffer* oam, int x, int y, int length)
+THUMB void MenuWindowFrame::drawBottomEdge(OamBuffer* oam, int x, int y, int length)
 {
     if (length <= 0) {
         return;
@@ -205,7 +205,7 @@ THUMB void UnkMenuWindowFrame::drawBottomEdge(UnkOamBuffer* oam, int x, int y, i
     }
 }
 
-THUMB void UnkMenuWindowFrame::drawLeftEdge(UnkOamBuffer* oam, int x, int y, int length)
+THUMB void MenuWindowFrame::drawLeftEdge(OamBuffer* oam, int x, int y, int length)
 {
     if (length <= 0) {
         return;
@@ -243,7 +243,7 @@ THUMB void UnkMenuWindowFrame::drawLeftEdge(UnkOamBuffer* oam, int x, int y, int
     }
 }
 
-THUMB void UnkMenuWindowFrame::drawRightEdge(UnkOamBuffer* oam, int x, int y, int length)
+THUMB void MenuWindowFrame::drawRightEdge(OamBuffer* oam, int x, int y, int length)
 {
     if (length <= 0) {
         return;
@@ -281,7 +281,7 @@ THUMB void UnkMenuWindowFrame::drawRightEdge(UnkOamBuffer* oam, int x, int y, in
     }
 }
 
-THUMB void UnkMenuWindowFrame::drawSprite(UnkOamBuffer* oam, int x, int y, int chr, int size)
+THUMB void MenuWindowFrame::drawSprite(OamBuffer* oam, int x, int y, int chr, int size)
 {
     int shape = 0;
     if (size == 8) {

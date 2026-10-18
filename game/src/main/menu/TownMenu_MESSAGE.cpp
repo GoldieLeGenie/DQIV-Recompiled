@@ -1,5 +1,5 @@
 #include "main/menu/TownMenu_MESSAGE.hpp"
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 #include "main/dss/Pad.hpp"
 #include "main/menu/CommonMenu_YESNO.hpp"
 #include "main/cmn/CommonCounterInfo.hpp"
@@ -33,7 +33,7 @@ THUMB void TownMenu_MESSAGE::menuExecute()
         yesNoItem_.setMenuItem(yesNoItemData, 1, 1, 1);
     }
     if (noClose_ != 0) {
-        UnkMenuFaceDisplay* const busy = &g_MenuDisplays.face_;
+        MenuFaceDisplay* const busy = &g_MenuDisplays.face_;
         busy->mode_ = 11;
         busy->setPriority(0);
         busy->setPosition(0xe0, 0x164);
@@ -285,7 +285,7 @@ THUMB void TownMenu_MESSAGE::setMessageLastCursor(bool flag)
 THUMB void TownMenu_MESSAGE::SetNoClose(bool flag)
 {
     noClose_ = flag;
-    UnkMenuFaceDisplay* obj = &g_MenuDisplays.face_;
+    MenuFaceDisplay* obj = &g_MenuDisplays.face_;
     if (noClose_ != 0) {
         obj->loadLoadingAnim();
         obj->mode_ = 11;

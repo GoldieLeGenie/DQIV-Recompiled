@@ -5,7 +5,7 @@
 #include "ov016/status/FukuroItemInfo.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/menu/MenuAPI.hpp"
-#include "ov016/UnkTownMenu_02176fa0/UnkTownMenu_02176fa0.hpp"
+#include "ov016/TownMenuItemSelectItem/TownMenuItemSelectItem.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "main/status/PlayerStatus.hpp"
 #include "main/text/TextAPI.hpp"

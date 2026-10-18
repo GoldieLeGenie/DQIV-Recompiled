@@ -7,7 +7,7 @@
 
 int g_arrayErrorEnabled = 1;
 int g_arrayWarningCount;
-UnkArrayWarning g_arrayWarnings[16];
+ArrayErrorEntry g_arrayWarnings[16];
 
 ARM void setArrayErrorEnabled(int enable)
 {
@@ -24,7 +24,7 @@ ARM void addArrayError(int index, int size, unsigned int caller)
     g_arrayWarningCount++;
 }
 
-ARM UnkArrayWarning* getArrayError(int index)
+ARM ArrayErrorEntry* getArrayError(int index)
 {
     return &g_arrayWarnings[index];
 }

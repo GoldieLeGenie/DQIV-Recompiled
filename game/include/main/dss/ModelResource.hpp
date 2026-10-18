@@ -3,12 +3,12 @@
 #include "nnsys/g3d.hpp"
 
 // model file of a model object: binds its textures (loaded in VRAM) to its model set
-struct UnkModelMember {
+struct ModelResource {
     void* unk_00;                               // 0x00 model file
     NNSG3dResMdl* unk_04;                       // 0x04 last model of the set
     NNSG3dResTex* unk_08;                       // 0x08 textures
 
-    UnkModelMember();
+    ModelResource();
     void unkfunc_02083354(void* data);         // set the model file
     void unkfunc_02083360();                    // release
     void unkfunc_0208336c();                    // reload the textures

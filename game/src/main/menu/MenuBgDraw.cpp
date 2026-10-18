@@ -1,6 +1,6 @@
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/dss/Display.hpp"
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 #include "main/menu/MenuBg.hpp"
 #include "main/menu/MenuSystem.hpp"
 #include "main/dss/DssUtils.hpp"
@@ -13,9 +13,9 @@
 int g_menuBgDrawEnabled;
 int g_menuPartsOriginX;
 int g_menuPartsOriginY;
-UnkCharBuffer* g_menuWindowChars;
-UnkScreenBuffer* g_menuWindowScreen;
-UnkScreenBuffer* g_menuBackScreen;
+BgCharBuffer* g_menuWindowChars;
+BgScreenBuffer* g_menuWindowScreen;
+BgScreenBuffer* g_menuBackScreen;
 
 // HP gauge rows: 0-8 filled pixels, middle row and top/bottom rows, normal and low HP
 static int s_gaugeOuter[9] = {0, 0x6, 0x66, 0x666, 0x6666, 0x66666, 0x666666, 0x6666666, 0x66666666};
@@ -25,7 +25,7 @@ static int s_gaugeLowInner[9] = {0, 0x7, 0x77, 0x777, 0x7777, 0x77777, 0x777777,
 
 THUMB void setupMenuBgDraw(int enable)
 {
-    UnkMenuWindowBg* window = &g_MenuBg.window_;
+    MenuWindowBg* window = &g_MenuBg.window_;
     g_menuWindowChars = window->getCharBuffer();
     g_menuWindowScreen = window->getScreenBuffer();
     g_menuBackScreen = g_MenuBg.back_.getScreenBuffer();
@@ -74,7 +74,7 @@ THUMB void drawMenuWindowBox(int x, int y, int w, int h)
 
 THUMB void drawMenuObjFrame(int x, int y, int w, int h, int xlu)
 {
-    UnkMenuFrameDisplay* frames = &g_MenuDisplays.frames_;
+    MenuFrameDisplay* frames = &g_MenuDisplays.frames_;
     if (xlu) {
         frames->addRoundedFrame(x, y, w, h, 3, 15);
     } else {
@@ -84,7 +84,7 @@ THUMB void drawMenuObjFrame(int x, int y, int w, int h, int xlu)
 
 THUMB void drawMenuItemFrame(int x, int y, int w, int h, int priority, int flag)
 {
-    UnkMenuFrameDisplay* frames = &g_MenuDisplays.frames_;
+    MenuFrameDisplay* frames = &g_MenuDisplays.frames_;
     frames->addFrame(x, y, w, h, priority, flag ? 9 : 6);
 }
 

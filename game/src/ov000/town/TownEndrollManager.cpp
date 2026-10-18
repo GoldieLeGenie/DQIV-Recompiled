@@ -129,7 +129,7 @@ THUMB void TownEndrollManager::drawStaffRoll()
             // The credits lie on black covering the DS screen's width: the
             // black continues across the wide picture, under the panel.
             // It samples the panel's own black corner, for the same shade.
-            UnkSprite2D& sprite = staff_[i].sprite_;
+            Sprite2D& sprite = staff_[i].sprite_;
             const short u0 = sprite.unk_20, v0 = sprite.unk_22, u1 = sprite.unk_24, v1 = sprite.unk_26;
             sprite.unkfunc_02084578(0, 0, 1, 1);
             sprite.draw();
@@ -184,7 +184,7 @@ THUMB void TownEndrollManager::draw()
 {
     if (enable_) {
         setupOrtho2D();
-        UnkSprite2D& theEnd = theEnd_;
+        Sprite2D& theEnd = theEnd_;
         theEnd.draw();
         drawStaffRoll();
     }

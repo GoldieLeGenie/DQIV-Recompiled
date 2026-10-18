@@ -2,14 +2,14 @@
 #include <globaldefs.h>
 
 // message entry of a message file
-struct UnkMessageEntry {
+struct MessageEntry {
     unsigned short id_;                         // 0x00 id - first id
     unsigned short size_;                       // 0x02
     unsigned short offset_;                     // 0x04 in words
 };
 
 // message file header
-struct UnkMessageFile {
+struct MessageFileHeader {
     int unk_00;                                 // 0x00
     int unk_04;                                 // 0x04
     unsigned int firstId_;                      // 0x08
@@ -18,7 +18,7 @@ struct UnkMessageFile {
     int unk_14;                                 // 0x14
     int unk_18;                                 // 0x18
     int unk_1c;                                 // 0x1C
-    UnkMessageEntry entries_[1];                // 0x20
+    MessageEntry entries_[1];                // 0x20
 };
 
 extern int g_lastFoundMsgId;                       // last found message id

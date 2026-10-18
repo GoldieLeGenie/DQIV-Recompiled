@@ -1,7 +1,7 @@
 #include "main/menu/MaterielMenuOverlay.hpp"
 #include "main/dss/DssUtils.hpp"
 
-UnkOverlaySlot g_MaterielOverlaySlot;
+OverlaySlot g_MaterielOverlaySlot;
 
 ARM void loadMaterielMenuOverlay(int menu)
 {

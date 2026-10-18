@@ -1,10 +1,10 @@
 #pragma once
 #include <globaldefs.h>
 #include "ov009/casino/CasinoMiniGameBase.hpp"
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 
 struct CasinoPoker : CasinoMiniGameBase {
-    UnkMenuSprite upperSprite_;                 // 0x08 (DS-only)
+    MenuSprite upperSprite_;                 // 0x08 (DS-only)
 
     static char* stagePoker;
 

@@ -4,7 +4,7 @@
 #include "main/cmn/PartyTalk.hpp"
 #include "main/status/StoryStatus.hpp"
 #include "main/global/Global.hpp"
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 

@@ -3,7 +3,7 @@
 #include "main/menu/MenuDisplay.hpp"
 
 // Up to 16 arrows / cursors drawn on the sub screen (g_MenuDisplays.arrow_)
-struct UnkMenuArrowDisplay : UnkMenuDisplay {
+struct MenuArrowDisplay : MenuDisplay {
     int posX_[16];                              // 0x030
     int posY_[16];                              // 0x070
     int kind_[16];                              // 0x0B0
@@ -13,11 +13,11 @@ struct UnkMenuArrowDisplay : UnkMenuDisplay {
     int animIndex_;                             // 0x138
     int animWait_;                              // 0x13C
 
-    UnkMenuArrowDisplay();
+    MenuArrowDisplay();
     virtual void setup(int id);
-    virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
-    virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
-    virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
+    virtual void update(OamBuffer* main, OamBuffer* sub);
+    virtual void execute(OamBuffer* main, OamBuffer* sub);
+    virtual void draw(OamBuffer* main, OamBuffer* sub);
     int getAnimCharName();
     void updateAnim();
     void addArrow(int x, int y, int kind, int flag);

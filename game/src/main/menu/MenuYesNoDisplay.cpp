@@ -1,14 +1,14 @@
 #include "main/menu/MenuYesNoDisplay.hpp"
 #include "main/dss/Display.hpp"
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 #include "main/text/TextAPI.hpp"
 #include "nitro/g2.hpp"
 
-THUMB UnkMenuYesNoDisplay::UnkMenuYesNoDisplay()
+THUMB MenuYesNoDisplay::MenuYesNoDisplay()
 {
 }
 
-THUMB void UnkMenuYesNoDisplay::setup(int id)
+THUMB void MenuYesNoDisplay::setup(int id)
 {
     id_ = id;
     initCharBuffer(&yesChar_, yesData_, 6, 2);
@@ -21,15 +21,15 @@ THUMB void UnkMenuYesNoDisplay::setup(int id)
     setSize(64, 56);
 }
 
-THUMB void UnkMenuYesNoDisplay::update(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuYesNoDisplay::update(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuYesNoDisplay::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuYesNoDisplay::execute(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-inline void UnkMenuYesNoDisplay::transferRow(int row)
+inline void MenuYesNoDisplay::transferRow(int row)
 {
     int chr = id_ + row * 32;
     int tile = row * 6;
@@ -37,7 +37,7 @@ inline void UnkMenuYesNoDisplay::transferRow(int row)
     requestVramCopy(0x13, (chr + 6) * 32, noData_ + tile * 32, 0xc0);
 }
 
-THUMB void UnkMenuYesNoDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuYesNoDisplay::draw(OamBuffer* main, OamBuffer* sub)
 {
     if (!enable_) {
         setWindow1Enable(0);
@@ -46,7 +46,7 @@ THUMB void UnkMenuYesNoDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
         return;
     }
     int y = y_ % 192;
-    UnkMenuWindowFrame* frame = &g_MenuDisplays.windowFrame2_;
+    MenuWindowFrame* frame = &g_MenuDisplays.windowFrame2_;
     frame->setNameWidth(0);
     frame->setPosition(x_, y_);
     frame->setSize(w_, h_);
@@ -87,11 +87,11 @@ THUMB void UnkMenuYesNoDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     }
 }
 
-THUMB void UnkMenuYesNoDisplay::unkfunc_02052a24(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuYesNoDisplay::unkfunc_02052a24(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuYesNoDisplay::setTexts(int yesMessageId, int noMessageId)
+THUMB void MenuYesNoDisplay::setTexts(int yesMessageId, int noMessageId)
 {
     char yes[0x200];
     char no[0x200];
@@ -105,7 +105,7 @@ THUMB void UnkMenuYesNoDisplay::setTexts(int yesMessageId, int noMessageId)
     transfer_ = 1;
 }
 
-THUMB void UnkMenuYesNoDisplay::setCursor(int cursor)
+THUMB void MenuYesNoDisplay::setCursor(int cursor)
 {
     cursor_ = cursor;
 }

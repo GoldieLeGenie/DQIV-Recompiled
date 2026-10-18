@@ -1,17 +1,17 @@
 #include "main/dss/OverlaySlot.hpp"
 #include "nitro/fs.hpp"
 
-ARM UnkOverlaySlot::UnkOverlaySlot()
+ARM OverlaySlot::OverlaySlot()
 {
     loaded_ = 0;
     id_ = 0;
 }
 
-ARM UnkOverlaySlot::~UnkOverlaySlot()
+ARM OverlaySlot::~OverlaySlot()
 {
 }
 
-ARM void UnkOverlaySlot::unkfunc_0208753c(int id)
+ARM void OverlaySlot::unkfunc_0208753c(int id)
 {
     unkfunc_02087564();
     FS_LoadOverlay(NULL, id);
@@ -19,7 +19,7 @@ ARM void UnkOverlaySlot::unkfunc_0208753c(int id)
     id_ = id;
 }
 
-ARM void UnkOverlaySlot::unkfunc_02087564()
+ARM void OverlaySlot::unkfunc_02087564()
 {
     if (loaded_ == 0) {
         return;

@@ -787,12 +787,12 @@ THUMB int cmd_not_play_normal_sound(int* param)
 
 THUMB int cmd_check_member_type(int* param)
 {
-    return UnkImmigrantTown::getSingleton()->hasResidentType(param[0]);
+    return ImmigrantTown::getSingleton()->hasResidentType(param[0]);
 }
 
 THUMB int cmd_check_member_num(int* param)
 {
-    unsigned int count = UnkImmigrantTown::getSingleton()->count_;
+    unsigned int count = ImmigrantTown::getSingleton()->count_;
     if (count < (unsigned int)param[1] && count >= (unsigned int)param[0]) {
         return 1;
     }

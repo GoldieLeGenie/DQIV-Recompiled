@@ -3,8 +3,8 @@
 #include "main/menu/MenuDisplay.hpp"
 #include "main/text/TextAPI.hpp"
 
-struct UnkMenuTextDisplay;
-struct UnkMenuWindowFrame;
+struct MenuTextDisplay;
+struct MenuWindowFrame;
 
 // Message window layout, one per eMessageWindow type
 struct MessageWindowConfig {
@@ -32,7 +32,7 @@ struct MessageWindowConfig {
 };
 
 // Message window drawn on the sub screen (g_MenuDisplays.message_)
-struct MessageWindow : UnkMenuDisplay {
+struct MessageWindow : MenuDisplay {
     int windowType_;                            // 0x030
     MessageWindowConfig* config_;               // 0x034
     int lineCount_;                             // 0x038
@@ -40,16 +40,16 @@ struct MessageWindow : UnkMenuDisplay {
     int scrollSpeed_;                           // 0x040
     int width_;                                 // 0x044
     int height_;                                // 0x048
-    UnkMenuWindowFrame* frame_;                 // 0x04C
-    UnkMenuTextDisplay* namePlate_;             // 0x050
-    UnkMenuTextDisplay* lines_[4];              // 0x054
-    UnkMenuTextDisplay* freeLines_[4];          // 0x064
+    MenuWindowFrame* frame_;                 // 0x04C
+    MenuTextDisplay* namePlate_;             // 0x050
+    MenuTextDisplay* lines_[4];              // 0x054
+    MenuTextDisplay* freeLines_[4];          // 0x064
     char name_[0x104];                          // 0x074
     char text_[0x800];                          // 0x178
     int unk_978;                                // 0x978
     Utf8Iterator iterator_;                     // 0x97C
     int state_;                                 // 0x9A0
-    UnkMenuTextDisplay* waitLine_;              // 0x9A4
+    MenuTextDisplay* waitLine_;              // 0x9A4
     int intervalCursor_;                        // 0x9A8
     int lastCursor_;                            // 0x9AC
     int cursor_;                                // 0x9B0
@@ -73,9 +73,9 @@ struct MessageWindow : UnkMenuDisplay {
 
     MessageWindow();
     virtual void setup(int id);
-    virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
-    virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
-    virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
+    virtual void update(OamBuffer* main, OamBuffer* sub);
+    virtual void execute(OamBuffer* main, OamBuffer* sub);
+    virtual void draw(OamBuffer* main, OamBuffer* sub);
     void setName(const char* name);
     void setText(const char* text);
     void appendText(const char* text);
@@ -91,14 +91,14 @@ struct MessageWindow : UnkMenuDisplay {
     void stateWaitProg();
     void stateFinish();
     void initLines();
-    UnkMenuTextDisplay* allocLine();
-    UnkMenuTextDisplay* getFirstLine();
-    UnkMenuTextDisplay* getLastLine();
+    MenuTextDisplay* allocLine();
+    MenuTextDisplay* getFirstLine();
+    MenuTextDisplay* getLastLine();
     void releaseFirstLine();
     int isEndChar(int c);
     int isNewlineChar(int c);
     int isControlCode(int c);
-    void skipNewlines(UnkTextIterator* it);
+    void skipNewlines(TextIterator* it);
     void openWindow(int type, const char* name, const char* text);
     void addText(const char* text);
     void addWaitKey();
@@ -117,7 +117,7 @@ struct MessageWindow : UnkMenuDisplay {
     void clearWaitTriggerNoSE();
     void setWaitProg(int flag);
 
-    UnkTextIterator* getIterator() { return &iterator_; }
+    TextIterator* getIterator() { return &iterator_; }
 };
 
 extern int g_msgWindowShakeOffsetX[8];             // shake offsets x

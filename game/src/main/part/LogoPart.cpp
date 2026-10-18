@@ -7,7 +7,7 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Pad.hpp"
 #include "main/dss/Render.hpp"
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 #include "main/dss/VramManager.hpp"
 #include "main/fld/FldStage.hpp"
 #include "main/menu/MenuManager.hpp"
@@ -34,7 +34,7 @@ static dss::Fix32 s_distance(s_distanceF);
 static dss::Fix32 s_offset(0.8f);
 static int s_frame;
 static ModelObject s_model;
-static UnkMenuSprite s_sprite;
+static MenuSprite s_sprite;
 static short s_fov = 10;
 
 ARM static void setupLogoModel()

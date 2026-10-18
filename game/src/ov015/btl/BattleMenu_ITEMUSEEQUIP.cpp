@@ -13,7 +13,7 @@
 #include "main/text/TextAPI.hpp"
 #include "main/menu/MenuTemplate_Common.hpp"
 
-THUMB void UnkBattleMenu_0216cf44::menuSetup()
+THUMB void BattleMenu_ITEMUSEEQUIP::menuSetup()
 {
     status::g_Party.setBattleMode();
     cancelItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
@@ -25,7 +25,7 @@ THUMB void UnkBattleMenu_0216cf44::menuSetup()
     unk_154 = 0;
 }
 
-THUMB void UnkBattleMenu_0216cf44::menuExecute()
+THUMB void BattleMenu_ITEMUSEEQUIP::menuExecute()
 {
     static MENUITEM_DATA menu[] = {
         {1, 2, 0x48, 0xa8, 0x38, 0x10},
@@ -38,7 +38,7 @@ THUMB void UnkBattleMenu_0216cf44::menuExecute()
     MenuTemplate_battle::BATTLE_CANCEL(&cancelItem_);
 }
 
-THUMB void UnkBattleMenu_0216cf44::menuDraw()
+THUMB void BattleMenu_ITEMUSEEQUIP::menuDraw()
 {
     if (!g_TownMenuMessage.isOpen()) {
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(btl::BattleMenuPlayerControl::getSingleton()->activeChara_)->haveStatusInfo_;
@@ -53,7 +53,7 @@ THUMB void UnkBattleMenu_0216cf44::menuDraw()
     }
 }
 
-THUMB void UnkBattleMenu_0216cf44::menuUpdate()
+THUMB void BattleMenu_ITEMUSEEQUIP::menuUpdate()
 {
     if (MenuSoundManager::getSingleton()->isPlaySound()) {
         unk_154 = 1;
@@ -71,7 +71,7 @@ THUMB void UnkBattleMenu_0216cf44::menuUpdate()
     unkfunc_0216d488();
 }
 
-THUMB int UnkBattleMenu_0216cf44::unkfunc_0216d0c0()
+THUMB int BattleMenu_ITEMUSEEQUIP::unkfunc_0216d0c0()
 {
     if (MenuUpdate_Assist::isCancel(cancelItem_)) {
         redraw_ = 1;
@@ -82,11 +82,11 @@ THUMB int UnkBattleMenu_0216cf44::unkfunc_0216d0c0()
     return 0;
 }
 
-THUMB void UnkBattleMenu_0216cf44::unkfunc_0216d0ec()
+THUMB void BattleMenu_ITEMUSEEQUIP::unkfunc_0216d0ec()
 {
 }
 
-THUMB void UnkBattleMenu_0216cf44::unkfunc_0216d0f0()
+THUMB void BattleMenu_ITEMUSEEQUIP::unkfunc_0216d0f0()
 {
     if (g_TownMenuMessage.isOpen()) {
         if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
@@ -123,7 +123,7 @@ THUMB void UnkBattleMenu_0216cf44::unkfunc_0216d0f0()
     }
 }
 
-THUMB void UnkBattleMenu_0216cf44::selectUseItem()
+THUMB void BattleMenu_ITEMUSEEQUIP::selectUseItem()
 {
     int action = status::UseItem::getBattleUseAction(status::g_Party.getPlayerStatus(unk_148)->haveStatusInfo_.haveItem_.getItem(unk_14c));
     status::UseItem::UseArea area = status::UseAction::getUseArea(action);
@@ -186,7 +186,7 @@ THUMB void UnkBattleMenu_0216cf44::selectUseItem()
     }
 }
 
-THUMB void UnkBattleMenu_0216cf44::selectEquip()
+THUMB void BattleMenu_ITEMUSEEQUIP::selectEquip()
 {
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(unk_148)->haveStatusInfo_;
     if (info->haveEquipment_.isSpell(status::UseItem::getItemType(info->haveItem_.getItem(unk_14c)))) {
@@ -214,7 +214,7 @@ THUMB void UnkBattleMenu_0216cf44::selectEquip()
     }
 }
 
-THUMB void UnkBattleMenu_0216cf44::unkfunc_0216d488()
+THUMB void BattleMenu_ITEMUSEEQUIP::unkfunc_0216d488()
 {
     int index = btl::BattleMenuPlayerControl::getSingleton()->activeItem_;
     int item = status::g_Party.getPlayerStatus(unk_148)->haveStatusInfo_.haveItem_.getItem(index);

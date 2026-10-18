@@ -8,7 +8,7 @@
 #include "main/profile/Profile.hpp"
 
 // surechigai menus whose code (ov026) is not decompiled yet, named after their menuSetup address
-struct UnkMaterielMenu_02189360 : menu::MenuBase
+struct MaterielMenu_SURECHIGAI_REMOVE_ENVOY : menu::MenuBase
 {
     int unk_1c;                         /* 0x1C */
     int unk_20;                         /* 0x20 */
@@ -21,7 +21,7 @@ struct UnkMaterielMenu_02189360 : menu::MenuBase
     virtual void menuUpdate();
 };
 
-struct UnkMaterielMenu_02189630 : menu::MenuBase
+struct MaterielMenu_SURECHIGAI_TENANT_LIST : menu::MenuBase
 {
     unsigned char unk_1c;               /* 0x1C */
     menu::MenuItem menuItem_;           /* 0x20 */
@@ -33,7 +33,7 @@ struct UnkMaterielMenu_02189630 : menu::MenuBase
     virtual void menuUpdate();
 };
 
-struct UnkMaterielMenu_02189a80 : menu::MenuBase
+struct MaterielMenu_SURECHIGAI_SETTING : menu::MenuBase
 {
     int unk_1c;                         /* 0x1C */
     int unk_20;                         /* 0x20 */
@@ -76,9 +76,9 @@ struct MaterielMenu_SURECHIGAI_ROOT : menu::MenuBase
     void selectCommand();
 };
 
-extern UnkMaterielMenu_02189630 gUnkMaterielMenu_02189630;                /* surechigai list menu */
-extern UnkMaterielMenu_02189360 gUnkMaterielMenu_02189360;                /* surechigai list menu */
+extern MaterielMenu_SURECHIGAI_TENANT_LIST gUnkMaterielMenu_02189630;                /* surechigai list menu */
+extern MaterielMenu_SURECHIGAI_REMOVE_ENVOY gUnkMaterielMenu_02189360;                /* surechigai list menu */
 extern MaterielMenu_SURECHIGAI_ROOT gMaterielMenu_SURECHIGAI_ROOT;
 extern MaterielMenu_SURECHIGAI_MAKE_TAISHI gMaterielMenu_SURECHIGAI_SELECT_OBJECT;
-extern UnkMaterielMenu_02189a80 gUnkMaterielMenu_02189a80;                /* surechigai menu opened by MAKE_TAISHI */
+extern MaterielMenu_SURECHIGAI_SETTING gUnkMaterielMenu_02189a80;                /* surechigai menu opened by MAKE_TAISHI */
 

@@ -3,7 +3,7 @@
 #include "main/menu/TownMenu_TOWN.hpp"
 #include "main/menu/CommonMenu_APITEST.hpp"
 #include "ov016/TownShopMenu/TownShopMenu.hpp"
-#include "ov016/UnkTownMenu_02178a58/UnkTownMenu_02178a58.hpp"
+#include "ov016/TownMenuMapCaption/TownMenuMapCaption.hpp"
 
 namespace MenuAPI {
     void openMenuByIndex();

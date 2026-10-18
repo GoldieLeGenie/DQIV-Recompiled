@@ -3,33 +3,33 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/text/TextAPI.hpp"
 
-UnkEnvoyManager g_EnvoyManager;
+EnvoyManager g_EnvoyManager;
 
-THUMB UnkEnvoyManager::UnkEnvoyManager()
+THUMB EnvoyManager::EnvoyManager()
 {
 }
 
-THUMB UnkEnvoyManager::~UnkEnvoyManager()
+THUMB EnvoyManager::~EnvoyManager()
 {
 }
 
-THUMB void UnkEnvoyManager::selectEnvoy(int index)
+THUMB void EnvoyManager::selectEnvoy(int index)
 {
     mode_ = 0;
     index_ = index;
 }
 
-THUMB int UnkEnvoyManager::isMyEnvoyEnabled()
+THUMB int EnvoyManager::isMyEnvoyEnabled()
 {
     return myEnvoy_.enable;
 }
 
-THUMB int UnkEnvoyManager::isEnvoyEnabled(int index)
+THUMB int EnvoyManager::isEnvoyEnabled(int index)
 {
     return envoy_[index].enable;
 }
 
-THUMB int UnkEnvoyManager::findFreeEnvoy()
+THUMB int EnvoyManager::findFreeEnvoy()
 {
     for (int i = 0; i < 24; i++) {
         if (isEnvoyEnabled(i) == 0) {
@@ -39,7 +39,7 @@ THUMB int UnkEnvoyManager::findFreeEnvoy()
     return -1;
 }
 
-THUMB int UnkEnvoyManager::getEnvoyCount()
+THUMB int EnvoyManager::getEnvoyCount()
 {
     int count = 0;
     for (int i = 0; i < 24; i++) {
@@ -50,7 +50,7 @@ THUMB int UnkEnvoyManager::getEnvoyCount()
     return count;
 }
 
-THUMB void UnkEnvoyManager::removeEnvoy(int index)
+THUMB void EnvoyManager::removeEnvoy(int index)
 {
     mode_ = 0;
     clearEnvoy(index);
@@ -73,15 +73,15 @@ THUMB void UnkEnvoyManager::removeEnvoy(int index)
     if (index < 24) {
         clearEnvoy(index);
     }
-    UnkImmigrantTown::getSingleton()->rebuildResidents();
+    ImmigrantTown::getSingleton()->rebuildResidents();
 }
 
-THUMB void UnkEnvoyManager::receiveEnvoy(UnkEnvoyData* data, int arg)
+THUMB void EnvoyManager::receiveEnvoy(EnvoyData* data, int arg)
 {
     mode_ = 0;
     unk_1664 = arg;
     if (data != NULL) {
-        dss::memcpy(&received_, data, sizeof(UnkEnvoyData));
+        dss::memcpy(&received_, data, sizeof(EnvoyData));
         int index = findEnvoyByUnique(received_.unique);
         if (index == -1) {
             index = findFreeEnvoy();
@@ -102,10 +102,10 @@ THUMB void UnkEnvoyManager::receiveEnvoy(UnkEnvoyData* data, int arg)
         setComment((char*)received_.comment);
         flags_[received_.type] = 1;
     }
-    UnkImmigrantTown::getSingleton()->rebuildResidents();
+    ImmigrantTown::getSingleton()->rebuildResidents();
 }
 
-THUMB void UnkEnvoyManager::setEnable(int enable)
+THUMB void EnvoyManager::setEnable(int enable)
 {
     if (mode_ == 1) {
         myEnvoy_.enable = enable;
@@ -114,7 +114,7 @@ THUMB void UnkEnvoyManager::setEnable(int enable)
     }
 }
 
-THUMB void UnkEnvoyManager::setUnique(unsigned int unique)
+THUMB void EnvoyManager::setUnique(unsigned int unique)
 {
     if (mode_ == 1) {
         myEnvoy_.unique = unique;
@@ -123,7 +123,7 @@ THUMB void UnkEnvoyManager::setUnique(unsigned int unique)
     }
 }
 
-THUMB unsigned int UnkEnvoyManager::getUnique()
+THUMB unsigned int EnvoyManager::getUnique()
 {
     if (mode_ == 1) {
         return myEnvoy_.unique;
@@ -131,7 +131,7 @@ THUMB unsigned int UnkEnvoyManager::getUnique()
     return envoy_[index_].unique;
 }
 
-THUMB void UnkEnvoyManager::setType(int type)
+THUMB void EnvoyManager::setType(int type)
 {
     if (mode_ == 1) {
         myEnvoy_.enable = 1;
@@ -142,7 +142,7 @@ THUMB void UnkEnvoyManager::setType(int type)
     }
 }
 
-THUMB int UnkEnvoyManager::getType()
+THUMB int EnvoyManager::getType()
 {
     if (mode_ == 1) {
         return myEnvoy_.type;
@@ -150,7 +150,7 @@ THUMB int UnkEnvoyManager::getType()
     return envoy_[index_].type;
 }
 
-THUMB void UnkEnvoyManager::setName(const char* name)
+THUMB void EnvoyManager::setName(const char* name)
 {
     if (mode_ == 1) {
         for (int i = 0; i < 26; i++) {
@@ -169,7 +169,7 @@ THUMB void UnkEnvoyManager::setName(const char* name)
     }
 }
 
-THUMB unsigned char* UnkEnvoyManager::getName()
+THUMB unsigned char* EnvoyManager::getName()
 {
     if (mode_ == 1) {
         return myEnvoy_.name;
@@ -177,7 +177,7 @@ THUMB unsigned char* UnkEnvoyManager::getName()
     return envoy_[index_].name;
 }
 
-THUMB void UnkEnvoyManager::setHeroName(const char* name)
+THUMB void EnvoyManager::setHeroName(const char* name)
 {
     if (mode_ == 1) {
         for (int i = 0; i < 26; i++) {
@@ -196,7 +196,7 @@ THUMB void UnkEnvoyManager::setHeroName(const char* name)
     }
 }
 
-THUMB unsigned char* UnkEnvoyManager::getHeroName()
+THUMB unsigned char* EnvoyManager::getHeroName()
 {
     if (mode_ == 1) {
         return myEnvoy_.heroName;
@@ -204,7 +204,7 @@ THUMB unsigned char* UnkEnvoyManager::getHeroName()
     return envoy_[index_].heroName;
 }
 
-THUMB void UnkEnvoyManager::setSex(int sex)
+THUMB void EnvoyManager::setSex(int sex)
 {
     if (mode_ == 1) {
         myEnvoy_.sex = sex;
@@ -213,7 +213,7 @@ THUMB void UnkEnvoyManager::setSex(int sex)
     }
 }
 
-THUMB int UnkEnvoyManager::getSex()
+THUMB int EnvoyManager::getSex()
 {
     if (mode_ == 1) {
         return myEnvoy_.sex;
@@ -221,7 +221,7 @@ THUMB int UnkEnvoyManager::getSex()
     return envoy_[index_].sex;
 }
 
-THUMB void UnkEnvoyManager::setAge(int age)
+THUMB void EnvoyManager::setAge(int age)
 {
     if (mode_ == 1) {
         myEnvoy_.age = age;
@@ -230,7 +230,7 @@ THUMB void UnkEnvoyManager::setAge(int age)
     }
 }
 
-THUMB int UnkEnvoyManager::getAge()
+THUMB int EnvoyManager::getAge()
 {
     if (mode_ == 1) {
         return myEnvoy_.age;
@@ -238,7 +238,7 @@ THUMB int UnkEnvoyManager::getAge()
     return envoy_[index_].age;
 }
 
-THUMB void UnkEnvoyManager::setSkill(int skill)
+THUMB void EnvoyManager::setSkill(int skill)
 {
     if (mode_ == 1) {
         myEnvoy_.skill = skill;
@@ -247,7 +247,7 @@ THUMB void UnkEnvoyManager::setSkill(int skill)
     }
 }
 
-THUMB int UnkEnvoyManager::getSkill()
+THUMB int EnvoyManager::getSkill()
 {
     if (mode_ == 1) {
         return myEnvoy_.skill;
@@ -255,7 +255,7 @@ THUMB int UnkEnvoyManager::getSkill()
     return envoy_[index_].skill;
 }
 
-THUMB void UnkEnvoyManager::setTownName(const char* name)
+THUMB void EnvoyManager::setTownName(const char* name)
 {
     if (mode_ == 1) {
         myEnvoy_.enable = 1;
@@ -276,7 +276,7 @@ THUMB void UnkEnvoyManager::setTownName(const char* name)
     }
 }
 
-THUMB unsigned char* UnkEnvoyManager::getTownName()
+THUMB unsigned char* EnvoyManager::getTownName()
 {
     if (mode_ == 1) {
         return myEnvoy_.townName;
@@ -284,7 +284,7 @@ THUMB unsigned char* UnkEnvoyManager::getTownName()
     return envoy_[index_].townName;
 }
 
-THUMB void UnkEnvoyManager::setComment(const char* comment)
+THUMB void EnvoyManager::setComment(const char* comment)
 {
     Utf8Iterator src;
     src.setText((char*)comment);
@@ -325,7 +325,7 @@ THUMB void UnkEnvoyManager::setComment(const char* comment)
     }
 }
 
-THUMB unsigned char* UnkEnvoyManager::getComment()
+THUMB unsigned char* EnvoyManager::getComment()
 {
     if (mode_ == 1) {
         return myEnvoy_.comment;
@@ -333,7 +333,7 @@ THUMB unsigned char* UnkEnvoyManager::getComment()
     return envoy_[index_].comment;
 }
 
-THUMB void UnkEnvoyManager::clearEnvoy(int index)
+THUMB void EnvoyManager::clearEnvoy(int index)
 {
     index_ = index;
     envoy_[index].type = 0;
@@ -355,7 +355,7 @@ THUMB void UnkEnvoyManager::clearEnvoy(int index)
     envoy_[index].enable = 0;
 }
 
-THUMB int UnkEnvoyManager::findEnvoyByUnique(unsigned int unique)
+THUMB int EnvoyManager::findEnvoyByUnique(unsigned int unique)
 {
     for (int i = 0; i < 24; i++) {
         if (isEnvoyEnabled(i) == 1 && unique == envoy_[i].unique) {
@@ -365,7 +365,7 @@ THUMB int UnkEnvoyManager::findEnvoyByUnique(unsigned int unique)
     return -1;
 }
 
-THUMB void UnkEnvoyManager::backupMyEnvoy()
+THUMB void EnvoyManager::backupMyEnvoy()
 {
     if (backup_.enable == 1) {
         return;
@@ -380,7 +380,7 @@ THUMB void UnkEnvoyManager::backupMyEnvoy()
     dss::strcpy_s((char*)backup_.comment, 92, (char*)myEnvoy_.comment);
 }
 
-THUMB void UnkEnvoyManager::restoreMyEnvoy()
+THUMB void EnvoyManager::restoreMyEnvoy()
 {
     backup_.enable = 0;
     myEnvoy_.type = backup_.type;
@@ -392,7 +392,7 @@ THUMB void UnkEnvoyManager::restoreMyEnvoy()
     dss::strcpy_s((char*)myEnvoy_.comment, 92, (char*)backup_.comment);
 }
 
-THUMB void UnkEnvoyManager::clearBackup()
+THUMB void EnvoyManager::clearBackup()
 {
     backup_.enable = 0;
     backup_.type = 0;
@@ -414,12 +414,12 @@ THUMB void UnkEnvoyManager::clearBackup()
     }
 }
 
-THUMB void UnkEnvoyManager::setTypeSelectable(int type, int flag)
+THUMB void EnvoyManager::setTypeSelectable(int type, int flag)
 {
     flags_[type] = flag;
 }
 
-THUMB int UnkEnvoyManager::isTypeSelectable(int type)
+THUMB int EnvoyManager::isTypeSelectable(int type)
 {
     return flags_[type];
 }

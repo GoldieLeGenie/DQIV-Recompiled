@@ -3,15 +3,15 @@
 #include "main/status/StageStatus.hpp"
 #include "main/status/HaveEquipment.hpp"
 
-ARM window::UnkMapBase_020381d0::UnkMapBase_020381d0()
+ARM window::WorldMapBase::WorldMapBase()
 {
 }
 
-ARM window::UnkMapBase_020381d0::~UnkMapBase_020381d0()
+ARM window::WorldMapBase::~WorldMapBase()
 {
 }
 
-ARM void window::UnkMapBase_020381d0::drawSymbols(int world)
+ARM void window::WorldMapBase::drawSymbols(int world)
 {
     int i;
     param::FieldSymbol* symbol = status::excelParam.fieldSymbol_;

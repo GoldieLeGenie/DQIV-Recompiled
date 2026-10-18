@@ -21,7 +21,7 @@ namespace dss {
 }
 
 
-struct UnkBillboardAnimation {
+struct BillboardAnimationFrame {
     int index;
     unsigned int time;
 };
@@ -85,7 +85,7 @@ static DataObject s_shadowData;
 #pragma explicit_zero_data on
 long bcLiteral_Ty = 0;
 #pragma explicit_zero_data off
-static UnkBillboardAnimation s_animation[] = {
+static BillboardAnimationFrame s_animation[] = {
     { 0, 12 },
     { 1, 12 },
     { 2, 12 },
@@ -103,7 +103,7 @@ ARM int unkfunc_unused_32(int index) { static const unsigned char table[512] = {
 long bcLiteral_Tz = 0;
 #pragma explicit_zero_data off
 ARM int unkfunc_unused_31(int index) { static const unsigned char table[512] = {1,2,3}; return table[index]; }
-static UnkShadowPolygon s_shadowPolygons[32];
+static ShadowPolygon s_shadowPolygons[32];
 #pragma explicit_zero_data on
 long bcLiteral_Ey = 0;
 #pragma explicit_zero_data off
@@ -486,7 +486,7 @@ ARM void CharacterShadow::unkfunc_02049ba4()
     s_shadowData.setup("data/common.tex", 0, 0);
     s_shadowTexture = s_shadowData.getAddr();
     ((TextureObject*)s_shadowTexture)->unkfunc_02086798(1);
-    dss::UnkMatrix43 matrix;
+    dss::Matrix43 matrix;
     dss::Fix32Vector3 direction;
     dss::Fix32Vector3 work;
     direction.set(1.0f, 0.0f, 0.0f);

@@ -3,7 +3,7 @@
 #include "nitro/gx.h"
 
 // OAM shadow buffer of one screen
-struct UnkOamBuffer {
+struct OamBuffer {
     GXOamAttr oam_[128];                        // 0x000
     int count_;                                 // 0x400
     int prevCount_;                             // 0x404
@@ -16,7 +16,7 @@ struct UnkOamBuffer {
 };
 
 // palette shadow buffer (16 palettes of 16 colors)
-struct UnkPaletteBuffer {
+struct PaletteBuffer {
     unsigned short color_[0x100];               // 0x000
 
     void requestTransfer(int type);            // queue the transfer
@@ -25,7 +25,7 @@ struct UnkPaletteBuffer {
 };
 
 // queued copy to the VRAM, OAM or palettes
-struct UnkVramRequest {
+struct VramRequest {
     int active_;                                // 0x00
     int type_;                                  // 0x04
     int offset_;                                // 0x08
@@ -35,22 +35,22 @@ struct UnkVramRequest {
     void* buffer_;                              // 0x18 freed after the copy
 };
 
-struct UnkVramRequestQueue {
-    UnkVramRequest request_[128];               // 0x000
+struct VramRequestQueue {
+    VramRequest request_[128];               // 0x000
     int size_;                                  // 0xE00 bytes copied by the last update
     int lines_;                                 // 0xE04 lines spent by the last update
 
-    UnkVramRequestQueue() { init(); }
+    VramRequestQueue() { init(); }
     void init();                    // init
     void* getDestination(int type);           // destination of a type
-    int executeRequest(UnkVramRequest* request);  // copy
+    int executeRequest(VramRequest* request);  // copy
 };
 
-extern UnkVramRequestQueue g_VramRequestQueue;
+extern VramRequestQueue g_VramRequestQueue;
 
 void flushVramRequests();                        // copy all the queued requests
-UnkVramRequest* requestCompressedVramCopy(int type, int offset, void* data, int size);   // queue compressed data
-UnkVramRequest* requestVramCopy(int type, int offset, const void* src, int size);  // queue
+VramRequest* requestCompressedVramCopy(int type, int offset, void* data, int size);   // queue compressed data
+VramRequest* requestVramCopy(int type, int offset, const void* src, int size);  // queue
 int getBgCharVramType(int bg);                   // BG character type (0-3 main, 4-7 sub)
 int getBgScreenVramType(int bg);                   // BG screen type (0-3 main, 4-7 sub)
 

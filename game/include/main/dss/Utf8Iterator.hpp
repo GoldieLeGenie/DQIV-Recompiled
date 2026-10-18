@@ -4,7 +4,7 @@
 struct Utf8Iterator;
 
 // Character access interface of the text iterators
-struct UnkTextInterface {
+struct TextInterface {
     virtual unsigned short getChar() = 0;         // current char
     virtual int putChar(int c) = 0;    // append a char
     virtual int nextChar() = 0;         // next char
@@ -15,7 +15,7 @@ struct UnkTextInterface {
 
 // Text cursor over a char buffer: read (setText + getChar/nextChar) or write (initBuffer +
 // putChar)
-struct UnkTextIterator : UnkTextInterface {
+struct TextIterator : TextInterface {
     int unk_04;                                 // 0x04
     char* buf_;                                 // 0x08
     int pos_;                                   // 0x0C
@@ -25,7 +25,7 @@ struct UnkTextIterator : UnkTextInterface {
     int countValid_;                            // 0x1C
     int lengthValid_;                           // 0x20
 
-    UnkTextIterator();
+    TextIterator();
     void setText(const char* text);
     void setBuffer(char* text, int size);
     void initBuffer(char* buf, int size);
@@ -35,7 +35,7 @@ struct UnkTextIterator : UnkTextInterface {
 };
 
 // UTF-8 text (1 to 3 bytes per char)
-struct Utf8Iterator : UnkTextIterator {
+struct Utf8Iterator : TextIterator {
     Utf8Iterator();
     virtual unsigned short getChar();
     virtual int putChar(int c);
@@ -49,4 +49,4 @@ struct Utf8Iterator : UnkTextIterator {
     int encodeChar(unsigned char* p, int c);  // encode
 };
 
-int readNextWord(UnkTextIterator* src, char* buf, int size);   // read the next word
+int readNextWord(TextIterator* src, char* buf, int size);   // read the next word

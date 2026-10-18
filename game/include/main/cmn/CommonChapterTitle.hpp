@@ -1,9 +1,9 @@
 #pragma once
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 
 namespace cmn {
     struct CommonChapterTitle {
-        UnkMenuSprite sprite_;      // 0x00
+        MenuSprite sprite_;      // 0x00
 
         CommonChapterTitle();
         ~CommonChapterTitle();

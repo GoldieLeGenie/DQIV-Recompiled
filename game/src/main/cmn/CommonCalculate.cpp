@@ -10,7 +10,7 @@ inline const long& frontLimitL() { return 0L; }
 ARM void cmn::CommonCalculate::getDirByIdx(short dir, dss::Fix32Vector3& vec)
 {
     vec.set(0, 0, 0x1000);
-    dss::UnkMatrix43 rot;
+    dss::Matrix43 rot;
     rot.unkfunc_020886d0(dir);
     vec = rot * vec;
 }

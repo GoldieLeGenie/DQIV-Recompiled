@@ -312,7 +312,7 @@ ARM void TownActionCalculate::normalMove(dss::Fix32Vector3& position, short& dir
     dss::Fix32Vector3 dir(TownCamera::getSingleton()->camera_.unk_004.getDirection());
     dir.vy = 0L;
     dir.normalize();
-    dss::UnkMatrix43 mtx;
+    dss::Matrix43 mtx;
     mtx.unkfunc_020886d0(-dirInput);
     dir = mtx * dir;
     dir.vy = 0L;

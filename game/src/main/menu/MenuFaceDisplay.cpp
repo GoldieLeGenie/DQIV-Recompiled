@@ -1,7 +1,7 @@
 #pragma ipa file
 #include "main/menu/MenuFaceDisplay.hpp"
 #include "main/dss/Display.hpp"
-#include "main/menu/UnkMenuIconDisplay.hpp"
+#include "main/menu/MenuIconDisplay.hpp"
 #include "nitro/g2.hpp"
 
 // Loading animation, two frames per entry: frame part shown and offset of the moving part (part 8)
@@ -9,11 +9,11 @@ static char s_part[] = {0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
 static char s_moveX[] = {3, 3, 4, 5, 4, 3, 3, 4, 5, 6, 6, 7, 8, 9, 10, 12, 11, 10, 9, 10, 11, 12, 13, 13, 13, 12, 11, 10, 9, 7, 6, 4, -1};
 static char s_moveY[] = {7, 7, 7, 7, 6, 5, 4, 4, 4, 4, 5, 6, 7, 7, 7, 7, 6, 5, 5, 5, 5, 5, 6, 6, 7, 9, 11, 12, 12, 11, 10, 8, -1};
 
-THUMB UnkMenuFaceDisplay::UnkMenuFaceDisplay()
+THUMB MenuFaceDisplay::MenuFaceDisplay()
 {
 }
 
-THUMB void UnkMenuFaceDisplay::setup(int id)
+THUMB void MenuFaceDisplay::setup(int id)
 {
     id_ = id;
     mode_ = 1;
@@ -21,15 +21,15 @@ THUMB void UnkMenuFaceDisplay::setup(int id)
     setType(2);
 }
 
-THUMB void UnkMenuFaceDisplay::update(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuFaceDisplay::update(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuFaceDisplay::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuFaceDisplay::execute(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuFaceDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuFaceDisplay::draw(OamBuffer* main, OamBuffer* sub)
 {
     if (mode_ != 1) {
         enable_ = 1;
@@ -99,7 +99,7 @@ THUMB void UnkMenuFaceDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     }
 }
 
-THUMB void UnkMenuFaceDisplay::drawPart(UnkOamBuffer* oam, int x, int y, int part)
+THUMB void MenuFaceDisplay::drawPart(OamBuffer* oam, int x, int y, int part)
 {
     int chr;
     x += x_;
@@ -140,29 +140,29 @@ THUMB void UnkMenuFaceDisplay::drawPart(UnkOamBuffer* oam, int x, int y, int par
                   GX_OAM_COLORMODE_256, chr, 0, 0);
 }
 
-THUMB void UnkMenuFaceDisplay::setPriority(int priority)
+THUMB void MenuFaceDisplay::setPriority(int priority)
 {
     priority_ = priority;
 }
 
-THUMB void UnkMenuFaceDisplay::loadFace(int index)
+THUMB void MenuFaceDisplay::loadFace(int index)
 {
     loadIcon(0xf5000000, index);
     mode_ = 1;
 }
 
-THUMB void UnkMenuFaceDisplay::loadLoadingAnim()
+THUMB void MenuFaceDisplay::loadLoadingAnim()
 {
     loadIcon(0xf9000000, 1);
     mode_ = 11;
 }
 
-THUMB void UnkMenuFaceDisplay::resetAnim()
+THUMB void MenuFaceDisplay::resetAnim()
 {
     animFrame_ = 0;
 }
 
-THUMB void UnkMenuFaceDisplay::loadIcon(int type, int index)
+THUMB void MenuFaceDisplay::loadIcon(int type, int index)
 {
     if (index == -1) {
         setEnable(0);

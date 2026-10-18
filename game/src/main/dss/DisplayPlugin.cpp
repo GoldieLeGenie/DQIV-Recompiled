@@ -22,7 +22,7 @@ static dss::DisplayPlugin* const s_pluginTable[] = {
 
 ARM void dss::DisplayPlugin::drawCaptureObjs(int chr)
 {
-    UnkOamBuffer* oam = getOamBuffer(1);
+    OamBuffer* oam = getOamBuffer(1);
     REG32(0x04001000) = (REG32(0x04001000) & ~0x60) | 0x20;
     for (int y = 0; y < 192; y += 64) {
         for (int x = 0; x < 256; x += 64) {

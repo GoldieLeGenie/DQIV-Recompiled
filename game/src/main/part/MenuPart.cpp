@@ -6,7 +6,7 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Render.hpp"
 #include "main/dss/UnkLanguage.hpp"
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 #include "main/dss/VramManager.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/sound/SoundManager.hpp"
@@ -17,7 +17,7 @@ static int s_frame;
 MenuPart g_MenuPart;
 static int s_isEnd;
 static Render s_render;
-static UnkMenuSprite s_logo[2];
+static MenuSprite s_logo[2];
 
 ARM void MenuPart::initialize()
 {

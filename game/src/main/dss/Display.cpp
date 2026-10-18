@@ -4,7 +4,7 @@
 #include "main/dss/VramManager.hpp"
 #include "nitro/g2.hpp"
 
-ARM UnkDisplay* UnkDisplay::init()
+ARM DssDisplay* DssDisplay::init()
 {
     oam_[0].init();
     oam_[1].init();
@@ -20,7 +20,7 @@ ARM UnkDisplay* UnkDisplay::init()
     return this;
 }
 
-UnkDisplay g_Display;
+DssDisplay g_Display;
 
 ARM void getCaptureOffset(int* x, int* y)
 {
@@ -42,7 +42,7 @@ ARM void resetCaptureOffset()
 
 ARM void changeDisplayPlugin(dss::DisplayPlugin* plugin)
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     initScreenBuffer(&g_Display.screen_, g_Display.screenData_, 32, 48);
     g_Display.nextPlugin_ = plugin;
     g_Display.plugin_ = plugin;
@@ -68,7 +68,7 @@ ARM void clearOamBuffers()
 
 ARM void updateDisplay()
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     if (isDisplayTextReady()) {
         int odd = getDisplayFrame() & 1;
         int bg = getTextBgAtY(odd * 192);
@@ -127,7 +127,7 @@ ARM void requestDisplayPlugin(dss::DisplayPlugin* plugin)
 
 ARM int isDisplayTextReady()
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     if (display->text_.type_ == 0) {
         return 0;
     }
@@ -151,7 +151,7 @@ ARM void unkfunc_02081274(unsigned short value)
 
 ARM void setDisplayBlendMode(int mode)
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     *VIDEO_REG(volatile unsigned short, 0x04000050) = 0;
     *VIDEO_REG(volatile unsigned short, 0x04001050) = 0;
     if (display->blendMode_ == 1) {
@@ -176,9 +176,9 @@ ARM void setDisplayBlendMode(int mode)
     }
 }
 
-ARM UnkPaletteBuffer* getBgPaletteBuffer(int bg)
+ARM PaletteBuffer* getBgPaletteBuffer(int bg)
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     switch (bg) {
     case 0:
         return &display->bgPalette_[0];
@@ -200,9 +200,9 @@ ARM UnkPaletteBuffer* getBgPaletteBuffer(int bg)
     return NULL;
 }
 
-ARM UnkPaletteBuffer* getObjPaletteBuffer(int screen)
+ARM PaletteBuffer* getObjPaletteBuffer(int screen)
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     switch (screen) {
     case 0:
         return &display->objPalette_[0];
@@ -212,9 +212,9 @@ ARM UnkPaletteBuffer* getObjPaletteBuffer(int screen)
     return NULL;
 }
 
-ARM UnkOamBuffer* getOamBuffer(int screen)
+ARM OamBuffer* getOamBuffer(int screen)
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     switch (screen) {
     case 0:
         return &display->oam_[0];
@@ -224,9 +224,9 @@ ARM UnkOamBuffer* getOamBuffer(int screen)
     return NULL;
 }
 
-ARM UnkOamBuffer* getOamBufferAtY(int y)
+ARM OamBuffer* getOamBufferAtY(int y)
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     int screen = 0;
     if (display->plugin_ == NULL) {
         return NULL;
@@ -277,7 +277,7 @@ ARM UnkOamBuffer* getOamBufferAtY(int y)
 
 ARM int getTextBgAtY(int y)
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     int ret = 0;
     if (display->plugin_ == NULL) {
         return -1;
@@ -319,7 +319,7 @@ ARM int getTextBgAtY(int y)
 
 ARM int unkfunc_02081608(int y)
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     int ret = 0;
     if (display->plugin_ == NULL) {
         return -1;
@@ -374,7 +374,7 @@ ARM int unkfunc_0208170c()
     return g_Display.text_.unk_14;
 }
 
-ARM UnkScreenBuffer* getDebugScreenBuffer()
+ARM BgScreenBuffer* getDebugScreenBuffer()
 {
     return &g_Display.screen_;
 }
@@ -432,7 +432,7 @@ ARM void requestScreenCapture()
 
 ARM void updateScreenCapture()
 {
-    UnkDisplay* display = &g_Display;
+    DssDisplay* display = &g_Display;
     if (g_Display.capture_ == 0) {
         return;
     }

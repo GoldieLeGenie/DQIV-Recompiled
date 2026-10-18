@@ -73,7 +73,7 @@ ARM void Render::unkfunc_02084fa4()
     func_0206dcf0();
 }
 
-ARM void Render::unkfunc_02085118(UnkRenderModel* model)
+ARM void Render::unkfunc_02085118(RenderScene* model)
 {
     for (int i = 0; i < 32; i++) {
         if (unk_004[i] == NULL) {
@@ -83,7 +83,7 @@ ARM void Render::unkfunc_02085118(UnkRenderModel* model)
     }
 }
 
-ARM void Render::unkfunc_02085140(UnkRenderModel* model)
+ARM void Render::unkfunc_02085140(RenderScene* model)
 {
     for (int i = 0; i < 32; i++) {
         if (unk_004[i] == model) {
@@ -180,13 +180,13 @@ ARM void Render::unkfunc_020852f0()
     }
 }
 
-ARM void UnkRenderModel::unkfunc_0208532c(Render* render)
+ARM void RenderScene::unkfunc_0208532c(Render* render)
 {
     render_ = render;
     render->unkfunc_02085118(this);
 }
 
-ARM void UnkRenderModel::unkfunc_02085348()
+ARM void RenderScene::unkfunc_02085348()
 {
     if (render_ != NULL) {
         render_->unkfunc_02085140(this);

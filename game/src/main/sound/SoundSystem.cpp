@@ -9,7 +9,7 @@
 int data_0211fc68[2];
 int g_seqStartVolume = 0x7f;
 
-ARM UnkSoundHandle::UnkSoundHandle()
+ARM SoundSeqHandle::SoundSeqHandle()
 {
     unk_08 = 0x7f;
     unk_0c = 0x7f;
@@ -19,17 +19,17 @@ ARM UnkSoundHandle::UnkSoundHandle()
     unk_1c = 0;
 }
 
-ARM UnkSoundHandle::~UnkSoundHandle()
+ARM SoundSeqHandle::~SoundSeqHandle()
 {
 }
 
-ARM void UnkSoundHandle::unkfunc_02086494(int a)
+ARM void SoundSeqHandle::unkfunc_02086494(int a)
 {
     func_0207344c(this);
     unk_04 = a;
 }
 
-ARM void UnkSoundHandle::unkfunc_020864ac(int bgm)
+ARM void SoundSeqHandle::unkfunc_020864ac(int bgm)
 {
 #ifdef DQIV_NATIVE
     // The smartphone recording instead of the sequence, when there is one.
@@ -45,7 +45,7 @@ ARM void UnkSoundHandle::unkfunc_020864ac(int bgm)
     unkfunc_020865b4();
 }
 
-ARM void UnkSoundHandle::unkfunc_020864e0(int fade)
+ARM void SoundSeqHandle::unkfunc_020864e0(int fade)
 {
 #ifdef DQIV_NATIVE
     pc::mobileSoundStop(this, fade);
@@ -53,7 +53,7 @@ ARM void UnkSoundHandle::unkfunc_020864e0(int fade)
     func_0207343c(this, fade);
 }
 
-ARM int UnkSoundHandle::unkfunc_020864ec()
+ARM int SoundSeqHandle::unkfunc_020864ec()
 {
 #ifdef DQIV_NATIVE
     if (pc::mobileSoundOwns(this)) {
@@ -63,7 +63,7 @@ ARM int UnkSoundHandle::unkfunc_020864ec()
     return func_02073478(unk_10) != 0;
 }
 
-ARM void UnkSoundHandle::unkfunc_02086508(int a, int se)
+ARM void SoundSeqHandle::unkfunc_02086508(int a, int se)
 {
 #ifdef DQIV_NATIVE
     if (pc::mobileSoundStart(this, pc::mobileEffect, se, unk_08 * unk_0c / 127, 0x7f)) {
@@ -79,7 +79,7 @@ ARM void UnkSoundHandle::unkfunc_02086508(int a, int se)
     unk_1c = 1;
 }
 
-ARM int UnkSoundHandle::unkfunc_02086530(int a, int se)
+ARM int SoundSeqHandle::unkfunc_02086530(int a, int se)
 {
     if (unk_14 != a) {
         return 0;
@@ -87,7 +87,7 @@ ARM int UnkSoundHandle::unkfunc_02086530(int a, int se)
     return unk_18 == se;
 }
 
-ARM void UnkSoundHandle::unkfunc_02086554(int fade)
+ARM void SoundSeqHandle::unkfunc_02086554(int fade)
 {
 #ifdef DQIV_NATIVE
     pc::mobileSoundStop(this, fade);
@@ -98,7 +98,7 @@ ARM void UnkSoundHandle::unkfunc_02086554(int fade)
     unk_1c = 0;
 }
 
-ARM int UnkSoundHandle::unkfunc_02086578()
+ARM int SoundSeqHandle::unkfunc_02086578()
 {
 #ifdef DQIV_NATIVE
     if (pc::mobileSoundOwns(this)) {
@@ -111,7 +111,7 @@ ARM int UnkSoundHandle::unkfunc_02086578()
     return unk_1c == 1;
 }
 
-ARM void UnkSoundHandle::unkfunc_020865a4(int volume)
+ARM void SoundSeqHandle::unkfunc_020865a4(int volume)
 {
     unk_0c = volume;
 #ifdef DQIV_NATIVE
@@ -120,7 +120,7 @@ ARM void UnkSoundHandle::unkfunc_020865a4(int volume)
     func_020734cc(this, volume);
 }
 
-ARM void UnkSoundHandle::unkfunc_020865b4()
+ARM void SoundSeqHandle::unkfunc_020865b4()
 {
 #ifdef DQIV_NATIVE
     pc::mobileSoundVolume(this, unk_08 * unk_0c / 127);
@@ -128,16 +128,16 @@ ARM void UnkSoundHandle::unkfunc_020865b4()
     func_020734cc(this, unk_08 * unk_0c / 127);
 }
 
-ARM UnkSoundSystem::UnkSoundSystem()
+ARM DsSoundSystem::DsSoundSystem()
 {
     unk_98 = 0;
 }
 
-ARM UnkSoundSystem::~UnkSoundSystem()
+ARM DsSoundSystem::~DsSoundSystem()
 {
 }
 
-ARM void UnkSoundSystem::unkfunc_020865f4(void* file, int flag)
+ARM void DsSoundSystem::unkfunc_020865f4(void* file, int flag)
 {
     unk_9c = file;
     unk_a0 = flag;
@@ -146,7 +146,7 @@ ARM void UnkSoundSystem::unkfunc_020865f4(void* file, int flag)
     unkfunc_02086634();
 }
 
-ARM void UnkSoundSystem::unkfunc_02086634()
+ARM void DsSoundSystem::unkfunc_02086634()
 {
     func_02074c60(unk_04);
     func_02074550(unk_08, unk_9c, unk_04, 0);
@@ -164,12 +164,12 @@ ARM void UnkSoundSystem::unkfunc_02086634()
     func_02073370(6, 5);
 }
 
-ARM void UnkSoundSystem::unkfunc_020866d8()
+ARM void DsSoundSystem::unkfunc_020866d8()
 {
     func_020731e4();
 }
 
-ARM void UnkSoundSystem::unkfunc_020866e4(int bgm)
+ARM void DsSoundSystem::unkfunc_020866e4(int bgm)
 {
     if (bgm == 0x22) {
         unkfunc_02086634();
@@ -179,26 +179,26 @@ ARM void UnkSoundSystem::unkfunc_020866e4(int bgm)
     }
 }
 
-ARM void UnkSoundSystem::unkfunc_02086720(int a, int b)
+ARM void DsSoundSystem::unkfunc_02086720(int a, int b)
 {
     func_02074e50(a, unk_04);
     func_02074e7c(b, unk_04);
 }
 
-ARM UnkSoundMember::UnkSoundMember()
+ARM SoundStreamHandle::SoundStreamHandle()
 {
 }
 
-ARM UnkSoundMember::~UnkSoundMember()
+ARM SoundStreamHandle::~SoundStreamHandle()
 {
 }
 
-ARM void UnkSoundMember::unkfunc_02086750()
+ARM void SoundStreamHandle::unkfunc_02086750()
 {
     func_02075d44(this);
 }
 
-ARM void UnkSoundMember::unkfunc_0208675c(int value)
+ARM void SoundStreamHandle::unkfunc_0208675c(int value)
 {
 #ifdef DQIV_NATIVE
     if (pc::mobileSoundStart(this, pc::mobileStream, value, g_strmStartVolume, 0x7f)) {
@@ -210,7 +210,7 @@ ARM void UnkSoundMember::unkfunc_0208675c(int value)
     func_02075d30(this, g_strmStartVolume);
 }
 
-ARM void UnkSoundMember::unkfunc_02086784(int value)
+ARM void SoundStreamHandle::unkfunc_02086784(int value)
 {
 #ifdef DQIV_NATIVE
     pc::mobileSoundStop(this, value);
@@ -218,5 +218,5 @@ ARM void UnkSoundMember::unkfunc_02086784(int value)
     func_02075d14(this, value);
 }
 
-UnkSoundSystem g_SoundSystem;
+DsSoundSystem g_SoundSystem;
 int g_strmStartVolume = 0x7f;

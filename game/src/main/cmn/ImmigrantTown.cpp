@@ -3,7 +3,7 @@
 #include "main/status/ExcelParam.hpp"
 #include "main/status/GameFlag.hpp"
 
-ARM void UnkImmigrantTown::rebuildResidents()
+ARM void ImmigrantTown::rebuildResidents()
 {
     for (int i = 0; i < 42; i++) {
         type_[i] = 0xff;
@@ -18,7 +18,7 @@ ARM void UnkImmigrantTown::rebuildResidents()
     }
 }
 
-ARM void UnkImmigrantTown::resetPositions()
+ARM void ImmigrantTown::resetPositions()
 {
     queueFlag_ = 0;
     queueCount_ = 0;
@@ -27,13 +27,13 @@ ARM void UnkImmigrantTown::resetPositions()
     }
 }
 
-ARM void UnkImmigrantTown::addResident(int type)
+ARM void ImmigrantTown::addResident(int type)
 {
     type_[count_] = type;
     count_++;
 }
 
-ARM int UnkImmigrantTown::hasResidentType(int type)
+ARM int ImmigrantTown::hasResidentType(int type)
 {
     for (int i = 0; i < count_; i++) {
         if (type == type_[i]) {
@@ -43,13 +43,13 @@ ARM int UnkImmigrantTown::hasResidentType(int type)
     return 0;
 }
 
-ARM UnkImmigrantTown* UnkImmigrantTown::getSingleton()
+ARM ImmigrantTown* ImmigrantTown::getSingleton()
 {
-    static UnkImmigrantTown instance;
+    static ImmigrantTown instance;
     return &instance;
 }
 
-ARM void UnkImmigrantTown::placeNextResident(int x, int y)
+ARM void ImmigrantTown::placeNextResident(int x, int y)
 {
     for (int i = 0; i < queueCount_; i++) {
         if (x == queueX_[i] && y == queueY_[i]) {
@@ -65,7 +65,7 @@ ARM void UnkImmigrantTown::placeNextResident(int x, int y)
     }
 }
 
-ARM void UnkImmigrantTown::placePriorityResident(int x, int y, int count, int* types)
+ARM void ImmigrantTown::placePriorityResident(int x, int y, int count, int* types)
 {
     for (int i = 0; i < count_; i++) {
         for (int j = 0; j < count; j++) {
@@ -87,7 +87,7 @@ ARM void UnkImmigrantTown::placePriorityResident(int x, int y, int count, int* t
     queueCount_++;
 }
 
-ARM int UnkImmigrantTown::getResidentPoseAt(int x, int y)
+ARM int ImmigrantTown::getResidentPoseAt(int x, int y)
 {
     for (int i = 0; i < count_; i++) {
         if (x == x_[i] && y == y_[i]) {
@@ -97,7 +97,7 @@ ARM int UnkImmigrantTown::getResidentPoseAt(int x, int y)
     return 0xff;
 }
 
-ARM int UnkImmigrantTown::getResidentIndexAt(int x, int y)
+ARM int ImmigrantTown::getResidentIndexAt(int x, int y)
 {
     for (int i = 0; i < count_; i++) {
         if (x == x_[i] && y == y_[i]) {
@@ -107,12 +107,12 @@ ARM int UnkImmigrantTown::getResidentIndexAt(int x, int y)
     return 0;
 }
 
-ARM int UnkImmigrantTown::getTypePose(int type)
+ARM int ImmigrantTown::getTypePose(int type)
 {
     return status::excelParam.surechigai_[type].index;
 }
 
-ARM void UnkImmigrantTown::placeQueuedResidents()
+ARM void ImmigrantTown::placeQueuedResidents()
 {
     if (queueFlag_ != 1) {
         return;
@@ -129,7 +129,7 @@ ARM void UnkImmigrantTown::placeQueuedResidents()
     queueFlag_ = 0;
 }
 
-ARM int UnkImmigrantTown::matchesResidentCategory(int index, int type)
+ARM int ImmigrantTown::matchesResidentCategory(int index, int type)
 {
     if (x_[index] != 0xff) {
         return 0;
@@ -159,7 +159,7 @@ ARM int UnkImmigrantTown::matchesResidentCategory(int index, int type)
     return 0;
 }
 
-ARM int UnkImmigrantTown::getTownLevel()
+ARM int ImmigrantTown::getTownLevel()
 {
     if (g_AreaFlag.check(0x1f8) == 1) {
         return 5;

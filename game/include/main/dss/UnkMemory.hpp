@@ -4,7 +4,7 @@
 #include "nnsys/fnd.hpp"
 
 // touch panel state
-struct UnkTouchPanel {
+struct TouchPanelState {
     char unk_00[0x18];                          // 0x00
     int touch_;                                 // 0x18
     int x_;                                     // 0x1C
@@ -13,11 +13,11 @@ struct UnkTouchPanel {
     int unk_28;                                 // 0x28
     int unk_2c;                                 // 0x2C
 
-    UnkTouchPanel();
+    TouchPanelState();
 };
 
 // main heap: system, sub and application expanded heaps
-struct UnkHeap {
+struct DssHeap {
     void* heap0_;                               // 0x00
     void* heap1_;                               // 0x04 system heap
     void* heap2_;                               // 0x08 application heap
@@ -33,28 +33,28 @@ struct UnkHeap {
     unsigned int unk_54;                        // 0x54 program size
 };
 
-extern UnkTouchPanel g_TouchPanel;
+extern TouchPanelState g_TouchPanel;
 extern void* g_compressedDataPtrs[2];                  // compressed data, uncompressed data
-extern UnkHeap g_appHeap;
+extern DssHeap g_appHeap;
 
 void setCompressedData(void* src);               // set the compressed data
 void uncompressData(void* dst);               // uncompress
 unsigned int getUncompressedSize(void* src);       // uncompressed size
 int isCompressed(void* data);               // is compressed
 void* uncompressAlloc(void* data);             // uncompress (allocates)
-void initHeap(UnkHeap* heap, unsigned int size0, unsigned int size1, unsigned int size2, int flag);    // init
-void freeSystemHeap(UnkHeap* heap, void* p);  // free (system heap)
-void* allocAppHeap(UnkHeap* heap, int size, int align);     // alloc
-void freeAppHeap(UnkHeap* heap, void* p);  // free
-void* dssAlloc(UnkHeap* heap, int size, int align);     // alloc
-void dssFree(UnkHeap* heap, void* p);  // free
-unsigned int getHeap0FreeSize(UnkHeap* heap);   // free size of the heap 0
-unsigned int getSystemHeapFreeSize(UnkHeap* heap);   // free size of the system heap
-unsigned int getAppHeapFreeSize(UnkHeap* heap);   // free size of the application heap
-unsigned int getAppHeapTotalFreeSize(UnkHeap* heap);   // free size of the application heap
-void** getHeap0(UnkHeap* heap);         // heap 0
-void** getSystemHeap(UnkHeap* heap);         // system heap
-void markHeapBlocks(UnkHeap* heap);           // mark the allocated blocks
+void initHeap(DssHeap* heap, unsigned int size0, unsigned int size1, unsigned int size2, int flag);    // init
+void freeSystemHeap(DssHeap* heap, void* p);  // free (system heap)
+void* allocAppHeap(DssHeap* heap, int size, int align);     // alloc
+void freeAppHeap(DssHeap* heap, void* p);  // free
+void* dssAlloc(DssHeap* heap, int size, int align);     // alloc
+void dssFree(DssHeap* heap, void* p);  // free
+unsigned int getHeap0FreeSize(DssHeap* heap);   // free size of the heap 0
+unsigned int getSystemHeapFreeSize(DssHeap* heap);   // free size of the system heap
+unsigned int getAppHeapFreeSize(DssHeap* heap);   // free size of the application heap
+unsigned int getAppHeapTotalFreeSize(DssHeap* heap);   // free size of the application heap
+void** getHeap0(DssHeap* heap);         // heap 0
+void** getSystemHeap(DssHeap* heap);         // system heap
+void markHeapBlocks(DssHeap* heap);           // mark the allocated blocks
 void freeSystemMemory(void* p);                 // free (system heap)
 int getArchiveFileCount(void* archive);            // file count of an archive
 int getArchiveFileSize(void* archive, int index); // file size in an archive

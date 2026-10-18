@@ -10,7 +10,7 @@
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 #include "main/cmn/EnvoyManager.hpp"
 
-THUMB void UnkMaterielMenu_02189a80::menuSetup()
+THUMB void MaterielMenu_SURECHIGAI_SETTING::menuSetup()
 {
     status::g_Party.setPlayerMode();
     g_EnvoyManager.mode_ = 1;
@@ -21,7 +21,7 @@ THUMB void UnkMaterielMenu_02189a80::menuSetup()
     unk_20 = g_EnvoyManager.getType();
 }
 
-THUMB void UnkMaterielMenu_02189a80::menuExecute()
+THUMB void MaterielMenu_SURECHIGAI_SETTING::menuExecute()
 {
     switch (unk_1c) {
     case 1:
@@ -36,7 +36,7 @@ THUMB void UnkMaterielMenu_02189a80::menuExecute()
     }
 }
 
-THUMB void UnkMaterielMenu_02189a80::menuDraw()
+THUMB void MaterielMenu_SURECHIGAI_SETTING::menuDraw()
 {
     if (unk_1c != 0) {
         MaterielMenuPlayerControl::getSingleton();
@@ -47,7 +47,7 @@ THUMB void UnkMaterielMenu_02189a80::menuDraw()
     }
 }
 
-THUMB void UnkMaterielMenu_02189a80::menuUpdate()
+THUMB void MaterielMenu_SURECHIGAI_SETTING::menuUpdate()
 {
     if (g_TownMenuMessage.isOpen()) {
         if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
@@ -170,7 +170,7 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
     }
 }
 
-THUMB void UnkMaterielMenu_02189a80::proceedStep()
+THUMB void MaterielMenu_SURECHIGAI_SETTING::proceedStep()
 {
     switch (unk_1c) {
     case 1:

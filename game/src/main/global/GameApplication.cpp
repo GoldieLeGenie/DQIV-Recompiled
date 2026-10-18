@@ -49,10 +49,10 @@
 
 // 8-byte bss item at the start of the TU, only referenced by a function the linker strips (stand-in, not original)
 int data_020c4f70[2];
-UnkGameApplication g_GameApplication;
+GameApplication g_GameApplication;
 
-UnkAppBuildDate g_appBuildDate;
-UnkBattleMapList g_battleMapList;
+AppBuildDate g_appBuildDate;
+BattleMapList g_battleMapList;
 // month names of vf08 as named strings: their creation order gives the ROM .data order of the original literals (stand-in, not original)
 static char s_monthApr[] = "Apr";
 static char s_monthMay[] = "May";
@@ -73,7 +73,7 @@ inline void setGameLanguage(Language language)
     TextAPI::setLanguage(language);
 }
 
-ARM void UnkGameApplication::vf00()
+ARM void GameApplication::vf00()
 {
 #ifndef DQIV_NATIVE
     initHeap(&g_appHeap, 0x18000, 0x1000, 0x280000, 0);
@@ -161,7 +161,7 @@ ARM void UnkGameApplication::vf00()
     updateDebugConsole();
 }
 
-ARM void UnkGameApplication::vf04()
+ARM void GameApplication::vf04()
 {
     GX_SetGraphicsMode((GXDisplayMode)1, (GXBGMode)0, (GX2D3D)1);
     GX_SetBankForTex((GXVRam)3);
@@ -190,7 +190,7 @@ ARM void UnkGameApplication::vf04()
     GX_SetDispSelect(0);
 }
 
-ARM void UnkGameApplication::vf08()
+ARM void GameApplication::vf08()
 {
     func_0202d014();
     char text[0x21];
@@ -215,7 +215,7 @@ ARM void UnkGameApplication::vf08()
     DebugMenu::setBuildDate(text);
 }
 
-ARM void UnkGameApplication::vf0c()
+ARM void GameApplication::vf0c()
 {
     data_020c1b7c = 0;
     g_GlobalDQ4.unkfunc_020580bc(TITLE_PART, &g_TitlePart);
@@ -239,7 +239,7 @@ ARM void UnkGameApplication::vf0c()
     g_GlobalDQ4.unk_74 = 0;
 }
 
-ARM void UnkGameApplication::unkfunc_02008768()
+ARM void GameApplication::unkfunc_02008768()
 {
     g_battleMapList.load("data/btlmap/_list.txt");
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_SINGLE3D);
@@ -249,56 +249,56 @@ ARM void UnkGameApplication::unkfunc_02008768()
     encount::Encount::getSingleton()->enable_ = 1;
 }
 
-ARM void UnkGameApplication::vf14()
+ARM void GameApplication::vf14()
 {
 }
 
-ARM void UnkGameApplication::unkfunc_020087b4()
+ARM void GameApplication::unkfunc_020087b4()
 {
     status::g_Game.addPlayTime(1);
 }
 
-ARM void UnkGameApplication::unkfunc_020087cc()
+ARM void GameApplication::unkfunc_020087cc()
 {
     g_Global.partChangeFlag_ = 0;
 }
 
-ARM void UnkGameApplication::unkfunc_020087e0()
+ARM void GameApplication::unkfunc_020087e0()
 {
     SoundManager::update();
 }
 
-ARM int UnkGameApplication::vf10()
+ARM int GameApplication::vf10()
 {
     return CARDCHECK_PART;
 }
 
-ARM UnkGameApplication::~UnkGameApplication()
+ARM GameApplication::~GameApplication()
 {
 }
 
-ARM void UnkApplication::vf14()
+ARM void DssApplication::vf14()
 {
 }
 
-ARM int UnkApplication::vf10()
+ARM int DssApplication::vf10()
 {
     return 0;
 }
 
-ARM void UnkApplication::vf0c()
+ARM void DssApplication::vf0c()
 {
 }
 
-ARM void UnkApplication::vf08()
+ARM void DssApplication::vf08()
 {
 }
 
-ARM void UnkApplication::vf04()
+ARM void DssApplication::vf04()
 {
 }
 
-ARM void UnkApplication::vf00()
+ARM void DssApplication::vf00()
 {
 }
 

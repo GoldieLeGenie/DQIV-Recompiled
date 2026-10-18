@@ -6,19 +6,19 @@
 #include "main/data/DataObject.hpp"
 #include "main/dss/Camera.hpp"
 
-struct UnkModelMember;
+struct ModelResource;
 
 // Abstract base of the DS model objects (DS-only, name invented). It has no home TU: every `#pragma ipa file`
 // TU constructing a model (LogoPart, TownModelDraw, ModelObjectWithCamera) emits a weak copy of its vtable
 // that the linker strips but that still takes part in the data sort, and its dead vptr store adds sinit pcodes.
-struct UnkModelInterface {
+struct ModelObjectInterface {
     virtual void vf00() = 0;
     virtual void vf04() = 0;
     virtual void draw() = 0;
     virtual void cleanup(int flag) = 0;
 };
 
-struct UnkModelObjectBase : UnkModelInterface {
+struct ModelObjectBase : ModelObjectInterface {
     virtual void vf00();                    // slot 0
     virtual void vf04();                    // slot 1
     virtual void draw();                    // slot 2
@@ -27,17 +27,17 @@ struct UnkModelObjectBase : UnkModelInterface {
     int unk_004;                            /* 0x004 */
     NNSG3dRenderObj renderObj_[32];         /* 0x008 */
     int count_;                             /* 0xA88 */
-    UnkModelMember* member_;                /* 0xA8C */
+    ModelResource* member_;                /* 0xA8C */
     dss::Fix32Vector3 m_scl;                 /* 0xA90 */
     dss::Fix32Vector3 m_pos;                 /* 0xA9C */
     dss::Fix32Vector3 m_rgb;                 /* 0xAA8 */
     dss::Vector3<short> m_rot;              /* 0xAB4 */
-    dss::UnkMatrix43 m_matrix;              /* 0xABC */
+    dss::Matrix43 m_matrix;              /* 0xABC */
 
-    UnkModelObjectBase() {}
+    ModelObjectBase() {}
     dss::Fix32Vector3& getPosition() { return m_pos; }
     dss::Fix32Vector3& getScale() { return m_scl; }
-    void unkfunc_02085370(UnkModelMember* member);    // setup
+    void unkfunc_02085370(ModelResource* member);    // setup
     void unkfunc_0208569c(NNSG3dAnmObj* obj);               // add animation
     void unkfunc_020856ac(NNSG3dAnmObj* obj);               // remove animation
     void unkfunc_020856bc(dss::Fix32Vector3 scale);
@@ -45,7 +45,7 @@ struct UnkModelObjectBase : UnkModelInterface {
     void unkfunc_020856e0(dss::Vector3<short> rotation);
 };
 
-struct UnkModelAnimation {
+struct ModelAnimation {
     int flag_;                              /* 0x00  1: loop, 2: end */
     void* resource_;                        /* 0x04 */
     void* anm_;                             /* 0x08 */
@@ -61,15 +61,15 @@ struct UnkModelAnimation {
 };
 
 /* vtable 0x020c3ad4 */
-struct ModelObject : UnkModelObjectBase {
+struct ModelObject : ModelObjectBase {
     virtual void vf00();
     virtual void draw();
     virtual void cleanup(int flag);
 
     DataObject modelData_;                  /* 0xAEC */
     DataObject animData_[6];                /* 0xAFC */
-    UnkModelMember unk_b5c;                 /* 0xB5C */
-    UnkModelAnimation animation_[6];        /* 0xB68 */
+    ModelResource unk_b5c;                 /* 0xB5C */
+    ModelAnimation animation_[6];        /* 0xB68 */
     int m_play_flag;                        /* 0xC28 */
     int m_pause_flag;                       /* 0xC2C */
     int m_animation_index;                  /* 0xC30 */

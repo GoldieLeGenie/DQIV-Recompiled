@@ -1,12 +1,12 @@
 #include "main/dss/Font.hpp"
 
-ARM UnkFont::UnkFont()
+ARM DssFont::DssFont()
 {
     unk_08 = 0;
     height_ = 0;
 }
 
-ARM void UnkFont::load(void* data, int height)
+ARM void DssFont::load(void* data, int height)
 {
     func_02069030(&font_, data);
     unsigned short index = func_02069060(&font_, '%');
@@ -16,7 +16,7 @@ ARM void UnkFont::load(void* data, int height)
     height_ = height;
 }
 
-ARM int UnkFont::drawChar(UnkG2dCanvas* canvas, int x, int y, int color, unsigned short c)
+ARM int DssFont::drawChar(G2dCharCanvas* canvas, int x, int y, int color, unsigned short c)
 {
     if (canvas == NULL) {
         unsigned short index = func_02069060(&font_, c);

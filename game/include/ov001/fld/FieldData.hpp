@@ -3,7 +3,7 @@
 #include "main/data/DataObject.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/TextureObject.hpp"
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 #include "ov001/fld/WorldMap.hpp"
 
 namespace fld {
@@ -19,7 +19,7 @@ namespace fld {
         DataObject unk_0010;                                            // 0x0010 pattern24 pack
         DataObject unk_0020;                                            // 0x0020 symbol pack
         TextureObject* unk_0030[SYMBOL_TEXTURE_NUM];                    // 0x0030 symbol textures
-        UnkSprite2D m_symbol[SYMBOL_NUM_MAX];                           // 0x0084
+        Sprite2D m_symbol[SYMBOL_NUM_MAX];                           // 0x0084
         unsigned short unk_1974[SYMBOL_TEXTURE_NUM][16];                // 0x1974 symbol palettes
         DataObject dataObject_;                                         // 0x1C14 map file
         DataObject unk_1c24;                                            // 0x1C24 block texture file

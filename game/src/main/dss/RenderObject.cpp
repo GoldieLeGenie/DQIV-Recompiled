@@ -9,7 +9,7 @@
 #include "main/dss/Position.hpp"
 #include "main/dss/Billboard.hpp"
 #include "main/dss/PolygonObject.hpp"
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 #include "main/dss/Display.hpp"
 #include "main/object/DSSAObject.hpp"
 #include "nitro/g3.hpp"
@@ -282,7 +282,7 @@ ARM void PolygonObject::unkfunc_02083848()
     G3_PopMtx(1);
 }
 
-ARM void UnkShadowPolygon::draw()
+ARM void ShadowPolygon::draw()
 {
     if (!enable_) {
         return;
@@ -312,7 +312,7 @@ ARM void UnkShadowPolygon::draw()
     G3_PopMtx(1);
 }
 
-ARM void UnkShadowPolygon::unkfunc_02083b1c()
+ARM void ShadowPolygon::unkfunc_02083b1c()
 {
     if (!enable_) {
         return;
@@ -349,7 +349,7 @@ ARM void UnkShadowPolygon::unkfunc_02083b1c()
     G3_PopMtx(1);
 }
 
-ARM void UnkShadowPolygon::unkfunc_02083d00(int index, const PolygonVertex* vertex)
+ARM void ShadowPolygon::unkfunc_02083d00(int index, const PolygonVertex* vertex)
 {
     unk_84[index] = *vertex;
 }
@@ -438,7 +438,7 @@ ARM void loadBillboardMatrix()
     G3_SEND(g_billboardMtxFifoCmd, sizeof(g_billboardMtxFifoCmd));
 }
 
-ARM UnkSprite2D::UnkSprite2D()
+ARM Sprite2D::Sprite2D()
 {
     unk_1c = 0;
     unk_1e = 0;
@@ -452,25 +452,25 @@ ARM UnkSprite2D::UnkSprite2D()
     unk_34 = 0x7fff;
 }
 
-ARM void UnkSprite2D::unkfunc_02084534(int x, int y)
+ARM void Sprite2D::unkfunc_02084534(int x, int y)
 {
     unk_14.vx.value = x << FX32_SHIFT;
     unk_14.vy.value = y << FX32_SHIFT;
 }
 
-ARM void UnkSprite2D::unkfunc_02084548(dss::Fix32 x, dss::Fix32 y)
+ARM void Sprite2D::unkfunc_02084548(dss::Fix32 x, dss::Fix32 y)
 {
     unk_14.vx = x;
     unk_14.vy = y;
 }
 
-ARM void UnkSprite2D::unkfunc_0208456c(int w, int h)
+ARM void Sprite2D::unkfunc_0208456c(int w, int h)
 {
     unk_1c = w;
     unk_1e = h;
 }
 
-ARM void UnkSprite2D::unkfunc_02084578(int u0, int v0, int u1, int v1)
+ARM void Sprite2D::unkfunc_02084578(int u0, int v0, int u1, int v1)
 {
     unk_20 = u0;
     unk_22 = v0;
@@ -478,7 +478,7 @@ ARM void UnkSprite2D::unkfunc_02084578(int u0, int v0, int u1, int v1)
     unk_26 = v1;
 }
 
-ARM void UnkSprite2D::draw()
+ARM void Sprite2D::draw()
 {
     if (!enable_ || !alpha_) {
         return;
@@ -723,12 +723,12 @@ ARM void drawSubScreenShade()
     G3_PopMtx(1);
 }
 
-ARM void UnkSprite2D::setColor(int r, int g, int b)
+ARM void Sprite2D::setColor(int r, int g, int b)
 {
     unk_34 = r | (g << 5) | (b << 10);
 }
 
-ARM void UnkSprite2D::setColor(int color)
+ARM void Sprite2D::setColor(int color)
 {
     unk_34 = color;
 }

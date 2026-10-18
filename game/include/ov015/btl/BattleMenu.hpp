@@ -327,7 +327,7 @@ struct BattleMenu_StadiumAbort : menu::MenuBase
 };
 
 // use / equip choice for an equipment item, opened from the item menu
-struct UnkBattleMenu_0216cf44 : menu::MenuBase
+struct BattleMenu_ITEMUSEEQUIP : menu::MenuBase
 {
     menu::MenuItem menuItem_;           /* 0x1C */
     menu::MenuItem cancelItem_;         /* 0x80 */
@@ -350,7 +350,7 @@ struct UnkBattleMenu_0216cf44 : menu::MenuBase
 };
 
 // test menu with one item
-struct UnkBattleMenu_0216e270 : menu::MenuBase
+struct BattleMenu_TEST : menu::MenuBase
 {
     menu::MenuItem menuItem_;           /* 0x1C */
 
@@ -379,6 +379,6 @@ extern BattleMenu_MAGIC gBattleMenu_MAGIC;                  /* 0x0217aa0c */
 extern BattleMenuJudge gBattleMenuJudge;                    /* 0x021796b4 */
 extern BattleMenu_ITEM gBattleMenu_ITEM;                    /* 0x02179d68 */
 extern BattleMenu_StadiumAbort gBattleMenu_StadiumAbort;    /* 0x0217973c */
-extern UnkBattleMenu_0216cf44 gUnkBattleMenu_0216cf44;      /* 0x02179c10 */
-extern UnkBattleMenu_0216e270 gUnkBattleMenu_0216e270;      /* 0x021797b0 */
+extern BattleMenu_ITEMUSEEQUIP gUnkBattleMenu_0216cf44;      /* 0x02179c10 */
+extern BattleMenu_TEST gUnkBattleMenu_0216e270;      /* 0x021797b0 */
 

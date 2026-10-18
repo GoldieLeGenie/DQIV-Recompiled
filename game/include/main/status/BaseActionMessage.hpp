@@ -7,7 +7,7 @@
 #include "main/status/CharacterStatus.hpp"
 #include "ov003/status/MonsterParty.hpp"
 
-extern "C" void func_0202d014();  // empty, called every frame by UnkGameApplication::vf08
+extern "C" void func_0202d014();  // empty, called every frame by GameApplication::vf08
 
 namespace status {
     struct BaseActionMessageData {

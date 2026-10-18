@@ -3,9 +3,9 @@
 #include "main/dss/Random.hpp"
 #include "main/dss/SleepControl.hpp"
 
-UnkApplication g_Application;
+DssApplication g_Application;
 
-ARM void UnkApplication::unkfunc_02057f8c(int arg)
+ARM void DssApplication::unkfunc_02057f8c(int arg)
 {
     initSystem(arg);
     clearVram();
@@ -16,7 +16,7 @@ ARM void UnkApplication::unkfunc_02057f8c(int arg)
     vf00();
 }
 
-ARM void UnkApplication::unkfunc_02057fc4()
+ARM void DssApplication::unkfunc_02057fc4()
 {
     g_GlobalDQ4.unkfunc_02058014(vf10());
 }

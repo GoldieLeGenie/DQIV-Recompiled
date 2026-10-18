@@ -3,11 +3,11 @@
 #include "nnsys/fnd.hpp"
 
 char g_heapLogText[0x400];
-UnkHeapLog g_HeapLog;
+HeapLog g_HeapLog;
 
-ARM void UnkHeapLog::unkfunc_02089214()
+ARM void HeapLog::unkfunc_02089214()
 {
-    UnkHeapLogEntry* entry = entries_;
+    HeapLogEntry* entry = entries_;
     for (int i = 0; i < 100; i++) {
         entry->state_ = 0;
         entry->addr_ = NULL;
@@ -19,14 +19,14 @@ ARM void UnkHeapLog::unkfunc_02089214()
     unk_644 = 0;
 }
 
-ARM void UnkHeapLog::unkfunc_02089250(const char* name, void* addr, int size, void* caller, void** heap)
+ARM void HeapLog::unkfunc_02089250(const char* name, void* addr, int size, void* caller, void** heap)
 {
     func_02068684(*heap);
     func_020686ac(*heap, 4);
     if (enabled_ == 0) {
         return;
     }
-    UnkHeapLogEntry* entry = entries_;
+    HeapLogEntry* entry = entries_;
     for (int i = 0; i < 100; i++) {
         if (entry->state_ == 0) {
             entry->state_ = 1;
@@ -40,14 +40,14 @@ ARM void UnkHeapLog::unkfunc_02089250(const char* name, void* addr, int size, vo
     unkfunc_0208934c();
 }
 
-ARM void UnkHeapLog::unkfunc_020892cc(const char* name, void* addr, void* caller, void** heap)
+ARM void HeapLog::unkfunc_020892cc(const char* name, void* addr, void* caller, void** heap)
 {
     func_02068684(*heap);
     func_020686ac(*heap, 4);
     if (enabled_ == 0) {
         return;
     }
-    UnkHeapLogEntry* entry = entries_;
+    HeapLogEntry* entry = entries_;
     for (int i = 0; i < 100; i++) {
         if (entry->state_ == 1 && entry->addr_ == addr) {
             entry->state_ = 0;
@@ -61,10 +61,10 @@ ARM void UnkHeapLog::unkfunc_020892cc(const char* name, void* addr, void* caller
     unkfunc_0208934c();
 }
 
-ARM char* UnkHeapLog::unkfunc_0208934c()
+ARM char* HeapLog::unkfunc_0208934c()
 {
     g_heapLogText[0] = 0;
-    UnkHeapLogEntry* entry = entries_;
+    HeapLogEntry* entry = entries_;
     for (int i = 0; i < 100; i++) {
         if (entry->state_ != 0 && entry->state_ == 1) {
             char buf[0x100];
@@ -76,12 +76,12 @@ ARM char* UnkHeapLog::unkfunc_0208934c()
     return g_heapLogText;
 }
 
-ARM void UnkHeapLog::unkfunc_020893e0()
+ARM void HeapLog::unkfunc_020893e0()
 {
     if (enabled_ == 0) {
         return;
     }
-    UnkHeapLogEntry* entry = entries_;
+    HeapLogEntry* entry = entries_;
     for (int i = 0; i < 100; i++) {
         if (entry->state_ == 1) {
             entry->state_ = 2;

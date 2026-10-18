@@ -9,7 +9,7 @@
 #include "ov001/window/FieldWindowSystem.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/menu/MenuAPI.hpp"
-#include "ov016/UnkTownMenu_02176fa0/UnkTownMenu_02176fa0.hpp"
+#include "ov016/TownMenuItemSelectItem/TownMenuItemSelectItem.hpp"
 #include "main/window/MenuControl.hpp"
 #include "main/cmn/GameManager.hpp"
 #include "main/cmn/CommonPartyInfo.hpp"

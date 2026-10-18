@@ -438,7 +438,7 @@ THUMB int cmd_chara_set_priority_sure_appointment(int* param)
         }
     }
     if (g_Global.isAreaChange() == 1) {
-        UnkImmigrantTown::getSingleton()->placePriorityResident(param[0], param[1], param[2], values);
+        ImmigrantTown::getSingleton()->placePriorityResident(param[0], param[1], param[2], values);
     }
     return 1;
 }
@@ -446,7 +446,7 @@ THUMB int cmd_chara_set_priority_sure_appointment(int* param)
 THUMB int cmd_chara_set_normal_sure_appointment(int* param)
 {
     if (g_Global.isAreaChange() == 1) {
-        UnkImmigrantTown::getSingleton()->placeNextResident(param[0], param[1]);
+        ImmigrantTown::getSingleton()->placeNextResident(param[0], param[1]);
     }
     return 1;
 }
@@ -455,7 +455,7 @@ THUMB int cmd_chara_set_normal_sure(int* param)
 {
     int index = getPlacementCtrlId();
     int id = getPlacementIndex(index);
-    int result = UnkImmigrantTown::getSingleton()->getResidentPoseAt(id, param[0]);
+    int result = ImmigrantTown::getSingleton()->getResidentPoseAt(id, param[0]);
     if (result != 0xff) {
         TownCharacterManager::getSingleton()->setSureId(index, param[0]);
         TownCharacterManager::getSingleton()->character_[index]->changePose(result);
@@ -476,7 +476,7 @@ THUMB int cmd_chara_talk_to_player_sure(int* param)
     } else {
         int id = getPlacementIndex(index);
         int value = TownCharacterManager::getSingleton()->character_[index]->getSurechigaiMapNo();
-        g_EnvoyManager.selectEnvoy(UnkImmigrantTown::getSingleton()->getResidentIndexAt(id, value));
+        g_EnvoyManager.selectEnvoy(ImmigrantTown::getSingleton()->getResidentIndexAt(id, value));
     }
     if (param[0] == 1) {
         TownCharacterManager::getSingleton()->setPlayerDirection(index);
@@ -3374,7 +3374,7 @@ THUMB int cmd_set_my_taishi(int* param)
     g_EnvoyManager.mode_ = 1;
     int index = getPlacementCtrlId();
     int type = g_EnvoyManager.getType();
-    int value = UnkImmigrantTown::getSingleton()->getTypePose(type);
+    int value = ImmigrantTown::getSingleton()->getTypePose(type);
     TownCharacterManager::getSingleton()->character_[index]->changePose(value);
     return 1;
 }
@@ -3881,7 +3881,7 @@ __cmd_party_move_to_first2 g_cmd_party_move_to_first2;
 
 THUMB int cmd_set_unused_extra_chara(int* param)
 {
-    UnkImmigrantTown::getSingleton()->placeQueuedResidents();
+    ImmigrantTown::getSingleton()->placeQueuedResidents();
     return 1;
 }
 

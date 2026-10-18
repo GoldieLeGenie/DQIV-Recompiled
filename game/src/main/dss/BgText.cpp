@@ -2,7 +2,7 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Utf8Iterator.hpp"
 
-UnkBgText g_BgText;
+BgTextEngine g_BgText;
 
 ARM void initBgText()
 {
@@ -24,16 +24,16 @@ ARM void loadBgFont10(void* data, void* subData)
     g_BgText.subFont10_.load(subData, 10);
 }
 
-ARM int drawBgText(UnkCharBuffer* buffer, int x, int y, int color, const char* text)
+ARM int drawBgText(BgCharBuffer* buffer, int x, int y, int color, const char* text)
 {
     return drawBgTextWrapped(buffer, x, y, color, text, 0);
 }
 
-ARM int drawBgTextWrapped(UnkCharBuffer* buffer, int x, int y, int color, const char* text, int wrap)
+ARM int drawBgTextWrapped(BgCharBuffer* buffer, int x, int y, int color, const char* text, int wrap)
 {
-    UnkBgText* work = &g_BgText;
-    UnkG2dCanvas canvas;
-    UnkG2dCanvas* pCanvas = NULL;
+    BgTextEngine* work = &g_BgText;
+    G2dCharCanvas canvas;
+    G2dCharCanvas* pCanvas = NULL;
     work->count_ = 0;
     if (buffer != NULL) {
         void* chr = getCharBufferTile(buffer, x / 8, y / 8);
@@ -136,10 +136,10 @@ ARM int drawBgTextWrapped(UnkCharBuffer* buffer, int x, int y, int color, const 
     return 0;
 }
 
-ARM int drawBgChar(UnkG2dCanvas* canvas, int x, int y, int color, unsigned short c)
+ARM int drawBgChar(G2dCharCanvas* canvas, int x, int y, int color, unsigned short c)
 {
-    UnkBgText* work = &g_BgText;
-    UnkFont* font = work->font_;
+    BgTextEngine* work = &g_BgText;
+    DssFont* font = work->font_;
     if (work->mode_ == 1) {
         switch (c) {
         case 0xff10:
@@ -294,7 +294,7 @@ ARM int drawBgChar(UnkG2dCanvas* canvas, int x, int y, int color, unsigned short
 
 ARM void setBgTextFontSize(int size)
 {
-    UnkBgText* work = &g_BgText;
+    BgTextEngine* work = &g_BgText;
     if (size == 12) {
         work->font_ = &work->font12_;
         work->subFont_ = &work->subFont12_;

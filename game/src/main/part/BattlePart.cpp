@@ -13,7 +13,7 @@
 #include "nnsys/g3d.hpp"
 #include "main/encount/Encount.hpp"
 #include "ov003/btl/BattleSystem2.hpp"
-#include "ov003/btl/UnkBattleSystem.hpp"
+#include "ov003/btl/BattleWindowSystem.hpp"
 #include "main/menu/MaterielMenuOverlay.hpp"
 
 BattlePart g_BattlePart;
@@ -38,7 +38,7 @@ ARM void BattlePart::initialize()
     }
     g_MaterielOverlaySlot.unkfunc_02087564();
     btl::BattleSystem2::getSingleton()->initialize();
-    UnkBattleSystem::getSingleton()->initialize();
+    BattleWindowSystem::getSingleton()->initialize();
     func_0206dd70(1);
     g_Global.fadeIn(30);
     dss::g_Pad.setMaskL(0);
@@ -48,7 +48,7 @@ ARM void BattlePart::initialize()
 ARM void BattlePart::terminate()
 {
     dss::g_Pad.setMaskL(0);
-    UnkBattleSystem::getSingleton()->terminate();
+    BattleWindowSystem::getSingleton()->terminate();
     btl::BattleSystem2::getSingleton()->terminate();
     unloadOverlay(DQIV_OVERLAY_ID(3));
     if (encount::Encount::getSingleton()->battleMode_ == encount::Encount::Normal) {
@@ -72,8 +72,8 @@ ARM void BattlePart::onDrawPart()
 
 ARM void BattlePart::onWindowPart()
 {
-    UnkBattleSystem::getSingleton()->execute();
-    UnkBattleSystem::getSingleton()->draw();
+    BattleWindowSystem::getSingleton()->execute();
+    BattleWindowSystem::getSingleton()->draw();
 }
 
 ARM void BattlePart::onDebugPart()

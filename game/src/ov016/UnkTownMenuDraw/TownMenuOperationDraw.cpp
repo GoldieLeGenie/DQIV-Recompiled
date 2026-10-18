@@ -20,7 +20,7 @@ THUMB void unkfunc_unused(int active)
     const int unk5 = 2;
     const int unk6 = 3;
     const int unk7 = 2;
-    static UnkMenuParts parts[] = {
+    static MenuPartsEntry parts[] = {
         { 0x14, 0xc0, 0, -1, 0x58, 0x58, 0x48, 0x10 },
         { 0x0d, 0x09, (short)0xf000, 0, 0x5a, 0x5a, 0x42, 0xa },
         { 0x14, 0xc0, 0, -1, 0xb0, 0x58, 0x48, 0x10 },
@@ -36,7 +36,7 @@ THUMB void unkfunc_unused(int active)
 
 THUMB void drawSettingScreenLabels()
 {
-    static UnkMenuParts parts[] = {
+    static MenuPartsEntry parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0x10, 0x51, 0x38, 0x20 },
         { 0x0d, 0x08, (short)0xf000, 1, 0x10, 0x6e, 0x38, 0x10 },
         { 0x0d, 0x08, (short)0xf000, 2, 0x10, 0x8a, 0x50, 0x10 },
@@ -51,7 +51,7 @@ THUMB void drawSettingScreenLabels()
 
 THUMB void drawSettingLevelNumbers(int x, int y)
 {
-    static UnkMenuParts parts[] = {
+    static MenuPartsEntry parts[] = {
         { 0x0d, 0x09, (short)0xf000, 0, 2, 2, 0xa, 0xa },
         { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
     };
@@ -68,7 +68,7 @@ THUMB void drawCareerRecordLine(int value, int index, int bookOfBeasts, int hero
     int param[3];
     int name[9] = { 0xa0000191, 0xa0000192, 0xa0000193, 0xa0000194, 0xa0000195, 0xa0000196, 0xa0000197, 0xa000019c, 0xa0000198 };
     int unit[9] = { 0xa000019d, 0xa000019e, 0xa000003c, 0xa000019d, 0xa000019d, 0xa000019d, 0xa00001a0, 0xa000003f, 0xa000019e };
-    static UnkMenuParts parts[] = {
+    static MenuPartsEntry parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0x18, 8, 0x68, 0xc },
         { 0x0f, 0x0a, (short)0xf000, 1, 0x78, 8, 0x60, 0xc },
         { 0x0d, 0x0a, (short)0xf000, 2, 0xd8, 8, 0x10, 0xc },
@@ -92,7 +92,7 @@ THUMB void drawCareerRecordLine(int value, int index, int bookOfBeasts, int hero
 
 THUMB void drawCareerPlayTime(int time, int type)
 {
-    static UnkMenuParts parts[] = {
+    static MenuPartsEntry parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0x18, 8, 0x78, 0x10 },
         { 0x0f, 0x0a, (short)0xf000, 1, 0x98, 8, 8, 0x10 },
         { 0x0f, 0x0a, (short)0xf000, 2, 0xa0, 8, 8, 0x10 },
@@ -125,7 +125,7 @@ THUMB void drawCareerPlayTime(int time, int type)
 
 THUMB void drawCareerTitle(int title)
 {
-    static UnkMenuParts parts[] = {
+    static MenuPartsEntry parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x90, 0x20, 0xc },
         { 0x0d, 0x05, (short)0xf000, 1, 0x38, 0x90, 0xa0, 0x18 },
         { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
@@ -138,7 +138,7 @@ THUMB void drawCareerTitle(int title)
 
 THUMB void drawCareerHistoryType(int type)
 {
-    static UnkMenuParts parts[] = {
+    static MenuPartsEntry parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0xa8, 0x78, 0xc },
         { 0x0c, 0xf3, 0, 1, 0xb0, 0x98, 0x20, 0x20 },
         { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
@@ -157,13 +157,13 @@ THUMB void drawTownShopGoods(int index)
 {
     setMenuDrawOffset(0, 0);
     int msg[3] = { 0x80000084, 0x80000085, 0x80000086 };
-    static UnkMenuParts titleParts[] = {
+    static MenuPartsEntry titleParts[] = {
         { 0x0d, 0x09, (short)0xf000, 0, 8, 9, 0x98, 0xe },
         { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0xa8, 0x88 },
         { 0x16, 0x00, (short)0xf000, 0, 0, 0x18, 0xa8, 0 },
         { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
     };
-    static UnkMenuParts itemParts[] = {
+    static MenuPartsEntry itemParts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0xc, 0x22, 0x68, 0xe },
         { 0x0f, 0x0a, (short)0xf000, 1, 0x78, 0x22, 0x28, 0xe },
         { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },

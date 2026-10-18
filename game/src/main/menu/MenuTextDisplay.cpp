@@ -1,14 +1,14 @@
 #include "main/menu/MenuTextDisplay.hpp"
-#include "main/menu/UnkMenuIconDisplay.hpp"
+#include "main/menu/MenuIconDisplay.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/text/TextAPI.hpp"
 #include "nitro/g2.hpp"
 
-THUMB UnkMenuTextDisplay::UnkMenuTextDisplay()
+THUMB MenuTextDisplay::MenuTextDisplay()
 {
 }
 
-THUMB void UnkMenuTextDisplay::setup(int id)
+THUMB void MenuTextDisplay::setup(int id)
 {
     id_ = id;
     initCharBuffer(&char_, charData_, 32, 2);
@@ -18,15 +18,15 @@ THUMB void UnkMenuTextDisplay::setup(int id)
     setType(2);
 }
 
-THUMB void UnkMenuTextDisplay::update(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuTextDisplay::update(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuTextDisplay::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuTextDisplay::execute(OamBuffer* main, OamBuffer* sub)
 {
 }
 
-THUMB void UnkMenuTextDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MenuTextDisplay::draw(OamBuffer* main, OamBuffer* sub)
 {
     int baseY;
     int i;
@@ -111,7 +111,7 @@ THUMB void UnkMenuTextDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     }
 }
 
-THUMB void UnkMenuTextDisplay::drawHiddenMask(UnkOamBuffer* oam, int x, int y, int width, int height)
+THUMB void MenuTextDisplay::drawHiddenMask(OamBuffer* oam, int x, int y, int width, int height)
 {
     int y2 = y + height - 8;
     int size;
@@ -151,7 +151,7 @@ THUMB void UnkMenuTextDisplay::drawHiddenMask(UnkOamBuffer* oam, int x, int y, i
     G2_SetOBJAttr(obj, x + size - (size * 2 - width), y2, 0, mode, 0, GX_OAM_EFFECT_NONE, shape, GX_OAM_COLORMODE_16, chr, 15, 0);
 }
 
-THUMB void UnkMenuTextDisplay::setText(int font, const char* text, int x, int y, int clear)
+THUMB void MenuTextDisplay::setText(int font, const char* text, int x, int y, int clear)
 {
     setBgTextFontSize(font);
     fillCharBuffer(&char_, 0);
@@ -178,7 +178,7 @@ THUMB void UnkMenuTextDisplay::setText(int font, const char* text, int x, int y,
     }
 }
 
-THUMB int UnkMenuTextDisplay::setFramedText(int font, const char* text, int priority, int flag)
+THUMB int MenuTextDisplay::setFramedText(int font, const char* text, int priority, int flag)
 {
     setBgTextFontSize(10);
     drawBgText(NULL, 0, 0, 0, text);
@@ -198,7 +198,7 @@ THUMB int UnkMenuTextDisplay::setFramedText(int font, const char* text, int prio
     return width + 4;
 }
 
-THUMB void UnkMenuTextDisplay::setVisibleCount(int count)
+THUMB void MenuTextDisplay::setVisibleCount(int count)
 {
     if (count == -1) {
         count = count_;
@@ -214,27 +214,27 @@ THUMB void UnkMenuTextDisplay::setVisibleCount(int count)
     visibleWidth_ = width;
 }
 
-THUMB void UnkMenuTextDisplay::setVisibleWidth(int width)
+THUMB void MenuTextDisplay::setVisibleWidth(int width)
 {
     visibleWidth_ = width;
 }
 
-THUMB int UnkMenuTextDisplay::getVisibleCount()
+THUMB int MenuTextDisplay::getVisibleCount()
 {
     return visibleCount_;
 }
 
-THUMB int UnkMenuTextDisplay::getCharCount()
+THUMB int MenuTextDisplay::getCharCount()
 {
     return count_;
 }
 
-THUMB int UnkMenuTextDisplay::getTextWidth()
+THUMB int MenuTextDisplay::getTextWidth()
 {
     return width_;
 }
 
-THUMB void UnkMenuTextDisplay::clearScrolledLines(int scroll)
+THUMB void MenuTextDisplay::clearScrolledLines(int scroll)
 {
     int i;
     char* dst;
@@ -259,19 +259,19 @@ THUMB void UnkMenuTextDisplay::clearScrolledLines(int scroll)
     requestVramCopy(0x13, id_ << 5, charData_, 0x800);
 }
 
-THUMB void UnkMenuTextDisplay::setTranslucent(int flag)
+THUMB void MenuTextDisplay::setTranslucent(int flag)
 {
     xlu_ = flag;
 }
 
-THUMB void UnkMenuTextDisplay::drawFrameSprite32(UnkOamBuffer* oam, int x, int y, int chr)
+THUMB void MenuTextDisplay::drawFrameSprite32(OamBuffer* oam, int x, int y, int chr)
 {
     GXOamAttr* obj = oam->allocEntry();
     G2_SetOBJAttr(obj, x, y, priority_, GX_OAM_MODE_NORMAL, 0, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_32x16, GX_OAM_COLORMODE_16,
                   chr, palette_, 0);
 }
 
-THUMB void UnkMenuTextDisplay::drawFrameSprite16(UnkOamBuffer* oam, int x, int y, int chr)
+THUMB void MenuTextDisplay::drawFrameSprite16(OamBuffer* oam, int x, int y, int chr)
 {
     GXOamAttr* obj = oam->allocEntry();
     G2_SetOBJAttr(obj, x, y, priority_, GX_OAM_MODE_NORMAL, 0, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_16,

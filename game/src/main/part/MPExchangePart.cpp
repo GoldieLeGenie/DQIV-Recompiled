@@ -76,7 +76,7 @@ ARM void MPExchangePart::onExecutePart()
             break;
         case 4: {
             exchange_.start();
-            UnkEnvoyData* data = &g_EnvoyManager.myEnvoy_;
+            EnvoyData* data = &g_EnvoyManager.myEnvoy_;
             convertUtf8ToSjisWork((char*)data->name);
             convertUtf8ToSjisWork((char*)data->heroName);
             convertUtf8ToSjisWork((char*)data->townName);
@@ -147,7 +147,7 @@ ARM void MPExchangePart::onExecutePart()
             }
             break;
         case 9: {
-            UnkEnvoyData* data = exchange_.getReceivedData();
+            EnvoyData* data = exchange_.getReceivedData();
             if (exchange_.unk_fc <= 4) {
                 setState(7);
                 break;

@@ -5,7 +5,7 @@
 #include "main/dss/Pad.hpp"
 #include "main/text/TextAPI.hpp"
 
-ARM void UnkMPExchange::updateFinishReady()
+ARM void MPExchange::updateFinishReady()
 {
     if (getWhSysState() == WH_SYSSTATE_IDLE) {
         endWh();
@@ -13,7 +13,7 @@ ARM void UnkMPExchange::updateFinishReady()
     }
 }
 
-ARM void UnkMPExchange::updateSelectRole()
+ARM void MPExchange::updateSelectRole()
 {
     if (getWhSysState() != WH_SYSSTATE_IDLE) {
         return;
@@ -34,7 +34,7 @@ ARM void UnkMPExchange::updateSelectRole()
     }
 }
 
-ARM void UnkMPExchange::updateParentLobby()
+ARM void MPExchange::updateParentLobby()
 {
     updateGameInfo(1);
     debugConsolePrintfIfEnabled(2, 1, "BEACON CNT %d", getWhBeaconCount());
@@ -59,7 +59,7 @@ ARM void UnkMPExchange::updateParentLobby()
     if (count == 2) {
         SEND_PACKET->state_ = 0;
         for (int i = 0; i < 2; i++) {
-            UnkMPExchangePacket* packet = RECV_PACKET(i);
+            MPExchangePacket* packet = RECV_PACKET(i);
             packet->state_ = 0;
         }
         updateGameInfo(0);
@@ -72,7 +72,7 @@ ARM void UnkMPExchange::updateParentLobby()
     }
 }
 
-ARM void UnkMPExchange::updateChildReady()
+ARM void MPExchange::updateChildReady()
 {
     if (counter_ > 60) {
         setMode(SYSMODE_LIGHT_ERRORINIT);
@@ -84,14 +84,14 @@ ARM void UnkMPExchange::updateChildReady()
     if (RECV_PACKET(0)->state_ == 1) {
         SEND_PACKET->state_ = 0;
         for (int i = 0; i < 2; i++) {
-            UnkMPExchangePacket* packet = RECV_PACKET(i);
+            MPExchangePacket* packet = RECV_PACKET(i);
             packet->state_ = 0;
         }
         setMode(SYSMODE_CHILD_EXEC);
     }
 }
 
-ARM void UnkMPExchange::updateChildScan()
+ARM void MPExchange::updateChildScan()
 {
     char buf[0x20];
     debugConsolePrintfIfEnabled(2, 1, "CHANNEL %d", unk_40);
@@ -120,7 +120,7 @@ ARM void UnkMPExchange::updateChildScan()
     }
 }
 
-ARM void UnkMPExchange::updateSelectScan()
+ARM void MPExchange::updateSelectScan()
 {
     debugConsolePrintfIfEnabled(2, 1, "CHANNEL %d", unk_40);
     role_.printTable();
@@ -148,7 +148,7 @@ ARM void UnkMPExchange::updateSelectScan()
     }
 }
 
-ARM void UnkMPExchange::updateChildConnect()
+ARM void MPExchange::updateChildConnect()
 {
     if (getWhSysState() == WH_SYSSTATE_IDLE) {
         connectWhChild(5, &bssDesc_[0]);
@@ -156,7 +156,7 @@ ARM void UnkMPExchange::updateChildConnect()
     }
 }
 
-ARM void UnkMPExchange::updateParentExec()
+ARM void MPExchange::updateParentExec()
 {
     printChildren();
     dss::memcpy(&SEND_PACKET->data_, sendData_, 0xe4);
@@ -192,7 +192,7 @@ ARM void UnkMPExchange::updateParentExec()
     }
 }
 
-ARM void UnkMPExchange::updateChildExec()
+ARM void MPExchange::updateChildExec()
 {
     printChildren();
     dss::memcpy(&SEND_PACKET->data_, sendData_, 0xe4);
@@ -215,7 +215,7 @@ ARM void UnkMPExchange::updateChildExec()
     }
 }
 
-ARM void UnkMPExchange::updateSelectNext()
+ARM void MPExchange::updateSelectNext()
 {
     role_.printTable();
     if (getWhSysState() == WH_SYSSTATE_IDLE) {
@@ -223,14 +223,14 @@ ARM void UnkMPExchange::updateSelectNext()
     }
 }
 
-ARM void UnkMPExchange::receivePackets()
+ARM void MPExchange::receivePackets()
 {
     if (getWhSysState() == WH_SYSSTATE_DATASHARING) {
         if (stepWhDataSharing(sendBuffer_)) {
             int i;
             for (i = 0; i < 2; i++) {
                 void* data = getWhSharedData(i);
-                UnkMPExchangePacket* packet = RECV_PACKET(i);
+                MPExchangePacket* packet = RECV_PACKET(i);
                 if (data != NULL) {
                     MI_CpuCopyU8(data, packet, 0xe4);
                     connected_[i] = 1;
@@ -238,14 +238,14 @@ ARM void UnkMPExchange::receivePackets()
                         if (i == 1) {
                             dss::memcpy(receiveData_, &packet->data_, 0xe4);
                             unk_fc++;
-                            convertUtf8ToSjisWork((char*)((UnkEnvoyData*)receiveData_)->name);
-                            convertUtf8ToSjisWork((char*)((UnkEnvoyData*)receiveData_)->comment);
+                            convertUtf8ToSjisWork((char*)((EnvoyData*)receiveData_)->name);
+                            convertUtf8ToSjisWork((char*)((EnvoyData*)receiveData_)->comment);
                         }
                     } else if (i == 0) {
                         dss::memcpy(receiveData_, &packet->data_, 0xe4);
                         unk_fc++;
-                        convertUtf8ToSjisWork((char*)((UnkEnvoyData*)receiveData_)->name);
-                        convertUtf8ToSjisWork((char*)((UnkEnvoyData*)receiveData_)->comment);
+                        convertUtf8ToSjisWork((char*)((EnvoyData*)receiveData_)->name);
+                        convertUtf8ToSjisWork((char*)((EnvoyData*)receiveData_)->comment);
                     }
                 } else {
                     packet->linkLevel_ = 0;
@@ -270,12 +270,12 @@ ARM void UnkMPExchange::receivePackets()
     }
 }
 
-ARM void UnkMPExchange::sendPacket()
+ARM void MPExchange::sendPacket()
 {
     if (unk_34 != 0) {
         return;
     }
-    UnkMPExchangePacket* packet = SEND_PACKET;
+    MPExchangePacket* packet = SEND_PACKET;
     if (packet->state_ != 2) {
         packet->state_ = mode_ == SYSMODE_PARENT_LOBBY ? 0 : 1;
     }

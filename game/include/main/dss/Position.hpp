@@ -3,7 +3,7 @@
 #include "main/dss/DssUtils.hpp"
 
 /*vtable 0x020c43a8 */
-struct UnkPositionInterface {
+struct PositionInterface {
     virtual void setPosition(const dss::Fix32Vector3& position) = 0;
     virtual void setScale(dss::Fix32 scale) = 0;
     virtual void setScale(const dss::Fix32Vector3& scale) = 0;
@@ -11,7 +11,7 @@ struct UnkPositionInterface {
     virtual void setRotationIdx(const dss::Vector3<unsigned short>& rotation) = 0;
 };
 
-struct Position : UnkPositionInterface {
+struct Position : PositionInterface {
     virtual void setPosition(const dss::Fix32Vector3& position);    // slot 0
     virtual void setScale(dss::Fix32 scale);                         // slot 1
     virtual void setScale(const dss::Fix32Vector3& scale);          // slot 2

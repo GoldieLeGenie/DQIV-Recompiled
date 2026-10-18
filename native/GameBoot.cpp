@@ -81,7 +81,7 @@ void preferFastCores() {
 }
 
 static_assert(sizeof(DataObject) == 0x10);
-static_assert(sizeof(UnkGameApplication) == 0xb4);
+static_assert(sizeof(GameApplication) == 0xb4);
 std::span<const pc::OverlayImage> gameOverlayImages();
 
 namespace {

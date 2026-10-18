@@ -1,7 +1,7 @@
 #include "main/dss/DssVectorDefault.hpp"
 #include "ov000/town/riseup/TownRiseup.hpp"
 #include "main/cmn/CommonEffectData.hpp"
-#include "main/menu/UnkMenuIconDisplay.hpp"
+#include "main/menu/MenuIconDisplay.hpp"
 #include "nitro/os.hpp"
 
 static dss::Vector2<dss::Fix16> s_vertexLeftBottom(-0.48f, -0.0f);

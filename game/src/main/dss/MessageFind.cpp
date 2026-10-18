@@ -9,7 +9,7 @@ ARM char* findMessage(char* addr, unsigned int msg_id)
     if (addr == NULL) {
         return NULL;
     }
-    UnkMessageFile* file = (UnkMessageFile*)addr;
+    MessageFileHeader* file = (MessageFileHeader*)addr;
     unsigned int first = file->firstId_;
     unsigned int last = file->lastId_;
     unsigned int count = file->count_;
@@ -25,7 +25,7 @@ ARM char* findMessage(char* addr, unsigned int msg_id)
         return NULL;
     }
     msg_id -= first;
-    UnkMessageEntry* entry = file->entries_;
+    MessageEntry* entry = file->entries_;
     for (unsigned int i = 0; i < count; i++) {
         if (entry->id_ == msg_id) {
             int size = entry->size_;

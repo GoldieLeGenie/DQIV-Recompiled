@@ -10,7 +10,7 @@
 #include "main/dss/BgBuffer.hpp"
 #include "main/sound/Sound.hpp"
 #include <nitro/std.h>
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 
 THUMB MessageWindow::MessageWindow()
 {
@@ -33,7 +33,7 @@ THUMB void MessageWindow::setup(int id)
     keySound_ = 0;
 }
 
-THUMB void MessageWindow::update(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MessageWindow::update(OamBuffer* main, OamBuffer* sub)
 {
     if (shake_) {
         shakeX_ = g_msgWindowShakeOffsetX[shakeCount_ / 2];
@@ -48,12 +48,12 @@ THUMB void MessageWindow::update(UnkOamBuffer* main, UnkOamBuffer* sub)
     }
 }
 
-THUMB void MessageWindow::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MessageWindow::execute(OamBuffer* main, OamBuffer* sub)
 {
     executeState();
 }
 
-THUMB void MessageWindow::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void MessageWindow::draw(OamBuffer* main, OamBuffer* sub)
 {
     if (!enable_) {
         setWindow0Enable(0);
@@ -69,7 +69,7 @@ THUMB void MessageWindow::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
         namePlate_->setEnable(1);
     }
     for (int i = 0; i < lineCount_; i++) {
-        UnkMenuTextDisplay* line = lines_[i];
+        MenuTextDisplay* line = lines_[i];
         if (line) {
             if (config_->frameType_ == 1) {
                 line->setTranslucent(1);
@@ -395,7 +395,7 @@ THUMB void MessageWindow::stateNextLine()
         setWaitProg(1);
         return;
     }
-    UnkMenuTextDisplay* line = allocLine();
+    MenuTextDisplay* line = allocLine();
     if (line == NULL) {
         state_ = 3;
         return;
@@ -427,7 +427,7 @@ THUMB void MessageWindow::stateNextLine()
 
 THUMB void MessageWindow::statePrint()
 {
-    UnkMenuTextDisplay* line = getLastLine();
+    MenuTextDisplay* line = getLastLine();
     if (line->getVisibleCount() != line->getCharCount()) {
 #ifdef DQIV_NATIVE
         // The player's text speed, for text shown letter by letter.
@@ -571,11 +571,11 @@ THUMB void MessageWindow::initLines()
     }
 }
 
-THUMB UnkMenuTextDisplay* MessageWindow::allocLine()
+THUMB MenuTextDisplay* MessageWindow::allocLine()
 {
     for (int i = 0; i < lineCount_; i++) {
         if (freeLines_[i]) {
-            UnkMenuTextDisplay* line = freeLines_[i];
+            MenuTextDisplay* line = freeLines_[i];
             freeLines_[i] = NULL;
             for (int j = 0; j < lineCount_; j++) {
                 if (lines_[j] == NULL) {
@@ -588,14 +588,14 @@ THUMB UnkMenuTextDisplay* MessageWindow::allocLine()
     return NULL;
 }
 
-THUMB UnkMenuTextDisplay* MessageWindow::getFirstLine()
+THUMB MenuTextDisplay* MessageWindow::getFirstLine()
 {
     return lines_[0];
 }
 
-THUMB UnkMenuTextDisplay* MessageWindow::getLastLine()
+THUMB MenuTextDisplay* MessageWindow::getLastLine()
 {
-    UnkMenuTextDisplay* last = NULL;
+    MenuTextDisplay* last = NULL;
     for (int i = 0; i < lineCount_; i++) {
         if (lines_[i]) {
             last = lines_[i];
@@ -606,7 +606,7 @@ THUMB UnkMenuTextDisplay* MessageWindow::getLastLine()
 
 THUMB void MessageWindow::releaseFirstLine()
 {
-    UnkMenuTextDisplay* first = lines_[0];
+    MenuTextDisplay* first = lines_[0];
     for (int i = 1; i < lineCount_; i++) {
         lines_[i - 1] = lines_[i];
         lines_[i] = NULL;
@@ -653,7 +653,7 @@ THUMB int MessageWindow::isControlCode(int c)
     return 0;
 }
 
-THUMB void MessageWindow::skipNewlines(UnkTextIterator* it)
+THUMB void MessageWindow::skipNewlines(TextIterator* it)
 {
     while (isNewlineChar(it->getChar())) {
         it->nextChar();

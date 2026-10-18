@@ -578,8 +578,8 @@ ARM void TownCamera::setPovMove(dss::Fix32Vector3 target, int frame, int flag)
 
 ARM void TownCamera::calculatePursue(dss::Vector3short& angle, dss::Fix32Vector3& pos, dss::Fix32Vector3& target)
 {
-    dss::UnkMatrix43 rotX;
-    dss::UnkMatrix43 rotY;
+    dss::Matrix43 rotX;
+    dss::Matrix43 rotY;
     dss::Fix32Vector3 vec;
     rotX.unkfunc_02088698(angle.vx);
     rotY.unkfunc_020886d0(angle.vy);

@@ -2,9 +2,9 @@
 #include <globaldefs.h>
 #include "main/dss/DssCore.hpp"
 
-// Base of the DS application object (main() runs g_GameApplication, a UnkGameApplication).
-// The default virtuals (0x0200885c-0x02008874) and the vtable (0x020bb970) are defined in UnkGameApplication.cpp.
-struct UnkApplication {
+// Base of the DS application object (main() runs g_GameApplication, a GameApplication).
+// The default virtuals (0x0200885c-0x02008874) and the vtable (0x020bb970) are defined in GameApplication.cpp.
+struct DssApplication {
     virtual void vf00();                        // called by unkfunc_02057f8c after the system init
     virtual void vf04();  
     virtual void vf08();  
@@ -16,5 +16,5 @@ struct UnkApplication {
     void unkfunc_02057fc4();
 };
 
-extern UnkApplication g_Application;
+extern DssApplication g_Application;
 

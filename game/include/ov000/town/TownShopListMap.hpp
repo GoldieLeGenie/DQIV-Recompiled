@@ -1,12 +1,12 @@
 #pragma once
 #include "globaldefs.h"
 #include "main/window/ImageMap.hpp"
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 
 /* vtable 0x02147cc4 */
 struct TownShopListMap : window::ImageMap {
-    UnkMenuSprite shopSprite_;                  // 0x04
-    UnkMenuSprite blackSprite_;                 // 0x54
+    MenuSprite shopSprite_;                  // 0x04
+    MenuSprite blackSprite_;                 // 0x54
     int isEnable_;                              // 0xA4
     int frame_;                                 // 0xA8
     int phase_;                                 // 0xAC

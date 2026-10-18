@@ -1,14 +1,14 @@
 #pragma once
 #include "globaldefs.h"
 #include "main/data/DataObject.hpp"
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 
 struct TownEndrollManager {
     static const int STAFF_MAX = 3;
 
-    UnkMenuSprite staff_[STAFF_MAX];            // 0x000
+    MenuSprite staff_[STAFF_MAX];            // 0x000
     DataObject theEndData_;                     // 0x0F0
-    UnkSprite2D theEnd_;                        // 0x100
+    Sprite2D theEnd_;                        // 0x100
     void* theEndTexture_;                       // 0x138
     DataObject textureData_;                    // 0x13C
     void* texture_;                             // 0x14C

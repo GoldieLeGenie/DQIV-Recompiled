@@ -7,7 +7,7 @@
 
 // Base of the DS menu display objects (message window, yes/no window, icons, hopping numbers...).
 // The vtable (0x020c218c) only holds pure virtual slots; all methods live at 0x0204f198-0x0204f294.
-struct UnkMenuDisplay {
+struct MenuDisplay {
     // vtable                                   // 0x00
     int enable_;                                // 0x04
     int type_;                                  // 0x08  1: drawn on main, 2: drawn on sub, 3: both
@@ -21,14 +21,14 @@ struct UnkMenuDisplay {
     int moveCount_;                             // 0x28
     int key_;                                   // 0x2C  loaded resource, -1: none
 
-    UnkMenuDisplay();
+    MenuDisplay();
     virtual void setup(int id) = 0;
-    virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub) = 0;
-    virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub) = 0;
-    virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub) = 0;
+    virtual void update(OamBuffer* main, OamBuffer* sub) = 0;
+    virtual void execute(OamBuffer* main, OamBuffer* sub) = 0;
+    virtual void draw(OamBuffer* main, OamBuffer* sub) = 0;
     void reset();                    // hide
     void updateMove();                    // move toward the target
-    int isDrawable(UnkOamBuffer* main, UnkOamBuffer* sub);
+    int isDrawable(OamBuffer* main, OamBuffer* sub);
     void setType(int type);
     void setEnable(int enable);
     void setPosition(int x, int y);

@@ -3,7 +3,7 @@
 #include "main/object/DisplayCharacter.hpp"
 #include "main/global/GlobalDQ4.hpp"
 #include "main/menu/MenuAPI.hpp"
-#include "ov016/UnkTownMenu_02176fa0/UnkTownMenu_02176fa0.hpp"
+#include "ov016/TownMenuItemSelectItem/TownMenuItemSelectItem.hpp"
 #include "main/menu/TownMenu_PARTY_TALK.hpp"
 #include "ov016/TownMenu_MAGIC/TownMenu_MAGIC_ROOT.hpp"
 #include "ov016/TownMenu_ITEM/TownMenuItemSelectChara.hpp"

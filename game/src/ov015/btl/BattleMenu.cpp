@@ -7,7 +7,7 @@
 
 // global instances of the battle menus
 THUMB
-UnkBattleMenu_0216e270 gUnkBattleMenu_0216e270;
+BattleMenu_TEST gUnkBattleMenu_0216e270;
 BattleMenu_ROOT gBattleMenu_ROOT;
 BattleMenu_ACTIONMENU gBattleMenu_ACTIONMENU;
 BattleMenu_ATTACK gBattleMenu_ATTACK;
@@ -15,7 +15,7 @@ BattleMenu_MAGIC gBattleMenu_MAGIC;
 BattleMenu_MAGIC2ENEMY gBattleMenu_MAGIC2ENEMY;
 BattleMenu_MAGIC2PARTY gBattleMenu_MAGIC2PARTY;
 BattleMenu_ITEM gBattleMenu_ITEM;
-UnkBattleMenu_0216cf44 gUnkBattleMenu_0216cf44;
+BattleMenu_ITEMUSEEQUIP gUnkBattleMenu_0216cf44;
 BattleMenu_ITEMUSE2ENEMY gBattleMenu_ITEMUSE2ENEMY;
 BattleMenu_ITEMUSE2PARTY gBattleMenu_ITEMUSE2PARTY;
 BattleMenu_TACTICSMENU gBattleMenu_TACTICSMENU;

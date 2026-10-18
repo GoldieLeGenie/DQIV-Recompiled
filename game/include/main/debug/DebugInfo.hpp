@@ -4,7 +4,7 @@
 #include "main/status/GameFlag.hpp"
 
 // Debug info page: position, flags, message IDs, world/play time, heap and dss array warnings
-struct UnkDebugInfo : UnkDebugDisplay {
+struct DebugInfo : DebugDisplay {
     // vtable                                   // 0x000
     int showPosition_;                          // 0x004
     int showWalk_;                              // 0x008
@@ -46,4 +46,4 @@ struct UnkDebugInfo : UnkDebugDisplay {
     void setShowArrayWarning(int show);            // show the array warnings
 };
 
-extern UnkDebugInfo g_DebugInfo;
+extern DebugInfo g_DebugInfo;

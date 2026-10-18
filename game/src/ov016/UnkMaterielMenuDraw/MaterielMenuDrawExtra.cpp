@@ -5,65 +5,65 @@
 #include "main/menu/MenuPartsDraw.hpp"
 
 // parts lists (their definition order sets the .data layout)
-static UnkMenuParts s_parts_02183a2c[] = {
+static MenuPartsEntry s_parts_02183a2c[] = {
     { 0x0c, 0xf0, 0, 0, 0, 0x98, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183930[] = {
+static MenuPartsEntry s_parts_02183930[] = {
     { 0x15, 0xb0, 0, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021839bc[] = {
+static MenuPartsEntry s_parts_021839bc[] = {
     { 0x0f, 0x09, (short)0xf000, 0, 0, 0, 0x10, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183f12[] = {
+static MenuPartsEntry s_parts_02183f12[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x30, 0xa8, 0x64, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x64, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0x64, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183f82[] = {
+static MenuPartsEntry s_parts_02183f82[] = {
     { 0x05, 0x00, (short)0xf000, 6, 0xb0, 0x18, 8, 8 },
     { 0x03, 0xd0, (short)0xf000, 0, 0xb0, 0x18, 0x48, 8 },
     { 0x05, 0x01, (short)0xf000, 6, 0xf8, 0x18, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183fba[] = {
+static MenuPartsEntry s_parts_02183fba[] = {
     { 0x05, 0x00, (short)0xf000, 6, 8, 0x98, 8, 8 },
     { 0x03, 0xd0, (short)0xf000, 0, 8, 0x98, 0xf0, 8 },
     { 0x05, 0x01, (short)0xf000, 6, 0xf8, 0x98, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183e5c[] = {
+static MenuPartsEntry s_parts_02183e5c[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0, 0x98, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xa0, 0, 0x58, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183a48[] = {
+static MenuPartsEntry s_parts_02183a48[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0, 0, 0, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183ce2[] = {
+static MenuPartsEntry s_parts_02183ce2[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x60, 0x38, 0xe },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x30, 0x60, 0x2a, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183ff2[] = {
+static MenuPartsEntry s_parts_02183ff2[] = {
     { 0x05, 0x00, (short)0xf000, 6, 0xb0, 0x18, 8, 8 },
     { 0x03, 0xd0, (short)0xf000, 0, 0xb0, 0x18, 0x48, 8 },
     { 0x05, 0x01, (short)0xf000, 6, 0xf8, 0x18, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183b60[] = {
+static MenuPartsEntry s_parts_02183b60[] = {
     { 0x0f, 0x0a, (short)0xf000, 0, 0, 0, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183b7c[] = {
+static MenuPartsEntry s_parts_02183b7c[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x98, 0, 0x40, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02184612[] = {
+static MenuPartsEntry s_parts_02184612[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 8, 0x38, 0xe },
     { 0x0d, 0x08, (short)0xf000, 1, 0x18, 0x18, 0xe, 0xe },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x18, 0x18, 0x2a, 0xe },
@@ -73,30 +73,30 @@ static UnkMenuParts s_parts_02184612[] = {
     { 0x0f, 0x0a, (short)0xf000, 6, 0x18, 0x34, 0x2a, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183ab8[] = {
+static MenuPartsEntry s_parts_02183ab8[] = {
     { 0x0c, 0xf4, 0, 0, 0xe0, 0x9c, 0x18, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183bec[] = {
+static MenuPartsEntry s_parts_02183bec[] = {
     { 0x0d, 0x05, (short)0xf000, 0, 0, 0, 0xc, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183a9c[] = {
+static MenuPartsEntry s_parts_02183a9c[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0xf, 0x54, 0x60, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_0218409a[] = {
+static MenuPartsEntry s_parts_0218409a[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x60, 0x46, 0xe },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x50, 0x60, 0xc, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x5a, 0x60, 0x18, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183d36[] = {
+static MenuPartsEntry s_parts_02183d36[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x60, 0x46, 0xe },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x64, 0x60, 0xc, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021843fe[] = {
+static MenuPartsEntry s_parts_021843fe[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x30, 0xa0, 0x50, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x10, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0x30, 0xc },
@@ -104,48 +104,48 @@ static UnkMenuParts s_parts_021843fe[] = {
     { 0x0d, 0x08, (short)0xf000, 4, 0x70, 0xac, 0x2a, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021839d8[] = {
+static MenuPartsEntry s_parts_021839d8[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0x10, 0, 0x14, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183d60[] = {
+static MenuPartsEntry s_parts_02183d60[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0xf, 0x54, 0x10, 0xe },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x50, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183af0[] = {
+static MenuPartsEntry s_parts_02183af0[] = {
     { 0x15, 0xb0, 0, 0, 0xdd, 0x20, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183d8a[] = {
+static MenuPartsEntry s_parts_02183d8a[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x19, 6, 0x58, 0xa },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x98, 6, 0x30, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183db4[] = {
+static MenuPartsEntry s_parts_02183db4[] = {
     { 0x14, 0xc0, 0, -1, 0x24, 0x3c, 0x20, 0x20 },
     { 0x0c, 0xf1, 0, 0, 0x20, 0x38, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021842a0[] = {
+static MenuPartsEntry s_parts_021842a0[] = {
     { 0x0f, 0x0a, (short)0xf000, 0, 8, 0, 0x20, 0xe },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x20, 0xe },
     { 0x0d, 0x0a, (short)0xf000, 2, 0x28, 0, 0x18, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 3, 0xb8, 0, 0x40, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_0218394c[] = {
+static MenuPartsEntry s_parts_0218394c[] = {
     { 0x15, 0xb5, 0, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021842e6[] = {
+static MenuPartsEntry s_parts_021842e6[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x60, 0x38, 0xe },
     { 0x0f, 0x0a, (short)0xf000, 1, 0x30, 0x60, 0x2a, 0xe },
     { 0x0d, 0x08, (short)0xf000, 2, 0x5c, 0x60, 0xe, 0xe },
     { 0x0f, 0x0a, (short)0xf000, 3, 0x55, 0x60, 0x2a, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02184452[] = {
+static MenuPartsEntry s_parts_02184452[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x60, 0x38, 0xe },
     { 0x0f, 0x0a, (short)0xf000, 1, 0x30, 0x60, 0x2a, 0xe },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0xe, 0xe },
@@ -153,45 +153,45 @@ static UnkMenuParts s_parts_02184452[] = {
     { 0x0d, 0x0b, (short)0xf000, 4, 0, 0, 0x54, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021839f4[] = {
+static MenuPartsEntry s_parts_021839f4[] = {
     { 0x0f, 0x0a, (short)0xf000, 0, 0, 0, 0x30, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021840d2[] = {
+static MenuPartsEntry s_parts_021840d2[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x60, 0x46, 0xe },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x50, 0x60, 0xc, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x5a, 0x60, 0x18, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_0218410a[] = {
+static MenuPartsEntry s_parts_0218410a[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0xf, 0x54, 0x68, 0xa },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x69, 0x54, 8, 0xa },
     { 0x0f, 0x0b, (short)0xf000, 2, 0, 0, 0xc, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183a80[] = {
+static MenuPartsEntry s_parts_02183a80[] = {
     { 0x0f, 0x0a, (short)0xf000, 0, 0xc8, 8, 0x30, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 static int s_int_021838e4[6] = { 0xa000000c, 0xa000000d, 0xa0000007, 0xa0000008, 0xa000000b, 0xa000000a };
-static UnkMenuParts s_parts_02184142[] = {
+static MenuPartsEntry s_parts_02184142[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x19, 6, 0x50, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 1, 0x90, 6, 0x30, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0x18, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_0218417a[] = {
+static MenuPartsEntry s_parts_0218417a[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0xf, 6, 0x10, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x58, 0xa },
     { 0x0d, 0x0a, (short)0xf000, 2, 0x98, 6, 0x30, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183e08[] = {
+static MenuPartsEntry s_parts_02183e08[] = {
     { 0x14, 0xc0, 0, -1, 4, 0, 0x21, 0x10 },
     { 0x0d, 0x09, (short)0xf000, 0, 0, 2, 0x29, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_0218480a[] = {
+static MenuPartsEntry s_parts_0218480a[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x10, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0x10, 0, 0x10, 0xa },
     { 0x0d, 0x08, (short)0xf000, 2, 0x20, 0, 0x10, 0xa },
@@ -205,33 +205,33 @@ static UnkMenuParts s_parts_0218480a[] = {
     { 0x0d, 0x08, (short)0xf000, 0xa, 0xb0, 0, 0x28, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183b0c[] = {
+static MenuPartsEntry s_parts_02183b0c[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x90, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183e32[] = {
+static MenuPartsEntry s_parts_02183e32[] = {
     { 0x14, 0xc0, 0, -1, 0, 4, 0x21, 0x10 },
     { 0x0d, 0x09, (short)0xf000, 0, 0, 6, 0x20, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_0218432c[] = {
+static MenuPartsEntry s_parts_0218432c[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0xf, 6, 0x10, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x50, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x90, 6, 0x30, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 3, 0, 0, 0x18, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021841b2[] = {
+static MenuPartsEntry s_parts_021841b2[] = {
     { 0x0d, 0x08, (short)0xf000, 4, 0x8a, 0, 0xe, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 7, 0, 0, 0x18, 0xc },
     { 0x0f, 0x0b, (short)0xf000, 5, 8, 0, 0x18, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183b44[] = {
+static MenuPartsEntry s_parts_02183b44[] = {
     { 0x0d, 0x0a, (short)0xf000, 0, 0, 0, 0x14, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021844fa[] = {
+static MenuPartsEntry s_parts_021844fa[] = {
     { 0x14, 0xc2, 0, 0, 0, 0, 0x1c, 0x1c },
     { 0x0c, 0xf1, 0, 0, 0, 0, 0x20, 0x20 },
     { 0x0d, 0x08, (short)0xf000, 1, 0, 0, 0xa, 0xa },
@@ -240,64 +240,64 @@ static UnkMenuParts s_parts_021844fa[] = {
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 static int s_int_021838fc[6] = { 0xa000000c, 0xa000000d, 0xa0000007, 0xa0000008, 0xa000000b, 0xa000000a };
-static UnkMenuParts s_parts_02183e86[] = {
+static MenuPartsEntry s_parts_02183e86[] = {
     { 0x14, 0xc2, 0, 0, 0x1e, 0x2e, 0x1c, 0x1c },
     { 0x0c, 0xf1, 0, 0, 0x18, 0x28, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021841ea[] = {
+static MenuPartsEntry s_parts_021841ea[] = {
     { 0x05, 0x00, (short)0xf000, 5, 0xb0, 0, 8, 8 },
     { 0x03, 0xd0, (short)0xf000, 0, 0xb0, 8, 8, 0x10 },
     { 0x05, 0x00, (short)0xf000, 0xb, 0xb0, 0x18, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02184222[] = {
+static MenuPartsEntry s_parts_02184222[] = {
     { 0x0f, 0x08, (short)0xf000, 0, 8, 0, 0xa, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 7, 0, 0, 0xe, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 1, 8, 0, 0x50, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183b98[] = {
+static MenuPartsEntry s_parts_02183b98[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x58, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183a10[] = {
+static MenuPartsEntry s_parts_02183a10[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0, 0x55, 0x100, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183c24[] = {
+static MenuPartsEntry s_parts_02183c24[] = {
     { 0x0d, 0x0a, (short)0xf000, 0, 0, 0, 0x30, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183bd0[] = {
+static MenuPartsEntry s_parts_02183bd0[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183eb0[] = {
+static MenuPartsEntry s_parts_02183eb0[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x20, 0, 0x98, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xb8, 0, 0x40, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 static int s_int_02183c40[10] = { 1, 2, 4, 5, 8, 0xa, 0x14, 0x64, 0xfa, 0x1f4 };
-static UnkMenuParts s_parts_02183eda[] = {
+static MenuPartsEntry s_parts_02183eda[] = {
     { 0x05, 0x00, (short)0xf000, 5, 0xb0, 0, 8, 8 },
     { 0x03, 0xd0, (short)0xf000, 0, 0xb0, 8, 8, 0x38 },
     { 0x05, 0x00, (short)0xf000, 0xb, 0xb0, 0x40, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_0218425a[] = {
+static MenuPartsEntry s_parts_0218425a[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x30, 0xa0, 0x48, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x18, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0xa8, 0xc },
     { 0x0d, 0x08, (short)0xf000, 3, 0x30, 0xac, 0xf0, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183914[] = {
+static MenuPartsEntry s_parts_02183914[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0, 0xc, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 static int s_int_02183c68[10] = { 0xa0000135, 0xa0000134, 0xa0000133, 0xa0000132, 0xa0000131, 0xa0000130, 0xa000012f, 0xa000012e, 0xa000012d, 0xa000012c };
-static UnkMenuParts s_parts_0218454e[] = {
+static MenuPartsEntry s_parts_0218454e[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 8, 0x38, 0xe },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0xe, 0xe },
     { 0x0d, 0x08, (short)0xf000, 2, 0x18, 0x18, 0xe, 0xe },
@@ -306,7 +306,7 @@ static UnkMenuParts s_parts_0218454e[] = {
     { 0x0f, 0x0a, (short)0xf000, 5, 0x18, 0x26, 0x2a, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021845b0[] = {
+static MenuPartsEntry s_parts_021845b0[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x30, 0xa0, 0x50, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x10, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0x30, 0xc },
@@ -315,32 +315,32 @@ static UnkMenuParts s_parts_021845b0[] = {
     { 0x0f, 0x0b, (short)0xf000, 5, 0, 0, 0x20, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183f4a[] = {
+static MenuPartsEntry s_parts_02183f4a[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x30, 0xa0, 0x50, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x10, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0x30, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021839a0[] = {
+static MenuPartsEntry s_parts_021839a0[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183cb8[] = {
+static MenuPartsEntry s_parts_02183cb8[] = {
     { 0x0f, 0x0a, (short)0xf000, 0, 0xb8, 8, 0x30, 0x10 },
     { 0x0d, 0x0a, (short)0xf000, 1, 0xe8, 8, 0x10, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_0218402a[] = {
+static MenuPartsEntry s_parts_0218402a[] = {
     { 0x05, 0x00, (short)0xf000, 6, 0xb0, 0x48, 8, 8 },
     { 0x03, 0xd0, (short)0xf000, 0, 0xb0, 0x48, 0x48, 8 },
     { 0x05, 0x01, (short)0xf000, 6, 0xf8, 0x48, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183984[] = {
+static MenuPartsEntry s_parts_02183984[] = {
     { 0x15, 0xb1, 0, 0, 0xdd, 0x20, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02184682[] = {
+static MenuPartsEntry s_parts_02184682[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x10, 0, 0x64, 0x10 },
     { 0x0d, 0x0b, (short)0xf000, 6, 0, 0, 0xa, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 1, 0x74, 0, 0xa, 0x10 },
@@ -350,22 +350,22 @@ static UnkMenuParts s_parts_02184682[] = {
     { 0x0d, 0x0b, (short)0xf000, 5, 0, 0, 0xc, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02184062[] = {
+static MenuPartsEntry s_parts_02184062[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x60, 0x38, 0xe },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x4b, 0x60, 0x1c, 0xe },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x55, 0x60, 0x2a, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183d0c[] = {
+static MenuPartsEntry s_parts_02183d0c[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x60, 0x46, 0xe },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x64, 0x60, 0xc, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183bb4[] = {
+static MenuPartsEntry s_parts_02183bb4[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02184762[] = {
+static MenuPartsEntry s_parts_02184762[] = {
     { 0x0f, 0x08, (short)0xf000, 0, 8, 0, 0xe, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 7, 0, 0, 0xe, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 1, 8, 0, 0x50, 0xc },
@@ -379,24 +379,24 @@ static UnkMenuParts s_parts_02184762[] = {
     { 0x0d, 0x08, (short)0xf000, 0xa, 0x74, 0xc, 0x50, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183c08[] = {
+static MenuPartsEntry s_parts_02183c08[] = {
     { 0x15, 0xb0, 0, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183968[] = {
+static MenuPartsEntry s_parts_02183968[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183dde[] = {
+static MenuPartsEntry s_parts_02183dde[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x98, 0, 0x40, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xc0, 0, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183a64[] = {
+static MenuPartsEntry s_parts_02183a64[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021846f2[] = {
+static MenuPartsEntry s_parts_021846f2[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x30, 0xa0, 0x50, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x10, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0x30, 0xc },
@@ -406,12 +406,12 @@ static UnkMenuParts s_parts_021846f2[] = {
     { 0x0f, 0x0b, (short)0xf000, 6, 0, 0, 0x20, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183ad4[] = {
+static MenuPartsEntry s_parts_02183ad4[] = {
     { 0x15, 0xb3, 0, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 static int s_int_02183c90[10] = { 0xa0000135, 0xa0000134, 0xa0000133, 0xa0000132, 0xa0000131, 0xa0000130, 0xa000012f, 0xa000012e, 0xa000012d, 0xa000012c };
-static UnkMenuParts s_parts_021844a6[] = {
+static MenuPartsEntry s_parts_021844a6[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 6, 0x50, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 1, 0x90, 6, 0x30, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 8, 0xa },
@@ -419,18 +419,18 @@ static UnkMenuParts s_parts_021844a6[] = {
     { 0x0f, 0x0b, (short)0xf000, 4, 0, 0, 0x18, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02184372[] = {
+static MenuPartsEntry s_parts_02184372[] = {
     { 0x14, 0xc0, 0, -1, 0, 0, 0x58, 0x18 },
     { 0x14, 0xc0, 0, -1, 0x68, 0, 0x58, 0x18 },
     { 0x0d, 0x09, (short)0xf000, 0, 0, 6, 0x58, 0x28 },
     { 0x0d, 0x09, (short)0xf000, 1, 0x68, 6, 0x58, 0x28 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02183b28[] = {
+static MenuPartsEntry s_parts_02183b28[] = {
     { 0x15, 0xb5, 0, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021843b8[] = {
+static MenuPartsEntry s_parts_021843b8[] = {
     { 0x0c, 0xf3, 0, 0, -32, -6, 0x20, 0x20 },
     { 0x0c, 0xf3, 0, 1, 8, -6, 0x20, 0x20 },
     { 0x0d, 0x0a, (short)0xf000, 2, 0, 0, 8, 0xc },
@@ -453,7 +453,7 @@ THUMB void drawFrameStyleA(int x, int y, int w, int h, int lineY)
     s_parts_02183bd0[0].h_ = h;
     drawMenuPartsPlain(s_parts_02183bd0, 0);
     if (lineY >= 1) {
-        UnkMenuParts line[] = {
+        MenuPartsEntry line[] = {
             { 0x16, 0x00, (short)0xf000, 0, 0, 0, 0, 0 },
             { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
         };
@@ -472,7 +472,7 @@ THUMB void drawFrameStyleB(int x, int y, int w, int h, int lineY)
     s_parts_02183bb4[0].h_ = h;
     drawMenuPartsPlain(s_parts_02183bb4, 0);
     if (lineY >= 1) {
-        UnkMenuParts line[] = {
+        MenuPartsEntry line[] = {
             { 0x16, 0x00, (short)0xf000, 0, 0, 0, 0, 0 },
             { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
         };
@@ -665,7 +665,7 @@ THUMB void drawCenteredMessage(int* message, int x, int y, int w, int h)
 
 THUMB void drawJournalSlot(int index, char* name, int chapter, int level, int town, int time, int y, int flag)
 {
-    UnkMenuParts* draw = s_parts_02184762;
+    MenuPartsEntry* draw = s_parts_02184762;
     int mode;
     if (flag) {
         mode = 1;
@@ -825,13 +825,13 @@ THUMB void unkfunc_unused_5(int* param)
     drawMenuPartsPlain(s_parts_021840d2, param);
     drawMenuPartsPlain(s_parts_0218410a, param);
     drawMenuPartsPlain(s_parts_02183a80, param);
-    drawMenuPartsPlain((UnkMenuParts*)s_int_021838e4, param);
+    drawMenuPartsPlain((MenuPartsEntry*)s_int_021838e4, param);
     drawMenuPartsPlain(s_parts_02184142, param);
     drawMenuPartsPlain(s_parts_0218417a, param);
     drawMenuPartsPlain(s_parts_0218432c, param);
     drawMenuPartsPlain(s_parts_02183b44, param);
     drawMenuPartsPlain(s_parts_021844fa, param);
-    drawMenuPartsPlain((UnkMenuParts*)s_int_021838fc, param);
+    drawMenuPartsPlain((MenuPartsEntry*)s_int_021838fc, param);
     drawMenuPartsPlain(s_parts_02183e86, param);
     drawMenuPartsPlain(s_parts_02183a10, param);
     drawMenuPartsPlain(s_parts_02183c24, param);
@@ -849,7 +849,7 @@ THUMB void unkfunc_unused_5(int* param)
     drawMenuPartsPlain(s_parts_02183a64, param);
     drawMenuPartsPlain(s_parts_021846f2, param);
     drawMenuPartsPlain(s_parts_02183ad4, param);
-    drawMenuPartsPlain((UnkMenuParts*)s_int_02183c90, param);
+    drawMenuPartsPlain((MenuPartsEntry*)s_int_02183c90, param);
     drawMenuPartsPlain(s_parts_021844a6, param);
     drawMenuPartsPlain(s_parts_02184372, param);
     drawMenuPartsPlain(s_parts_021843b8, param);

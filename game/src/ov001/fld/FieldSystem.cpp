@@ -73,7 +73,7 @@ ARM void FieldSystem::initialize()
         status::g_Party.balloon_ = 0;
     }
     SoundManager::fieldPlay();
-    UnkScreenEffectManager::getSingleton()->initialize();
+    ScreenEffectManager::getSingleton()->initialize();
     int id;
     if (g_Stage.ruraFlag_ != 0) {
         id = -1;
@@ -113,7 +113,7 @@ ARM void FieldSystem::terminate()
         g_Stage.playerLockCount_ = FieldPlayerManager::getSingleton()->getLockCount();
     }
     FieldSymbolManager::getSingleton()->terminate();
-    UnkScreenEffectManager::getSingleton()->terminate();
+    ScreenEffectManager::getSingleton()->terminate();
     FieldPlayerManager::getSingleton()->cleanup();
     cmn::GameManager::getSingleton()->terminate();
     FieldPlayerManager::getSingleton()->terminate();
@@ -128,7 +128,7 @@ ARM void FieldSystem::terminate()
 ARM void FieldSystem::execute()
 {
     if (g_Global.getRanarutaFlag()) {
-        UnkScreenEffectManager::getSingleton()->execute();
+        ScreenEffectManager::getSingleton()->execute();
         cmn::NonBattleActionManager::getSingleton()->execute();
     }
     if (FieldWindowSystem::getSingleton()->isOpen()) {
@@ -153,8 +153,8 @@ ARM void FieldSystem::execute()
 ARM void FieldSystem::draw()
 {
     cmn::CommonChapterTitle::getSingleton()->draw();
-    UnkScreenEffectManager::getSingleton()->draw();
-    if (UnkScreenEffectManager::getSingleton()->isEffectDrawing()) {
+    ScreenEffectManager::getSingleton()->draw();
+    if (ScreenEffectManager::getSingleton()->isEffectDrawing()) {
         return;
     }
 #ifdef DQIV_NATIVE

@@ -2,8 +2,8 @@
 #include <globaldefs.h>
 
 // debug text console on the debug BG screen
-struct UnkDebugConsole {
-    UnkDebugConsole() { unkfunc_0207e800(); }
+struct DssDebugConsole {
+    DssDebugConsole() { unkfunc_0207e800(); }
     void unkfunc_0207e800();                    // init
     void unkfunc_0207e804();                    // clear
     void unkfunc_0207e810();                    // clear
@@ -14,7 +14,7 @@ struct UnkDebugConsole {
     void unkfunc_0207e8f4(int x, int y);
 };
 
-extern UnkDebugConsole g_DebugConsole;
+extern DssDebugConsole g_DebugConsole;
 extern int g_mainExArenaEnabled;                       // main extended arena enabled
 
 void unkfunc_0207e7e0();

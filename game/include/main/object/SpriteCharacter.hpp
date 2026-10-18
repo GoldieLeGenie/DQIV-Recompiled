@@ -1,11 +1,11 @@
 #pragma once
 #include <globaldefs.h>
 #include "main/dss/DssUtils.hpp"
-#include "main/dss/UnkSprite2D.hpp"
+#include "main/dss/Sprite2D.hpp"
 #include "main/data/DataObject.hpp"
 
 /* vtable 0x020c1db4 */
-struct SpriteShadow : UnkSprite2D {
+struct SpriteShadow : Sprite2D {
     virtual void draw();
 
     SpriteShadow();
@@ -16,7 +16,7 @@ struct SpriteShadow : UnkSprite2D {
 };
 
 /* vtable 0x020c1dd4 */
-struct SpriteCharacter : UnkSprite2D {
+struct SpriteCharacter : Sprite2D {
     enum {
         FLAG_ENABLE = 1,
         FLAG_DISPLAY = 2,

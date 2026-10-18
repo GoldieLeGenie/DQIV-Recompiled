@@ -26,7 +26,7 @@ struct CharacterShadow : PolygonObject {
 
 #include "main/dss/TextureBillboard.hpp"
 
-struct BillboardCharacter : UnkTextureBillboard {
+struct BillboardCharacter : TextureBillboard {
     enum {
         FLAG_ENABLE = 0x1,
         FLAG_DISPLAY = 0x2,

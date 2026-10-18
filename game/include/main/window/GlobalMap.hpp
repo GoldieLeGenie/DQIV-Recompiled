@@ -4,8 +4,8 @@
 #include "main/dss/DssUtils.hpp"
 
 namespace window {
-    struct GlobalMap : UnkMapBase_020381d0 {
-        UnkMenuSprite unk_100;                  // 0x100
+    struct GlobalMap : WorldMapBase {
+        MenuSprite unk_100;                  // 0x100
 
         GlobalMap();
         ~GlobalMap();

@@ -31,7 +31,7 @@ struct PolygonObject : RenderObject3D {
 
 // shadow volume: quad (draw) or 8 quads (unkfunc_02083b1c) drawn as shadow polygons
 /* vtable 0x020c447c */
-struct UnkShadowPolygon : PolygonObject {
+struct ShadowPolygon : PolygonObject {
     virtual void draw();                        // 0x020839bc
     virtual void unkfunc_02083b1c();            // draw unk_84
 

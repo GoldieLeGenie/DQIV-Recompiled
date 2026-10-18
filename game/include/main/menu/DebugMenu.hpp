@@ -30,7 +30,7 @@ struct DebugMenuPad {
     int isAPressed();
 };
 
-struct DebugMenu : UnkGlobalPart {
+struct DebugMenu : GlobalPartBase {
     // vtable                                   // 0x00
     int x_;                                     // 0x04
     int y_;                                     // 0x08

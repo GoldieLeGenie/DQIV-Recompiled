@@ -1,7 +1,7 @@
 #include "main/menu/MenuFrameDisplay.hpp"
 #include "nitro/g2.hpp"
 
-THUMB void UnkMenuFrameDisplay::addFrameSprites(int x, int y, int w, int h, int priority, int palette, int corner, int xlu)
+THUMB void MenuFrameDisplay::addFrameSprites(int x, int y, int w, int h, int priority, int palette, int corner, int xlu)
 {
     if (palette == -1) {
         palette = 15;
@@ -51,7 +51,7 @@ THUMB void UnkMenuFrameDisplay::addFrameSprites(int x, int y, int w, int h, int 
     addFrameCells(x, y, w, h, priority, palette, 8, 8, GX_OAM_SHAPE_8x8, corner, xlu);
 }
 
-THUMB void UnkMenuFrameDisplay::addFrameCells(int x, int y, int w, int h, int priority, int palette, int cellW,
+THUMB void MenuFrameDisplay::addFrameCells(int x, int y, int w, int h, int priority, int palette, int cellW,
                                                  int cellH, int shape, int corner, int xlu)
 {
     for (int j = 0; j < h; j += cellH) {

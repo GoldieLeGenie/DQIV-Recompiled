@@ -8,7 +8,7 @@
 #include "nitro/g3.hpp"
 
 static int unk_020bea5c = -1;
-static UnkG2dImageAttr unk_020bea60 = {5, 5, 7, 0, 0, 0x100010};
+static G2dSoftImageAttr unk_020bea60 = {5, 5, 7, 0, 0, 0x100010};
 static char s_field[] = "field";
 
 ARM window::CommandWindow::CommandWindow()
@@ -175,7 +175,7 @@ ARM bool window::CommandWindow::updateTouchScreenCapture()
         return false;
     }
     unkfunc_02068ec8(0x6b);
-    UnkG2dSprite sprite;
+    G2dSoftSprite sprite;
     sprite.posX = 0;
     sprite.posY = 0;
     sprite.sizeX = 0x40;
@@ -201,7 +201,7 @@ ARM bool window::CommandWindow::updateTouchScreenCapture()
     G3_PushMtx();
     unkfunc_02068eec(&sprite);
     G3_PopMtx(1);
-    UnkG2dSprite sprite2;
+    G2dSoftSprite sprite2;
     sprite2.posX = 0;
     sprite2.posY = 0x60;
     sprite2.sizeX = 0x40;

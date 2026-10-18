@@ -8,7 +8,7 @@
 #endif
 
 GlobalDQ4 g_GlobalDQ4;
-static UnkGameTaskHook s_hook;
+static GlobalDQ4TaskHook s_hook;
 
 ARM GlobalDQ4::GlobalDQ4()
 {
@@ -59,7 +59,7 @@ ARM void GlobalDQ4::unkfunc_02058014(int partId)
 #endif
 }
 
-ARM void GlobalDQ4::unkfunc_020580bc(int partId, UnkGameTask* task)
+ARM void GlobalDQ4::unkfunc_020580bc(int partId, GlobalDQ4Task* task)
 {
 #ifdef DQIV_NATIVE
     if (partId < 0 || partId >= 24 || !task) throw std::runtime_error("Invalid native game task registration");
@@ -107,12 +107,12 @@ ARM void GlobalDQ4::unkfunc_02058138(void (*func)())
     s_hook.unk_04 = func;
 }
 
-ARM void GlobalDQ4::unkfunc_02058148(UnkGameTask* task)
+ARM void GlobalDQ4::unkfunc_02058148(GlobalDQ4Task* task)
 {
     task->vf00();
 }
 
-ARM void GlobalDQ4::unkfunc_0205815c(UnkGameTask* task)
+ARM void GlobalDQ4::unkfunc_0205815c(GlobalDQ4Task* task)
 {
     task->vf04();
     if (s_hook.unk_04 != 0) {
@@ -120,30 +120,30 @@ ARM void GlobalDQ4::unkfunc_0205815c(UnkGameTask* task)
     }
 }
 
-ARM void GlobalDQ4::unkfunc_02058188(UnkGameTask* task)
+ARM void GlobalDQ4::unkfunc_02058188(GlobalDQ4Task* task)
 {
     task->vf08();
     task->vf0c();
     task->vf10();
 }
 
-ARM void UnkGameTaskHook::vf00()
+ARM void GlobalDQ4TaskHook::vf00()
 {
 }
 
-ARM void UnkGameTaskHook::vf04()
+ARM void GlobalDQ4TaskHook::vf04()
 {
 }
 
-ARM void UnkGameTaskHook::vf08()
+ARM void GlobalDQ4TaskHook::vf08()
 {
 }
 
-ARM void UnkGameTaskHook::vf10()
+ARM void GlobalDQ4TaskHook::vf10()
 {
 }
 
-ARM void UnkGameTaskHook::vf0c()
+ARM void GlobalDQ4TaskHook::vf0c()
 {
 }
 

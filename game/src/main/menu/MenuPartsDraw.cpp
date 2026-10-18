@@ -1,5 +1,5 @@
 #include "main/menu/MenuPartsDraw.hpp"
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 #include "main/text/TextAPI.hpp"
 #ifdef DQIV_NATIVE
 #include "GameServices.hpp"
@@ -24,7 +24,7 @@ void unkfunc_native_platePalette(int index, int palette)
 
 THUMB void showNamePlate(int index, int x, int y, int priority, int flag)
 {
-    UnkMenuTextDisplay* plate = &g_MenuDisplays.texts_[index];
+    MenuTextDisplay* plate = &g_MenuDisplays.texts_[index];
     plate->setPosition(x, y);
     plate->priority_ = priority;
     plate->frame_ = 1;
@@ -40,17 +40,17 @@ THUMB void showHoppingNumber(int x, int y, int value, int delay)
     g_MenuDisplays.hopping_.startNumber(x, y, value, delay);
 }
 
-THUMB void drawMenuPartsPlain(UnkMenuParts* parts, int* param)
+THUMB void drawMenuPartsPlain(MenuPartsEntry* parts, int* param)
 {
     drawMenuParts(parts, param, 0, 0, -1);
 }
 
-THUMB void drawMenuPartsAt(UnkMenuParts* parts, int* param, int x, int y)
+THUMB void drawMenuPartsAt(MenuPartsEntry* parts, int* param, int x, int y)
 {
     drawMenuParts(parts, param, x, y, -1);
 }
 
-THUMB void drawMenuPartsColored(UnkMenuParts* parts, int* param, int color)
+THUMB void drawMenuPartsColored(MenuPartsEntry* parts, int* param, int color)
 {
     drawMenuParts(parts, param, 0, 0, color);
 }
@@ -59,7 +59,7 @@ THUMB void drawMenuPartsColored(UnkMenuParts* parts, int* param, int color)
 // The text color of a comparison arrow (a number, the arrow, a number: shops,
 // equipping, handing an item over): green (12, loadSystemTextPalettes) when
 // the value goes up, red (9) when it goes down; 0 for any other part.
-static int comparisonArrowColor(UnkMenuParts* parts, UnkMenuParts* part, int* param)
+static int comparisonArrowColor(MenuPartsEntry* parts, MenuPartsEntry* part, int* param)
 {
     if (part->type_ != 13 || part->getTextColor() != 0) {
         return 0;
@@ -68,9 +68,9 @@ static int comparisonArrowColor(UnkMenuParts* parts, UnkMenuParts* part, int* pa
     if (!pc::isGameTextPointer(static_cast<unsigned int>(value)) || strcmp((const char*)value, "\xff\xfe\xaf\x24") != 0) {
         return 0;
     }
-    UnkMenuParts* before = NULL;
-    UnkMenuParts* after = NULL;
-    for (UnkMenuParts* other = parts; other->type_ != 0xff; other++) {
+    MenuPartsEntry* before = NULL;
+    MenuPartsEntry* after = NULL;
+    for (MenuPartsEntry* other = parts; other->type_ != 0xff; other++) {
         if (other->type_ == 15 && other->index_ == part->index_ - 1) {
             before = other;
         }
@@ -87,12 +87,12 @@ static int comparisonArrowColor(UnkMenuParts* parts, UnkMenuParts* part, int* pa
 }
 #endif
 
-THUMB void drawMenuParts(UnkMenuParts* parts, int* param, int x, int y, int color)
+THUMB void drawMenuParts(MenuPartsEntry* parts, int* param, int x, int y, int color)
 {
     s_textX = 0;
     s_textY = 0;
 #ifdef DQIV_NATIVE
-    UnkMenuParts* first = parts;
+    MenuPartsEntry* first = parts;
 #endif
     while (parts->type_ != 0xff) {
 #ifdef DQIV_NATIVE
@@ -105,12 +105,12 @@ THUMB void drawMenuParts(UnkMenuParts* parts, int* param, int x, int y, int colo
     }
 }
 
-THUMB void drawMenuPartAt(UnkMenuParts* part, int* param, int x, int y)
+THUMB void drawMenuPartAt(MenuPartsEntry* part, int* param, int x, int y)
 {
     drawMenuPart(part, param, x, y, -1);
 }
 
-THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaultColor)
+THUMB void drawMenuPart(MenuPartsEntry* part, int* param, int x, int y, int defaultColor)
 {
     int palette = part->getPalette();
     int color = part->getTextColor();
@@ -223,7 +223,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
         break;
     case 10:
     case 11: {
-        UnkMenuFaceDisplay* face = &g_MenuDisplays.face_;
+        MenuFaceDisplay* face = &g_MenuDisplays.face_;
         face->setEnable(1);
         face->loadFace(value);
         face->setPosition(px, py);
@@ -231,7 +231,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
         return;
     }
     case 9: {
-        UnkMenuIconDisplay* icon = &g_MenuDisplays.icon_;
+        MenuIconDisplay* icon = &g_MenuDisplays.icon_;
         int slot = part->getIconSlot();
         icon->setEnable(1);
         icon->loadIcon(slot, value);
@@ -491,7 +491,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
     }
 }
 
-THUMB int UnkMenuParts::getValue(int* param)
+THUMB int MenuPartsEntry::getValue(int* param)
 {
     if (param == NULL) {
         return -1;
@@ -499,17 +499,17 @@ THUMB int UnkMenuParts::getValue(int* param)
     return param[index_];
 }
 
-THUMB int UnkMenuParts::getPalette()
+THUMB int MenuPartsEntry::getPalette()
 {
     return (attr_ >> 12) & 0xf;
 }
 
-THUMB int UnkMenuParts::getTextColor()
+THUMB int MenuPartsEntry::getTextColor()
 {
     return (attr_ >> 8) & 0xf;
 }
 
-THUMB int UnkMenuParts::getIconSlot()
+THUMB int MenuPartsEntry::getIconSlot()
 {
     return attr_ & 0xff;
 }

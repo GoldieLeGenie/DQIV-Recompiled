@@ -13,13 +13,13 @@ struct FldCollision;
 
 int fldBoxTest(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecFx32* box, dss::Fix32* rate);
 
-struct FldStage : UnkRenderModel {
+struct FldStage : RenderScene {
     Render* m_render;                           // 0x008
     LZDataObject m_data;                        // 0x00C
     DataObject m_model;                         // 0x01C
     DataObject m_texture;                       // 0x02C
     DataObject m_coll;                          // 0x03C
-    UnkModelMember m_anim;                      // 0x04C
+    ModelResource m_anim;                      // 0x04C
     fld::FLDObject m_fld;                       // 0x058
     dss::Fix32Vector3 scale_;                   // 0x668
     int collisionFlag_;                         // 0x674

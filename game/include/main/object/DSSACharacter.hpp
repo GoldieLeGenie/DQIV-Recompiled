@@ -4,7 +4,7 @@
 #include "main/data/DataObject.hpp"
 #include "main/object/DSSAObject.hpp"
 #include "main/dss/TextureObject.hpp"
-#include "main/dss/UnkCharacterPalette.hpp"
+#include "main/dss/CharacterPalette.hpp"
 
 struct DSSACharacterData {
     LZDataObject textureData_;                  // 0x00
@@ -29,7 +29,7 @@ struct DSSACharacter : Position {
     int firstAnimationIndex_;                   // 0x040
     DSSAObjectWithCamera dssaObject_[14];       // 0x044
     void* texture_;                             // 0x904
-    UnkCharacterPalette palette_;               // 0x908
+    CharacterPalette palette_;               // 0x908
     DataObject* dataObject_;                    // 0xD1C
     dss::Flag flag_;                            // 0xD20
     long flagCount_;                            // 0xD24

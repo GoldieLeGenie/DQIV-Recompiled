@@ -1,16 +1,16 @@
 #pragma ipa file
 #include "main/debug/DebugBattleInfo.hpp"
 #include "main/data/DataObject.hpp"
-#include "main/menu/UnkMenuDisplays.hpp"
+#include "main/menu/MenuDisplays.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "main/status/PlayerStatus.hpp"
 #include "ov003/btl/BattleMonsterMask.hpp"
 #include "ov003/status/MonsterPartyWithDraw.hpp"
 #include "ov003/status/MonsterStatus.hpp"
 
-UnkDebugBattleInfo g_DebugBattleInfo;
+DebugBattleInfo g_DebugBattleInfo;
 
-THUMB void UnkDebugBattleInfo::initialize()
+THUMB void DebugBattleInfo::initialize()
 {
     type_ = 0;
     index_ = 0;
@@ -31,7 +31,7 @@ THUMB void UnkDebugBattleInfo::initialize()
     }
 }
 
-THUMB void UnkDebugBattleInfo::draw()
+THUMB void DebugBattleInfo::draw()
 {
     if (showHeap_ != 0) {
         drawHeap(1, 1);
@@ -73,14 +73,14 @@ THUMB void UnkDebugBattleInfo::draw()
     drawDebugWindow(13, 1, 18, 15);
 }
 
-THUMB void UnkDebugBattleInfo::drawHeap(int x, int y)
+THUMB void DebugBattleInfo::drawHeap(int x, int y)
 {
     debugConsolePrintf(x, y, "HEAP");
     debugConsolePrintf(x, y + 1, "%3dK", getAppHeapFreeSize(&g_appHeap) >> 10);
     drawDebugWindow(x, y, 4, 2);
 }
 
-THUMB void UnkDebugBattleInfo::drawStatusInfo(int x, int y, status::HaveStatusInfo* info)
+THUMB void DebugBattleInfo::drawStatusInfo(int x, int y, status::HaveStatusInfo* info)
 {
     int hp = info->getHp();
     int hpMax = info->getHpMax();

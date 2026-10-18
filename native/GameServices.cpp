@@ -93,9 +93,9 @@ std::vector<std::uint8_t> read(const char* name) {
     return data;
 }
 }
-UnkHeap g_appHeap{};
-UnkTouchPanel::UnkTouchPanel() : unk_00{}, touch_(0), x_(0), y_(0), unk_24(0), unk_28(0), unk_2c(0) {}
-UnkTouchPanel g_TouchPanel;
+DssHeap g_appHeap{};
+TouchPanelState::TouchPanelState() : unk_00{}, touch_(0), x_(0), y_(0), unk_24(0), unk_28(0), unk_2c(0) {}
+TouchPanelState g_TouchPanel;
 void* g_compressedDataPtrs[2]{};
 dss::File dss::g_File{};
 
@@ -149,7 +149,7 @@ std::span<const std::uint8_t> gameAllocation(const void* pointer) {
     throw std::runtime_error("Resource pointer is outside a game allocation");
 }
 }
-void initHeap(UnkHeap* h, unsigned int s0, unsigned int s1, unsigned int s2, int) {
+void initHeap(DssHeap* h, unsigned int s0, unsigned int s1, unsigned int s2, int) {
     if (h->heap0_ || h->heap1_ || h->heap2_) throw std::runtime_error("Game heaps already initialized");
     h->heap0_ = makeHeap(s0); h->heap1_ = makeHeap(s1); h->heap2_ = makeHeap(s2);
     h->size0_ = s0; h->size1_ = s1; h->size2_ = s2;
@@ -163,17 +163,17 @@ extern "C" int pcTryInitAllocator(void* allocator, void* heap, int alignment) {
     initAllocator(static_cast<NNSFndAllocator*>(allocator),heap,alignment);
     return 1;
 }
-void* allocAppHeap(UnkHeap* h, int n, int a) { return allocate(h->heap2_, n, a); }
-void* dssAlloc(UnkHeap* h, int n, int a) { return allocate(h->heap2_, n, a); }
-void freeSystemHeap(UnkHeap* h, void* p) { release(h->heap1_, p); }
-void freeAppHeap(UnkHeap* h, void* p) { release(h->heap2_, p); }
-void dssFree(UnkHeap* h, void* p) { release(h->heap2_, p); }
-unsigned int getHeap0FreeSize(UnkHeap* h) { auto& v = getHeap(h->heap0_); return static_cast<unsigned int>(v.capacity - v.used); }
-unsigned int getSystemHeapFreeSize(UnkHeap* h) { auto& v = getHeap(h->heap1_); return static_cast<unsigned int>(v.capacity - v.used); }
-unsigned int getAppHeapFreeSize(UnkHeap* h) { auto& v = getHeap(h->heap2_); return static_cast<unsigned int>(v.capacity - v.used); }
-unsigned int getAppHeapTotalFreeSize(UnkHeap* h) { return getAppHeapFreeSize(h); }
-void** getHeap0(UnkHeap* h) { return &h->heap0_; }
-void** getSystemHeap(UnkHeap* h) { return &h->heap1_; }
+void* allocAppHeap(DssHeap* h, int n, int a) { return allocate(h->heap2_, n, a); }
+void* dssAlloc(DssHeap* h, int n, int a) { return allocate(h->heap2_, n, a); }
+void freeSystemHeap(DssHeap* h, void* p) { release(h->heap1_, p); }
+void freeAppHeap(DssHeap* h, void* p) { release(h->heap2_, p); }
+void dssFree(DssHeap* h, void* p) { release(h->heap2_, p); }
+unsigned int getHeap0FreeSize(DssHeap* h) { auto& v = getHeap(h->heap0_); return static_cast<unsigned int>(v.capacity - v.used); }
+unsigned int getSystemHeapFreeSize(DssHeap* h) { auto& v = getHeap(h->heap1_); return static_cast<unsigned int>(v.capacity - v.used); }
+unsigned int getAppHeapFreeSize(DssHeap* h) { auto& v = getHeap(h->heap2_); return static_cast<unsigned int>(v.capacity - v.used); }
+unsigned int getAppHeapTotalFreeSize(DssHeap* h) { return getAppHeapFreeSize(h); }
+void** getHeap0(DssHeap* h) { return &h->heap0_; }
+void** getSystemHeap(DssHeap* h) { return &h->heap1_; }
 void freeSystemMemory(void* p) { freeSystemHeap(&g_appHeap, p); }
 
 void setCompressedData(void* src) { g_compressedDataPtrs[0] = src; }

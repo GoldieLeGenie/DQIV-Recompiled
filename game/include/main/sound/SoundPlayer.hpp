@@ -2,7 +2,7 @@
 #include <globaldefs.h>
 
 // DS-only sound handle
-struct UnkSoundHandle {
+struct SoundSeqHandle {
     int unk_00;                                 // 0x00
     int unk_04;                                 // 0x04
     int unk_08;                                 // 0x08  volume (sys)
@@ -12,8 +12,8 @@ struct UnkSoundHandle {
     int unk_18;                                 // 0x18
     int unk_1c;                                 // 0x1C
 
-    UnkSoundHandle();
-    ~UnkSoundHandle();
+    SoundSeqHandle();
+    ~SoundSeqHandle();
     void unkfunc_02086494(int a);
     void unkfunc_020864ac(int bgm);
     void unkfunc_020864e0(int fade);
@@ -26,31 +26,31 @@ struct UnkSoundHandle {
     void unkfunc_020865b4();                    // apply the volume
 };
 
-struct UnkSoundMember {
+struct SoundStreamHandle {
     int unk_00;                                 // 0x00
     int unk_04;                                 // 0x04
 
-    UnkSoundMember();
-    ~UnkSoundMember();
+    SoundStreamHandle();
+    ~SoundStreamHandle();
     void unkfunc_02086750();
     void unkfunc_0208675c(int value);
     void unkfunc_02086784(int value);
 };
 
 // DS-only sound player
-struct UnkSoundPlayer {
+struct DsSoundPlayer {
     int enable_;                                // 0x000
     int bgm_;                                   // 0x004
-    UnkSoundMember unk_008;                     // 0x008
-    UnkSoundHandle bgmHandle_[2];               // 0x010
-    UnkSoundHandle seHandle_[8];                // 0x050
+    SoundStreamHandle unk_008;                     // 0x008
+    SoundSeqHandle bgmHandle_[2];               // 0x010
+    SoundSeqHandle seHandle_[8];                // 0x050
     int bgmVolumeSys_;                          // 0x150
     int bgmVolume_;                             // 0x154
     int seVolumeSys_;                           // 0x158
     int seVolume_;                              // 0x15C
 
-    UnkSoundPlayer();
-    ~UnkSoundPlayer();
+    DsSoundPlayer();
+    ~DsSoundPlayer();
     void unkfunc_0205c710();                        // init
     void unkfunc_0205c76c(int bgm);                 // load bgm
     void unkfunc_0205c78c(int a, int b);
@@ -73,7 +73,7 @@ struct UnkSoundPlayer {
 };
 
 // sound system: sound heap + sound archive
-struct UnkSoundSystem {
+struct DsSoundSystem {
     void* unk_00;                               // 0x00 sound heap memory
     void* unk_04;                               // 0x04 sound heap
     unsigned char unk_08[0x90];                 // 0x08 sound archive
@@ -81,8 +81,8 @@ struct UnkSoundSystem {
     void* unk_9c;                               // 0x9C sound archive file
     int unk_a0;                                 // 0xA0
 
-    UnkSoundSystem();
-    ~UnkSoundSystem();
+    DsSoundSystem();
+    ~DsSoundSystem();
     void unkfunc_020865f4(void* file, int flag);    // init
     void unkfunc_02086634();                        // load the sound archive
     void unkfunc_020866d8();
@@ -90,8 +90,8 @@ struct UnkSoundSystem {
     void unkfunc_02086720(int a, int b);
 };
 
-extern UnkSoundPlayer g_SoundPlayer;
-extern UnkSoundSystem g_SoundSystem;
+extern DsSoundPlayer g_SoundPlayer;
+extern DsSoundSystem g_SoundSystem;
 extern int g_seqStartVolume;
 extern int g_strmStartVolume;
 extern int data_0211fc68[2];

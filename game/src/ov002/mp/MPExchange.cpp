@@ -10,16 +10,16 @@
 
 static const u8 s_anyBssid[6] = { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
 
-int UnkMPExchange::unk_02127140;
-int UnkMPExchange::unk_02127144;
-int UnkMPExchange::connected_[16];
-int UnkMPExchange::scanning_;
-int UnkMPExchange::parentCount_;
-alignas(32) u8 UnkMPExchange::sendBuffer_[0x1e0];
-alignas(32) u8 UnkMPExchange::recvBuffer_[0x1e0];
-WMBssDesc UnkMPExchange::bssDesc_[4];
+int MPExchange::unk_02127140;
+int MPExchange::unk_02127144;
+int MPExchange::connected_[16];
+int MPExchange::scanning_;
+int MPExchange::parentCount_;
+alignas(32) u8 MPExchange::sendBuffer_[0x1e0];
+alignas(32) u8 MPExchange::recvBuffer_[0x1e0];
+WMBssDesc MPExchange::bssDesc_[4];
 
-ARM void UnkMPExchange::printChildren()
+ARM void MPExchange::printChildren()
 {
     char buf[0x20];
     char line[0x20];
@@ -27,7 +27,7 @@ ARM void UnkMPExchange::printChildren()
     debugConsolePrint(1, 0, buf);
     for (int i = 0; i < 16; i++) {
         if (connected_[i]) {
-            UnkMPExchangePacket* packet = RECV_PACKET(i);
+            MPExchangePacket* packet = RECV_PACKET(i);
             dss::sprintf_s(line, sizeof(line), "%2d  0x%04x 0x%04x  %02x %s", i, packet->pad_, (u16)packet->frame_,
                            ((u8*)&packet->data_)[0x9f], &packet->data_);
         } else {
@@ -37,7 +37,7 @@ ARM void UnkMPExchange::printChildren()
     }
 }
 
-ARM void UnkMPExchange::setSendData(UnkEnvoyData* data)
+ARM void MPExchange::setSendData(EnvoyData* data)
 {
     unk_fc = 0;
     dss::memset(sendData_, 0, 0xe4);
@@ -45,15 +45,15 @@ ARM void UnkMPExchange::setSendData(UnkEnvoyData* data)
     dss::memcpy(sendData_, data, 0xe4);
 }
 
-ARM UnkEnvoyData* UnkMPExchange::getReceivedData()
+ARM EnvoyData* MPExchange::getReceivedData()
 {
     if (unk_fc == 0) {
         return NULL;
     }
-    return (UnkEnvoyData*)receiveData_;
+    return (EnvoyData*)receiveData_;
 }
 
-ARM void UnkMPExchange::start()
+ARM void MPExchange::start()
 {
     OSOwnerInfo info;
     unk_38 = g_debugConsolePrintEnabled;
@@ -78,13 +78,13 @@ ARM void UnkMPExchange::start()
     setMode(SYSMODE_STOP_toREADY00);
 }
 
-ARM void UnkMPExchange::startRoleSelection()
+ARM void MPExchange::startRoleSelection()
 {
     role_.buildTable();
     setMode(SYSMODE_SELECT_ROLE);
 }
 
-ARM void UnkMPExchange::update()
+ARM void MPExchange::update()
 {
     prevMode_ = mode_;
     switch (getWhSysState()) {
@@ -161,7 +161,7 @@ ARM void UnkMPExchange::update()
     }
 }
 
-ARM void UnkMPExchange::updateDataSharing()
+ARM void MPExchange::updateDataSharing()
 {
     if (getWhSysState() != WH_SYSSTATE_STOP) {
         receivePackets();
@@ -177,7 +177,7 @@ ARM void UnkMPExchange::updateDataSharing()
     }
 }
 
-ARM void UnkMPExchange::setMode(int mode)
+ARM void MPExchange::setMode(int mode)
 {
     if (mode_ != mode) {
         mode_ = mode;
@@ -185,7 +185,7 @@ ARM void UnkMPExchange::setMode(int mode)
     }
 }
 
-ARM const char* UnkMPExchange::getModeName(int mode)
+ARM const char* MPExchange::getModeName(int mode)
 {
     switch (mode) {
     case SYSMODE_STOP:
@@ -230,29 +230,29 @@ ARM const char* UnkMPExchange::getModeName(int mode)
     return "UNKNOW STATE";
 }
 
-ARM void UnkMPExchange::unkfunc_021239d0()
+ARM void MPExchange::unkfunc_021239d0()
 {
 }
 
-ARM void UnkMPExchange::updateGameInfo(int entry)
+ARM void MPExchange::updateGameInfo(int entry)
 {
     unk_1a++;
     childCount_ = func_02066df0(getWhConnectBitmap()) - 1;
     func_0207e6b0(onSetGameInfoCallback, nickName_, 0x18, 0x8001d3, tgid_, entry ? 1 : 0);
 }
 
-ARM void UnkMPExchange::onSetGameInfoCallback(void* arg)
+ARM void MPExchange::onSetGameInfoCallback(void* arg)
 {
 }
 
-ARM void UnkMPExchange::onIndicationCallback(void* arg)
+ARM void MPExchange::onIndicationCallback(void* arg)
 {
     if (((u16*)arg)[2] == 0x10) {
         unk_02127144 = 2;
     }
 }
 
-ARM void UnkMPExchange::onScanCallback(WMBssDesc* desc)
+ARM void MPExchange::onScanCallback(WMBssDesc* desc)
 {
     char line[0x20];
     char name[0x15];
@@ -283,7 +283,7 @@ ARM void UnkMPExchange::onScanCallback(WMBssDesc* desc)
     scanning_ = UNK_SCAN_STATE_0;
 }
 
-ARM void UnkMPExchange::startParent(u16 channel, int beaconPeriod)
+ARM void MPExchange::startParent(u16 channel, int beaconPeriod)
 {
     channel_ = channel;
     if (channel == 0) {
@@ -297,25 +297,25 @@ ARM void UnkMPExchange::startParent(u16 channel, int beaconPeriod)
     setMode(SYSMODE_PARENT_LOBBY);
 }
 
-ARM void UnkMPExchange::startScan(int channel)
+ARM void MPExchange::startScan(int channel)
 {
     startWhScan(onScanCallback, s_anyBssid, channel);
     setMode(SYSMODE_CHILD_SCAN);
 }
 
-ARM void UnkMPExchange::finish()
+ARM void MPExchange::finish()
 {
     finalizeWh();
     setMode(SYSMODE_FINISH_READY);
 }
 
-ARM void UnkMPExchange::abort()
+ARM void MPExchange::abort()
 {
     resetWh();
     setMode(SYSMODE_FINISH_READY);
 }
 
-ARM void UnkMPExchange::updateStopToReady0()
+ARM void MPExchange::updateStopToReady0()
 {
     setWhIndicateCallback(onIndicationCallback);
     if (initWh()) {
@@ -327,20 +327,20 @@ ARM void UnkMPExchange::updateStopToReady0()
     }
 }
 
-ARM void UnkMPExchange::updateStopToReady1()
+ARM void MPExchange::updateStopToReady1()
 {
     if (getWhSysState() == WH_SYSSTATE_IDLE) {
         setMode(SYSMODE_READY);
     }
 }
 
-ARM void UnkMPExchange::updateLightErrorInit()
+ARM void MPExchange::updateLightErrorInit()
 {
     finalizeWh();
     setMode(SYSMODE_LIGHT_ERRORWAIT);
 }
 
-ARM void UnkMPExchange::updateLightErrorWait()
+ARM void MPExchange::updateLightErrorWait()
 {
     if (getWhSysState() == WH_SYSSTATE_IDLE) {
         endWh();
@@ -348,7 +348,7 @@ ARM void UnkMPExchange::updateLightErrorWait()
     }
 }
 
-ARM void UnkMPExchange::updateFatalError()
+ARM void MPExchange::updateFatalError()
 {
     switch (unk_f4) {
     case 0:
@@ -367,7 +367,7 @@ ARM void UnkMPExchange::updateFatalError()
     }
 }
 
-ARM int UnkMPExchangeRole::getNextRole()
+ARM int MPExchangeRole::getNextRole()
 {
     if (advance() == 0) {
         buildTable();
@@ -376,7 +376,7 @@ ARM int UnkMPExchangeRole::getNextRole()
     return role_;
 }
 
-ARM void UnkMPExchangeRole::buildTable()
+ARM void MPExchangeRole::buildTable()
 {
     role_ = 0;
     index_ = 0;
@@ -400,7 +400,7 @@ ARM void UnkMPExchangeRole::buildTable()
     table_[32] = 0;
 }
 
-ARM int UnkMPExchangeRole::advance()
+ARM int MPExchangeRole::advance()
 {
     restartTimer();
     index_ = next_;
@@ -429,7 +429,7 @@ ARM int UnkMPExchangeRole::advance()
     return 0;
 }
 
-ARM void UnkMPExchangeRole::printTable()
+ARM void MPExchangeRole::printTable()
 {
     char line[0x21];
     for (int i = 0; i < 0x21; i++) {
@@ -455,12 +455,12 @@ ARM void UnkMPExchangeRole::printTable()
     debugConsolePrint(index_ + pos, 5, "^");
 }
 
-ARM void UnkMPExchangeRole::restartTimer()
+ARM void MPExchangeRole::restartTimer()
 {
     start_ = func_02079bf0();
 }
 
-ARM int UnkMPExchangeRole::isTimedOut()
+ARM int MPExchangeRole::isTimedOut()
 {
     now_ = func_02079bf0();
     elapsed_ = now_ - start_;

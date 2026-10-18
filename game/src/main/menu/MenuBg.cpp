@@ -1,7 +1,7 @@
 #include "main/menu/MenuBg.hpp"
 #include "main/dss/Display.hpp"
 #include "main/menu/MenuIconData.hpp"
-#include "main/menu/UnkMenuIconDisplay.hpp"
+#include "main/menu/MenuIconDisplay.hpp"
 #include "main/menu/MenuSystem.hpp"
 #include "main/menu/UiMsg.hpp"
 #include "nitro/gx.h"
@@ -33,55 +33,55 @@ void registerHdIcon(unsigned int key, void* src, int w, int h, int offset)
 }
 #endif
 
-THUMB void UnkMenuWindowBg::init()
+THUMB void MenuWindowBg::init()
 {
     initCharBuffer(&char_, charData_, 32, 48);
     initScreenBuffer(&screen_, screenData_, 32, 48);
 }
 
-THUMB UnkCharBuffer* UnkMenuWindowBg::getCharBuffer()
+THUMB BgCharBuffer* MenuWindowBg::getCharBuffer()
 {
     return &char_;
 }
 
-THUMB UnkScreenBuffer* UnkMenuWindowBg::getScreenBuffer()
+THUMB BgScreenBuffer* MenuWindowBg::getScreenBuffer()
 {
     return &screen_;
 }
 
-THUMB void UnkMenuIconSlot::init(int offset)
+THUMB void MenuIconSlot::init(int offset)
 {
     offset_ = offset;
     key_ = -1;
     state_ = 0;
 }
 
-THUMB void UnkMenuIconSlot::setKey(unsigned int key)
+THUMB void MenuIconSlot::setKey(unsigned int key)
 {
     key_ = key;
 }
 
-THUMB unsigned int UnkMenuIconSlot::getKey()
+THUMB unsigned int MenuIconSlot::getKey()
 {
     return key_;
 }
 
-THUMB void UnkMenuIconSlot::setState(int state)
+THUMB void MenuIconSlot::setState(int state)
 {
     state_ = state;
 }
 
-THUMB int UnkMenuIconSlot::getState()
+THUMB int MenuIconSlot::getState()
 {
     return state_;
 }
 
-THUMB int UnkMenuIconSlot::getOffset()
+THUMB int MenuIconSlot::getOffset()
 {
     return offset_;
 }
 
-THUMB int UnkMenuIconRequest::set(int x, int y, int w, int h, int type, int index)
+THUMB int MenuIconRequest::set(int x, int y, int w, int h, int type, int index)
 {
     enable_ = 1;
     x_ = x;
@@ -93,12 +93,12 @@ THUMB int UnkMenuIconRequest::set(int x, int y, int w, int h, int type, int inde
     return 1;
 }
 
-THUMB UnkMenuIconBg::UnkMenuIconBg()
+THUMB MenuIconBg::MenuIconBg()
 {
     enable_ = 0;
 }
 
-THUMB void UnkMenuIconBg::init(int enable)
+THUMB void MenuIconBg::init(int enable)
 {
     enable_ = enable;
 #ifdef DQIV_NATIVE
@@ -116,16 +116,16 @@ THUMB void UnkMenuIconBg::init(int enable)
     }
 }
 
-THUMB void UnkMenuIconBg::loadPalettes()
+THUMB void MenuIconBg::loadPalettes()
 {
-    UnkPaletteBuffer* palette = getBgPaletteBuffer(0);
+    PaletteBuffer* palette = getBgPaletteBuffer(0);
     void* item = getMenuIconData(0xf0000000, 9999);
     void* chara = getMenuIconData(0xf1000000, 9999);
     palette->loadColors(0, 0, item, 0xa0);
     palette->loadColors(10, 0, chara, 0x40);
 }
 
-THUMB void UnkMenuIconBg::clearScreen()
+THUMB void MenuIconBg::clearScreen()
 {
     fillScreenBuffer(&screen_, 0);
 #ifdef DQIV_NATIVE
@@ -135,7 +135,7 @@ THUMB void UnkMenuIconBg::clearScreen()
 #endif
 }
 
-THUMB int UnkMenuIconBg::loadIcon(unsigned int key, void* src, int size)
+THUMB int MenuIconBg::loadIcon(unsigned int key, void* src, int size)
 {
     int found = findSlot(key);
     if (found != -1) {
@@ -162,7 +162,7 @@ THUMB int UnkMenuIconBg::loadIcon(unsigned int key, void* src, int size)
     return slot;
 }
 
-THUMB int UnkMenuIconBg::findSlot(unsigned int key)
+THUMB int MenuIconBg::findSlot(unsigned int key)
 {
     for (int i = 0; i < 28; i++) {
         if (key == slots_[i].getKey()) {
@@ -173,7 +173,7 @@ THUMB int UnkMenuIconBg::findSlot(unsigned int key)
     return -1;
 }
 
-THUMB int UnkMenuIconBg::findSameIconSlot(unsigned int key)
+THUMB int MenuIconBg::findSameIconSlot(unsigned int key)
 {
     unsigned int base = (key & 0xff000000) | ((key & 0xffffff) % 1000);
     for (int i = 0; i < 28; i++) {
@@ -187,7 +187,7 @@ THUMB int UnkMenuIconBg::findSameIconSlot(unsigned int key)
     return -1;
 }
 
-THUMB int UnkMenuIconBg::findFreeSlot()
+THUMB int MenuIconBg::findFreeSlot()
 {
     for (int i = 0; i < 28; i++) {
         if (slots_[i].getState() == 0) {
@@ -197,7 +197,7 @@ THUMB int UnkMenuIconBg::findFreeSlot()
     return -1;
 }
 
-THUMB int UnkMenuIconBg::findCachedSlot(unsigned int key)
+THUMB int MenuIconBg::findCachedSlot(unsigned int key)
 {
     for (int i = 0; i < 28; i++) {
         if (slots_[i].getState() == 2 && key == slots_[i].getKey()) {
@@ -207,7 +207,7 @@ THUMB int UnkMenuIconBg::findCachedSlot(unsigned int key)
     return -1;
 }
 
-THUMB int UnkMenuIconBg::findReusableSlot()
+THUMB int MenuIconBg::findReusableSlot()
 {
     for (int i = 0; i < 28; i++) {
         if (slots_[i].getState() == 2) {
@@ -217,7 +217,7 @@ THUMB int UnkMenuIconBg::findReusableSlot()
     return -1;
 }
 
-THUMB void UnkMenuIconBg::drawIcon(int x, int y, int w, int h, int type, int index)
+THUMB void MenuIconBg::drawIcon(int x, int y, int w, int h, int type, int index)
 {
     if (index == -1 || !enable_ || y - 24 < 0) {
         return;
@@ -245,18 +245,18 @@ THUMB void UnkMenuIconBg::drawIcon(int x, int y, int w, int h, int type, int ind
     }
 }
 
-THUMB void UnkMenuIconBg::requestIcon(int x, int y, int w, int h, int type, int index)
+THUMB void MenuIconBg::requestIcon(int x, int y, int w, int h, int type, int index)
 {
     requests_[requestCount_].set(x, y, w, h, type, index);
     requestCount_++;
 }
 
-THUMB void UnkMenuIconBg::drawRequests()
+THUMB void MenuIconBg::drawRequests()
 {
     drawRequestsOfType(0xf4000000);
     drawRequestsOfType(0xf3000000);
     drawRequestsOfType(0xf2000000);
-    UnkMenuIconRequest* request = requests_;
+    MenuIconRequest* request = requests_;
     for (int i = 0; i < requestCount_; i++, request++) {
         if (request->enable_) {
             drawIcon(request->x_, request->y_, request->w_, request->h_, request->type_, request->index_);
@@ -265,9 +265,9 @@ THUMB void UnkMenuIconBg::drawRequests()
     }
 }
 
-THUMB void UnkMenuIconBg::drawRequestsOfType(int type)
+THUMB void MenuIconBg::drawRequestsOfType(int type)
 {
-    UnkMenuIconRequest* request = requests_;
+    MenuIconRequest* request = requests_;
     for (int i = 0; i < requestCount_; i++, request++) {
         if (type == request->type_ && request->enable_) {
             drawIcon(request->x_, request->y_, request->w_, request->h_, request->type_, request->index_);
@@ -276,7 +276,7 @@ THUMB void UnkMenuIconBg::drawRequestsOfType(int type)
     }
 }
 
-THUMB void UnkMenuIconBg::flush(int frame)
+THUMB void MenuIconBg::flush(int frame)
 {
     if (enable_) {
         drawRequests();
@@ -308,11 +308,11 @@ THUMB void executeMenuBg()
     g_MenuBg.back_.update();
 }
 
-UnkMenuBg g_MenuBg;
+MenuBg g_MenuBg;
 
 THUMB void transferMenuBg()
 {
-    UnkMenuBg* bg = &g_MenuBg;
+    MenuBg* bg = &g_MenuBg;
     if (!isDisplayTextReady() || bg->transferCount_ == 0) {
         return;
     }
@@ -323,8 +323,8 @@ THUMB void transferMenuBg()
         int y = frame * 24;
         void* chr = getCharBufferTile(bg->window_.getCharBuffer(), 0, y);
         requestVramCopy(getBgCharVramType(index), 0x1000, chr, 0x6000);
-        UnkScreenBuffer* window = bg->window_.getScreenBuffer();
-        UnkScreenBuffer* screen = getDebugScreenBuffer();
+        BgScreenBuffer* window = bg->window_.getScreenBuffer();
+        BgScreenBuffer* screen = getDebugScreenBuffer();
         unsigned short* src = getScreenBufferCell(window, 0, y);
         unsigned short* dst = getScreenBufferCell(screen, 0, y);
         for (int i = 0; i < 0x300; i++) {
@@ -349,7 +349,7 @@ THUMB void requestMenuBgTransfer()
     g_MenuBg.transferCount_ = 2;
 }
 
-THUMB void UnkMenuBackBg::init()
+THUMB void MenuBackBg::init()
 {
     initScreenBuffer(&screen_, screenData_, 32, 48);
     startFade(0, 0, 0, 0);
@@ -357,12 +357,12 @@ THUMB void UnkMenuBackBg::init()
     unk_c34 = 0;
 }
 
-THUMB UnkScreenBuffer* UnkMenuBackBg::getScreenBuffer()
+THUMB BgScreenBuffer* MenuBackBg::getScreenBuffer()
 {
     return &screen_;
 }
 
-THUMB void UnkMenuBackBg::startFade(int r, int g, int b, int frame)
+THUMB void MenuBackBg::startFade(int r, int g, int b, int frame)
 {
     enable_ = 1;
     targetR_ = r;
@@ -371,7 +371,7 @@ THUMB void UnkMenuBackBg::startFade(int r, int g, int b, int frame)
     frame_ = frame;
 }
 
-THUMB void UnkMenuBackBg::update()
+THUMB void MenuBackBg::update()
 {
     if (!enable_) {
         return;

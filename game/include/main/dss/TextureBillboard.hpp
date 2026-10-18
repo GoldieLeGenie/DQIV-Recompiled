@@ -1,7 +1,7 @@
 #pragma once
 #include "main/dss/Billboard.hpp"
 /* vtable 0x020c1c44 */
-struct UnkTextureBillboard : Billboard {
+struct TextureBillboard : Billboard {
 #if !defined(DQIV_NATIVE) && !defined(BILLBOARD_CHARACTER_TU)
     virtual void draw();                        // never defined: key function so the vtable is only emitted by BillboardCharacter.cpp
 #endif

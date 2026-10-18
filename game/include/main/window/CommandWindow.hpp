@@ -68,7 +68,7 @@ namespace window {
 }
 
 /* NitroSystem G2D software sprite (DS-only touch button drawing in CommandWindow) */
-struct UnkG2dImageAttr {                        // NNSG2dImageAttr-like
+struct G2dSoftImageAttr {                        // NNSG2dImageAttr-like
     int sizeS;                                  // 0x00
     int sizeT;                                  // 0x04
     int fmt;                                    // 0x08
@@ -77,7 +77,7 @@ struct UnkG2dImageAttr {                        // NNSG2dImageAttr-like
     int mappingType;                            // 0x14
 };
 
-struct UnkG2dSprite {                           // NNSG2dExtendedSprite-like (0x3C)
+struct G2dSoftSprite {                           // NNSG2dExtendedSprite-like (0x3C)
     short posX;                                 // 0x00
     short posY;                                 // 0x02
     short sizeX;                                // 0x04
@@ -85,7 +85,7 @@ struct UnkG2dSprite {                           // NNSG2dExtendedSprite-like (0x
     unsigned short rotZ;                        // 0x08
     unsigned char priority;                     // 0x0A
     unsigned char alpha;                        // 0x0B
-    UnkG2dImageAttr* attr;                      // 0x0C
+    G2dSoftImageAttr* attr;                      // 0x0C
     int texAddr;                                // 0x10
     int plttAddr;                               // 0x14
     short unk_18;                               // 0x18
@@ -103,4 +103,4 @@ struct UnkG2dSprite {                           // NNSG2dExtendedSprite-like (0x
 };
 
 void unkfunc_02068ec8(int attr);                // sprite attribute enable (NNS G2D-like)
-void unkfunc_02068eec(UnkG2dSprite* sprite);    // draw software sprite
+void unkfunc_02068eec(G2dSoftSprite* sprite);    // draw software sprite

@@ -3,7 +3,7 @@
 #include "main/dss/Utf8Iterator.hpp"
 
 // UTF-16 text (2 bytes per char)
-struct Utf16Iterator : UnkTextIterator {
+struct Utf16Iterator : TextIterator {
     Utf16Iterator();
     virtual unsigned short getChar();
     virtual int putChar(int c);
@@ -14,7 +14,7 @@ struct Utf16Iterator : UnkTextIterator {
 };
 
 // Unicode tables of the Shift-JIS chars (file data)
-struct UnkSjisTable {
+struct SjisTables {
     unsigned short* tableE0_;                   // 0x00 lead bytes 0xE0-0xEF
     int sizeE0_;                                // 0x04
     int size81_;                                // 0x08
@@ -29,7 +29,7 @@ extern unsigned short g_katakanaCharTable[85];        // katakana
 extern unsigned short g_hiraganaCharTable[85];        // hiragana
 extern unsigned short g_asciiCharTable[96];        // ASCII
 extern unsigned short g_fullWidthCharTable[96];        // full width
-extern UnkSjisTable g_sjisTables;
+extern SjisTables g_sjisTables;
 extern unsigned char g_sjisTextBuffer[0x800];
 
 void initSjisTables(unsigned short* table81, int size81, unsigned short* tableE0, int sizeE0);

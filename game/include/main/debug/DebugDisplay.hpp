@@ -4,7 +4,7 @@
 #include "main/dss/ArrayErrorLog.hpp"
 
 // Base of the debug info pages drawn on the debug console (one page per part slot)
-struct UnkDebugDisplay {
+struct DebugDisplay {
     virtual void initialize() = 0;
     virtual void draw() = 0;
 };
@@ -16,5 +16,5 @@ void drawDebugWindow(int x, int y, int w, int h);         // sub screen window f
 void initDebugDisplay();                                   // end of the part initialize
 void updateDebugDisplay();                                   // part onDebugPart
 void setDebugDisplayPage(int type);                           // select the page of the current part slot
-UnkDebugDisplay* getDebugDisplayPage(int type);               // 1: info page, 2: battle page
+DebugDisplay* getDebugDisplayPage(int type);               // 1: info page, 2: battle page
 int getDebugDisplaySlot();                                    // part slot of the current task

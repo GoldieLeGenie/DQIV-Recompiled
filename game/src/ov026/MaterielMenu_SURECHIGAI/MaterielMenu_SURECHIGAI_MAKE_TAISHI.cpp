@@ -21,7 +21,7 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuSetup()
     firstFlag_ = 1;
     changeTaishi_ = 0;
     g_EnvoyManager.backupMyEnvoy();
-    int level = UnkImmigrantTown::getSingleton()->getTownLevel();
+    int level = ImmigrantTown::getSingleton()->getTownLevel();
     if (level == 0) {
         level = 1;
     }

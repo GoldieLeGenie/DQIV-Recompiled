@@ -3,14 +3,14 @@
 #include "main/dss/CsvData.hpp"
 
 // Group/map list of "data/btlmap/_list.txt" used by the battle menu debug part
-struct UnkBattleMapList : CsvData {
+struct BattleMapList : CsvData {
     int group_;                                 // 0x20  first row of the current group
     int map_;                                   // 0x24  row in the group
     int unk_28;                                 // 0x28
     int loaded_;                                // 0x2C
 
-    UnkBattleMapList();
-    ~UnkBattleMapList();
+    BattleMapList();
+    ~BattleMapList();
     void load(const char* filename);    // load
     int isLoaded();                         // loaded_
     char* getGroupName();                       // group name
@@ -21,4 +21,4 @@ struct UnkBattleMapList : CsvData {
     void prevMap();                        // previous map
 };
 
-extern UnkBattleMapList g_battleMapList;
+extern BattleMapList g_battleMapList;

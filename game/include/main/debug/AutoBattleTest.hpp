@@ -2,7 +2,7 @@
 #include <globaldefs.h>
 
 // automatic battle test: plays the encounters of the tiles firstTile_..lastTile_, playCount_ times
-struct UnkBattleTest {
+struct AutoBattleTest {
     int unk_00;                                 // 0x00
     int firstTile_;                             // 0x04
     int lastTile_;                              // 0x08
@@ -22,8 +22,8 @@ struct UnkBattleTest {
     int unk_40;                                 // 0x40
     int act_;                                   // 0x44
 
-    UnkBattleTest();
+    AutoBattleTest();
     void update();                    // update
 };
 
-extern UnkBattleTest g_AutoBattleTest;
+extern AutoBattleTest g_AutoBattleTest;

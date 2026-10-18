@@ -62,7 +62,7 @@ ARM void ModelObject::cleanup(int flag)
             animation_[i].unkfunc_02082b7c();
         }
     }
-    UnkModelObjectBase::vf04();
+    ModelObjectBase::vf04();
 #ifdef DQIV_NATIVE
     // The DS heap left released bytes readable. Native allocations do not:
     // unbind materials and release their VRAM keys while the resource is alive.
@@ -86,7 +86,7 @@ ARM void ModelObject::draw()
     if (!m_play_flag) {
         return;
     }
-    UnkModelObjectBase::draw();
+    ModelObjectBase::draw();
     if (!m_pause_flag) {
         for (int i = 0; i < 6; i++) {
             if (animData_[i].getAddr()) {

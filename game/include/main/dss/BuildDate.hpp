@@ -11,7 +11,7 @@ struct BuildDate {
 };
 
 // contents of "data/date.dtd"
-struct UnkConvertDate {
+struct BuildDateFile {
     char unk_00[2];                             // 0x00
     char date_[8];                              // 0x02
     char end0_;                                 // 0x0A
@@ -21,4 +21,4 @@ struct UnkConvertDate {
     char unk_12[6];                             // 0x12
 };
 
-extern UnkConvertDate g_BuildDate;
+extern BuildDateFile g_BuildDate;

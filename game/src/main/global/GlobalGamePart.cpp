@@ -53,7 +53,7 @@ GlobalGamePart g_GlobalGamePart;
 static long long s_taskTick;
 static unsigned int s_lineLog[2][16];
 static unsigned int s_tickLog[2][16];
-UnkSpriteFade g_SpriteFade;
+GlobalSpriteFade g_SpriteFade;
 
 ARM void GlobalGamePart::vf00()
 {
@@ -145,7 +145,7 @@ ARM void GlobalGamePart::vf0c()
     // Towns and dungeons view one scene through the two screens' cameras.
     // Screen transition effects texture each screen with its own capture:
     // they keep the DS presentation.
-    UnkScreenEffectManager* effects = UnkScreenEffectManager::getSingleton();
+    ScreenEffectManager* effects = ScreenEffectManager::getSingleton();
     // A chapter title composes its screen from two frames (the picture and the
     // plaque come on alternate frames): it is shown as its own panel.
     const bool chapterTitle = cmn::CommonChapterTitle::getSingleton()->sprite_.isLoaded() != 0;
@@ -250,16 +250,16 @@ ARM void setPartFrameCallback(void (*callback)())
     s_callback = callback;
 }
 
-ARM int UnkSpriteFade::isEnd()
+ARM int GlobalSpriteFade::isEnd()
 {
     return count_ != frames_ ? RESULT_FALSE : RESULT_TRUE;
 }
 
-ARM void UnkSpriteFade::draw()
+ARM void GlobalSpriteFade::draw()
 {
 }
 
-ARM void UnkSpriteFade::update()
+ARM void GlobalSpriteFade::update()
 {
     count_++;
     count_ = dss::clamp<int>(count_, 0, frames_);

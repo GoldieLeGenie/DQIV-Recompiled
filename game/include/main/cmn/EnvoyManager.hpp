@@ -2,7 +2,7 @@
 #include "globaldefs.h"
 
 // Envoy received by surechigai (same fields as profile::PROFILE_ENVOY)
-struct UnkEnvoyData {
+struct EnvoyData {
     int enable;                                 // 0x00
     unsigned int unique;                        // 0x04
     int type;                                   // 0x08
@@ -16,25 +16,25 @@ struct UnkEnvoyData {
 };
 
 // Envoys of the immigrant town; the accessors work on myEnvoy_ (mode_ 1) or on envoy_[index_]
-struct UnkEnvoyManager {
+struct EnvoyManager {
     int mode_;                                  // 0x0000
     int index_;                                 // 0x0004
-    UnkEnvoyData myEnvoy_;                      // 0x0008
-    UnkEnvoyData envoy_[24];                    // 0x00DC
-    UnkEnvoyData received_;                     // 0x14BC
-    UnkEnvoyData backup_;                       // 0x1590 copy of myEnvoy_ while it is edited
+    EnvoyData myEnvoy_;                      // 0x0008
+    EnvoyData envoy_[24];                    // 0x00DC
+    EnvoyData received_;                     // 0x14BC
+    EnvoyData backup_;                       // 0x1590 copy of myEnvoy_ while it is edited
     int unk_1664;                               // 0x1664
     int flags_[50];                             // 0x1668 by envoy type
 
-    UnkEnvoyManager();
-    ~UnkEnvoyManager();
+    EnvoyManager();
+    ~EnvoyManager();
     void selectEnvoy(int index);           // select envoy_[index]
     int isMyEnvoyEnabled();
     int isEnvoyEnabled(int index);
     int findFreeEnvoy();                     // first free envoy (-1: full)
     int getEnvoyCount();                     // envoy count
     void removeEnvoy(int index);           // remove envoy_[index]
-    void receiveEnvoy(UnkEnvoyData* data, int arg);
+    void receiveEnvoy(EnvoyData* data, int arg);
     void setEnable(int enable);
     void setUnique(unsigned int unique);
     unsigned int getUnique();
@@ -63,4 +63,4 @@ struct UnkEnvoyManager {
     int isTypeSelectable(int type);
 };
 
-extern UnkEnvoyManager g_EnvoyManager;
+extern EnvoyManager g_EnvoyManager;

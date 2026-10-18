@@ -5,7 +5,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/status/PlayerStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenu_0216b304/UnkMaterielMenu_0216b304.hpp"
+#include "ov016/MaterielMenu_SHOP_EXTRA_SELL/MaterielMenu_SHOP_EXTRA_SELL.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_SHOP_WHO_SELL::menuSetup()

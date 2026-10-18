@@ -487,6 +487,6 @@ THUMB int GlobalWaitPart::isRunning()
     return 1;
 }
 
-THUMB void UnkGlobalPart::draw()
+THUMB void GlobalPartBase::draw()
 {
 }

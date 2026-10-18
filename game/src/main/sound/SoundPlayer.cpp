@@ -1,8 +1,8 @@
 #include "main/sound/SoundPlayer.hpp"
 
-UnkSoundPlayer g_SoundPlayer;
+DsSoundPlayer g_SoundPlayer;
 
-ARM UnkSoundPlayer::UnkSoundPlayer() : enable_(0)
+ARM DsSoundPlayer::DsSoundPlayer() : enable_(0)
 {
     bgmVolumeSys_ = 0x7f;
     bgmVolume_ = 0x7f;
@@ -10,11 +10,11 @@ ARM UnkSoundPlayer::UnkSoundPlayer() : enable_(0)
     seVolume_ = 0x7f;
 }
 
-ARM UnkSoundPlayer::~UnkSoundPlayer()
+ARM DsSoundPlayer::~DsSoundPlayer()
 {
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c710()
+ARM void DsSoundPlayer::unkfunc_0205c710()
 {
     enable_ = 1;
     unk_008.unkfunc_02086750();
@@ -25,21 +25,21 @@ ARM void UnkSoundPlayer::unkfunc_0205c710()
     }
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c76c(int bgm)
+ARM void DsSoundPlayer::unkfunc_0205c76c(int bgm)
 {
     if (enable_) {
         g_SoundSystem.unkfunc_020866e4(bgm);
     }
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c78c(int a, int b)
+ARM void DsSoundPlayer::unkfunc_0205c78c(int a, int b)
 {
     if (enable_) {
         g_SoundSystem.unkfunc_02086720(a, b);
     }
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c7ac(int player, int bgm)
+ARM void DsSoundPlayer::unkfunc_0205c7ac(int player, int bgm)
 {
     if (!enable_) {
         return;
@@ -51,42 +51,42 @@ ARM void UnkSoundPlayer::unkfunc_0205c7ac(int player, int bgm)
     bgmHandle_[player].unkfunc_020864ac(bgm);
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c800(int player, int fade)
+ARM void DsSoundPlayer::unkfunc_0205c800(int player, int fade)
 {
     if (enable_) {
         bgmHandle_[player].unkfunc_020864e0(fade);
     }
 }
 
-ARM int UnkSoundPlayer::unkfunc_0205c824(int player)
+ARM int DsSoundPlayer::unkfunc_0205c824(int player)
 {
     return bgmHandle_[player].unkfunc_020864ec();
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c838(int volume)
+ARM void DsSoundPlayer::unkfunc_0205c838(int volume)
 {
     bgmVolumeSys_ = volume;
     unkfunc_0205c870();
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c848(int volume)
+ARM void DsSoundPlayer::unkfunc_0205c848(int volume)
 {
     bgmVolume_ = volume;
     unkfunc_0205c870();
 }
 
-ARM int UnkSoundPlayer::unkfunc_0205c858()
+ARM int DsSoundPlayer::unkfunc_0205c858()
 {
     return bgmVolume_;
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c860(int volume)
+ARM void DsSoundPlayer::unkfunc_0205c860(int volume)
 {
     seVolumeSys_ = volume;
     unkfunc_0205c8c0();
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c870()
+ARM void DsSoundPlayer::unkfunc_0205c870()
 {
     int volume = bgmVolumeSys_ * bgmVolume_ / 127;
     for (int i = 0; i < 2; i++) {
@@ -94,7 +94,7 @@ ARM void UnkSoundPlayer::unkfunc_0205c870()
     }
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c8c0()
+ARM void DsSoundPlayer::unkfunc_0205c8c0()
 {
     int volume = seVolumeSys_ * seVolume_ / 127;
     for (int i = 0; i < 8; i++) {
@@ -102,12 +102,12 @@ ARM void UnkSoundPlayer::unkfunc_0205c8c0()
     }
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c910(int index)
+ARM void DsSoundPlayer::unkfunc_0205c910(int index)
 {
     seHandle_[index].unkfunc_020865a4(seVolumeSys_ * seVolume_ / 127);
 }
 
-ARM int UnkSoundPlayer::unkfunc_0205c948(int a, int se)
+ARM int DsSoundPlayer::unkfunc_0205c948(int a, int se)
 {
     if (!enable_) {
         return -1;
@@ -124,7 +124,7 @@ ARM int UnkSoundPlayer::unkfunc_0205c948(int a, int se)
     return ret;
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205c9d0(int a, int se, int fade)
+ARM void DsSoundPlayer::unkfunc_0205c9d0(int a, int se, int fade)
 {
     if (!enable_) {
         return;
@@ -136,7 +136,7 @@ ARM void UnkSoundPlayer::unkfunc_0205c9d0(int a, int se, int fade)
     }
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205ca2c(int fade)
+ARM void DsSoundPlayer::unkfunc_0205ca2c(int fade)
 {
     if (!enable_) {
         return;
@@ -146,21 +146,21 @@ ARM void UnkSoundPlayer::unkfunc_0205ca2c(int fade)
     }
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205ca68(int value)
+ARM void DsSoundPlayer::unkfunc_0205ca68(int value)
 {
     if (enable_) {
         unk_008.unkfunc_0208675c(value);
     }
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205ca84(int value)
+ARM void DsSoundPlayer::unkfunc_0205ca84(int value)
 {
     if (enable_) {
         unk_008.unkfunc_02086784(value);
     }
 }
 
-ARM void UnkSoundPlayer::unkfunc_0205caa0()
+ARM void DsSoundPlayer::unkfunc_0205caa0()
 {
     for (int i = 0; i < 8; i++) {
         if (seHandle_[i].unk_1c) {

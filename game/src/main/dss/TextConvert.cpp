@@ -90,7 +90,7 @@ unsigned short g_fullWidthCharTable[96] = {
     0xff58, 0xff59, 0xff5a, 0xff5b, 0xff5c, 0xff5d, 0xffe3, 0x0000,
 };
 
-UnkSjisTable g_sjisTables;
+SjisTables g_sjisTables;
 unsigned char g_sjisTextBuffer[0x800];
 
 ARM void initSjisTables(unsigned short* table81, int size81, unsigned short* tableE0, int sizeE0)

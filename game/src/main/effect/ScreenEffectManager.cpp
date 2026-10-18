@@ -6,9 +6,9 @@
 #include "main/sound/SoundManager.hpp"
 #include "ov000/town/TownPlayerManager.hpp"
 
-int UnkScreenEffectManager::unk_020edc40;
+int ScreenEffectManager::unk_020edc40;
 
-THUMB void UnkScreenEffectManager::initialize()
+THUMB void ScreenEffectManager::initialize()
 {
     type_ = 0;
     current_ = NULL;
@@ -20,7 +20,7 @@ THUMB void UnkScreenEffectManager::initialize()
     }
 }
 
-THUMB void UnkScreenEffectManager::execute()
+THUMB void ScreenEffectManager::execute()
 {
     if (current_ != NULL) {
         if (effect3_.unk_20 != 0) {
@@ -36,7 +36,7 @@ THUMB void UnkScreenEffectManager::execute()
     }
 }
 
-THUMB void UnkScreenEffectManager::draw()
+THUMB void ScreenEffectManager::draw()
 {
     if (type_ == 1) {
         updateWhiteFlash();
@@ -45,20 +45,20 @@ THUMB void UnkScreenEffectManager::draw()
     }
 }
 
-THUMB void UnkScreenEffectManager::terminate()
+THUMB void ScreenEffectManager::terminate()
 {
     if (current_ != NULL) {
         current_->terminate();
     }
 }
 
-THUMB UnkScreenEffectManager* UnkScreenEffectManager::getSingleton()
+THUMB ScreenEffectManager* ScreenEffectManager::getSingleton()
 {
-    static UnkScreenEffectManager m_singleton;
+    static ScreenEffectManager m_singleton;
     return &m_singleton;
 }
 
-THUMB void UnkScreenEffectManager::stopEffect()
+THUMB void ScreenEffectManager::stopEffect()
 {
     if (current_ != NULL) {
         current_->terminate();
@@ -67,7 +67,7 @@ THUMB void UnkScreenEffectManager::stopEffect()
     }
 }
 
-THUMB void UnkScreenEffectManager::startEffect(int type)
+THUMB void ScreenEffectManager::startEffect(int type)
 {
     type_ = type;
     switch (type) {
@@ -103,7 +103,7 @@ THUMB void UnkScreenEffectManager::startEffect(int type)
     }
 }
 
-THUMB bool UnkScreenEffectManager::isEffectDrawing()
+THUMB bool ScreenEffectManager::isEffectDrawing()
 {
     if (current_ != NULL) {
         return current_->flag_.check(2);
@@ -111,7 +111,7 @@ THUMB bool UnkScreenEffectManager::isEffectDrawing()
     return false;
 }
 
-THUMB void UnkScreenEffectManager::startWhiteFlash()
+THUMB void ScreenEffectManager::startWhiteFlash()
 {
     step_ = 0;
     g_SpriteFade.state_ = GlobalFade::FADE_IN_BLACK;
@@ -124,7 +124,7 @@ THUMB void UnkScreenEffectManager::startWhiteFlash()
     SoundManager::playSe(0x469, 0);
 }
 
-THUMB void UnkScreenEffectManager::updateWhiteFlash()
+THUMB void ScreenEffectManager::updateWhiteFlash()
 {
     if (g_SpriteFade.count_ == g_SpriteFade.frames_) {
         if (step_ == 0) {

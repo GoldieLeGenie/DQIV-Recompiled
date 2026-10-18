@@ -9,7 +9,7 @@
 
 static int s_messageTime;
 static int s_arrayWarningCount;
-static UnkDebugDisplay* s_display[3];
+static DebugDisplay* s_display[3];
 static char s_message[0x24];
 
 THUMB void debugConsolePrintf(int x, int y, const char* fmt, ...)
@@ -45,7 +45,7 @@ THUMB void drawDebugWindow(int x, int y, int w, int h)
 
 THUMB void initDebugDisplay()
 {
-    UnkDebugDisplay* display = s_display[getDebugDisplaySlot()];
+    DebugDisplay* display = s_display[getDebugDisplaySlot()];
     if (display != NULL) {
         display->initialize();
     }
@@ -54,7 +54,7 @@ THUMB void initDebugDisplay()
 
 THUMB void updateDebugDisplay()
 {
-    UnkDebugDisplay* display = s_display[getDebugDisplaySlot()];
+    DebugDisplay* display = s_display[getDebugDisplaySlot()];
     if (display != NULL) {
         display->draw();
     }
@@ -82,7 +82,7 @@ THUMB void setDebugDisplayPage(int type)
     g_DebugConsole.unkfunc_0207e810();
 }
 
-THUMB UnkDebugDisplay* getDebugDisplayPage(int type)
+THUMB DebugDisplay* getDebugDisplayPage(int type)
 {
     switch (type) {
     case 1:

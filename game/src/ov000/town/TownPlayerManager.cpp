@@ -643,7 +643,7 @@ ARM void TownPlayerManager::setLock(int lock)
 ARM void TownPlayerManager::setCureFloor()
 {
     status::g_Party.allRecovery();
-    UnkScreenEffectManager::getSingleton()->startEffect(1);
+    ScreenEffectManager::getSingleton()->startEffect(1);
 }
 
 ARM void TownPlayerManager::setCameraRotToNorth()
