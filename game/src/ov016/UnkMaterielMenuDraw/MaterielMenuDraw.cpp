@@ -24,7 +24,7 @@
 #endif
 #include "main/cmn/EnvoyManager.hpp"
 
-static MenuPartsEntry s_parts_02181b86[] = {
+static MenuPartsEntry s_partsShopGiveCompare[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0xa, 0x80, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 1, 0xc, 0x1a, 0x10, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 2, 0x18, 0x1a, 0x40, 0x10 },
@@ -35,12 +35,12 @@ static MenuPartsEntry s_parts_02181b86[] = {
     { 0x0c, 0xf0, 0, 7, 0xd8, 4, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021812fe[] = {
+static MenuPartsEntry s_partsNameEditIcon[] = {
     { 0x14, 0xc0, 0, -1, 0, 0x10, 0x20, 0x18 },
     { 0x0c, 0xf5, 0, 0, 0, 0, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181e96[] = {
+static MenuPartsEntry s_partsMonsterBookDetail[] = {
     { 0x0f, 0x08, (short)0xf000, 0, 0x18, 0x18, 0x50, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0x18, 0x28, 0x68, 0xa },
     { 0x0d, 0x08, (short)0xf000, 2, 0x98, 0x18, 0x50, 0xa },
@@ -61,31 +61,31 @@ static MenuPartsEntry s_parts_02181e96[] = {
     { 0x0f, 0x0a, (short)0xf000, 0x11, 0x98, 0x98, 0x50, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181328[] = {
+static MenuPartsEntry s_partsShopItemKind[] = {
     { 0x0c, 0xf0, 0, 0, 0, 0xa0, 0x20, 0x20 },
     { 0x0d, 0x08, (short)0xf000, 1, 0x28, 0xaa, 0x50, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021810dc[] = {
+static MenuPartsEntry s_partsNameEditSexPrompt[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 8, 0x3a, 0xf0, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021811bc[] = {
+static MenuPartsEntry s_partsShopRootCommand[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 2, 0x54, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021813a6[] = {
+static MenuPartsEntry s_partsShopNotHeld[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0, 0x30, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0x3c, 0, 0x48, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218154a[] = {
+static MenuPartsEntry s_partsMaterielCharaLevel[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x56, 0x40, 0x10 },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x18, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x18, 0x56, 0x20, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181b24[] = {
+static MenuPartsEntry s_partsItemDetailEquipCompare[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x58, 0xa0, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 8, 0x70, 0xa0, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 2, 8, 0x80, 0x1c, 0xa },
@@ -94,39 +94,39 @@ static MenuPartsEntry s_parts_02181b24[] = {
     { 0x0e, 0x08, (short)0xf000, 5, 8, 0x98, 0xa0, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021815ba[] = {
+static MenuPartsEntry s_partsShopHeldCount[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0, 0x30, 0xa },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x50, 0, 0x10, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x58, 0, 0x20, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181184[] = {
+static MenuPartsEntry s_partsNameEditInfoBox[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0, 0x1a, 0x40, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181050[] = {
+static MenuPartsEntry s_partsNameEditAgeSex[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0x80, 0x1a, 0x40, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021815f2[] = {
+static MenuPartsEntry s_partsNameEditCommentLines[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x10, 0x38, 0xb0, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 1, 0x10, 0x48, 0xb0, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 2, 0x10, 0x58, 0xb0, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180f70[] = {
+static MenuPartsEntry s_partsTagModeIconPrompt[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x10, 0xc, 0x90, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021811d8[] = {
+static MenuPartsEntry s_partsMaterielCharaCondition[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x56, 0x40, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021810f8[] = {
+static MenuPartsEntry s_partsNameEditSexOption[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 2, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218162a[] = {
+static MenuPartsEntry s_partsTagModeTenantEntry[] = {
     { 0x14, 0xc0, 0, -1, 0, 0xc, 0x68, 0x18 },
     { 0x0e, 0x08, (short)0xf000, 0, 0xc, 8, 0x40, 0x18 },
     { 0x0c, 0xf5, 0, 1, 0x44, 0, 0x20, 0x20 },
@@ -139,51 +139,51 @@ static MenuPartsEntry s_parts_021817ea[] = {
     { 0x0c, 0xf4, 0, 3, 0xe0, 0x84, 0x18, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180f38[] = {
+static MenuPartsEntry s_partsNameEditAgeOption[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 2, 0x2c, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181034[] = {
+static MenuPartsEntry s_partsTagModeIcon[] = {
     { 0x0c, 0xf5, 0, 0, 0, 0, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021811a0[] = {
+static MenuPartsEntry s_partsTagModeRootCommand[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x14, 2, 0x60, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181662[] = {
+static MenuPartsEntry s_partsItemDetail[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x58, 0xa0, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 8, 0x70, 0xa0, 0x18 },
     { 0x0e, 0x08, (short)0xf000, 2, 8, 0x98, 0xa0, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021813d0[] = {
+static MenuPartsEntry s_partsSellQuantity[] = {
     { 0x0d, 0x0a, (short)0xf000, 0, 0xc0, 0x5e, 8, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xc8, 0x5e, 0x18, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181114[] = {
+static MenuPartsEntry s_partsChapterTitlePrologue[] = {
     { 0x0e, 0x05, (short)0xf000, 0, 0x20, 0x3a, 0xc0, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181130[] = {
+static MenuPartsEntry s_partsChapterTitlePrologueEnd[] = {
     { 0x0e, 0x05, (short)0xf000, 0, 0, 0x60, 0x100, 0x30 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181830[] = {
+static MenuPartsEntry s_partsItemDetailCannotEquip[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x58, 0xa0, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 8, 0x70, 0xa0, 0xa },
     { 0x0d, 0x08, (short)0xf000, 2, 8, 0x80, 0xa0, 0xa },
     { 0x0e, 0x08, (short)0xf000, 3, 8, 0x98, 0xa0, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021813fa[] = {
+static MenuPartsEntry s_partsTagModeTenantHero[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0xa0, 0x40, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 1, 0x40, 0xa0, 8, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 2, 0x48, 0xa0, 0x58, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181876[] = {
+static MenuPartsEntry s_partsTagModeTenantPageNumber[] = {
     { 0x0c, 0xf4, 0, 0, 0x58, 0xa4, 0x18, 0x18 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0x74, 0xa8, 8, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0x78, 0xc },
@@ -191,7 +191,7 @@ static MenuPartsEntry s_parts_02181876[] = {
     { 0x0c, 0xf4, 0, 4, 0x90, 0xa4, 0x18, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180fe0[] = {
+static MenuPartsEntry s_partsPartyIconNumber[] = {
     { 0x0f, 0x08, (short)0xf000, 0, 0, 0, 0x10, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -199,19 +199,19 @@ static MenuPartsEntry s_parts_02181168[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0x30, 0x18, 0x50, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180f1c[] = {
+static MenuPartsEntry s_partsNameEditNameShort[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0x38, 0x1a, 0x48, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180ee4[] = {
+static MenuPartsEntry s_partsNameEditAgePrompt[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 8, 0x3a, 0xf0, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180f54[] = {
+static MenuPartsEntry s_partsCommandCursor[] = {
     { 0x15, 0xb5, 0, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181d8c[] = {
+static MenuPartsEntry s_partsTagModeProfile[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 8, 0x18, 0xb0, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 1, 0x30, 0x30, 0x30, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 2, 0x5c, 0x30, 8, 0x10 },
@@ -232,11 +232,11 @@ static MenuPartsEntry s_parts_02181d8c[] = {
     { 0x0c, 0xf5, 0, 0x10, 8, 0x28, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181018[] = {
+static MenuPartsEntry s_partsTagModeRootCursor[] = {
     { 0x15, 0xb6, 0, 0, 0x78, 0x12, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021816d2[] = {
+static MenuPartsEntry s_partsHighLowCommands[] = {
     { 0x14, 0xc0, 0, -1, 0x70, 0x90, 0x20, 0x10 },
     { 0x14, 0xc0, 0, -1, 0x70, 0xa8, 0x20, 0x10 },
     { 0x0d, 0x09, (short)0xf000, 0, 0x70, 0x92, 0x20, 0x10 },
@@ -250,7 +250,7 @@ static MenuPartsEntry s_partsShopCompare[] = {
     { 0x0f, 0x0a, (short)0xf000, 3, 0x58, 0, 0x20, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181280[] = {
+static MenuPartsEntry s_partsSideJobItemRow[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0, 0x68, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0x70, 0, 0x40, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
@@ -260,37 +260,37 @@ static MenuPartsEntry s_partsShopCannotEquip[] = {
     { 0x0d, 0x08, (short)0xf000, 1, 0x48, 0, 0x48, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218146a[] = {
+static MenuPartsEntry s_partsCharaHpBottom[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x50, 0xa6, 0x30, 8 },
     { 0x07, 0x00, (short)0xf000, 0x11, 0x50, 0xa0, 0x30, 8 },
     { 0x11, 0x00, 0, 1, 0x48, 0xb0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021811f4[] = {
+static MenuPartsEntry s_partsNameEditSkillOption[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 2, 0x68, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180ec8[] = {
+static MenuPartsEntry s_partsMonsterBookName[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x10, 0x58, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021814a2[] = {
+static MenuPartsEntry s_partsCharaHpTop[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 6, 0x28, 8 },
     { 0x07, 0x00, (short)0xf000, 0x11, 8, 0, 0x30, 8 },
     { 0x11, 0x00, 0, 1, 0, 0x10, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 static int s_int_02180e94[6] = { 0xc0000064, 0xc0000065, 0xc0000066, 0xc0000067, 0xc0000068, 0xc0000069 };
-static MenuPartsEntry s_parts_02180fc4[] = {
+static MenuPartsEntry s_partsNameEditSkillPrompt[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0x10, 0x3e, 0x80, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181256[] = {
+static MenuPartsEntry s_partsPokerCoinsBottom[] = {
     { 0x0d, 0x0a, (short)0xf000, 0, 0x88, 0x1a, 0x38, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xc0, 0x1a, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181cc8[] = {
+static MenuPartsEntry s_partsCharaHpMp[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0xc, 8, 0x40, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 1, 8, 0x1c, 0x18, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 2, 8, 0x3c, 0x18, 0x10 },
@@ -306,35 +306,35 @@ static MenuPartsEntry s_parts_02181cc8[] = {
     { 0x0f, 0x0a, (short)0xf000, 0xc, 0x18, 0x48, 0x20, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180f8c[] = {
+static MenuPartsEntry s_partsChurchCommand[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 2, 0x50, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218175e[] = {
+static MenuPartsEntry s_partsNeneItemEntry[] = {
     { 0x14, 0xc0, 0, -1, 0, 8, 0x68, 0x18 },
     { 0x0e, 0x08, (short)0xf000, 0, 4, 8, 0x40, 0x18 },
     { 0x0c, 0xf0, 0, 1, 0x48, 0, 0x20, 0x20 },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x50, 0x18, 0x18, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181582[] = {
+static MenuPartsEntry s_partsShopSackCount[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x7c, 0x30, 0xa },
     { 0x0d, 0x0a, (short)0xf000, 1, 0x50, 0x7c, 0x10, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x58, 0x7c, 0x20, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021817a4[] = {
+static MenuPartsEntry s_partsSellPrice[] = {
     { 0x0f, 0x0a, (short)0xf000, 0, 0x14, 0x80, 0x30, 0xc },
     { 0x0d, 0x0a, (short)0xf000, 1, 8, 0x80, 0x48, 0xc },
     { 0x0d, 0x08, (short)0xf000, 2, 0x60, 0x80, 8, 0xc },
     { 0x0f, 0x0a, (short)0xf000, 3, 0x60, 0x80, 0x20, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180f00[] = {
+static MenuPartsEntry s_partsNameEditCommentPrompt[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 8, 0x10, 0xb0, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218191e[] = {
+static MenuPartsEntry s_partsNameEditSkillPageNumber[] = {
     { 0x0c, 0xf4, 0, 0, 0xb0, 0x30, 0x18, 0x18 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xcc, 0x3c, 8, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 8, 0xc },
@@ -342,12 +342,12 @@ static MenuPartsEntry s_parts_0218191e[] = {
     { 0x0c, 0xf4, 0, 4, 0xe0, 0x30, 0x18, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218137c[] = {
+static MenuPartsEntry s_partsShopSackNone[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x7c, 0x30, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0x34, 0x7c, 0x48, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181972[] = {
+static MenuPartsEntry s_partsItemPageEntry[] = {
     { 0x14, 0xc0, 0, -1, 0, 8, 0x68, 0x18 },
     { 0x0e, 0x08, (short)0xf000, 0, 4, 8, 0x40, 0x18 },
     { 0x0c, 0xf0, 0, 1, 0x48, 0, 0x20, 0x20 },
@@ -355,13 +355,13 @@ static MenuPartsEntry s_parts_02181972[] = {
     { 0x0d, 0x08, (short)0xf000, 3, 0x48, 0x18, 0xe, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218169a[] = {
+static MenuPartsEntry s_partsTagModeTenantHeader[] = {
     { 0x0e, 0x08, (short)0xf000, 0, 0x14, 6, 0x90, 0x18 },
     { 0x0e, 0x08, (short)0xf000, 1, 0xb0, 6, 0x10, 0x18 },
     { 0x0e, 0x08, (short)0xf000, 2, 0xc0, 6, 0x38, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181a1a[] = {
+static MenuPartsEntry s_partsItemPageNumber[] = {
     { 0x0f, 0x0a, (short)0xf000, 0, 0xcc, 0x78, 0x10, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0xdc, 0x78, 8, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 2, 0xe4, 0x78, 0x10, 0xa },
@@ -369,53 +369,53 @@ static MenuPartsEntry s_parts_02181a1a[] = {
     { 0x0c, 0xf4, 0, 4, 0xe0, 0x84, 0x18, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218114c[] = {
+static MenuPartsEntry s_partsChapterTitle[] = {
     { 0x0e, 0x04, (short)0xf000, 0, 0x20, 0x3a, 0xc0, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021810c0[] = {
+static MenuPartsEntry s_partsNameEditNameWide[] = {
     { 0x0d, 0x04, (short)0xf000, 0, 0x70, 0x18, 0x70, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021810a4[] = {
+static MenuPartsEntry s_partsTagModeIconCursor[] = {
     { 0x14, 0xc0, 0, -1, 0, 0x10, 0x20, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218122c[] = {
+static MenuPartsEntry s_partsPokerCoinsTop[] = {
     { 0x0d, 0x0a, (short)0xf000, 0, 0x88, 0xa, 0x40, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xc0, 0xa, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180eac[] = {
+static MenuPartsEntry s_partsChapterEndText[] = {
     { 0x0e, 0x05, (short)0xf000, 0, 0x20, 0x60, 0xc0, 0x30 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181088[] = {
+static MenuPartsEntry s_partsPartyIconStatus[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x20, 0, 0xe, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181432[] = {
+static MenuPartsEntry s_partsMonsterBookPageNumber[] = {
     { 0x0d, 0x08, (short)0xf000, 1, 0x64, 0x9e, 0x10, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0x28, 0xc },
     { 0x0f, 0x0b, (short)0xf000, 0, 0, 0, 0x28, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02180ffc[] = {
+static MenuPartsEntry s_partsBankDigit[] = {
     { 0x0f, 0x09, (short)0xf000, 0, 0xb0, 0xa, 0x10, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021812d4[] = {
+static MenuPartsEntry s_partsShopItemHeader[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0, 0xc, 0x100, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 1, 8, 0x9c, 0x100, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021814da[] = {
+static MenuPartsEntry s_partsCharaStatusRow[] = {
     { 0x0d, 0x0a, (short)0xf000, 0, 0x9a, 0, 0x38, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 8, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 2, 0xd0, 0, 0x20, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181512[] = {
+static MenuPartsEntry s_partsCharaStatusExp[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0xa0, 0x96, 0x10, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 8, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 2, 0xb8, 0x96, 0x38, 0xa },
@@ -429,12 +429,12 @@ static MenuPartsEntry s_parts_02180fa8[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0x30, 0x10, 0xa0, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181352[] = {
+static MenuPartsEntry s_partsPartyIcon[] = {
     { 0x14, 0xc0, 0, -1, 0, 0xc, 0x20, 0x18 },
     { 0x0c, 0xf1, 0, 0, 0, 0, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218106c[] = {
+static MenuPartsEntry s_partsCharaHpSack[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x58, 0xaa, 0x28, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -446,7 +446,7 @@ static MenuPartsEntry s_parts_021819c6[] = {
     { 0x0d, 0x08, (short)0xf000, 3, 0x48, 0x18, 0xe, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181a6e[] = {
+static MenuPartsEntry s_partsItemDetailEquipped[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x58, 0xa0, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 8, 0x70, 0xa0, 0xa },
     { 0x0d, 0x0a, (short)0xf000, 2, 0x28, 0x80, 8, 0xa },
@@ -454,7 +454,7 @@ static MenuPartsEntry s_parts_02181a6e[] = {
     { 0x0e, 0x08, (short)0xf000, 4, 8, 0x98, 0xa0, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181c04[] = {
+static MenuPartsEntry s_partsTagModeTenantDetail[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 8, 0x5e, 0xa0, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 1, 8, 0x78, 0x40, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 2, 0x40, 0x78, 8, 0x10 },
@@ -470,7 +470,7 @@ static MenuPartsEntry s_parts_02181c04[] = {
     { 0x0d, 0x08, (short)0xf000, 0xc, 0x48, 0xac, 0x60, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02181ac2[] = {
+static MenuPartsEntry s_partsSellPriceRow[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0xc, 0, 8, 0xc },
     { 0x0d, 0x08, (short)0xf000, 1, 0x14, 0, 0x60, 0xc },
     { 0x0f, 0x0a, (short)0xf000, 2, 0x88, 0, 0x30, 0xc },
@@ -479,7 +479,7 @@ static MenuPartsEntry s_parts_02181ac2[] = {
     { 0x0f, 0x0a, (short)0xf000, 5, 0xe0, 0, 0x18, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021818ca[] = {
+static MenuPartsEntry s_partsTagModeIconPageNumber[] = {
     { 0x0c, 0xf4, 0, 0, 0xb0, 8, 0x18, 0x18 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xc8, 0xe, 8, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 2, 0, 0, 0x78, 0xc },
@@ -497,7 +497,7 @@ THUMB void drawShopRootCommands(bool bank, int type)
     }
     menu::MenuDataCommon::getShopCommand(command, bank);
     for (int i = 0; i < 3; i++) {
-        drawMenuParts(s_parts_021811bc, &command[i], 0xa4, i * 16 + 8 + i * 8, g_menuTextColors[mode]);
+        drawMenuParts(s_partsShopRootCommand, &command[i], 0xa4, i * 16 + 8 + i * 8, g_menuTextColors[mode]);
     }
     drawMenuFrame(0x98, 0, 0x68, 0x50, -1);
 }
@@ -548,9 +548,9 @@ THUMB void drawShopHeldCounts()
         int param[3];
         MenuPartsEntry* parts;
         if (getShopHeldCount(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, param, -1)) {
-            parts = s_parts_021815ba;
+            parts = s_partsShopHeldCount;
         } else {
-            parts = s_parts_021813a6;
+            parts = s_partsShopNotHeld;
         }
         drawMenuParts(parts, param, ((i % 2) << 7) - ((i % 2) << 2), ((i / 2) << 4) + 0x28, g_menuTextColors[0]);
     }
@@ -569,11 +569,11 @@ THUMB void drawShopSackCount(int* count)
         param[0] = 0x5000005b;
         if (count[item] == 0) {
             param[1] = 0xa0000079;
-            parts = s_parts_0218137c;
+            parts = s_partsShopSackNone;
         } else {
             param[1] = (int)"\xff\xfe\xa9\x24";
             param[2] = count[item];
-            parts = s_parts_02181582;
+            parts = s_partsShopSackCount;
         }
         drawMenuPartsColored(parts, param, g_menuTextColors[0]);
     }
@@ -603,7 +603,7 @@ THUMB void drawShopItemKind()
     } else {
         param[1] = 0x80000065;
     }
-    drawMenuPartsColored(s_parts_02181328, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsShopItemKind, param, g_menuTextColors[0]);
     drawMenuFrame(0, 0xa0, 0x88, 0x20, -1);
 }
 
@@ -880,28 +880,28 @@ THUMB void drawShopGiveCompare()
             case 0:
                 param[3] = value[1];
                 param[4] = param[5] = param[6] = 0;
-                s_parts_02181b86[4].type_ = s_parts_02181b86[5].type_ = s_parts_02181b86[6].type_ = 0;
+                s_partsShopGiveCompare[4].type_ = s_partsShopGiveCompare[5].type_ = s_partsShopGiveCompare[6].type_ = 0;
                 break;
             case 1:
                 param[4] = value[1];
                 param[5] = value[2];
                 param[6] = value[3];
-                s_parts_02181b86[4].type_ = 0xf;
-                s_parts_02181b86[5].type_ = 0xd;
-                s_parts_02181b86[6].type_ = 0xf;
+                s_partsShopGiveCompare[4].type_ = 0xf;
+                s_partsShopGiveCompare[5].type_ = 0xd;
+                s_partsShopGiveCompare[6].type_ = 0xf;
                 break;
             case 2:
                 param[4] = 0;
                 param[5] = value[1];
                 param[6] = value[2];
-                s_parts_02181b86[4].type_ = 0;
-                s_parts_02181b86[5].type_ = 0xd;
-                s_parts_02181b86[6].type_ = 0xf;
+                s_partsShopGiveCompare[4].type_ = 0;
+                s_partsShopGiveCompare[5].type_ = 0xd;
+                s_partsShopGiveCompare[6].type_ = 0xf;
                 break;
         }
     } else {
         param[4] = param[5] = param[6] = 0;
-        s_parts_02181b86[4].type_ = s_parts_02181b86[5].type_ = s_parts_02181b86[6].type_ = 0;
+        s_partsShopGiveCompare[4].type_ = s_partsShopGiveCompare[5].type_ = s_partsShopGiveCompare[6].type_ = 0;
         if (status::g_Party.fukuro_ && chara == status::g_Party.getCount()) {
             if (activeCharaHasItem(itemID)) {
                 param[3] = 0xa0000078;
@@ -914,7 +914,7 @@ THUMB void drawShopGiveCompare()
             param[3] = 0xa0000077;
         }
     }
-    drawMenuPartsColored(s_parts_02181b86, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsShopGiveCompare, param, g_menuTextColors[0]);
     drawMenuFrame(0, 0, 0x100, 0x48, 0x28);
 }
 
@@ -926,17 +926,17 @@ THUMB void drawPartyIcons(int y, int flag)
         int yy = (i / 5) * 0x28 + 0x48 - y;
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i)->haveStatusInfo_;
         param = info->haveStatus_.iconIndex_;
-        drawMenuPartsAt(s_parts_02181352, &param, x, yy);
+        drawMenuPartsAt(s_partsPartyIcon, &param, x, yy);
         if (info->isSpell()) {
             param = 0xa0000044;
-            drawMenuParts(s_parts_02181088, &param, x - 6, yy + 0x14, g_menuTextColors[getHpTextColorIndex(info)]);
+            drawMenuParts(s_partsPartyIconStatus, &param, x - 6, yy + 0x14, g_menuTextColors[getHpTextColorIndex(info)]);
         }
         if (info->isDeath()) {
             param = 0xa0000042;
-            drawMenuParts(s_parts_02181088, &param, x - 6, yy + 8, g_menuTextColors[getHpTextColorIndex(info)]);
+            drawMenuParts(s_partsPartyIconStatus, &param, x - 6, yy + 8, g_menuTextColors[getHpTextColorIndex(info)]);
         } else if (info->isPoison()) {
             param = 0xa0000043;
-            drawMenuParts(s_parts_02181088, &param, x - 6, yy + 8, g_menuTextColors[getHpTextColorIndex(info)]);
+            drawMenuParts(s_partsPartyIconStatus, &param, x - 6, yy + 8, g_menuTextColors[getHpTextColorIndex(info)]);
         }
     }
     if (flag == 1) {
@@ -948,7 +948,7 @@ THUMB void drawPartyIcons(int y, int flag)
             bool player = status::g_Party.getPlayerStatus(i)->haveStatusInfo_.haveStatus_.isPlayer_;
             if (player == true) {
                 param = i + 1;
-                drawMenuParts(s_parts_02180fe0, &param, x, 0x50 - y, g_menuTextColors[getHpTextColorIndex(info)]);
+                drawMenuParts(s_partsPartyIconNumber, &param, x, 0x50 - y, g_menuTextColors[getHpTextColorIndex(info)]);
                 n++;
             }
         }
@@ -958,13 +958,13 @@ THUMB void drawPartyIcons(int y, int flag)
             int m = i % 5;
             status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i)->haveStatusInfo_;
             param = i + 1;
-            drawMenuParts(s_parts_02180fe0, &param, (m << 5) + 0x10 + (m << 3), 0x50 - y, g_menuTextColors[getHpTextColorIndex(info)]);
+            drawMenuParts(s_partsPartyIconNumber, &param, (m << 5) + 0x10 + (m << 3), 0x50 - y, g_menuTextColors[getHpTextColorIndex(info)]);
         }
     }
     if (status::g_Party.fukuro_ && y == 0) {
         int count = status::g_Party.getCount();
         param = 0x18;
-        drawMenuPartsAt(s_parts_02181352, &param, ((count % 5) << 5) + 0x14 + ((count % 5) << 3), (count / 5) * 0x28 + 0x48);
+        drawMenuPartsAt(s_partsPartyIcon, &param, ((count % 5) << 5) + 0x14 + ((count % 5) << 3), (count / 5) * 0x28 + 0x48);
     }
     drawMenuFrame(0, 0x48 - y, 0xe0, 0x58, -1);
 }
@@ -981,34 +981,34 @@ THUMB void drawSellPriceList()
         } else {
             count = status::g_Party.haveItemSack_.getCount();
         }
-        s_parts_02181ac2[0].type_ = 0;
+        s_partsSellPriceRow[0].type_ = 0;
         for (int i = 0; i < count; i++) {
             if (status::UseItem::getSellType(status::g_Party.haveItemSack_.getItem(i)) == 1) {
-                s_parts_02181ac2[2].type_ = s_parts_02181ac2[4].type_ = s_parts_02181ac2[5].type_ = 0;
+                s_partsSellPriceRow[2].type_ = s_partsSellPriceRow[4].type_ = s_partsSellPriceRow[5].type_ = 0;
             } else {
-                s_parts_02181ac2[2].type_ = s_parts_02181ac2[5].type_ = 0xf;
-                s_parts_02181ac2[4].type_ = 0xd;
+                s_partsSellPriceRow[2].type_ = s_partsSellPriceRow[5].type_ = 0xf;
+                s_partsSellPriceRow[4].type_ = 0xd;
             }
             getSellListRow(param, chara, i);
-            drawMenuParts(s_parts_02181ac2, param, 0, i * 14 + 0xc, g_menuTextColors[0]);
+            drawMenuParts(s_partsSellPriceRow, param, 0, i * 14 + 0xc, g_menuTextColors[0]);
         }
     } else {
         status::HaveItem* haveItem = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_.haveItem_;
         int count = haveItem->getCount();
-        s_parts_02181ac2[4].type_ = s_parts_02181ac2[5].type_ = 0;
+        s_partsSellPriceRow[4].type_ = s_partsSellPriceRow[5].type_ = 0;
         for (int i = 0; i < count; i++) {
             if (haveItem->isEquipment(i)) {
-                s_parts_02181ac2[0].type_ = 0xd;
+                s_partsSellPriceRow[0].type_ = 0xd;
             } else {
-                s_parts_02181ac2[0].type_ = 0;
+                s_partsSellPriceRow[0].type_ = 0;
             }
             if (status::UseItem::getSellType(haveItem->getItem(i)) == 1) {
-                s_parts_02181ac2[2].type_ = 0;
+                s_partsSellPriceRow[2].type_ = 0;
             } else {
-                s_parts_02181ac2[2].type_ = 0xf;
+                s_partsSellPriceRow[2].type_ = 0xf;
             }
             getSellListRow(param, chara, i);
-            drawMenuParts(s_parts_02181ac2, param, 0, i * 14 + 0xc, g_menuTextColors[0]);
+            drawMenuParts(s_partsSellPriceRow, param, 0, i * 14 + 0xc, g_menuTextColors[0]);
         }
     }
     drawMenuFrame(0, 0, 0x100, 0xc0, -1);
@@ -1029,18 +1029,18 @@ THUMB void drawItemPage(int flag)
             param[0] = sack->getItem(i) + 0x40000000;
             param[1] = sack->getItem(i);
             param[3] = 0;
-            s_parts_02181972[4].type_ = 0;
+            s_partsItemPageEntry[4].type_ = 0;
             if (sack->getItemCount(i) <= 1) {
                 param[2] = 0;
-                s_parts_02181972[3].type_ = 0;
+                s_partsItemPageEntry[3].type_ = 0;
             } else {
                 param[2] = sack->getItemCount(i);
                 if (param[2] > 99) {
                     param[2] = 99;
                 }
-                s_parts_02181972[3].type_ = 0xf;
+                s_partsItemPageEntry[3].type_ = 0xf;
             }
-            drawMenuParts(s_parts_02181972, param, (n % 2) * 0x78 + 0x14, ((n / 2) << 5) + 4, g_menuTextColors[0]);
+            drawMenuParts(s_partsItemPageEntry, param, (n % 2) * 0x78 + 0x14, ((n / 2) << 5) + 4, g_menuTextColors[0]);
             n++;
         }
     } else {
@@ -1054,15 +1054,15 @@ THUMB void drawItemPage(int flag)
             param[0] = haveItem->getItem(i) + 0x40000000;
             param[1] = haveItem->getItem(i);
             param[2] = 0;
-            s_parts_02181972[3].type_ = 0;
+            s_partsItemPageEntry[3].type_ = 0;
             if (haveItem->isEquipment(i)) {
                 param[3] = 0xa0000041;
-                s_parts_02181972[4].type_ = 0xd;
+                s_partsItemPageEntry[4].type_ = 0xd;
             } else {
                 param[3] = 0;
-                s_parts_02181972[4].type_ = 0;
+                s_partsItemPageEntry[4].type_ = 0;
             }
-            drawMenuParts(s_parts_02181972, param, (n % 2) * 0x78 + 0x14, ((n / 2) << 5) + 4, g_menuTextColors[0]);
+            drawMenuParts(s_partsItemPageEntry, param, (n % 2) * 0x78 + 0x14, ((n / 2) << 5) + 4, g_menuTextColors[0]);
             n++;
         }
     }
@@ -1082,7 +1082,7 @@ THUMB void drawSellPrice(int flag)
         if (status::UseItem::getSellType(sack->getItem(item + start)) == 1) {
             param[1] = 0xa000007f;
             param[0] = param[2] = param[3] = 0;
-            s_parts_021817a4[0].type_ = s_parts_021817a4[2].type_ = s_parts_021817a4[3].type_ = 0;
+            s_partsSellPrice[0].type_ = s_partsSellPrice[2].type_ = s_partsSellPrice[3].type_ = 0;
         } else {
             param[0] = status::UseItem::getSellPrice(sack->getItem(item + start));
             param[1] = 0xa000003c;
@@ -1091,24 +1091,24 @@ THUMB void drawSellPrice(int flag)
             if (param[3] > 99) {
                 param[3] = 99;
             }
-            s_parts_021817a4[0].type_ = s_parts_021817a4[3].type_ = 0xf;
-            s_parts_021817a4[2].type_ = 0xd;
+            s_partsSellPrice[0].type_ = s_partsSellPrice[3].type_ = 0xf;
+            s_partsSellPrice[2].type_ = 0xd;
         }
-        drawMenuPartsColored(s_parts_021817a4, param, g_menuTextColors[0]);
+        drawMenuPartsColored(s_partsSellPrice, param, g_menuTextColors[0]);
     } else {
         param[2] = param[3] = 0;
-        s_parts_021817a4[2].type_ = s_parts_021817a4[3].type_ = 0;
+        s_partsSellPrice[2].type_ = s_partsSellPrice[3].type_ = 0;
         status::HaveItem* haveItem = &status::g_Party.getPlayerStatus(MaterielMenuPlayerControl::getSingleton()->activeChara_)->haveStatusInfo_.haveItem_;
         if (status::UseItem::getSellType(haveItem->getItem(item + start)) == 1) {
             param[1] = 0xa000007f;
             param[0] = 0;
-            s_parts_021817a4[0].type_ = 0;
+            s_partsSellPrice[0].type_ = 0;
         } else {
             param[0] = status::UseItem::getSellPrice(haveItem->getItem(item + start));
             param[1] = 0xa000003c;
-            s_parts_021817a4[0].type_ = 0xf;
+            s_partsSellPrice[0].type_ = 0xf;
         }
-        drawMenuPartsColored(s_parts_021817a4, param, g_menuTextColors[0]);
+        drawMenuPartsColored(s_partsSellPrice, param, g_menuTextColors[0]);
     }
 }
 
@@ -1118,7 +1118,7 @@ THUMB void drawItemPageNumber(int mode, int a, int b, int c)
     param[1] = (int)"\xff\xfe\xa7\x24";
     param[3] = 0xc;
     param[4] = 0xd;
-    MenuPartsEntry* parts = s_parts_02181a1a;
+    MenuPartsEntry* parts = s_partsItemPageNumber;
     if (mode) {
         if (a != -1) {
             if (a <= 6) {
@@ -1155,7 +1155,7 @@ THUMB void drawItemPageNumber(int mode, int a, int b, int c)
 
 THUMB void drawItemDetail(int item)
 {
-    MenuPartsEntry* parts = s_parts_02181662;
+    MenuPartsEntry* parts = s_partsItemDetail;
     int param[6];
     int value[4];
     int chara;
@@ -1176,19 +1176,19 @@ THUMB void drawItemDetail(int item)
             switch (getShopEquipCompare(info, value, item)) {
                 case 0:
                     param[2] = value[1];
-                    parts = s_parts_02181830;
+                    parts = s_partsItemDetailCannotEquip;
                     param[3] = item + 0x20000000;
                     break;
                 case 1:
                     param[2] = value[1];
-                    parts = s_parts_02181b24;
+                    parts = s_partsItemDetailEquipCompare;
                     param[3] = value[2];
                     param[4] = value[3];
                     param[5] = item + 0x20000000;
                     break;
                 case 2:
                     param[2] = value[1];
-                    parts = s_parts_02181a6e;
+                    parts = s_partsItemDetailEquipped;
                     param[3] = value[2];
                     param[4] = item + 0x20000000;
                     break;
@@ -1202,11 +1202,11 @@ THUMB void drawItemDetail(int item)
         } else {
             param[1] = menu::MenuDataCommon::getAbilityKind(status::UseItem::getEquipType(item));
         }
-        if (parts == s_parts_02181662) {
+        if (parts == s_partsItemDetail) {
             param[2] = item + 0x20000000;
         }
     } else {
-        parts = s_parts_02181662;
+        parts = s_partsItemDetail;
         param[0] = menu::MenuDataCommon::getItemMessageNo(item);
         param[1] = menu::MenuDataCommon::getItemMessageNo2(item);
         param[2] = item + 0x20000000;
@@ -1233,7 +1233,7 @@ THUMB void drawItemDetail(int item)
 THUMB void drawSellQuantity(int quantity)
 {
     int param[2] = { (int)"\xff\xfe\xa9\x24", quantity };
-    drawMenuPartsColored(s_parts_021813d0, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsSellQuantity, param, g_menuTextColors[0]);
     drawMenuFrame(0x98, 0x50, 0x68, 0x28, -1);
 }
 
@@ -1241,7 +1241,7 @@ THUMB void drawPokerCoins(int coin, int flag)
 {
     int param[2] = { (int)0xa0000029, coin };
     int mode = 0;
-    drawMenuPartsColored(s_parts_0218122c, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsPokerCoinsTop, param, g_menuTextColors[0]);
     param[1] = PokerManager::getSingleton()->getCoin_;
     if (flag) {
         param[0] = 0xa000013a;
@@ -1249,7 +1249,7 @@ THUMB void drawPokerCoins(int coin, int flag)
     } else {
         param[0] = 0xa0000139;
     }
-    drawMenuPartsColored(s_parts_02181256, param, g_menuTextColors[mode]);
+    drawMenuPartsColored(s_partsPokerCoinsBottom, param, g_menuTextColors[mode]);
     drawMenuFrame(0x78, 0, 0x88, 0x38, -1);
 }
 
@@ -1257,7 +1257,7 @@ THUMB void drawHighLowCommands(int win)
 {
     int command[2];
     menu::MenuDataCommon::getHighAndLowCommand(command, win);
-    drawMenuPartsColored(s_parts_021816d2, command, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsHighLowCommands, command, g_menuTextColors[0]);
 }
 
 THUMB void drawMonsterBookPage(int* monsterName, int* monsterFlag)
@@ -1282,12 +1282,12 @@ THUMB void drawMonsterBookPage(int* monsterName, int* monsterFlag)
         } else {
             param[0] = 0xa0000259;
         }
-        drawMenuParts(s_parts_02180ec8, param, (i % 2) * 0x70 + 0x20, (i / 2) * 12 + (i / 2) * 4 + 0xd, g_menuTextColors[4]);
+        drawMenuParts(s_partsMonsterBookName, param, (i % 2) * 0x70 + 0x20, (i / 2) * 12 + (i / 2) * 4 + 0xd, g_menuTextColors[4]);
     }
     param[0] = page + 1;
     param[1] = 0xa0000258;
     param[2] = (int)" ";
-    drawMenuPartsColored(s_parts_02181432, param, g_menuTextColors[4]);
+    drawMenuPartsColored(s_partsMonsterBookPageNumber, param, g_menuTextColors[4]);
 }
 
 THUMB void drawMonsterBookDetail(int monsterNo, int monsterName)
@@ -1328,7 +1328,7 @@ THUMB void drawMonsterBookDetail(int monsterNo, int monsterName)
     } else {
         param[14] = 0xa0000259;
     }
-    drawMenuPartsColored(s_parts_02181e96, param, g_menuTextColors[4]);
+    drawMenuPartsColored(s_partsMonsterBookDetail, param, g_menuTextColors[4]);
 }
 
 THUMB void drawChurchCommands()
@@ -1341,7 +1341,7 @@ THUMB void drawChurchCommands()
     }
     menu::MenuDataCommon::getChurchCommand(command, extra);
     for (int i = 0; i < count; i++) {
-        drawMenuParts(s_parts_02180f8c, &command[i], (i % 2) * 0x60 + 0x44, (i / 2) * 0x18 + 0xc, g_menuTextColors[0]);
+        drawMenuParts(s_partsChurchCommand, &command[i], (i % 2) * 0x60 + 0x44, (i / 2) * 0x18 + 0xc, g_menuTextColors[0]);
     }
     drawMenuFrame(0x30, 0, 0xd0, 0x58, -1);
 }
@@ -1360,7 +1360,7 @@ THUMB void drawBankDigits(int money, int flag)
             money %= div;
             div /= 10;
         } else {
-            drawMenuParts(s_parts_02180ffc, &param, i * 10 + 5, y, g_menuTextColors[0]);
+            drawMenuParts(s_partsBankDigit, &param, i * 10 + 5, y, g_menuTextColors[0]);
             money %= div;
             div /= 10;
         }
@@ -1376,7 +1376,7 @@ THUMB void drawActiveCharaHp(int flag)
     if (chara == status::g_Party.getCount()) {
         param[0] = 0x5000005b;
         drawMenuFrame(0x48, 0xa0, 0x40, 0x20, -1);
-        drawMenuPartsColored(s_parts_0218106c, param, g_menuTextColors[0]);
+        drawMenuPartsColored(s_partsCharaHpSack, param, g_menuTextColors[0]);
         return;
     }
     param[0] = info->haveStatus_.playerIndex_ + 0x50000000;
@@ -1386,16 +1386,16 @@ THUMB void drawActiveCharaHp(int flag)
     }
     if (flag) {
         drawMenuFrame(0, 0, 0x40, 0x20, -1);
-        drawMenuPartsColored(s_parts_021814a2, param, g_menuTextColors[getHpTextColorIndex(info)]);
+        drawMenuPartsColored(s_partsCharaHpTop, param, g_menuTextColors[getHpTextColorIndex(info)]);
     } else {
         drawMenuFrame(0x48, 0xa0, 0x40, 0x20, -1);
-        drawMenuPartsColored(s_parts_0218146a, param, g_menuTextColors[getHpTextColorIndex(info)]);
+        drawMenuPartsColored(s_partsCharaHpBottom, param, g_menuTextColors[getHpTextColorIndex(info)]);
     }
 }
 
 THUMB void drawCommandCursor(int x, int y)
 {
-    drawMenuPartsAt(s_parts_02180f54, 0, x, y);
+    drawMenuPartsAt(s_partsCommandCursor, 0, x, y);
 }
 
 #pragma dont_inline on
@@ -1418,11 +1418,11 @@ THUMB void drawCharaStatusList(int chara)
             param[0] = menu::MenuDataCommon::getAbilityKind(i + 2);
             param[2] = menu::MenuDataCommon::getStatus(i + 2, *info);
         }
-        drawPartsInTextColorAt(s_parts_021814da, param, 0, i * 14 + 0x18, 0);
+        drawPartsInTextColorAt(s_partsCharaStatusRow, param, 0, i * 14 + 0x18, 0);
     }
     param[0] = 0xa0000010;
     param[2] = info->getExp();
-    drawPartsInTextColor(s_parts_02181512, param, 0);
+    drawPartsInTextColor(s_partsCharaStatusExp, param, 0);
     drawMenuFrame(0x90, 0x10, 0x68, 0xa0, -1);
 }
 #pragma dont_inline reset
@@ -1444,15 +1444,15 @@ THUMB void drawActiveCharaHpMp()
     param[10] = (int)"@\x81\x5c";
     param[11] = (int)"@\x81\x5c";
     param[12] = info->getMpMax();
-    drawMenuPartsColored(s_parts_02181cc8, param, g_menuTextColors[getHpTextColorIndex(info)]);
+    drawMenuPartsColored(s_partsCharaHpMp, param, g_menuTextColors[getHpTextColorIndex(info)]);
     if (getStatusCondition(info) == 3) {
         param[0] = menu::MenuDataCommon::convMessage(info, 0xa0000018);
-        drawMenuPartsColored(s_parts_021811d8, param, g_menuTextColors[getHpTextColorIndex(info)]);
+        drawMenuPartsColored(s_partsMaterielCharaCondition, param, g_menuTextColors[getHpTextColorIndex(info)]);
     } else {
         param[0] = 0xa000003f;
         param[1] = (int)":";
         param[2] = info->haveStatus_.level_;
-        drawMenuPartsColored(s_parts_0218154a, param, g_menuTextColors[getHpTextColorIndex(info)]);
+        drawMenuPartsColored(s_partsMaterielCharaLevel, param, g_menuTextColors[getHpTextColorIndex(info)]);
     }
     drawMenuFrame(0, 0, 0x40, 0x68, -1);
 }
@@ -1469,12 +1469,12 @@ THUMB void drawNeneItemPage(int count, int page, int pageMax)
         param[1] = status::g_Shop.haveItemNene_.getItem(page * 6 + i);
         if (status::g_Shop.haveItemNene_.getItemCount(page * 6 + i) <= 1) {
             param[2] = 0;
-            s_parts_0218175e[3].type_ = 0;
+            s_partsNeneItemEntry[3].type_ = 0;
         } else {
             param[2] = status::g_Shop.haveItemNene_.getItemCount(page * 6 + i);
-            s_parts_0218175e[3].type_ = 0xf;
+            s_partsNeneItemEntry[3].type_ = 0xf;
         }
-        drawMenuParts(s_parts_0218175e, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 4, g_menuTextColors[0]);
+        drawMenuParts(s_partsNeneItemEntry, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 4, g_menuTextColors[0]);
     }
     drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
 }
@@ -1484,9 +1484,9 @@ THUMB void drawChapterTitleText(int chapter, int chapterEnd)
     int param = 0xa000032a;
     if (chapter == 0 && chapterEnd == 1) {
         param = 0x30db7;
-        drawMenuParts(s_parts_02181130, &param, 0, -16, g_menuTextColors[0]);
+        drawMenuParts(s_partsChapterTitlePrologueEnd, &param, 0, -16, g_menuTextColors[0]);
     } else if (chapter == 0) {
-        drawMenuPartsColored(s_parts_02181114, &s_int_02180e94[chapter], g_menuTextColors[0]);
+        drawMenuPartsColored(s_partsChapterTitlePrologue, &s_int_02180e94[chapter], g_menuTextColors[0]);
     } else {
         int y = 0;
         if (chapterEnd == 0) {
@@ -1497,20 +1497,20 @@ THUMB void drawChapterTitleText(int chapter, int chapterEnd)
             if (chapter == 5) y = 0x4a;
             if (chapter == 6) y = 0x4a;
         }
-        drawMenuParts(s_parts_0218114c, &s_int_02180e94[chapter], 0, y, g_menuTextColors[0]);
+        drawMenuParts(s_partsChapterTitle, &s_int_02180e94[chapter], 0, y, g_menuTextColors[0]);
     }
     if (chapter != 0 && chapterEnd == 1) {
         param = 0xa000032a;
-        drawMenuPartsColored(s_parts_02180eac, &param, g_menuTextColors[0]);
+        drawMenuPartsColored(s_partsChapterEndText, &param, g_menuTextColors[0]);
     }
 }
 
 THUMB void drawTagModeRootMenu()
 {
-    drawMenuPartsPlain(s_parts_02181018, 0);
+    drawMenuPartsPlain(s_partsTagModeRootCursor, 0);
     for (int i = 0; i < 5; i++) {
         int param = menu::MenuDataCommon::getSuretigaiRootMenu(i);
-        drawMenuParts(s_parts_021811a0, &param, 0, i * 16 + 0xc + i * 4, g_menuTextColors[0]);
+        drawMenuParts(s_partsTagModeRootCommand, &param, 0, i * 16 + 0xc + i * 4, g_menuTextColors[0]);
     }
     drawMenuFrame(0, 0, 0x88, 0x78, -1);
 }
@@ -1545,7 +1545,7 @@ THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
             }
             param[0] = menu::MenuDataCommon::getItemMessage(status::excelParam.surechigaiTenant_[index].name);
             param[1] = status::excelParam.surechigaiTenant_[index].icon + 0x37;
-            drawMenuParts(s_parts_0218162a, param, x, y, g_menuTextColors[0]);
+            drawMenuParts(s_partsTagModeTenantEntry, param, x, y, g_menuTextColors[0]);
         }
     } else {
         num = dss::max(dss::min(num, 8), 0);
@@ -1554,7 +1554,7 @@ THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
             g_EnvoyManager.selectEnvoy(page * 8 + i);
             param[0] = (int)g_EnvoyManager.getName();
             param[1] = g_EnvoyManager.getType() + 1;
-            drawMenuParts(s_parts_0218162a, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 0x20, g_menuTextColors[0]);
+            drawMenuParts(s_partsTagModeTenantEntry, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 0x20, g_menuTextColors[0]);
         }
         if (num < 8 && flag == 1) {
             int end = count;
@@ -1576,7 +1576,7 @@ THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
                 }
                 param[0] = menu::MenuDataCommon::getItemMessage(status::excelParam.surechigaiTenant_[index].name);
                 param[1] = status::excelParam.surechigaiTenant_[index].icon + 0x37;
-                drawMenuParts(s_parts_0218162a, param, x, y, g_menuTextColors[0]);
+                drawMenuParts(s_partsTagModeTenantEntry, param, x, y, g_menuTextColors[0]);
             }
         }
     }
@@ -1587,14 +1587,14 @@ THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
     }
     param[1] = (int)"\xff\xfe\xac\x24";
     param[2] = 0xa00002ce;
-    drawMenuPartsColored(s_parts_0218169a, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsTagModeTenantHeader, param, g_menuTextColors[0]);
     if (count > 8) {
         param[0] = 0xe;
         param[1] = page + 1;
         param[2] = (int)"\xff\xfe\xa7\x24";
         param[3] = pageMax;
         param[4] = 0xf;
-        drawMenuPartsColored(s_parts_02181876, param, g_menuTextColors[0]);
+        drawMenuPartsColored(s_partsTagModeTenantPageNumber, param, g_menuTextColors[0]);
     }
     drawMenuFrame(0, 0, 0x100, 0xc0, 0x20);
 }
@@ -1637,7 +1637,7 @@ THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
         } else {
             param[12] = menu::MenuDataCommon::getRuraName(status::excelParam.surechigaiTenant_[index].from);
         }
-        drawMenuPartsColored(s_parts_02181c04, param, g_menuTextColors[0]);
+        drawMenuPartsColored(s_partsTagModeTenantDetail, param, g_menuTextColors[0]);
         drawMenuFrame(0, 0x50, 0xb0, 0x70, 0x70);
         return;
     }
@@ -1652,11 +1652,11 @@ THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
     param[6] = g_EnvoyManager.getAge() + 0xa00002c1;
     param[9] = g_EnvoyManager.getSkill() + 0xe0000001;
     param[12] = (int)g_EnvoyManager.getTownName();
-    drawMenuPartsColored(s_parts_02181c04, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsTagModeTenantDetail, param, g_menuTextColors[0]);
     param[0] = 0xa00002cb;
     param[1] = (int)":";
     param[2] = (int)g_EnvoyManager.getHeroName();
-    drawMenuPartsColored(s_parts_021813fa, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsTagModeTenantHero, param, g_menuTextColors[0]);
     drawMenuFrame(0, 0x50, 0xb0, 0x70, 0x70);
 }
 
@@ -1688,7 +1688,7 @@ THUMB void drawTagModeProfile(int index, int mode)
     param[12] = (int)g_EnvoyManager.getHeroName();
     param[15] = (int)g_EnvoyManager.getTownName();
     param[16] = g_EnvoyManager.getType() + 1;
-    drawMenuPartsColored(s_parts_02181d8c, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsTagModeProfile, param, g_menuTextColors[0]);
     drawMenuFrame(0, 8, 0xc0, 0x70, 0x28);
 }
 
@@ -1703,21 +1703,21 @@ THUMB void drawTagModeIconGrid(int page, int value)
         int x = (i % 6) * 0x28 + 0xc;
         int y = (i / 6) * 0x28 + 0x20;
         if (g_EnvoyManager.isTypeSelectable(page * 12 + i) == 1) {
-            drawMenuParts(s_parts_02181034, &param, x, y, g_menuTextColors[0]);
+            drawMenuParts(s_partsTagModeIcon, &param, x, y, g_menuTextColors[0]);
         }
-        drawMenuParts(s_parts_021810a4, 0, x, y, g_menuTextColors[0]);
+        drawMenuParts(s_partsTagModeIconCursor, 0, x, y, g_menuTextColors[0]);
     }
     int msg = 0xa00002bc;
-    drawMenuPartsColored(s_parts_02180f70, &msg, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsTagModeIconPrompt, &msg, g_menuTextColors[0]);
     int param2[5] = { 0xe, page + 1, (int)"\xff\xfe\xa7\x24", value, 0xf };
-    drawMenuPartsColored(s_parts_021818ca, param2, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsTagModeIconPageNumber, param2, g_menuTextColors[0]);
     drawMenuFrame(0, 0, 0x100, 0x78, 0x20);
 }
 
 THUMB void drawNameEditIcon(int active, int y)
 {
     int param = active + 1;
-    drawMenuPartsAt(s_parts_021812fe, &param, 0xc, y);
+    drawMenuPartsAt(s_partsNameEditIcon, &param, 0xc, y);
     drawMenuFrame(0, y, 0x38, 0x30, -1);
 }
 
@@ -1727,10 +1727,10 @@ THUMB void drawNameEditSex()
     drawNameEditName(g_EnvoyManager.getName(), 1);
     for (int i = 0; i < 3; i++) {
         int param = menu::MenuDataCommon::getSuretigaiSex(i);
-        drawMenuParts(s_parts_021810f8, &param, i * 0x48 + 0x18, 0x54, g_menuTextColors[0]);
+        drawMenuParts(s_partsNameEditSexOption, &param, i * 0x48 + 0x18, 0x54, g_menuTextColors[0]);
     }
     int msg = 0xa00002bd;
-    drawMenuPartsColored(s_parts_021810dc, &msg, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsNameEditSexPrompt, &msg, g_menuTextColors[0]);
     drawMenuFrame(0, 0x30, 0x100, 0x40, 0x48);
 }
 
@@ -1739,14 +1739,14 @@ THUMB void drawNameEditAge()
     g_EnvoyManager.mode_ = 1;
     drawNameEditName(g_EnvoyManager.getName(), 0);
     int param = menu::MenuDataCommon::getSuretigaiSex(g_EnvoyManager.getSex());
-    drawMenuPartsColored(s_parts_02181050, &param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsNameEditAgeSex, &param, g_menuTextColors[0]);
     drawMenuFrame(0x80, 0x10, 0x40, 0x20, -1);
     for (int i = 0; i < 8; i++) {
         int aetas = i + 0xa00002c1;
-        drawMenuParts(s_parts_02180f38, &aetas, (i % 4) * 0x38 + 0x14, (i / 4) * 0x18 + 0x54, g_menuTextColors[0]);
+        drawMenuParts(s_partsNameEditAgeOption, &aetas, (i % 4) * 0x38 + 0x14, (i / 4) * 0x18 + 0x54, g_menuTextColors[0]);
     }
     param = 0xa00002be;
-    drawMenuPartsColored(s_parts_02180ee4, &param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsNameEditAgePrompt, &param, g_menuTextColors[0]);
     drawMenuFrame(0, 0x30, 0x100, 0x58, 0x48);
 }
 
@@ -1756,24 +1756,24 @@ THUMB void drawNameEditSkill()
     int param[5] = { 0 };
     drawNameEditName(g_EnvoyManager.getName(), 0);
     param[0] = menu::MenuDataCommon::getSuretigaiSex(g_EnvoyManager.getSex());
-    drawMenuParts(s_parts_02181184, param, 0x80, 0, g_menuTextColors[0]);
+    drawMenuParts(s_partsNameEditInfoBox, param, 0x80, 0, g_menuTextColors[0]);
     drawMenuFrame(0x80, 0x10, 0x40, 0x20, -1);
     param[0] = g_EnvoyManager.getAge() + 0xa00002c1;
-    drawMenuParts(s_parts_02181184, param, 0xc0, 0, g_menuTextColors[0]);
+    drawMenuParts(s_partsNameEditInfoBox, param, 0xc0, 0, g_menuTextColors[0]);
     drawMenuFrame(0xc0, 0x10, 0x40, 0x20, -1);
     int page = MaterielMenuPlayerControl::getSingleton()->activeChiausSkillPage_;
     for (int i = 0; i < 8; i++) {
         int skill = page * 8 + i + 0xe0000001;
-        drawMenuParts(s_parts_021811f4, &skill, (i % 2) * 0x78 + 0x10, (i / 2) * 0x18 + 0x5c, g_menuTextColors[0]);
+        drawMenuParts(s_partsNameEditSkillOption, &skill, (i % 2) * 0x78 + 0x10, (i / 2) * 0x18 + 0x5c, g_menuTextColors[0]);
     }
     param[0] = 0xc;
     param[1] = page + 1;
     param[2] = (int)"\xff\xfe\xa7\x24";
     param[3] = 8;
     param[4] = 0xd;
-    drawMenuPartsColored(s_parts_0218191e, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsNameEditSkillPageNumber, param, g_menuTextColors[0]);
     param[0] = 0xa00002bf;
-    drawMenuPartsColored(s_parts_02180fc4, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsNameEditSkillPrompt, param, g_menuTextColors[0]);
     drawMenuFrame(0, 0x30, 0x100, 0x90, 0x50);
 }
 
@@ -1788,9 +1788,9 @@ THUMB void drawNameEditComment()
     param[0] = (int)line1;
     param[1] = (int)line2;
     param[2] = (int)line3;
-    drawMenuPartsColored(s_parts_021815f2, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsNameEditCommentLines, param, g_menuTextColors[0]);
     param[0] = 0xa00002d9;
-    drawMenuPartsColored(s_parts_02180f00, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsNameEditCommentPrompt, param, g_menuTextColors[0]);
     drawMenuFrame(0, 8, 0xc0, 0x70, 0x20);
 }
 
@@ -1803,7 +1803,7 @@ THUMB void drawSideJobItems()
             int param[2];
             param[0] = status::g_Shop.getShopItem(2, i) + 0x40000000;
             param[1] = status::g_Shop.getShopPrice(2, i);
-            drawMenuParts(s_parts_02181280, param, 0, y, g_menuTextColors[0]);
+            drawMenuParts(s_partsSideJobItemRow, param, 0, y, g_menuTextColors[0]);
             y += 0x10;
         }
     }
@@ -1817,8 +1817,8 @@ THUMB void drawShopItemHeader(int item)
     if (item == -1) {
         item = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(active);
     }
-    s_parts_021812d4[0].type_ = 0xd;
-    s_parts_021812d4[1].type_ = 0;
+    s_partsShopItemHeader[0].type_ = 0xd;
+    s_partsShopItemHeader[1].type_ = 0;
     int param[2];
     if (status::UseItem::getItemType(item) <= 4) {
         if (status::UseItem::getEquipType(item) == 4) {
@@ -1830,9 +1830,9 @@ THUMB void drawShopItemHeader(int item)
         param[0] = 0xa0000082;
     }
     param[1] = 0;
-    drawMenuPartsColored(s_parts_021812d4, param, g_menuTextColors[0]);
-    s_parts_021812d4[0].type_ = 0;
-    s_parts_021812d4[1].type_ = 0xd;
+    drawMenuPartsColored(s_partsShopItemHeader, param, g_menuTextColors[0]);
+    s_partsShopItemHeader[0].type_ = 0;
+    s_partsShopItemHeader[1].type_ = 0xd;
     param[0] = 0;
     if (MaterielMenu_SHOP_MANAGER::getSingleton()->getExtraShop() == 1) {
         if (active == 0) {
@@ -1843,7 +1843,7 @@ THUMB void drawShopItemHeader(int item)
     } else {
         param[1] = item + 0x20000000;
     }
-    drawMenuPartsColored(s_parts_021812d4, param, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsShopItemHeader, param, g_menuTextColors[0]);
 }
 
 THUMB int getShopEquipCompare(status::HaveStatusInfo* status, int* param, int item)
@@ -2007,10 +2007,10 @@ THUMB void drawNameEditName(unsigned char* name, int flag)
     int param[1] = { 0 };
     param[0] = (int)name;
     if (flag == 1) {
-        drawMenuPartsColored(s_parts_021810c0, param, g_menuTextColors[0]);
+        drawMenuPartsColored(s_partsNameEditNameWide, param, g_menuTextColors[0]);
         drawMenuFrame(0x38, 0x10, 0xa0, 0x20, -1);
     } else {
-        drawMenuPartsColored(s_parts_02180f1c, param, g_menuTextColors[0]);
+        drawMenuPartsColored(s_partsNameEditNameShort, param, g_menuTextColors[0]);
         drawMenuFrame(0x38, 0x10, 0x48, 0x20, -1);
     }
 }

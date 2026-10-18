@@ -9,7 +9,7 @@ static MenuPartsEntry s_parts_02183a2c[] = {
     { 0x0c, 0xf0, 0, 0, 0, 0x98, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183930[] = {
+static MenuPartsEntry s_partsNameEditCommentCursor[] = {
     { 0x15, 0xb0, 0, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -35,12 +35,12 @@ static MenuPartsEntry s_parts_02183fba[] = {
     { 0x05, 0x01, (short)0xf000, 6, 0xf8, 0x98, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183e5c[] = {
+static MenuPartsEntry s_partsPokerPayoutRow[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0, 0x98, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xa0, 0, 0x58, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183a48[] = {
+static MenuPartsEntry s_partsCenteredMessage[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0, 0, 0, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -55,11 +55,11 @@ static MenuPartsEntry s_parts_02183ff2[] = {
     { 0x05, 0x01, (short)0xf000, 6, 0xf8, 0x18, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183b60[] = {
+static MenuPartsEntry s_partsFightStadiumBetDigit[] = {
     { 0x0f, 0x0a, (short)0xf000, 0, 0, 0, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183b7c[] = {
+static MenuPartsEntry s_partsPokerBetLabel[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x98, 0, 0x40, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -77,7 +77,7 @@ static MenuPartsEntry s_parts_02183ab8[] = {
     { 0x0c, 0xf4, 0, 0, 0xe0, 0x9c, 0x18, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183bec[] = {
+static MenuPartsEntry s_partsNameEditFieldChar[] = {
     { 0x0d, 0x05, (short)0xf000, 0, 0, 0, 0xc, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -113,7 +113,7 @@ static MenuPartsEntry s_parts_02183d60[] = {
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0x50, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183af0[] = {
+static MenuPartsEntry s_partsFightStadiumHand[] = {
     { 0x15, 0xb0, 0, 0, 0xdd, 0x20, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -186,12 +186,12 @@ static MenuPartsEntry s_parts_0218417a[] = {
     { 0x0d, 0x0a, (short)0xf000, 2, 0x98, 6, 0x30, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183e08[] = {
+static MenuPartsEntry s_partsPokerHoldLabel[] = {
     { 0x14, 0xc0, 0, -1, 4, 0, 0x21, 0x10 },
     { 0x0d, 0x09, (short)0xf000, 0, 0, 2, 0x29, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0218480a[] = {
+static MenuPartsEntry s_partsNameEditCharRow[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x10, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0x10, 0, 0x10, 0xa },
     { 0x0d, 0x08, (short)0xf000, 2, 0x20, 0, 0x10, 0xa },
@@ -205,11 +205,11 @@ static MenuPartsEntry s_parts_0218480a[] = {
     { 0x0d, 0x08, (short)0xf000, 0xa, 0xb0, 0, 0x28, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183b0c[] = {
+static MenuPartsEntry s_partsMessageColumnSmallRow[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x90, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183e32[] = {
+static MenuPartsEntry s_partsPokerConfirmButton[] = {
     { 0x14, 0xc0, 0, -1, 0, 4, 0x21, 0x10 },
     { 0x0d, 0x09, (short)0xf000, 0, 0, 6, 0x20, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
@@ -221,7 +221,7 @@ static MenuPartsEntry s_parts_0218432c[] = {
     { 0x0d, 0x0b, (short)0xf000, 3, 0, 0, 0x18, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021841b2[] = {
+static MenuPartsEntry s_partsJournalSlotLevel[] = {
     { 0x0d, 0x08, (short)0xf000, 4, 0x8a, 0, 0xe, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 7, 0, 0, 0x18, 0xc },
     { 0x0f, 0x0b, (short)0xf000, 5, 8, 0, 0x18, 0xc },
@@ -245,19 +245,19 @@ static MenuPartsEntry s_parts_02183e86[] = {
     { 0x0c, 0xf1, 0, 0, 0x18, 0x28, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021841ea[] = {
+static MenuPartsEntry s_partsFightStadiumLineShort[] = {
     { 0x05, 0x00, (short)0xf000, 5, 0xb0, 0, 8, 8 },
     { 0x03, 0xd0, (short)0xf000, 0, 0xb0, 8, 8, 0x10 },
     { 0x05, 0x00, (short)0xf000, 0xb, 0xb0, 0x18, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02184222[] = {
+static MenuPartsEntry s_partsJournalSlotEmpty[] = {
     { 0x0f, 0x08, (short)0xf000, 0, 8, 0, 0xa, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 7, 0, 0, 0xe, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 1, 8, 0, 0x50, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183b98[] = {
+static MenuPartsEntry s_partsMessageColumnRow[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x58, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -269,7 +269,7 @@ static MenuPartsEntry s_parts_02183c24[] = {
     { 0x0d, 0x0a, (short)0xf000, 0, 0, 0, 0x30, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183bd0[] = {
+static MenuPartsEntry s_partsFrameStyleA[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -279,7 +279,7 @@ static MenuPartsEntry s_parts_02183eb0[] = {
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 static int s_int_02183c40[10] = { 1, 2, 4, 5, 8, 0xa, 0x14, 0x64, 0xfa, 0x1f4 };
-static MenuPartsEntry s_parts_02183eda[] = {
+static MenuPartsEntry s_partsFightStadiumLineTall[] = {
     { 0x05, 0x00, (short)0xf000, 5, 0xb0, 0, 8, 8 },
     { 0x03, 0xd0, (short)0xf000, 0, 0xb0, 8, 8, 0x38 },
     { 0x05, 0x00, (short)0xf000, 0xb, 0xb0, 0x40, 8, 8 },
@@ -292,7 +292,7 @@ static MenuPartsEntry s_parts_0218425a[] = {
     { 0x0d, 0x08, (short)0xf000, 3, 0x30, 0xac, 0xf0, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183914[] = {
+static MenuPartsEntry s_partsNameEditCommentChar[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0, 0xc, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -336,11 +336,11 @@ static MenuPartsEntry s_parts_0218402a[] = {
     { 0x05, 0x01, (short)0xf000, 6, 0xf8, 0x48, 8, 8 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183984[] = {
+static MenuPartsEntry s_partsFightStadiumBetHand[] = {
     { 0x15, 0xb1, 0, 0, 0xdd, 0x20, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02184682[] = {
+static MenuPartsEntry s_partsFightStadiumEntry[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x10, 0, 0x64, 0x10 },
     { 0x0d, 0x0b, (short)0xf000, 6, 0, 0, 0xa, 0x10 },
     { 0x0d, 0x08, (short)0xf000, 1, 0x74, 0, 0xa, 0x10 },
@@ -361,11 +361,11 @@ static MenuPartsEntry s_parts_02183d0c[] = {
     { 0x0d, 0x0a, (short)0xf000, 1, 0x64, 0x60, 0xc, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183bb4[] = {
+static MenuPartsEntry s_partsFrameStyleB[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02184762[] = {
+static MenuPartsEntry s_partsJournalSlot[] = {
     { 0x0f, 0x08, (short)0xf000, 0, 8, 0, 0xe, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 7, 0, 0, 0xe, 0xc },
     { 0x0d, 0x0b, (short)0xf000, 1, 8, 0, 0x50, 0xc },
@@ -379,7 +379,7 @@ static MenuPartsEntry s_parts_02184762[] = {
     { 0x0d, 0x08, (short)0xf000, 0xa, 0x74, 0xc, 0x50, 0xe },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183c08[] = {
+static MenuPartsEntry s_partsNameEditFieldCursor[] = {
     { 0x15, 0xb0, 0, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -387,7 +387,7 @@ static MenuPartsEntry s_parts_02183968[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183dde[] = {
+static MenuPartsEntry s_partsPokerCoinRow[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x98, 0, 0x40, 0x10 },
     { 0x0f, 0x0a, (short)0xf000, 1, 0xc0, 0, 0x38, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
@@ -426,7 +426,7 @@ static MenuPartsEntry s_parts_02184372[] = {
     { 0x0d, 0x09, (short)0xf000, 1, 0x68, 6, 0x58, 0x28 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02183b28[] = {
+static MenuPartsEntry s_partsFightStadiumCursor[] = {
     { 0x15, 0xb5, 0, 0, 0, 0, 0, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -447,11 +447,11 @@ THUMB void unkfunc_unused_1(int index)
 
 THUMB void drawFrameStyleA(int x, int y, int w, int h, int lineY)
 {
-    s_parts_02183bd0[0].x_ = x;
-    s_parts_02183bd0[0].y_ = y;
-    s_parts_02183bd0[0].w_ = w;
-    s_parts_02183bd0[0].h_ = h;
-    drawMenuPartsPlain(s_parts_02183bd0, 0);
+    s_partsFrameStyleA[0].x_ = x;
+    s_partsFrameStyleA[0].y_ = y;
+    s_partsFrameStyleA[0].w_ = w;
+    s_partsFrameStyleA[0].h_ = h;
+    drawMenuPartsPlain(s_partsFrameStyleA, 0);
     if (lineY >= 1) {
         MenuPartsEntry line[] = {
             { 0x16, 0x00, (short)0xf000, 0, 0, 0, 0, 0 },
@@ -466,11 +466,11 @@ THUMB void drawFrameStyleA(int x, int y, int w, int h, int lineY)
 
 THUMB void drawFrameStyleB(int x, int y, int w, int h, int lineY)
 {
-    s_parts_02183bb4[0].x_ = x;
-    s_parts_02183bb4[0].y_ = y;
-    s_parts_02183bb4[0].w_ = w;
-    s_parts_02183bb4[0].h_ = h;
-    drawMenuPartsPlain(s_parts_02183bb4, 0);
+    s_partsFrameStyleB[0].x_ = x;
+    s_partsFrameStyleB[0].y_ = y;
+    s_partsFrameStyleB[0].w_ = w;
+    s_partsFrameStyleB[0].h_ = h;
+    drawMenuPartsPlain(s_partsFrameStyleB, 0);
     if (lineY >= 1) {
         MenuPartsEntry line[] = {
             { 0x16, 0x00, (short)0xf000, 0, 0, 0, 0, 0 },
@@ -486,40 +486,40 @@ THUMB void drawFrameStyleB(int x, int y, int w, int h, int lineY)
 THUMB void drawFightStadiumLayout(int flag)
 {
     if (flag) {
-        drawMenuPartsPlain(s_parts_02183eda, 0);
+        drawMenuPartsPlain(s_partsFightStadiumLineTall, 0);
     } else {
-        drawMenuPartsPlain(s_parts_021841ea, 0);
+        drawMenuPartsPlain(s_partsFightStadiumLineShort, 0);
     }
 }
 
 THUMB void drawFightStadiumPanels(bool flag)
 {
     if (flag) {
-        drawMenuPartsPlain(s_parts_02183984, 0);
+        drawMenuPartsPlain(s_partsFightStadiumBetHand, 0);
     } else {
-        drawMenuPartsPlain(s_parts_02183af0, 0);
+        drawMenuPartsPlain(s_partsFightStadiumHand, 0);
     }
 }
 
 THUMB void drawMessageColumn(int* message, int count, int x, int y)
 {
     int param = 0;
-    s_parts_02183b98[0].x_ = x;
-    s_parts_02183b98[0].y_ = y;
+    s_partsMessageColumnRow[0].x_ = x;
+    s_partsMessageColumnRow[0].y_ = y;
     for (int i = 0; i < count; i++) {
         param = message[i];
-        drawMenuParts(s_parts_02183b98, &param, 0, i * 16, 1);
+        drawMenuParts(s_partsMessageColumnRow, &param, 0, i * 16, 1);
     }
 }
 
 THUMB void drawMessageColumnSmall(int* message, int count, int x, int y)
 {
     int param = 0;
-    s_parts_02183b0c[0].x_ = x;
-    s_parts_02183b0c[0].y_ = y;
+    s_partsMessageColumnSmallRow[0].x_ = x;
+    s_partsMessageColumnSmallRow[0].y_ = y;
     for (int i = 0; i < count; i++) {
         param = message[i];
-        drawMenuParts(s_parts_02183b0c, &param, 0, i * 14, 1);
+        drawMenuParts(s_partsMessageColumnSmallRow, &param, 0, i * 14, 1);
     }
 }
 
@@ -535,7 +535,7 @@ THUMB void drawPokerCoinsAndBet(int coin, int bet, int a, int b)
     int param[2] = { 0xa0000138, 0 };
     param[1] = coin;
     int flag = 1;
-    drawMenuParts(s_parts_02183dde, param, 0, 8, flag);
+    drawMenuParts(s_partsPokerCoinRow, param, 0, 8, flag);
     param[1] = bet;
     if (a) {
         param[0] = 0xa000013a;
@@ -546,9 +546,9 @@ THUMB void drawPokerCoinsAndBet(int coin, int bet, int a, int b)
         flag = 5;
     }
     if (bet == 0xffff) {
-        drawMenuParts(s_parts_02183b7c, param, 0, 0x1a, flag);
+        drawMenuParts(s_partsPokerBetLabel, param, 0, 0x1a, flag);
     } else {
-        drawMenuParts(s_parts_02183dde, param, 0, 0x1a, flag);
+        drawMenuParts(s_partsPokerCoinRow, param, 0, 0x1a, flag);
     }
 }
 
@@ -586,12 +586,12 @@ THUMB void drawPokerHoldLabels(int* cards, int a)
             param = 0x80000190;
         }
         if (a != 1 || i != 0) {
-            drawMenuParts(s_parts_02183e08, &param, x[i] + 0xb, 0x7a, 1);
+            drawMenuParts(s_partsPokerHoldLabel, &param, x[i] + 0xb, 0x7a, 1);
         }
     }
     if (a != 1) {
         param = 0x80000192;
-        drawMenuParts(s_parts_02183e32, &param, 0x6f, 0x8c, 1);
+        drawMenuParts(s_partsPokerConfirmButton, &param, 0x6f, 0x8c, 1);
     }
 }
 
@@ -607,10 +607,10 @@ THUMB void drawPokerPayoutTable(int coin, int a, int b)
         param[1] = s_int_02183c40[i] * coin;
         if (a == i) {
             if (b) {
-                drawMenuParts(s_parts_02183e5c, param, 0, 0xa4 - i * 16, 5);
+                drawMenuParts(s_partsPokerPayoutRow, param, 0, 0xa4 - i * 16, 5);
             }
         } else {
-            drawMenuParts(s_parts_02183e5c, param, 0, 0xa4 - i * 16, 1);
+            drawMenuParts(s_partsPokerPayoutRow, param, 0, 0xa4 - i * 16, 1);
         }
     }
 }
@@ -629,43 +629,43 @@ THUMB void drawFightStadiumEntry(int monsterID, int diameter, int index, int ord
     param[4] = diameter % 10;
     param[5] = 0xa000013c;
     param[6] = (int)order[orderCount + 1];
-    drawMenuParts(s_parts_02184682, param, 0, index * 0x18 + 0x10, 1);
+    drawMenuParts(s_partsFightStadiumEntry, param, 0, index * 0x18 + 0x10, 1);
 }
 
 THUMB void drawFightStadiumCursor(int index)
 {
-    drawMenuPartsAt(s_parts_02183b28, 0, 0xc, index * 0x18 + 0x16);
+    drawMenuPartsAt(s_partsFightStadiumCursor, 0, 0xc, index * 0x18 + 0x16);
 }
 
 THUMB void drawFightStadiumBetDigits(int coin, int x, int y, int flag)
 {
     if (flag == 1) {
         int digit = coin / 10;
-        drawMenuParts(s_parts_02183b60, &digit, x + 0xb2, y + 0xa, 1);
+        drawMenuParts(s_partsFightStadiumBetDigit, &digit, x + 0xb2, y + 0xa, 1);
         digit = coin % 10;
-        drawMenuParts(s_parts_02183b60, &digit, x + 0xb8, y + 0xa, 1);
+        drawMenuParts(s_partsFightStadiumBetDigit, &digit, x + 0xb8, y + 0xa, 1);
         return;
     }
     int param = coin;
-    drawMenuParts(s_parts_02183b60, &param, x + 0xb8, y + 0xa, 1);
+    drawMenuParts(s_partsFightStadiumBetDigit, &param, x + 0xb8, y + 0xa, 1);
     if (flag != 0 && coin < 10) {
         param = 0;
-        drawMenuParts(s_parts_02183b60, &param, x + 0xb0, y + 0xa, 1);
+        drawMenuParts(s_partsFightStadiumBetDigit, &param, x + 0xb0, y + 0xa, 1);
     }
 }
 
 THUMB void drawCenteredMessage(int* message, int x, int y, int w, int h)
 {
-    s_parts_02183a48[0].x_ = x;
-    s_parts_02183a48[0].y_ = y + ((h - y) >> 1);
-    s_parts_02183a48[0].w_ = w;
-    s_parts_02183a48[0].h_ = 10;
-    drawMenuPartsColored(s_parts_02183a48, message, 1);
+    s_partsCenteredMessage[0].x_ = x;
+    s_partsCenteredMessage[0].y_ = y + ((h - y) >> 1);
+    s_partsCenteredMessage[0].w_ = w;
+    s_partsCenteredMessage[0].h_ = 10;
+    drawMenuPartsColored(s_partsCenteredMessage, message, 1);
 }
 
 THUMB void drawJournalSlot(int index, char* name, int chapter, int level, int town, int time, int y, int flag)
 {
-    MenuPartsEntry* draw = s_parts_02184762;
+    MenuPartsEntry* draw = s_partsJournalSlot;
     int mode;
     if (flag) {
         mode = 1;
@@ -686,7 +686,7 @@ THUMB void drawJournalSlot(int index, char* name, int chapter, int level, int to
     param[10] = town;
     param[11] = hour % 100 / 10;
     param[12] = hour % 10;
-    s_parts_02184762[3].type_ = 0xd;
+    s_partsJournalSlot[3].type_ = 0xd;
     switch (chapter) {
         case 0:
             param[2] = 0xa0000323;
@@ -710,7 +710,7 @@ THUMB void drawJournalSlot(int index, char* name, int chapter, int level, int to
             param[2] = 0xa0000329;
             break;
         default:
-            s_parts_02184762[3].type_ = 0;
+            s_partsJournalSlot[3].type_ = 0;
             break;
     }
     if (town == -1) {
@@ -718,7 +718,7 @@ THUMB void drawJournalSlot(int index, char* name, int chapter, int level, int to
     }
     if (name == 0) {
         param[1] = 0xa0000321;
-        draw = s_parts_02184222;
+        draw = s_partsJournalSlotEmpty;
         if (flag) {
             mode = 2;
         } else {
@@ -727,7 +727,7 @@ THUMB void drawJournalSlot(int index, char* name, int chapter, int level, int to
     }
     drawMenuParts(draw, param, 0x10, y + index * 0x1a, mode);
     if (chapter >= 5) {
-        drawMenuParts(s_parts_021841b2, param, 0x10, y + index * 0x1a, mode);
+        drawMenuParts(s_partsJournalSlotLevel, param, 0x10, y + index * 0x1a, mode);
     }
 }
 
@@ -742,7 +742,7 @@ THUMB void drawNameEditCharTable(int* name, int type)
         for (int j = 0; j < 11; j++) {
             param[j] = *name++;
         }
-        drawMenuParts(s_parts_0218480a, param, 0x18, i * 12 + 0x44 + y, 1);
+        drawMenuParts(s_partsNameEditCharRow, param, 0x18, i * 12 + 0x44 + y, 1);
     }
 }
 
@@ -766,9 +766,9 @@ THUMB void drawNameEditField(int country, int* name, int count, int max, int mod
             param = name[i];
         }
         if (count != i) {
-            drawMenuParts(s_parts_02183bec, &param, x + i * 12, y, 1);
+            drawMenuParts(s_partsNameEditFieldChar, &param, x + i * 12, y, 1);
         } else if (mode == 0) {
-            drawMenuParts(s_parts_02183c08, 0, x + i * 12 + 6, 0x28, 1);
+            drawMenuParts(s_partsNameEditFieldCursor, 0, x + i * 12 + 6, 0x28, 1);
         }
     }
 }
@@ -783,9 +783,9 @@ THUMB void drawNameEditCommentField(int* name, int count)
             x = 2;
         }
         if (count != i) {
-            drawMenuParts(s_parts_02183914, &param, x + i % 15 * 14, i / 15 * 16 + 0xe, 1);
+            drawMenuParts(s_partsNameEditCommentChar, &param, x + i % 15 * 14, i / 15 * 16 + 0xe, 1);
         } else {
-            drawMenuParts(s_parts_02183930, 0, i % 15 * 14 + 0x1e, i / 15 * 16 + 0x1c, 1);
+            drawMenuParts(s_partsNameEditCommentCursor, 0, i % 15 * 14 + 0x1e, i / 15 * 16 + 0x1c, 1);
         }
     }
 }

@@ -13,15 +13,15 @@
 #include "main/menu/MenuPartsDraw.hpp"
 
 // parts lists (their definition order sets the .data layout)
-static MenuPartsEntry s_parts_02176f38[] = {
+static MenuPartsEntry s_partsFormationIconsWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0x68, 0xe0, 0x58 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176e90[] = {
+static MenuPartsEntry s_partsFormationWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0x18, 0x78, 0xd0, 0x28 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176f54[] = {
+static MenuPartsEntry s_partsItemEquipWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0x40, 0xa0, 0x98, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -29,23 +29,23 @@ static MenuPartsEntry s_parts_02176f1c[] = {
     { 0x03, 0xd0, (short)0xf000, 0, 0, 8, 0x100, 0x40 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176f70[] = {
+static MenuPartsEntry s_partsTacticsSelectWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0x18, 0x58, 0xd0, 0x48 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176ee4[] = {
+static MenuPartsEntry s_partsTacticsMemberWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0x10, 0x70, 0xe8, 0x30 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176eac[] = {
+static MenuPartsEntry s_partsFormationAllWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0x98, 0x68 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176ec8[] = {
+static MenuPartsEntry s_partsCharaSpellName[] = {
     { 0x0d, 0x09, (short)0xf000, 0, 0, 4, 0x70, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176f00[] = {
+static MenuPartsEntry s_partsBattleTacticsOption[] = {
     { 0x0e, 0x08, (short)0xf000, 0, 6, 0, 0x30, 0x18 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
@@ -54,74 +54,74 @@ static MenuPartsEntry s_parts_0217705e[] = {
     { 0x0c, 0xf1, 0, 0, 0, 0, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02177088[] = {
+static MenuPartsEntry s_partsFormationOptions[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x14, 0xf, 0x4c, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0x74, 0xf, 0x4c, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021770dc[] = {
+static MenuPartsEntry s_partsItemListWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0x100, 0xa0 },
     { 0x16, 0x00, (short)0xf000, 0, 0, 0x68, 0x100, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02177106[] = {
+static MenuPartsEntry s_partsFormationSlotNumber[] = {
     { 0x0f, 0x08, (short)0xf000, 0, 0, 0, 0xa, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 1, 0, 0, 0xa, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02177130[] = {
+static MenuPartsEntry s_partsMemberIconEmpty[] = {
     { 0x14, 0xc2, 0, 0, 4, 0xe, 0x20, 0x18 },
     { 0x0c, 0xf1, 0, 0, 0, 0, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0217715a[] = {
+static MenuPartsEntry s_partsItemUseEquipOptions[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x4c, 0xab, 0x3c, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0x94, 0xab, 0x3c, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176f8c[] = {
+static MenuPartsEntry s_partsFormationSlotName[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 0x10, 0, 0x30, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0x14, 0xc, 0x28, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176fb6[] = {
+static MenuPartsEntry s_partsFormationSlotLevel[] = {
     { 0x0d, 0x08, (short)0xf000, 2, 0x20, 0xc, 0xa, 0xa },
     { 0x0f, 0x0b, (short)0xf000, 3, 0, 0, 0x14, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02176fe0[] = {
+static MenuPartsEntry s_partsSelectedCharaNone[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0x48, 0x20 },
     { 0x0d, 0x09, (short)0xf000, 0, 8, 0xa, 0x38, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_0217700a[] = {
+static MenuPartsEntry s_partsMagicListWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0x100, 0xa0 },
     { 0x16, 0x00, (short)0xf000, 0, 0, 0x68, 0x100, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02177034[] = {
+static MenuPartsEntry s_partsFormationSlotNpcLevel[] = {
     { 0x0d, 0x08, (short)0xf000, 2, 0x20, 0xc, 0xa, 0xa },
     { 0x0d, 0x0b, (short)0xf000, 3, 0, 0, 0x14, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021770b2[] = {
+static MenuPartsEntry s_partsMemberIconReserve[] = {
     { 0x14, 0xc2, 0, 0, 4, 0xe, 0x20, 0x18 },
     { 0x0c, 0xf1, 0, 0, 0, 0, 0x20, 0x20 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021771bc[] = {
+static MenuPartsEntry s_partsPartyTargetWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0x100, 0xa0 },
     { 0x16, 0x00, (short)0xf000, 2, 0, 8, 0x100, 0 },
     { 0x16, 0x00, (short)0xf000, 3, 0, 0x90, 0x100, 0 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_021771f4[] = {
+static MenuPartsEntry s_partsCharaSpellListWindow[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0, 0, 0x100, 0xc0 },
     { 0x16, 0x00, (short)0xf000, 1, 0, 0x18, 0x100, 0 },
     { 0x0d, 0x09, (short)0xf000, 0, 0x10, 0xc, 0xe0, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static MenuPartsEntry s_parts_02177184[] = {
+static MenuPartsEntry s_partsMemberIconActive[] = {
     { 0x14, 0xc2, 0, 0, 4, 0xe, 0x20, 0x18 },
     { 0x0c, 0xf1, 0, 0, 0, 0, 0x20, 0x20 },
     { 0x0f, 0x0a, (short)0xf000, 1, -4, 8, 0xc, 0xa },
@@ -143,13 +143,13 @@ THUMB void drawItemMenu(int* items, int count, int page)
 
 THUMB void drawItemUseEquipMenu(int* items, int count, int page)
 {
-    drawMenuPartsPlain(s_parts_02176f54, 0);
+    drawMenuPartsPlain(s_partsItemEquipWindow, 0);
     int chara = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     status::PlayerStatus* player = status::g_Party.getPlayerStatus(chara);
     drawBattleActiveMember(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
     s_param[0] = 0x80000069;
     s_param[1] = 0x8000006b;
-    drawMenuPartsColored(s_parts_0217715a, s_param, 1);
+    drawMenuPartsColored(s_partsItemUseEquipOptions, s_param, 1);
     drawItemList(items, count, page);
 }
 
@@ -170,7 +170,7 @@ THUMB void drawMagicMenu(int* actions, int count, int page)
     int pageMax;
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(btl::BattleMenuPlayerControl::getSingleton()->activeChara_)->haveStatusInfo_;
     drawMagicCommandHeader();
-    drawMenuPartsPlain(s_parts_0217700a, 0);
+    drawMenuPartsPlain(s_partsMagicListWindow, 0);
     pageMax = (count - 1) / 6;
     int num = (count - 1) % 6 + 1;
     if (pageMax > page) {
@@ -203,7 +203,7 @@ THUMB void drawMagicOnPartyMenu()
 
 THUMB void drawTacticsMemberMenu()
 {
-    drawMenuPartsPlain(s_parts_02176ee4, 0);
+    drawMenuPartsPlain(s_partsTacticsMemberWindow, 0);
     drawTacticsCommandButton();
     int list[4];
     dss::memset(list, 0, sizeof(list));
@@ -227,14 +227,14 @@ THUMB void drawTacticsMemberMenu()
 THUMB void drawTacticsSelectMenu()
 {
     static const int tactics[6] = { 0x90000001, 0x90000002, 0x90000005, 0x90000003, 0x90000004, 0x90000006 };
-    drawMenuPartsPlain(s_parts_02176f70, 0);
+    drawMenuPartsPlain(s_partsTacticsSelectWindow, 0);
     drawTacticsCommandButton();
     const int* p = tactics;
     for (int j = 0; j < 2; j++) {
         for (int i = 0; i < 3; i++) {
             int param = *p;
             param += btl::BattleMenuPlayerControl::getSingleton()->tacticsSex_;
-            drawMenuParts(s_parts_02176f00, &param, i * 0x40 + 0x24, j * 0x1e + 0x60, 1);
+            drawMenuParts(s_partsBattleTacticsOption, &param, i * 0x40 + 0x24, j * 0x1e + 0x60, 1);
             p++;
         }
     }
@@ -264,9 +264,9 @@ THUMB void drawTacticsSelectMenu()
 
 THUMB void drawFormationMenu()
 {
-    drawMenuPartsPlain(s_parts_02176e90, 0);
+    drawMenuPartsPlain(s_partsFormationWindow, 0);
     int param[2] = { (int)0x80000008, (int)0x80000009 };
-    drawMenuParts(s_parts_02177088, param, 0x18, 0x78, 1);
+    drawMenuParts(s_partsFormationOptions, param, 0x18, 0x78, 1);
     drawFormationCommandButton();
     drawBattleCancelButton();
 }
@@ -307,7 +307,7 @@ THUMB void drawFormationChangeTargetMenu(int* list, int count, int page)
 THUMB void drawFormationAllMenu(int* list, int count, int* order, int orderCount)
 {
     status::g_Party.setMemberShiftMode();
-    drawMenuPartsPlain(s_parts_02176eac, 0);
+    drawMenuPartsPlain(s_partsFormationAllWindow, 0);
     for (int i = 0; i < 4; i++) {
         int x = (i % 2) * 0x48 + 8;
         int y = (i / 2) * 0x30 + 8;
@@ -324,13 +324,13 @@ THUMB void drawFormationAllMenu(int* list, int count, int* order, int orderCount
             param[3] = status::g_Party.getPlayerStatus(*order)->haveStatusInfo_.haveStatus_.level_;
             if (info->haveStatus_.isBattleNpc_) {
                 param[3] = 0xa0000073;
-                drawMenuParts(s_parts_02177034, param, x, y, g_menuTextColors[color]);
+                drawMenuParts(s_partsFormationSlotNpcLevel, param, x, y, g_menuTextColors[color]);
             } else {
-                drawMenuParts(s_parts_02176fb6, param, x, y, g_menuTextColors[color]);
+                drawMenuParts(s_partsFormationSlotLevel, param, x, y, g_menuTextColors[color]);
             }
-            drawMenuParts(s_parts_02176f8c, param, x, y, g_menuTextColors[color]);
+            drawMenuParts(s_partsFormationSlotName, param, x, y, g_menuTextColors[color]);
         }
-        drawMenuParts(s_parts_02177106, number, x, y, g_menuTextColors[color]);
+        drawMenuParts(s_partsFormationSlotNumber, number, x, y, g_menuTextColors[color]);
         order++;
     }
     int target = btl::BattleMenuPlayerControl::getSingleton()->targetChara_;
@@ -361,7 +361,7 @@ THUMB void drawEnemyTargetSelect(int group)
 
 THUMB void drawPartyTargetSelect()
 {
-    drawMenuPartsPlain(s_parts_021771bc, 0);
+    drawMenuPartsPlain(s_partsPartyTargetWindow, 0);
     for (int i = 0; i < status::g_Party.getCarriageOutCount(); i++) {
         drawBattleMemberStatusPanel(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, i);
     }
@@ -378,7 +378,7 @@ THUMB void drawItemList(int* items, int count, int page)
     if (pageMax > page) {
         num = 6;
     }
-    drawMenuPartsPlain(s_parts_021770dc, 0);
+    drawMenuPartsPlain(s_partsItemListWindow, 0);
     top = page * 6;
     for (int i = 0; i < num; i++) {
         int x = i % 2;
@@ -436,7 +436,7 @@ THUMB void drawFormationCommandButton()
 
 THUMB void drawFormationMemberIcons(int* list, int count)
 {
-    drawMenuPartsPlain(s_parts_02176f38, 0);
+    drawMenuPartsPlain(s_partsFormationIconsWindow, 0);
     for (int i = 0; i < count; i++) {
         int x = (i % 5) * 0x28 + 0x10;
         int y = (i / 5) * 0x28 + 0x68;
@@ -454,7 +454,7 @@ THUMB void drawSelectedCharaHp(int chara)
 {
     if (chara == -1) {
         int param = 0x8000006e;
-        drawMenuParts(s_parts_02176fe0, &param, 0x88, 0xa0, 1);
+        drawMenuParts(s_partsSelectedCharaNone, &param, 0x88, 0xa0, 1);
         return;
     }
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_;
@@ -480,14 +480,14 @@ THUMB void drawMemberIcon(int x, int y, int index)
     param[1] = found + 1;
     if (index == -1) {
         param[0] = 0x19;
-        drawMenuPartsAt(s_parts_02177130, param, x, y);
+        drawMenuPartsAt(s_partsMemberIconEmpty, param, x, y);
         return;
     }
     if (inParty) {
-        drawMenuParts(s_parts_02177184, param, x, y, g_menuTextColors[getBattleHpColorIndex(info)]);
+        drawMenuParts(s_partsMemberIconActive, param, x, y, g_menuTextColors[getBattleHpColorIndex(info)]);
         return;
     }
-    drawMenuPartsAt(s_parts_021770b2, param, x, y);
+    drawMenuPartsAt(s_partsMemberIconReserve, param, x, y);
 }
 
 THUMB void drawBattleHistory(int chara)
@@ -513,9 +513,9 @@ THUMB void drawCharaBattleSpellList(int* actions, int count, int chara)
     setMenuDrawOffset(0, 0);
     TextAPI::setMACRO0(1, 0x50000000, info->haveStatus_.playerIndex_);
     int message = 0xa0000023;
-    drawMenuPartsColored(s_parts_021771f4, &message, g_menuTextColors[0]);
+    drawMenuPartsColored(s_partsCharaSpellListWindow, &message, g_menuTextColors[0]);
     for (int i = 0; i < count; i++) {
         int param = actions[i] + 0x70000000;
-        drawMenuParts(s_parts_02176ec8, &param, (i % 2) * 120 + 16, (i / 2) * 16 + 36, g_menuTextColors[getBattleHpColorIndex(info)]);
+        drawMenuParts(s_partsCharaSpellName, &param, (i % 2) * 120 + 16, (i / 2) * 16 + 36, g_menuTextColors[getBattleHpColorIndex(info)]);
     }
 }
