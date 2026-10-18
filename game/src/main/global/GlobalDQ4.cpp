@@ -47,8 +47,8 @@ ARM void GlobalDQ4::unkfunc_02058014(int partId)
         unkfunc_02058148(currentTask_);
         do {
             unkfunc_02058188(currentTask_);
-            if (s_hook.unk_08 != 0) {
-                s_hook.unk_08();
+            if (s_hook.frameFunc_ != 0) {
+                s_hook.frameFunc_();
             }
         } while (nextPartId_ == -1);
         unkfunc_0205815c(currentTask_);
@@ -99,12 +99,12 @@ ARM int GlobalDQ4::unkfunc_02058114(int partId)
 
 ARM void GlobalDQ4::unkfunc_02058128(void (*func)())
 {
-    s_hook.unk_08 = func;
+    s_hook.frameFunc_ = func;
 }
 
 ARM void GlobalDQ4::unkfunc_02058138(void (*func)())
 {
-    s_hook.unk_04 = func;
+    s_hook.taskEndFunc_ = func;
 }
 
 ARM void GlobalDQ4::unkfunc_02058148(GlobalDQ4Task* task)
@@ -115,8 +115,8 @@ ARM void GlobalDQ4::unkfunc_02058148(GlobalDQ4Task* task)
 ARM void GlobalDQ4::unkfunc_0205815c(GlobalDQ4Task* task)
 {
     task->vf04();
-    if (s_hook.unk_04 != 0) {
-        s_hook.unk_04();
+    if (s_hook.taskEndFunc_ != 0) {
+        s_hook.taskEndFunc_();
     }
 }
 
@@ -163,7 +163,7 @@ bool GlobalDQ4::nativeStep() {
     // Display registers, OAM and VRAM uploads are finalized by vf10 after its
     // VBlank wait. Present here, before a scene transition frees its resources.
     pc::completeNativeFrame();
-    if (s_hook.unk_08) s_hook.unk_08();
+    if (s_hook.frameFunc_) s_hook.frameFunc_();
     if (nextPartId_ != -1) {
         const auto next = nextPartId_;
         if (next < 0 || next >= 24 || !task_[next]) throw std::runtime_error("Game scene not ported or registered");

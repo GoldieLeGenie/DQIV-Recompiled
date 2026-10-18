@@ -18,18 +18,18 @@ ARM void MPExchange::updateSelectRole()
     if (getWhSysState() != WH_SYSSTATE_IDLE) {
         return;
     }
-    if (unk_1c != 0) {
+    if (cancelRequest_ != 0) {
         setMode(SYSMODE_FINISH_READY);
         return;
     }
     int role = role_.getNextRole();
     if (role == 2) {
-        unk_f8 = 0;
+        isChild_ = 0;
         startParent(0, 90);
     }
     if (role == 1) {
-        unk_f8 = 1;
-        unk_40 = 1;
+        isChild_ = 1;
+        scanChannel_ = 1;
         startScan(1);
     }
 }
@@ -39,7 +39,7 @@ ARM void MPExchange::updateParentLobby()
     updateGameInfo(1);
     debugConsolePrintfIfEnabled(2, 1, "BEACON CNT %d", getWhBeaconCount());
     role_.printTable();
-    if (getWhBeaconCount() > 1 && unk_1c != 0) {
+    if (getWhBeaconCount() > 1 && cancelRequest_ != 0) {
         finish();
         return;
     }
@@ -77,7 +77,7 @@ ARM void MPExchange::updateChildReady()
     if (counter_ > 60) {
         setMode(SYSMODE_LIGHT_ERRORINIT);
     }
-    if (unk_1c != 0) {
+    if (cancelRequest_ != 0) {
         finish();
         return;
     }
@@ -94,9 +94,9 @@ ARM void MPExchange::updateChildReady()
 ARM void MPExchange::updateChildScan()
 {
     char buf[0x20];
-    debugConsolePrintfIfEnabled(2, 1, "CHANNEL %d", unk_40);
+    debugConsolePrintfIfEnabled(2, 1, "CHANNEL %d", scanChannel_);
     role_.printTable();
-    if (unk_1c != 0) {
+    if (cancelRequest_ != 0) {
         if (getWhSysState() == WH_SYSSTATE_SCANNING) {
             endWhScan();
         }
@@ -122,23 +122,23 @@ ARM void MPExchange::updateChildScan()
 
 ARM void MPExchange::updateSelectScan()
 {
-    debugConsolePrintfIfEnabled(2, 1, "CHANNEL %d", unk_40);
+    debugConsolePrintfIfEnabled(2, 1, "CHANNEL %d", scanChannel_);
     role_.printTable();
     if (getWhSysState() != WH_SYSSTATE_IDLE) {
         return;
     }
-    if (unk_1c != 0) {
+    if (cancelRequest_ != 0) {
         finish();
         return;
     }
     role_.restartTimer();
-    switch (unk_40) {
+    switch (scanChannel_) {
     case 1:
-        unk_40 = 7;
+        scanChannel_ = 7;
         startScan(7);
         break;
     case 7:
-        unk_40 = 13;
+        scanChannel_ = 13;
         startScan(13);
         break;
     case 13:
@@ -164,15 +164,15 @@ ARM void MPExchange::updateParentExec()
         finish();
         return;
     }
-    if (unk_3c == 4) {
+    if (forceError_ == 4) {
         finish();
         return;
     }
-    if (unk_3c == 6) {
+    if (forceError_ == 6) {
         finish();
         return;
     }
-    if (unk_1c != 0) {
+    if (cancelRequest_ != 0) {
         finish();
         return;
     }
@@ -186,7 +186,7 @@ ARM void MPExchange::updateParentExec()
             return;
         }
     }
-    if (unk_fc == 4) {
+    if (receiveCount_ == 4) {
         SEND_PACKET->state_ = 2;
         return;
     }
@@ -196,17 +196,17 @@ ARM void MPExchange::updateChildExec()
 {
     printChildren();
     dss::memcpy(&SEND_PACKET->data_, sendData_, 0xe4);
-    if (unk_3c == 5) {
+    if (forceError_ == 5) {
         finish();
         return;
     }
-    if (unk_3c == 6) {
-        if (unk_fc == 1) {
+    if (forceError_ == 6) {
+        if (receiveCount_ == 1) {
             finish();
         }
         return;
     }
-    if (unk_1c != 0) {
+    if (cancelRequest_ != 0) {
         finish();
         return;
     }
@@ -234,16 +234,16 @@ ARM void MPExchange::receivePackets()
                 if (data != NULL) {
                     MI_CpuCopyU8(data, packet, 0xe4);
                     connected_[i] = 1;
-                    if (unk_f8 == 0) {
+                    if (isChild_ == 0) {
                         if (i == 1) {
                             dss::memcpy(receiveData_, &packet->data_, 0xe4);
-                            unk_fc++;
+                            receiveCount_++;
                             convertUtf8ToSjisWork((char*)((EnvoyData*)receiveData_)->name);
                             convertUtf8ToSjisWork((char*)((EnvoyData*)receiveData_)->comment);
                         }
                     } else if (i == 0) {
                         dss::memcpy(receiveData_, &packet->data_, 0xe4);
-                        unk_fc++;
+                        receiveCount_++;
                         convertUtf8ToSjisWork((char*)((EnvoyData*)receiveData_)->name);
                         convertUtf8ToSjisWork((char*)((EnvoyData*)receiveData_)->comment);
                     }
@@ -255,24 +255,24 @@ ARM void MPExchange::receivePackets()
             for (; i < 16; i++) {
                 connected_[i] = 0;
             }
-            unk_34 = 0;
+            dataSharingFailed_ = 0;
         } else {
             for (int i = 0; i < 16; i++) {
                 connected_[i] = 0;
             }
-            unk_34 = 1;
+            dataSharingFailed_ = 1;
         }
     } else {
         for (int i = 0; i < 16; i++) {
             connected_[i] = 0;
         }
-        unk_34 = 0;
+        dataSharingFailed_ = 0;
     }
 }
 
 ARM void MPExchange::sendPacket()
 {
-    if (unk_34 != 0) {
+    if (dataSharingFailed_ != 0) {
         return;
     }
     MPExchangePacket* packet = SEND_PACKET;

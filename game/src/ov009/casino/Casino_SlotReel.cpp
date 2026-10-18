@@ -36,7 +36,7 @@ ARM void Casino_SlotReel::setReel(int type)
         m_roll_top_spd = 0x555 / 2;
         m_roll_under_spd = 0x56;
     }
-    unk_30 = type;
+    m_slot_tbl_type = type;
     m_roll_stop_pos = -1;
     m_roll_first_pos = 0x10000;
     m_roll_pos = 0x10000;

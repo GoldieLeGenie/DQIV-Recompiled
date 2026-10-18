@@ -5,7 +5,7 @@ THUMB BattleMapList::BattleMapList()
 {
     group_ = 0;
     map_ = 0;
-    unk_28 = 0;
+    mapIndex_ = 0;
     loaded_ = 0;
 }
 
@@ -18,7 +18,7 @@ THUMB void BattleMapList::load(const char* filename)
     unkfunc_0205726c(filename, 0);
     group_ = 0;
     map_ = 0;
-    unk_28 = 0;
+    mapIndex_ = 0;
     loaded_ = 1;
 }
 
@@ -42,7 +42,7 @@ THUMB void BattleMapList::nextGroup()
         }
         if (dss::strcmp(name, unkfunc_02057368(group_ + map_ + i, 1)) != 0) {
             map_ += i;
-            unk_28 = 0;
+            mapIndex_ = 0;
             return;
         }
         i++;
@@ -71,7 +71,7 @@ THUMB void BattleMapList::prevGroup()
         if (dss::strcmp(name, text) != 0) {
             if (dss::strcmp(prev, text) == 0) {
                 map_ = offset;
-                unk_28 = 0;
+                mapIndex_ = 0;
                 return;
             }
             offset += i;
@@ -93,19 +93,19 @@ THUMB void BattleMapList::prevGroup()
 
 THUMB char* BattleMapList::getMapName()
 {
-    return unkfunc_02057368(group_ + map_ + unk_28, 2);
+    return unkfunc_02057368(group_ + map_ + mapIndex_, 2);
 }
 
 THUMB void BattleMapList::nextMap()
 {
     unkfunc_02057368(group_, 0);
     char* name = unkfunc_02057368(group_ + map_, 1);
-    if (unkfunc_02057368(group_ + map_ + unk_28 + 1, 2) == NULL) {
+    if (unkfunc_02057368(group_ + map_ + mapIndex_ + 1, 2) == NULL) {
         return;
     }
-    char* next = unkfunc_02057368(group_ + map_ + unk_28 + 1, 2);
+    char* next = unkfunc_02057368(group_ + map_ + mapIndex_ + 1, 2);
     if (dss::strncmp(name, next, dss::strlen(name)) == 0) {
-        unk_28++;
+        mapIndex_++;
     }
 }
 
@@ -113,12 +113,12 @@ THUMB void BattleMapList::prevMap()
 {
     unkfunc_02057368(group_, 0);
     char* name = unkfunc_02057368(group_ + map_, 1);
-    int row = group_ + map_ + unk_28 - 1;
+    int row = group_ + map_ + mapIndex_ - 1;
     if (row < 0) {
         return;
     }
     char* prev = unkfunc_02057368(row, 2);
     if (dss::strncmp(name, prev, dss::strlen(name)) == 0) {
-        unk_28--;
+        mapIndex_--;
     }
 }

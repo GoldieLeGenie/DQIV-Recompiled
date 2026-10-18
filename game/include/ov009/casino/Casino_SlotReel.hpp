@@ -20,7 +20,7 @@ struct Casino_SlotReel {
     int m_roll_spd;                             // 0x24
     int m_roll_top_spd;                         // 0x28
     int m_roll_under_spd;                       // 0x2C
-    int unk_30;                                 // 0x30 (slot type, DS-only)
+    int m_slot_tbl_type;                                 // 0x30 (slot type, DS-only)
     SLOT_ROLL_STATE m_roll_state;               // 0x34
 
     Casino_SlotReel();

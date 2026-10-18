@@ -148,7 +148,7 @@ ARM void MPExchangePart::onExecutePart()
             break;
         case 9: {
             EnvoyData* data = exchange_.getReceivedData();
-            if (exchange_.unk_fc <= 4) {
+            if (exchange_.receiveCount_ <= 4) {
                 setState(7);
                 break;
             }
@@ -180,7 +180,7 @@ ARM void MPExchangePart::onExecutePart()
                 g_TownMenuMessage.addMessage(0x92a08);
                 g_TownMenuMessage.setYesNo(1);
                 message_ = 0;
-                exchange_.unk_1c = 1;
+                exchange_.cancelRequest_ = 1;
             }
             if (counter_ > 60) {
                 if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
@@ -218,7 +218,7 @@ ARM void MPExchangePart::onExecutePart()
             restoreLcdAndSleep();
             if (counter_ == 0) {
                 g_TownMenuMessage.close();
-                exchange_.unk_1c = 1;
+                exchange_.cancelRequest_ = 1;
                 g_Global.fadeOutBlack(30);
             }
             if (counter_ > 30 && exchange_.mode_ == SYSMODE_FINISH_WAIT) {

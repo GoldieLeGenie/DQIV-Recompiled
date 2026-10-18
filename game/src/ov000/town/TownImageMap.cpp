@@ -87,8 +87,8 @@ ARM void TownImageMap::execute()
         }
         break;
     }
-    int x = unk_04.vx;
-    int y = unk_04.vy;
+    int x = pointScreenPos_.vx;
+    int y = pointScreenPos_.vy;
     if (x > 0xf0) {
         x = 0xf0;
     }
@@ -212,7 +212,7 @@ ARM void TownImageMap::calcTargetPos()
 
 ARM void TownImageMap::updatePointScreenPos()
 {
-    unk_04 = *getScreenPosition(0);
+    pointScreenPos_ = *getScreenPosition(0);
 }
 
 ARM void TownImageMap::initialize()

@@ -6,7 +6,7 @@
 struct BattleMapList : CsvData {
     int group_;                                 // 0x20  first row of the current group
     int map_;                                   // 0x24  row in the group
-    int unk_28;                                 // 0x28
+    int mapIndex_;                                 // 0x28
     int loaded_;                                // 0x2C
 
     BattleMapList();

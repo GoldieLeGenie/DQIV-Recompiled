@@ -112,7 +112,7 @@ ARM int TownCharacterManager::setup(TOWN_CHARACTER& chara)
             }
             character_[i] = characterStorage.getContainer(drawType);
             character_[i]->render_ = &TownSystem::getSingleton()->render_;
-            character_[i]->unk_d0 = &TownCamera::getSingleton()->camera_.m_camera0;
+            character_[i]->camera_ = &TownCamera::getSingleton()->camera_.m_camera0;
             character_[i]->setup(chara);
             character_[i]->type_ = drawType;
             character_[i]->data_.ctrlNo = i;

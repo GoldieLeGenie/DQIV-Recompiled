@@ -20,7 +20,7 @@ ARM void TownCharacterDraw::setup(TOWN_CHARACTER& data)
     character_.setPosition(data_.position);
     character_.setRotate(data_.dir);
     character_.setRender(render_);
-    BillboardCharacter::setCamera(unk_d0);
+    BillboardCharacter::setCamera(camera_);
 }
 
 ARM void TownCharacterDraw::execute()

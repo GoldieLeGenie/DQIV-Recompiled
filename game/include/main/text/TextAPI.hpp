@@ -133,10 +133,10 @@ struct MsgData {
     char* m_addr;                   /* 0x00 */
     int m_size;                     /* 0x04 */
     int m_msg_base_id;              /* 0x08 */
-    int unk_0c;                     /* 0x0C */
-    int unk_10;                     /* 0x10 */
-    int unk_14;                     /* 0x14 */
-    int unk_18;                     /* 0x18 */
+    int m_msg_last_id;                     /* 0x0C */
+    int m_loaded_msg_id;                     /* 0x10 */
+    int m_block_size;                     /* 0x14 */
+    int m_loaded_lang;                     /* 0x18 */
 
     MsgData();
     void msg_setup(int msg_base_id, int arg1, int size, int count);
@@ -160,7 +160,7 @@ struct MsgFile {
     int m_size;                     /* 0x004 */
     MsgMeta m_meta;                 /* 0x008 */
     int m_msg_id;                   /* 0x808 */
-    int unk_80c;                    /* 0x80C */
+    int m_is_loaded;                    /* 0x80C */
 
     void init();
     void cleanup();

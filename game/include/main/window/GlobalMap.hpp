@@ -5,7 +5,7 @@
 
 namespace window {
     struct GlobalMap : WorldMapBase {
-        MenuSprite unk_100;                  // 0x100
+        MenuSprite veilSprite_;                  // 0x100
 
         GlobalMap();
         ~GlobalMap();

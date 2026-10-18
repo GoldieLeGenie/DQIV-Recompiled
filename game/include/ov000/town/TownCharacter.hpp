@@ -82,7 +82,7 @@ struct TownCharacterBase
     SCRIPT_MOVE_TYPE moveType_;                 // 0x08C
     SCRIPT_MOVE_DATA moveData_;                 // 0x090
     Render* render_;                            // 0x0CC
-    dss::Camera* unk_d0;                        // 0x0D0 
+    dss::Camera* camera_;                        // 0x0D0 
     cmn::MoveBase simpleMove_;                  // 0x0D4
     dss::Fix32Vector3 addRGB;                   // 0x128
     dss::Fix32Vector3 setRGB;                   // 0x134

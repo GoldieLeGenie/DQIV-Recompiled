@@ -12,8 +12,8 @@ struct CasinoPokerDraw {
     dss::Fix32 m_card_space;                    // 0x08
     dss::Fix32 m_card_scale;                    // 0x0C
     dss::Fix32Vector3 m_default_pos[5];         // 0x10
-    DataObject unk_4c[6];                       // 0x4C
-    void* unk_ac[6];                            // 0xAC
+    DataObject m_card_object[6];                       // 0x4C
+    void* m_card_texture[6];                            // 0xAC
     PokerCard m_card[5];                        // 0xC4
 
     CasinoPokerDraw();

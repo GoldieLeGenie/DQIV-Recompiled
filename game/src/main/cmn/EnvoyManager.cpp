@@ -79,7 +79,7 @@ THUMB void EnvoyManager::removeEnvoy(int index)
 THUMB void EnvoyManager::receiveEnvoy(EnvoyData* data, int arg)
 {
     mode_ = 0;
-    unk_1664 = arg;
+    hasReceived_ = arg;
     if (data != NULL) {
         dss::memcpy(&received_, data, sizeof(EnvoyData));
         int index = findEnvoyByUnique(received_.unique);

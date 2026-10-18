@@ -19,45 +19,45 @@ ARM void FieldSubWorldMap::setup(Render* render)
 
 ARM void FieldSubWorldMap::cleanup()
 {
-    unk_100.unload();
-    unk_08.unload();
+    playerSprite_.unload();
+    mapSprite_.unload();
 }
 
 ARM void FieldSubWorldMap::draw()
 {
     setupOrtho2D();
-    unk_08.draw();
-    drawSymbols(unk_150);
+    mapSprite_.draw();
+    drawSymbols(world_);
 }
 
 ARM void FieldSubWorldMap::load()
 {
-    unk_100.allocVram();
-    unk_100.transferToVram();
-    unk_08.allocVram();
-    unk_08.transferToVram();
+    playerSprite_.allocVram();
+    playerSprite_.transferToVram();
+    mapSprite_.allocVram();
+    mapSprite_.transferToVram();
 }
 
 ARM void FieldSubWorldMap::clear()
 {
-    unk_08.freeVram();
-    unk_100.freeVram();
+    mapSprite_.freeVram();
+    playerSprite_.freeVram();
 }
 
 ARM void FieldSubWorldMap::setAlpha(unsigned char alpha)
 {
-    unk_08.setAlpha(alpha);
-    unk_100.setAlpha(alpha);
-    unk_58.setAlpha(alpha);
-    unk_a8.setAlpha(alpha);
+    mapSprite_.setAlpha(alpha);
+    playerSprite_.setAlpha(alpha);
+    symbolSprite_.setAlpha(alpha);
+    markSprite_.setAlpha(alpha);
 }
 
 ARM void FieldSubWorldMap::playerMapPosition()
 {
     dss::Fix32Vector3 pos = FieldPlayerManager::getSingleton()->getPosition();
     dss::Vector2<int> mapPos = convertMapPos(pos.vx.value, pos.vy.value);
-    unk_100.setSize(0x10, 0x10);
-    unk_100.setPosition(mapPos.vx, mapPos.vy - 0x10);
+    playerSprite_.setSize(0x10, 0x10);
+    playerSprite_.setPosition(mapPos.vx, mapPos.vy - 0x10);
 }
 
 ARM dss::Vector2<int> FieldSubWorldMap::convertMapPos(int x, int y)

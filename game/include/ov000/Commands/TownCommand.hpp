@@ -28,8 +28,8 @@ struct TownPlayerManager;
 struct TownCharaMoveParam {
     dss::Fix32Vector3 pos_[4];
     dss::Fix32 speed_;
-    int unk_34;
-    int unk_38;
+    int frame_;
+    int counter_;
 };
 
 void searchItem(int index, int* found, int* items);

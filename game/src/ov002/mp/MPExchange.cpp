@@ -39,7 +39,7 @@ ARM void MPExchange::printChildren()
 
 ARM void MPExchange::setSendData(EnvoyData* data)
 {
-    unk_fc = 0;
+    receiveCount_ = 0;
     dss::memset(sendData_, 0, 0xe4);
     dss::memset(receiveData_, 0, 0xe4);
     dss::memcpy(sendData_, data, 0xe4);
@@ -47,7 +47,7 @@ ARM void MPExchange::setSendData(EnvoyData* data)
 
 ARM EnvoyData* MPExchange::getReceivedData()
 {
-    if (unk_fc == 0) {
+    if (receiveCount_ == 0) {
         return NULL;
     }
     return (EnvoyData*)receiveData_;
@@ -58,17 +58,17 @@ ARM void MPExchange::start()
     OSOwnerInfo info;
     unk_38 = g_debugConsolePrintEnabled;
     role_.mode_ = data_020f201c;
-    unk_3c = data_020f2024;
-    setWhForceError(unk_3c);
+    forceError_ = data_020f2024;
+    setWhForceError(forceError_);
     func_02079e40(&info);
     nickNameLength_ = info.nickNameLength;
     dss::memcpy(nickName_, info.nickName, info.nickNameLength);
-    unk_1c = 0;
-    unk_f4 = 0;
+    cancelRequest_ = 0;
+    fatalErrorStep_ = 0;
     frame_ = 0;
     tgid_ = 0;
     channel_ = 0;
-    unk_34 = 0;
+    dataSharingFailed_ = 0;
     parentCount_ = 0;
     unk_02127144 = 0;
     MI_CpuSet(bssDesc_, 0, sizeof(bssDesc_));
@@ -350,19 +350,19 @@ ARM void MPExchange::updateLightErrorWait()
 
 ARM void MPExchange::updateFatalError()
 {
-    switch (unk_f4) {
+    switch (fatalErrorStep_) {
     case 0:
         resetWh();
-        unk_f4++;
+        fatalErrorStep_++;
         break;
     case 1:
         if (getWhSysState() == WH_SYSSTATE_IDLE) {
-            unk_f4++;
+            fatalErrorStep_++;
         }
         break;
     case 2:
         endWh();
-        unk_f4++;
+        fatalErrorStep_++;
         break;
     }
 }

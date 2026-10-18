@@ -621,8 +621,8 @@ THUMB int cmd_character_action_pursue(int* param)
         index = getPlacementCtrlId();
         move.speed_.value = param[0];
         move.speed_ *= defaultSpeed;
-        move.unk_38 = 0;
-        move.unk_34 = 0;
+        move.counter_ = 0;
+        move.frame_ = 0;
         TownCharacterBase** chara = TownCharacterManager::getSingleton()->character_;
         chara[index]->moveType_ = MOVE_TYPE_PURSUE;
         TownCharacterBase* c = chara[index];
@@ -631,8 +631,8 @@ THUMB int cmd_character_action_pursue(int* param)
         c->moveData_.vector[2] = move.pos_[2];
         c->moveData_.vector[3] = move.pos_[3];
         c->moveData_.speed = move.speed_;
-        c->moveData_.frame = move.unk_34;
-        c->moveData_.counter = move.unk_38;
+        c->moveData_.frame = move.frame_;
+        c->moveData_.counter = move.counter_;
     }
     return 1;
 }
@@ -641,8 +641,8 @@ THUMB int cmd_character_move_roam(int* param)
 {
     int index = getPlacementCtrlId();
     TownCharaMoveParam move;
-    move.unk_38 = dssrand::rand(0x50);
-    move.unk_34 = 0;
+    move.counter_ = dssrand::rand(0x50);
+    move.frame_ = 0;
     move.pos_[0].vx.value = param[0];
     move.pos_[0].vy.value = param[1];
     move.pos_[0].vz.value = param[2];
@@ -659,8 +659,8 @@ THUMB int cmd_character_move_roam(int* param)
     c->moveData_.vector[2] = move.pos_[2];
     c->moveData_.vector[3] = move.pos_[3];
     c->moveData_.speed = move.speed_;
-    c->moveData_.frame = move.unk_34;
-    c->moveData_.counter = move.unk_38;
+    c->moveData_.frame = move.frame_;
+    c->moveData_.counter = move.counter_;
     return 1;
 }
 

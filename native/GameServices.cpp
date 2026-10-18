@@ -208,10 +208,10 @@ extern "C" void func_02067c1c(const void* src,void* dst) { decompressSdk(src,dst
 extern "C" void func_02067cf4(const void* src,void* dst) { decompressSdk(src,dst,0x30); }
 unsigned int roundUp(unsigned int n, unsigned int a) { return (n + a - 1) & ~(a - 1); }
 unsigned int roundDown(unsigned int n, unsigned int a) { return n & ~(a - 1); }
-void dss::File::unkfunc_0207ea64(int) { unkfunc_0207ea80(); unk_4c = unk_50 = size_ = 0; }
+void dss::File::unkfunc_0207ea64(int) { unkfunc_0207ea80(); readOffset_ = readSize_ = size_ = 0; }
 void dss::File::unkfunc_0207ea80() { assets(); unk_54 = 0x200; }
 int dss::File::unkfunc_0207eac0(const char* name, void* dst, int a) {
-    int result = unkfunc_0207ec08(name, dst); if (!a) unk_4c = 0; return result;
+    int result = unkfunc_0207ec08(name, dst); if (!a) readOffset_ = 0; return result;
 }
 int dss::File::unkfunc_0207eaf8(const char* n, void* p) { return unkfunc_0207ec08(n, p); }
 int dss::File::unkfunc_0207eb10(const char* n, void* p) { return unkfunc_0207ec08(n, p); }
@@ -229,10 +229,10 @@ int dss::File::unkfunc_0207ebf0() { return size_; }
 int dss::File::unkfunc_0207ecb0(const char* n) { return static_cast<int>(read(n).size()); }
 int dss::File::unkfunc_0207ec08(const char* name, void* dst) {
     auto bytes = read(name);
-    if (unk_4c < 0 || unk_50 < 0) throw std::runtime_error("Negative game file range");
-    const auto offset = std::min<std::size_t>(unk_4c, bytes.size());
+    if (readOffset_ < 0 || readSize_ < 0) throw std::runtime_error("Negative game file range");
+    const auto offset = std::min<std::size_t>(readOffset_, bytes.size());
     auto count = bytes.size() - offset;
-    if (unk_50) { count = std::min<std::size_t>(count, unk_50); unk_50 = 0; }
+    if (readSize_) { count = std::min<std::size_t>(count, readSize_); readSize_ = 0; }
     if (count) { if (!dst) throw std::runtime_error("Null game file destination"); std::memcpy(dst, bytes.data() + offset, count); }
     size_ = static_cast<int>(count); return size_;
 }

@@ -19,17 +19,17 @@ ARM void window::WorldMapBase::drawSymbols(int world)
         if (world == symbol->world) {
             if (symbol->color == 1) {
                 if (g_Stage.getSymbolFlag(i)) {
-                    unk_58.setPosition(symbol->dispX - 1, symbol->dispY - 3);
-                    unk_58.setColor(0x1f, status::HaveEquipment::getAbsoluteValue(unk_f8 / 4), 0);
-                    unk_58.draw();
+                    symbolSprite_.setPosition(symbol->dispX - 1, symbol->dispY - 3);
+                    symbolSprite_.setColor(0x1f, status::HaveEquipment::getAbsoluteValue(blinkCounter_ / 4), 0);
+                    symbolSprite_.draw();
                 }
             } else if (symbol->color == 3) {
-                unk_a8.setPosition(symbol->dispX - 8, symbol->dispY - 8);
+                markSprite_.setPosition(symbol->dispX - 8, symbol->dispY - 8);
             }
         }
     }
-    unk_f8++;
-    if (unk_f8 >= 0x80) {
-        unk_f8 = -0x7f;
+    blinkCounter_++;
+    if (blinkCounter_ >= 0x80) {
+        blinkCounter_ = -0x7f;
     }
 }

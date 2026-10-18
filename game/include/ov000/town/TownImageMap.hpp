@@ -6,7 +6,7 @@
 
 /* vtable 0x021483b8 */
 struct TownImageMap : window::ImageMap {
-    dss::Vector2<int> unk_04;                   // 0x04
+    dss::Vector2<int> pointScreenPos_;                   // 0x04
     MenuSprite mapSprite_;                   // 0x0C
     MenuSprite pointSprite_;                 // 0x5C
     dss::Fix32Vector3 unk_ac;                   // 0xAC

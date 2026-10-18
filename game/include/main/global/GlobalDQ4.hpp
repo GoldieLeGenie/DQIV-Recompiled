@@ -21,8 +21,8 @@ struct GlobalDQ4Task {
 
 struct GlobalDQ4TaskHook {
     // vtable                                   // 0x00
-    void (*unk_04)();                           // 0x04  called after each task end
-    void (*unk_08)();                           // 0x08  called every frame
+    void (*taskEndFunc_)();                           // 0x04  called after each task end
+    void (*frameFunc_)();                           // 0x08  called every frame
 
     virtual void vf00();
     virtual void vf04();

@@ -4199,43 +4199,43 @@ ARM void FieldLargeMap::setup(FieldSystem* system)
 
 ARM void FieldLargeMap::cleanup()
 {
-    unk_54.unload();
-    unk_04.unload();
+    mapSprite_.unload();
+    pointSprite_.unload();
     system_ = NULL;
 }
 
 ARM void FieldLargeMap::initSprites()
 {
     char path[0x80];
-    unk_04.setTexCoords(0, 0, 0x20, 0x20);
+    pointSprite_.setTexCoords(0, 0, 0x20, 0x20);
 #ifdef DQIV_NATIVE
     // The large map rewrites its texture as the player moves. Give both its
     // header and pixels owned writable storage instead of modifying .rdata.
     void* texture = dssAlloc(&g_appHeap, sizeof(s_texture_0214e0a8), 0x20);
     if (!texture) throw std::bad_alloc();
     std::memcpy(texture, s_texture_0214e0a8, sizeof(s_texture_0214e0a8));
-    unk_54.data_.setup(texture);
-    unk_54.data_.m_flag |= 1;
-    unk_54.data_.m_size = sizeof(s_texture_0214e0a8);
-    unk_54.setupTexture();
+    mapSprite_.data_.setup(texture);
+    mapSprite_.data_.m_flag |= 1;
+    mapSprite_.data_.m_size = sizeof(s_texture_0214e0a8);
+    mapSprite_.setupTexture();
 #else
-    unk_54.loadFromMemory(getLargeMapTextureData());
+    mapSprite_.loadFromMemory(getLargeMapTextureData());
 #endif
-    unk_54.attachRender(&system_->render_);
-    unk_54.setSubScreen();
-    unk_54.setPolygonID(0x3e);
-    unk_54.setDepth(0x10);
-    unk_54.setAlpha(0);
+    mapSprite_.attachRender(&system_->render_);
+    mapSprite_.setSubScreen();
+    mapSprite_.setPolygonID(0x3e);
+    mapSprite_.setDepth(0x10);
+    mapSprite_.setAlpha(0);
     dss::sprintf_s(path, sizeof(path), "data/field/2d/point.tex");
-    unk_04.loadFile(path, 0);
-    unk_04.attachRender(&system_->render_);
-    unk_04.setSubScreen();
-    unk_04.setPolygonID(0x34);
-    unk_04.setDepth(0x40);
-    unk_04.setAlpha(0);
-    unk_04.setEnabled(1);
-    unk_04.freeVram();
-    unk_54.freeVram();
+    pointSprite_.loadFile(path, 0);
+    pointSprite_.attachRender(&system_->render_);
+    pointSprite_.setSubScreen();
+    pointSprite_.setPolygonID(0x34);
+    pointSprite_.setDepth(0x40);
+    pointSprite_.setAlpha(0);
+    pointSprite_.setEnabled(1);
+    pointSprite_.freeVram();
+    mapSprite_.freeVram();
 }
 
 ARM int FieldLargeMap::loadSpecialBlock(int x, int y, void* buffer)
@@ -4244,7 +4244,7 @@ ARM int FieldLargeMap::loadSpecialBlock(int x, int y, void* buffer)
         if (g_AreaFlag.check(0x1e5)) {
             for (int i = 0; i < 4; i++) {
                 if (x == s_surechigaiBlock[i].vx && y == s_surechigaiBlock[i].vy) {
-                    dss::g_File.unk_4c = i << 10;
+                    dss::g_File.readOffset_ = i << 10;
                     dss::g_File.unkfunc_0207eac0("data/field/large/surechigai4.bin", buffer, 0);
                     return 1;
                 }
@@ -4252,7 +4252,7 @@ ARM int FieldLargeMap::loadSpecialBlock(int x, int y, void* buffer)
         } else if (g_AreaFlag.check(0x1e4)) {
             for (int i = 0; i < 4; i++) {
                 if (x == s_surechigaiBlock[i].vx && y == s_surechigaiBlock[i].vy) {
-                    dss::g_File.unk_4c = i << 10;
+                    dss::g_File.readOffset_ = i << 10;
                     dss::g_File.unkfunc_0207eac0("data/field/large/surechigai3.bin", buffer, 0);
                     return 1;
                 }
@@ -4260,7 +4260,7 @@ ARM int FieldLargeMap::loadSpecialBlock(int x, int y, void* buffer)
         } else if (g_AreaFlag.check(0x1e2)) {
             for (int i = 0; i < 4; i++) {
                 if (x == s_surechigaiBlock[i].vx && y == s_surechigaiBlock[i].vy) {
-                    dss::g_File.unk_4c = i << 10;
+                    dss::g_File.readOffset_ = i << 10;
                     dss::g_File.unkfunc_0207eac0("data/field/large/surechigai2.bin", buffer, 0);
                     return 1;
                 }
@@ -4268,7 +4268,7 @@ ARM int FieldLargeMap::loadSpecialBlock(int x, int y, void* buffer)
         } else {
             for (int i = 0; i < 4; i++) {
                 if (x == s_surechigaiBlock[i].vx && y == s_surechigaiBlock[i].vy) {
-                    dss::g_File.unk_4c = i << 10;
+                    dss::g_File.readOffset_ = i << 10;
                     dss::g_File.unkfunc_0207eac0("data/field/large/surechigai1.bin", buffer, 0);
                     return 1;
                 }
@@ -4278,14 +4278,14 @@ ARM int FieldLargeMap::loadSpecialBlock(int x, int y, void* buffer)
     if (g_AreaFlag.check(0x8d)) {
         for (int i = 0; i < 4; i++) {
             if (x == s_bridge1Block[i].vx && y == s_bridge1Block[i].vy) {
-                dss::g_File.unk_4c = i << 10;
+                dss::g_File.readOffset_ = i << 10;
                 dss::g_File.unkfunc_0207eac0("data/field/large/brigde1.bin", buffer, 0);
                 return 1;
             }
         }
         for (int i = 0; i < 4; i++) {
             if (x == s_bridge2Block[i].vx && y == s_bridge2Block[i].vy) {
-                dss::g_File.unk_4c = i << 10;
+                dss::g_File.readOffset_ = i << 10;
                 dss::g_File.unkfunc_0207eac0("data/field/large/brigde2.bin", buffer, 0);
                 return 1;
             }
@@ -4294,7 +4294,7 @@ ARM int FieldLargeMap::loadSpecialBlock(int x, int y, void* buffer)
     if (g_AreaFlag.check(0x154)) {
         for (int i = 0; i < 4; i++) {
             if (x == s_magmaBlock[i].vx && y == s_magmaBlock[i].vy) {
-                dss::g_File.unk_4c = i << 10;
+                dss::g_File.readOffset_ = i << 10;
                 dss::g_File.unkfunc_0207eac0("data/field/large/magma.bin", buffer, 0);
                 return 1;
             }
@@ -4303,7 +4303,7 @@ ARM int FieldLargeMap::loadSpecialBlock(int x, int y, void* buffer)
     if (g_AreaFlag.check(0x173)) {
         for (int i = 0; i < 4; i++) {
             if (x == s_treeBlock[i].vx && y == s_treeBlock[i].vy) {
-                dss::g_File.unk_4c = i << 10;
+                dss::g_File.readOffset_ = i << 10;
                 dss::g_File.unkfunc_0207eac0("data/field/large/tree.bin", buffer, 0);
                 return 1;
             }
@@ -4316,7 +4316,7 @@ ARM void FieldLargeMap::loadMapBlocks(int x, int y)
 {
     char* src[8];
     void* buffer[8];
-    char* dst = (char*)unk_54.getTextureData();
+    char* dst = (char*)mapSprite_.getTextureData();
     for (int i = 0; i < 8; i++) {
         buffer[i] = dssAlloc(&g_appHeap, 0x400, 0x20);
     }
@@ -4337,10 +4337,10 @@ ARM void FieldLargeMap::loadMapBlocks(int x, int y)
             if (bx >= 0x20) {
                 bx -= 0x20;
             }
-            dss::g_File.unk_50 = 0x400;
+            dss::g_File.readSize_ = 0x400;
             void* buf = buffer[i];
             if (loadSpecialBlock(bx, by, buf) == 0) {
-                dss::g_File.unk_4c = (bx << 10) + (by << 15);
+                dss::g_File.readOffset_ = (bx << 10) + (by << 15);
                 dss::g_File.unkfunc_0207eac0("data/field/large/largemap.bin", buf, 0);
             }
             src[i] = (char*)buf;
@@ -4366,24 +4366,24 @@ ARM void FieldLargeMap::load()
     int y = (pos.vy.value + 0x40000) / 0x80000 - 3;
     loadMapBlocks(x, y);
     OS_Wait();
-    unk_54.allocVram();
-    unk_54.transferToVram();
+    mapSprite_.allocVram();
+    mapSprite_.transferToVram();
     int px = (pos.vx.value - (x << 19)) / 0x4000;
     int py = (pos.vy.value - (y << 19)) / 0x4000;
-    unk_04.allocVram();
-    unk_04.transferToVram();
-    unk_04.setSize(0x20, 0x20);
-    unk_04.setPosition(px, py - 0x20);
+    pointSprite_.allocVram();
+    pointSprite_.transferToVram();
+    pointSprite_.setSize(0x20, 0x20);
+    pointSprite_.setPosition(px, py - 0x20);
 }
 
 ARM void FieldLargeMap::clear()
 {
-    unk_04.freeVram();
-    unk_54.freeVram();
+    pointSprite_.freeVram();
+    mapSprite_.freeVram();
 }
 
 ARM void FieldLargeMap::setAlpha(unsigned char alpha)
 {
-    unk_54.setAlpha(alpha);
-    unk_04.setAlpha(alpha);
+    mapSprite_.setAlpha(alpha);
+    pointSprite_.setAlpha(alpha);
 }

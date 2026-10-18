@@ -9,8 +9,8 @@ struct FieldSystem;
 // sprites shown by FieldImageMap once the world map is closed
 struct FieldLargeMap {
     FieldSystem* system_;                       // 0x00
-    MenuSprite unk_04;                       // 0x04
-    MenuSprite unk_54;                       // 0x54
+    MenuSprite pointSprite_;                       // 0x04
+    MenuSprite mapSprite_;                       // 0x54
 
     FieldLargeMap();
     ~FieldLargeMap();
@@ -26,7 +26,7 @@ struct FieldLargeMap {
 
 // world map of the normal field
 struct FieldGlobalMap : window::GlobalMap {
-    MenuSprite unk_150;                      // 0x150
+    MenuSprite playerSprite_;                      // 0x150
 
     FieldGlobalMap();
     ~FieldGlobalMap();
@@ -42,8 +42,8 @@ struct FieldGlobalMap : window::GlobalMap {
 
 // base of the maps of the other field types
 struct FieldSubWorldMap : window::WorldMapBase {
-    MenuSprite unk_100;                      // 0x100 player marker
-    int unk_150;                                // 0x150 world passed to drawSymbols
+    MenuSprite playerSprite_;                      // 0x100 player marker
+    int world_;                                // 0x150 world passed to drawSymbols
 
     FieldSubWorldMap();
     ~FieldSubWorldMap();

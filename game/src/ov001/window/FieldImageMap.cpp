@@ -19,24 +19,24 @@ ARM void FieldImageMap::setup(FieldSystem* system)
     system_ = system;
     switch (g_Global.getFieldType()) {
     case 0:
-        map_ = &unk_0ac;
+        map_ = &globalMap_;
         break;
     case 1:
-        map_ = &unk_24c;
+        map_ = &subWorldMapGW_;
         break;
     case 2:
-        map_ = &unk_3a0;
+        map_ = &subWorldMapYW_;
         break;
     }
     map_->setup(&system_->render_);
-    unk_008.setup(system_);
+    largeMap_.setup(system_);
     phase_ = 0;
 }
 
 ARM void FieldImageMap::cleanup()
 {
     map_->cleanup();
-    unk_008.cleanup();
+    largeMap_.cleanup();
     system_ = NULL;
 }
 
@@ -62,28 +62,28 @@ ARM void FieldImageMap::execute()
             return;
         }
         phase_ = 5;
-        unk_008.load();
+        largeMap_.load();
         break;
     case 5:
         if (++alpha_ >= 0x1f) {
             phase_ = 7;
             alpha_ = 0x1f;
         }
-        unk_008.setAlpha(alpha_);
+        largeMap_.setAlpha(alpha_);
         break;
     case 6:
         break;
     case 7:
         alpha_ = 0x1f;
-        unk_008.setAlpha(alpha_);
+        largeMap_.setAlpha(alpha_);
         break;
     case 8:
         if (--alpha_ < 0) {
-            unk_008.clear();
+            largeMap_.clear();
             phase_ = 0;
             alpha_ = 0;
         }
-        unk_008.setAlpha(alpha_);
+        largeMap_.setAlpha(alpha_);
         break;
     case 0:
         if (getDisplayFrame() & 1) {
@@ -143,6 +143,6 @@ ARM int FieldImageMap::isClose()
 ARM void FieldImageMap::clearAllMap()
 {
     map_->clear();
-    unk_008.clear();
+    largeMap_.clear();
     phase_ = 9;
 }

@@ -23,7 +23,7 @@ struct EnvoyManager {
     EnvoyData envoy_[24];                    // 0x00DC
     EnvoyData received_;                     // 0x14BC
     EnvoyData backup_;                       // 0x1590 copy of myEnvoy_ while it is edited
-    int unk_1664;                               // 0x1664
+    int hasReceived_;                               // 0x1664
     int flags_[50];                             // 0x1668 by envoy type
 
     EnvoyManager();

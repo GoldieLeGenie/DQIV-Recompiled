@@ -15,15 +15,15 @@ struct PokerCardPolygon : PolygonObject {
 struct PokerCard {
     static const int MAX_FRAME = 30;
 
-    PokerCardPolygon unk_000;                   // 0x000
-    PokerCardPolygon unk_088;                   // 0x088
-    PokerCardPolygon unk_110;                   // 0x110
-    PokerCardPolygon unk_198;                   // 0x198
+    PokerCardPolygon m_front_polygon;                   // 0x000
+    PokerCardPolygon m_back_polygon;                   // 0x088
+    PokerCardPolygon m_shine_polygon;                   // 0x110
+    PokerCardPolygon m_glow_polygon;                   // 0x198
     dss::Flag32 m_ctrl;                         // 0x220
     int m_effect_frame;                         // 0x224
-    int unk_228;                                // 0x228
+    int m_shine_scroll_speed;                                // 0x228
     int m_effect_enable;                        // 0x22C
-    BillboardTexCoord unk_230;                  // 0x230
+    BillboardTexCoord m_shine_tex_coord;                  // 0x230
 
     PokerCard();
     ~PokerCard();

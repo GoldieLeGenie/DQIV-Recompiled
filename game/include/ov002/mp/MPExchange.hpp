@@ -68,21 +68,21 @@ struct MPExchange {
     u8 nickNameLength_;                         // 0x18
     u8 childCount_;                             // 0x19
     u16 unk_1a;                                 // 0x1A
-    int unk_1c;                                 // 0x1C cancel
+    int cancelRequest_;                                 // 0x1C cancel
     int mode_;                                  // 0x20 SYSMODE_*
     int counter_;                               // 0x24 frames in the mode
     int prevMode_;                              // 0x28
     int frame_;                                 // 0x2C
     u16 tgid_;                                  // 0x30
     u16 channel_;                               // 0x32
-    int unk_34;                                 // 0x34
+    int dataSharingFailed_;                                 // 0x34
     int unk_38;                                 // 0x38
-    int unk_3c;                                 // 0x3C
-    int unk_40;                                 // 0x40 scanned channel
+    int forceError_;                                 // 0x3C
+    int scanChannel_;                                 // 0x40 scanned channel
     MPExchangeRole role_;                    // 0x44
-    int unk_f4;                                 // 0xF4
-    int unk_f8;                                 // 0xF8 1: child
-    int unk_fc;                                 // 0xFC received count
+    int fatalErrorStep_;                                 // 0xF4
+    int isChild_;                                 // 0xF8 1: child
+    int receiveCount_;                                 // 0xFC received count
     unsigned char sendData_[0xe4];              // 0x100
     unsigned char receiveData_[0xe4];           // 0x1E4
 

@@ -6,8 +6,8 @@ namespace dss {
     struct File {
         FSFile file_;                           // 0x00
         int size_;                              // 0x48 size of the last loaded file
-        int unk_4c;                             // 0x4C offset of the next unkfunc_0207eac0 read
-        int unk_50;                             // 0x50 size of the next unkfunc_0207eac0 read
+        int readOffset_;                             // 0x4C offset of the next unkfunc_0207eac0 read
+        int readSize_;                             // 0x50 size of the next unkfunc_0207eac0 read
         int unk_54;                             // 0x54
 
         void unkfunc_0207ea64(int unused);      // init
