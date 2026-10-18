@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 
 // Window frame drawn as sprites on the sub screen, with its name tab, blinking key cursor and arrow
 // (data_020f530c.windowFrame1_, windowFrame2_)
@@ -19,15 +19,15 @@ struct UnkMenuWindowFrame : UnkMenuDisplay {
     virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
-    void unkfunc_0204f800(int width);
-    void unkfunc_0204f80c(int cursor);
-    void unkfunc_0204f820(int x, int y, int arrow);
-    void unkfunc_0204f828(int type);
-    void unkfunc_0204f82c(UnkOamBuffer* oam, int x, int y, int w, int h);
-    void unkfunc_0204f900(UnkOamBuffer* oam, int x, int y, int w, int h, int tabW, int tabH);
-    void unkfunc_0204fa34(UnkOamBuffer* oam, int x, int y, int length);    // top edge
-    void unkfunc_0204fb14(UnkOamBuffer* oam, int x, int y, int length);    // bottom edge
-    void unkfunc_0204fc10(UnkOamBuffer* oam, int x, int y, int length);    // left edge
-    void unkfunc_0204fcf0(UnkOamBuffer* oam, int x, int y, int length);    // right edge
-    void unkfunc_0204fdec(UnkOamBuffer* oam, int x, int y, int chr, int size);
+    void setNameWidth(int width);
+    void setCursor(int cursor);
+    void setArrow(int x, int y, int arrow);
+    void setFrameType(int type);
+    void drawBorder(UnkOamBuffer* oam, int x, int y, int w, int h);
+    void drawBorderWithTab(UnkOamBuffer* oam, int x, int y, int w, int h, int tabW, int tabH);
+    void drawTopEdge(UnkOamBuffer* oam, int x, int y, int length);    // top edge
+    void drawBottomEdge(UnkOamBuffer* oam, int x, int y, int length);    // bottom edge
+    void drawLeftEdge(UnkOamBuffer* oam, int x, int y, int length);    // left edge
+    void drawRightEdge(UnkOamBuffer* oam, int x, int y, int length);    // right edge
+    void drawSprite(UnkOamBuffer* oam, int x, int y, int chr, int size);
 };

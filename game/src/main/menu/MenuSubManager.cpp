@@ -28,7 +28,7 @@ THUMB void MenuSubManager::draw(int x, int y)
     for (int i = 0; i < 8; i++) {
         menu::MenuBase* menu = m_menu[i];
         if (menu) {
-            unkfunc_02050698(x, y);
+            setMenuDrawOffset(x, y);
             menu->menuBaseDraw();
         }
     }

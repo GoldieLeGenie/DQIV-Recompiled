@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 #include "main/dss/UnkBgBuffer.hpp"
 
 // One line of text drawn as sprites (data_020f530c.texts_: message window lines and name plate)
@@ -28,17 +28,17 @@ struct UnkMenuTextDisplay : UnkMenuDisplay {
     virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
-    void unkfunc_0204e340(UnkOamBuffer* oam, int x, int y, int width, int height);
-    void unkfunc_0204e430(int font, const char* text, int x, int y, int clear);
-    int unkfunc_0204e4f4(int font, const char* text, int priority, int flag);
-    void unkfunc_0204e584(int count);
-    void unkfunc_0204e5c8(int width);
-    int unkfunc_0204e5d0();
-    int unkfunc_0204e5d8();
-    int unkfunc_0204e5e0();
-    void unkfunc_0204e5e8(int scroll);
-    void unkfunc_0204e668(int flag);
-    void unkfunc_0204e670(UnkOamBuffer* oam, int x, int y, int chr);
-    void unkfunc_0204e6ac(UnkOamBuffer* oam, int x, int y, int chr);
+    void drawHiddenMask(UnkOamBuffer* oam, int x, int y, int width, int height);
+    void setText(int font, const char* text, int x, int y, int clear);
+    int setFramedText(int font, const char* text, int priority, int flag);
+    void setVisibleCount(int count);
+    void setVisibleWidth(int width);
+    int getVisibleCount();
+    int getCharCount();
+    int getTextWidth();
+    void clearScrolledLines(int scroll);
+    void setTranslucent(int flag);
+    void drawFrameSprite32(UnkOamBuffer* oam, int x, int y, int chr);
+    void drawFrameSprite16(UnkOamBuffer* oam, int x, int y, int chr);
 };
 

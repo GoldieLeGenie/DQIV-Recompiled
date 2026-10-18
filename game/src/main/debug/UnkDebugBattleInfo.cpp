@@ -64,7 +64,7 @@ THUMB void UnkDebugBattleInfo::draw()
         int* rect = BattleMonsterMask::getSingleton()->getMonsterTouchRect(index);
         if (blink_ > 0) {
             if (blink_ & 1) {
-                data_020f530c.arrow_.unkfunc_02052658(rect[1] + (rect[3] - rect[1]) / 2, rect[2], 2, 0);
+                data_020f530c.arrow_.addArrow(rect[1] + (rect[3] - rect[1]) / 2, rect[2], 2, 0);
             }
             blink_--;
         }

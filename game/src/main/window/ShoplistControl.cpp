@@ -78,7 +78,7 @@ ARM void window::ShoplistControl::openList()
 {
     gUnkTownMenu_02178a58.unkfunc_02178aa8(2);
     for (int i = 0; i < 6; i++) {
-        if (gTownShopMenu.unkfunc_02177250(i)) {
+        if (gTownShopMenu.selectShopFrom(i)) {
             if (prev_ == PHASE_MAP) {
                 imageMap_->openBlack();
             } else {
@@ -99,7 +99,7 @@ ARM void window::ShoplistControl::closeList()
 
 ARM int window::ShoplistControl::unkfunc_0202a2d8()
 {
-    return gTownShopMenu.unkfunc_02177300();
+    return gTownShopMenu.selectNextShop();
 }
 
 ARM void window::ShoplistControl::closeListMessage()

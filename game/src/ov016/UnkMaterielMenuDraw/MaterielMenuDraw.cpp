@@ -509,7 +509,7 @@ ARM void drawPartsInTextColorAt(UnkMenuParts* parts, int* param, int x, int y, i
 
 THUMB void drawShopEquipCompare()
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     UnkMenuParts* parts = 0;
     for (int i = 0; i < status::g_Party.getCount(); i++) {
         int param[4];
@@ -543,7 +543,7 @@ ARM status::HaveStatusInfo* getPlayerHaveStatusInfo(status::PlayerStatus* player
 
 THUMB void drawShopHeldCounts()
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     for (int i = 0; i < status::g_Party.getCount(); i++) {
         int param[3];
         UnkMenuParts* parts;
@@ -561,7 +561,7 @@ THUMB void drawShopHeldCounts()
 
 THUMB void drawShopSackCount(int* count)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int item = MaterielMenuPlayerControl::getSingleton()->activeItem_;
     if (status::g_Party.fukuro_) {
         int param[3];
@@ -797,7 +797,7 @@ THUMB void unkfunc_unused_6(int index)
 
 THUMB void drawCharaItemNames()
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     UnkMenuParts parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0, 0, 8, 0x10 },
         { 0x0d, 0x08, (short)0xf000, 1, 0xc, 0, 0x68, 0x10 },
@@ -971,7 +971,7 @@ THUMB void drawPartyIcons(int y, int flag)
 
 THUMB void drawSellPriceList()
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int chara = MaterielMenuPlayerControl::getSingleton()->activeChara_;
     int param[6];
     if (chara == status::g_Party.getCount()) {
@@ -1162,7 +1162,7 @@ THUMB void drawItemDetail(int item)
     status::HaveStatusInfo* info;
     int start;
     int index;
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     MaterielMenuPlayerControl* control = MaterielMenuPlayerControl::getSingleton();
     index = control->activeItem_;
     start = control->activeItemPage_ * 6;
@@ -1601,7 +1601,7 @@ THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
 
 THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     if (mode == 0 && data_020f0078.unkfunc_0203a388() == 0 && flag == 0) {
         return;
     }
@@ -1812,7 +1812,7 @@ THUMB void drawSideJobItems()
 
 THUMB void drawShopItemHeader(int item)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int active = MaterielMenuPlayerControl::getSingleton()->activeItem_;
     if (item == -1) {
         item = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(active);

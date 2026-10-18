@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 
 // 48x48 face icon (face48.mpt) or loading animation (loading48.mpt) drawn as 32x32 sprites (data_020f530c.face_)
 struct UnkMenuFaceDisplay : UnkMenuDisplay {
@@ -13,10 +13,10 @@ struct UnkMenuFaceDisplay : UnkMenuDisplay {
     virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
-    void unkfunc_0204f4a4(UnkOamBuffer* oam, int x, int y, int mode);
-    void unkfunc_0204f53c(int priority);
-    void unkfunc_0204f540(int index);           // face icon
-    void unkfunc_0204f554();                    // loading animation
-    void unkfunc_0204f568();
-    void unkfunc_0204f570(int type, int index);
+    void drawPart(UnkOamBuffer* oam, int x, int y, int mode);
+    void setPriority(int priority);
+    void loadFace(int index);           // face icon
+    void loadLoadingAnim();                    // loading animation
+    void resetAnim();
+    void loadIcon(int type, int index);
 };

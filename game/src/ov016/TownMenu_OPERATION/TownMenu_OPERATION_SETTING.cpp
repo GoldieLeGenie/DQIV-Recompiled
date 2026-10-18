@@ -40,7 +40,7 @@ THUMB void TownMenu_OPERATION_SETTING::menuSetup()
     cancelItem_.enableSE_ = 0;
     mode_ = 2;
     prevMode_ = 2;
-    unkfunc_0217a8f8();
+    loadOptionValues();
 }
 
 THUMB void TownMenu_OPERATION_SETTING::menuExecute()
@@ -66,11 +66,11 @@ THUMB void TownMenu_OPERATION_SETTING::menuDraw()
     for (int i = 0; i < 3; i++) {
         drawSettingLevelNumbers(0x68, y[i]);
     }
-    unkfunc_0217cc8c();
+    drawSettingTitle();
     drawMenuFrame(0, 0x20, 0x100, 0x80, 0x40);
     drawRootMenuCommands(5, -1);
     drawRootMenuButtonFrames(0x40, 0xa0, 0);
-    unkfunc_0217aa8c();
+    drawSettingCursors();
     drawPartyStatusWindows();
     drawMoneyWindow(-1, -1, 0);
     bgmItem_.drawActive();
@@ -88,10 +88,10 @@ THUMB void TownMenu_OPERATION_SETTING::menuUpdate()
     }
     return;
 #endif
-    if (!unkfunc_0217aad4()) {
-        unkfunc_0217a924();
-        unkfunc_0217a994();
-        unkfunc_0217aa14();
+    if (!updateCancelItem()) {
+        updateBgmVolumeItem();
+        updateSeVolumeItem();
+        updateBattleSpeedItem();
     }
     if (mode_ == prevMode_) {
         return;
@@ -116,18 +116,18 @@ THUMB void TownMenu_OPERATION_SETTING::menuUpdate()
     bgmItem_.enableSE_ = 0;
     seItem_.enableSE_ = 0;
     speedItem_.enableSE_ = 0;
-    unkfunc_0217a8f8();
+    loadOptionValues();
     prevMode_ = mode_;
 }
 
-THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217a8f8()
+THUMB void TownMenu_OPERATION_SETTING::loadOptionValues()
 {
     bgmItem_.active_ = g_Option.getBgmVolume();
     seItem_.active_ = g_Option.getSeVolume();
     speedItem_.active_ = g_Option.getBattleSpeed();
 }
 
-THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217a924()
+THUMB void TownMenu_OPERATION_SETTING::updateBgmVolumeItem()
 {
     bgmItem_.execInput();
     switch (bgmItem_.result_) {
@@ -162,7 +162,7 @@ THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217a924()
     }
 }
 
-THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217a994()
+THUMB void TownMenu_OPERATION_SETTING::updateSeVolumeItem()
 {
     seItem_.execInput();
     switch (seItem_.result_) {
@@ -197,7 +197,7 @@ THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217a994()
     }
 }
 
-THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217aa14()
+THUMB void TownMenu_OPERATION_SETTING::updateBattleSpeedItem()
 {
     speedItem_.execInput();
     switch (speedItem_.result_) {
@@ -232,7 +232,7 @@ THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217aa14()
     }
 }
 
-THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217aa8c()
+THUMB void TownMenu_OPERATION_SETTING::drawSettingCursors()
 {
     s_parts[0].x_ = bgmItem_.active_ * 32 + 0x66;
     s_parts[1].x_ = seItem_.active_ * 32 + 0x66;
@@ -242,7 +242,7 @@ THUMB void TownMenu_OPERATION_SETTING::unkfunc_0217aa8c()
     drawMenuPartsPlain(s_parts, 0);
 }
 
-THUMB int TownMenu_OPERATION_SETTING::unkfunc_0217aad4()
+THUMB int TownMenu_OPERATION_SETTING::updateCancelItem()
 {
     cancelItem_.execInput();
     if (cancelItem_.result_ == menu::MenuItem::MENUITEM_RESULT_CANCEL) {

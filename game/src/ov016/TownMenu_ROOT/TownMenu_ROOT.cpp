@@ -62,12 +62,12 @@ THUMB void TownMenu_ROOT::menuUpdate()
     if (result != 0) {
         redraw_ = 1;
         if (result == 2) {
-            unkfunc_021788d8(menuItem_.active_);
+            executeCommand(menuItem_.active_);
         }
     }
 }
 
-THUMB void TownMenu_ROOT::unkfunc_021788d8(int active)
+THUMB void TownMenu_ROOT::executeCommand(int active)
 {
     switch (active) {
     case ROOT_TALK:
@@ -81,7 +81,7 @@ THUMB void TownMenu_ROOT::unkfunc_021788d8(int active)
         gTownMenu_PARTY_TALK.open();
         break;
     case ROOT_MAGIC:
-        unkfunc_021789cc();
+        openMagicMenu();
         break;
     case ROOT_ITEM:
         close();
@@ -116,7 +116,7 @@ THUMB void TownMenu_ROOT::unkfunc_021788d8(int active)
     }
 }
 
-THUMB void TownMenu_ROOT::unkfunc_021789cc()
+THUMB void TownMenu_ROOT::openMagicMenu()
 {
     status::g_Party.setBattleMode();
     int count = 0;

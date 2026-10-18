@@ -21,7 +21,7 @@
 #include "main/dss/UnkVramTransfer.hpp"
 #include "main/encount/Encount.hpp"
 #include "main/menu/DebugMenu.hpp"
-#include "main/menu/UnkMenuSystem.hpp"
+#include "main/menu/MenuSystem.hpp"
 #include "main/part/BattleMenuPart.hpp"
 #include "main/part/BattlePart.hpp"
 #include "main/part/BookPart.hpp"
@@ -147,7 +147,7 @@ ARM void UnkGameApplication::vf00()
     tableE0_.setup("DATA/G2D/BIN/E0_EF.bin", 0, 0);
     unkfunc_02087bd0((unsigned short*)table81_.getAddr(), table81_.getSize(), (unsigned short*)tableE0_.getAddr(), tableE0_.getSize());
     data_02116ce0.unkfunc_0207e804();
-    unkfunc_02052424();
+    loadMenuSystemFiles();
     TextAPI::unkfunc_02054690();
     g_text_env.m_text_hook = &gTextHook;
     data_0211fc7c.unkfunc_020865f4((void*)"data/sound/sound_data.sdat", 1);
@@ -212,7 +212,7 @@ ARM void UnkGameApplication::vf08()
     }
     data_020c4f90.time_[5] = 0;
     dss::sprintf_s(text, sizeof(text), "%s %s", data_020c4f90.dateString_, data_020c4f90.time_);
-    DebugMenu::unkfunc_02058430(text);
+    DebugMenu::setBuildDate(text);
 }
 
 ARM void UnkGameApplication::vf0c()

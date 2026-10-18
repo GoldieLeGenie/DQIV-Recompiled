@@ -155,7 +155,7 @@ THUMB void drawCareerHistoryType(int type)
 
 THUMB void drawTownShopGoods(int index)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int msg[3] = { 0x80000084, 0x80000085, 0x80000086 };
     static UnkMenuParts titleParts[] = {
         { 0x0d, 0x09, (short)0xf000, 0, 8, 9, 0x98, 0xe },

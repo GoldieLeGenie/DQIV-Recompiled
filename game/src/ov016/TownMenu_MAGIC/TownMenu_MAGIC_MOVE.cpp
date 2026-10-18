@@ -102,7 +102,7 @@ THUMB void TownMenu_MAGIC_MOVE::menuUpdate()
         TownMenuPlayerControl::getSingleton()->setActiveMagic(activeMagic_ % 8);
         close();
         gTownMenu_MAGIC_ROOT.open();
-        gTownMenu_MAGIC_ROOT.unkfunc_021797a8();
+        gTownMenu_MAGIC_ROOT.restoreCharaItem();
         gTownMenu_MAGIC_ROOT.mode_ = 1;
         gTownMenu_MAGIC_ROOT.getUseAction();
         redraw_ = 1;

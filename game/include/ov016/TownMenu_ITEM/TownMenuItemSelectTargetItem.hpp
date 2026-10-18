@@ -20,7 +20,7 @@ struct TownMenuItemSelectTargetItem : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    int unkfunc_021734f4();
+    int isEmptySlotSelected();
 };
 
 extern TownMenuItemSelectTargetItem gTownMenuItemSelectTargetItem;

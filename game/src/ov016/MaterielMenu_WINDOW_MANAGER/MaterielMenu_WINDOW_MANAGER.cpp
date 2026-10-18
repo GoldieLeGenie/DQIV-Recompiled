@@ -5,7 +5,7 @@
 #include "main/status/StageStatus.hpp"
 #include "ov003/btl/BattleActorManager2.hpp"
 #include "ov016/UnkMaterielMenu_0216b304/UnkMaterielMenu_0216b304.hpp"
-#include "main/menu/UnkMenuOverlay.hpp"
+#include "main/menu/MaterielMenuOverlay.hpp"
 
 THUMB MaterielMenu_WINDOW_MANAGER* MaterielMenu_WINDOW_MANAGER::getSingleton()
 {
@@ -24,17 +24,17 @@ THUMB void MaterielMenu_WINDOW_MANAGER::openMaterielWindow(int menuType)
             MaterielMenuPlayerControl::getSingleton()->allClear();
             ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         }
-        unkfunc_02039460(1);
+        loadMaterielMenuOverlay(1);
         gMaterielMenu_INN_ROOT.open();
         break;
     case MENU_CHURCH:
     case MENU_CHURCH_TYPE2:
-        unkfunc_02039460(2);
+        loadMaterielMenuOverlay(2);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         gMaterielMenu_CHURCH_ROOT.open();
         break;
     case MENU_CHURCH_MIRACLE:
-        unkfunc_02039460(2);
+        loadMaterielMenuOverlay(2);
         gMaterielMenu_CHURCH_MIRACLE.open();
         break;
     case MENU_SHOP_WEAPON:
@@ -43,7 +43,7 @@ THUMB void MaterielMenu_WINDOW_MANAGER::openMaterielWindow(int menuType)
     case MENU_SHOP_WEAPON_TYPE2:
     case MENU_SHOP_PROTECTOR_TYPE2:
     case MENU_SHOP_ITEM_TYPE2:
-        unkfunc_02039460(3);
+        loadMaterielMenuOverlay(3);
         if (extraInnType_ != TYPE_BATTLE) {
             ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         }
@@ -52,14 +52,14 @@ THUMB void MaterielMenu_WINDOW_MANAGER::openMaterielWindow(int menuType)
         break;
     case MENU_CHANGE_GIFT:
     case MENU_CHANGE_GIFT_TYPE2:
-        unkfunc_02039460(3);
+        loadMaterielMenuOverlay(3);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         MaterielMenu_SHOP_MANAGER::getSingleton()->allClear();
         MaterielMenu_SHOP_MANAGER::getSingleton()->setShopType(menuType);
         gMaterielMenu_CHANGEGIFT_ROOT.open();
         break;
     case MENU_COIN_SALEROOM:
-        unkfunc_02039460(4);
+        loadMaterielMenuOverlay(4);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         gMaterielMenu_COINSALEROOM_ROOT.open();
         break;
@@ -77,24 +77,24 @@ THUMB void MaterielMenu_WINDOW_MANAGER::openMaterielWindow(int menuType)
         gMaterielMenu_FIGHT_STADIUM.open();
         break;
     case MENU_BANK:
-        unkfunc_02039460(5);
+        loadMaterielMenuOverlay(5);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         gMaterielMenu_BANK_ROOT.open();
         break;
     case MENU_MEDAL_KING:
-        unkfunc_02039460(6);
+        loadMaterielMenuOverlay(6);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         gMaterielMenu_MEDAL_KING.open();
         break;
     case MENU_EXTRA_FOX_TOWN:
-        unkfunc_02039460(3);
+        loadMaterielMenuOverlay(3);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         MaterielMenu_SHOP_MANAGER::getSingleton()->allClear();
         MaterielMenu_SHOP_MANAGER::getSingleton()->openShopMenu(MENU_SHOP_ITEM);
         MaterielMenu_SHOP_MANAGER::getSingleton()->setExtraShop(1);
         break;
     case MENU_EXTRA_BONMOL_CASTLE:
-        unkfunc_02039460(3);
+        loadMaterielMenuOverlay(3);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         MaterielMenu_SHOP_MANAGER::getSingleton()->allClear();
         MaterielMenu_SHOP_MANAGER::getSingleton()->setExtraShop(2);
@@ -103,30 +103,30 @@ THUMB void MaterielMenu_WINDOW_MANAGER::openMaterielWindow(int menuType)
     case MENU_EXTRA_IMUL:
         break;
     case MENU_EXTRA_PRESENT_EXP:
-        unkfunc_02039460(7);
+        loadMaterielMenuOverlay(7);
         gMaterielMenu_EXTRA_PRESENT_EXP.open();
         break;
     case MENU_EXTRA_COLOSSEUM:
-        unkfunc_02039460(8);
+        loadMaterielMenuOverlay(8);
         gMaterielMenu_MARTIAL_COLOSSEUM.open();
         break;
     case MENU_EXTRA_HOSTAGE:
-        unkfunc_02039460(9);
+        loadMaterielMenuOverlay(9);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         gMaterielMenuExtra_ChangeHostage.open();
         break;
     case MENU_EXTRA_NENE:
-        unkfunc_02039460(10);
+        loadMaterielMenuOverlay(10);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         gMaterielMenu_EXTRA_NENE.open();
         break;
     case MENU_EXTRA_CHAPTER_TITLE:
-        unkfunc_02039460(11);
+        loadMaterielMenuOverlay(11);
         gMaterielMenu_EXTRA_CHAPTER_TITLE.setChapterTitleInfo(chapter_, titleFlag_);
         gMaterielMenu_EXTRA_CHAPTER_TITLE.open();
         break;
     case MENU_SAVE:
-        unkfunc_02039460(2);
+        loadMaterielMenuOverlay(2);
         gMaterielMenu_SAVE.open();
         if (type_ == 0) {
             gMaterielMenu_SAVE.saveType_ = MaterielMenu_SAVE::TYPE_CHAPTER;
@@ -143,21 +143,21 @@ THUMB void MaterielMenu_WINDOW_MANAGER::openMaterielWindow(int menuType)
         }
         break;
     case MENU_EXTRA_SIDEJOB:
-        unkfunc_02039460(12);
+        loadMaterielMenuOverlay(12);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         gMaterielMenu_EXTRA_SIDEJOB_ROOT.open();
         break;
     case MENU_SURECHIGAI_MAKE_TAISHI:
-        unkfunc_02039460(13);
+        loadMaterielMenuOverlay(13);
         gMaterielMenu_SURECHIGAI_SELECT_OBJECT.open();
         break;
     case MENU_SURECHIGAI_ROOT:
-        unkfunc_02039460(13);
+        loadMaterielMenuOverlay(13);
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(chara));
         gMaterielMenu_SURECHIGAI_ROOT.open();
         break;
     case MENU_SURECHIGAI_MAP_NAME:
-        unkfunc_02039460(13);
+        loadMaterielMenuOverlay(13);
         gMaterielMenu_NameEdit.open();
         gMaterielMenu_NameEdit.clearName();
         if (editType_ == EDIT_TOWN_NAME) {
@@ -165,7 +165,7 @@ THUMB void MaterielMenu_WINDOW_MANAGER::openMaterielWindow(int menuType)
             gMaterielMenu_NameEdit.setTownNameMode();
         } else if (editType_ == EDIT_MESSAGE) {
             gMaterielMenu_NameEdit.returnMenu_ = MaterielMenu_NameEdit::RETURN_MENU_SURECHIGAI_MESSAGE;
-            gMaterielMenu_NameEdit.unkfunc_0203b004();
+            gMaterielMenu_NameEdit.setMessageMode();
         }
         break;
     }

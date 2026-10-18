@@ -316,12 +316,12 @@ THUMB void unkfunc_0216b0a0(int group)
         plateGroup = data.group;
         int x = data.center - (data.leng >> 1);
         if (group == plateGroup || group == -1) {
-            unkfunc_02050e44(i, x, y, drawID, 1);
+            showNamePlate(i, x, y, drawID, 1);
             if (group == plateGroup) {
                 drawMenuPartsAt(s_parts_021767d4, 0, x, y + 8);
             }
         } else {
-            unkfunc_02050e44(i, x, y, drawID, 0);
+            showNamePlate(i, x, y, drawID, 0);
         }
 #ifdef DQIV_NATIVE
         if (const int health = unkfunc_native_groupHealth(plateGroup)) {
@@ -514,7 +514,7 @@ THUMB void unkfunc_0216b6cc()
 
 THUMB void unkfunc_0216b6e0(status::HaveStatusInfo* info, int a, int b, int c, int index)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int x = index * 64;
     drawMenuPartsAt(s_parts_02176a04, 0, x, 0x78);
     int color = btl::BattleMenuPlayerControl::getSingleton()->getHPColor(index);
@@ -542,7 +542,7 @@ THUMB void unkfunc_0216b6e0(status::HaveStatusInfo* info, int a, int b, int c, i
 
 THUMB void unkfunc_0216b7d4(int index, int value, int message, int color)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int x = index * 64;
     if (message != -1) {
         int param[3] = { 0, (int)"\xff\xfe\xbe\x24", 0 };

@@ -12,7 +12,7 @@
 #include "main/dss/VramRequest.hpp"
 #include "main/dss/UnkVramTransfer.hpp"
 #include "main/menu/MenuManager.hpp"
-#include "main/menu/UnkMenuSystem.hpp"
+#include "main/menu/MenuSystem.hpp"
 #include "main/object/DSSAObject.hpp"
 #include "main/sound/UnkSoundPlayer.hpp"
 #include "main/text/TextAPI.hpp"
@@ -58,13 +58,13 @@ UnkSpriteFade data_020f21f8;
 ARM void GlobalGamePart::vf00()
 {
     s_taskTick = unkfunc_0207e7e8();
-    unkfunc_02052430();
+    initMenuSystem();
     TextAPI::Init();
     data_0211e450.unk_814 = 1;
     initialize();
     data_0211e450.unk_814 = 0;
     unkfunc_0203f1a8();
-    unkfunc_02052440();
+    startMenuSystem();
     TextAPI::unkfunc_020547f0();
     s_taskTick = unkfunc_0207e7e8() - s_taskTick;
 }
@@ -77,7 +77,7 @@ ARM void GlobalGamePart::vf04()
 {
     s_taskTick = unkfunc_0207e7e8();
     data_02116ce0.unkfunc_0207e810();
-    unkfunc_02052450();
+    endMenuSystem();
     TextAPI::unkfunc_020547f4();
     terminate();
     unkfunc_0203f1a8();
@@ -94,7 +94,7 @@ ARM void GlobalGamePart::vf08()
     func_020652c0();
     dss::g_Pad.unkfunc_0207f1f8();
     unkfunc_02080f3c();
-    unkfunc_02052454();
+    updateMenuSystem();
     TextAPI::unkfunc_0205487c();
 }
 
@@ -106,7 +106,7 @@ ARM void GlobalGamePart::vf10()
         }
     }
     s_swapLine = GX_GetVCount();
-    unkfunc_02052478();
+    drawMenuSystem();
     TextAPI::unkfunc_02054888();
     func_0206dcf0();
     onSwapBuffersPart();
@@ -133,7 +133,7 @@ ARM void GlobalGamePart::vf0c()
     int index = (unkfunc_02081254() & 1) ? 0 : 1;
     s_tickLog[index][0] = unkfunc_0207e7e8();
     s_lineLog[index][0] = GX_GetVCount();
-    unkfunc_02052464();
+    executeMenuSystem();
     TextAPI::unkfunc_02054884();
     if (unkfunc_0203f210()) {
         onExecutePart();

@@ -1,5 +1,5 @@
-#include "main/menu/UnkMenuIconData.hpp"
-#include "main/menu/UnkMenuBg.hpp"
+#include "main/menu/MenuIconData.hpp"
+#include "main/menu/MenuBg.hpp"
 #include "main/data/DataObject.hpp"
 #include "main/data/FileLoader.hpp"
 #include "main/text/TextAPI.hpp"
@@ -68,7 +68,7 @@ unsigned char* itemIconReduced(int index, int tiles)
 }
 #endif
 
-THUMB void unkfunc_02051740()
+THUMB void loadMenuIconFiles()
 {
     s_item32.setup("data/G2D/icon/item32.mptp", 0, 0);
     s_char32.setup("data/G2D/icon/char32.mptp", 0, 0);
@@ -80,7 +80,7 @@ THUMB void unkfunc_02051740()
     s_itemIconType = 0;
 }
 
-THUMB void unkfunc_020517dc(int type)
+THUMB void setItemIconType(int type)
 {
     if (s_itemIconType != type) {
         const char* path = NULL;
@@ -93,26 +93,26 @@ THUMB void unkfunc_020517dc(int type)
         }
         if (path != NULL) {
             dss::g_File.unkfunc_0207eac0(path, s_item32.getAddr(), 1);
-            data_020facb8.icon_.unkfunc_0204fef8();
+            data_020facb8.icon_.loadPalettes();
         }
     }
 }
 
-THUMB void* unkfunc_0205182c(int type, int index)
+THUMB void* getMenuIconData(int type, int index)
 {
     if (index != 9999) {
         if (type == 0xf0000000) {
-            unkfunc_020517dc(0);
+            setItemIconType(0);
         }
         if (type == 0xf7000000) {
-            unkfunc_020517dc(1);
+            setItemIconType(1);
         }
     }
 #ifdef DQIV_NATIVE
     if (type == (int)0xfa000000 || type == (int)0xfb000000) {
         // Reduced item icons: 24 x 24 (0xfa) and 16 x 16 (0xfb).
-        unkfunc_020517dc(0);
-        return index == 9999 ? unkfunc_0205182c(0xf0000000, index)
+        setItemIconType(0);
+        return index == 9999 ? getMenuIconData(0xf0000000, index)
                              : itemIconReduced(index, type == (int)0xfa000000 ? 3 : 2);
     }
 #endif

@@ -1,17 +1,17 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuFrameDisplay.hpp"
-#include "main/menu/UnkMenuFaceDisplay.hpp"
+#include "main/menu/MenuFrameDisplay.hpp"
+#include "main/menu/MenuFaceDisplay.hpp"
 #include "main/menu/UnkMenuIconDisplay.hpp"
 #include "main/menu/UnkMenuDummyDisplay.hpp"
 #include "main/menu/MessageWindow.hpp"
-#include "main/menu/UnkMenuYesNoDisplay.hpp"
-#include "main/menu/UnkMenuTextDisplay.hpp"
-#include "main/menu/UnkMenuWindowFrame.hpp"
+#include "main/menu/MenuYesNoDisplay.hpp"
+#include "main/menu/MenuTextDisplay.hpp"
+#include "main/menu/MenuWindowFrame.hpp"
 #include "main/menu/UnkMenuSpriteDisplay.hpp"
-#include "main/menu/UnkMenuArrowDisplay.hpp"
+#include "main/menu/MenuArrowDisplay.hpp"
 
-// Menu display objects, set up, updated and drawn together by unkfunc_0204e6e4...unkfunc_0204ec38
+// Menu display objects, set up, updated and drawn together by setupMenuDisplays...resetMenuDisplays
 struct UnkMenuDisplays {
     UnkMenuFrameDisplay frames_;                // 0x0000
     UnkMenuFaceDisplay face_;                   // 0x1034

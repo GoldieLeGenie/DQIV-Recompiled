@@ -30,7 +30,7 @@ THUMB void TownMenu_ITEM_USE::menuSetup()
     cancelItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
     pageItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH, menu::MenuItem::CURSORTYPE_NONE);
     charaItem_.active_ = 0;
-    unkfunc_02171e8c();
+    initActiveChara();
     navigator_.setupBase();
     page_ = 0;
     updateHP_ = 0;
@@ -137,7 +137,7 @@ THUMB void TownMenu_ITEM_USE::menuUpdate()
     }
 }
 
-THUMB void TownMenu_ITEM_USE::unkfunc_02171e8c()
+THUMB void TownMenu_ITEM_USE::initActiveChara()
 {
     status::g_Party.setPlayerMode();
     int chara = TownMenuPlayerControl::getSingleton()->activeChara_;

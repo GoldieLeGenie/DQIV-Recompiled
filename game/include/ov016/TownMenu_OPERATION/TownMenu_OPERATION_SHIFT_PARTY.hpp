@@ -19,8 +19,8 @@ struct TownMenu_OPERATION_SHIFT_PARTY : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    void unkfunc_0216ccbc();
-    void unkfunc_0216cdd4();
+    void selectMember();
+    void applyNewOrder();
 };
 
 extern TownMenu_OPERATION_SHIFT_PARTY gTownMenu_OPERATION_SHIFT_PARTY;

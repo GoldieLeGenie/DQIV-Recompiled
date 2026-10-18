@@ -184,7 +184,7 @@ THUMB void drawMagicRootScreen(int mp1, int mp2, int magicID, int chara, int mod
             drawFieldSpellList(chara);
             drawMenuDescription(magicID, 1, 0);
             drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
-            unkfunc_0217cf1c(0);
+            drawSpellOrTownSelectPrompt(0);
         }
     }
     drawPartyStatusWindows();
@@ -219,7 +219,7 @@ THUMB void drawWarpTownSelectScreen(int mp, int useMp, int chara, int page, unsi
         }
         drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
         drawRuraTownList(page, town);
-        unkfunc_0217cf1c(1);
+        drawSpellOrTownSelectPrompt(1);
     }
     drawPartyStatusWindows();
 }
@@ -355,7 +355,7 @@ THUMB void drawEquipScreen(int itemType, int chara, int page, unsigned char* lis
     if (!data_020ed1bc.isOpen()) {
         drawRootMenuCommands(5, 0);
         drawRootMenuButtonFrames(0, 0xa0, 0);
-        unkfunc_0217cc4c();
+        drawEquipTitle();
         drawMenuFrame(0x48, 0xa0, 0x40, 0x20, -1);
         drawSmallButtonFrame(0x88, 0xa0);
         drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 1, chara, 0);
@@ -451,10 +451,10 @@ THUMB void drawStatusPartyIcons(int page)
         }
         if (status::g_Party.getCount() < 4) {
             int x = status::g_Party.getCount() * 0x28 + 0x10;
-            unkfunc_0217af90(-2, x, 0x70);
+            drawSpecialCharaIcon(-2, x, 0x70);
             drawMenuFrame(0, 0x70, 0xb8, 0x30, -1);
         } else if (status::g_Party.getCount() == 4) {
-            unkfunc_0217af90(-2, 0xb0, 0x70);
+            drawSpecialCharaIcon(-2, 0xb0, 0x70);
             drawMenuFrame(0, 0x70, 0xe0, 0x30, -1);
         } else {
             drawMenuFrame(0, 0x70, 0x100, 0x30, -1);
@@ -469,10 +469,10 @@ THUMB void drawStatusPartyIcons(int page)
             }
             if (status::g_Party.getCount() < 10) {
                 int x = (status::g_Party.getCount() - 5) * 0x28 + 0x10;
-                unkfunc_0217af90(-2, x, 0x70);
+                drawSpecialCharaIcon(-2, x, 0x70);
             }
         } else {
-            unkfunc_0217af90(-2, 0x10, 0x70);
+            drawSpecialCharaIcon(-2, 0x10, 0x70);
         }
         drawPageIndicator(0xd0, status::g_Party.getCount() / 5, page, 0);
         drawMenuFrame(0, 0x70, 0x100, 0x30, -1);
@@ -579,9 +579,9 @@ THUMB void drawPartySummaryStats(int type)
     } else {
         drawPartyAttackDefenceSummary();
     }
-    unkfunc_02050698(0, 0xc1);
+    setMenuDrawOffset(0, 0xc1);
     drawMenuFrame(0, 0, 0x100, 0x70, -1);
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int count = status::g_Party.getCount() - 4;
     if (count > 4) {
         drawMenuFrame(0, 0x60, 0x100, 0x60, -1);
@@ -657,13 +657,13 @@ THUMB void drawPartyOrderIcons(char* order, int mode)
         if (i == 5) {
             x = 16;
         }
-        unkfunc_0217af90(-2, x, 0x70);
+        drawSpecialCharaIcon(-2, x, 0x70);
         return;
     }
     for (; order[i] != -1 && i < 9; i++) {
         drawPartyMemberIcon(&status::g_Party.getPlayerStatus(order[i])->haveStatusInfo_, (i - 5) * 32 + 16 + (i - 5) * 8, 0x70);
     }
-    unkfunc_0217af90(-2, (i - 5) * 32 + 16 + (i - 5) * 8, 0x70);
+    drawSpecialCharaIcon(-2, (i - 5) * 32 + 16 + (i - 5) * 8, 0x70);
 }
 
 THUMB void drawPartyTacticsList(char* order)

@@ -188,7 +188,7 @@ THUMB void btl::BattleActorAnimation::setResultAnimation(status::UseActionParam*
                     if (value <= 32) {
                         value = 32;
                     }
-                    unkfunc_02050e88(a, value, effectValue, 0);
+                    showHoppingNumber(a, value, effectValue, 0);
                     SoundManager::playSe(402, 0);
                 }
             }

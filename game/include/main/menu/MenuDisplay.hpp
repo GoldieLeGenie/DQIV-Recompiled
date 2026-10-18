@@ -26,13 +26,13 @@ struct UnkMenuDisplay {
     virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub) = 0;
     virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub) = 0;
     virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub) = 0;
-    void unkfunc_0204f1ac();                    // hide
-    void unkfunc_0204f1c0();                    // move toward the target
-    int unkfunc_0204f214(UnkOamBuffer* main, UnkOamBuffer* sub);
-    void unkfunc_0204f260(int type);
-    void unkfunc_0204f264(int enable);
-    void unkfunc_0204f270(int x, int y);
-    void unkfunc_0204f278(int w, int h);
-    void unkfunc_0204f280(int key);
-    int unkfunc_0204f284(int key);
+    void reset();                    // hide
+    void updateMove();                    // move toward the target
+    int isDrawable(UnkOamBuffer* main, UnkOamBuffer* sub);
+    void setType(int type);
+    void setEnable(int enable);
+    void setPosition(int x, int y);
+    void setSize(int w, int h);
+    void setKey(int key);
+    int isKey(int key);
 };

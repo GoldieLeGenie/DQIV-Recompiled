@@ -37,7 +37,7 @@ THUMB void TownMenu_OPERATION_ROOT::menuSetup()
     seCount_ = 0;
     navigator_.setupBase();
     charaNavigator_.setupBase();
-    commandCount_ = unkfunc_0217a4e4(command_);
+    commandCount_ = setupCommandList(command_);
     menuItem_.active_ = TownMenuPlayerControl::getSingleton()->activeTactics_;
 }
 
@@ -94,7 +94,7 @@ THUMB void TownMenu_OPERATION_ROOT::menuUpdate()
     }
     if (data_020ed1bc.isOpen()) {
         int stat = data_020ed1bc.stat_;
-        if (s_draw->unkfunc_0204e004()) {
+        if (s_draw->isFinish()) {
             isMantan_ = 0;
             if (mode_ == 3) {
                 status::UseActionParam useActionParam;
@@ -135,12 +135,12 @@ THUMB void TownMenu_OPERATION_ROOT::menuUpdate()
                 saveResult_ = profile::SaveLoad::savebank(3, profile::SAVETYPE_RESUME);
                 abort_ = 3;
             }
-            unkfunc_0217a67c();
+            updateAbortSaveMessage();
             return;
         }
         if (stat == menu::MenuBase::MENUBASE_STAT_OK) {
             if (mode_ == 8) {
-                unkfunc_0217a67c();
+                updateAbortSaveMessage();
                 return;
             }
             data_020ed1bc.close();
@@ -152,7 +152,7 @@ THUMB void TownMenu_OPERATION_ROOT::menuUpdate()
                     unk_1ac = 0;
                     return;
                 }
-                unkfunc_0217a438();
+                sortItems();
                 return;
             }
         } else if (stat == menu::MenuBase::MENUBASE_STAT_CANCEL) {
@@ -188,7 +188,7 @@ THUMB void TownMenu_OPERATION_ROOT::menuUpdate()
             return;
         }
         if (result == 2) {
-            unkfunc_0217a2a0();
+            askSortSack();
         }
         redraw_ = 1;
         return;
@@ -199,7 +199,7 @@ THUMB void TownMenu_OPERATION_ROOT::menuUpdate()
             return;
         }
         if (result == 2) {
-            unkfunc_0217a278();
+            askSortCharaItems();
         }
         redraw_ = 1;
         return;
@@ -212,14 +212,14 @@ THUMB void TownMenu_OPERATION_ROOT::menuUpdate()
         TownMenuPlayerControl::getSingleton()->setActiveTactics(menuItem_.active_);
         switch (command_[menuItem_.active_]) {
         case 0:
-            unkfunc_0217a318();
+            useFullRecovery();
             break;
         case 1:
             close();
             gTownMenu_OPERATION_EQUIP.open();
             break;
         case 2:
-            unkfunc_0217a3e0();
+            openShiftParty();
             break;
         case 3:
             if (status::g_Party.getCount() > 2 ||
@@ -262,7 +262,7 @@ THUMB void TownMenu_OPERATION_ROOT::menuUpdate()
     redraw_ = 1;
 }
 
-THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a278()
+THUMB void TownMenu_OPERATION_ROOT::askSortCharaItems()
 {
     data_020ed1bc.openMessageForMENU();
     data_020ed1bc.addMessage(0xc3d5b);
@@ -270,7 +270,7 @@ THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a278()
     menuItem_.ctype_ = menu::MenuItem::CURSORTYPE_NONE;
 }
 
-THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a2a0()
+THUMB void TownMenu_OPERATION_ROOT::askSortSack()
 {
     if (status::g_Party.haveItemSack_.getItem(0) != 0) {
         data_020ed1bc.openMessageForMENU();
@@ -289,7 +289,7 @@ THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a2a0()
     data_020ed1bc.addMessage(0xc3d68);
 }
 
-THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a318()
+THUMB void TownMenu_OPERATION_ROOT::useFullRecovery()
 {
     status::g_Party.setBattleMode();
     int noRecovery = 1;
@@ -318,7 +318,7 @@ THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a318()
     status::g_Party.setPlayerMode();
 }
 
-THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a3e0()
+THUMB void TownMenu_OPERATION_ROOT::openShiftParty()
 {
     status::g_Party.setMemberShiftMode();
     if (status::g_Party.getCount() == 1 && !status::g_Party.getCarriageEnableOnGame()) {
@@ -333,7 +333,7 @@ THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a3e0()
     gTownMenu_OPERATION_SHIFT_PARTY.open();
 }
 
-THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a438()
+THUMB void TownMenu_OPERATION_ROOT::sortItems()
 {
     int count = status::g_Party.getCount();
     if (mode_ == 1) {
@@ -357,7 +357,7 @@ THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a438()
     unk_1ac = 1;
 }
 
-THUMB int TownMenu_OPERATION_ROOT::unkfunc_0217a4e4(char* command)
+THUMB int TownMenu_OPERATION_ROOT::setupCommandList(char* command)
 {
     if (status::g_Story.chapter_ >= 5 && g_AreaFlag.check(0x132) == true) {
         for (char i = 0; i < 9; i++) {
@@ -418,7 +418,7 @@ THUMB void TownMenu_OPERATION_ROOT::allRecoveryMessage(status::UseActionParam& u
     actionIndex_ = useActionParam.actionIndex_;
 }
 
-THUMB void TownMenu_OPERATION_ROOT::unkfunc_0217a67c()
+THUMB void TownMenu_OPERATION_ROOT::updateAbortSaveMessage()
 {
     switch (abort_) {
     case 0:

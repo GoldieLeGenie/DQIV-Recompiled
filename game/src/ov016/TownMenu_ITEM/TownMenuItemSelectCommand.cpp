@@ -177,18 +177,18 @@ THUMB void TownMenuItemSelectCommand::menuUpdate()
         redraw_ = 1;
         return;
     }
-    navigator_.setup(3, 2, unkfunc_02176b90());
+    navigator_.setup(3, 2, getCommandCount());
     int result = MenuUpdate_Assist::menuSelect(menuItem_, navigator_);
     if (result != 0) {
         if (result == 2) {
             TownMenuPlayerControl::getSingleton()->setActiveCommand(menuItem_.active_);
-            unkfunc_0217638c();
+            executeCommand();
         }
         redraw_ = 1;
     }
 }
 
-THUMB void TownMenuItemSelectCommand::unkfunc_0217638c()
+THUMB void TownMenuItemSelectCommand::executeCommand()
 {
     switch (TownMenuPlayerControl::getSingleton()->activeCommand_) {
         case 0:
@@ -254,7 +254,7 @@ THUMB void TownMenuItemSelectCommand::judgeUseItem()
         return;
     }
     if (itemID_ == 9) {
-        unkfunc_02176bfc();
+        useTarotCards();
         return;
     }
     if (itemID_ == 0x66 && TownMenuPlayerControl::getSingleton()->activeFukuro_ == 1) {
@@ -353,7 +353,7 @@ THUMB void TownMenuItemSelectCommand::useItemNoTarget()
         mesCount++;
         resCount++;
     }
-    unkfunc_02176e14();
+    setSpecialResultMessages();
     if (itemID_ == 0x66 && isResult_ == 1) {
         resultMes_[1] = -1;
     }
@@ -471,7 +471,7 @@ THUMB void TownMenuItemSelectCommand::judgeThrowItem()
     }
 }
 
-THUMB int TownMenuItemSelectCommand::unkfunc_02176b90()
+THUMB int TownMenuItemSelectCommand::getCommandCount()
 {
     switch (commandFlag_) {
         case 1:
@@ -484,7 +484,7 @@ THUMB int TownMenuItemSelectCommand::unkfunc_02176b90()
     return 4;
 }
 
-THUMB void TownMenuItemSelectCommand::unkfunc_02176bb0()
+THUMB void TownMenuItemSelectCommand::openItemListOrCharaSelect()
 {
     if (TownMenuPlayerControl::getSingleton()->activeFukuro_) {
         if (status::FukuroItemInfo::getItemMaxCount() == 0) {
@@ -501,7 +501,7 @@ THUMB void TownMenuItemSelectCommand::unkfunc_02176bb0()
     gUnkTownMenu_02176fa0.open();
 }
 
-THUMB void TownMenuItemSelectCommand::unkfunc_02176bfc()
+THUMB void TownMenuItemSelectCommand::useTarotCards()
 {
     int index = status::g_Party.getSortIndex(8);
     if (index == -1) {
@@ -582,13 +582,13 @@ THUMB void TownMenuItemSelectCommand::resultItem()
         default:
             if (TownMenuPlayerControl::getSingleton()->activeCommand_ == 0 && sound_ == 0) {
                 close();
-                unkfunc_02176bb0();
+                openItemListOrCharaSelect();
             }
             return;
     }
 }
 
-THUMB void TownMenuItemSelectCommand::unkfunc_02176e14()
+THUMB void TownMenuItemSelectCommand::setSpecialResultMessages()
 {
     if (itemID_ == 0x83 && isResult_ == 1) {
         resultMes_[1] = -1;

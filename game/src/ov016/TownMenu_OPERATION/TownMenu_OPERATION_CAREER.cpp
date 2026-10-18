@@ -9,7 +9,7 @@
 #include "ov016/UnkTownMenuDraw/TownMenuOperationDraw.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/MenuCommonDraw.hpp"
-#include "main/menu/UnkMenuOverlay.hpp"
+#include "main/menu/MaterielMenuOverlay.hpp"
 
 THUMB void TownMenu_OPERATION_CAREER::menuSetup()
 {
@@ -27,7 +27,7 @@ THUMB void TownMenu_OPERATION_CAREER::menuSetup()
     if (status::g_Party.haveItemSack_.isItem(0x9d)) {
         bookOfBeasts_ = 1;
     }
-    unkfunc_02039460(14);
+    loadMaterielMenuOverlay(14);
     cmn::PlayerTitle::setPlayerTitle(0);
     for (int i = 0; i < 3; i++) {
         status::g_BattleHistory.historyType_ = (status::BattleHistory::HistoryType)i;
@@ -83,7 +83,7 @@ THUMB void TownMenu_OPERATION_CAREER::SetTextPage(int page, int type)
 {
     if (page != 0) {
         status::g_BattleHistory.historyType_ = (status::BattleHistory::HistoryType)type;
-        unkfunc_02050698(0, 0);
+        setMenuDrawOffset(0, 0);
         drawCareerRecordLine(status::g_BattleHistory.getHeroLevel(), 7, bookOfBeasts_, 1);
         if (type == 1) {
             drawCareerPlayTime(status::g_BattleHistory.getAdventureTime(), 1);

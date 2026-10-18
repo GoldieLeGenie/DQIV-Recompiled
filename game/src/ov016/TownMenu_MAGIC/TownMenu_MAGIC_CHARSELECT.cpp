@@ -106,7 +106,7 @@ THUMB void TownMenu_MAGIC_CHARSELECT::menuUpdate()
             data_020ed1bc.close();
             close();
             gTownMenu_MAGIC_ROOT.open();
-            gTownMenu_MAGIC_ROOT.unkfunc_021797a8();
+            gTownMenu_MAGIC_ROOT.restoreCharaItem();
             gTownMenu_MAGIC_ROOT.mode_ = 1;
             gTownMenu_MAGIC_ROOT.getUseAction();
         }
@@ -117,7 +117,7 @@ THUMB void TownMenu_MAGIC_CHARSELECT::menuUpdate()
         TownMenuPlayerControl::getSingleton()->setActiveMagic(activeMagic_);
         close();
         gTownMenu_MAGIC_ROOT.open();
-        gTownMenu_MAGIC_ROOT.unkfunc_021797a8();
+        gTownMenu_MAGIC_ROOT.restoreCharaItem();
         gTownMenu_MAGIC_ROOT.mode_ = 1;
         gTownMenu_MAGIC_ROOT.getUseAction();
         redraw_ = 1;

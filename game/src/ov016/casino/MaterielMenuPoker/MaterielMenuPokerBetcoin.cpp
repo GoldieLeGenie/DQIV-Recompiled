@@ -44,12 +44,12 @@ THUMB void MaterielMenuPokerBetcoin::menuDraw()
 
 THUMB void MaterielMenuPokerBetcoin::menuUpdate()
 {
-    if (!unkfunc_021700f0()) {
-        unkfunc_02170024();
+    if (!updateBetInput()) {
+        updateMessage();
     }
 }
 
-THUMB bool MaterielMenuPokerBetcoin::unkfunc_02170024()
+THUMB bool MaterielMenuPokerBetcoin::updateMessage()
 {
     if (data_020ed1bc.isOpen()) {
         int stat = data_020ed1bc.stat_;
@@ -96,7 +96,7 @@ THUMB bool MaterielMenuPokerBetcoin::unkfunc_02170024()
     return false;
 }
 
-THUMB bool MaterielMenuPokerBetcoin::unkfunc_021700f0()
+THUMB bool MaterielMenuPokerBetcoin::updateBetInput()
 {
     if (!data_020ed1bc.isOpen()) {
         return false;

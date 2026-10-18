@@ -29,7 +29,7 @@ static const char* s_menuName[] = {
     "gMaterielMenu_SURECHIGAI_SELECT_OBJECT",
 };
 
-THUMB void MenuAPI::unkfunc_0200d3c8()
+THUMB void MenuAPI::openMenuByIndex()
 {
     const char* name = 0;
     if (s_menuIndex != 0) {
@@ -129,7 +129,7 @@ THUMB void MenuAPI::clearMenuAll()
 THUMB void MenuAPI::openTownMenu()
 {
     if (s_menuIndex != 0) {
-        unkfunc_0200d3c8();
+        openMenuByIndex();
     } else {
         openMenu(&gTownMenu_ROOT);
     }
@@ -203,17 +203,17 @@ THUMB bool MenuAPI::isWaitMessage()
 
 THUMB int MenuAPI::isMessageWaitTrigger()
 {
-    return s_draw->unkfunc_0204dfd8();
+    return s_draw->isWaitTrigger();
 }
 
 THUMB void MenuAPI::clearMessageWaitTriggerSE()
 {
-    s_draw->unkfunc_0204e040();
+    s_draw->clearWaitTriggerSE();
 }
 
 THUMB void MenuAPI::clearMessageWaitTriggerNOSE()
 {
-    s_draw->unkfunc_0204e050();
+    s_draw->clearWaitTriggerNoSE();
 }
 
 THUMB void MenuAPI::openEncountMessage()
@@ -286,12 +286,12 @@ THUMB int MenuAPI::isFinishMessageWindow()
 
 THUMB int MenuAPI::isFinishMessage()
 {
-    return s_draw->unkfunc_0204e004();
+    return s_draw->isFinish();
 }
 
 THUMB int MenuAPI::isEndMessage()
 {
-    return s_draw->unkfunc_0204e018();
+    return s_draw->isEnd();
 }
 
 THUMB void MenuAPI::suspendMessageKeyInput(int flag)

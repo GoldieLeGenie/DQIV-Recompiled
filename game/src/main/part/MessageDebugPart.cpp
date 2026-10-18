@@ -225,7 +225,7 @@ THUMB void MessageDebugPart::onDebugPart()
     const char* lang[] = { "Japanese  ", "English   ", "French    ", "German    ", "Italian   ", "Spanish   " };
     const char* font[] = { "Default   ", "10L       ", "10L b     ", "10S       " };
     const char* back[] = { "------    ", "MAP 1     ", "MAP 2     ", "BATTLE    " };
-    unkfunc_0205077c(0, 0, 0x100, 0x78);
+    drawMenuWindowBox(0, 0, 0x100, 0x78);
     data_02116ce0.unkfunc_0207e88c(1, 1, "Size(X)       %-10s", type[messageType_]);
     data_02116ce0.unkfunc_0207e88c(1, 2, "Lang(Y)       %-10s", lang[language_]);
     data_02116ce0.unkfunc_0207e88c(1, 3, "BACK(UP/DOWN) %-10s", back[back_]);

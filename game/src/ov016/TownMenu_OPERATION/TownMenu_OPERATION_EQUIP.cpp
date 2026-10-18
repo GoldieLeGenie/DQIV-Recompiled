@@ -175,7 +175,7 @@ THUMB void TownMenu_OPERATION_EQUIP::menuUpdate()
         int active = 4;
         if (result == 2) {
             if (itemType_ >= ITEM_WEAPON && itemType_ <= ITEM_ACCESSORY) {
-                unkfunc_0216c6ac();
+                removeEquipment();
             }
             if (itemType_ > ITEM_ACCESSORY) {
                 close();
@@ -311,7 +311,7 @@ THUMB void TownMenu_OPERATION_EQUIP::setEquip()
     }
 }
 
-THUMB int TownMenu_OPERATION_EQUIP::unkfunc_0216c6ac()
+THUMB int TownMenu_OPERATION_EQUIP::removeEquipment()
 {
     status::HaveStatusInfo& info = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_;
     if (itemCount_ != 0) {

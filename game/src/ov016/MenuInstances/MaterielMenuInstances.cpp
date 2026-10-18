@@ -25,7 +25,7 @@
 #include "main/menu/MaterielMenu_NameEdit.hpp"
 #include "ov026/MaterielMenu_SURECHIGAI/MaterielMenu_SURECHIGAI.hpp"
 #include "ov025/MaterielMenu_EXTRA_SIDEJOB/MaterielMenu_EXTRA_SIDEJOB.hpp"
-#include "main/menu/UnkMaterielMenu_0203d7e4.hpp"
+#include "main/menu/MaterielMenu_StartAdventure.hpp"
 
 // global instances of the materiel menus (their code is in the shop/church/bank/... overlays)
 THUMB
@@ -77,4 +77,4 @@ UnkMaterielMenu_02189a80 gUnkMaterielMenu_02189a80;
 MaterielMenu_EXTRA_SIDEJOB_ROOT gMaterielMenu_EXTRA_SIDEJOB_ROOT;
 MaterielMenu_EXTRA_SIDEJOB_BUY gMaterielMenu_EXTRA_SIDEJOB_BUY;
 MaterielMenu_EXTRA_SIDEJOB_SELL gMaterielMenu_EXTRA_SIDEJOB_SELL;
-UnkMaterielMenu_0203d7e4 gUnkMaterielMenu_0203d7e4;
+MaterielMenu_StartAdventure gMaterielMenu_StartAdventure;

@@ -1,10 +1,10 @@
 #include "main/menu/UnkMenuDisplays.hpp"
 #include "main/dss/UnkDisplay.hpp"
-#include "main/menu/UnkMenuSystem.hpp"
+#include "main/menu/MenuSystem.hpp"
 
 UnkMenuDisplays data_020f530c;
 
-THUMB void unkfunc_0204e6e4()
+THUMB void setupMenuDisplays()
 {
     data_020f530c.message_.setup(-1);
     data_020f530c.yesNo_.setup(0x1d4);
@@ -23,26 +23,26 @@ THUMB void unkfunc_0204e6e4()
     data_020f530c.hopping_.setup(0);
 }
 
-THUMB void unkfunc_0204e7c0()
+THUMB void disableMenuDisplays()
 {
-    data_020f530c.message_.unkfunc_0204f264(0);
-    data_020f530c.yesNo_.unkfunc_0204f264(0);
-    data_020f530c.frames_.unkfunc_0204f264(0);
-    data_020f530c.face_.unkfunc_0204f264(0);
-    data_020f530c.icon_.unkfunc_0204f264(0);
-    data_020f530c.sprite_.unkfunc_0204f264(0);
-    data_020f530c.dummy_.unkfunc_0204f264(0);
-    data_020f530c.texts_[0].unkfunc_0204f264(0);
-    data_020f530c.texts_[1].unkfunc_0204f264(0);
-    data_020f530c.texts_[2].unkfunc_0204f264(0);
-    data_020f530c.texts_[3].unkfunc_0204f264(0);
-    data_020f530c.windowFrame1_.unkfunc_0204f264(0);
-    data_020f530c.windowFrame2_.unkfunc_0204f264(0);
-    data_020f530c.arrow_.unkfunc_0204f264(0);
-    data_020f530c.hopping_.unkfunc_0204f264(0);
+    data_020f530c.message_.setEnable(0);
+    data_020f530c.yesNo_.setEnable(0);
+    data_020f530c.frames_.setEnable(0);
+    data_020f530c.face_.setEnable(0);
+    data_020f530c.icon_.setEnable(0);
+    data_020f530c.sprite_.setEnable(0);
+    data_020f530c.dummy_.setEnable(0);
+    data_020f530c.texts_[0].setEnable(0);
+    data_020f530c.texts_[1].setEnable(0);
+    data_020f530c.texts_[2].setEnable(0);
+    data_020f530c.texts_[3].setEnable(0);
+    data_020f530c.windowFrame1_.setEnable(0);
+    data_020f530c.windowFrame2_.setEnable(0);
+    data_020f530c.arrow_.setEnable(0);
+    data_020f530c.hopping_.setEnable(0);
 }
 
-THUMB void unkfunc_0204e878()
+THUMB void updateMenuDisplays()
 {
     UnkOamBuffer* main = unkfunc_02081454(0);
     UnkOamBuffer* sub = unkfunc_02081454(192);
@@ -63,7 +63,7 @@ THUMB void unkfunc_0204e878()
     data_020f530c.hopping_.update(main, sub);
 }
 
-THUMB void unkfunc_0204e97c()
+THUMB void executeMenuDisplays()
 {
     UnkOamBuffer* main = unkfunc_02081454(0);
     UnkOamBuffer* sub = unkfunc_02081454(192);
@@ -84,7 +84,7 @@ THUMB void unkfunc_0204e97c()
     data_020f530c.hopping_.execute(main, sub);
 }
 
-THUMB void unkfunc_0204ea80()
+THUMB void drawMenuDisplays()
 {
     UnkOamBuffer* main = unkfunc_02081454(0);
     UnkOamBuffer* sub = unkfunc_02081454(192);
@@ -104,42 +104,42 @@ THUMB void unkfunc_0204ea80()
     data_020f530c.frames_.draw(main, sub);
     data_020f530c.arrow_.draw(main, sub);
     data_020f530c.hopping_.draw(main, sub);
-    unkfunc_0204eb9c();
-    unkfunc_0204e7c0();
+    moveMenuDisplays();
+    disableMenuDisplays();
 }
 
-THUMB void unkfunc_0204eb9c()
+THUMB void moveMenuDisplays()
 {
-    data_020f530c.face_.unkfunc_0204f1c0();
-    data_020f530c.icon_.unkfunc_0204f1c0();
-    data_020f530c.sprite_.unkfunc_0204f1c0();
-    data_020f530c.dummy_.unkfunc_0204f1c0();
-    data_020f530c.message_.unkfunc_0204f1c0();
-    data_020f530c.yesNo_.unkfunc_0204f1c0();
-    data_020f530c.windowFrame1_.unkfunc_0204f1c0();
-    data_020f530c.windowFrame2_.unkfunc_0204f1c0();
-    data_020f530c.texts_[0].unkfunc_0204f1c0();
-    data_020f530c.texts_[1].unkfunc_0204f1c0();
-    data_020f530c.texts_[2].unkfunc_0204f1c0();
-    data_020f530c.texts_[3].unkfunc_0204f1c0();
-    data_020f530c.frames_.unkfunc_0204f1c0();
-    data_020f530c.arrow_.unkfunc_0204f1c0();
-    data_020f530c.hopping_.unkfunc_0204f1c0();
+    data_020f530c.face_.updateMove();
+    data_020f530c.icon_.updateMove();
+    data_020f530c.sprite_.updateMove();
+    data_020f530c.dummy_.updateMove();
+    data_020f530c.message_.updateMove();
+    data_020f530c.yesNo_.updateMove();
+    data_020f530c.windowFrame1_.updateMove();
+    data_020f530c.windowFrame2_.updateMove();
+    data_020f530c.texts_[0].updateMove();
+    data_020f530c.texts_[1].updateMove();
+    data_020f530c.texts_[2].updateMove();
+    data_020f530c.texts_[3].updateMove();
+    data_020f530c.frames_.updateMove();
+    data_020f530c.arrow_.updateMove();
+    data_020f530c.hopping_.updateMove();
 }
 
-THUMB void unkfunc_0204ec38()
+THUMB void resetMenuDisplays()
 {
-    data_020f530c.face_.unkfunc_0204f1ac();
-    data_020f530c.icon_.unkfunc_0204f1ac();
-    data_020f530c.sprite_.unkfunc_0204f1ac();
-    data_020f530c.dummy_.unkfunc_0204f1ac();
-    data_020f530c.frames_.unkfunc_0204f1ac();
-    data_020f530c.texts_[0].unkfunc_0204f1ac();
-    data_020f530c.texts_[1].unkfunc_0204f1ac();
-    data_020f530c.texts_[2].unkfunc_0204f1ac();
-    data_020f530c.texts_[3].unkfunc_0204f1ac();
-    data_020f530c.windowFrame1_.unkfunc_0204f1ac();
-    data_020f530c.windowFrame2_.unkfunc_0204f1ac();
-    data_020f530c.arrow_.unkfunc_0204f1ac();
-    data_020f530c.hopping_.unkfunc_0204f1ac();
+    data_020f530c.face_.reset();
+    data_020f530c.icon_.reset();
+    data_020f530c.sprite_.reset();
+    data_020f530c.dummy_.reset();
+    data_020f530c.frames_.reset();
+    data_020f530c.texts_[0].reset();
+    data_020f530c.texts_[1].reset();
+    data_020f530c.texts_[2].reset();
+    data_020f530c.texts_[3].reset();
+    data_020f530c.windowFrame1_.reset();
+    data_020f530c.windowFrame2_.reset();
+    data_020f530c.arrow_.reset();
+    data_020f530c.hopping_.reset();
 }

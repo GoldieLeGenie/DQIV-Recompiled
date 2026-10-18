@@ -18,7 +18,7 @@ struct TownMenu_TOWN : menu::MenuBase {
     virtual void menuUpdate();
     virtual void menuClose();
 
-    void unkfunc_020273a8(int camera, int map, int shop, int menuIcon);   // icon setup
+    void setIconVisibility(int camera, int map, int shop, int menuIcon);   // icon setup
     void unkfunc_02027424();
 };
 

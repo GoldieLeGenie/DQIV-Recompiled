@@ -11,8 +11,8 @@ struct TownShopMenu : menu::MenuBase {
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    int unkfunc_02177250(int index);
-    int unkfunc_02177300();
+    int selectShopFrom(int index);
+    int selectNextShop();
 };
 
 extern TownShopMenu gTownShopMenu;

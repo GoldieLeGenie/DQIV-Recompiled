@@ -14,33 +14,33 @@ struct CommonMenu_APITEST : menu::MenuBase {
     virtual void menuUpdate() {}
 
     void unkfunc_02025e4c();
-    void unkfunc_02025f70();                    // cursor
-    void unkfunc_02026020();                    // window
-    void unkfunc_02026050();                    // icons
-    void unkfunc_020260fc();                    // circle
-    void unkfunc_0202612c();                    // background boards and frames
-    void unkfunc_0202615c();                    // system font
-    void unkfunc_0202618c();                    // auto connection
-    void unkfunc_020261bc();                    // face
-    void unkfunc_020261f0();                    // texts
-    void unkfunc_0202626c();                    // battle background
-    void unkfunc_020262a0();                    // gauges
-    void unkfunc_02026330();                    // text lists
-    void unkfunc_02026380();                    // number lists
-    void unkfunc_020263c8();                    // icons
-    void unkfunc_02026408();
-    void unkfunc_02026448();
-    void unkfunc_0202648c();
-    void unkfunc_020264d0();                    // frames
-    void unkfunc_02026534();                    // connection lines
-    void unkfunc_02026570();                    // text concatenation
-    void unkfunc_020265d8();                    // half/full width conversion
-    void unkfunc_02026668();
-    void unkfunc_020266a0();                    // half/full width display
-    void unkfunc_020266e0(int x, int y, int w, int h);  // frame
-    void unkfunc_02026714();                    // name plates
-    void unkfunc_02026760();                    // new frames
-    void unkfunc_02026790();                    // 4 faces
+    void drawCursorTestPage();                    // cursor
+    void drawWindowTestPage();                    // window
+    void drawIconTestPage();                    // icons
+    void drawCircleTestPage();                    // circle
+    void drawPlateFrameTestPage();                    // background boards and frames
+    void drawSystemFontTestPage();                    // system font
+    void drawAutoConnectTestPage();                    // auto connection
+    void drawFaceTestPage();                    // face
+    void drawTextTestPage();                    // texts
+    void drawBattleBgTestPage();                    // battle background
+    void drawMeterTestPage();                    // gauges
+    void drawStringPlateTestPage();                    // text lists
+    void drawNumberPlateTestPage();                    // number lists
+    void drawIconTestPage2();                    // icons
+    void drawIconTestPage3();
+    void drawIconTestPage4();
+    void drawIconTestPage5();
+    void drawStackedWindowsTestPage();                    // frames
+    void drawConnectLineTestPage();                    // connection lines
+    void drawTextConcatTestPage();                    // text concatenation
+    void drawWidthConvertTestPage();                    // half/full width conversion
+    void drawWidthConvertTestPage2();
+    void drawWidthDisplayTestPage();                    // half/full width display
+    void drawTestWindow(int x, int y, int w, int h);  // frame
+    void drawNamePlateTestPage();                    // name plates
+    void drawNewFrameTestPage();                    // new frames
+    void drawFourFacesTestPage();                    // 4 faces
 };
 
 extern CommonMenu_APITEST data_020ed068;        /* gCommonMenu_APITEST */

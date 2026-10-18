@@ -10,17 +10,17 @@ static DebugMenuPad s_pad;
 DebugMenu data_0210bc40("Debug Menu");
 static char s_buildDate[0x20] = "Build Date Time";
 
-ARM int DebugMenuPad::unkfunc_020582e0()
+ARM int DebugMenuPad::isRightRepeat()
 {
     return dss::g_Pad.unkfunc_0207f290() & 0x10;
 }
 
-ARM int DebugMenuPad::unkfunc_020582f8()
+ARM int DebugMenuPad::isLeftRepeat()
 {
     return dss::g_Pad.unkfunc_0207f290() & 0x20;
 }
 
-ARM int DebugMenuPad::unkfunc_02058310()
+ARM int DebugMenuPad::isAPressed()
 {
     return dss::g_Pad.edge() & 1;
 }
@@ -54,12 +54,12 @@ ARM int DebugMenu::isEnd()
 
 ARM void DebugMenu::update()
 {
-    unkfunc_02058448();
+    updateItems();
 }
 
 ARM void DebugMenu::draw()
 {
-    unkfunc_020584c4();
+    drawItems();
 }
 
 ARM void DebugMenu::unkfunc_020583a8(int count)
@@ -78,30 +78,30 @@ ARM void DebugMenu::print(int x, int y, const char* fmt, ...)
     data_02116ce0.unkfunc_0207e864(x_ + x, y_ + y, buf);
 }
 
-ARM void DebugMenu::unkfunc_02058430(const char* date)
+ARM void DebugMenu::setBuildDate(const char* date)
 {
     dss::strcpy(s_buildDate, date);
 }
 
-ARM void DebugMenu::unkfunc_02058448()
+ARM void DebugMenu::updateItems()
 {
     DebugMenuItem* item = item_;
     if (item == 0 || item->type_ == 3) {
         return;
     }
     DebugMenuItem& cur = item[cursor_];
-    if (s_pad.unkfunc_020582e0()) {
-        cur.unkfunc_02058568(1);
+    if (s_pad.isRightRepeat()) {
+        cur.addValue(1);
     }
-    if (s_pad.unkfunc_020582f8()) {
-        cur.unkfunc_02058568(-1);
+    if (s_pad.isLeftRepeat()) {
+        cur.addValue(-1);
     }
-    if (s_pad.unkfunc_02058310()) {
-        cur.unkfunc_020585c0();
+    if (s_pad.isAPressed()) {
+        cur.execute();
     }
 }
 
-ARM void DebugMenu::unkfunc_020584c4()
+ARM void DebugMenu::drawItems()
 {
     if (item_ == 0 || item_->type_ == 3) {
         return;
@@ -109,14 +109,14 @@ ARM void DebugMenu::unkfunc_020584c4()
     print(0, 0, "%s", title_);
     int i = 0;
     for (DebugMenuItem* item = item_; item->type_ != 3; item++) {
-        item->unkfunc_020585d8(this, 1, i + 1);
+        item->drawLine(this, 1, i + 1);
         i++;
     }
-    item_[cursor_].unkfunc_02058640(this, 4, 15);
+    item_[cursor_].drawValueName(this, 4, 15);
     unkfunc_020583a8(i);
 }
 
-ARM void DebugMenuItem::unkfunc_02058568(int delta)
+ARM void DebugMenuItem::addValue(int delta)
 {
     if (enable_ != 1) {
         return;
@@ -141,14 +141,14 @@ ARM void DebugMenuItem::unkfunc_02058568(int delta)
     }
 }
 
-ARM void DebugMenuItem::unkfunc_020585c0()
+ARM void DebugMenuItem::execute()
 {
     if (onExec_ != 0) {
         onExec_();
     }
 }
 
-ARM void DebugMenuItem::unkfunc_020585d8(DebugMenu* menu, int x, int y)
+ARM void DebugMenuItem::drawLine(DebugMenu* menu, int x, int y)
 {
     if (value_ == 0) {
         menu->print(x, y, name_);
@@ -157,7 +157,7 @@ ARM void DebugMenuItem::unkfunc_020585d8(DebugMenu* menu, int x, int y)
     menu->print(x, y, "%d:%-10s %5d", y, name_, *value_);
 }
 
-ARM void DebugMenuItem::unkfunc_02058640(DebugMenu* menu, int x, int y)
+ARM void DebugMenuItem::drawValueName(DebugMenu* menu, int x, int y)
 {
     if (value_ != 0 && valueName_ != 0) {
         menu->print(x, y, "%s", valueName_[*value_]);

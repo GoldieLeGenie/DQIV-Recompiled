@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 
 // Up to 16 arrows / cursors drawn on the sub screen (data_020f530c.arrow_)
 struct UnkMenuArrowDisplay : UnkMenuDisplay {
@@ -18,9 +18,9 @@ struct UnkMenuArrowDisplay : UnkMenuDisplay {
     virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
-    int unkfunc_020525f4();
-    void unkfunc_0205260c();
-    void unkfunc_02052658(int x, int y, int kind, int flag);
-    void unkfunc_02052694();
+    int getAnimCharName();
+    void updateAnim();
+    void addArrow(int x, int y, int kind, int flag);
+    void resetBlink();
 };
 

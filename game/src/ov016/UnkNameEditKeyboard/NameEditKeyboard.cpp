@@ -1,4 +1,4 @@
-#include "ov016/UnkNameEditKeyboard/UnkNameEditKeyboard_0216a980.hpp"
+#include "ov016/UnkNameEditKeyboard/NameEditKeyboard.hpp"
 
 static UnkNameEditChar s_charTable_0217f840[] = {
     { 0, 0xc380 },
@@ -276,7 +276,7 @@ static UnkNameEditKey s_keyTable_02180398[] = {
     { 65, 64, 63, 59, 50, 3, 65 },
 };
 
-ARM void UnkNameEditKeyboard::unkfunc_0216a980()
+ARM void UnkNameEditKeyboard::init()
 {
     keyTable_ = s_keyTable_0217fc60;
     charTable_ = s_charTable_0217fa50;
@@ -285,24 +285,24 @@ ARM void UnkNameEditKeyboard::unkfunc_0216a980()
     keyCount_ = 0x42;
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216a9b4()
+ARM int UnkNameEditKeyboard::pressKey()
 {
     type_ = key_->type_;
     switch (key_->type_) {
     case 0:
-        return unkfunc_0216a9f8();
+        return getCurrentChar();
     case 2:
-        return unkfunc_0216aa0c();
+        return togglePage();
     }
     return 0x80000000;
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216a9f8()
+ARM int UnkNameEditKeyboard::getCurrentChar()
 {
     return charTable_[index_].code_;
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216aa0c()
+ARM int UnkNameEditKeyboard::togglePage()
 {
     if (s_charTable_0217fa50 == charTable_) {
         keyTable_ = s_keyTable_02180398;
@@ -314,30 +314,30 @@ ARM int UnkNameEditKeyboard::unkfunc_0216aa0c()
     return 0x80000000;
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216aa5c()
+ARM int UnkNameEditKeyboard::moveUp()
 {
-    return unkfunc_0216aa9c(0);
+    return moveCursor(0);
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216aa6c()
+ARM int UnkNameEditKeyboard::moveDown()
 {
-    return unkfunc_0216aa9c(1);
+    return moveCursor(1);
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216aa7c()
+ARM int UnkNameEditKeyboard::moveLeft()
 {
-    return unkfunc_0216aa9c(2);
+    return moveCursor(2);
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216aa8c()
+ARM int UnkNameEditKeyboard::moveRight()
 {
-    return unkfunc_0216aa9c(3);
+    return moveCursor(3);
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216aa9c(int direction)
+ARM int UnkNameEditKeyboard::moveCursor(int direction)
 {
     int i = 0;
-    while (!unkfunc_0216aaf8(direction, i)) {
+    while (!isNeighbourKey(direction, i)) {
         i++;
     }
     key_ = &keyTable_[i];
@@ -345,7 +345,7 @@ ARM int UnkNameEditKeyboard::unkfunc_0216aa9c(int direction)
     return key_->code_;
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216aaf8(int direction, int index)
+ARM int UnkNameEditKeyboard::isNeighbourKey(int direction, int index)
 {
     switch (direction) {
     case 0:
@@ -360,7 +360,7 @@ ARM int UnkNameEditKeyboard::unkfunc_0216aaf8(int direction, int index)
     return 0;
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216abbc(int code)
+ARM int UnkNameEditKeyboard::setCursorToKey(int code)
 {
     for (int i = 0; i < 0x42; i++) {
         if (code == keyTable_[i].code_) {
@@ -372,7 +372,7 @@ ARM int UnkNameEditKeyboard::unkfunc_0216abbc(int code)
     return 0;
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216ac08(int code)
+ARM int UnkNameEditKeyboard::getKeyChar(int code)
 {
     for (int i = 0; i < keyCount_; i++) {
         if (code == keyTable_[i].code_) {
@@ -382,7 +382,7 @@ ARM int UnkNameEditKeyboard::unkfunc_0216ac08(int code)
     return 0;
 }
 
-ARM int UnkNameEditKeyboard::unkfunc_0216ac54(int code)
+ARM int UnkNameEditKeyboard::getKeyType(int code)
 {
     for (int i = 0; i < keyCount_; i++) {
         if (code == keyTable_[i].code_) {

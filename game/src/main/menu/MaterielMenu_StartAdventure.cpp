@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "main/menu/UnkMaterielMenu_0203d7e4.hpp"
+#include "main/menu/MaterielMenu_StartAdventure.hpp"
 #include "main/menu/MenuUpdateAssist.hpp"
 #include "main/cmn/ExtraMapLink.hpp"
 #include "main/data/ExcelBinaryData.hpp"
@@ -21,7 +21,7 @@ static MENUITEM_DATA s_menuItemData[] = {
     {-1, -1, 0, 0, 0, 0},
 };
 
-THUMB void UnkMaterielMenu_0203d7e4::menuSetup()
+THUMB void MaterielMenu_StartAdventure::menuSetup()
 {
     status::g_Party.setPlayerMode();
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
@@ -29,12 +29,12 @@ THUMB void UnkMaterielMenu_0203d7e4::menuSetup()
     cursor_.setupBase();
 }
 
-THUMB void UnkMaterielMenu_0203d7e4::menuExecute()
+THUMB void MaterielMenu_StartAdventure::menuExecute()
 {
-    unkfunc_0203d9c0(&menuItem_, menuItem_.active_);
+    setupMenuItems(&menuItem_, menuItem_.active_);
 }
 
-THUMB void UnkMaterielMenu_0203d7e4::menuDraw()
+THUMB void MaterielMenu_StartAdventure::menuDraw()
 {
     int message[] = { (int)"@\x82\xda\x82\xa4\x82\xaf\x82\xf1\x82\xf0\x82\xb7\x82\xe9" };  // @ぼうけんをする
     char name[] = "@\x83\x5c\x83\x8d";  // @ソロ
@@ -45,7 +45,7 @@ THUMB void UnkMaterielMenu_0203d7e4::menuDraw()
     menuItem_.drawActive();
 }
 
-THUMB void UnkMaterielMenu_0203d7e4::menuUpdate()
+THUMB void MaterielMenu_StartAdventure::menuUpdate()
 {
     cursor_.setup(1, 2, 2);
     int result = MenuUpdate_Assist::menuSelect(menuItem_, cursor_);
@@ -69,8 +69,8 @@ THUMB void UnkMaterielMenu_0203d7e4::menuUpdate()
             status::Status::setFlagShopIndex(0x9e);
             status::Status::setFlagShopExec();
             dss::strcpy_s(name, sizeof(name), param::Event::getFileData(0x9e)->floor);
-            unkfunc_0203d9dc(0x9d);
-            unkfunc_0203d9dc(0x93);
+            removeBagItem(0x9d);
+            removeBagItem(0x93);
             cmn::g_extraMapLink.setExtraLinkTown(name, pos, 0x4000);
             status::g_BattleHistory.historyType_ = status::BattleHistory::RightNow;
             status::g_BattleHistory.setAdventureTime(0x1e3660);
@@ -82,13 +82,13 @@ THUMB void UnkMaterielMenu_0203d7e4::menuUpdate()
     }
 }
 
-THUMB void UnkMaterielMenu_0203d7e4::unkfunc_0203d9c0(menu::MenuItem* item, int active)
+THUMB void MaterielMenu_StartAdventure::setupMenuItems(menu::MenuItem* item, int active)
 {
     item->setMenuItem(s_menuItemData, 1, 2, 2);
     item->active_ = active;
 }
 
-THUMB void UnkMaterielMenu_0203d7e4::unkfunc_0203d9dc(int item)
+THUMB void MaterielMenu_StartAdventure::removeBagItem(int item)
 {
     int count = status::g_Party.haveItemSack_.getCount();
     for (int i = 0; i < count; i++) {

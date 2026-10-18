@@ -27,12 +27,12 @@ struct TownMenu_MAGIC_ROOT : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    void unkfunc_021797a8();
+    void restoreCharaItem();
     void getUseAction();
     void judgeMagic();
     void useMagicNoTarget();
-    void unkfunc_02179b0c();
-    int unkfunc_02179ba8();
+    void openWarpTownSelect();
+    int applyFieldMagicEffect();
 };
 
 extern TownMenu_MAGIC_ROOT gTownMenu_MAGIC_ROOT;

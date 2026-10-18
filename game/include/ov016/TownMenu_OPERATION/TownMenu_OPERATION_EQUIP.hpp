@@ -31,7 +31,7 @@ struct TownMenu_OPERATION_EQUIP : menu::MenuBase
     virtual void menuUpdate();
     void setItemTypeList();
     void setEquip();
-    int unkfunc_0216c6ac();
+    int removeEquipment();
 };
 
 extern TownMenu_OPERATION_EQUIP gTownMenu_OPERATION_EQUIP;

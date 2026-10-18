@@ -25,7 +25,7 @@ struct TownMenu_ITEM_USE : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    void unkfunc_02171e8c();
+    void initActiveChara();
     void itemUse();
     int checkUseCharaAlive(int target);
     int useHealItem();

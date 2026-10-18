@@ -12,7 +12,7 @@ THUMB TownShopMenu::~TownShopMenu()
 
 THUMB void TownShopMenu::menuSetup()
 {
-    unkfunc_02177250(0);
+    selectShopFrom(0);
 }
 
 THUMB void TownShopMenu::menuExecute()
@@ -30,7 +30,7 @@ THUMB void TownShopMenu::menuUpdate()
 {
 }
 
-THUMB int TownShopMenu::unkfunc_02177250(int index)
+THUMB int TownShopMenu::selectShopFrom(int index)
 {
     switch (index) {
         case 0:
@@ -74,9 +74,9 @@ THUMB int TownShopMenu::unkfunc_02177250(int index)
     return 0;
 }
 
-THUMB int TownShopMenu::unkfunc_02177300()
+THUMB int TownShopMenu::selectNextShop()
 {
-    if (unkfunc_02177250(unk_1c + 1)) {
+    if (selectShopFrom(unk_1c + 1)) {
         return 1;
     }
     return 0;

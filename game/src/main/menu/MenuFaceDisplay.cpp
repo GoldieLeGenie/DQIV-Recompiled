@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "main/menu/UnkMenuFaceDisplay.hpp"
+#include "main/menu/MenuFaceDisplay.hpp"
 #include "main/dss/UnkDisplay.hpp"
 #include "main/menu/UnkMenuIconDisplay.hpp"
 #include "nitro/g2.hpp"
@@ -17,8 +17,8 @@ THUMB void UnkMenuFaceDisplay::setup(int id)
 {
     id_ = id;
     mode_ = 1;
-    unkfunc_0204f1ac();
-    unkfunc_0204f260(2);
+    reset();
+    setType(2);
 }
 
 THUMB void UnkMenuFaceDisplay::update(UnkOamBuffer* main, UnkOamBuffer* sub)
@@ -34,7 +34,7 @@ THUMB void UnkMenuFaceDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     if (mode_ != 1) {
         enable_ = 1;
     }
-    if (!unkfunc_0204f214(main, sub) || y_ < 192) {
+    if (!isDrawable(main, sub) || y_ < 192) {
         return;
     }
     int y = y_ % 192;
@@ -90,8 +90,8 @@ THUMB void UnkMenuFaceDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     if (mode_ == 11) {
         int frame = animFrame_ / 2;
         int part = s_part[frame];
-        unkfunc_0204f4a4(sub, s_moveX[frame], -s_moveY[frame], 8);
-        unkfunc_0204f4a4(sub, 0, 0, part);
+        drawPart(sub, s_moveX[frame], -s_moveY[frame], 8);
+        drawPart(sub, 0, 0, part);
         animFrame_++;
         if (s_part[animFrame_ / 2] == -1) {
             animFrame_ = 0;
@@ -99,7 +99,7 @@ THUMB void UnkMenuFaceDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     }
 }
 
-THUMB void UnkMenuFaceDisplay::unkfunc_0204f4a4(UnkOamBuffer* oam, int x, int y, int part)
+THUMB void UnkMenuFaceDisplay::drawPart(UnkOamBuffer* oam, int x, int y, int part)
 {
     int chr;
     x += x_;
@@ -140,45 +140,45 @@ THUMB void UnkMenuFaceDisplay::unkfunc_0204f4a4(UnkOamBuffer* oam, int x, int y,
                   GX_OAM_COLORMODE_256, chr, 0, 0);
 }
 
-THUMB void UnkMenuFaceDisplay::unkfunc_0204f53c(int priority)
+THUMB void UnkMenuFaceDisplay::setPriority(int priority)
 {
     priority_ = priority;
 }
 
-THUMB void UnkMenuFaceDisplay::unkfunc_0204f540(int index)
+THUMB void UnkMenuFaceDisplay::loadFace(int index)
 {
-    unkfunc_0204f570(0xf5000000, index);
+    loadIcon(0xf5000000, index);
     mode_ = 1;
 }
 
-THUMB void UnkMenuFaceDisplay::unkfunc_0204f554()
+THUMB void UnkMenuFaceDisplay::loadLoadingAnim()
 {
-    unkfunc_0204f570(0xf9000000, 1);
+    loadIcon(0xf9000000, 1);
     mode_ = 11;
 }
 
-THUMB void UnkMenuFaceDisplay::unkfunc_0204f568()
+THUMB void UnkMenuFaceDisplay::resetAnim()
 {
     animFrame_ = 0;
 }
 
-THUMB void UnkMenuFaceDisplay::unkfunc_0204f570(int type, int index)
+THUMB void UnkMenuFaceDisplay::loadIcon(int type, int index)
 {
     if (index == -1) {
-        unkfunc_0204f264(0);
+        setEnable(0);
         return;
     }
-    if (unkfunc_0204f284(index)) {
+    if (isKey(index)) {
         return;
     }
-    unkfunc_0204f280(index);
-    char* src = (char*)unkfunc_0205182c(type, index);
+    setKey(index);
+    char* src = (char*)getMenuIconData(type, index);
     int dst = 0x2280;
     for (int i = 0; i < 6; i++) {
         unkfunc_020827f0(0x13, dst, src, 0x180);
         dst += 0x400;
         src += 0x180;
     }
-    unkfunc_020813e0(0)->loadColors(0, 0, unkfunc_0205182c(type, 9999), 0xa0);
+    unkfunc_020813e0(0)->loadColors(0, 0, getMenuIconData(type, 9999), 0xa0);
     priority_ = 1;
 }

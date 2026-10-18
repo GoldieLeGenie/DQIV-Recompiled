@@ -72,7 +72,7 @@ THUMB void TownMenu_OPERATION_TACTICS::menuUpdate()
             gTownMenu_OPERATION_ROOT.open();
         } else if (mode_ == 1) {
             mode_ = 0;
-            unkfunc_0216c9bc();
+            loadActiveTactics();
             redraw_ = 1;
         }
     }
@@ -85,7 +85,7 @@ THUMB void TownMenu_OPERATION_TACTICS::menuUpdate()
                 mode_ = 0;
             } else {
                 mode_ = 1;
-                unkfunc_0216c9bc();
+                loadActiveTactics();
             }
         }
         activeChara_ = charaItem_.active_;
@@ -95,7 +95,7 @@ THUMB void TownMenu_OPERATION_TACTICS::menuUpdate()
     if (result != 0) {
         if (result == 2) {
             mode_ = !mode_;
-            unkfunc_0216c9f8();
+            applyTactics();
         }
         activeTactics_ = tacticsItem_.active_;
         redraw_ = 1;
@@ -114,7 +114,7 @@ THUMB void TownMenu_OPERATION_TACTICS::menuUpdate()
     }
 }
 
-THUMB void TownMenu_OPERATION_TACTICS::unkfunc_0216c9bc()
+THUMB void TownMenu_OPERATION_TACTICS::loadActiveTactics()
 {
     if (activeChara_ == charaCount_) {
         activeTactics_ = status::g_Party.getPlayerStatus(chara_[0])->haveStatusInfo_.battleCommand_;
@@ -123,7 +123,7 @@ THUMB void TownMenu_OPERATION_TACTICS::unkfunc_0216c9bc()
     }
 }
 
-THUMB void TownMenu_OPERATION_TACTICS::unkfunc_0216c9f8()
+THUMB void TownMenu_OPERATION_TACTICS::applyTactics()
 {
     CommandType command[6] = {
         COMMAND_GANGANIKOUZE,

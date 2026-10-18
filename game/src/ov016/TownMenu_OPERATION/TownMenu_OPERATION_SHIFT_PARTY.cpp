@@ -71,7 +71,7 @@ THUMB void TownMenu_OPERATION_SHIFT_PARTY::menuUpdate()
 {
     status::g_Party.setMemberShiftMode();
     if (enableEnter_ == 1) {
-        unkfunc_0216cdd4();
+        applyNewOrder();
         return;
     }
     if (data_020ed1bc.isOpen()) {
@@ -107,12 +107,12 @@ THUMB void TownMenu_OPERATION_SHIFT_PARTY::menuUpdate()
         return;
     }
     if (result == 2) {
-        unkfunc_0216ccbc();
+        selectMember();
     }
     redraw_ = 1;
 }
 
-THUMB void TownMenu_OPERATION_SHIFT_PARTY::unkfunc_0216ccbc()
+THUMB void TownMenu_OPERATION_SHIFT_PARTY::selectMember()
 {
     status::g_Party.setMemberShiftMode();
     int found = 0;
@@ -162,7 +162,7 @@ THUMB void TownMenu_OPERATION_SHIFT_PARTY::unkfunc_0216ccbc()
     }
 }
 
-THUMB void TownMenu_OPERATION_SHIFT_PARTY::unkfunc_0216cdd4()
+THUMB void TownMenu_OPERATION_SHIFT_PARTY::applyNewOrder()
 {
     status::g_Party.setMemberShiftMode();
     for (int i = 0; i < 4; i++) {

@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 #include "main/text/TextAPI.hpp"
 
 struct UnkMenuTextDisplay;
@@ -76,46 +76,46 @@ struct MessageWindow : UnkMenuDisplay {
     virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
-    void unkfunc_0204d3a4(const char* name);
-    void unkfunc_0204d3c8(const char* text);
-    void unkfunc_0204d3d8(const char* text);
-    void unkfunc_0204d578(int type);
-    void unkfunc_0204d5b4();
-    void unkfunc_0204d70c();
-    void unkfunc_0204d7c4();
-    void unkfunc_0204d818();
-    void unkfunc_0204d81c();
-    void unkfunc_0204da24();
-    void unkfunc_0204dab4();
-    void unkfunc_0204db14();
-    void unkfunc_0204dc10();
-    void unkfunc_0204dc34();
-    void unkfunc_0204dcc0();
-    UnkMenuTextDisplay* unkfunc_0204dcf0();
-    UnkMenuTextDisplay* unkfunc_0204dd38();
-    UnkMenuTextDisplay* unkfunc_0204dd3c();
-    void unkfunc_0204dd60();
-    int unkfunc_0204dda4(int c);
-    int unkfunc_0204ddb0(int c);
-    int unkfunc_0204ddc4(int c);
-    void unkfunc_0204ddf4(UnkTextIterator* it);
-    void unkfunc_0204de2c(int type, const char* name, const char* text);
-    void unkfunc_0204de50(const char* text);
-    void unkfunc_0204de6c();
-    void unkfunc_0204de7c();
-    void unkfunc_0204de8c(int code);
-    void unkfunc_0204def4();
-    void unkfunc_0204df1c(const char* name);
-    void unkfunc_0204df48();
-    const char* unkfunc_0204df94();
-    void unkfunc_0204dfc0();
-    int unkfunc_0204dfd8();
-    int unkfunc_0204e004();
-    int unkfunc_0204e018();
-    bool unkfunc_0204e02c();
-    void unkfunc_0204e040();
-    void unkfunc_0204e050();
-    void unkfunc_0204e064(int flag);
+    void setName(const char* name);
+    void setText(const char* text);
+    void appendText(const char* text);
+    void setWindowType(int type);
+    void startWindow();
+    void updateNameFrame();
+    void executeState();
+    void stateIdle();
+    void stateNextLine();
+    void statePrint();
+    void stateScroll();
+    void stateWaitKey();
+    void stateWaitProg();
+    void stateFinish();
+    void initLines();
+    UnkMenuTextDisplay* allocLine();
+    UnkMenuTextDisplay* getFirstLine();
+    UnkMenuTextDisplay* getLastLine();
+    void releaseFirstLine();
+    int isEndChar(int c);
+    int isNewlineChar(int c);
+    int isControlCode(int c);
+    void skipNewlines(UnkTextIterator* it);
+    void openWindow(int type, const char* name, const char* text);
+    void addText(const char* text);
+    void addWaitKey();
+    void addWaitProg();
+    void addControlCode(int code);
+    void clearNames();
+    void addName(const char* name);
+    void nextName();
+    const char* getCurrentName();
+    void restart();
+    int isWaitTrigger();
+    int isFinish();
+    int isEnd();
+    bool isWaitProg();
+    void clearWaitTriggerSE();
+    void clearWaitTriggerNoSE();
+    void setWaitProg(int flag);
 
     UnkTextIterator* getIterator() { return &iterator_; }
 };

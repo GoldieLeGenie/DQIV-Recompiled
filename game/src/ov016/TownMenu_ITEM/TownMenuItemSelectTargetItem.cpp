@@ -96,7 +96,7 @@ THUMB void TownMenuItemSelectTargetItem::menuUpdate()
     if (result != 0) {
         startPage_ = navigator->getPageNo();
         TownMenuPlayerControl::getSingleton()->setTargetItemPage(startPage_);
-        if (unkfunc_021734f4()) {
+        if (isEmptySlotSelected()) {
             TownMenuPlayerControl::getSingleton()->targetItem_ = -1;
         } else {
             TownMenuPlayerControl::getSingleton()->setTargetItem(menuItem_.active_);
@@ -130,7 +130,7 @@ THUMB void TownMenuItemSelectTargetItem::menuUpdate()
         menuItem_.active_ = active;
         startPage_ = navigator->getPageNo();
         TownMenuPlayerControl::getSingleton()->setTargetItemPage(startPage_);
-        if (unkfunc_021734f4()) {
+        if (isEmptySlotSelected()) {
             TownMenuPlayerControl::getSingleton()->targetItem_ = -1;
         } else {
             TownMenuPlayerControl::getSingleton()->setTargetItem(menuItem_.active_);
@@ -139,7 +139,7 @@ THUMB void TownMenuItemSelectTargetItem::menuUpdate()
     }
 }
 
-THUMB int TownMenuItemSelectTargetItem::unkfunc_021734f4()
+THUMB int TownMenuItemSelectTargetItem::isEmptySlotSelected()
 {
     int targetChara = TownMenuPlayerControl::getSingleton()->targetChara_;
     if (TownMenuPlayerControl::getSingleton()->targetFukuro_ == 0 && status::PlayerItemInfo::getItemMaxCount(targetChara) != 12 &&

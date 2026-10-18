@@ -23,7 +23,7 @@ struct TownMenu_ITEM_CHECKTARGET : menu::MenuBase
     void changeItem(unsigned int flag);
     void setTargetItem();
     int isCurse();
-    void unkfunc_02172bdc();
+    void returnToItemList();
 };
 
 extern TownMenu_ITEM_CHECKTARGET gTownMenu_ITEM_CHECKTARGET;

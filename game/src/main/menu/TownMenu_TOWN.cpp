@@ -37,7 +37,7 @@ static MENUITEM_DATA s_menuItemData[] = {
 
 ARM void TownMenu_TOWN::menuSetup()
 {
-    unkfunc_020273a8(0, 0, 0, 0);
+    setIconVisibility(0, 0, 0, 0);
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH, menu::MenuItem::CURSORTYPE_NONE);
     menuItem_.enableSE_ = 0;
     unk_80 = -1;
@@ -142,7 +142,7 @@ ARM void TownMenu_TOWN::menuUpdate()
     }
 }
 
-ARM void TownMenu_TOWN::unkfunc_020273a8(int camera, int map, int shop, int menuIcon)
+ARM void TownMenu_TOWN::setIconVisibility(int camera, int map, int shop, int menuIcon)
 {
     unk_84 = camera;
     unk_88 = shop;

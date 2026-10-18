@@ -213,7 +213,7 @@ THUMB void UnkMaterielMenu_02189a80::unkfunc_02189d70()
         gMaterielMenu_NameEdit.open();
         gMaterielMenu_NameEdit.returnMenu_ = MaterielMenu_NameEdit::RETURN_MENU_SURECHIGAI_MESSAGE;
         gMaterielMenu_NameEdit.clearName();
-        gMaterielMenu_NameEdit.unkfunc_0203b004();
+        gMaterielMenu_NameEdit.setMessageMode();
         if (unk_24 == 1) {
             gMaterielMenu_NameEdit.unk_98 = 1;
         }

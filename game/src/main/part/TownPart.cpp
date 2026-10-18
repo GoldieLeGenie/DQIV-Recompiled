@@ -14,7 +14,7 @@
 #include "nitro/fs.hpp"
 #include "ov000/town/TownSystem.hpp"
 #include "ov000/town/TownWindowSystem.hpp"
-#include "main/menu/UnkMenuOverlay.hpp"
+#include "main/menu/MaterielMenuOverlay.hpp"
 
 TownPart g_TownPart;
 static int s_reloadOverlay;

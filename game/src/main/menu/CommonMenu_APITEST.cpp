@@ -5,7 +5,7 @@
 #include "main/menu/MenuDataCommon.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/menu/TownMenu_TOWN.hpp"
-#include "main/menu/UnkMenuBg.hpp"
+#include "main/menu/MenuBg.hpp"
 #include "main/menu/UnkMenuDisplays.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/dss/DssUtils.hpp"
@@ -21,17 +21,17 @@ THUMB void CommonMenu_APITEST::menuSetup()
     title_ = 0;
     unk_20 = 0;
     wait_ = 0;
-    data_020f530c.face_.unkfunc_0204f568();
+    data_020f530c.face_.resetAnim();
 }
 
 THUMB void CommonMenu_APITEST::menuExecute()
 {
     UnkMenuFaceDisplay* face = &data_020f530c.face_;
     face->mode_ = 11;
-    face->unkfunc_0204f554();
-    face->unkfunc_0204f53c(0);
-    face->unkfunc_0204f270(0xe0, 0x16a);
-    face->unkfunc_0204f264(1);
+    face->loadLoadingAnim();
+    face->setPriority(0);
+    face->setPosition(0xe0, 0x16a);
+    face->setEnable(1);
     if (data_020ed1bc.isOpen()) {
         if (data_020ed1bc.isMessageWAITPROG() && wait_ == 0) {
             Sound::sePlay(0x132);
@@ -110,82 +110,82 @@ THUMB void CommonMenu_APITEST::menuDraw()
 {
     switch (page_) {
     case 0:
-        unkfunc_02025f70();
+        drawCursorTestPage();
         break;
     case 1:
-        unkfunc_02026020();
+        drawWindowTestPage();
         break;
     case 2:
-        unkfunc_02026050();
+        drawIconTestPage();
         break;
     case 3:
-        unkfunc_020260fc();
+        drawCircleTestPage();
         break;
     case 4:
-        unkfunc_0202612c();
+        drawPlateFrameTestPage();
         break;
     case 5:
-        unkfunc_0202615c();
+        drawSystemFontTestPage();
         break;
     case 6:
-        unkfunc_0202618c();
+        drawAutoConnectTestPage();
         break;
     case 7:
-        unkfunc_020261bc();
+        drawFaceTestPage();
         break;
     case 8:
-        unkfunc_020261f0();
+        drawTextTestPage();
         break;
     case 9:
-        unkfunc_0202626c();
+        drawBattleBgTestPage();
         break;
     case 10:
-        unkfunc_020262a0();
+        drawMeterTestPage();
         break;
     case 11:
-        unkfunc_02026330();
+        drawStringPlateTestPage();
         break;
     case 12:
-        unkfunc_02026380();
+        drawNumberPlateTestPage();
         break;
     case 13:
-        unkfunc_020263c8();
+        drawIconTestPage2();
         break;
     case 14:
-        unkfunc_02026408();
+        drawIconTestPage3();
         break;
     case 15:
-        unkfunc_02026448();
+        drawIconTestPage4();
         break;
     case 16:
-        unkfunc_0202648c();
+        drawIconTestPage5();
         break;
     case 17:
-        unkfunc_020264d0();
+        drawStackedWindowsTestPage();
         break;
     case 18:
-        unkfunc_02026534();
+        drawConnectLineTestPage();
         break;
     case 19:
-        unkfunc_02026570();
+        drawTextConcatTestPage();
         break;
     case 20:
-        unkfunc_020265d8();
+        drawWidthConvertTestPage();
         break;
     case 21:
-        unkfunc_02026668();
+        drawWidthConvertTestPage2();
         break;
     case 22:
-        unkfunc_020266a0();
+        drawWidthDisplayTestPage();
         break;
     case 23:
-        unkfunc_02026714();
+        drawNamePlateTestPage();
         break;
     case 24:
-        unkfunc_02026760();
+        drawNewFrameTestPage();
         break;
     case 25:
-        unkfunc_02026790();
+        drawFourFacesTestPage();
         break;
     }
     UnkMenuParts parts[] = {
@@ -200,7 +200,7 @@ THUMB void CommonMenu_APITEST::menuDraw()
     unkfunc_02025e4c();
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02025f70()
+THUMB void CommonMenu_APITEST::drawCursorTestPage()
 {
     title_ = "@\x83J\x81[\x83\x5c\x83\x8b\x83" "e\x83X\x83g";  // @カーソルテスト
     UnkMenuParts parts[] = {
@@ -231,7 +231,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02025f70()
     drawMenuParts(parts, param, 0, 0, 1);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026020()
+THUMB void CommonMenu_APITEST::drawWindowTestPage()
 {
     title_ = "@\x83" "E\x83" "B\x83\x93\x83h\x83" "E\x82\xcc\x83" "e\x83X\x83g";  // @ウィンドウのテスト
     UnkMenuParts parts[] = {
@@ -243,7 +243,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026020()
     drawMenuPartsPlain(parts, NULL);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026050()
+THUMB void CommonMenu_APITEST::drawIconTestPage()
 {
     static int s_iconPage;
     title_ = "@\x83" "A\x83" "C\x83R\x83\x93\x82\xcc\x83" "e\x83X\x83g";  // @アイコンのテスト
@@ -297,10 +297,10 @@ THUMB void CommonMenu_APITEST::unkfunc_02026050()
         }
         drawMenuPartsPlain(parts, param);
     }
-    unkfunc_02050494();
+    requestMenuBgTransfer();
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_020260fc()
+THUMB void CommonMenu_APITEST::drawCircleTestPage()
 {
     title_ = "@\x89~\x82\xf0\x95`\x89\xe6\x82\xb7\x82\xe9\x83" "e\x83X\x83g(\x96v)";  // @円を描画するテスト(没)
     UnkMenuParts parts[] = {
@@ -309,7 +309,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020260fc()
     drawMenuPartsPlain(parts, NULL);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_0202612c()
+THUMB void CommonMenu_APITEST::drawPlateFrameTestPage()
 {
     title_ = "@\x94w\x8ci\x94\xc2\x83" "e\x83X\x83g\x81" "A\x83t\x83\x8c\x81[\x83\x80\x83" "e\x83X\x83g";  // @背景板テスト、フレームテスト
     UnkMenuParts parts[] = {
@@ -322,7 +322,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202612c()
     drawMenuPartsPlain(parts, NULL);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_0202615c()
+THUMB void CommonMenu_APITEST::drawSystemFontTestPage()
 {
     title_ = "@\x83V\x83X\x83" "e\x83\x80\x83t\x83H\x83\x93\x83g\x83" "e\x83X\x83g";  // @システムフォントテスト
     UnkMenuParts parts[] = {
@@ -339,7 +339,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202615c()
     drawMenuPartsPlain(parts, NULL);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_0202618c()
+THUMB void CommonMenu_APITEST::drawAutoConnectTestPage()
 {
     title_ = "@\x8e\xa9\x93\xae\x90\xda\x91\xb1\x83" "e\x83X\x83g";  // @自動接続テスト
     UnkMenuParts parts[] = {
@@ -356,7 +356,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202618c()
     drawMenuPartsPlain(parts, NULL);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_020261bc()
+THUMB void CommonMenu_APITEST::drawFaceTestPage()
 {
     title_ = "@\x8a\xe7\x95\x5c\x8e\xa6\x83" "e\x83X\x83g";  // @顔表示テスト
     UnkMenuParts parts[] = {
@@ -368,7 +368,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020261bc()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_020261f0()
+THUMB void CommonMenu_APITEST::drawTextTestPage()
 {
     title_ = "@\x95\xb6\x8e\x9a\x95\x5c\x8e\xa6\x83" "e\x83X\x83g";  // @文字表示テスト
     UnkMenuParts parts[] = {
@@ -414,7 +414,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020261f0()
     drawMenuPartsPlain(parts2, NULL);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_0202626c()
+THUMB void CommonMenu_APITEST::drawBattleBgTestPage()
 {
     title_ = "@\x90\xed\x93\xac\x94w\x8ci";  // @戦闘背景
     UnkMenuParts parts[] = {
@@ -426,7 +426,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202626c()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_020262a0()
+THUMB void CommonMenu_APITEST::drawMeterTestPage()
 {
     static int s_meter0;
     static int s_meter1 = 10;
@@ -456,7 +456,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020262a0()
     s_meter3 = (s_meter3 < 100) ? s_meter3 + 1 : 0;
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026330()
+THUMB void CommonMenu_APITEST::drawStringPlateTestPage()
 {
     title_ = "@\x95\xb6\x8e\x9a\x97\xf1\x94\xc2";  // @文字列板
     UnkMenuParts parts[] = {
@@ -470,7 +470,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026330()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026380()
+THUMB void CommonMenu_APITEST::drawNumberPlateTestPage()
 {
     title_ = "@\x90\x94\x8e\x9a\x97\xf1\x94\xc2";  // @数字列板
     UnkMenuParts parts[] = {
@@ -484,7 +484,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026380()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_020263c8()
+THUMB void CommonMenu_APITEST::drawIconTestPage2()
 {
     title_ = "@\x83" "A\x83" "C\x83R\x83\x93\x82\xcc\x83" "e\x83X\x83g";  // @アイコンのテスト
     UnkMenuParts parts[] = {
@@ -509,7 +509,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020263c8()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026408()
+THUMB void CommonMenu_APITEST::drawIconTestPage3()
 {
     title_ = "@\x83" "A\x83" "C\x83R\x83\x93\x82\xcc\x83" "e\x83X\x83g";  // @アイコンのテスト
     UnkMenuParts parts[] = {
@@ -534,7 +534,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026408()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026448()
+THUMB void CommonMenu_APITEST::drawIconTestPage4()
 {
     title_ = "@\x83" "A\x83" "C\x83R\x83\x93\x82\xcc\x83" "e\x83X\x83g";  // @アイコンのテスト
     UnkMenuParts parts[] = {
@@ -559,7 +559,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026448()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_0202648c()
+THUMB void CommonMenu_APITEST::drawIconTestPage5()
 {
     title_ = "@\x83" "A\x83" "C\x83R\x83\x93\x82\xcc\x83" "e\x83X\x83g";  // @アイコンのテスト
     UnkMenuParts parts[] = {
@@ -584,7 +584,7 @@ THUMB void CommonMenu_APITEST::unkfunc_0202648c()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_020264d0()
+THUMB void CommonMenu_APITEST::drawStackedWindowsTestPage()
 {
     title_ = "@\x81H\x81H";  // @？？
     int pos[5][2] = {
@@ -595,16 +595,16 @@ THUMB void CommonMenu_APITEST::unkfunc_020264d0()
         { 0x00, 0xac },
     };
     int h[5] = { 0x40, 0x30, 0x64, 0x50, 0x10 };
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     for (int i = 0; i < 5; i++) {
-        unkfunc_020266e0(pos[i][0], pos[i][1], 0x100, h[i]);
+        drawTestWindow(pos[i][0], pos[i][1], 0x100, h[i]);
     }
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026534()
+THUMB void CommonMenu_APITEST::drawConnectLineTestPage()
 {
     title_ = "@\x90\xda\x91\xb1\x90\xfc";  // @接続線
-    unkfunc_020266e0(0, 0, 0x100, 0xc0);
+    drawTestWindow(0, 0, 0x100, 0xc0);
     UnkMenuParts parts[] = {
         { 0x06, 0x00, (short)0xf000, 12, 0x08, 0x20, 0xf0, 0x08 },
         { 0x06, 0x00, (short)0xf000, 12, 0x00, 0x20, 0x08, 0x08 },
@@ -624,7 +624,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026534()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026570()
+THUMB void CommonMenu_APITEST::drawTextConcatTestPage()
 {
     title_ = "@\x95\xb6\x8e\x9a\x98" "A\x8c\x8b\x83" "e\x83X\x83g";  // @文字連結テスト
     UnkMenuParts parts[] = {
@@ -679,7 +679,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026570()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_020265d8()
+THUMB void CommonMenu_APITEST::drawWidthConvertTestPage()
 {
     const char* text = "0123456789abcdefg";
     char text1[0x80];
@@ -705,7 +705,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020265d8()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026668()
+THUMB void CommonMenu_APITEST::drawWidthConvertTestPage2()
 {
     title_ = "@\x94\xbc\x8ap\x91S\x8ap\x95\xcf\x8a\xb7\x83" "e\x83X\x83g";  // @半角全角変換テスト
     const char* text = "@\x8c\xbe";  // @言
@@ -718,7 +718,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026668()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_020266a0()
+THUMB void CommonMenu_APITEST::drawWidthDisplayTestPage()
 {
     const char* text1 = "@\x82\xa0\x82\xa2\x82\xa4\x82\xa6\x82\xa8\x8a\xbf\x8e\x9a";  // @あいうえお漢字
     const char* text2 = "@Abcdefghijk";  // @Abcdefghijk
@@ -736,7 +736,7 @@ THUMB void CommonMenu_APITEST::unkfunc_020266a0()
     drawMenuPartsPlain(parts, param);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_020266e0(int x, int y, int w, int h)
+THUMB void CommonMenu_APITEST::drawTestWindow(int x, int y, int w, int h)
 {
     UnkMenuParts parts[] = {
         { 0x01, 0x00, (short)0xf000, 0, 0x00, 0x00, 0x00, 0x00 },
@@ -749,18 +749,18 @@ THUMB void CommonMenu_APITEST::unkfunc_020266e0(int x, int y, int w, int h)
     drawMenuPartsPlain(parts, NULL);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026714()
+THUMB void CommonMenu_APITEST::drawNamePlateTestPage()
 {
     title_ = "@\x83l\x81[\x83\x80\x83v\x83\x8c\x81[\x83g\x83" "e\x83X\x83g";  // @ネームプレートテスト
     char name[0x100];
     for (int i = 0; i < 4; i++) {
         TextAPI::getMonsterNamePlateTextImitation(name, i + 8, i * 2 + 1);
-        unkfunc_02050e20(i, name);
-        unkfunc_02050e44(i, i * 0x20 - 0x20, i * 8 + 0x20, 0, i & 1);
+        setNamePlateText(i, name);
+        showNamePlate(i, i * 0x20 - 0x20, i * 8 + 0x20, 0, i & 1);
     }
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026760()
+THUMB void CommonMenu_APITEST::drawNewFrameTestPage()
 {
     title_ = "@\x90V\x83t\x83\x8c\x81[\x83\x80\x83" "e\x83X\x83g";  // @新フレームテスト
     UnkMenuParts parts[] = {
@@ -779,7 +779,7 @@ THUMB void CommonMenu_APITEST::unkfunc_02026760()
     drawMenuPartsPlain(parts, NULL);
 }
 
-THUMB void CommonMenu_APITEST::unkfunc_02026790()
+THUMB void CommonMenu_APITEST::drawFourFacesTestPage()
 {
     title_ = "@\x8a\xe7" "4\x95\x5c\x8e\xa6\x83" "e\x83X\x83g";  // @顔4表示テスト
     UnkMenuParts parts[] = {

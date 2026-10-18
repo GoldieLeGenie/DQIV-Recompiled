@@ -1,9 +1,9 @@
-#include "main/menu/UnkMenuOverlay.hpp"
+#include "main/menu/MaterielMenuOverlay.hpp"
 #include "main/dss/DssUtils.hpp"
 
 UnkOverlaySlot data_020efc58;
 
-ARM void unkfunc_02039460(int menu)
+ARM void loadMaterielMenuOverlay(int menu)
 {
     switch (menu) {
         case 0:

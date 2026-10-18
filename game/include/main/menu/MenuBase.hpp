@@ -110,10 +110,10 @@ struct MenuItem {
     int check20_PAD_CancelButton();
     int check30_PAD_Noactive();
     int check40_PAD_OkButton();
-    int unkfunc_02051d40();
-    int unkfunc_02051dcc();
-    int unkfunc_02051e5c();
-    int unkfunc_02051ed0();
+    int check50_PAD_UP();
+    int check60_PAD_DOWN();
+    int check70_PAD_LEFT();
+    int check80_PAD_RIGHT();
     int check50_NEW_PAD_UP();
     int check60_NEW_PAD_DOWN();
     int check70_NEW_PAD_LEFT();
@@ -149,7 +149,7 @@ struct MENUITEM_DATA {
     short h;        /* 0x8 */
 };
 
-void unkfunc_020518f8(MENUITEM_DATA* data, int x, int y);     // sets data->x/y
+void setMenuItemPosition(MENUITEM_DATA* data, int x, int y);     // sets data->x/y
 
 extern "C" {
     extern int g_menuTextColors[];      /* draw flags passed as the last argument of drawMenuParts */

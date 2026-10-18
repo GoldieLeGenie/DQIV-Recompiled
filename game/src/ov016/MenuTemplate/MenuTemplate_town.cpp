@@ -251,7 +251,7 @@ THUMB void MenuTemplate_town::townMenuTacticsSelectChara(menu::MenuItem* menuite
     };
     if (x != -1 && y != -1) {
         for (int i = 0; i < 10; i++) {
-            unkfunc_020518f8(&menu[i], x, y);
+            setMenuItemPosition(&menu[i], x, y);
         }
     }
     menuitem->setMenuItem(menu, 5, 2, max);
@@ -276,7 +276,7 @@ THUMB void MenuTemplate_town::townMenuTacticsSelectHalfChara(menu::MenuItem* men
     };
     if (x != -1 && y != -1) {
         for (int i = 0; i < 10; i++) {
-            unkfunc_020518f8(&menu[i], x, y);
+            setMenuItemPosition(&menu[i], x, y);
         }
     }
     menuitem->setMenuItem(menu, 5, 1, max);
@@ -379,7 +379,7 @@ THUMB void MenuTemplate_town::townMenuPageRightArrow(menu::MenuItem* menuitem, i
         {1, 2, 0xe6, 0x86, 0x14, 0x14},
         {-1, -1, 0, 0, 0, 0},
     };
-    unkfunc_020518f8(menu, x, y);
+    setMenuItemPosition(menu, x, y);
     menuitem->setMenuItem(menu, 1, 1, 1);
 }
 

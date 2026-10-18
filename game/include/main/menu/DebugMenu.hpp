@@ -15,19 +15,19 @@ struct DebugMenuItem {
     void (*onChange_)();                        // 0x1C
     void (*onExec_)();                          // 0x20
 
-    void unkfunc_02058568(int delta);
-    void unkfunc_020585c0();
-    void unkfunc_020585d8(DebugMenu* menu, int x, int y);
-    void unkfunc_02058640(DebugMenu* menu, int x, int y);
+    void addValue(int delta);
+    void execute();
+    void drawLine(DebugMenu* menu, int x, int y);
+    void drawValueName(DebugMenu* menu, int x, int y);
 };
 
 struct DebugMenuPad {
     int unk_00;                                 // 0x00
     int unk_04;                                 // 0x04
 
-    int unkfunc_020582e0();
-    int unkfunc_020582f8();
-    int unkfunc_02058310();
+    int isRightRepeat();
+    int isLeftRepeat();
+    int isAPressed();
 };
 
 struct DebugMenu : UnkGlobalPart {
@@ -51,9 +51,9 @@ struct DebugMenu : UnkGlobalPart {
     virtual int isEnd();
     void unkfunc_020583a8(int count);
     void print(int x, int y, const char* fmt, ...);
-    static void unkfunc_02058430(const char* date);
-    void unkfunc_02058448();
-    void unkfunc_020584c4();
+    static void setBuildDate(const char* date);
+    void updateItems();
+    void drawItems();
 };
 
 extern DebugMenu data_0210bc40;

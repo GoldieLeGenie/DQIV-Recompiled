@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 
 // Display object drawing nothing (data_020f530c.dummy_)
 struct UnkMenuDummyDisplay : UnkMenuDisplay {

@@ -3,9 +3,9 @@
 #include "GameInfo.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/UiMsg.hpp"
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 #include "main/menu/MessageWindow.hpp"
-#include "main/menu/UnkMenuFaceDisplay.hpp"
+#include "main/menu/MenuFaceDisplay.hpp"
 
 struct TownMenu_MESSAGE : menu::MenuBase
 {

@@ -1,10 +1,10 @@
-#include "main/menu/UnkMenuFrameDisplay.hpp"
+#include "main/menu/MenuFrameDisplay.hpp"
 #include "nitro/g2.hpp"
 
 THUMB UnkMenuFrameDisplay::UnkMenuFrameDisplay()
 {
     requestCount_ = 0;
-    unkfunc_0204f260(2);
+    setType(2);
 }
 
 THUMB void UnkMenuFrameDisplay::setup(int id)
@@ -24,30 +24,30 @@ THUMB void UnkMenuFrameDisplay::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
 
 THUMB void UnkMenuFrameDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
 {
-    unkfunc_0204f264(1);
-    if (unkfunc_0204f214(main, sub)) {
+    setEnable(1);
+    if (isDrawable(main, sub)) {
         UnkMenuFrameRequest* request = requests_;
         for (int i = 0; i < requestCount_; i++) {
-            request->unkfunc_0204edb4(main, sub);
+            request->draw(main, sub);
             request++;
         }
         requestCount_ = 0;
     }
 }
 
-THUMB void UnkMenuFrameDisplay::unkfunc_0204ed54(int x, int y, int w, int h, int priority, int palette)
+THUMB void UnkMenuFrameDisplay::addFrame(int x, int y, int w, int h, int priority, int palette)
 {
-    unkfunc_0204ee30(x, y, w, h, priority, palette, 0, 1);
+    addFrameSprites(x, y, w, h, priority, palette, 0, 1);
 }
 
-THUMB void UnkMenuFrameDisplay::unkfunc_0204ed74(int x, int y, int w, int h, int priority, int palette)
+THUMB void UnkMenuFrameDisplay::addRoundedFrame(int x, int y, int w, int h, int priority, int palette)
 {
-    unkfunc_0204ee30(x, y, w, h, priority, palette, 1, 1);
+    addFrameSprites(x, y, w, h, priority, palette, 1, 1);
 }
 
-THUMB void UnkMenuFrameDisplay::unkfunc_0204ed94(int x, int y, int w, int h, int priority, int palette)
+THUMB void UnkMenuFrameDisplay::addOpaqueFrame(int x, int y, int w, int h, int priority, int palette)
 {
-    unkfunc_0204ee30(x, y, w, h, priority, palette, 0, 0);
+    addFrameSprites(x, y, w, h, priority, palette, 0, 0);
 }
 
 // OAM attribute writer used by the frame requests (attr01 terms in mode, y, shape, x, effect order)
@@ -60,7 +60,7 @@ inline void G2_SetOBJAttrFrame(GXOamAttr* oam, int x, int y, int priority, int m
 }
 
 #pragma opt_propagation off
-THUMB void UnkMenuFrameRequest::unkfunc_0204edb4(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB void UnkMenuFrameRequest::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
 {
     UnkOamBuffer* oam = NULL;
     int screen = y_ / 192;

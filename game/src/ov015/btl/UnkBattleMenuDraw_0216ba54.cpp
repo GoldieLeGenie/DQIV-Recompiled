@@ -510,7 +510,7 @@ THUMB void unkfunc_0216c468(int chara)
 THUMB void unkfunc_0216c524(int* actions, int count, int chara)
 {
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_;
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     TextAPI::setMACRO0(1, 0x50000000, info->haveStatus_.playerIndex_);
     int message = 0xa0000023;
     drawMenuPartsColored(s_parts_021771f4, &message, g_menuTextColors[0]);

@@ -58,7 +58,7 @@ THUMB void TownMenu_ITEM_CHECKTARGET::menuUpdate()
         if (stat == MENUBASE_STAT_OK || stat == MENUBASE_STAT_CANCEL) {
             data_020ed1bc.close();
             close();
-            unkfunc_02172bdc();
+            returnToItemList();
         }
         return;
     }
@@ -271,7 +271,7 @@ THUMB int TownMenu_ITEM_CHECKTARGET::isCurse()
     return 0;
 }
 
-THUMB void TownMenu_ITEM_CHECKTARGET::unkfunc_02172bdc()
+THUMB void TownMenu_ITEM_CHECKTARGET::returnToItemList()
 {
     gTownMenuItemSelectTargetChara.close();
     gTownMenuItemSelectTargetItem.close();

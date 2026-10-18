@@ -19,7 +19,7 @@ THUMB void TownMenu_STATUS::menuSetup()
     pageSwap_ = 0;
     unk_20 = 2;
     navigator_.setPageNo(0);
-    unkfunc_0217ad50();
+    updateSelectSound();
 }
 
 THUMB void TownMenu_STATUS::menuExecute()
@@ -108,11 +108,11 @@ THUMB void TownMenu_STATUS::menuUpdate()
     pageSwap_ = 0;
     page_ = navigator_.getPageNo();
     activeChara_ = menuItem_.active_;
-    unkfunc_0217ad50();
+    updateSelectSound();
     redraw_ = 1;
 }
 
-THUMB void TownMenu_STATUS::unkfunc_0217ad50()
+THUMB void TownMenu_STATUS::updateSelectSound()
 {
     int index = navigator_.getIndex(activeChara_);
     if (index == status::g_Party.getCount()) {

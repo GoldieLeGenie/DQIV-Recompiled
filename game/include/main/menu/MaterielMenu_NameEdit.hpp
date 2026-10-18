@@ -1,6 +1,6 @@
 #pragma once
 #include "main/menu/MenuBase.hpp"
-#include "ov016/UnkNameEditKeyboard/UnkNameEditKeyboard_0216a980.hpp"
+#include "ov016/UnkNameEditKeyboard/NameEditKeyboard.hpp"
 
 struct MaterielMenu_NameEdit : menu::MenuBase
 {
@@ -35,21 +35,21 @@ struct MaterielMenu_NameEdit : menu::MenuBase
     virtual void menuUpdate();
     void setNameEditMode();
     void setTownNameMode();
-    void unkfunc_0203b004();
-    void unkfunc_0203b0f0(int* label);
-    int unkfunc_0203b158();
-    void unkfunc_0203b184(int message);
-    void unkfunc_0203b1c8(int message);
-    void unkfunc_0203b398(int index, int code);
-    void unkfunc_0203b3d8();
-    int unkfunc_0203b400();
-    void unkfunc_0203b4e4();
-    void unkfunc_0203b514(bool ok);
+    void setMessageMode();
+    void buildKeyLabels(int* label);
+    int getPromptMessage();
+    void drawMessageInput(int message);
+    void drawNameInput(int message);
+    void appendChar(int index, int code);
+    void deleteLastChar();
+    int validateName();
+    void onSpecialKey();
+    void finishNameEdit(bool ok);
     void clearName();
     char* getNameUTF8();
-    void unkfunc_0203b750(int* label);
-    int unkfunc_0203b798(unsigned int code, char* buffer);
-    int unkfunc_0203b7b8();
+    void buildNameLabels(int* label);
+    int unpackCharCode(unsigned int code, char* buffer);
+    int isDefaultTownName();
 };
 
 extern MaterielMenu_NameEdit gMaterielMenu_NameEdit;

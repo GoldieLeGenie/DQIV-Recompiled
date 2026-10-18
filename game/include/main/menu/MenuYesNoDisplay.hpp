@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 #include "main/dss/UnkBgBuffer.hpp"
 
 // Yes/no window drawn on the sub screen, texts drawn in two 6x2 character buffers (data_020f530c.yesNo_)
@@ -18,7 +18,7 @@ struct UnkMenuYesNoDisplay : UnkMenuDisplay {
     virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void unkfunc_02052a24(UnkOamBuffer* main, UnkOamBuffer* sub);
-    void unkfunc_02052a28(int yesMessageId, int noMessageId);
-    void unkfunc_02052aa4(int cursor);
+    void setTexts(int yesMessageId, int noMessageId);
+    void setCursor(int cursor);
     void transferRow(int row);                  // copy one row of both texts to VRAM
 };

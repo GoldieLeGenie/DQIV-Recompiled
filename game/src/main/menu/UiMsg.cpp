@@ -35,24 +35,24 @@ THUMB void ui_MsgSetup(eMessageWindow type, int lang)
 
 THUMB void ui_MsgAdd(int strNo)
 {
-    unkfunc_02056194(strNo);
+    ui_MsgAddId(strNo);
 }
 
 THUMB void ui_MsgAddSerial(int no)
 {
-    if (unkfunc_02056328(no) != 0) {
+    if (ui_MsgIsQueued(no) != 0) {
         return;
     }
-    unkfunc_02056194(no);
-    unkfunc_0205614c();
+    ui_MsgAddId(no);
+    ui_MsgAddWaitTrigger();
     no++;
     while (1) {
         if (TextAPI::isExistMessage(no) == 0) {
             break;
         }
-        if (unkfunc_02056328(no) == 0) {
-            unkfunc_02056194(no);
-            unkfunc_0205614c();
+        if (ui_MsgIsQueued(no) == 0) {
+            ui_MsgAddId(no);
+            ui_MsgAddWaitTrigger();
         }
         no++;
     }
@@ -78,36 +78,36 @@ THUMB void ui_MsgAdd(const char* str)
     }
     buf[1] = snd;
     if (s_msgCur == 0) {
-        s_draw->unkfunc_0204de2c(s_windowType, name, buf);
+        s_draw->openWindow(s_windowType, name, buf);
     } else {
-        s_draw->unkfunc_0204de50(buf);
+        s_draw->addText(buf);
     }
     s_msgCur++;
 }
 
-THUMB void unkfunc_0205614c()
+THUMB void ui_MsgAddWaitTrigger()
 {
-    unkfunc_02056300();
-    s_draw->unkfunc_0204de6c();
+    ui_MsgOpenIfFirst();
+    s_draw->addWaitKey();
 }
 
 THUMB void ui_MsgAddWait()
 {
-    unkfunc_02056300();
-    s_draw->unkfunc_0204de7c();
+    ui_MsgOpenIfFirst();
+    s_draw->addWaitProg();
 }
 
-THUMB void unkfunc_02056174()
+THUMB void ui_MsgDrawYesNo()
 {
-    data_020f530c.yesNo_.unkfunc_0204f264(1);
+    data_020f530c.yesNo_.setEnable(1);
 }
 
-THUMB void unkfunc_02056184(int cursor)
+THUMB void ui_MsgSetYesNoCursor(int cursor)
 {
-    data_020f530c.yesNo_.unkfunc_02052aa4(cursor);
+    data_020f530c.yesNo_.setCursor(cursor);
 }
 
-THUMB void unkfunc_02056194(int strNo)
+THUMB void ui_MsgAddId(int strNo)
 {
     char buf[0x400];
     char name[0x80];
@@ -158,27 +158,27 @@ THUMB void unkfunc_02056194(int strNo)
     }
     buf[1] = snd;
     if (s_msgCur == 0) {
-        s_draw->unkfunc_0204de2c(s_windowType, "", "");
-        s_draw->unkfunc_0204de50("\x1b" "A");
-        s_draw->unkfunc_0204de50(buf);
-        s_draw->unkfunc_0204def4();
+        s_draw->openWindow(s_windowType, "", "");
+        s_draw->addText("\x1b" "A");
+        s_draw->addText(buf);
+        s_draw->clearNames();
     } else {
-        s_draw->unkfunc_0204de50("\x1b" "A");
-        s_draw->unkfunc_0204de50(buf);
+        s_draw->addText("\x1b" "A");
+        s_draw->addText(buf);
     }
-    s_draw->unkfunc_0204df1c(name);
+    s_draw->addName(name);
     s_msgCur++;
 }
 
-THUMB void unkfunc_02056300()
+THUMB void ui_MsgOpenIfFirst()
 {
     if (s_msgCur == 0) {
-        s_draw->unkfunc_0204de2c(s_windowType, "", "");
+        s_draw->openWindow(s_windowType, "", "");
         s_msgCur++;
     }
 }
 
-THUMB int unkfunc_02056328(int no)
+THUMB int ui_MsgIsQueued(int no)
 {
     for (int i = 0; i < s_msgCount; i++) {
         if (no == s_msgQue[i]) {

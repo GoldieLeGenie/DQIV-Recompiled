@@ -6,7 +6,7 @@
 #include "ov016/UnkTownMenu_02178a58/UnkTownMenu_02178a58.hpp"
 
 namespace MenuAPI {
-    void unkfunc_0200d3c8();
+    void openMenuByIndex();
     void changeMenuModeNormal();
     void changeMenuModeExtra();
     int isMenuModeNormal();

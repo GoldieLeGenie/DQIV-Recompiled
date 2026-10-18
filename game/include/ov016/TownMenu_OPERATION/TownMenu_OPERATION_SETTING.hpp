@@ -24,12 +24,12 @@ struct TownMenu_OPERATION_SETTING : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    void unkfunc_0217a8f8();
-    void unkfunc_0217a924();
-    void unkfunc_0217a994();
-    void unkfunc_0217aa14();
-    void unkfunc_0217aa8c();
-    int unkfunc_0217aad4();
+    void loadOptionValues();
+    void updateBgmVolumeItem();
+    void updateSeVolumeItem();
+    void updateBattleSpeedItem();
+    void drawSettingCursors();
+    int updateCancelItem();
 };
 
 extern TownMenu_OPERATION_SETTING gTownMenu_OPERATION_SETTING;

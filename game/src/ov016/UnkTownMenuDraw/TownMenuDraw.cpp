@@ -392,8 +392,8 @@ THUMB void drawRootMenuCommands(int type, int x)
             UnkMenuParts namePart = { 0x0d, 0x08, (short)0xf100, 0, 4, 0, 0x30, 0xc };
             kind = menu::MenuDataCommon::getRootMenuKind(i);
             name = menu::MenuDataCommon::getRootMenuName(i);
-            unkfunc_02050f1c(&kindPart, &kind, (i % 2) * 0x48 + 0x68, (i / 2) * 32 + 0x60);
-            unkfunc_02050f1c(&namePart, &name, (i % 2) * 0x48 + 0x44, (i / 2) * 32 + 0x6a);
+            drawMenuPartAt(&kindPart, &kind, (i % 2) * 0x48 + 0x68, (i / 2) * 32 + 0x60);
+            drawMenuPartAt(&namePart, &name, (i % 2) * 0x48 + 0x44, (i / 2) * 32 + 0x6a);
         }
         return;
     }
@@ -402,12 +402,12 @@ THUMB void drawRootMenuCommands(int type, int x)
     kind = menu::MenuDataCommon::getRootMenuKind(type);
     name = menu::MenuDataCommon::getRootMenuName(type);
     if (x != -1) {
-        unkfunc_02050f1c(&kindPart, &kind, x + 0x28, 0xa0);
-        unkfunc_02050f1c(&namePart, &name, x + 4, 0xaa);
+        drawMenuPartAt(&kindPart, &kind, x + 0x28, 0xa0);
+        drawMenuPartAt(&namePart, &name, x + 4, 0xaa);
         return;
     }
-    unkfunc_02050f1c(&kindPart, &kind, 0x68, 0xa0);
-    unkfunc_02050f1c(&namePart, &name, 0x44, 0xaa);
+    drawMenuPartAt(&kindPart, &kind, 0x68, 0xa0);
+    drawMenuPartAt(&namePart, &name, 0x44, 0xaa);
     drawTownCommandCursor(0x40, 0xb0);
 }
 
@@ -430,7 +430,7 @@ THUMB void drawPartyMemberIcon(status::HaveStatusInfo* info, int x, int y)
     }
 }
 
-THUMB void unkfunc_0217af90(int index, int x, int y)
+THUMB void drawSpecialCharaIcon(int index, int x, int y)
 {
     int param = 0;
     if (index < 0) {
@@ -449,7 +449,7 @@ THUMB void unkfunc_0217af90(int index, int x, int y)
 
 THUMB void drawCharaItemNameList(status::HaveStatusInfo* info)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int param[2];
     param[0] = 0xa0000041;
     for (int i = 0; i < info->haveItem_.getCount(); i++) {
@@ -462,7 +462,7 @@ THUMB void drawBagItemNameList()
 {
     int pageNum = 1;
     int page = 0;
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     if (status::FukuroItemInfo::getItemMaxCount() > 6) {
         pageNum = 2;
     }
@@ -594,7 +594,7 @@ THUMB void drawItemUsageInfo(int item)
     if (item == 0) {
         return;
     }
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int param[2];
     param[0] = menu::MenuDataCommon::getItemMessageNo(item);
     param[1] = menu::MenuDataCommon::getItemMessageNo2(item);
@@ -617,7 +617,7 @@ THUMB void drawItemUsageInfo(int item)
 
 THUMB void drawEquipCompareWindow(status::HaveStatusInfo* info, int item, int equipIndex, int flag)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     UnkMenuParts* parts = 0;
     int param[6];
     if (item == -1) {
@@ -758,7 +758,7 @@ THUMB void drawPartyIconRow(int mode, int flag)
                 n++;
             }
         }
-        unkfunc_0217af90(-1, (count % 5) * 32 + 0x10 + (count % 5) * 8, 0x70);
+        drawSpecialCharaIcon(-1, (count % 5) * 32 + 0x10 + (count % 5) * 8, 0x70);
     } else {
         int i;
         for (i = 0; i < count; i++) {
@@ -864,7 +864,7 @@ THUMB void drawCasterMpBar(status::HaveStatusInfo* info, int pageMax, int page)
 
 THUMB void drawTownSpellList(status::HaveStatusInfo* info)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int count = info->haveAction_.getCount();
     int n = 0;
     int list[8] = { 0 };
@@ -979,7 +979,7 @@ THUMB void drawStatusAbilities(status::HaveStatusInfo* info)
 
 THUMB void drawStatusEquipment(status::HaveStatusInfo* info, int flag)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int equip[5] = { 0, 0, 0, 0, 0 };
     for (int i = 0; i < 5; i++) {
         if (info->haveEquipment_.getEquipment((ItemType)i)) {
@@ -1024,7 +1024,7 @@ THUMB void drawStatusSpellList(status::HaveStatusInfo* info, int battle)
     int count = info->haveAction_.getCount();
     status::HaveAction::ActionMode mode = status::HaveAction::getActionMode();
     if (battle) {
-        unkfunc_02050698(0, 0);
+        setMenuDrawOffset(0, 0);
         param = 0xa0000023;
         drawMenuPartsColored(s_parts_02184ca4, &param, g_menuTextColors[0]);
         status::HaveAction::setBattleMode();
@@ -1067,7 +1067,7 @@ THUMB void drawPartyHpMpSummary()
         drawMenuParts(s_parts_02185652, param, i * 0x40, 0, g_menuTextColors[getCharaTextColorIndex(info)]);
     }
     if (status::g_Party.getCount() >= 5) {
-        unkfunc_02050698(0, 0);
+        setMenuDrawOffset(0, 0);
         num = status::g_Party.getCount() - 4;
         if (num > 4) {
             for (int i = 0; i < 4; i++) {
@@ -1109,7 +1109,7 @@ THUMB void drawPartyAttackDefenceSummary()
         drawCharaLevelOrCondition(info, i, 0x40, 0x58);
     }
     if (status::g_Party.getCount() >= 5) {
-        unkfunc_02050698(0, 0);
+        setMenuDrawOffset(0, 0);
         num = status::g_Party.getCount() - 4;
         if (num > 4) {
             for (int i = 0; i < 4; i++) {
@@ -1169,7 +1169,7 @@ THUMB void drawCarriageOrderNumber(int number, int x, int y, int index)
 
 THUMB void drawMenuHeaderText(int x, int y, int value)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int param = value;
     drawMenuParts(s_parts_02184b54, &param, x, y, g_menuTextColors[0]);
 }
@@ -1182,7 +1182,7 @@ THUMB void drawCommandLabel(int x, int y, int value)
 
 THUMB void drawCharaTacticsRow(status::HaveStatusInfo* info, int x, int y)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int param[2];
     param[0] = info->haveStatus_.playerIndex_ + 0x50000000;
     if (status::g_Story.sex_ == 0) {
@@ -1217,9 +1217,9 @@ THUMB void drawShiftPartyIconList(char* order, char* list, int count)
         }
     }
     if (order[0] != -1 && status::g_Party.getCarriageEnableOnGame()) {
-        unkfunc_0217af90(-3, (count % 5) * 32 + 0x10 + (count % 5) * 8, (count / 5) * 32 + 0x68 + (count / 5) * 8);
+        drawSpecialCharaIcon(-3, (count % 5) * 32 + 0x10 + (count % 5) * 8, (count / 5) * 32 + 0x68 + (count / 5) * 8);
     } else if (count == 0 && !status::g_Party.getCarriageEnableOnGame()) {
-        unkfunc_0217af90(-3, 0x10, 0x68);
+        drawSpecialCharaIcon(-3, 0x10, 0x68);
     }
 }
 
@@ -1253,7 +1253,7 @@ THUMB void drawShiftPartyFrontSlots(char* order)
     }
 }
 
-THUMB void unkfunc_0217cc4c()
+THUMB void drawEquipTitle()
 {
     int msg = 0x8000006b;
     drawMenuPartsColored(s_parts_02184c88, &msg, g_menuTextColors[0]);
@@ -1265,7 +1265,7 @@ THUMB void unkfunc_0217cc6c()
     drawMenuPartsColored(s_parts_02184b1c, &msg, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217cc8c()
+THUMB void drawSettingTitle()
 {
     int msg = 0x80000074;
     drawMenuPartsColored(s_parts_02184bfc, &msg, g_menuTextColors[0]);
@@ -1342,7 +1342,7 @@ THUMB void drawItemTargetInfo(status::HaveStatusInfo* info, int item, int flag)
     }
     if (flag) {
         param[7] = 0;
-        unkfunc_02050698(0, 0);
+        setMenuDrawOffset(0, 0);
         s_parts_0218537a[0].y_ = 0x12;
         s_parts_0218537a[1].y_ = s_parts_0218537a[2].y_ = 0x22;
         for (int i = 0; i < 4; i++) {
@@ -1375,9 +1375,9 @@ THUMB void drawChooseCharaPrompt(int mode)
     drawMenuFrame(0, y - 8, 0x78, 0x20, -1);
 }
 
-THUMB void unkfunc_0217cf1c(int mode)
+THUMB void drawSpellOrTownSelectPrompt(int mode)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int param[2] = { 0x8000008f, (int)"\xff\xfe\xad\x24" };
     if (mode == 1) {
         param[0] = 0x80000090;

@@ -3,7 +3,7 @@
 #include "main/debug/UnkDebugInfo.hpp"
 #include "main/debug/UnkDebugBattleInfo.hpp"
 #include "main/menu/MenuManager.hpp"
-#include "main/menu/UnkMenuBg.hpp"
+#include "main/menu/MenuBg.hpp"
 #include "main/global/GlobalDQ4.hpp"
 #include <stdio.h>
 
@@ -31,15 +31,15 @@ THUMB void unkfunc_0202c1b4(int x, int y, const char* str)
 THUMB void unkfunc_0202c1d8(int x, int y, int w, int h)
 {
     if (!MenuManager::isRequesting()) {
-        unkfunc_02080694(data_020facb8.back_.unkfunc_020504d4(), x, y, w, h, 0xf);
+        unkfunc_02080694(data_020facb8.back_.getScreenBuffer(), x, y, w, h, 0xf);
     }
 }
 
 THUMB void unkfunc_0202c20c(int x, int y, int w, int h)
 {
     if (!MenuManager::isRequesting()) {
-        unkfunc_020808cc(data_020facb8.window_.unkfunc_0204fe58(), x - 1, y - 1, w + 2, h + 2, 0xf);
-        unkfunc_020806dc(data_020facb8.back_.unkfunc_020504d4(), x - 1, y - 1, w + 2, h + 2, 0xf);
+        unkfunc_020808cc(data_020facb8.window_.getScreenBuffer(), x - 1, y - 1, w + 2, h + 2, 0xf);
+        unkfunc_020806dc(data_020facb8.back_.getScreenBuffer(), x - 1, y - 1, w + 2, h + 2, 0xf);
     }
 }
 

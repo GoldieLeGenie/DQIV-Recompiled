@@ -99,7 +99,7 @@ THUMB void TownMenu_MAGIC_ROOT::menuUpdate()
     if (data_020ed1bc.isOpen()) {
         if (data_020ed1bc.stat_ == MENUBASE_STAT_OK) {
             data_020ed1bc.close();
-            if (isResult_ == 1 && unkfunc_02179ba8() == 1) {
+            if (isResult_ == 1 && applyFieldMagicEffect() == 1) {
                 close();
                 gTownMenu_ROOT.stat_ = MENUBASE_STAT_OK;
                 mode_ = 0;
@@ -167,7 +167,7 @@ THUMB void TownMenu_MAGIC_ROOT::menuUpdate()
     }
 }
 
-THUMB void TownMenu_MAGIC_ROOT::unkfunc_021797a8()
+THUMB void TownMenu_MAGIC_ROOT::restoreCharaItem()
 {
     charaItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH, menu::MenuItem::CURSORTYPE_NONE);
     charaItem_.active_ = activeChara_;
@@ -211,7 +211,7 @@ THUMB void TownMenu_MAGIC_ROOT::judgeMagic()
         break;
     case status::UseItem::None:
         if (magicID == 0xcb) {
-            unkfunc_02179b0c();
+            openWarpTownSelect();
         } else {
             useBehomara_ = 0;
             useMagicNoTarget();
@@ -294,7 +294,7 @@ THUMB void TownMenu_MAGIC_ROOT::useMagicNoTarget()
     SoundManager::playSe(0x132, 0);
 }
 
-THUMB void TownMenu_MAGIC_ROOT::unkfunc_02179b0c()
+THUMB void TownMenu_MAGIC_ROOT::openWarpTownSelect()
 {
     status::g_Party.setBattleMode();
     if (cmn::CommonRuraData::getSingleton()->getRuraCount() == 0) {
@@ -310,7 +310,7 @@ THUMB void TownMenu_MAGIC_ROOT::unkfunc_02179b0c()
     gTownMenu_MAGIC_MOVE.setActiveMagic(magicArray_[activeMagic_], activeMagic_);
 }
 
-THUMB int TownMenu_MAGIC_ROOT::unkfunc_02179ba8()
+THUMB int TownMenu_MAGIC_ROOT::applyFieldMagicEffect()
 {
     int ret = 0;
     switch (magicArray_[activeMagic_]) {

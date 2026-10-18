@@ -6,7 +6,7 @@
 // town menu window drawing (root, item, magic, status, operation menus)
 void drawRootMenuCommands(int type, int x);
 void drawPartyMemberIcon(status::HaveStatusInfo* info, int x, int y);
-void unkfunc_0217af90(int index, int x, int y);
+void drawSpecialCharaIcon(int index, int x, int y);
 void drawCharaItemNameList(status::HaveStatusInfo* info);
 void drawBagItemNameList();
 void drawActiveCharaNameBar(status::HaveStatusInfo* info, int flag, int index, int fukuro);
@@ -40,14 +40,14 @@ void drawCharaTacticsRow(status::HaveStatusInfo* info, int x, int y);
 void drawTacticsOptions();
 void drawShiftPartyIconList(char* order, char* list, int count);
 void drawShiftPartyFrontSlots(char* order);
-void unkfunc_0217cc4c();
+void drawEquipTitle();
 void unkfunc_0217cc6c();
-void unkfunc_0217cc8c();
+void drawSettingTitle();
 void unkfunc_0217ccac();
 void drawTownCommandCursor(int x, int y);
 void drawItemTargetInfo(status::HaveStatusInfo* info, int item, int flag);
 void drawChooseCharaPrompt(int mode);
-void unkfunc_0217cf1c(int mode);
+void drawSpellOrTownSelectPrompt(int mode);
 int getCharaTextColorIndex(status::HaveStatusInfo* info);
 int getCharaCondition(status::HaveStatusInfo* info);
 void drawCharaFaceIcon(int* param, int x, int y);

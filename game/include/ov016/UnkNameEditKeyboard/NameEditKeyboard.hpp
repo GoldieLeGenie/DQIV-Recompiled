@@ -27,17 +27,17 @@ struct UnkNameEditKeyboard {
     UnkNameEditChar* charTable_;    // 0x10
     int keyCount_;                  // 0x14
 
-    void unkfunc_0216a980();
-    int unkfunc_0216a9b4();
-    int unkfunc_0216a9f8();
-    int unkfunc_0216aa0c();
-    int unkfunc_0216aa5c();
-    int unkfunc_0216aa6c();
-    int unkfunc_0216aa7c();
-    int unkfunc_0216aa8c();
-    int unkfunc_0216aa9c(int direction);
-    int unkfunc_0216aaf8(int direction, int index);
-    int unkfunc_0216abbc(int code);
-    int unkfunc_0216ac08(int code);
-    int unkfunc_0216ac54(int code);
+    void init();
+    int pressKey();
+    int getCurrentChar();
+    int togglePage();
+    int moveUp();
+    int moveDown();
+    int moveLeft();
+    int moveRight();
+    int moveCursor(int direction);
+    int isNeighbourKey(int direction, int index);
+    int setCursorToKey(int code);
+    int getKeyChar(int code);
+    int getKeyType(int code);
 };

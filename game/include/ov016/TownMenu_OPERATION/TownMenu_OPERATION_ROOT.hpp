@@ -30,14 +30,14 @@ struct TownMenu_OPERATION_ROOT : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    void unkfunc_0217a278();
-    void unkfunc_0217a2a0();
-    void unkfunc_0217a318();
-    void unkfunc_0217a3e0();
-    void unkfunc_0217a438();
-    int unkfunc_0217a4e4(char* command);
+    void askSortCharaItems();
+    void askSortSack();
+    void useFullRecovery();
+    void openShiftParty();
+    void sortItems();
+    int setupCommandList(char* command);
     void allRecoveryMessage(status::UseActionParam& useActionParam);
-    void unkfunc_0217a67c();
+    void updateAbortSaveMessage();
 };
 
 extern TownMenu_OPERATION_ROOT gTownMenu_OPERATION_ROOT;

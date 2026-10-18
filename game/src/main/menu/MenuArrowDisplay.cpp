@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "main/menu/UnkMenuArrowDisplay.hpp"
+#include "main/menu/MenuArrowDisplay.hpp"
 #include "nitro/g2.hpp"
 
 static int s_animIndex[10] = { 0, 1, 2, 3, 4, 3, 2, 1, 0, -1 };
@@ -16,13 +16,13 @@ THUMB void UnkMenuArrowDisplay::setup(int id)
     frame_ = 0;
     animIndex_ = 0;
     animWait_ = 0;
-    unkfunc_0204f260(2);
+    setType(2);
 }
 
 THUMB void UnkMenuArrowDisplay::update(UnkOamBuffer* main, UnkOamBuffer* sub)
 {
     count_ = 0;
-    unkfunc_0205260c();
+    updateAnim();
 }
 
 THUMB void UnkMenuArrowDisplay::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
@@ -33,10 +33,10 @@ THUMB void UnkMenuArrowDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
 {
     int blink = (frame_ & 0x20) ? FALSE : TRUE;
     frame_++;
-    if (!unkfunc_0204f214(main, sub)) {
+    if (!isDrawable(main, sub)) {
         return;
     }
-    int animChar = unkfunc_020525f4();
+    int animChar = getAnimCharName();
     for (int i = 0; i < count_; i++) {
         int x = posX_[i] - 8;
         int y = posY_[i] - 8;
@@ -88,12 +88,12 @@ THUMB void UnkMenuArrowDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
     }
 }
 
-THUMB int UnkMenuArrowDisplay::unkfunc_020525f4()
+THUMB int UnkMenuArrowDisplay::getAnimCharName()
 {
     return s_animIndex[animIndex_] * 2 + 0x1ca;
 }
 
-THUMB void UnkMenuArrowDisplay::unkfunc_0205260c()
+THUMB void UnkMenuArrowDisplay::updateAnim()
 {
     if (animWait_ < s_animWait[animIndex_]) {
         animWait_++;
@@ -106,17 +106,17 @@ THUMB void UnkMenuArrowDisplay::unkfunc_0205260c()
     }
 }
 
-THUMB void UnkMenuArrowDisplay::unkfunc_02052658(int x, int y, int kind, int flag)
+THUMB void UnkMenuArrowDisplay::addArrow(int x, int y, int kind, int flag)
 {
     posX_[count_] = x;
     posY_[count_] = y;
     kind_[count_] = kind;
     flag_[count_] = flag;
     count_++;
-    unkfunc_0204f264(1);
+    setEnable(1);
 }
 
-THUMB void UnkMenuArrowDisplay::unkfunc_02052694()
+THUMB void UnkMenuArrowDisplay::resetBlink()
 {
     frame_ = 0;
 }

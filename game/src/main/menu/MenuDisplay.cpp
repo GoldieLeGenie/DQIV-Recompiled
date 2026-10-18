@@ -1,11 +1,11 @@
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 
 THUMB UnkMenuDisplay::UnkMenuDisplay()
 {
-    unkfunc_0204f1ac();
+    reset();
 }
 
-THUMB void UnkMenuDisplay::unkfunc_0204f1ac()
+THUMB void UnkMenuDisplay::reset()
 {
     if (enable_ != 0) {
         enable_ = 0;
@@ -13,7 +13,7 @@ THUMB void UnkMenuDisplay::unkfunc_0204f1ac()
     key_ = -1;
 }
 
-THUMB void UnkMenuDisplay::unkfunc_0204f1c0()
+THUMB void UnkMenuDisplay::updateMove()
 {
     if (moveCount_ == 0) {
         return;
@@ -27,7 +27,7 @@ THUMB void UnkMenuDisplay::unkfunc_0204f1c0()
     y_ += ((targetY_ - y_) * 4096 / moveCount_) / 4096;
 }
 
-THUMB int UnkMenuDisplay::unkfunc_0204f214(UnkOamBuffer* main, UnkOamBuffer* sub)
+THUMB int UnkMenuDisplay::isDrawable(UnkOamBuffer* main, UnkOamBuffer* sub)
 {
     if (enable_ == 0) {
         return 0;
@@ -57,36 +57,36 @@ THUMB int UnkMenuDisplay::unkfunc_0204f214(UnkOamBuffer* main, UnkOamBuffer* sub
     return 1;
 }
 
-THUMB void UnkMenuDisplay::unkfunc_0204f260(int type)
+THUMB void UnkMenuDisplay::setType(int type)
 {
     type_ = type;
 }
 
-THUMB void UnkMenuDisplay::unkfunc_0204f264(int enable)
+THUMB void UnkMenuDisplay::setEnable(int enable)
 {
     if (enable_ != enable) {
         enable_ = enable;
     }
 }
 
-THUMB void UnkMenuDisplay::unkfunc_0204f270(int x, int y)
+THUMB void UnkMenuDisplay::setPosition(int x, int y)
 {
     x_ = x;
     y_ = y;
 }
 
-THUMB void UnkMenuDisplay::unkfunc_0204f278(int w, int h)
+THUMB void UnkMenuDisplay::setSize(int w, int h)
 {
     w_ = w;
     h_ = h;
 }
 
-THUMB void UnkMenuDisplay::unkfunc_0204f280(int key)
+THUMB void UnkMenuDisplay::setKey(int key)
 {
     key_ = key;
 }
 
-THUMB int UnkMenuDisplay::unkfunc_0204f284(int key)
+THUMB int UnkMenuDisplay::isKey(int key)
 {
     if (key_ == key) {
         return 1;

@@ -19,7 +19,7 @@ struct TownMenu_STATUS : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    void unkfunc_0217ad50();
+    void updateSelectSound();
 };
 
 extern TownMenu_STATUS gTownMenu_STATUS;

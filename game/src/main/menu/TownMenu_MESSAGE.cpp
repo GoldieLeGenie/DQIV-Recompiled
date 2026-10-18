@@ -35,15 +35,15 @@ THUMB void TownMenu_MESSAGE::menuExecute()
     if (noClose_ != 0) {
         UnkMenuFaceDisplay* const busy = &data_020f530c.face_;
         busy->mode_ = 11;
-        busy->unkfunc_0204f53c(0);
-        busy->unkfunc_0204f270(0xe0, 0x164);
-        busy->unkfunc_0204f264(1);
+        busy->setPriority(0);
+        busy->setPosition(0xe0, 0x164);
+        busy->setEnable(1);
     }
 }
 
 THUMB void TownMenu_MESSAGE::menuDraw()
 {
-    s_draw->unkfunc_0204f264(1);
+    s_draw->setEnable(1);
 }
 
 THUMB void TownMenu_MESSAGE::menuUpdate()
@@ -63,11 +63,11 @@ THUMB void TownMenu_MESSAGE::menuUpdate()
             }
             if (keyEnable_ != 0) {
                 if (yesNo_ != 0) {
-                    if (s_draw->unkfunc_0204dfd8() && key == 1) {
-                        s_draw->unkfunc_0204e040();
+                    if (s_draw->isWaitTrigger() && key == 1) {
+                        s_draw->clearWaitTriggerSE();
                         keyEnable_ = 0;
                     }
-                    if (s_draw->unkfunc_0204e004()) {
+                    if (s_draw->isFinish()) {
                         data_020ed094.open();
                         data_020ed094.setYesNo(yesNoCursor_);
                         data_020ed094.setPosition(ynPosX_, ynPosY_);
@@ -76,24 +76,24 @@ THUMB void TownMenu_MESSAGE::menuUpdate()
                         keyEnable_ = 0;
                     }
                 } else {
-                    if (s_draw->unkfunc_0204dfd8() && key == 1) {
-                        s_draw->unkfunc_0204e040();
+                    if (s_draw->isWaitTrigger() && key == 1) {
+                        s_draw->clearWaitTriggerSE();
                         keyEnable_ = 0;
                     }
-                    if (s_draw->unkfunc_0204e004() && key == 1) {
-                        s_draw->unkfunc_0204e040();
+                    if (s_draw->isFinish() && key == 1) {
+                        s_draw->clearWaitTriggerSE();
                         keyEnable_ = 0;
                     }
                 }
             } else {
-                if (s_draw->unkfunc_0204dfd8() && key == 0) {
+                if (s_draw->isWaitTrigger() && key == 0) {
                     keyEnable_ = 1;
                 }
-                if (s_draw->unkfunc_0204e004() && key == 0) {
+                if (s_draw->isFinish() && key == 0) {
                     keyEnable_ = 1;
                 }
             }
-            if (s_draw->unkfunc_0204e018()) {
+            if (s_draw->isEnd()) {
                 stat_ = MENUBASE_STAT_OK;
             }
         } else {
@@ -171,7 +171,7 @@ THUMB void TownMenu_MESSAGE::addMessage(int messageID)
         return;
     }
     ui_MsgAdd(messageID);
-    unkfunc_0205614c();
+    ui_MsgAddWaitTrigger();
     data_020f1d88.unkfunc_0203cc20(messageID);
 }
 
@@ -211,7 +211,7 @@ THUMB void TownMenu_MESSAGE::addMessageSerial(int messageID)
 THUMB void TownMenu_MESSAGE::addMessage(const char* message)
 {
     ui_MsgAdd(message);
-    unkfunc_0205614c();
+    ui_MsgAddWaitTrigger();
     data_020f1d88.unkfunc_0203cc20(99999999);
 }
 
@@ -246,7 +246,7 @@ THUMB void TownMenu_MESSAGE::restartMessage()
     ynExec_ = 0;
     ynPosX_ = 0xc0;
     ynPosY_ = 0x40;
-    s_draw->unkfunc_0204dfc0();
+    s_draw->restart();
     s_msgCount = 0;
     data_020f1d88.unkfunc_0203cc0c();
 }
@@ -258,12 +258,12 @@ THUMB void TownMenu_MESSAGE::addMessageWAITKEY()
 
 THUMB bool TownMenu_MESSAGE::isMessageWAITPROG()
 {
-    return s_draw->unkfunc_0204e02c();
+    return s_draw->isWaitProg();
 }
 
 THUMB void TownMenu_MESSAGE::clearMessageWAITPROG()
 {
-    s_draw->unkfunc_0204e064(0);
+    s_draw->setWaitProg(0);
 }
 
 THUMB void TownMenu_MESSAGE::setMessageCursor(bool flag)
@@ -287,7 +287,7 @@ THUMB void TownMenu_MESSAGE::SetNoClose(bool flag)
     noClose_ = flag;
     UnkMenuFaceDisplay* obj = &data_020f530c.face_;
     if (noClose_ != 0) {
-        obj->unkfunc_0204f554();
+        obj->loadLoadingAnim();
         obj->mode_ = 11;
         return;
     }

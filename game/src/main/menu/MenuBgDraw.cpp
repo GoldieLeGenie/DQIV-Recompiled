@@ -1,8 +1,8 @@
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/dss/UnkDisplay.hpp"
 #include "main/menu/UnkMenuDisplays.hpp"
-#include "main/menu/UnkMenuBg.hpp"
-#include "main/menu/UnkMenuSystem.hpp"
+#include "main/menu/MenuBg.hpp"
+#include "main/menu/MenuSystem.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/text/TextAPI.hpp"
 #include <string.h>
@@ -23,79 +23,79 @@ static int s_gaugeInner[9] = {0, 0x5, 0x55, 0x555, 0x5555, 0x55555, 0x555555, 0x
 static int s_gaugeLowOuter[9] = {0, 0x8, 0x88, 0x888, 0x8888, 0x88888, 0x888888, 0x8888888, 0x88888888};
 static int s_gaugeLowInner[9] = {0, 0x7, 0x77, 0x777, 0x7777, 0x77777, 0x777777, 0x7777777, 0x77777777};
 
-THUMB void unkfunc_02050614(int enable)
+THUMB void setupMenuBgDraw(int enable)
 {
     UnkMenuWindowBg* window = &data_020facb8.window_;
-    data_021098b8 = window->unkfunc_0204fe54();
-    data_021098b4 = window->unkfunc_0204fe58();
-    data_021098b0 = data_020facb8.back_.unkfunc_020504d4();
+    data_021098b8 = window->getCharBuffer();
+    data_021098b4 = window->getScreenBuffer();
+    data_021098b0 = data_020facb8.back_.getScreenBuffer();
     data_021098ac = enable;
     if (enable) {
         unkfunc_02080130(data_021098b8, 0);
         unkfunc_02080334(data_021098b4, 0, 0, 32, 48, 0xf000);
         unkfunc_02080334(data_021098b0, 0, 0, 32, 48, 0xf000);
-        data_020facb8.icon_.unkfunc_0204ff44();
-        unkfunc_0204ec38();
+        data_020facb8.icon_.clearScreen();
+        resetMenuDisplays();
     }
 }
 
-THUMB void unkfunc_02050698(int x, int y)
+THUMB void setMenuDrawOffset(int x, int y)
 {
     data_021098a4 = x;
     data_021098a8 = y;
 }
 
-THUMB void unkfunc_020506a4(int x, int y, int w, int h, int palette)
+THUMB void fillMenuBackRect(int x, int y, int w, int h, int palette)
 {
     if (data_021098ac == 1) {
         unkfunc_02080694(data_021098b0, x / 8, y / 8, w / 8, h / 8, palette);
     }
 }
 
-THUMB void unkfunc_020506ec(int x, int y, int w, int h, int palette)
+THUMB void drawMenuWindowBack(int x, int y, int w, int h, int palette)
 {
     if (data_021098ac == 1) {
         unkfunc_020806dc(data_021098b0, x / 8, y / 8, w / 8, h / 8, palette);
     }
 }
 
-THUMB void unkfunc_02050734(int x, int y, int w, int h, int palette)
+THUMB void drawMenuWindowBorder(int x, int y, int w, int h, int palette)
 {
     if (data_021098ac == 1) {
         unkfunc_020808cc(data_021098b4, x / 8, y / 8, w / 8, h / 8, palette);
     }
 }
 
-THUMB void unkfunc_0205077c(int x, int y, int w, int h)
+THUMB void drawMenuWindowBox(int x, int y, int w, int h)
 {
-    unkfunc_020506ec(x, y, w, h, -1);
-    unkfunc_02050734(x, y, w, h, -1);
+    drawMenuWindowBack(x, y, w, h, -1);
+    drawMenuWindowBorder(x, y, w, h, -1);
 }
 
-THUMB void unkfunc_020507a8(int x, int y, int w, int h, int xlu)
+THUMB void drawMenuObjFrame(int x, int y, int w, int h, int xlu)
 {
     UnkMenuFrameDisplay* frames = &data_020f530c.frames_;
     if (xlu) {
-        frames->unkfunc_0204ed74(x, y, w, h, 3, 15);
+        frames->addRoundedFrame(x, y, w, h, 3, 15);
     } else {
-        frames->unkfunc_0204ed54(x, y, w, h, 3, 15);
+        frames->addFrame(x, y, w, h, 3, 15);
     }
 }
 
-THUMB void unkfunc_020507ec(int x, int y, int w, int h, int priority, int flag)
+THUMB void drawMenuItemFrame(int x, int y, int w, int h, int priority, int flag)
 {
     UnkMenuFrameDisplay* frames = &data_020f530c.frames_;
-    frames->unkfunc_0204ed54(x, y, w, h, priority, flag ? 9 : 6);
+    frames->addFrame(x, y, w, h, priority, flag ? 9 : 6);
 }
 
-THUMB void unkfunc_02050820(int x, int y, int w, int h, int type, int index)
+THUMB void drawMenuIcon(int x, int y, int w, int h, int type, int index)
 {
     if (unkfunc_0208170c()) {
-        data_020facb8.icon_.unkfunc_020501ec(x / 8, y / 8, w, h, type, index);
+        data_020facb8.icon_.requestIcon(x / 8, y / 8, w, h, type, index);
     }
 }
 
-THUMB void unkfunc_02050860(int x, int y, int w, int h, int palette, int flip, int bank, int chr)
+THUMB void drawMenuSystemTiles(int x, int y, int w, int h, int palette, int flip, int bank, int chr)
 {
     if (data_021098ac == 1) {
         x /= 8;
@@ -251,7 +251,7 @@ THUMB int drawMenuNumber(int x, int y, int w, int h, int palette, int color, int
     }
 }
 
-THUMB void unkfunc_02050d00(int x, int y, int percent)
+THUMB void drawMenuHpGauge(int x, int y, int percent)
 {
     if (data_021098ac == 1) {
         if (percent <= 0) {
@@ -265,9 +265,9 @@ THUMB void unkfunc_02050d00(int x, int y, int percent)
         int length = percent * 48 / 100;
         int full = length / 8;
         int rest = length % 8;
-        unkfunc_02050860(x, y, 8, 8, 15, 0, 0, 0x1e);
-        unkfunc_02050860(x + 8, y, 48, 8, 15, 0, 0, 0x1f);
-        unkfunc_02050860(x + 56, y, 8, 8, 15, 0, 0, 0x1d);
+        drawMenuSystemTiles(x, y, 8, 8, 15, 0, 0, 0x1e);
+        drawMenuSystemTiles(x + 8, y, 48, 8, 15, 0, 0, 0x1f);
+        drawMenuSystemTiles(x + 56, y, 8, 8, 15, 0, 0, 0x1d);
         int* outer;
         int* inner;
         if (percent >= 25) {

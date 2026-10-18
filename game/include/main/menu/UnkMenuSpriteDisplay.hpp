@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 
 // Up to 5 sprites drawn on the sub screen (data_020f530c.sprite_)
 struct UnkMenuSpriteDisplay : UnkMenuDisplay {

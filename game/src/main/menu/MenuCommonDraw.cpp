@@ -1,7 +1,7 @@
 #pragma ipa file
 #include "main/menu/MenuCommonDraw.hpp"
 #ifdef DQIV_NATIVE
-#include "main/menu/UnkMenuIconData.hpp"
+#include "main/menu/MenuIconData.hpp"
 #include "main/dss/UnkMemory.hpp"
 #include "HdPictures.hpp"
 #endif
@@ -110,7 +110,7 @@ THUMB void drawMenuFrameLine(int x, int y, int w)
 
 THUMB void drawPartyStatusFrames()
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     for (int i = 0; i < status::g_Party.getCarriageOutCount(); i++) {
 #ifdef DQIV_NATIVE
         // A taller name band, for the portrait.
@@ -193,7 +193,7 @@ THUMB void drawMoneyWindow(int x, int y, int coin)
     if (x == -1 && y == -1) {
         parts[0].x_ = 0xb6;
         parts[0].w_ = 0x38;
-        unkfunc_02050698(0, 0);
+        setMenuDrawOffset(0, 0);
         drawMenuPartsColored(parts, param, g_menuTextColors[0]);
         drawMenuFrame(0xb0, 0xa0, 0x50, 0x20, -1);
     } else {
@@ -213,7 +213,7 @@ THUMB void drawCharaStatusWindow(int index, int mode)
     int frameY = 0;
     int lineY = 0x18;
     if (mode == 1) {
-        unkfunc_02050698(0, 0);
+        setMenuDrawOffset(0, 0);
         x -= 0x90;
         y += 0x58;
         frameX = 0;
@@ -255,7 +255,7 @@ THUMB void drawCharaStatusWindow(int index, int mode)
 
 THUMB void drawPartyMemberWindow(status::HaveStatusInfo* info, int pos)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int param[8];
     param[0] = info->haveStatus_.playerIndex_ + 0x50000000;
     param[1] = 0xa0000001;
@@ -308,7 +308,7 @@ THUMB void drawPartyMemberWindow(status::HaveStatusInfo* info, int pos)
     const bool portrait = status::g_Game.language != Japanese;
     s_memberParts[0].x_ = portrait ? 0x1a : 0x08;
     s_memberParts[0].w_ = portrait ? 0x24 : 0x30;
-    void* icon = portrait ? unkfunc_0205182c(0xf1000000, info->haveStatus_.iconIndex_) : NULL;
+    void* icon = portrait ? getMenuIconData(0xf1000000, info->haveStatus_.iconIndex_) : NULL;
     if (icon != NULL && unkfunc_0207f52c(icon) == 32 * 32) {
         unsigned char* picture = (unsigned char*)unkfunc_0207f590(icon);
         pc::placeHdPicture(0, (pos << 6) + data_021098a4 + 4, data_021098a8 + 5, 20, 20,

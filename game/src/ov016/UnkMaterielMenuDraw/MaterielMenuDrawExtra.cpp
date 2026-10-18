@@ -597,7 +597,7 @@ THUMB void drawPokerHoldLabels(int* cards, int a)
 
 THUMB void drawPokerPayoutTable(int coin, int a, int b)
 {
-    unkfunc_02050698(0, 0);
+    setMenuDrawOffset(0, 0);
     int param[2] = { 0, 0 };
     if (coin == 0) {
         coin = 1;

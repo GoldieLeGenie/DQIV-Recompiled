@@ -10,9 +10,9 @@ static int s_textX;                             // end of the last text, for fol
 static int s_textY;
 int data_021098c4;
 
-THUMB int unkfunc_02050e20(int index, const char* text)
+THUMB int setNamePlateText(int index, const char* text)
 {
-    return data_020f530c.texts_[index].unkfunc_0204e4f4(10, text, 0, 0);
+    return data_020f530c.texts_[index].setFramedText(10, text, 0, 0);
 }
 
 #ifdef DQIV_NATIVE
@@ -22,22 +22,22 @@ void unkfunc_native_platePalette(int index, int palette)
 }
 #endif
 
-THUMB void unkfunc_02050e44(int index, int x, int y, int priority, int flag)
+THUMB void showNamePlate(int index, int x, int y, int priority, int flag)
 {
     UnkMenuTextDisplay* plate = &data_020f530c.texts_[index];
-    plate->unkfunc_0204f270(x, y);
+    plate->setPosition(x, y);
     plate->priority_ = priority;
     plate->frame_ = 1;
     plate->palette_ = flag ? 15 : 14;
 #ifdef DQIV_NATIVE
     plate->letterPalette_ = -1;
 #endif
-    plate->unkfunc_0204f264(1);
+    plate->setEnable(1);
 }
 
-THUMB void unkfunc_02050e88(int x, int y, int value, int delay)
+THUMB void showHoppingNumber(int x, int y, int value, int delay)
 {
-    data_020f530c.hopping_.unkfunc_02055fbc(x, y, value, delay);
+    data_020f530c.hopping_.startNumber(x, y, value, delay);
 }
 
 THUMB void drawMenuPartsPlain(UnkMenuParts* parts, int* param)
@@ -105,7 +105,7 @@ THUMB void drawMenuParts(UnkMenuParts* parts, int* param, int x, int y, int colo
     }
 }
 
-THUMB void unkfunc_02050f1c(UnkMenuParts* part, int* param, int x, int y)
+THUMB void drawMenuPartAt(UnkMenuParts* part, int* param, int x, int y)
 {
     drawMenuPart(part, param, x, y, -1);
 }
@@ -132,20 +132,20 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
     int index = part->index_;
     switch (part->type_) {
     case 1:
-        unkfunc_020506ec(px, py, w, h, 15);
-        unkfunc_02050734(px, py, w, h, 15);
+        drawMenuWindowBack(px, py, w, h, 15);
+        drawMenuWindowBorder(px, py, w, h, 15);
         return;
     case 3:
         if (part->subType_ == 0xd0) {
-            unkfunc_020506a4(px, py, w, h, palette);
+            fillMenuBackRect(px, py, w, h, palette);
         }
         if (part->subType_ == 0xd1) {
-            unkfunc_020506ec(px, py, w, h, palette);
+            drawMenuWindowBack(px, py, w, h, palette);
             return;
         }
         break;
     case 4:
-        unkfunc_02050734(px, py, w, h, palette);
+        drawMenuWindowBorder(px, py, w, h, palette);
         return;
     case 5:
         if (data_021098ac == 1) {
@@ -224,19 +224,19 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
     case 10:
     case 11: {
         UnkMenuFaceDisplay* face = &data_020f530c.face_;
-        face->unkfunc_0204f264(1);
-        face->unkfunc_0204f540(value);
-        face->unkfunc_0204f270(px, py);
-        face->unkfunc_0204f53c(1);
+        face->setEnable(1);
+        face->loadFace(value);
+        face->setPosition(px, py);
+        face->setPriority(1);
         return;
     }
     case 9: {
         UnkMenuIconDisplay* icon = &data_020f530c.icon_;
         int slot = part->getIconSlot();
-        icon->unkfunc_0204f264(1);
-        icon->unkfunc_02055c48(slot, value);
-        icon->unkfunc_02055dc8(slot, px, py);
-        icon->unkfunc_02055dd4(slot, 1);
+        icon->setEnable(1);
+        icon->loadIcon(slot, value);
+        icon->setIconPosition(slot, px, py);
+        icon->setIconVisible(slot, 1);
         return;
     }
     case 12:
@@ -272,7 +272,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
             if (type == 0xf4000000 && value == 5) {
                 break;
             }
-            unkfunc_02050820(px, py, w, h, type, value);
+            drawMenuIcon(px, py, w, h, type, value);
             return;
         }
         break;
@@ -361,7 +361,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
         return;
     }
     case 17:
-        unkfunc_02050d00(px, py, value);
+        drawMenuHpGauge(px, py, value);
         return;
     case 20: {
         int show = 0;
@@ -381,7 +381,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
             xlu = 0;
         }
         if (show) {
-            unkfunc_020507a8(px, py, w, h, xlu);
+            drawMenuObjFrame(px, py, w, h, xlu);
         }
         return;
     }
@@ -411,7 +411,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
         }
         if (kind != 0) {
             py -= 192;
-            data_020f530c.arrow_.unkfunc_02052658(px, py, kind, part->attr_ != 0 ? 1 : 0);
+            data_020f530c.arrow_.addArrow(px, py, kind, part->attr_ != 0 ? 1 : 0);
         }
         return;
     }

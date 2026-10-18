@@ -28,17 +28,17 @@ struct TownMenuItemSelectCommand : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    void unkfunc_0217638c();
+    void executeCommand();
     void judgeUseItem();
     void useItemNoTarget();
     void judgeEquipItem();
     void setItemShowAction();
     void judgeThrowItem();
-    int unkfunc_02176b90();
-    void unkfunc_02176bb0();
-    void unkfunc_02176bfc();
+    int getCommandCount();
+    void openItemListOrCharaSelect();
+    void useTarotCards();
     void resultItem();
-    void unkfunc_02176e14();
+    void setSpecialResultMessages();
     void openUseItemMessage();
 };
 

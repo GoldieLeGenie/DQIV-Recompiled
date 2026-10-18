@@ -22,8 +22,8 @@ struct TownMenu_OPERATION_TACTICS : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    void unkfunc_0216c9bc();
-    void unkfunc_0216c9f8();
+    void loadActiveTactics();
+    void applyTactics();
 };
 
 extern TownMenu_OPERATION_TACTICS gTownMenu_OPERATION_TACTICS;

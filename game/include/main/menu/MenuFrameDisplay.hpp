@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/menu/UnkMenuDisplay.hpp"
+#include "main/menu/MenuDisplay.hpp"
 
 // Queued frame piece (one sprite)
 struct UnkMenuFrameRequest {
@@ -13,7 +13,7 @@ struct UnkMenuFrameRequest {
     int effect_;                                // 0x18
     int mode_;                                  // 0x1C
 
-    void unkfunc_0204edb4(UnkOamBuffer* main, UnkOamBuffer* sub);
+    void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
 };
 
 // Frames drawn as sprites, queued each frame (data_020f530c.frames_)
@@ -26,10 +26,10 @@ struct UnkMenuFrameDisplay : UnkMenuDisplay {
     virtual void update(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void execute(UnkOamBuffer* main, UnkOamBuffer* sub);
     virtual void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
-    void unkfunc_0204ed54(int x, int y, int w, int h, int priority, int palette);   // translucent
-    void unkfunc_0204ed74(int x, int y, int w, int h, int priority, int palette);   // rounded corners, translucent
-    void unkfunc_0204ed94(int x, int y, int w, int h, int priority, int palette);   // opaque
-    void unkfunc_0204ee30(int x, int y, int w, int h, int priority, int palette, int corner, int xlu);
-    void unkfunc_0204f030(int x, int y, int w, int h, int priority, int palette, int cellW, int cellH, int shape,
+    void addFrame(int x, int y, int w, int h, int priority, int palette);   // translucent
+    void addRoundedFrame(int x, int y, int w, int h, int priority, int palette);   // rounded corners, translucent
+    void addOpaqueFrame(int x, int y, int w, int h, int priority, int palette);   // opaque
+    void addFrameSprites(int x, int y, int w, int h, int priority, int palette, int corner, int xlu);
+    void addFrameCells(int x, int y, int w, int h, int priority, int palette, int cellW, int cellH, int shape,
                           int corner, int xlu);
 };
