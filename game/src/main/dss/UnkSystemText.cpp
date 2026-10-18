@@ -56,7 +56,7 @@ ARM void unkfunc_02086e70(int type, int screen1, int screen2)
     }
 }
 
-ARM void unkfunc_02086f6c(int type, int screen1, int screen2)
+ARM void loadSystemTextPalettes(int type, int screen1, int screen2)
 {
     if (type == 0) {
         return;
@@ -74,19 +74,32 @@ ARM void unkfunc_02086f6c(int type, int screen1, int screen2)
     if (palette2 == NULL) {
         palette2 = defaultPalette;
     }
+#ifdef DQIV_NATIVE
+    // Text color 12 (green, shading 13 and 14) for the PC version's shop
+    // comparisons; no DS text uses colors 12 to 14 of this palette.
+    alignas(4) unsigned short textPalette[16];
+    for (int i = 0; i < 16; i++) {
+        textPalette[i] = palette1[i];
+    }
+    textPalette[12] = 6 | (29 << 5) | (6 << 10);
+    textPalette[13] = 2 | (15 << 5) | (3 << 10);
+    textPalette[14] = 1 | (7 << 5) | (1 << 10);
+#else
+    unsigned short* textPalette = palette1;
+#endif
     UnkPaletteBuffer* bg = unkfunc_02081364(screen1);
-    bg->unkfunc_020826d8(0xe, 0, palette1 + 0x10, 0x10);
-    bg->unkfunc_020826d8(0xf, 0, palette1, 0x10);
+    bg->loadColors(0xe, 0, palette1 + 0x10, 0x10);
+    bg->loadColors(0xf, 0, textPalette, 0x10);
     UnkPaletteBuffer* obj = unkfunc_020813e0(0);
-    obj->unkfunc_020826d8(0xe, 0, palette2 + 0x10, 0x10);
-    obj->unkfunc_020826d8(0xf, 0, palette2, 0x10);
+    obj->loadColors(0xe, 0, palette2 + 0x10, 0x10);
+    obj->loadColors(0xf, 0, palette2, 0x10);
     if (second == 0) {
         return;
     }
     bg = unkfunc_02081364(screen2);
-    bg->unkfunc_020826d8(0xe, 0, palette1 + 0x10, 0x10);
-    bg->unkfunc_020826d8(0xf, 0, palette1, 0x10);
+    bg->loadColors(0xe, 0, palette1 + 0x10, 0x10);
+    bg->loadColors(0xf, 0, textPalette, 0x10);
     obj = unkfunc_020813e0(1);
-    obj->unkfunc_020826d8(0xe, 0, palette2 + 0x10, 0x10);
-    obj->unkfunc_020826d8(0xf, 0, palette2, 0x10);
+    obj->loadColors(0xe, 0, palette2 + 0x10, 0x10);
+    obj->loadColors(0xf, 0, palette2, 0x10);
 }

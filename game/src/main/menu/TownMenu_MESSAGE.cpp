@@ -6,7 +6,7 @@
 #include "main/status/GameStatus.hpp"
 #include "main/debug/UnkDebugInfo.hpp"
 
-int data_020be244[5] = { 1, 7, 9, 2, 4 };
+int g_menuTextColors[5] = { 1, 7, 9, 2, 4 };
 
 static MENUITEM_DATA yesNoItemData[] = {
     {1, 2, 0, 0, 0x100, 0xc0},

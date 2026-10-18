@@ -136,7 +136,7 @@ THUMB void MaterielMenu_SHOP_BUYMENU::menuDraw()
         const int item = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(ctrl->activeItem_);
         unkfunc_0216d058(fukuroItemCount_);
         if (status::UseItem::getItemType(item) <= 4) {
-            unkfunc_0216ced4();
+            drawShopEquipCompare();
         } else {
             unkfunc_0216cfac();
         }

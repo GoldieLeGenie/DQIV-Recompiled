@@ -121,8 +121,8 @@ THUMB void UnkMenuIconBg::unkfunc_0204fef8()
     UnkPaletteBuffer* palette = unkfunc_02081364(0);
     void* item = unkfunc_0205182c(0xf0000000, 9999);
     void* chara = unkfunc_0205182c(0xf1000000, 9999);
-    palette->unkfunc_020826d8(0, 0, item, 0xa0);
-    palette->unkfunc_020826d8(10, 0, chara, 0x40);
+    palette->loadColors(0, 0, item, 0xa0);
+    palette->loadColors(10, 0, chara, 0x40);
 }
 
 THUMB void UnkMenuIconBg::unkfunc_0204ff44()

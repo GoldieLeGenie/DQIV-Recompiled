@@ -7,7 +7,7 @@
 // materiel menu window drawing (shop, bank, church, picture book, extra menus)
 void unkfunc_0216ce4c(bool bank, int type);
 void unkfunc_0216ceb4(UnkMenuParts* parts, int* param, int x, int y, int mode);
-void unkfunc_0216ced4();
+void drawShopEquipCompare();
 status::HaveStatusInfo* unkfunc_0216cfa4(status::PlayerStatus* player);
 void unkfunc_0216cfac();
 void unkfunc_0216d058(int* count);
@@ -47,7 +47,7 @@ void unkfunc_0216f318();
 void unkfunc_0216f450();
 void unkfunc_0216f4bc();
 void unkfunc_0216f52c(int chara);
-int unkfunc_0216f5f8(status::HaveStatusInfo* status, int* param, int item);
+int getShopEquipCompare(status::HaveStatusInfo* status, int* param, int item);
 int unkfunc_0216f7d0(status::HaveStatusInfo* status, int* param, int item);
 int unkfunc_0216f864(int itemID);
 void unkfunc_0216f8f8(int* param, int chara, int index);

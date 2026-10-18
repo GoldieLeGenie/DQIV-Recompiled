@@ -93,7 +93,7 @@ THUMB void UnkMenuIconDisplay::unkfunc_02055c48(int index, int value)
     unkfunc_02055ddc(index * 8 + 4, 14, src, 8, 3, 4);
     unkfunc_02055ddc(index * 8, 15, src, 8, 4, 4);
     unkfunc_02055ddc(index * 8 + 4, 15, src, 8, 5, 4);
-    unkfunc_020813e0(1)->unkfunc_020826d8(0, 0, unkfunc_0205182c(0xf5000000, 9999), 0xa0);
+    unkfunc_020813e0(1)->loadColors(0, 0, unkfunc_0205182c(0xf5000000, 9999), 0xa0);
 }
 
 THUMB void UnkMenuIconDisplay::unkfunc_02055dc8(int index, int x, int y)

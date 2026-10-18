@@ -36,7 +36,7 @@ ARM void dss::DisplayPlugin::unkfunc_02081a38(int textType, int screen1, int scr
 {
     unkfunc_02086e70(textType, screen1, screen2);
     if (palette) {
-        unkfunc_02086f6c(textType, screen1, screen2);
+        loadSystemTextPalettes(textType, screen1, screen2);
     }
     unkfunc_020816dc(textType, screen1, screen2, bg0, bg1, unk_10);
     displayTextCounter_ = 2;

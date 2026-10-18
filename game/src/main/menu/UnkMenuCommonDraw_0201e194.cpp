@@ -194,12 +194,12 @@ THUMB void unkfunc_0201e350(int x, int y, int coin)
         parts[0].x_ = 0xb6;
         parts[0].w_ = 0x38;
         unkfunc_02050698(0, 0);
-        unkfunc_02050ed0(parts, param, data_020be244[0]);
+        unkfunc_02050ed0(parts, param, g_menuTextColors[0]);
         unkfunc_0201e194(0xb0, 0xa0, 0x50, 0x20, -1);
     } else {
         parts[0].x_ = x + 6;
         parts[0].w_ = 0x38;
-        unkfunc_02050ed0(parts, param, data_020be244[0]);
+        unkfunc_02050ed0(parts, param, g_menuTextColors[0]);
         unkfunc_0201e194(x, y, 0x50, 0x20, -1);
     }
 }
@@ -248,8 +248,8 @@ THUMB void unkfunc_0201e3f4(int index, int mode)
         level[2] = (int)"@?";
         parts = s_statusAltParts;
     }
-    unkfunc_02050ee0(s_statusBigParts, param, x, y, data_020be244[unkfunc_0201e2f4(info)]);
-    unkfunc_02050ee0(parts, level, x, y, data_020be244[unkfunc_0201e2f4(info)]);
+    unkfunc_02050ee0(s_statusBigParts, param, x, y, g_menuTextColors[unkfunc_0201e2f4(info)]);
+    unkfunc_02050ee0(parts, level, x, y, g_menuTextColors[unkfunc_0201e2f4(info)]);
     unkfunc_0201e194(frameX, frameY, 0x70, 0x68, lineY);
 }
 
@@ -316,7 +316,7 @@ THUMB void unkfunc_0201e554(status::HaveStatusInfo* info, int pos)
         unkfunc_0207f840(&data_0211a60c, picture);
     }
 #endif
-    unkfunc_02050ee0(s_memberParts, param, pos << 6, 0, data_020be244[unkfunc_0201e2f4(info)]);
+    unkfunc_02050ee0(s_memberParts, param, pos << 6, 0, g_menuTextColors[unkfunc_0201e2f4(info)]);
 }
 
 THUMB int unkfunc_0201e674(int action)

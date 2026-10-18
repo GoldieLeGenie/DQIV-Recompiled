@@ -179,6 +179,6 @@ THUMB void UnkMenuFaceDisplay::unkfunc_0204f570(int type, int index)
         dst += 0x400;
         src += 0x180;
     }
-    unkfunc_020813e0(0)->unkfunc_020826d8(0, 0, unkfunc_0205182c(type, 9999), 0xa0);
+    unkfunc_020813e0(0)->loadColors(0, 0, unkfunc_0205182c(type, 9999), 0xa0);
     priority_ = 1;
 }

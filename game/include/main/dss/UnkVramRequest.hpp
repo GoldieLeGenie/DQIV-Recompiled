@@ -21,7 +21,7 @@ struct UnkPaletteBuffer {
 
     void unkfunc_020826ac(int type);            // queue the transfer
     void unkfunc_020826c8(int index, int color, unsigned short rgb);
-    void unkfunc_020826d8(int index, int color, const void* src, int count);
+    void loadColors(int index, int color, const void* src, int count);
 };
 
 // queued copy to the VRAM, OAM or palettes

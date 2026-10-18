@@ -243,7 +243,7 @@ static UnkMenuParts s_parts_021816d2[] = {
     { 0x0d, 0x09, (short)0xf000, 1, 0x70, 0xaa, 0x20, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_02181718[] = {
+static UnkMenuParts s_partsShopCompare[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0, 0x30, 0xa },
     { 0x0f, 0x0a, (short)0xf000, 1, 0x30, 0, 0x20, 0xa },
     { 0x0d, 0x0a, (short)0xf000, 2, 0x50, 0, 0x10, 0xa },
@@ -255,7 +255,7 @@ static UnkMenuParts s_parts_02181280[] = {
     { 0x0f, 0x0a, (short)0xf000, 1, 0x70, 0, 0x40, 0x10 },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
-static UnkMenuParts s_parts_021812aa[] = {
+static UnkMenuParts s_partsShopCannotEquip[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0, 0x30, 0xa },
     { 0x0d, 0x08, (short)0xf000, 1, 0x48, 0, 0x48, 0xa },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
@@ -497,39 +497,47 @@ THUMB void unkfunc_0216ce4c(bool bank, int type)
     }
     menu::MenuDataCommon::getShopCommand(command, bank);
     for (int i = 0; i < 3; i++) {
-        unkfunc_02050ee0(s_parts_021811bc, &command[i], 0xa4, i * 16 + 8 + i * 8, data_020be244[mode]);
+        unkfunc_02050ee0(s_parts_021811bc, &command[i], 0xa4, i * 16 + 8 + i * 8, g_menuTextColors[mode]);
     }
     unkfunc_0201e194(0x98, 0, 0x68, 0x50, -1);
 }
 
 ARM void unkfunc_0216ceb4(UnkMenuParts* parts, int* param, int x, int y, int mode)
 {
-    unkfunc_02050ee0(parts, param, x, y, data_020be244[mode]);
+    unkfunc_02050ee0(parts, param, x, y, g_menuTextColors[mode]);
 }
 
-THUMB void unkfunc_0216ced4()
+THUMB void drawShopEquipCompare()
 {
     unkfunc_02050698(0, 0);
     UnkMenuParts* parts = 0;
     for (int i = 0; i < status::g_Party.getCount(); i++) {
         int param[4];
-        switch (unkfunc_0216f5f8(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, param, -1)) {
+        switch (getShopEquipCompare(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, param, -1)) {
             case 0:
-                parts = s_parts_021812aa;
+                parts = s_partsShopCannotEquip;
                 break;
             case 1:
-                s_parts_02181718[1].type_ = 0xf;
-                parts = s_parts_02181718;
+                s_partsShopCompare[1].type_ = 0xf;
+#ifdef DQIV_NATIVE
+                // The arrow between the current value and the new one is green
+                // for an upgrade, red for a downgrade (loadSystemTextPalettes).
+                s_partsShopCompare[2].attr_ = (short)(0xf000 | ((param[3] > param[1] ? 12 : param[3] < param[1] ? 9 : 0) << 8));
+#endif
+                parts = s_partsShopCompare;
                 break;
             case 2:
-                s_parts_02181718[1].type_ = 0;
-                parts = s_parts_02181718;
+                s_partsShopCompare[1].type_ = 0;
+#ifdef DQIV_NATIVE
+                s_partsShopCompare[2].attr_ = (short)0xf000; // "E" (equipped) keeps the usual color
+#endif
+                parts = s_partsShopCompare;
                 param[3] = param[2];
                 param[2] = param[1];
                 param[1] = 0;
                 break;
         }
-        unkfunc_02050ee0(parts, param, (i % 2) << 7, ((i / 2) << 4) + 0x28, data_020be244[0]);
+        unkfunc_02050ee0(parts, param, (i % 2) << 7, ((i / 2) << 4) + 0x28, g_menuTextColors[0]);
     }
     unkfunc_0216f52c(-1);
     unkfunc_0201e194(0, 0, 0x100, 0x90, 0x20);
@@ -552,7 +560,7 @@ THUMB void unkfunc_0216cfac()
         } else {
             parts = s_parts_021813a6;
         }
-        unkfunc_02050ee0(parts, param, ((i % 2) << 7) - ((i % 2) << 2), ((i / 2) << 4) + 0x28, data_020be244[0]);
+        unkfunc_02050ee0(parts, param, ((i % 2) << 7) - ((i % 2) << 2), ((i / 2) << 4) + 0x28, g_menuTextColors[0]);
     }
     unkfunc_0216f52c(-1);
     unkfunc_0201e194(0, 0, 0x100, 0x90, 0x20);
@@ -575,13 +583,13 @@ THUMB void unkfunc_0216d058(int* count)
             param[2] = count[item];
             parts = s_parts_02181582;
         }
-        unkfunc_02050ed0(parts, param, data_020be244[0]);
+        unkfunc_02050ed0(parts, param, g_menuTextColors[0]);
     }
 }
 
 ARM void unkfunc_0216d0bc(UnkMenuParts* parts, int* param, int mode)
 {
-    unkfunc_02050ed0(parts, param, data_020be244[mode]);
+    unkfunc_02050ed0(parts, param, g_menuTextColors[mode]);
 }
 
 THUMB void unkfunc_0216d0d4()
@@ -603,7 +611,7 @@ THUMB void unkfunc_0216d0d4()
     } else {
         param[1] = 0x80000065;
     }
-    unkfunc_02050ed0(s_parts_02181328, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_02181328, param, g_menuTextColors[0]);
     unkfunc_0201e194(0, 0xa0, 0x88, 0x20, -1);
 }
 
@@ -654,7 +662,7 @@ void unkfunc_native_shopBuyList(const int* rows, int count)
         param[3] = manager->getItemPriceSum(i);
         param[4] = 0xa000003c;
         param[5] = itemID;
-        unkfunc_02050ee0(parts, param, 0xc, unkfunc_native_shopRowY(k), data_020be244[0]);
+        unkfunc_02050ee0(parts, param, 0xc, unkfunc_native_shopRowY(k), g_menuTextColors[0]);
     }
     unkfunc_0201e194(0, 0x18, 0x100, 0x88, -1);
 }
@@ -701,7 +709,7 @@ void unkfunc_native_tabs(const char* const* names, int count, int active, int x,
     for (int k = first; k < last; k++) {
         int param = (int)names[k];
         parts[0].w_ = widths[k];
-        unkfunc_02050ee0(parts, &param, tabX, 0, k == active ? data_020be244[1] : data_020be244[0]);
+        unkfunc_02050ee0(parts, &param, tabX, 0, k == active ? g_menuTextColors[1] : g_menuTextColors[0]);
         // Japanese glyphs are taller than the frame's inside: names alone.
         if (status::g_Game.language != Japanese) {
             frame(tabX, 0, widths[k], 0x18, -1);
@@ -711,9 +719,9 @@ void unkfunc_native_tabs(const char* const* names, int count, int active, int x,
     if (count > 1) {
         int param = (int)"L";
         parts[0].w_ = 0x10;
-        unkfunc_02050ee0(parts, &param, x, 0, data_020be244[0]);
+        unkfunc_02050ee0(parts, &param, x, 0, g_menuTextColors[0]);
         param = (int)"R";
-        unkfunc_02050ee0(parts, &param, x + w - 0x10, 0, data_020be244[0]);
+        unkfunc_02050ee0(parts, &param, x + w - 0x10, 0, g_menuTextColors[0]);
     }
 }
 
@@ -767,7 +775,7 @@ THUMB void unkfunc_0216d154(int flag)
         if (flag) {
             param[0] = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(i) + 0x40000000;
             param[1] = MaterielMenu_SHOP_MANAGER::getSingleton()->getItemPriceSum(i);
-            unkfunc_02050ee0(partsB, param, 0xc, i * 16 + 0xc + i * 8, data_020be244[0]);
+            unkfunc_02050ee0(partsB, param, 0xc, i * 16 + 0xc + i * 8, g_menuTextColors[0]);
         } else {
             if (MaterielMenu_SHOP_MANAGER::getSingleton()->getExtraShop() == 1) {
                 if (i == 0) {
@@ -782,7 +790,7 @@ THUMB void unkfunc_0216d154(int flag)
             param[2] = MaterielMenu_SHOP_MANAGER::getSingleton()->getItemQuantity(i);
             param[3] = MaterielMenu_SHOP_MANAGER::getSingleton()->getItemPriceSum(i);
             param[4] = 0xa000003c;
-            unkfunc_02050ee0(partsA, param, 0xc, i * 16 + 0xc + i * 8, data_020be244[0]);
+            unkfunc_02050ee0(partsA, param, 0xc, i * 16 + 0xc + i * 8, g_menuTextColors[0]);
         }
     }
     unkfunc_0201e194(0, 0, 0x100, 0xa0, -1);
@@ -834,7 +842,7 @@ THUMB void unkfunc_0216d26c()
             }
         }
         param[1] = item + 0x40000000;
-        unkfunc_02050ee0(parts, param, x, y, data_020be244[0]);
+        unkfunc_02050ee0(parts, param, x, y, g_menuTextColors[0]);
     }
     unkfunc_0201e194(0, 0x50, 0x100, 0x70, -1);
 }
@@ -876,7 +884,7 @@ THUMB void unkfunc_0216d398()
         } else {
             param[3] = menu::MenuDataCommon::getAbilityKind(status::UseItem::getEquipType(itemID));
         }
-        switch (unkfunc_0216f5f8(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, value, -1)) {
+        switch (getShopEquipCompare(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, value, -1)) {
             case 0:
                 param[3] = value[1];
                 param[4] = param[5] = param[6] = 0;
@@ -914,7 +922,7 @@ THUMB void unkfunc_0216d398()
             param[3] = 0xa0000077;
         }
     }
-    unkfunc_02050ed0(s_parts_02181b86, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_02181b86, param, g_menuTextColors[0]);
     unkfunc_0201e194(0, 0, 0x100, 0x48, 0x28);
 }
 
@@ -929,14 +937,14 @@ THUMB void unkfunc_0216d554(int y, int flag)
         unkfunc_02050ebc(s_parts_02181352, &param, x, yy);
         if (info->isSpell()) {
             param = 0xa0000044;
-            unkfunc_02050ee0(s_parts_02181088, &param, x - 6, yy + 0x14, data_020be244[unkfunc_0201e2f4(info)]);
+            unkfunc_02050ee0(s_parts_02181088, &param, x - 6, yy + 0x14, g_menuTextColors[unkfunc_0201e2f4(info)]);
         }
         if (info->isDeath()) {
             param = 0xa0000042;
-            unkfunc_02050ee0(s_parts_02181088, &param, x - 6, yy + 8, data_020be244[unkfunc_0201e2f4(info)]);
+            unkfunc_02050ee0(s_parts_02181088, &param, x - 6, yy + 8, g_menuTextColors[unkfunc_0201e2f4(info)]);
         } else if (info->isPoison()) {
             param = 0xa0000043;
-            unkfunc_02050ee0(s_parts_02181088, &param, x - 6, yy + 8, data_020be244[unkfunc_0201e2f4(info)]);
+            unkfunc_02050ee0(s_parts_02181088, &param, x - 6, yy + 8, g_menuTextColors[unkfunc_0201e2f4(info)]);
         }
     }
     if (flag == 1) {
@@ -948,7 +956,7 @@ THUMB void unkfunc_0216d554(int y, int flag)
             bool player = status::g_Party.getPlayerStatus(i)->haveStatusInfo_.haveStatus_.isPlayer_;
             if (player == true) {
                 param = i + 1;
-                unkfunc_02050ee0(s_parts_02180fe0, &param, x, 0x50 - y, data_020be244[unkfunc_0201e2f4(info)]);
+                unkfunc_02050ee0(s_parts_02180fe0, &param, x, 0x50 - y, g_menuTextColors[unkfunc_0201e2f4(info)]);
                 n++;
             }
         }
@@ -958,7 +966,7 @@ THUMB void unkfunc_0216d554(int y, int flag)
             int m = i % 5;
             status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i)->haveStatusInfo_;
             param = i + 1;
-            unkfunc_02050ee0(s_parts_02180fe0, &param, (m << 5) + 0x10 + (m << 3), 0x50 - y, data_020be244[unkfunc_0201e2f4(info)]);
+            unkfunc_02050ee0(s_parts_02180fe0, &param, (m << 5) + 0x10 + (m << 3), 0x50 - y, g_menuTextColors[unkfunc_0201e2f4(info)]);
         }
     }
     if (status::g_Party.fukuro_ && y == 0) {
@@ -990,7 +998,7 @@ THUMB void unkfunc_0216d798()
                 s_parts_02181ac2[4].type_ = 0xd;
             }
             unkfunc_0216f8f8(param, chara, i);
-            unkfunc_02050ee0(s_parts_02181ac2, param, 0, i * 14 + 0xc, data_020be244[0]);
+            unkfunc_02050ee0(s_parts_02181ac2, param, 0, i * 14 + 0xc, g_menuTextColors[0]);
         }
     } else {
         status::HaveItem* haveItem = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_.haveItem_;
@@ -1008,7 +1016,7 @@ THUMB void unkfunc_0216d798()
                 s_parts_02181ac2[2].type_ = 0xf;
             }
             unkfunc_0216f8f8(param, chara, i);
-            unkfunc_02050ee0(s_parts_02181ac2, param, 0, i * 14 + 0xc, data_020be244[0]);
+            unkfunc_02050ee0(s_parts_02181ac2, param, 0, i * 14 + 0xc, g_menuTextColors[0]);
         }
     }
     unkfunc_0201e194(0, 0, 0x100, 0xc0, -1);
@@ -1040,7 +1048,7 @@ THUMB void unkfunc_0216d8e4(int flag)
                 }
                 s_parts_02181972[3].type_ = 0xf;
             }
-            unkfunc_02050ee0(s_parts_02181972, param, (n % 2) * 0x78 + 0x14, ((n / 2) << 5) + 4, data_020be244[0]);
+            unkfunc_02050ee0(s_parts_02181972, param, (n % 2) * 0x78 + 0x14, ((n / 2) << 5) + 4, g_menuTextColors[0]);
             n++;
         }
     } else {
@@ -1062,7 +1070,7 @@ THUMB void unkfunc_0216d8e4(int flag)
                 param[3] = 0;
                 s_parts_02181972[4].type_ = 0;
             }
-            unkfunc_02050ee0(s_parts_02181972, param, (n % 2) * 0x78 + 0x14, ((n / 2) << 5) + 4, data_020be244[0]);
+            unkfunc_02050ee0(s_parts_02181972, param, (n % 2) * 0x78 + 0x14, ((n / 2) << 5) + 4, g_menuTextColors[0]);
             n++;
         }
     }
@@ -1094,7 +1102,7 @@ THUMB void unkfunc_0216da80(int flag)
             s_parts_021817a4[0].type_ = s_parts_021817a4[3].type_ = 0xf;
             s_parts_021817a4[2].type_ = 0xd;
         }
-        unkfunc_02050ed0(s_parts_021817a4, param, data_020be244[0]);
+        unkfunc_02050ed0(s_parts_021817a4, param, g_menuTextColors[0]);
     } else {
         param[2] = param[3] = 0;
         s_parts_021817a4[2].type_ = s_parts_021817a4[3].type_ = 0;
@@ -1108,7 +1116,7 @@ THUMB void unkfunc_0216da80(int flag)
             param[1] = 0xa000003c;
             s_parts_021817a4[0].type_ = 0xf;
         }
-        unkfunc_02050ed0(s_parts_021817a4, param, data_020be244[0]);
+        unkfunc_02050ed0(s_parts_021817a4, param, g_menuTextColors[0]);
     }
 }
 
@@ -1150,7 +1158,7 @@ THUMB void unkfunc_0216db94(int mode, int a, int b, int c)
             param[2] = 2;
         }
     }
-    unkfunc_02050ed0(parts, param, data_020be244[0]);
+    unkfunc_02050ed0(parts, param, g_menuTextColors[0]);
 }
 
 THUMB void unkfunc_0216dc54(int item)
@@ -1173,7 +1181,7 @@ THUMB void unkfunc_0216dc54(int item)
         } else {
             info = &status::g_Party.getPlayerStatus(MaterielMenuPlayerControl::getSingleton()->activeChara_)->haveStatusInfo_;
             item = info->haveItem_.getItem(index + start);
-            switch (unkfunc_0216f5f8(info, value, item)) {
+            switch (getShopEquipCompare(info, value, item)) {
                 case 0:
                     param[2] = value[1];
                     parts = s_parts_02181830;
@@ -1225,7 +1233,7 @@ THUMB void unkfunc_0216dc54(int item)
             }
         }
     }
-    unkfunc_02050ed0(parts, param, data_020be244[0]);
+    unkfunc_02050ed0(parts, param, g_menuTextColors[0]);
     unkfunc_0201e194(0, 0x50, 0xb0, 0x70, 0x68);
     unkfunc_0201e1c4(0, 0x90, 0xb0);
 }
@@ -1233,7 +1241,7 @@ THUMB void unkfunc_0216dc54(int item)
 THUMB void unkfunc_0216ddf4(int quantity)
 {
     int param[2] = { (int)"\xff\xfe\xa9\x24", quantity };
-    unkfunc_02050ed0(s_parts_021813d0, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_021813d0, param, g_menuTextColors[0]);
     unkfunc_0201e194(0x98, 0x50, 0x68, 0x28, -1);
 }
 
@@ -1241,7 +1249,7 @@ THUMB void unkfunc_0216de34(int coin, int flag)
 {
     int param[2] = { (int)0xa0000029, coin };
     int mode = 0;
-    unkfunc_02050ed0(s_parts_0218122c, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_0218122c, param, g_menuTextColors[0]);
     param[1] = PokerManager::getSingleton()->getCoin_;
     if (flag) {
         param[0] = 0xa000013a;
@@ -1249,7 +1257,7 @@ THUMB void unkfunc_0216de34(int coin, int flag)
     } else {
         param[0] = 0xa0000139;
     }
-    unkfunc_02050ed0(s_parts_02181256, param, data_020be244[mode]);
+    unkfunc_02050ed0(s_parts_02181256, param, g_menuTextColors[mode]);
     unkfunc_0201e194(0x78, 0, 0x88, 0x38, -1);
 }
 
@@ -1257,7 +1265,7 @@ THUMB void unkfunc_0216dea8(int win)
 {
     int command[2];
     menu::MenuDataCommon::getHighAndLowCommand(command, win);
-    unkfunc_02050ed0(s_parts_021816d2, command, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_021816d2, command, g_menuTextColors[0]);
 }
 
 THUMB void unkfunc_0216decc(int* monsterName, int* monsterFlag)
@@ -1282,12 +1290,12 @@ THUMB void unkfunc_0216decc(int* monsterName, int* monsterFlag)
         } else {
             param[0] = 0xa0000259;
         }
-        unkfunc_02050ee0(s_parts_02180ec8, param, (i % 2) * 0x70 + 0x20, (i / 2) * 12 + (i / 2) * 4 + 0xd, data_020be244[4]);
+        unkfunc_02050ee0(s_parts_02180ec8, param, (i % 2) * 0x70 + 0x20, (i / 2) * 12 + (i / 2) * 4 + 0xd, g_menuTextColors[4]);
     }
     param[0] = page + 1;
     param[1] = 0xa0000258;
     param[2] = (int)" ";
-    unkfunc_02050ed0(s_parts_02181432, param, data_020be244[4]);
+    unkfunc_02050ed0(s_parts_02181432, param, g_menuTextColors[4]);
 }
 
 THUMB void unkfunc_0216df9c(int monsterNo, int monsterName)
@@ -1328,7 +1336,7 @@ THUMB void unkfunc_0216df9c(int monsterNo, int monsterName)
     } else {
         param[14] = 0xa0000259;
     }
-    unkfunc_02050ed0(s_parts_02181e96, param, data_020be244[4]);
+    unkfunc_02050ed0(s_parts_02181e96, param, g_menuTextColors[4]);
 }
 
 THUMB void unkfunc_0216e0bc()
@@ -1341,7 +1349,7 @@ THUMB void unkfunc_0216e0bc()
     }
     menu::MenuDataCommon::getChurchCommand(command, extra);
     for (int i = 0; i < count; i++) {
-        unkfunc_02050ee0(s_parts_02180f8c, &command[i], (i % 2) * 0x60 + 0x44, (i / 2) * 0x18 + 0xc, data_020be244[0]);
+        unkfunc_02050ee0(s_parts_02180f8c, &command[i], (i % 2) * 0x60 + 0x44, (i / 2) * 0x18 + 0xc, g_menuTextColors[0]);
     }
     unkfunc_0201e194(0x30, 0, 0xd0, 0x58, -1);
 }
@@ -1360,7 +1368,7 @@ THUMB void unkfunc_0216e12c(int money, int flag)
             money %= div;
             div /= 10;
         } else {
-            unkfunc_02050ee0(s_parts_02180ffc, &param, i * 10 + 5, y, data_020be244[0]);
+            unkfunc_02050ee0(s_parts_02180ffc, &param, i * 10 + 5, y, g_menuTextColors[0]);
             money %= div;
             div /= 10;
         }
@@ -1376,7 +1384,7 @@ THUMB void unkfunc_0216e1c4(int flag)
     if (chara == status::g_Party.getCount()) {
         param[0] = 0x5000005b;
         unkfunc_0201e194(0x48, 0xa0, 0x40, 0x20, -1);
-        unkfunc_02050ed0(s_parts_0218106c, param, data_020be244[0]);
+        unkfunc_02050ed0(s_parts_0218106c, param, g_menuTextColors[0]);
         return;
     }
     param[0] = info->haveStatus_.playerIndex_ + 0x50000000;
@@ -1386,10 +1394,10 @@ THUMB void unkfunc_0216e1c4(int flag)
     }
     if (flag) {
         unkfunc_0201e194(0, 0, 0x40, 0x20, -1);
-        unkfunc_02050ed0(s_parts_021814a2, param, data_020be244[unkfunc_0201e2f4(info)]);
+        unkfunc_02050ed0(s_parts_021814a2, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
     } else {
         unkfunc_0201e194(0x48, 0xa0, 0x40, 0x20, -1);
-        unkfunc_02050ed0(s_parts_0218146a, param, data_020be244[unkfunc_0201e2f4(info)]);
+        unkfunc_02050ed0(s_parts_0218146a, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
     }
 }
 
@@ -1444,15 +1452,15 @@ THUMB void unkfunc_0216e844()
     param[10] = (int)"@\x81\x5c";
     param[11] = (int)"@\x81\x5c";
     param[12] = info->getMpMax();
-    unkfunc_02050ed0(s_parts_02181cc8, param, data_020be244[unkfunc_0201e2f4(info)]);
+    unkfunc_02050ed0(s_parts_02181cc8, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
     if (unkfunc_0201e318(info) == 3) {
         param[0] = menu::MenuDataCommon::convMessage(info, 0xa0000018);
-        unkfunc_02050ed0(s_parts_021811d8, param, data_020be244[unkfunc_0201e2f4(info)]);
+        unkfunc_02050ed0(s_parts_021811d8, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
     } else {
         param[0] = 0xa000003f;
         param[1] = (int)":";
         param[2] = info->haveStatus_.level_;
-        unkfunc_02050ed0(s_parts_0218154a, param, data_020be244[unkfunc_0201e2f4(info)]);
+        unkfunc_02050ed0(s_parts_0218154a, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
     }
     unkfunc_0201e194(0, 0, 0x40, 0x68, -1);
 }
@@ -1474,7 +1482,7 @@ THUMB void unkfunc_0216e944(int count, int page, int pageMax)
             param[2] = status::g_Shop.haveItemNene_.getItemCount(page * 6 + i);
             s_parts_0218175e[3].type_ = 0xf;
         }
-        unkfunc_02050ee0(s_parts_0218175e, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 4, data_020be244[0]);
+        unkfunc_02050ee0(s_parts_0218175e, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 4, g_menuTextColors[0]);
     }
     unkfunc_0201e194(0, 0, 0x100, 0xa0, 0x70);
 }
@@ -1484,9 +1492,9 @@ THUMB void unkfunc_0216e9fc(int chapter, int chapterEnd)
     int param = 0xa000032a;
     if (chapter == 0 && chapterEnd == 1) {
         param = 0x30db7;
-        unkfunc_02050ee0(s_parts_02181130, &param, 0, -16, data_020be244[0]);
+        unkfunc_02050ee0(s_parts_02181130, &param, 0, -16, g_menuTextColors[0]);
     } else if (chapter == 0) {
-        unkfunc_02050ed0(s_parts_02181114, &s_int_02180e94[chapter], data_020be244[0]);
+        unkfunc_02050ed0(s_parts_02181114, &s_int_02180e94[chapter], g_menuTextColors[0]);
     } else {
         int y = 0;
         if (chapterEnd == 0) {
@@ -1497,11 +1505,11 @@ THUMB void unkfunc_0216e9fc(int chapter, int chapterEnd)
             if (chapter == 5) y = 0x4a;
             if (chapter == 6) y = 0x4a;
         }
-        unkfunc_02050ee0(s_parts_0218114c, &s_int_02180e94[chapter], 0, y, data_020be244[0]);
+        unkfunc_02050ee0(s_parts_0218114c, &s_int_02180e94[chapter], 0, y, g_menuTextColors[0]);
     }
     if (chapter != 0 && chapterEnd == 1) {
         param = 0xa000032a;
-        unkfunc_02050ed0(s_parts_02180eac, &param, data_020be244[0]);
+        unkfunc_02050ed0(s_parts_02180eac, &param, g_menuTextColors[0]);
     }
 }
 
@@ -1510,7 +1518,7 @@ THUMB void unkfunc_0216eac0()
     unkfunc_02050ea8(s_parts_02181018, 0);
     for (int i = 0; i < 5; i++) {
         int param = menu::MenuDataCommon::getSuretigaiRootMenu(i);
-        unkfunc_02050ee0(s_parts_021811a0, &param, 0, i * 16 + 0xc + i * 4, data_020be244[0]);
+        unkfunc_02050ee0(s_parts_021811a0, &param, 0, i * 16 + 0xc + i * 4, g_menuTextColors[0]);
     }
     unkfunc_0201e194(0, 0, 0x88, 0x78, -1);
 }
@@ -1545,7 +1553,7 @@ THUMB void unkfunc_0216eb18(int count, int page, int pageMax, int flag)
             }
             param[0] = menu::MenuDataCommon::getItemMessage(status::excelParam.surechigaiTenant_[index].name);
             param[1] = status::excelParam.surechigaiTenant_[index].icon + 0x37;
-            unkfunc_02050ee0(s_parts_0218162a, param, x, y, data_020be244[0]);
+            unkfunc_02050ee0(s_parts_0218162a, param, x, y, g_menuTextColors[0]);
         }
     } else {
         num = dss::max(dss::min(num, 8), 0);
@@ -1554,7 +1562,7 @@ THUMB void unkfunc_0216eb18(int count, int page, int pageMax, int flag)
             data_020f0078.unkfunc_0203a34c(page * 8 + i);
             param[0] = (int)data_020f0078.unkfunc_0203a65c();
             param[1] = data_020f0078.unkfunc_0203a5ec() + 1;
-            unkfunc_02050ee0(s_parts_0218162a, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 0x20, data_020be244[0]);
+            unkfunc_02050ee0(s_parts_0218162a, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 0x20, g_menuTextColors[0]);
         }
         if (num < 8 && flag == 1) {
             int end = count;
@@ -1576,7 +1584,7 @@ THUMB void unkfunc_0216eb18(int count, int page, int pageMax, int flag)
                 }
                 param[0] = menu::MenuDataCommon::getItemMessage(status::excelParam.surechigaiTenant_[index].name);
                 param[1] = status::excelParam.surechigaiTenant_[index].icon + 0x37;
-                unkfunc_02050ee0(s_parts_0218162a, param, x, y, data_020be244[0]);
+                unkfunc_02050ee0(s_parts_0218162a, param, x, y, g_menuTextColors[0]);
             }
         }
     }
@@ -1587,14 +1595,14 @@ THUMB void unkfunc_0216eb18(int count, int page, int pageMax, int flag)
     }
     param[1] = (int)"\xff\xfe\xac\x24";
     param[2] = 0xa00002ce;
-    unkfunc_02050ed0(s_parts_0218169a, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_0218169a, param, g_menuTextColors[0]);
     if (count > 8) {
         param[0] = 0xe;
         param[1] = page + 1;
         param[2] = (int)"\xff\xfe\xa7\x24";
         param[3] = pageMax;
         param[4] = 0xf;
-        unkfunc_02050ed0(s_parts_02181876, param, data_020be244[0]);
+        unkfunc_02050ed0(s_parts_02181876, param, g_menuTextColors[0]);
     }
     unkfunc_0201e194(0, 0, 0x100, 0xc0, 0x20);
 }
@@ -1637,7 +1645,7 @@ THUMB void unkfunc_0216edf8(int index, int mode, int flag)
         } else {
             param[12] = menu::MenuDataCommon::getRuraName(status::excelParam.surechigaiTenant_[index].from);
         }
-        unkfunc_02050ed0(s_parts_02181c04, param, data_020be244[0]);
+        unkfunc_02050ed0(s_parts_02181c04, param, g_menuTextColors[0]);
         unkfunc_0201e194(0, 0x50, 0xb0, 0x70, 0x70);
         return;
     }
@@ -1652,11 +1660,11 @@ THUMB void unkfunc_0216edf8(int index, int mode, int flag)
     param[6] = data_020f0078.unkfunc_0203a750() + 0xa00002c1;
     param[9] = data_020f0078.unkfunc_0203a78c() + 0xe0000001;
     param[12] = (int)data_020f0078.unkfunc_0203a820();
-    unkfunc_02050ed0(s_parts_02181c04, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_02181c04, param, g_menuTextColors[0]);
     param[0] = 0xa00002cb;
     param[1] = (int)":";
     param[2] = (int)data_020f0078.unkfunc_0203a6d8();
-    unkfunc_02050ed0(s_parts_021813fa, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_021813fa, param, g_menuTextColors[0]);
     unkfunc_0201e194(0, 0x50, 0xb0, 0x70, 0x70);
 }
 
@@ -1688,7 +1696,7 @@ THUMB void unkfunc_0216efdc(int index, int mode)
     param[12] = (int)data_020f0078.unkfunc_0203a6d8();
     param[15] = (int)data_020f0078.unkfunc_0203a820();
     param[16] = data_020f0078.unkfunc_0203a5ec() + 1;
-    unkfunc_02050ed0(s_parts_02181d8c, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_02181d8c, param, g_menuTextColors[0]);
     unkfunc_0201e194(0, 8, 0xc0, 0x70, 0x28);
 }
 
@@ -1703,14 +1711,14 @@ THUMB void unkfunc_0216f0c0(int page, int value)
         int x = (i % 6) * 0x28 + 0xc;
         int y = (i / 6) * 0x28 + 0x20;
         if (data_020f0078.unkfunc_0203ab30(page * 12 + i) == 1) {
-            unkfunc_02050ee0(s_parts_02181034, &param, x, y, data_020be244[0]);
+            unkfunc_02050ee0(s_parts_02181034, &param, x, y, g_menuTextColors[0]);
         }
-        unkfunc_02050ee0(s_parts_021810a4, 0, x, y, data_020be244[0]);
+        unkfunc_02050ee0(s_parts_021810a4, 0, x, y, g_menuTextColors[0]);
     }
     int msg = 0xa00002bc;
-    unkfunc_02050ed0(s_parts_02180f70, &msg, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_02180f70, &msg, g_menuTextColors[0]);
     int param2[5] = { 0xe, page + 1, (int)"\xff\xfe\xa7\x24", value, 0xf };
-    unkfunc_02050ed0(s_parts_021818ca, param2, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_021818ca, param2, g_menuTextColors[0]);
     unkfunc_0201e194(0, 0, 0x100, 0x78, 0x20);
 }
 
@@ -1727,10 +1735,10 @@ THUMB void unkfunc_0216f1e0()
     unkfunc_0216f9e8(data_020f0078.unkfunc_0203a65c(), 1);
     for (int i = 0; i < 3; i++) {
         int param = menu::MenuDataCommon::getSuretigaiSex(i);
-        unkfunc_02050ee0(s_parts_021810f8, &param, i * 0x48 + 0x18, 0x54, data_020be244[0]);
+        unkfunc_02050ee0(s_parts_021810f8, &param, i * 0x48 + 0x18, 0x54, g_menuTextColors[0]);
     }
     int msg = 0xa00002bd;
-    unkfunc_02050ed0(s_parts_021810dc, &msg, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_021810dc, &msg, g_menuTextColors[0]);
     unkfunc_0201e194(0, 0x30, 0x100, 0x40, 0x48);
 }
 
@@ -1739,14 +1747,14 @@ THUMB void unkfunc_0216f258()
     data_020f0078.mode_ = 1;
     unkfunc_0216f9e8(data_020f0078.unkfunc_0203a65c(), 0);
     int param = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
-    unkfunc_02050ed0(s_parts_02181050, &param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_02181050, &param, g_menuTextColors[0]);
     unkfunc_0201e194(0x80, 0x10, 0x40, 0x20, -1);
     for (int i = 0; i < 8; i++) {
         int aetas = i + 0xa00002c1;
-        unkfunc_02050ee0(s_parts_02180f38, &aetas, (i % 4) * 0x38 + 0x14, (i / 4) * 0x18 + 0x54, data_020be244[0]);
+        unkfunc_02050ee0(s_parts_02180f38, &aetas, (i % 4) * 0x38 + 0x14, (i / 4) * 0x18 + 0x54, g_menuTextColors[0]);
     }
     param = 0xa00002be;
-    unkfunc_02050ed0(s_parts_02180ee4, &param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_02180ee4, &param, g_menuTextColors[0]);
     unkfunc_0201e194(0, 0x30, 0x100, 0x58, 0x48);
 }
 
@@ -1756,24 +1764,24 @@ THUMB void unkfunc_0216f318()
     int param[5] = { 0 };
     unkfunc_0216f9e8(data_020f0078.unkfunc_0203a65c(), 0);
     param[0] = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
-    unkfunc_02050ee0(s_parts_02181184, param, 0x80, 0, data_020be244[0]);
+    unkfunc_02050ee0(s_parts_02181184, param, 0x80, 0, g_menuTextColors[0]);
     unkfunc_0201e194(0x80, 0x10, 0x40, 0x20, -1);
     param[0] = data_020f0078.unkfunc_0203a750() + 0xa00002c1;
-    unkfunc_02050ee0(s_parts_02181184, param, 0xc0, 0, data_020be244[0]);
+    unkfunc_02050ee0(s_parts_02181184, param, 0xc0, 0, g_menuTextColors[0]);
     unkfunc_0201e194(0xc0, 0x10, 0x40, 0x20, -1);
     int page = MaterielMenuPlayerControl::getSingleton()->activeChiausSkillPage_;
     for (int i = 0; i < 8; i++) {
         int skill = page * 8 + i + 0xe0000001;
-        unkfunc_02050ee0(s_parts_021811f4, &skill, (i % 2) * 0x78 + 0x10, (i / 2) * 0x18 + 0x5c, data_020be244[0]);
+        unkfunc_02050ee0(s_parts_021811f4, &skill, (i % 2) * 0x78 + 0x10, (i / 2) * 0x18 + 0x5c, g_menuTextColors[0]);
     }
     param[0] = 0xc;
     param[1] = page + 1;
     param[2] = (int)"\xff\xfe\xa7\x24";
     param[3] = 8;
     param[4] = 0xd;
-    unkfunc_02050ed0(s_parts_0218191e, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_0218191e, param, g_menuTextColors[0]);
     param[0] = 0xa00002bf;
-    unkfunc_02050ed0(s_parts_02180fc4, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_02180fc4, param, g_menuTextColors[0]);
     unkfunc_0201e194(0, 0x30, 0x100, 0x90, 0x50);
 }
 
@@ -1788,9 +1796,9 @@ THUMB void unkfunc_0216f450()
     param[0] = (int)line1;
     param[1] = (int)line2;
     param[2] = (int)line3;
-    unkfunc_02050ed0(s_parts_021815f2, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_021815f2, param, g_menuTextColors[0]);
     param[0] = 0xa00002d9;
-    unkfunc_02050ed0(s_parts_02180f00, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_02180f00, param, g_menuTextColors[0]);
     unkfunc_0201e194(0, 8, 0xc0, 0x70, 0x20);
 }
 
@@ -1803,7 +1811,7 @@ THUMB void unkfunc_0216f4bc()
             int param[2];
             param[0] = status::g_Shop.getShopItem(2, i) + 0x40000000;
             param[1] = status::g_Shop.getShopPrice(2, i);
-            unkfunc_02050ee0(s_parts_02181280, param, 0, y, data_020be244[0]);
+            unkfunc_02050ee0(s_parts_02181280, param, 0, y, g_menuTextColors[0]);
             y += 0x10;
         }
     }
@@ -1830,7 +1838,7 @@ THUMB void unkfunc_0216f52c(int item)
         param[0] = 0xa0000082;
     }
     param[1] = 0;
-    unkfunc_02050ed0(s_parts_021812d4, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_021812d4, param, g_menuTextColors[0]);
     s_parts_021812d4[0].type_ = 0;
     s_parts_021812d4[1].type_ = 0xd;
     param[0] = 0;
@@ -1843,10 +1851,10 @@ THUMB void unkfunc_0216f52c(int item)
     } else {
         param[1] = item + 0x20000000;
     }
-    unkfunc_02050ed0(s_parts_021812d4, param, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_021812d4, param, g_menuTextColors[0]);
 }
 
-THUMB int unkfunc_0216f5f8(status::HaveStatusInfo* status, int* param, int item)
+THUMB int getShopEquipCompare(status::HaveStatusInfo* status, int* param, int item)
 {
     param[0] = status->haveStatus_.playerIndex_ + 0x50000000;
     if (item == -1) {
@@ -2007,10 +2015,10 @@ THUMB void unkfunc_0216f9e8(unsigned char* name, int flag)
     int param[1] = { 0 };
     param[0] = (int)name;
     if (flag == 1) {
-        unkfunc_02050ed0(s_parts_021810c0, param, data_020be244[0]);
+        unkfunc_02050ed0(s_parts_021810c0, param, g_menuTextColors[0]);
         unkfunc_0201e194(0x38, 0x10, 0xa0, 0x20, -1);
     } else {
-        unkfunc_02050ed0(s_parts_02180f1c, param, data_020be244[0]);
+        unkfunc_02050ed0(s_parts_02180f1c, param, g_menuTextColors[0]);
         unkfunc_0201e194(0x38, 0x10, 0x48, 0x20, -1);
     }
 }

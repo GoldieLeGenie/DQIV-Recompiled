@@ -111,7 +111,7 @@ THUMB void unkfunc_02050860(int x, int y, int w, int h, int palette, int flip, i
     }
 }
 
-THUMB int unkfunc_02050900(int x, int y, int w, int h, int palette, int color, int align, int font, int value, int wrap)
+THUMB int drawMenuText(int x, int y, int w, int h, int palette, int color, int align, int font, int value, int wrap)
 {
     char buf[0x200];
     char buf2[0x200];
@@ -240,14 +240,14 @@ THUMB int unkfunc_02050900(int x, int y, int w, int h, int palette, int color, i
     }
 }
 
-THUMB int unkfunc_02050c70(int x, int y, int w, int h, int palette, int color, int align, int font, int value)
+THUMB int drawMenuNumber(int x, int y, int w, int h, int palette, int color, int align, int font, int value)
 {
     char buf[0x400];
     char number[0x400];
     if (data_021098ac == 1) {
         dss::sprintf_s(buf, sizeof(buf), "%d", value);
         unkfunc_02087f14(data_020c47d4, data_020c4894, number, sizeof(number), buf);
-        return unkfunc_02050900(x, y, w, h, palette, color, align, font, (int)number, 0);
+        return drawMenuText(x, y, w, h, palette, color, align, font, (int)number, 0);
     }
 }
 

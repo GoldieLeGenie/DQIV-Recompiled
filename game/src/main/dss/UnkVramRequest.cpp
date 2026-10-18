@@ -37,7 +37,7 @@ ARM void UnkPaletteBuffer::unkfunc_020826c8(int index, int color, unsigned short
     color_[index * 16 + color] = rgb;
 }
 
-ARM void UnkPaletteBuffer::unkfunc_020826d8(int index, int color, const void* src, int count)
+ARM void UnkPaletteBuffer::loadColors(int index, int color, const void* src, int count)
 {
     MI_CpuCopyU32(src, &color_[index * 16 + color], count * 2);
 }

@@ -7,4 +7,4 @@ void unkfunc_02086de4(void* res0, void* res1, void* res2, void* res3, void* res4
 void* unkfunc_02086e50(int index);              // character resource
 void* unkfunc_02086e60(int index);              // palette resource
 void unkfunc_02086e70(int type, int screen1, int screen2);  // transfer the characters
-void unkfunc_02086f6c(int type, int screen1, int screen2);  // transfer the palettes
+void loadSystemTextPalettes(int type, int screen1, int screen2);  // transfer the palettes

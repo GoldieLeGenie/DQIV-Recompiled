@@ -324,13 +324,13 @@ THUMB void unkfunc_0216bec8(int* list, int count, int* order, int orderCount)
             param[3] = status::g_Party.getPlayerStatus(*order)->haveStatusInfo_.haveStatus_.level_;
             if (info->haveStatus_.isBattleNpc_) {
                 param[3] = 0xa0000073;
-                unkfunc_02050ee0(s_parts_02177034, param, x, y, data_020be244[color]);
+                unkfunc_02050ee0(s_parts_02177034, param, x, y, g_menuTextColors[color]);
             } else {
-                unkfunc_02050ee0(s_parts_02176fb6, param, x, y, data_020be244[color]);
+                unkfunc_02050ee0(s_parts_02176fb6, param, x, y, g_menuTextColors[color]);
             }
-            unkfunc_02050ee0(s_parts_02176f8c, param, x, y, data_020be244[color]);
+            unkfunc_02050ee0(s_parts_02176f8c, param, x, y, g_menuTextColors[color]);
         }
-        unkfunc_02050ee0(s_parts_02177106, number, x, y, data_020be244[color]);
+        unkfunc_02050ee0(s_parts_02177106, number, x, y, g_menuTextColors[color]);
         order++;
     }
     int target = btl::BattleMenuPlayerControl::getSingleton()->targetChara_;
@@ -484,7 +484,7 @@ THUMB void unkfunc_0216c3a4(int x, int y, int index)
         return;
     }
     if (inParty) {
-        unkfunc_02050ee0(s_parts_02177184, param, x, y, data_020be244[unkfunc_0216b980(info)]);
+        unkfunc_02050ee0(s_parts_02177184, param, x, y, g_menuTextColors[unkfunc_0216b980(info)]);
         return;
     }
     unkfunc_02050ebc(s_parts_021770b2, param, x, y);
@@ -513,9 +513,9 @@ THUMB void unkfunc_0216c524(int* actions, int count, int chara)
     unkfunc_02050698(0, 0);
     TextAPI::setMACRO0(1, 0x50000000, info->haveStatus_.playerIndex_);
     int message = 0xa0000023;
-    unkfunc_02050ed0(s_parts_021771f4, &message, data_020be244[0]);
+    unkfunc_02050ed0(s_parts_021771f4, &message, g_menuTextColors[0]);
     for (int i = 0; i < count; i++) {
         int param = actions[i] + 0x70000000;
-        unkfunc_02050ee0(s_parts_02176ec8, &param, (i % 2) * 120 + 16, (i / 2) * 16 + 36, data_020be244[unkfunc_0216b980(info)]);
+        unkfunc_02050ee0(s_parts_02176ec8, &param, (i % 2) * 120 + 16, (i / 2) * 16 + 36, g_menuTextColors[unkfunc_0216b980(info)]);
     }
 }

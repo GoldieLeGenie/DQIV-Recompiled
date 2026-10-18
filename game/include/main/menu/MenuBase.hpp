@@ -134,10 +134,10 @@ struct UnkMenuParts {
     short w_;               /* 0xA */  // 0: 256
     short h_;               /* 0xC */  // 0: 256
 
-    int unkfunc_02051708(int* param);           // value of the part
-    int unkfunc_0205171c();                     // palette
-    int unkfunc_02051728();                     // text color
-    int unkfunc_02051734();                     // icon slot
+    int getValue(int* param);           // value of the part
+    int getPalette();                     // palette
+    int getTextColor();                     // text color
+    int getIconSlot();                     // icon slot
 };
 
 struct MENUITEM_DATA {
@@ -152,6 +152,6 @@ struct MENUITEM_DATA {
 void unkfunc_020518f8(MENUITEM_DATA* data, int x, int y);     // sets data->x/y
 
 extern "C" {
-    extern int data_020be244[];      /* draw flags passed as the last argument of unkfunc_02050ee0 */
+    extern int g_menuTextColors[];      /* draw flags passed as the last argument of unkfunc_02050ee0 */
 }
 

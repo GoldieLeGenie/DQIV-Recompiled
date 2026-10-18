@@ -40,7 +40,7 @@ THUMB void unkfunc_0216fb24(int* fukuroItemCount, int flag)
     int item = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(ctrl->activeItem_);
     unkfunc_0216d058(fukuroItemCount);
     if (status::UseItem::getItemType(item) <= 4) {
-        unkfunc_0216ced4();
+        drawShopEquipCompare();
     } else {
         unkfunc_0216cfac();
     }
