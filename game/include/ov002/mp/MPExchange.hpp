@@ -1,9 +1,9 @@
 #pragma once
 #include "globaldefs.h"
 #include "main/cmn/EnvoyManager.hpp"
-#include "ov002/mp/UnkWH.hpp"
+#include "ov002/mp/WirelessHelper.hpp"
 
-// SYSMODE_* names printed by UnkMPExchange::unkfunc_021237e8
+// SYSMODE_* names printed by UnkMPExchange::getModeName
 enum {
     SYSMODE_STOP = 0,
     SYSMODE_STOP_toREADY00 = 10,
@@ -44,12 +44,12 @@ struct UnkMPExchangeRole {
     u64 elapsed_;                               // 0xA4
     int limit_;                                 // 0xAC milliseconds
 
-    int unkfunc_02123eac();
-    void unkfunc_02123ed8();                    // build the table
-    int unkfunc_02123fb0();                     // next entry
-    void unkfunc_0212407c();                    // print the table
-    void unkfunc_02124168();                    // restart the timer
-    int unkfunc_02124180();                     // time out
+    int getNextRole();
+    void buildTable();                    // build the table
+    int advance();                     // next entry
+    void printTable();                    // print the table
+    void restartTimer();                    // restart the timer
+    int isTimedOut();                     // time out
 };
 
 // Packet shared with the other DS
@@ -86,42 +86,42 @@ struct UnkMPExchange {
     unsigned char sendData_[0xe4];              // 0x100
     unsigned char receiveData_[0xe4];           // 0x1E4
 
-    virtual void unkfunc_02122a38();            // SYSMODE_SELECT_ROLE
-    virtual void unkfunc_02122d6c();            // SYSMODE_SELECT_SCAN
-    virtual void unkfunc_02122fd8();            // SYSMODE_SELECT_NEXT
-    virtual void unkfunc_02122ab0();            // SYSMODE_PARENT_LOBBY
-    virtual void unkfunc_02122e50();            // SYSMODE_PARENT_EXEC
-    virtual void unkfunc_02122c6c();            // SYSMODE_CHILD_SCAN
-    virtual void unkfunc_02122e1c();            // SYSMODE_CHILD_CONNECT
-    virtual void unkfunc_02122be4();            // SYSMODE_CHILD_READY
-    virtual void unkfunc_02122f44();            // SYSMODE_CHILD_EXEC
-    virtual void unkfunc_02122a10();            // SYSMODE_FINISH_READY
-    virtual void unkfunc_02123004();            // receive
-    virtual void unkfunc_02123188();            // send
+    virtual void updateSelectRole();            // SYSMODE_SELECT_ROLE
+    virtual void updateSelectScan();            // SYSMODE_SELECT_SCAN
+    virtual void updateSelectNext();            // SYSMODE_SELECT_NEXT
+    virtual void updateParentLobby();            // SYSMODE_PARENT_LOBBY
+    virtual void updateParentExec();            // SYSMODE_PARENT_EXEC
+    virtual void updateChildScan();            // SYSMODE_CHILD_SCAN
+    virtual void updateChildConnect();            // SYSMODE_CHILD_CONNECT
+    virtual void updateChildReady();            // SYSMODE_CHILD_READY
+    virtual void updateChildExec();            // SYSMODE_CHILD_EXEC
+    virtual void updateFinishReady();            // SYSMODE_FINISH_READY
+    virtual void receivePackets();            // receive
+    virtual void sendPacket();            // send
 
-    void unkfunc_02123230();                    // print the children
-    void unkfunc_02123334(UnkEnvoyData* data);  // data to send
-    UnkEnvoyData* unkfunc_02123378();           // received data
-    void unkfunc_0212338c();                    // start
-    void unkfunc_02123478();
-    void unkfunc_02123498();                    // update
-    void unkfunc_02123724();                    // debug print
-    void unkfunc_021237d0(int mode);            // set the mode
-    const char* unkfunc_021237e8(int mode);     // mode name
+    void printChildren();                    // print the children
+    void setSendData(UnkEnvoyData* data);  // data to send
+    UnkEnvoyData* getReceivedData();           // received data
+    void start();                    // start
+    void startRoleSelection();
+    void update();                    // update
+    void updateDataSharing();                    // debug print
+    void setMode(int mode);            // set the mode
+    const char* getModeName(int mode);     // mode name
     void unkfunc_021239d0();
-    void unkfunc_021239d4(int entry);           // set the game info
-    static void unkfunc_02123a40(void* arg);    // game info callback
-    static void unkfunc_02123a44(void* arg);    // indication callback
-    static void unkfunc_02123a60(WMBssDesc* desc);  // scan callback
-    void unkfunc_02123ca8(u16 channel, int beaconPeriod);   // start as parent
-    void unkfunc_02123d18(int channel);         // start the scan
-    void unkfunc_02123d4c();
-    void unkfunc_02123d68();
-    void unkfunc_02123d84();                    // SYSMODE_STOP_toREADY00
-    void unkfunc_02123dd8();                    // SYSMODE_STOP_toREADY01
-    void unkfunc_02123dfc();                    // SYSMODE_LIGHT_ERRORINIT
-    void unkfunc_02123e18();                    // SYSMODE_LIGHT_ERRORWAIT
-    void unkfunc_02123e40();                    // SYSMODE_FATAL_ERROR
+    void updateGameInfo(int entry);           // set the game info
+    static void onSetGameInfoCallback(void* arg);    // game info callback
+    static void onIndicationCallback(void* arg);    // indication callback
+    static void onScanCallback(WMBssDesc* desc);  // scan callback
+    void startParent(u16 channel, int beaconPeriod);   // start as parent
+    void startScan(int channel);         // start the scan
+    void finish();
+    void abort();
+    void updateStopToReady0();                    // SYSMODE_STOP_toREADY00
+    void updateStopToReady1();                    // SYSMODE_STOP_toREADY01
+    void updateLightErrorInit();                    // SYSMODE_LIGHT_ERRORINIT
+    void updateLightErrorWait();                    // SYSMODE_LIGHT_ERRORWAIT
+    void updateFatalError();                    // SYSMODE_FATAL_ERROR
 
     static int unk_02127140;                    // debug frame counter
     static int unk_02127144;

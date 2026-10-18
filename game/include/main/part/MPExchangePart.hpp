@@ -1,7 +1,7 @@
 #pragma once
 #include <globaldefs.h>
 #include "main/global/GlobalGamePart.hpp"
-#include "ov002/mp/UnkMPExchange.hpp"
+#include "ov002/mp/MPExchange.hpp"
 #include "nitro/pm.hpp"
 
 // Surechigai: sends my envoy and receives the other player's one, then goes back to the town

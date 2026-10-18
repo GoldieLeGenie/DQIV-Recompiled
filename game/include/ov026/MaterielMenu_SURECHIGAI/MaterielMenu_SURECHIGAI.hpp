@@ -45,7 +45,7 @@ struct UnkMaterielMenu_02189a80 : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    void unkfunc_02189d70();
+    void proceedStep();
 };
 
 struct MaterielMenu_SURECHIGAI_MAKE_TAISHI : menu::MenuBase

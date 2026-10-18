@@ -75,13 +75,13 @@ ARM void MPExchangePart::onExecutePart()
             }
             break;
         case 4: {
-            exchange_.unkfunc_0212338c();
+            exchange_.start();
             UnkEnvoyData* data = &data_020f0078.myEnvoy_;
             convertUtf8ToSjisWork((char*)data->name);
             convertUtf8ToSjisWork((char*)data->heroName);
             convertUtf8ToSjisWork((char*)data->townName);
             convertUtf8ToSjisWork((char*)data->comment);
-            exchange_.unkfunc_02123334(data);
+            exchange_.setSendData(data);
             setState(2);
             break;
         }
@@ -89,7 +89,7 @@ ARM void MPExchangePart::onExecutePart()
             if (exchange_.mode_ == SYSMODE_FATAL_ERROR) {
                 setState(8);
             } else if (exchange_.mode_ == SYSMODE_READY) {
-                exchange_.unkfunc_02123478();
+                exchange_.startRoleSelection();
                 setState(3);
             }
             break;
@@ -125,7 +125,7 @@ ARM void MPExchangePart::onExecutePart()
                 data_020ed1bc.openMessageForMENU();
                 data_020ed1bc.addMessage(0);
                 message_ = 0;
-                exchange_.unkfunc_02123d68();
+                exchange_.abort();
             }
             if (counter_ > 60 && data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
                 setState(13);
@@ -140,14 +140,14 @@ ARM void MPExchangePart::onExecutePart()
                 data_020ed1bc.openMessageForMENU();
                 data_020ed1bc.addMessage(0x92ab8);
                 message_ = 0;
-                exchange_.unkfunc_02123d68();
+                exchange_.abort();
             }
             if (counter_ > 60 && data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
                 setState(13);
             }
             break;
         case 9: {
-            UnkEnvoyData* data = exchange_.unkfunc_02123378();
+            UnkEnvoyData* data = exchange_.getReceivedData();
             if (exchange_.unk_fc <= 4) {
                 setState(7);
                 break;
@@ -229,13 +229,13 @@ ARM void MPExchangePart::onExecutePart()
             }
             break;
     }
-    exchange_.unkfunc_02123498();
+    exchange_.update();
     updateState();
 }
 
 ARM void MPExchangePart::onDebugPart()
 {
-    exchange_.unkfunc_02123724();
+    exchange_.updateDataSharing();
 }
 
 ARM void MPExchangePart::setState(int state)

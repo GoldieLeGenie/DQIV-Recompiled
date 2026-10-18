@@ -6,7 +6,7 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/object/DSSAObject.hpp"
 
-ARM void BookSystem::unkfunc_021219ac()
+ARM void BookSystem::onOverlayLoad()
 {
 }
 

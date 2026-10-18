@@ -1,5 +1,5 @@
 #include "NitroWireless.hpp"
-#include "ov002/mp/UnkWH.hpp"
+#include "ov002/mp/WirelessHelper.hpp"
 #include <algorithm>
 #include <array>
 #include <cstring>

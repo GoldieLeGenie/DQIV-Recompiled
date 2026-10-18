@@ -26,7 +26,7 @@ ARM void BookPart::initialize()
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     getTick();
     loadOverlay(DQIV_OVERLAY_ID(6));
-    BookSystem::unkfunc_021219ac();
+    BookSystem::onOverlayLoad();
     loadOverlay(DQIV_OVERLAY_ID(16));
     ov016_entry();
     BookSystem::getSingleton()->initialize();

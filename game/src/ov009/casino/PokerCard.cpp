@@ -4,20 +4,20 @@
 
 ARM PokerCard::PokerCard()
 {
-    unkfunc_021249cc();
+    initialize();
 }
 
 ARM PokerCard::~PokerCard()
 {
 }
 
-ARM void PokerCard::unkfunc_021249cc()
+ARM void PokerCard::initialize()
 {
     m_ctrl.clear();
     m_ctrl.flag_ |= 1;
 }
 
-ARM void PokerCard::unkfunc_021249dc(dss::Fix32 scale)
+ARM void PokerCard::setScale(dss::Fix32 scale)
 {
     unk_000.setScale(scale);
     unk_088.setScale(scale);
@@ -25,7 +25,7 @@ ARM void PokerCard::unkfunc_021249dc(dss::Fix32 scale)
     unk_198.setScale(scale);
 }
 
-ARM void PokerCard::unkfunc_02124a70(const PolygonVertex* vertex)
+ARM void PokerCard::setVertex(const PolygonVertex* vertex)
 {
     unk_000.unkfunc_02083734(vertex);
     unk_088.unkfunc_02083734(vertex);
@@ -48,17 +48,17 @@ ARM void PokerCard::setAngle(int angle)
     unk_088.angle_ = angle + 0x8000;
 }
 
-ARM void PokerCard::unkfunc_02124b24(const BillboardTexCoord* texCoord)
+ARM void PokerCard::setFrontTexCoord(const BillboardTexCoord* texCoord)
 {
     unk_000.unkfunc_020837d0(texCoord);
 }
 
-ARM void PokerCard::unkfunc_02124b30(const BillboardTexCoord* texCoord)
+ARM void PokerCard::setBackTexCoord(const BillboardTexCoord* texCoord)
 {
     unk_088.unkfunc_020837d0(texCoord);
 }
 
-ARM void PokerCard::unkfunc_02124b40(const BillboardTexCoord* texCoord)
+ARM void PokerCard::setShineTexCoord(const BillboardTexCoord* texCoord)
 {
     unk_110.unkfunc_020837d0(texCoord);
     unk_110.setAlpha(12);
@@ -68,27 +68,27 @@ ARM void PokerCard::unkfunc_02124b40(const BillboardTexCoord* texCoord)
     unk_230.v[3] = texCoord->v[3];
 }
 
-ARM void PokerCard::unkfunc_02124bcc(const BillboardTexCoord* texCoord)
+ARM void PokerCard::setGlowTexCoord(const BillboardTexCoord* texCoord)
 {
     unk_198.unkfunc_020837d0(texCoord);
 }
 
-ARM void PokerCard::unkfunc_02124bdc(void* texture)
+ARM void PokerCard::setFrontTexture(void* texture)
 {
     unk_000.texture_ = texture;
 }
 
-ARM void PokerCard::unkfunc_02124be4(void* texture)
+ARM void PokerCard::setBackTexture(void* texture)
 {
     unk_088.texture_ = texture;
 }
 
-ARM void PokerCard::unkfunc_02124bec(void* texture)
+ARM void PokerCard::setShineTexture(void* texture)
 {
     unk_110.texture_ = texture;
 }
 
-ARM void PokerCard::unkfunc_02124bf4(void* texture)
+ARM void PokerCard::setGlowTexture(void* texture)
 {
     unk_198.texture_ = texture;
     unk_198.setAlpha(1);
@@ -133,7 +133,7 @@ ARM void PokerCard::setEffect()
     unk_228 = 0x3333;
 }
 
-ARM void PokerCard::unkfunc_02124e14(bool enable)
+ARM void PokerCard::setVisible(bool enable)
 {
     if (enable) {
         m_ctrl.flag_ |= 1;

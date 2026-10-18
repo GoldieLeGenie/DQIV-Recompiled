@@ -26,7 +26,7 @@ ARM void CasinoPart::initialize()
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     getTick();
     loadOverlay(DQIV_OVERLAY_ID(9));
-    CasinoSystem::unkfunc_021227cc();
+    CasinoSystem::overlayEntry();
     loadOverlay(DQIV_OVERLAY_ID(16));
     ov016_entry();
     CasinoSystem::getSingleton()->initialize();

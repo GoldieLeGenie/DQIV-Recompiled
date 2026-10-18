@@ -26,8 +26,8 @@ struct CasinoPokerDraw {
     void setCardJoker(int index);
     void setCardReverse(int index);
     void setCardTexture(int index, int type, int number);
-    void unkfunc_02121804();
-    void unkfunc_0212198c();
+    void setupCardBacks();
+    void setupCardEffects();
     void setCardPosition(int index, dss::Fix32Vector3 pos);
     dss::Fix32 getDistance();
     dss::Fix32 getSpace();

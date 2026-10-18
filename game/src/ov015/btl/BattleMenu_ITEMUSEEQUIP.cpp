@@ -48,7 +48,7 @@ THUMB void UnkBattleMenu_0216cf44::menuDraw()
         for (int i = 0; i < count; i++) {
             items[i] = info->haveItem_.getItem(i);
         }
-        unkfunc_0216ba78(items, count, btl::BattleMenuPlayerControl::getSingleton()->activeItem_ / 6);
+        drawItemUseEquipMenu(items, count, btl::BattleMenuPlayerControl::getSingleton()->activeItem_ / 6);
         unk_e4.drawActive();
     }
 }

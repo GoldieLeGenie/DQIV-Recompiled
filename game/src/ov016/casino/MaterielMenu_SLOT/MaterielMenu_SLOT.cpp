@@ -110,7 +110,7 @@ THUMB void MaterielMenu_SLOT::statusUpdate()
             }
         } else {
             showMessage(0xc96bc);
-            Casino_Slot::getSingleton()->unkfunc_02123944();
+            Casino_Slot::getSingleton()->clearBetCoin();
             status::g_Party.setCasinoCoin(haveCoin_);
             status_ = SLOT_RETRY;
             messageCount_ = -1;
@@ -185,7 +185,7 @@ THUMB void MaterielMenu_SLOT::resultEffectUpdate()
         Casino_Slot::getSingleton()->cashAllCoin(haveCoin_);
         status::g_Party.setCasinoCoin(haveCoin_);
         resultCoin_ = 0;
-        Casino_Slot::getSingleton()->unkfunc_02123944();
+        Casino_Slot::getSingleton()->clearBetCoin();
         status_ = SLOT_RETRY;
         messageCount_ = -1;
     }

@@ -141,7 +141,7 @@ THUMB void drawItemMenu(int* items, int count, int page)
     drawItemList(items, count, page);
 }
 
-THUMB void unkfunc_0216ba78(int* items, int count, int page)
+THUMB void drawItemUseEquipMenu(int* items, int count, int page)
 {
     drawMenuPartsPlain(s_parts_02176f54, 0);
     int chara = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
@@ -186,7 +186,7 @@ THUMB void drawMagicMenu(int* actions, int count, int page)
     }
     drawBattleHelpMessage(8, 0x74, status::UseAction::getMenuMessage(info->haveAction_.getAction(btl::BattleMenuPlayerControl::getSingleton()->activeMagic_)));
     drawBattlePageNumber(0xd8, 0x78, pageMax, page);
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawMagicOnEnemyMenu(int group)
@@ -221,7 +221,7 @@ THUMB void drawTacticsMemberMenu()
     int param = 0x17;
     drawMenuPartsAt(s_parts_0217705e, &param, 0x20, 0x70);
     drawSelectedCharaHp(btl::BattleMenuPlayerControl::getSingleton()->activeChara_);
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawTacticsSelectMenu()
@@ -259,7 +259,7 @@ THUMB void drawTacticsSelectMenu()
         }
     }
     drawSelectedCharaHp(chara);
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawFormationMenu()
@@ -268,7 +268,7 @@ THUMB void drawFormationMenu()
     int param[2] = { (int)0x80000008, (int)0x80000009 };
     drawMenuParts(s_parts_02177088, param, 0x18, 0x78, 1);
     drawFormationCommandButton();
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawFormationChangeMemberMenu()
@@ -287,7 +287,7 @@ THUMB void drawFormationChangeMemberMenu()
     }
     drawFormationCommandButton();
     drawSelectedCharaHp(btl::BattleMenuPlayerControl::getSingleton()->activeChara_);
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawFormationChangeTargetMenu(int* list, int count, int page)
@@ -301,7 +301,7 @@ THUMB void drawFormationChangeTargetMenu(int* list, int count, int page)
     int target = btl::BattleMenuPlayerControl::getSingleton()->targetChara_;
     drawSelectedCharaHp(target);
     drawBattleCharaStatus(0x78, 8, &status::g_Party.getPlayerStatus(target)->haveStatusInfo_);
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawFormationAllMenu(int* list, int count, int* order, int orderCount)
@@ -339,7 +339,7 @@ THUMB void drawFormationAllMenu(int* list, int count, int* order, int orderCount
         drawBattleCharaStatus(0x98, 0, &status::g_Party.getPlayerStatus(target)->haveStatusInfo_);
     }
     drawFormationMemberIcons(list, count);
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawPartyHpPercents()
@@ -356,7 +356,7 @@ THUMB void drawEnemyTargetSelect(int group)
     status::PlayerStatus* player = status::g_Party.getPlayerStatus(chara);
     drawBattleActiveMember(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
     drawMonsterNamePlates(group);
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawPartyTargetSelect()
@@ -365,7 +365,7 @@ THUMB void drawPartyTargetSelect()
     for (int i = 0; i < status::g_Party.getCarriageOutCount(); i++) {
         drawBattleMemberStatusPanel(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, i);
     }
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawItemList(int* items, int count, int page)
@@ -389,7 +389,7 @@ THUMB void drawItemList(int* items, int count, int page)
     }
     drawBattlePageNumber(0xd8, 0x78, pageMax, page);
     drawBattleHelpMessage(8, 0x74, status::UseItem::getMenuMessage(btl::BattleMenuPlayerControl::getSingleton()->getPlayerItemId()));
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 THUMB void drawAttackCommandButton()
@@ -501,7 +501,7 @@ THUMB void drawBattleHistory(int chara)
         int second = btl::BattleMenuPlayerControl::getSingleton()->secondHistory_[i];
         drawBattleActionHistory(i, first, second, btl::BattleMenuPlayerControl::getSingleton()->getHPColor(i));
         if (i != chara) {
-            unkfunc_0216b858(i * 0x40 + 8, 0x4a, info->haveStatus_.iconIndex_, i);
+            drawBattleMemberIconInSlot(i * 0x40 + 8, 0x4a, info->haveStatus_.iconIndex_, i);
         }
     }
     drawMenuPartsPlain(s_parts_02176f1c, 0);

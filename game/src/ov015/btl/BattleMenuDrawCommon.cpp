@@ -506,7 +506,7 @@ THUMB void drawBattleMemberConditionMarks(status::HaveStatusInfo* info, int x, i
     drawMenuParts(s_parts_021769da, param, x, y, g_menuTextColors[getBattleHpColorIndex(info)]);
 }
 
-THUMB void unkfunc_0216b6cc()
+THUMB void drawBattleCancelButton()
 {
     int param = 5;
     drawMenuPartsPlain(s_parts_02176828, &param);
@@ -554,7 +554,7 @@ THUMB void drawBattleActionHistory(int index, int value, int message, int color)
     }
 }
 
-THUMB void unkfunc_0216b858(int x, int y, int value, int type)
+THUMB void drawBattleMemberIconInSlot(int x, int y, int value, int type)
 {
     switch (type) {
     case 0:
@@ -652,7 +652,7 @@ THUMB void drawBattleActionMenu(int flag)
     int command3 = (flag & 0x80) ? 0x80 : 0;
     drawBattleCommandIcons(command0, command1, command2, command3);
     drawMonsterNamePlates(-1);
-    unkfunc_0216b6cc();
+    drawBattleCancelButton();
 }
 
 // not in the ROM (dead-stripped), its local array initializer is still in .rodata

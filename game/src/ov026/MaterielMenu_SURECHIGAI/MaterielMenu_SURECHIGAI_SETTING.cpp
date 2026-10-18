@@ -90,7 +90,7 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
                 return;
             }
             if (unk_1c > 4) {
-                unkfunc_02189d70();
+                proceedStep();
                 return;
             }
             MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
@@ -121,7 +121,7 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
                     ui_MsgSndSet(0x32);
                     data_020ed1bc.addMessage(0x92a83, 0x92a79);
                 }
-                unkfunc_02189d70();
+                proceedStep();
                 return;
             }
             if (unk_1c == 9) {
@@ -146,7 +146,7 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
     int result = MenuUpdate_Assist::menuSelect(menuItem_, navigator_);
     if (result != 0) {
         if (result == 2) {
-            unkfunc_02189d70();
+            proceedStep();
         }
         if (result == 3) {
             unk_1c--;
@@ -170,7 +170,7 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
     }
 }
 
-THUMB void UnkMaterielMenu_02189a80::unkfunc_02189d70()
+THUMB void UnkMaterielMenu_02189a80::proceedStep()
 {
     switch (unk_1c) {
     case 1:

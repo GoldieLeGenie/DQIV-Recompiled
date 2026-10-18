@@ -11,7 +11,7 @@ struct BookSystem {
 
     BookSystem();
     ~BookSystem();
-    static void unkfunc_021219ac();             // empty, called by BookPart right after loading the overlay
+    static void onOverlayLoad();             // empty, called by BookPart right after loading the overlay
     static BookSystem* getSingleton();
     void initialize();
     void terminate();

@@ -7,7 +7,7 @@
 #include "main/global/Global.hpp"
 #include "main/sound/SoundManager.hpp"
 
-ARM void CasinoSystem::unkfunc_021227cc()
+ARM void CasinoSystem::overlayEntry()
 {
 }
 

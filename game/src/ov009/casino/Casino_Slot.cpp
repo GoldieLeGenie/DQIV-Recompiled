@@ -57,7 +57,7 @@ ARM void Casino_Slot::setSlotType(int type)
 ARM void Casino_Slot::resetSlot()
 {
     m_result_coin = 0;
-    unkfunc_02123944();
+    clearBetCoin();
     m_slot_machine.resetSlot();
 }
 
@@ -87,7 +87,7 @@ ARM void Casino_Slot::subCoin(int& coin)
     SoundManager::playSe(0x161, 0);
 }
 
-ARM void Casino_Slot::unkfunc_02123944()
+ARM void Casino_Slot::clearBetCoin()
 {
     m_bet_coin = 0;
     for (int i = 0; i < 5; i++) {

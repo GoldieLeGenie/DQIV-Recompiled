@@ -4,7 +4,7 @@
 // battle menu page drawing: action / magic / item lists, tactics, formation and party pages
 void drawAttackTargetMenu(int group);
 void drawItemMenu(int* items, int count, int page);
-void unkfunc_0216ba78(int* items, int count, int page);
+void drawItemUseEquipMenu(int* items, int count, int page);
 void drawItemUseOnPartyMenu();
 void drawItemUseOnEnemyMenu(int group);
 void drawMagicMenu(int* actions, int count, int page);

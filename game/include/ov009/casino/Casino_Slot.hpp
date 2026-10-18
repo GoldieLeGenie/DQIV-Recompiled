@@ -23,7 +23,7 @@ struct Casino_Slot {
     void resetSlot();
     void addCoin(int& coin);
     void subCoin(int& coin);
-    void unkfunc_02123944();
+    void clearBetCoin();
     int getResultAllCoin();
     bool runningSlot();
     void cashCoin(int& coin);
