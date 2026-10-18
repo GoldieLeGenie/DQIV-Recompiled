@@ -1,6 +1,6 @@
 #pragma ipa file
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217ad94.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuDraw.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/status/PartyStatus.hpp"
@@ -26,44 +26,44 @@ THUMB void unkfunc_unused_11()
     const int unk6 = -1;
 }
 
-THUMB void unkfunc_0217d560()
+THUMB void drawRootMenuScreen()
 {
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217ad94(-1, -1);
-        unkfunc_0217eb5c(0, 0, 1);
+        drawRootMenuCommands(-1, -1);
+        drawRootMenuButtonFrames(0, 0, 1);
     }
     drawPartyStatusWindows();
     drawMoneyWindow(-1, -1, 0);
 }
 
-THUMB void unkfunc_0217d598(int chara)
+THUMB void drawItemCharaSelectScreen(int chara)
 {
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217e060(chara, 0, 1, 0);
-        unkfunc_0217cea8(1);
-        unkfunc_0217e144(1, 0);
+        drawItemMenuHeader(chara, 0, 1, 0);
+        drawChooseCharaPrompt(1);
+        drawCharaSelectWindow(1, 0);
     }
     drawPartyStatusWindows();
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217e34c(chara, 0);
+        drawCharaItemList(chara, 0);
         drawMenuFrame(0, 0x50, 0x100, 0x70, -1);
     }
 }
 
-THUMB void unkfunc_0217d5f4(int chara, int itemID, int page)
+THUMB void drawItemSelectScreen(int chara, int itemID, int page)
 {
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217e060(chara, 0, 1, 0);
-        unkfunc_0217e388(chara, page, 0);
+        drawItemMenuHeader(chara, 0, 1, 0);
+        drawItemListPage(chara, page, 0);
         drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
-        unkfunc_0217b3b0(itemID, 0, 0);
+        drawMenuDescription(itemID, 0, 0);
         if (TownMenuPlayerControl::getSingleton()->activeFukuro_ != 0) {
             if (status::FukuroItemInfo::getItemMaxCount() > 6) {
                 TownMenuPlayerControl* ctrl = TownMenuPlayerControl::getSingleton();
-                unkfunc_0217b300(0xb8, status::FukuroItemInfo::getPageMax() - 1, ctrl->activeItemPage_, 1);
+                drawPageIndicator(0xb8, status::FukuroItemInfo::getPageMax() - 1, ctrl->activeItemPage_, 1);
             }
         } else if (status::PlayerItemInfo::getItemMaxCount(chara) > 6) {
-            unkfunc_0217b300(0xd0, 1, TownMenuPlayerControl::getSingleton()->activeItemPage_, 0);
+            drawPageIndicator(0xd0, 1, TownMenuPlayerControl::getSingleton()->activeItemPage_, 0);
         }
     }
     drawPartyStatusWindows();
@@ -76,15 +76,15 @@ THUMB void unkfunc_0217d5f4(int chara, int itemID, int page)
     case 2:
     case 3:
     case 4:
-        unkfunc_0217b488(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, itemID, 0, 0);
+        drawEquipCompareWindow(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, itemID, 0, 0);
         break;
     default:
-        unkfunc_0217b40c(itemID);
+        drawItemUsageInfo(itemID);
         break;
     }
 }
 
-THUMB void unkfunc_0217d6e8(int chara, int itemID, int page, int sound)
+THUMB void drawItemCommandScreen(int chara, int itemID, int page, int sound)
 {
     if (!data_020ed1bc.isOpen() && sound == 0) {
         int x = (TownMenuPlayerControl::getSingleton()->activeItem_ % 2) * 0x78 + 0x14;
@@ -95,11 +95,11 @@ THUMB void unkfunc_0217d6e8(int chara, int itemID, int page, int sound)
         } else {
             command = status::PlayerItemInfo::getItemPlayerCommandFlag(chara, TownMenuPlayerControl::getSingleton()->getActiveItemIndexToAll());
         }
-        unkfunc_0217e060(chara, 0, 1, 0);
-        unkfunc_0217b5b0(command);
+        drawItemMenuHeader(chara, 0, 1, 0);
+        drawItemUseCommands(command);
         drawMenuFrame(0, 0, 0x100, 0xa0, 0x68);
-        unkfunc_0217e388(chara, page, 0);
-        unkfunc_0217cce4(x, y + 4);
+        drawItemListPage(chara, page, 0);
+        drawTownCommandCursor(x, y + 4);
     }
     drawPartyStatusWindows();
     if (!data_020ed1bc.isOpen() && sound == 0) {
@@ -110,79 +110,79 @@ THUMB void unkfunc_0217d6e8(int chara, int itemID, int page, int sound)
         case 2:
         case 3:
         case 4:
-            unkfunc_0217b488(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, itemID, 0, 0);
+            drawEquipCompareWindow(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, itemID, 0, 0);
             break;
         default:
-            unkfunc_0217b40c(itemID);
+            drawItemUsageInfo(itemID);
             break;
         }
     }
 }
 
-THUMB void unkfunc_0217d7f8(int active, int itemID, int page)
+THUMB void drawItemUseTargetScreen(int active, int itemID, int page)
 {
     status::g_Party.setBattleMode();
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217e060(active + page * 4, 0, 1, 1);
+        drawItemMenuHeader(active + page * 4, 0, 1, 1);
         drawMenuFrame(0, 0, 0x100, 0xa0, -1);
-        unkfunc_0217e584(page);
+        drawPartyHpMpListBattle(page);
         status::g_Party.setPlayerMode();
     }
     drawPartyStatusWindows();
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217b40c(itemID);
+        drawItemUsageInfo(itemID);
         drawMenuFrame(0, 0x78, 0xb0, 0x48, 0x90);
     }
 }
 
-THUMB void unkfunc_0217d870(int activeChara, int targetChara, int itemID, int sound)
+THUMB void drawItemTargetCharaScreen(int activeChara, int targetChara, int itemID, int sound)
 {
     if (!data_020ed1bc.isOpen() && sound == 0) {
-        unkfunc_0217e060(activeChara, 0, 0, 0);
-        unkfunc_0217eba4(0x88, 0xa0);
-        unkfunc_0217b184(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_);
-        unkfunc_0217ccf8(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_, itemID, 0);
-        unkfunc_0217e144(1, 0);
+        drawItemMenuHeader(activeChara, 0, 0, 0);
+        drawSmallButtonFrame(0x88, 0xa0);
+        drawTargetCharaNameBar(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_);
+        drawItemTargetInfo(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_, itemID, 0);
+        drawCharaSelectWindow(1, 0);
         drawMenuFrame(0, 0, 0x100, 0x48, 0x28);
     }
-    unkfunc_0217e34c(targetChara, 1);
+    drawCharaItemList(targetChara, 1);
     drawPartyStatusWindows();
     drawMenuFrame(0, 0x50, 0x100, 0x70, -1);
 }
 
-THUMB void unkfunc_0217d900(int activeChara, int targetChara, int itemID, int page, int sound)
+THUMB void drawItemTargetItemScreen(int activeChara, int targetChara, int itemID, int page, int sound)
 {
     if (!data_020ed1bc.isOpen() && sound == 0) {
-        unkfunc_0217e060(activeChara, 0, 0, 0);
-        unkfunc_0217eba4(0x88, 0xa0);
-        unkfunc_0217b184(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_);
+        drawItemMenuHeader(activeChara, 0, 0, 0);
+        drawSmallButtonFrame(0x88, 0xa0);
+        drawTargetCharaNameBar(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_);
         drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
-        unkfunc_0217e388(targetChara, page, 1);
-        unkfunc_0217b3b0(0, 0, 1);
+        drawItemListPage(targetChara, page, 1);
+        drawMenuDescription(0, 0, 1);
         if (status::PlayerItemInfo::getItemMaxCount(targetChara) + 1 > 6) {
-            unkfunc_0217b300(0xd0, 1, TownMenuPlayerControl::getSingleton()->targetItemPage_, 0);
+            drawPageIndicator(0xd0, 1, TownMenuPlayerControl::getSingleton()->targetItemPage_, 0);
         }
     }
-    unkfunc_0217ccf8(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_, itemID, 1);
+    drawItemTargetInfo(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_, itemID, 1);
     drawMenuFrame(0, 8, 0x100, 0x48, 0x30);
-    unkfunc_0217e34c(targetChara, 1);
+    drawCharaItemList(targetChara, 1);
     drawMenuFrame(0, 0x50, 0x100, 0x70, -1);
 }
 
-THUMB void unkfunc_0217d9cc(int mp1, int mp2, int magicID, int chara, int mode)
+THUMB void drawMagicRootScreen(int mp1, int mp2, int magicID, int chara, int mode)
 {
     if (!data_020ed1bc.isOpen()) {
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_;
-        unkfunc_0217e0ac(chara);
-        unkfunc_0217ba8c(info, mp1, mp2);
+        drawMagicMenuHeader(chara);
+        drawCasterMpBar(info, mp1, mp2);
         if (mode == 0) {
-            unkfunc_0217cea8(0);
-            unkfunc_0217e144(0, 0);
-            unkfunc_0217bae0(info);
+            drawChooseCharaPrompt(0);
+            drawCharaSelectWindow(0, 0);
+            drawTownSpellList(info);
             drawMenuFrame(0, 0x58, 0x100, 0x58, -1);
         } else {
-            unkfunc_0217e5a0(chara);
-            unkfunc_0217b3b0(magicID, 1, 0);
+            drawFieldSpellList(chara);
+            drawMenuDescription(magicID, 1, 0);
             drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
             unkfunc_0217cf1c(0);
         }
@@ -190,89 +190,89 @@ THUMB void unkfunc_0217d9cc(int mp1, int mp2, int magicID, int chara, int mode)
     drawPartyStatusWindows();
 }
 
-THUMB void unkfunc_0217da64(int mp, int useMp, int chara, int page)
+THUMB void drawMagicCharaSelectScreen(int mp, int useMp, int chara, int page)
 {
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217e0ac(chara);
-        unkfunc_0217ba8c(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, mp, useMp);
+        drawMagicMenuHeader(chara);
+        drawCasterMpBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, mp, useMp);
         drawMenuFrame(0, 0, 0x100, 0xa0, -1);
-        unkfunc_0217e520(page);
+        drawPartyHpMpList(page);
     }
     drawPartyStatusWindows();
     drawMoneyWindow(-1, -1, 0);
 }
 
-THUMB void unkfunc_0217dac4(int mp, int useMp, int chara, int page, unsigned char* town)
+THUMB void drawWarpTownSelectScreen(int mp, int useMp, int chara, int page, unsigned char* town)
 {
     if (!data_020ed1bc.isOpen()) {
         if (mp != -1 && useMp != -1) {
-            unkfunc_0217ad94(1, -1);
-            unkfunc_0217eb5c(0x40, 0xa0, 0);
-            unkfunc_0217ba8c(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, mp, useMp);
-            unkfunc_0217eba4(0, 0xa0);
-            unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 0, chara, 0);
+            drawRootMenuCommands(1, -1);
+            drawRootMenuButtonFrames(0x40, 0xa0, 0);
+            drawCasterMpBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, mp, useMp);
+            drawSmallButtonFrame(0, 0xa0);
+            drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 0, chara, 0);
         } else {
-            unkfunc_0217ad94(2, -1);
-            unkfunc_0217eb5c(0x40, 0xa0, 0);
-            unkfunc_0217eba4(0x88, 0xa0);
-            unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 1, chara, 0);
+            drawRootMenuCommands(2, -1);
+            drawRootMenuButtonFrames(0x40, 0xa0, 0);
+            drawSmallButtonFrame(0x88, 0xa0);
+            drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 1, chara, 0);
         }
         drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
-        unkfunc_0217bbcc(page, town);
+        drawRuraTownList(page, town);
         unkfunc_0217cf1c(1);
     }
     drawPartyStatusWindows();
 }
 
-THUMB void unkfunc_0217db80(int index, int page)
+THUMB void drawStatusMainPage(int index, int page)
 {
-    unkfunc_0217e0e4(index, page);
-    unkfunc_0217bc9c(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_);
-    unkfunc_0217bdb8(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_);
+    drawStatusMenuHeader(index, page);
+    drawStatusCharaProfile(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_);
+    drawStatusAbilities(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_);
     drawMenuFrame(0, 0, 0x98, 0x70, 0x18);
     drawMenuFrame(0x98, 0, 0x68, 0x70, -1);
-    unkfunc_0217c290(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 0);
+    drawStatusEquipment(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 0);
     drawMenuFrame(0, 0x60, 0x98, 0x60, -1);
     drawMenuFrame(0x98, 0xa0, 0x68, 0x20, -1);
     drawMenuFrame(0x98, 0x80, 0x68, 0x20, -1);
 }
 
-THUMB void unkfunc_0217dc18(int index, int page)
+THUMB void drawStatusSpellPage(int index, int page)
 {
-    unkfunc_0217e0e4(index, page);
-    unkfunc_0217c3e0(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 0);
+    drawStatusMenuHeader(index, page);
+    drawStatusSpellList(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 0);
     drawMenuFrame(0, 0, 0x100, 0x70, 0x28);
-    unkfunc_0217c3e0(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 1);
+    drawStatusSpellList(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 1);
     drawMenuFrame(0, 0, 0x100, 0xc0, 0x28);
 }
 
-THUMB void unkfunc_0217dc6c(int index, int type, int page)
+THUMB void drawStatusPartySummaryScreen(int index, int type, int page)
 {
-    unkfunc_0217e0e4(index, page);
-    unkfunc_0217e628(type);
+    drawStatusMenuHeader(index, page);
+    drawPartySummaryStats(type);
 }
 
-THUMB void unkfunc_0217dc80(int page)
+THUMB void drawStatusMoneyScreen(int page)
 {
-    unkfunc_0217e0e4(-2, page);
-    unkfunc_0217c7f0();
+    drawStatusMenuHeader(-2, page);
+    drawPartyMoneyAndPlayTime();
     drawMenuFrame(0, 0, 0x100, 0x70, 0x28);
     drawMenuFrameLine(0, 0x50, 0x100);
 }
 
-THUMB void unkfunc_0217dcb0(int mode, char* command, int count, int chara)
+THUMB void drawOperationRootScreen(int mode, char* command, int count, int chara)
 {
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217ad94(5, -1);
-        unkfunc_0217eb5c(0x40, 0xa0, 0);
+        drawRootMenuCommands(5, -1);
+        drawRootMenuButtonFrames(0x40, 0xa0, 0);
         if (mode == 2) {
-            unkfunc_0217ad94(5, -1);
-            unkfunc_0217eb5c(0x40, 0xa0, 0);
-            unkfunc_0217eba4(0x88, 0xa0);
+            drawRootMenuCommands(5, -1);
+            drawRootMenuButtonFrames(0x40, 0xa0, 0);
+            drawSmallButtonFrame(0x88, 0xa0);
             if (chara < 0) {
-                unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(0)->haveStatusInfo_, 1, chara, 0);
+                drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(0)->haveStatusInfo_, 1, chara, 0);
             } else {
-                unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 1, chara, 0);
+                drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 1, chara, 0);
             }
             status::g_Party.setBattleMode();
             char order[12];
@@ -285,33 +285,33 @@ THUMB void unkfunc_0217dcb0(int mode, char* command, int count, int chara)
                 }
             }
             order[n] = -1;
-            unkfunc_0217e7bc(order, mode);
+            drawPartyOrderIcons(order, mode);
         } else {
-            unkfunc_0217e6e8(mode, command, count);
+            drawTacticsCommandList(mode, command, count);
         }
     }
     drawPartyStatusWindows();
     if (chara != -2 && mode == 2) {
-        unkfunc_0217e34c(chara, 0);
+        drawCharaItemList(chara, 0);
         drawMenuFrame(0, 0x50, 0x100, 0x70, -1);
     }
 }
 
-THUMB void unkfunc_0217ddc8(char* chara, int index)
+THUMB void drawTacticsScreen(char* chara, int index)
 {
-    unkfunc_0217ad94(5, -1);
-    unkfunc_0217eb5c(0x40, 0xa0, 0);
-    unkfunc_0217eba4(0x88, 0xa0);
+    drawRootMenuCommands(5, -1);
+    drawRootMenuButtonFrames(0x40, 0xa0, 0);
+    drawSmallButtonFrame(0x88, 0xa0);
     if (index < 0) {
-        unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(0)->haveStatusInfo_, 1, index, 0);
+        drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(0)->haveStatusInfo_, 1, index, 0);
     } else {
-        unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 1, index, 0);
+        drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 1, index, 0);
     }
-    unkfunc_0217e7bc(chara, -1);
-    unkfunc_0217e994(chara);
+    drawPartyOrderIcons(chara, -1);
+    drawPartyTacticsList(chara);
 }
 
-THUMB void unkfunc_0217de2c(char* chara, int index, int active)
+THUMB void drawTacticsSelectScreen(char* chara, int index, int active)
 {
     int x = (active % 5) * 0x28 + 0x14;
     int y = (active / 5) * 0x28 + 0x64;
@@ -322,23 +322,23 @@ THUMB void unkfunc_0217de2c(char* chara, int index, int active)
     if (count < 5) {
         y = 0x8c;
     }
-    unkfunc_0217c9ec();
+    drawTacticsOptions();
     drawMenuFrame(0x10, 0, 0xd0, 0x48, -1);
-    unkfunc_0217cce4(x, y);
-    unkfunc_0217ddc8(chara, index);
+    drawTownCommandCursor(x, y);
+    drawTacticsScreen(chara, index);
 }
 
-THUMB void unkfunc_0217deb4(char* select, char* list, int active, int count)
+THUMB void drawShiftPartyScreen(char* select, char* list, int active, int count)
 {
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217ca5c(select, list, count);
+        drawShiftPartyIconList(select, list, count);
         drawMenuFrame(0, 0x68, 0xe0, 0x58, -1);
-        unkfunc_0217cb3c(select);
+        drawShiftPartyFrontSlots(select);
         drawMenuFrame(0, 0, 0x90, 0x68, -1);
         if (list[active] != -1) {
             drawCharaStatusWindow(list[active], 0);
             if (status::g_Party.getCarriageEnableOnGame()) {
-                unkfunc_0217c3e0(&status::g_Party.getPlayerStatus(list[active])->haveStatusInfo_, 1);
+                drawStatusSpellList(&status::g_Party.getPlayerStatus(list[active])->haveStatusInfo_, 1);
                 drawMenuFrame(0, 0, 0x100, 0xc0, 0x28);
             } else {
                 drawPartyStatusWindows();
@@ -350,21 +350,21 @@ THUMB void unkfunc_0217deb4(char* select, char* list, int active, int count)
     }
 }
 
-THUMB void unkfunc_0217df54(int itemType, int chara, int page, unsigned char* list, int count, int active)
+THUMB void drawEquipScreen(int itemType, int chara, int page, unsigned char* list, int count, int active)
 {
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0217ad94(5, 0);
-        unkfunc_0217eb5c(0, 0xa0, 0);
+        drawRootMenuCommands(5, 0);
+        drawRootMenuButtonFrames(0, 0xa0, 0);
         unkfunc_0217cc4c();
         drawMenuFrame(0x48, 0xa0, 0x40, 0x20, -1);
-        unkfunc_0217eba4(0x88, 0xa0);
-        unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 1, chara, 0);
+        drawSmallButtonFrame(0x88, 0xa0);
+        drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 1, chara, 0);
         if (itemType == -1) {
-            unkfunc_0217e144(0, 1);
+            drawCharaSelectWindow(0, 1);
         } else {
-            unkfunc_0217e9ec(chara, list, count, itemType, page);
+            drawEquipItemList(chara, list, count, itemType, page);
             if (count > 6) {
-                unkfunc_0217b368(0x50, (count - 1) / 6, page);
+                drawPageIndicatorWide(0x50, (count - 1) / 6, page);
             }
             unkfunc_0217cc6c();
             drawMenuFrame(0, 0, 0x100, 0xa0, -1);
@@ -373,50 +373,50 @@ THUMB void unkfunc_0217df54(int itemType, int chara, int page, unsigned char* li
     status::g_Party.setPlayerMode();
     if (itemType != -1) {
         if (active == -1) {
-            unkfunc_0217eb10(chara, -1, itemType);
+            drawEquipItemInfo(chara, -1, itemType);
         } else {
-            unkfunc_0217eb10(chara, active, itemType);
+            drawEquipItemInfo(chara, active, itemType);
         }
         drawMenuFrame(0, 0x78, 0x68, 0x48, 0x90);
     }
-    unkfunc_0217c290(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 1);
+    drawStatusEquipment(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 1);
     drawMenuFrame(0x68, 0x60, 0x98, 0x60, -1);
 }
 
-THUMB void unkfunc_0217e060(int chara, int flag, int mode, int fukuro)
+THUMB void drawItemMenuHeader(int chara, int flag, int mode, int fukuro)
 {
-    unkfunc_0217ad94(2, -1);
-    unkfunc_0217eb5c(0x40, 0xa0, flag);
+    drawRootMenuCommands(2, -1);
+    drawRootMenuButtonFrames(0x40, 0xa0, flag);
     if (mode != 0) {
-        unkfunc_0217eba4(0x88, 0xa0);
+        drawSmallButtonFrame(0x88, 0xa0);
     } else {
-        unkfunc_0217eba4(0, 0xa0);
+        drawSmallButtonFrame(0, 0xa0);
     }
-    unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, mode, chara, fukuro);
+    drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, mode, chara, fukuro);
 }
 
-THUMB void unkfunc_0217e0ac(int chara)
+THUMB void drawMagicMenuHeader(int chara)
 {
-    unkfunc_0217ad94(1, -1);
-    unkfunc_0217eb5c(0x40, 0xa0, 0);
-    unkfunc_0217eba4(0, 0xa0);
-    unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 0, chara, 0);
+    drawRootMenuCommands(1, -1);
+    drawRootMenuButtonFrames(0x40, 0xa0, 0);
+    drawSmallButtonFrame(0, 0xa0);
+    drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, 0, chara, 0);
 }
 
-THUMB void unkfunc_0217e0e4(int index, int page)
+THUMB void drawStatusMenuHeader(int index, int page)
 {
-    unkfunc_0217ad94(4, -1);
-    unkfunc_0217eb5c(0x40, 0xa0, 0);
-    unkfunc_0217eba4(0x88, 0xa0);
+    drawRootMenuCommands(4, -1);
+    drawRootMenuButtonFrames(0x40, 0xa0, 0);
+    drawSmallButtonFrame(0x88, 0xa0);
     if (index == -2) {
-        unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(0)->haveStatusInfo_, 1, index, 0);
+        drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(0)->haveStatusInfo_, 1, index, 0);
     } else {
-        unkfunc_0217b0c4(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 1, index, 0);
+        drawActiveCharaNameBar(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_, 1, index, 0);
     }
-    unkfunc_0217e1bc(page);
+    drawStatusPartyIcons(page);
 }
 
-THUMB void unkfunc_0217e144(int mode, int flag)
+THUMB void drawCharaSelectWindow(int mode, int flag)
 {
     int count;
     if (mode != 0 && status::g_Party.fukuro_ != 0) {
@@ -424,7 +424,7 @@ THUMB void unkfunc_0217e144(int mode, int flag)
     } else {
         count = status::g_Party.getCount();
     }
-    unkfunc_0217b70c(mode, flag);
+    drawPartyIconRow(mode, flag);
     if (count < 5) {
         drawMenuFrame(0, 0x70, 0xb8, 0x30, -1);
     } else if (count == 5) {
@@ -434,20 +434,20 @@ THUMB void unkfunc_0217e144(int mode, int flag)
     }
 }
 
-THUMB void unkfunc_0217e1bc(int page)
+THUMB void drawStatusPartyIcons(int page)
 {
     status::g_Party.setBattleMode();
     int count = status::g_Party.getCount();
     if (page == 0) {
         if (count > 4) {
             count = 5;
-            unkfunc_0217b300(0xd0, status::g_Party.getCount() / 5, page, 0);
+            drawPageIndicator(0xd0, status::g_Party.getCount() / 5, page, 0);
         }
         for (int i = 0; i < count; i++) {
-            unkfunc_0217aee0(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, i * 0x28 + 0x10, 0x70);
+            drawPartyMemberIcon(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, i * 0x28 + 0x10, 0x70);
         }
         for (int i = 0; i < status::g_Party.getCarriageOutCount(); i++) {
-            unkfunc_0217c8bc(i + 1, i * 0x28 + 8, 0x78, i);
+            drawCarriageOrderNumber(i + 1, i * 0x28 + 8, 0x78, i);
         }
         if (status::g_Party.getCount() < 4) {
             int x = status::g_Party.getCount() * 0x28 + 0x10;
@@ -465,7 +465,7 @@ THUMB void unkfunc_0217e1bc(int page)
                 count = 10;
             }
             for (int i = 5; i < count; i++) {
-                unkfunc_0217aee0(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, (i - page * 5) * 0x28 + 0x10, 0x70);
+                drawPartyMemberIcon(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, (i - page * 5) * 0x28 + 0x10, 0x70);
             }
             if (status::g_Party.getCount() < 10) {
                 int x = (status::g_Party.getCount() - 5) * 0x28 + 0x10;
@@ -474,22 +474,22 @@ THUMB void unkfunc_0217e1bc(int page)
         } else {
             unkfunc_0217af90(-2, 0x10, 0x70);
         }
-        unkfunc_0217b300(0xd0, status::g_Party.getCount() / 5, page, 0);
+        drawPageIndicator(0xd0, status::g_Party.getCount() / 5, page, 0);
         drawMenuFrame(0, 0x70, 0x100, 0x30, -1);
     }
 }
 
-THUMB void unkfunc_0217e34c(int chara, int target)
+THUMB void drawCharaItemList(int chara, int target)
 {
     if ((target != 0 && TownMenuPlayerControl::getSingleton()->targetFukuro_ != 0)
         || (target == 0 && TownMenuPlayerControl::getSingleton()->activeFukuro_ != 0)) {
-        unkfunc_0217b038();
+        drawBagItemNameList();
     } else {
-        unkfunc_0217afc4(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_);
+        drawCharaItemNameList(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_);
     }
 }
 
-THUMB void unkfunc_0217e388(int chara, int page, int target)
+THUMB void drawItemListPage(int chara, int page, int target)
 {
     TownMenuPlayerControl::getSingleton();
     if (TownMenuPlayerControl::getSingleton()->activeFukuro_ == 0) {
@@ -501,7 +501,7 @@ THUMB void unkfunc_0217e388(int chara, int page, int target)
         for (int i = 0; i < count; i++) {
             int item = status::FukuroItemInfo::getItemId(i, page);
             int index = status::FukuroItemInfo::getIndexToAll(i, page);
-            unkfunc_0217b254(item, index, (i % 2 + 1) * 16 + (i % 2) * 0x68 + 4, (i / 2) * 8 + (i / 2) * 0x18 + 4);
+            drawBagItemSlot(item, index, (i % 2 + 1) * 16 + (i % 2) * 0x68 + 4, (i / 2) * 8 + (i / 2) * 0x18 + 4);
         }
         return;
     }
@@ -512,21 +512,21 @@ THUMB void unkfunc_0217e388(int chara, int page, int target)
     for (int i = 0; i < count; i++) {
         if (page == 0) {
             int item = status::PlayerItemInfo::getItemIndex(chara, i);
-            unkfunc_0217b1ec(item, (i % 2 + 1) * 16 + (i % 2) * 0x68 + 4, (i / 2) * 8 + (i / 2) * 0x18 + 4);
+            drawItemSlot(item, (i % 2 + 1) * 16 + (i % 2) * 0x68 + 4, (i / 2) * 8 + (i / 2) * 0x18 + 4);
             if (status::g_Party.getPlayerStatus(chara)->haveStatusInfo_.haveItem_.isEquipment(i)) {
-                unkfunc_0217b2b4(i);
+                drawItemEquippedMark(i);
             }
         } else {
             int item = status::PlayerItemInfo::getItemIndex(chara, i + 6);
-            unkfunc_0217b1ec(item, (i % 2 + 1) * 16 + (i % 2) * 0x68 + 4, (i / 2) * 8 + (i / 2) * 0x18 + 4);
+            drawItemSlot(item, (i % 2 + 1) * 16 + (i % 2) * 0x68 + 4, (i / 2) * 8 + (i / 2) * 0x18 + 4);
         }
     }
     if (!data_020ed1bc.isOpen() && target != 0 && count < 6) {
-        unkfunc_0217b1ec(-1, (count % 2 + 1) * 16 + (count % 2) * 0x68 + 4, (count / 2) * 8 + (count / 2) * 0x18 + 4);
+        drawItemSlot(-1, (count % 2 + 1) * 16 + (count % 2) * 0x68 + 4, (count / 2) * 8 + (count / 2) * 0x18 + 4);
     }
 }
 
-THUMB void unkfunc_0217e520(int page)
+THUMB void drawPartyHpMpList(int page)
 {
     int i;
     int end = (page + 1) * 4;
@@ -534,21 +534,21 @@ THUMB void unkfunc_0217e520(int page)
         end = status::g_Party.getCount();
     }
     for (i = page * 4; i < end; i++) {
-        unkfunc_0217b908(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, i - page * 4, page);
+        drawCharaSummaryPanel(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, i - page * 4, page);
     }
     if (status::g_Party.getCount() > 4) {
-        unkfunc_0217b368(0x50, (status::g_Party.getCount() - 1) / 4, page);
+        drawPageIndicatorWide(0x50, (status::g_Party.getCount() - 1) / 4, page);
     }
 }
 
-THUMB void unkfunc_0217e584(int page)
+THUMB void drawPartyHpMpListBattle(int page)
 {
     status::g_Party.setBattleMode();
-    unkfunc_0217e520(page);
+    drawPartyHpMpList(page);
     status::g_Party.setPlayerMode();
 }
 
-THUMB void unkfunc_0217e5a0(int chara)
+THUMB void drawFieldSpellList(int chara)
 {
     int count = status::g_Party.getPlayerStatus(chara)->haveStatusInfo_.haveAction_.getCount();
     int n = 0;
@@ -557,27 +557,27 @@ THUMB void unkfunc_0217e5a0(int chara)
         if (status::UseAction::isUsuallyUse(action)) {
             int message = getActionNameMessage(action);
             status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_;
-            unkfunc_0217bb74((n % 2) * 0x78 + 0x1c, (n / 2) * 16 + 0xc + (n / 2) * 8, message, 0, info);
+            drawSpellName((n % 2) * 0x78 + 0x1c, (n / 2) * 16 + 0xc + (n / 2) * 8, message, 0, info);
             n++;
         }
     }
 }
 
-THUMB void unkfunc_0217e628(int type)
+THUMB void drawPartySummaryStats(int type)
 {
     if (status::g_Party.getCount() < 5) {
         if (type != 0) {
-            unkfunc_0217c4f0();
+            drawPartyHpMpSummary();
         } else {
-            unkfunc_0217c658();
+            drawPartyAttackDefenceSummary();
         }
         drawMenuFrame(0, 0, status::g_Party.getCount() * 64, 0x70, -1);
         return;
     }
     if (type != 0) {
-        unkfunc_0217c4f0();
+        drawPartyHpMpSummary();
     } else {
-        unkfunc_0217c658();
+        drawPartyAttackDefenceSummary();
     }
     unkfunc_02050698(0, 0xc1);
     drawMenuFrame(0, 0, 0x100, 0x70, -1);
@@ -591,24 +591,24 @@ THUMB void unkfunc_0217e628(int type)
     }
 }
 
-THUMB void unkfunc_0217e6e8(int mode, char* command, int count)
+THUMB void drawTacticsCommandList(int mode, char* command, int count)
 {
     int tactics[9] = { 0x8000006f, 0x8000006b, 0x80000071, 0x80000070, 0x80000072, 0x80000073, 0x80000082, 0x80000074, 0x80000083 };
     int setting[2] = { 0xa000006e, 0xa000006f };
     if (mode == 1) {
         for (int i = 0; i < 2; i++) {
-            unkfunc_0217c94c((i % 2) * 0x50 + 0x10 + (i % 2) * 16, 0x88, setting[i]);
+            drawCommandLabel((i % 2) * 0x50 + 0x10 + (i % 2) * 16, 0x88, setting[i]);
         }
         drawMenuFrame(0, 0x80, 0xd8, 0x20, -1);
         return;
     }
     for (int i = 0; i < count; i++) {
-        unkfunc_0217c94c((i % 2) * 0x50 + 0x20 + (i % 2) * 16, (i / 2) * 16 + 0x24 + (i / 2) * 8, tactics[command[i]]);
+        drawCommandLabel((i % 2) * 0x50 + 0x20 + (i % 2) * 16, (i / 2) * 16 + 0x24 + (i / 2) * 8, tactics[command[i]]);
     }
     drawMenuFrame(0x10, 0x18, 0xd0, ((count - 1) / 2) * 0x18 + 0x28, -1);
 }
 
-THUMB void unkfunc_0217e7bc(char* order, int mode)
+THUMB void drawPartyOrderIcons(char* order, int mode)
 {
     status::g_Party.setBattleMode();
     int carriageOut = status::g_Party.getCarriageOutCount();
@@ -633,7 +633,7 @@ THUMB void unkfunc_0217e7bc(char* order, int mode)
         drawMenuFrame(0, 0x48, 0xe0, 0x58, -1);
     }
     for (; order[i] != -1 && i < 5; i++) {
-        unkfunc_0217aee0(&status::g_Party.getPlayerStatus(order[i])->haveStatusInfo_, i * 32 + 16 + i * 8, y);
+        drawPartyMemberIcon(&status::g_Party.getPlayerStatus(order[i])->haveStatusInfo_, i * 32 + 16 + i * 8, y);
     }
     int n = 0;
     for (int j = 0; j < carriageOut; j++) {
@@ -648,7 +648,7 @@ THUMB void unkfunc_0217e7bc(char* order, int mode)
         status::PlayerStatus* player = status::g_Party.getPlayerStatus(j);
         if (player->haveStatusInfo_.haveStatus_.isPlayer() != false) {
             int x = n * 32 + 16 + n * 8;
-            unkfunc_0217c8bc(j + 1, x - 8, y + 8, order[n]);
+            drawCarriageOrderNumber(j + 1, x - 8, y + 8, order[n]);
             n++;
         }
     }
@@ -661,29 +661,29 @@ THUMB void unkfunc_0217e7bc(char* order, int mode)
         return;
     }
     for (; order[i] != -1 && i < 9; i++) {
-        unkfunc_0217aee0(&status::g_Party.getPlayerStatus(order[i])->haveStatusInfo_, (i - 5) * 32 + 16 + (i - 5) * 8, 0x70);
+        drawPartyMemberIcon(&status::g_Party.getPlayerStatus(order[i])->haveStatusInfo_, (i - 5) * 32 + 16 + (i - 5) * 8, 0x70);
     }
     unkfunc_0217af90(-2, (i - 5) * 32 + 16 + (i - 5) * 8, 0x70);
 }
 
-THUMB void unkfunc_0217e994(char* order)
+THUMB void drawPartyTacticsList(char* order)
 {
     int i = 0;
-    unkfunc_0217c918(0, 0xe, 0x80000091);
+    drawMenuHeaderText(0, 0xe, 0x80000091);
     for (; order[i] != -1; i++) {
-        unkfunc_0217c974(&status::g_Party.getPlayerStatus(order[i])->haveStatusInfo_, 0, i * 16 + 0x30);
+        drawCharaTacticsRow(&status::g_Party.getPlayerStatus(order[i])->haveStatusInfo_, 0, i * 16 + 0x30);
     }
     drawMenuFrame(0, 0, 0x100, 0xc0, 0x20);
 }
 
-THUMB void unkfunc_0217e9ec(int chara, unsigned char* list, int count, int itemType, int page)
+THUMB void drawEquipItemList(int chara, unsigned char* list, int count, int itemType, int page)
 {
     if (itemType == -1) {
         for (int i = 0; i < count; i++) {
             if (status::g_Party.getPlayerStatus(chara)->haveStatusInfo_.haveItem_.isEquipment(list[i])) {
                 int item = status::g_Party.getPlayerStatus(chara)->haveStatusInfo_.haveItem_.getItem(list[i]);
-                unkfunc_0217b1ec(item, (i % 2 + 1) * 16 + 4 + (i % 2) * 0x68, (i / 2) * 8 + (i / 2) * 0x18 + 4);
-                unkfunc_0217b2b4(i);
+                drawItemSlot(item, (i % 2 + 1) * 16 + 4 + (i % 2) * 0x68, (i / 2) * 8 + (i / 2) * 0x18 + 4);
+                drawItemEquippedMark(i);
             }
         }
         return;
@@ -693,31 +693,31 @@ THUMB void unkfunc_0217e9ec(int chara, unsigned char* list, int count, int itemT
             count = 6;
         }
         for (int i = 0; i < count; i++) {
-            unkfunc_0217b1ec(list[i], (i % 2 + 1) * 16 + 4 + (i % 2) * 0x68, (i / 2) * 8 + (i / 2) * 0x18 + 4);
+            drawItemSlot(list[i], (i % 2 + 1) * 16 + 4 + (i % 2) * 0x68, (i / 2) * 8 + (i / 2) * 0x18 + 4);
         }
         if (count > 0 && status::g_Party.getPlayerStatus(chara)->haveStatusInfo_.haveEquipment_.isEquipment(list[0])) {
-            unkfunc_0217b2b4(0);
+            drawItemEquippedMark(0);
         }
         return;
     }
     for (int i = 6; i < count; i++) {
-        unkfunc_0217b1ec(list[i], ((i - 6) % 2 + 1) * 16 + 4 + ((i - 6) % 2) * 0x68, ((i - 6) / 2) * 8 + ((i - 6) / 2) * 0x18 + 4);
+        drawItemSlot(list[i], ((i - 6) % 2 + 1) * 16 + 4 + ((i - 6) % 2) * 0x68, ((i - 6) / 2) * 8 + ((i - 6) / 2) * 0x18 + 4);
     }
 }
 
-THUMB void unkfunc_0217eb10(int chara, int index, int itemType)
+THUMB void drawEquipItemInfo(int chara, int index, int itemType)
 {
     if (itemType != -1) {
         if (index == -1) {
-            unkfunc_0217b488(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, -1, itemType, 0);
+            drawEquipCompareWindow(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, -1, itemType, 0);
         } else {
             int item = status::PlayerItemInfo::getItemIndex(chara, index);
-            unkfunc_0217b488(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, item, itemType, 0);
+            drawEquipCompareWindow(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, item, itemType, 0);
         }
     }
 }
 
-THUMB void unkfunc_0217eb5c(int x, int y, int flag)
+THUMB void drawRootMenuButtonFrames(int x, int y, int flag)
 {
     if (flag != 0) {
         for (int i = 0; i < 6; i++) {
@@ -728,7 +728,7 @@ THUMB void unkfunc_0217eb5c(int x, int y, int flag)
     drawMenuFrame(x, y, 0x48, 0x20, -1);
 }
 
-THUMB void unkfunc_0217eba4(int x, int y)
+THUMB void drawSmallButtonFrame(int x, int y)
 {
     drawMenuFrame(x, y, 0x40, 0x20, -1);
 }

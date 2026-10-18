@@ -6,9 +6,9 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/status/OptionStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_02173d7c.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217ad94.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuOperationDraw.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuDraw.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/MenuCommonDraw.hpp"
 
@@ -61,15 +61,15 @@ THUMB void TownMenu_OPERATION_SETTING::menuDraw()
     settings_.draw(bgmItem_, 0, 0x100, drawMenuFrame);
     return;
 #endif
-    unkfunc_02173d7c();
+    drawSettingScreenLabels();
     int y[3] = { 0x50, 0x6c, 0x88 };
     for (int i = 0; i < 3; i++) {
-        unkfunc_02173da4(0x68, y[i]);
+        drawSettingLevelNumbers(0x68, y[i]);
     }
     unkfunc_0217cc8c();
     drawMenuFrame(0, 0x20, 0x100, 0x80, 0x40);
-    unkfunc_0217ad94(5, -1);
-    unkfunc_0217eb5c(0x40, 0xa0, 0);
+    drawRootMenuCommands(5, -1);
+    drawRootMenuButtonFrames(0x40, 0xa0, 0);
     unkfunc_0217aa8c();
     drawPartyStatusWindows();
     drawMoneyWindow(-1, -1, 0);

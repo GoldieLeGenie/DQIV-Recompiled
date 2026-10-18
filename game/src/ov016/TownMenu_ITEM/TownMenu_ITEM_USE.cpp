@@ -21,7 +21,7 @@
 #include "main/status/UseActionMacro.hpp"
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenu_ITEM_USE::menuSetup()
 {
@@ -68,7 +68,7 @@ THUMB void TownMenu_ITEM_USE::menuExecute()
 
 THUMB void TownMenu_ITEM_USE::menuDraw()
 {
-    unkfunc_0217d7f8(charaItem_.active_, itemID_, page_);
+    drawItemUseTargetScreen(charaItem_.active_, itemID_, page_);
     if (!data_020ed1bc.isOpen()) {
         charaItem_.drawActive();
         cancelItem_.drawActive();

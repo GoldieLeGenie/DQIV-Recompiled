@@ -9,7 +9,7 @@
 #include "main/status/UseItem.hpp"
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 #include "main/menu/MenuTemplate_Common.hpp"
 
 THUMB void TownMenu_OPERATION_EQUIP::menuSetup()
@@ -61,12 +61,12 @@ THUMB void TownMenu_OPERATION_EQUIP::menuDraw()
     status::g_Party.setPlayerMode();
     if (itemType_ >= 0) {
         if (itemListActive_ != 0) {
-            unkfunc_0217df54(itemType_, activeChara_, itemPageStart_, itemIdList_, itemCount_, itemPosList_[itemPageStart_ * 6 + itemItem_.getActive()]);
+            drawEquipScreen(itemType_, activeChara_, itemPageStart_, itemIdList_, itemCount_, itemPosList_[itemPageStart_ * 6 + itemItem_.getActive()]);
         } else {
-            unkfunc_0217df54(itemType_, activeChara_, itemPageStart_, itemIdList_, itemCount_, -1);
+            drawEquipScreen(itemType_, activeChara_, itemPageStart_, itemIdList_, itemCount_, -1);
         }
     } else {
-        unkfunc_0217df54(itemType_, activeChara_, itemPageStart_, itemPosList_, itemCount_, -1);
+        drawEquipScreen(itemType_, activeChara_, itemPageStart_, itemPosList_, itemCount_, -1);
     }
     if (!data_020ed1bc.isOpen()) {
         charaItem_.drawActive();

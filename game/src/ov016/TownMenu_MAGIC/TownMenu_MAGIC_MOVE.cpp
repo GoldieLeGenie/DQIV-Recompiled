@@ -15,7 +15,7 @@
 #include "main/status/UseActionMacro.hpp"
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenu_MAGIC_MOVE::menuSetup()
 {
@@ -70,7 +70,7 @@ THUMB void TownMenu_MAGIC_MOVE::menuExecute()
 THUMB void TownMenu_MAGIC_MOVE::menuDraw()
 {
     status::g_Party.setBattleMode();
-    unkfunc_0217dac4(status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.getMp(), status::UseAction::getUseMp(0xcb), activeChara_, pageStart_, moveTown_);
+    drawWarpTownSelectScreen(status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.getMp(), status::UseAction::getUseMp(0xcb), activeChara_, pageStart_, moveTown_);
     if (!data_020ed1bc.isOpen()) {
         menuItem_.drawActive();
         cancelItem_.drawActive();

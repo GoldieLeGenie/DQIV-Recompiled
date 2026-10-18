@@ -19,7 +19,7 @@
 #include "main/status/UseActionMacro.hpp"
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenu_MAGIC_ROOT::menuSetup()
 {
@@ -73,7 +73,7 @@ THUMB void TownMenu_MAGIC_ROOT::menuDraw()
         mp1 = statusInfo.getMp();
         mp2 = status::UseAction::getUseMp(magicArray_[activeMagic_]);
     }
-    unkfunc_0217d9cc(mp1, mp2, magicArray_[activeMagic_], activeChara_, mode_);
+    drawMagicRootScreen(mp1, mp2, magicArray_[activeMagic_], activeChara_, mode_);
     if (!data_020ed1bc.isOpen()) {
         if (mode_ == 0) {
             charaItem_.drawActive();

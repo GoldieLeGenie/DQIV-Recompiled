@@ -7,7 +7,7 @@
 #include "main/sound/SoundManager.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenu_OPERATION_SHIFT_PARTY::menuSetup()
 {
@@ -62,7 +62,7 @@ THUMB void TownMenu_OPERATION_SHIFT_PARTY::menuDraw()
         found = 0;
     }
     list[count] = -1;
-    unkfunc_0217deb4(selectCharaAllocation_, list, active, count);
+    drawShiftPartyScreen(selectCharaAllocation_, list, active, count);
     menuItem_.drawActive();
     cancelItem_.drawActive();
 }

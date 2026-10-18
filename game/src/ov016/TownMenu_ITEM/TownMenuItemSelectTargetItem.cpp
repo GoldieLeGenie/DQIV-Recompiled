@@ -7,7 +7,7 @@
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 #include "main/menu/MenuTemplate_Common.hpp"
 
 THUMB void TownMenuItemSelectTargetItem::menuSetup()
@@ -61,7 +61,7 @@ THUMB void TownMenuItemSelectTargetItem::menuExecute()
 THUMB void TownMenuItemSelectTargetItem::menuDraw()
 {
     int targetChara = TownMenuPlayerControl::getSingleton()->targetChara_;
-    unkfunc_0217d900(TownMenuPlayerControl::getSingleton()->activeChara_, targetChara, giveItemID_, startPage_, sound_);
+    drawItemTargetItemScreen(TownMenuPlayerControl::getSingleton()->activeChara_, targetChara, giveItemID_, startPage_, sound_);
     if (!data_020ed1bc.isOpen() && sound_ == 0) {
         menuItem_.drawActive();
     }

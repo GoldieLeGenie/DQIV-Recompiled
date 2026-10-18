@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_02173d7c.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuOperationDraw.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/status/StageStatus.hpp"
@@ -34,7 +34,7 @@ THUMB void unkfunc_unused(int active)
     drawMenuPartsColored(parts, &active, 1);
 }
 
-THUMB void unkfunc_02173d7c()
+THUMB void drawSettingScreenLabels()
 {
     static UnkMenuParts parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0x10, 0x51, 0x38, 0x20 },
@@ -49,7 +49,7 @@ THUMB void unkfunc_02173d7c()
     drawMenuPartsColored(parts, param, 1);
 }
 
-THUMB void unkfunc_02173da4(int x, int y)
+THUMB void drawSettingLevelNumbers(int x, int y)
 {
     static UnkMenuParts parts[] = {
         { 0x0d, 0x09, (short)0xf000, 0, 2, 2, 0xa, 0xa },
@@ -63,7 +63,7 @@ THUMB void unkfunc_02173da4(int x, int y)
     }
 }
 
-THUMB void unkfunc_02173dec(int value, int index, int bookOfBeasts, int heroLevel)
+THUMB void drawCareerRecordLine(int value, int index, int bookOfBeasts, int heroLevel)
 {
     int param[3];
     int name[9] = { 0xa0000191, 0xa0000192, 0xa0000193, 0xa0000194, 0xa0000195, 0xa0000196, 0xa0000197, 0xa000019c, 0xa0000198 };
@@ -90,7 +90,7 @@ THUMB void unkfunc_02173dec(int value, int index, int bookOfBeasts, int heroLeve
     drawMenuParts(parts, param, 0, (index + 1) * 14, 1);
 }
 
-THUMB void unkfunc_02173e7c(int time, int type)
+THUMB void drawCareerPlayTime(int time, int type)
 {
     static UnkMenuParts parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0x18, 8, 0x78, 0x10 },
@@ -123,7 +123,7 @@ THUMB void unkfunc_02173e7c(int time, int type)
     drawMenuParts(parts, param, 0, 0, 1);
 }
 
-THUMB void unkfunc_02173f24(int title)
+THUMB void drawCareerTitle(int title)
 {
     static UnkMenuParts parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0x90, 0x20, 0xc },
@@ -136,7 +136,7 @@ THUMB void unkfunc_02173f24(int title)
     drawMenuPartsColored(parts, param, 1);
 }
 
-THUMB void unkfunc_02173f4c(int type)
+THUMB void drawCareerHistoryType(int type)
 {
     static UnkMenuParts parts[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0x18, 0xa8, 0x78, 0xc },
@@ -153,7 +153,7 @@ THUMB void unkfunc_02173f4c(int type)
     drawMenuPartsColored(parts, param, 1);
 }
 
-THUMB void unkfunc_02173f7c(int index)
+THUMB void drawTownShopGoods(int index)
 {
     unkfunc_02050698(0, 0);
     int msg[3] = { 0x80000084, 0x80000085, 0x80000086 };

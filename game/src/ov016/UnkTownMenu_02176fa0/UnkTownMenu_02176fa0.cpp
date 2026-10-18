@@ -8,7 +8,7 @@
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/menu/MenuUpdateAssist.hpp"
 #include "main/status/PartyStatus.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 #include "main/menu/MenuTemplate_Common.hpp"
 
 THUMB void UnkTownMenu_02176fa0::menuSetup()
@@ -56,7 +56,7 @@ THUMB void UnkTownMenu_02176fa0::menuDraw()
     } else {
         itemId = status::PlayerItemInfo::getItemIndex(chara, TownMenuPlayerControl::getSingleton()->getActiveItemIndexToAll());
     }
-    unkfunc_0217d5f4(chara, itemId, page_);
+    drawItemSelectScreen(chara, itemId, page_);
     if (!data_020ed1bc.isOpen()) {
         menuItem_.drawActive();
     }

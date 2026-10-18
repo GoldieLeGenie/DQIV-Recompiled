@@ -3,7 +3,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/status/PlayerStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenu_OPERATION_TACTICS::menuSetup()
 {
@@ -48,15 +48,15 @@ THUMB void TownMenu_OPERATION_TACTICS::menuDraw()
     int chara = chara_[activeChara_];
     if (mode_ == 0) {
         if (activeChara_ == charaCount_) {
-            unkfunc_0217ddc8(chara_, -2);
+            drawTacticsScreen(chara_, -2);
         } else {
-            unkfunc_0217ddc8(chara_, chara);
+            drawTacticsScreen(chara_, chara);
         }
     } else {
         if (activeChara_ == charaCount_) {
-            unkfunc_0217de2c(chara_, -2, activeChara_);
+            drawTacticsSelectScreen(chara_, -2, activeChara_);
         } else {
-            unkfunc_0217de2c(chara_, chara, activeChara_);
+            drawTacticsSelectScreen(chara_, chara, activeChara_);
         }
     }
     charaItem_.drawActive();

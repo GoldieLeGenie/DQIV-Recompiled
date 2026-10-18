@@ -17,7 +17,7 @@
 #include "main/status/UseActionMacro.hpp"
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenu_MAGIC_CHARSELECT::menuSetup()
 {
@@ -55,7 +55,7 @@ THUMB void TownMenu_MAGIC_CHARSELECT::menuExecute()
 
 THUMB void TownMenu_MAGIC_CHARSELECT::menuDraw()
 {
-    unkfunc_0217da64(status::g_Party.getPlayerStatus(fromActiveChara_)->haveStatusInfo_.getMp(), status::UseAction::getUseMp(magicID_), fromActiveChara_, page_);
+    drawMagicCharaSelectScreen(status::g_Party.getPlayerStatus(fromActiveChara_)->haveStatusInfo_.getMp(), status::UseAction::getUseMp(magicID_), fromActiveChara_, page_);
     if (!data_020ed1bc.isOpen()) {
         charaItem_.drawActive();
         cancelItem_.drawActive();

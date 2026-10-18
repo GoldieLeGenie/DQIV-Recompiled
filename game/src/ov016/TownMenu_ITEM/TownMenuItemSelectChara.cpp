@@ -10,7 +10,7 @@
 #include "main/status/PlayerStatus.hpp"
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenuItemSelectChara::menuSetup()
 {
@@ -44,7 +44,7 @@ THUMB void TownMenuItemSelectChara::menuExecute()
 THUMB void TownMenuItemSelectChara::menuDraw()
 {
     status::g_Party.setPlayerMode();
-    unkfunc_0217d598(TownMenuPlayerControl::getSingleton()->activeChara_);
+    drawItemCharaSelectScreen(TownMenuPlayerControl::getSingleton()->activeChara_);
     if (!data_020ed1bc.isOpen()) {
         menuItem_.drawActive();
     }

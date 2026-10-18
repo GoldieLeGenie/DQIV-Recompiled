@@ -31,7 +31,7 @@
 #include "main/text/TextAPI.hpp"
 #include "main/text/TextHook.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 static int equipMessage_[27] = {
     0xc4c97, 0xc4cb7, 0xc4cda, 0xc4cf7, 0xc4d03, 0xc4d13, 0xc4d19, 0xc4d33, 0xc4d3b,
@@ -92,7 +92,7 @@ THUMB void TownMenuItemSelectCommand::menuExecute()
 THUMB void TownMenuItemSelectCommand::menuDraw()
 {
     char page = TownMenuPlayerControl::getSingleton()->activeItemPage_;
-    unkfunc_0217d6e8(TownMenuPlayerControl::getSingleton()->activeChara_, itemID_, page, sound_);
+    drawItemCommandScreen(TownMenuPlayerControl::getSingleton()->activeChara_, itemID_, page, sound_);
     if (!data_020ed1bc.isOpen() && sound_ == 0) {
         menuItem_.drawActive();
     }

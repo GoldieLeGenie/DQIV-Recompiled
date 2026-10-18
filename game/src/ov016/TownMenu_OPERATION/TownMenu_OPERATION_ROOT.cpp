@@ -18,7 +18,7 @@
 #include "main/status/UseAction.hpp"
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenu_OPERATION_ROOT::menuSetup()
 {
@@ -64,9 +64,9 @@ THUMB void TownMenu_OPERATION_ROOT::menuExecute()
 THUMB void TownMenu_OPERATION_ROOT::menuDraw()
 {
     if (charaItem_.getActive() == status::g_Party.getCount()) {
-        unkfunc_0217dcb0(mode_, command_, commandCount_, -2);
+        drawOperationRootScreen(mode_, command_, commandCount_, -2);
     } else {
-        unkfunc_0217dcb0(mode_, command_, commandCount_, charaItem_.getActive());
+        drawOperationRootScreen(mode_, command_, commandCount_, charaItem_.getActive());
     }
     if (data_020ed1bc.isOpen()) {
         return;

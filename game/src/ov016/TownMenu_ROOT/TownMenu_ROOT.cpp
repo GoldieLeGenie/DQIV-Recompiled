@@ -14,7 +14,7 @@
 #include "main/status/StageStatus.hpp"
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenu_ROOT::menuSetup()
 {
@@ -34,7 +34,7 @@ THUMB void TownMenu_ROOT::menuExecute()
 
 THUMB void TownMenu_ROOT::menuDraw()
 {
-    unkfunc_0217d560();
+    drawRootMenuScreen();
     if (!data_020ed1bc.isOpen()) {
         menuItem_.drawActive();
         cancelItem_.drawActive();

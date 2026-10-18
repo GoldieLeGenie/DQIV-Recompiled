@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217ad94.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuDraw.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/MenuDataCommon.hpp"
@@ -382,7 +382,7 @@ static UnkMenuParts s_parts_0218530a[] = {
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 
-THUMB void unkfunc_0217ad94(int type, int x)
+THUMB void drawRootMenuCommands(int type, int x)
 {
     int name = 0;
     int kind = 0;
@@ -408,25 +408,25 @@ THUMB void unkfunc_0217ad94(int type, int x)
     }
     unkfunc_02050f1c(&kindPart, &kind, 0x68, 0xa0);
     unkfunc_02050f1c(&namePart, &name, 0x44, 0xaa);
-    unkfunc_0217cce4(0x40, 0xb0);
+    drawTownCommandCursor(0x40, 0xb0);
 }
 
-THUMB void unkfunc_0217aee0(status::HaveStatusInfo* info, int x, int y)
+THUMB void drawPartyMemberIcon(status::HaveStatusInfo* info, int x, int y)
 {
     int param = info->haveStatus_.iconIndex_;
-    unkfunc_0217cf80(&param, x, y);
+    drawCharaFaceIcon(&param, x, y);
     if (info->isSpell()) {
         param = 0xa0000044;
-        drawMenuParts(s_parts_02184aac, &param, x - 4, y + 0x14, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuParts(s_parts_02184aac, &param, x - 4, y + 0x14, g_menuTextColors[getCharaTextColorIndex(info)]);
     }
     if (info->isDeath()) {
         param = 0xa0000042;
-        drawMenuParts(s_parts_02184aac, &param, x - 4, y + 8, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuParts(s_parts_02184aac, &param, x - 4, y + 8, g_menuTextColors[getCharaTextColorIndex(info)]);
         return;
     }
     if (info->isPoison()) {
         param = 0xa0000043;
-        drawMenuParts(s_parts_02184aac, &param, x - 4, y + 8, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuParts(s_parts_02184aac, &param, x - 4, y + 8, g_menuTextColors[getCharaTextColorIndex(info)]);
     }
 }
 
@@ -443,22 +443,22 @@ THUMB void unkfunc_0217af90(int index, int x, int y)
         if (index == -1) {
             param = 0x18;
         }
-        unkfunc_0217cf80(&param, x, y);
+        drawCharaFaceIcon(&param, x, y);
     }
 }
 
-THUMB void unkfunc_0217afc4(status::HaveStatusInfo* info)
+THUMB void drawCharaItemNameList(status::HaveStatusInfo* info)
 {
     unkfunc_02050698(0, 0);
     int param[2];
     param[0] = 0xa0000041;
     for (int i = 0; i < info->haveItem_.getCount(); i++) {
         param[1] = info->haveItem_.getItem(i) + 0x40000000;
-        unkfunc_0217cf98(param, (i % 2) * 0x78, (i / 2) * 16 + 6, info->haveItem_.isEquipment(i));
+        drawItemListRow(param, (i % 2) * 0x78, (i / 2) * 16 + 6, info->haveItem_.isEquipment(i));
     }
 }
 
-THUMB void unkfunc_0217b038()
+THUMB void drawBagItemNameList()
 {
     int pageNum = 1;
     int page = 0;
@@ -471,24 +471,24 @@ THUMB void unkfunc_0217b038()
             int param[2];
             param[0] = 0;
             param[1] = status::FukuroItemInfo::getItemId(i, page) + 0x40000000;
-            unkfunc_0217cf98(param, (i % 2) * 0x78, (i / 2 + n * 3) * 16 + 6, 0);
+            drawItemListRow(param, (i % 2) * 0x78, (i / 2 + n * 3) * 16 + 6, 0);
         }
         page++;
     }
 }
 
-THUMB void unkfunc_0217b0c4(status::HaveStatusInfo* info, int flag, int index, int fukuro)
+THUMB void drawActiveCharaNameBar(status::HaveStatusInfo* info, int flag, int index, int fukuro)
 {
     int param[2];
     param[1] = 0;
     if (index == -2) {
         param[0] = 0x8000006e;
-        unkfunc_0217cfe8(param, 0, flag, 0);
+        drawCharaNameBarParts(param, 0, flag, 0);
         return;
     }
     if (TownMenuPlayerControl::getSingleton()->activeFukuro_ != 0 && fukuro == 0) {
         param[0] = 0x5000005b;
-        unkfunc_0217cfe8(param, 0, flag, 0);
+        drawCharaNameBarParts(param, 0, flag, 0);
         return;
     }
     param[0] = info->haveStatus_.playerIndex_ + 0x50000000;
@@ -499,23 +499,23 @@ THUMB void unkfunc_0217b0c4(status::HaveStatusInfo* info, int flag, int index, i
     if (info->getHp() > (info->getHpMax() >> 2) - 1 && param[1] < 0x1a) {
         param[1] = 0x1a;
     }
-    unkfunc_0217cfe8(param, 1, flag, unkfunc_0217cf70(info));
+    drawCharaNameBarParts(param, 1, flag, getCharaTextColorIndex(info));
 }
 
-THUMB void unkfunc_0217b184(status::HaveStatusInfo* info)
+THUMB void drawTargetCharaNameBar(status::HaveStatusInfo* info)
 {
     int param[2];
     if (TownMenuPlayerControl::getSingleton()->targetFukuro_ != 0) {
         param[0] = 0x5000005b;
-        unkfunc_0217cfe8(param, 0, 1, 0);
+        drawCharaNameBarParts(param, 0, 1, 0);
         return;
     }
     param[0] = info->haveStatus_.playerIndex_ + 0x50000000;
     param[1] = info->getHp() * 100 / info->getHpMax();
-    unkfunc_0217cfe8(param, 1, 1, unkfunc_0217cf70(info));
+    drawCharaNameBarParts(param, 1, 1, getCharaTextColorIndex(info));
 }
 
-THUMB void unkfunc_0217b1ec(int item, int x, int y)
+THUMB void drawItemSlot(int item, int x, int y)
 {
     if (item == -1) {
         s_parts_02184fb4[1].type_ = 0;
@@ -531,7 +531,7 @@ THUMB void unkfunc_0217b1ec(int item, int x, int y)
     drawMenuParts(s_parts_02184fb4, param, x, y, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217b254(int item, int index, int x, int y)
+THUMB void drawBagItemSlot(int item, int index, int x, int y)
 {
     int param[3];
     int count;
@@ -549,13 +549,13 @@ THUMB void unkfunc_0217b254(int item, int index, int x, int y)
     drawMenuParts(s_parts_02185104, param, x, y, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217b2b4(int index)
+THUMB void drawItemEquippedMark(int index)
 {
     int param = 0xa0000041;
     drawMenuParts(s_parts_02184a90, &param, ((index % 2) + 1) * 32 + (index % 2) * 0x58, (index / 2) * 8 + (index / 2) * 0x18, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217b300(int x, int pageMax, int page, int flag)
+THUMB void drawPageIndicator(int x, int pageMax, int page, int flag)
 {
     int param[5] = { page + 1, (int)"\xff\xfe\xa7\x24", pageMax + 1, 0xd, 0xc };
     if (flag) {
@@ -565,13 +565,13 @@ THUMB void unkfunc_0217b300(int x, int pageMax, int page, int flag)
     drawMenuParts(s_parts_02184fec, param, x, 0x78, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217b368(int x, int pageMax, int page)
+THUMB void drawPageIndicatorWide(int x, int pageMax, int page)
 {
     int param[5] = { 0xc, page + 1, (int)"\xff\xfe\xa7\x24", pageMax + 1, 0xd };
     drawMenuParts(s_parts_021851f2, param, x, 0x78, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217b3b0(int index, int flag, int mode)
+THUMB void drawMenuDescription(int index, int flag, int mode)
 {
     int param;
     if (flag) {
@@ -589,7 +589,7 @@ THUMB void unkfunc_0217b3b0(int index, int flag, int mode)
     drawMenuPartsColored(s_parts_02184ba8, &param, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217b40c(int item)
+THUMB void drawItemUsageInfo(int item)
 {
     if (item == 0) {
         return;
@@ -615,14 +615,14 @@ THUMB void unkfunc_0217b40c(int item)
     drawMenuPartsColored(s_parts_02184cf8, param, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217b488(status::HaveStatusInfo* info, int item, int equipIndex, int flag)
+THUMB void drawEquipCompareWindow(status::HaveStatusInfo* info, int item, int equipIndex, int flag)
 {
     unkfunc_02050698(0, 0);
     UnkMenuParts* parts = 0;
     int param[6];
     if (item == -1) {
         param[0] = menu::MenuDataCommon::getEquipKind(equipIndex);
-        int equip = unkfunc_0217d2e8(info, equipIndex, param);
+        int equip = getEquipSlotCompareValues(info, equipIndex, param);
         if (equipIndex == 0) {
             param[1] = menu::MenuDataCommon::getAbilityKind(0);
         } else if (equipIndex == 4) {
@@ -636,7 +636,7 @@ THUMB void unkfunc_0217b488(status::HaveStatusInfo* info, int item, int equipInd
         } else {
             param[1] = 0xa000000d;
         }
-        drawMenuPartsColored(s_parts_02185246, param, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuPartsColored(s_parts_02185246, param, g_menuTextColors[getCharaTextColorIndex(info)]);
         return;
     }
     param[0] = menu::MenuDataCommon::getEquipKind(status::UseItem::getItemType(item));
@@ -650,7 +650,7 @@ THUMB void unkfunc_0217b488(status::HaveStatusInfo* info, int item, int equipInd
         drawMenuPartsColored(s_parts_02184e9c, param, g_menuTextColors[0]);
         return;
     }
-    switch (unkfunc_0217d140(info, item, param)) {
+    switch (getEquipCompareValues(info, item, param)) {
     case 0:
         parts = s_parts_02184e9c;
         break;
@@ -661,10 +661,10 @@ THUMB void unkfunc_0217b488(status::HaveStatusInfo* info, int item, int equipInd
         parts = s_parts_02185032;
         break;
     }
-    drawMenuPartsColored(parts, param, g_menuTextColors[unkfunc_0217cf70(info)]);
+    drawMenuPartsColored(parts, param, g_menuTextColors[getCharaTextColorIndex(info)]);
 }
 
-THUMB void unkfunc_0217b5b0(int mode)
+THUMB void drawItemUseCommands(int mode)
 {
     int count = 0;
     int list[6];
@@ -714,7 +714,7 @@ THUMB void unkfunc_0217b5b0(int mode)
     }
 }
 
-THUMB void unkfunc_0217b70c(int mode, int flag)
+THUMB void drawPartyIconRow(int mode, int flag)
 {
     int w4;
     int x4;
@@ -738,7 +738,7 @@ THUMB void unkfunc_0217b70c(int mode, int flag)
                 y = (n / 5) * 0x28 + 0x48;
             }
             if (status::g_Party.getPlayerStatus(i)->haveStatusInfo_.haveStatus_.isPlayer_) {
-                unkfunc_0217aee0(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, x1 + w1, y);
+                drawPartyMemberIcon(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, x1 + w1, y);
                 n++;
             }
         }
@@ -754,7 +754,7 @@ THUMB void unkfunc_0217b70c(int mode, int flag)
                 y = (n / 5) * 0x28 + 0x48;
             }
             if (status::g_Party.getPlayerStatus(i)->haveStatusInfo_.haveStatus_.isPlayer_) {
-                unkfunc_0217c8bc(i + 1, x2 + w2 - 8, y + 8, i);
+                drawCarriageOrderNumber(i + 1, x2 + w2 - 8, y + 8, i);
                 n++;
             }
         }
@@ -770,9 +770,9 @@ THUMB void unkfunc_0217b70c(int mode, int flag)
             } else {
                 y = (i / 5) * 0x28 + 0x48;
             }
-            unkfunc_0217aee0(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, x3 + w3, y);
+            drawPartyMemberIcon(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, x3 + w3, y);
             if (flag == 0 && i < status::g_Party.getCarriageOutCount()) {
-                unkfunc_0217c8bc(i + 1, x3 + w3 - 8, y + 8, i);
+                drawCarriageOrderNumber(i + 1, x3 + w3 - 8, y + 8, i);
             }
         }
         if (flag == 1) {
@@ -788,7 +788,7 @@ THUMB void unkfunc_0217b70c(int mode, int flag)
                     y = (i / 5) * 0x28 + 0x48;
                 }
                 if (status::g_Party.getPlayerStatus(i)->haveStatusInfo_.haveStatus_.isPlayer_) {
-                    unkfunc_0217c8bc(i + 1, x4 + w4 - 8, y + 8, i);
+                    drawCarriageOrderNumber(i + 1, x4 + w4 - 8, y + 8, i);
                     n++;
                 }
             }
@@ -797,7 +797,7 @@ THUMB void unkfunc_0217b70c(int mode, int flag)
     status::g_Party.setPlayerMode();
 }
 
-THUMB void unkfunc_0217b908(status::HaveStatusInfo* info, int index, int flag)
+THUMB void drawCharaSummaryPanel(status::HaveStatusInfo* info, int index, int flag)
 {
     if (index == status::g_Party.getCount()) {
         status::g_Party.setPlayerMode();
@@ -819,7 +819,7 @@ THUMB void unkfunc_0217b908(status::HaveStatusInfo* info, int index, int flag)
     param[11] = info->haveStatus_.getMpMax();
     param[12] = index + 1;
     param[13] = (int)":";
-    int condition = unkfunc_0217cf78(info);
+    int condition = getCharaCondition(info);
     if (!(condition != 2 && condition != 3)) {
         s_parts_02185572[3].type_ = 0xd;
         s_parts_02185572[4].type_ = 0;
@@ -852,17 +852,17 @@ THUMB void unkfunc_0217b908(status::HaveStatusInfo* info, int index, int flag)
     } else {
         s_parts_02185572[14].type_ = 0xf;
     }
-    drawMenuParts(s_parts_02185572, param, (index % 2) * 0x78 + 0xc, (index / 2) * 64 + 0xc, g_menuTextColors[unkfunc_0217cf70(info)]);
+    drawMenuParts(s_parts_02185572, param, (index % 2) * 0x78 + 0xc, (index / 2) * 64 + 0xc, g_menuTextColors[getCharaTextColorIndex(info)]);
 }
 
-THUMB void unkfunc_0217ba8c(status::HaveStatusInfo* info, int pageMax, int page)
+THUMB void drawCasterMpBar(status::HaveStatusInfo* info, int pageMax, int page)
 {
     drawMenuPartsAt(s_parts_02184d22, 0, 0x88, 0xa0);
     int param[4] = { 0xa000003e, page, (int)"\xff\xfe\xa7\x24", pageMax };
-    drawMenuParts(s_parts_02185078, param, 0x88, 0xa0, g_menuTextColors[unkfunc_0217cf70(info)]);
+    drawMenuParts(s_parts_02185078, param, 0x88, 0xa0, g_menuTextColors[getCharaTextColorIndex(info)]);
 }
 
-THUMB void unkfunc_0217bae0(status::HaveStatusInfo* info)
+THUMB void drawTownSpellList(status::HaveStatusInfo* info)
 {
     unkfunc_02050698(0, 0);
     int count = info->haveAction_.getCount();
@@ -876,21 +876,21 @@ THUMB void unkfunc_0217bae0(status::HaveStatusInfo* info)
         }
     }
     for (int i = 0; i < n; i++) {
-        unkfunc_0217bb74((i % 2) << 7, (i / 2) * 16 + 0x64, getActionNameMessage(list[i]), 1, info);
+        drawSpellName((i % 2) << 7, (i / 2) * 16 + 0x64, getActionNameMessage(list[i]), 1, info);
     }
 }
 
-THUMB void unkfunc_0217bb74(int x, int y, int value, int flag, status::HaveStatusInfo* info)
+THUMB void drawSpellName(int x, int y, int value, int flag, status::HaveStatusInfo* info)
 {
     int param = value;
     if (flag) {
-        drawMenuParts(s_parts_02184cdc, &param, x, y, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuParts(s_parts_02184cdc, &param, x, y, g_menuTextColors[getCharaTextColorIndex(info)]);
         return;
     }
-    drawMenuParts(s_parts_02184c6c, &param, x, y, g_menuTextColors[unkfunc_0217cf70(info)]);
+    drawMenuParts(s_parts_02184c6c, &param, x, y, g_menuTextColors[getCharaTextColorIndex(info)]);
 }
 
-THUMB void unkfunc_0217bbcc(int page, unsigned char* rura)
+THUMB void drawRuraTownList(int page, unsigned char* rura)
 {
     int y2;
     int count = cmn::CommonRuraData::getSingleton()->getRuraCount();
@@ -911,13 +911,13 @@ THUMB void unkfunc_0217bbcc(int page, unsigned char* rura)
         }
     }
     if (count > 8) {
-        unkfunc_0217b300(0xb8, (count - 1) / 8, page, 1);
+        drawPageIndicator(0xb8, (count - 1) / 8, page, 1);
     }
     int msg = status::UseAction::getMenuMessage(0xcb) + 0x30000000;
     drawMenuPartsColored(s_parts_02184c18, &msg, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217bc9c(status::HaveStatusInfo* info)
+THUMB void drawStatusCharaProfile(status::HaveStatusInfo* info)
 {
     int param[18];
     int icon = info->haveStatus_.iconIndex_;
@@ -957,11 +957,11 @@ THUMB void unkfunc_0217bc9c(status::HaveStatusInfo* info)
     } else {
         s_parts_02185732[9].type_ = 0xf;
     }
-    drawMenuPartsColored(s_parts_02185732, param, g_menuTextColors[unkfunc_0217cf70(info)]);
+    drawMenuPartsColored(s_parts_02185732, param, g_menuTextColors[getCharaTextColorIndex(info)]);
     drawMenuPartsAt(s_parts_02184ac8, &icon, 6, 0x28);
 }
 
-THUMB void unkfunc_0217bdb8(status::HaveStatusInfo* info)
+THUMB void drawStatusAbilities(status::HaveStatusInfo* info)
 {
     int i = 0;
     int index;
@@ -972,12 +972,12 @@ THUMB void unkfunc_0217bdb8(status::HaveStatusInfo* info)
             index -= 7;
         }
         int param[3] = { menu::MenuDataCommon::getAbilityKind(index), (int)":", menu::MenuDataCommon::getStatus(index, *info) };
-        drawMenuParts(s_parts_02184f0c, param, 0, y, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuParts(s_parts_02184f0c, param, 0, y, g_menuTextColors[getCharaTextColorIndex(info)]);
         y += 0xe;
     }
 }
 
-THUMB void unkfunc_0217c290(status::HaveStatusInfo* info, int flag)
+THUMB void drawStatusEquipment(status::HaveStatusInfo* info, int flag)
 {
     unkfunc_02050698(0, 0);
     int equip[5] = { 0, 0, 0, 0, 0 };
@@ -994,9 +994,9 @@ THUMB void unkfunc_0217c290(status::HaveStatusInfo* info, int flag)
             param[0] = 0xa0000041;
             param[1] = equip[i] + 0x40000000;
             if (flag) {
-                drawMenuParts(s_parts_02184df4, param, 0x68, i * 16, g_menuTextColors[unkfunc_0217cf70(info)]);
+                drawMenuParts(s_parts_02184df4, param, 0x68, i * 16, g_menuTextColors[getCharaTextColorIndex(info)]);
             } else {
-                drawMenuParts(s_parts_02184df4, param, 0, i * 16, g_menuTextColors[unkfunc_0217cf70(info)]);
+                drawMenuParts(s_parts_02184df4, param, 0, i * 16, g_menuTextColors[getCharaTextColorIndex(info)]);
             }
         }
     }
@@ -1010,14 +1010,14 @@ THUMB void unkfunc_0217c290(status::HaveStatusInfo* info, int flag)
         } else {
             s_parts_02184f7c[2].type_ = 0xf;
         }
-        drawMenuPartsColored(s_parts_02184f7c, param, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuPartsColored(s_parts_02184f7c, param, g_menuTextColors[getCharaTextColorIndex(info)]);
         param[0] = status::g_Party.gold_;
         param[1] = 0xa000003c;
-        drawMenuPartsColored(s_parts_02184e1e, param, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuPartsColored(s_parts_02184e1e, param, g_menuTextColors[getCharaTextColorIndex(info)]);
     }
 }
 
-THUMB void unkfunc_0217c3e0(status::HaveStatusInfo* info, int battle)
+THUMB void drawStatusSpellList(status::HaveStatusInfo* info, int battle)
 {
     int n = 0;
     int param = 0;
@@ -1031,7 +1031,7 @@ THUMB void unkfunc_0217c3e0(status::HaveStatusInfo* info, int battle)
         for (int i = 0; i < count; i++) {
             int action = info->haveAction_.getAction(i);
             if (status::UseAction::isBattleUse(action)) {
-                unkfunc_0217bb74((n % 2) << 7, (n / 2) * 12 + 0x34, getActionNameMessage(action), 1, info);
+                drawSpellName((n % 2) << 7, (n / 2) * 12 + 0x34, getActionNameMessage(action), 1, info);
                 n++;
             }
         }
@@ -1042,7 +1042,7 @@ THUMB void unkfunc_0217c3e0(status::HaveStatusInfo* info, int battle)
         for (int i = 0; i < count; i++) {
             int action = info->haveAction_.getAction(i);
             if (status::UseAction::isUsuallyUse(action)) {
-                unkfunc_0217bb74((n % 2) << 7, (n / 2) * 12 + 0x34, getActionNameMessage(action), 1, info);
+                drawSpellName((n % 2) << 7, (n / 2) * 12 + 0x34, getActionNameMessage(action), 1, info);
                 n++;
             }
         }
@@ -1050,7 +1050,7 @@ THUMB void unkfunc_0217c3e0(status::HaveStatusInfo* info, int battle)
     status::HaveAction::setActionMode(mode);
 }
 
-THUMB void unkfunc_0217c4f0()
+THUMB void drawPartyHpMpSummary()
 {
     int param[15];
     int num;
@@ -1063,8 +1063,8 @@ THUMB void unkfunc_0217c4f0()
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i)->haveStatusInfo_;
         param[0] = i + 1;
         param[1] = (int)":";
-        unkfunc_0217d454(info, param, 0);
-        drawMenuParts(s_parts_02185652, param, i * 0x40, 0, g_menuTextColors[unkfunc_0217cf70(info)]);
+        setHpMpParams(info, param, 0);
+        drawMenuParts(s_parts_02185652, param, i * 0x40, 0, g_menuTextColors[getCharaTextColorIndex(info)]);
     }
     if (status::g_Party.getCount() >= 5) {
         unkfunc_02050698(0, 0);
@@ -1072,26 +1072,26 @@ THUMB void unkfunc_0217c4f0()
         if (num > 4) {
             for (int i = 0; i < 4; i++) {
                 status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i + 4)->haveStatusInfo_;
-                unkfunc_0217d454(info, param, 1);
-                drawMenuParts(s_parts_021854ae, param, i * 0x40, 0x60, g_menuTextColors[unkfunc_0217cf70(info)]);
+                setHpMpParams(info, param, 1);
+                drawMenuParts(s_parts_021854ae, param, i * 0x40, 0x60, g_menuTextColors[getCharaTextColorIndex(info)]);
             }
             num = status::g_Party.getCount() - 8;
             for (int i = 0; i < num; i++) {
                 status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i + 8)->haveStatusInfo_;
-                unkfunc_0217d454(info, param, 1);
-                drawMenuParts(s_parts_021854ae, param, i * 0x40, 0, g_menuTextColors[unkfunc_0217cf70(info)]);
+                setHpMpParams(info, param, 1);
+                drawMenuParts(s_parts_021854ae, param, i * 0x40, 0, g_menuTextColors[getCharaTextColorIndex(info)]);
             }
         } else {
             for (int i = 0; i < num; i++) {
                 status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i + 4)->haveStatusInfo_;
-                unkfunc_0217d454(info, param, 1);
-                drawMenuParts(s_parts_021854ae, param, i * 0x40, 0x60, g_menuTextColors[unkfunc_0217cf70(info)]);
+                setHpMpParams(info, param, 1);
+                drawMenuParts(s_parts_021854ae, param, i * 0x40, 0x60, g_menuTextColors[getCharaTextColorIndex(info)]);
             }
         }
     }
 }
 
-THUMB void unkfunc_0217c658()
+THUMB void drawPartyAttackDefenceSummary()
 {
     int param[7];
     int num;
@@ -1104,9 +1104,9 @@ THUMB void unkfunc_0217c658()
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i)->haveStatusInfo_;
         param[0] = i + 1;
         param[1] = (int)":";
-        unkfunc_0217d4f0(info, param, 0);
-        drawMenuParts(s_parts_0218529a, param, i * 0x40, 0, g_menuTextColors[unkfunc_0217cf70(info)]);
-        unkfunc_0217d054(info, i, 0x40, 0x58);
+        setAttackDefenceParams(info, param, 0);
+        drawMenuParts(s_parts_0218529a, param, i * 0x40, 0, g_menuTextColors[getCharaTextColorIndex(info)]);
+        drawCharaLevelOrCondition(info, i, 0x40, 0x58);
     }
     if (status::g_Party.getCount() >= 5) {
         unkfunc_02050698(0, 0);
@@ -1114,29 +1114,29 @@ THUMB void unkfunc_0217c658()
         if (num > 4) {
             for (int i = 0; i < 4; i++) {
                 status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i + 4)->haveStatusInfo_;
-                unkfunc_0217d4f0(info, param, 1);
-                drawMenuParts(s_parts_0218519e, param, i * 0x40, 0x60, g_menuTextColors[unkfunc_0217cf70(info)]);
-                unkfunc_0217d054(info, i, 0x40, 0xa8);
+                setAttackDefenceParams(info, param, 1);
+                drawMenuParts(s_parts_0218519e, param, i * 0x40, 0x60, g_menuTextColors[getCharaTextColorIndex(info)]);
+                drawCharaLevelOrCondition(info, i, 0x40, 0xa8);
             }
             num = status::g_Party.getCount() - 8;
             for (int i = 0; i < num; i++) {
                 status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i + 8)->haveStatusInfo_;
-                unkfunc_0217d4f0(info, param, 1);
-                drawMenuParts(s_parts_0218519e, param, i * 0x40, 0, g_menuTextColors[unkfunc_0217cf70(info)]);
-                unkfunc_0217d054(info, i, 0x40, 0x48);
+                setAttackDefenceParams(info, param, 1);
+                drawMenuParts(s_parts_0218519e, param, i * 0x40, 0, g_menuTextColors[getCharaTextColorIndex(info)]);
+                drawCharaLevelOrCondition(info, i, 0x40, 0x48);
             }
         } else {
             for (int i = 0; i < num; i++) {
                 status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i + 4)->haveStatusInfo_;
-                unkfunc_0217d4f0(info, param, 1);
-                drawMenuParts(s_parts_0218519e, param, i * 0x40, 0x60, g_menuTextColors[unkfunc_0217cf70(info)]);
-                unkfunc_0217d054(info, i, 0x40, 0xa8);
+                setAttackDefenceParams(info, param, 1);
+                drawMenuParts(s_parts_0218519e, param, i * 0x40, 0x60, g_menuTextColors[getCharaTextColorIndex(info)]);
+                drawCharaLevelOrCondition(info, i, 0x40, 0xa8);
             }
         }
     }
 }
 
-THUMB void unkfunc_0217c7f0()
+THUMB void drawPartyMoneyAndPlayTime()
 {
     int param[12] = { 0xa0000029, (int)"\xff\xfe\xa9\x24", 0, 0xa000002a, (int)"\xff\xfe\xa9\x24", 0, 0xa000002b, 0, 0xa000003c, 0xa000002c, 0, 0xa000003c };
     int time[7];
@@ -1158,29 +1158,29 @@ THUMB void unkfunc_0217c7f0()
     drawMenuPartsColored(s_parts_0218530a, time, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217c8bc(int number, int x, int y, int index)
+THUMB void drawCarriageOrderNumber(int number, int x, int y, int index)
 {
     if (index < 0) {
         drawMenuParts(s_parts_02184b38, &number, x, y, g_menuTextColors[0]);
         return;
     }
-    drawMenuParts(s_parts_02184b38, &number, x, y, g_menuTextColors[unkfunc_0217cf70(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_)]);
+    drawMenuParts(s_parts_02184b38, &number, x, y, g_menuTextColors[getCharaTextColorIndex(&status::g_Party.getPlayerStatus(index)->haveStatusInfo_)]);
 }
 
-THUMB void unkfunc_0217c918(int x, int y, int value)
+THUMB void drawMenuHeaderText(int x, int y, int value)
 {
     unkfunc_02050698(0, 0);
     int param = value;
     drawMenuParts(s_parts_02184b54, &param, x, y, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217c94c(int x, int y, int value)
+THUMB void drawCommandLabel(int x, int y, int value)
 {
     int param = value;
     drawMenuParts(s_parts_02184b70, &param, x, y, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217c974(status::HaveStatusInfo* info, int x, int y)
+THUMB void drawCharaTacticsRow(status::HaveStatusInfo* info, int x, int y)
 {
     unkfunc_02050698(0, 0);
     int param[2];
@@ -1190,10 +1190,10 @@ THUMB void unkfunc_0217c974(status::HaveStatusInfo* info, int x, int y)
     } else {
         param[1] = s_tactics[info->battleCommand_] + 6;
     }
-    drawMenuParts(s_parts_02184d76, param, x, y, g_menuTextColors[unkfunc_0217cf70(info)]);
+    drawMenuParts(s_parts_02184d76, param, x, y, g_menuTextColors[getCharaTextColorIndex(info)]);
 }
 
-THUMB void unkfunc_0217c9ec()
+THUMB void drawTacticsOptions()
 {
     int param = 0;
     for (int i = 0; i < 6; i++) {
@@ -1206,14 +1206,14 @@ THUMB void unkfunc_0217c9ec()
     }
 }
 
-THUMB void unkfunc_0217ca5c(char* order, char* list, int count)
+THUMB void drawShiftPartyIconList(char* order, char* list, int count)
 {
     for (int i = 0; i < count; i++) {
         int x = (i % 5) * 32 + 0x10 + (i % 5) * 8;
         int y = (i / 5) * 32 + 0x68 + (i / 5) * 8;
-        unkfunc_0217aee0(&status::g_Party.getPlayerStatus(list[i])->haveStatusInfo_, x, y);
+        drawPartyMemberIcon(&status::g_Party.getPlayerStatus(list[i])->haveStatusInfo_, x, y);
         if (!status::g_Party.isInsideBasha(list[i])) {
-            unkfunc_0217c8bc(list[i] + 1, x - 8, y + 8, list[i]);
+            drawCarriageOrderNumber(list[i] + 1, x - 8, y + 8, list[i]);
         }
     }
     if (order[0] != -1 && status::g_Party.getCarriageEnableOnGame()) {
@@ -1223,7 +1223,7 @@ THUMB void unkfunc_0217ca5c(char* order, char* list, int count)
     }
 }
 
-THUMB void unkfunc_0217cb3c(char* order)
+THUMB void drawShiftPartyFrontSlots(char* order)
 {
     int param[4];
     param[1] = (int)":";
@@ -1249,7 +1249,7 @@ THUMB void unkfunc_0217cb3c(char* order)
             s_parts_021850be[3].type_ = 0xf;
             param[3] = info->haveStatus_.level_;
         }
-        drawMenuParts(s_parts_021850be, param, x, y, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuParts(s_parts_021850be, param, x, y, g_menuTextColors[getCharaTextColorIndex(info)]);
     }
 }
 
@@ -1278,12 +1278,12 @@ THUMB void unkfunc_0217ccac()
     drawMenuFrame(0x90, 0x48, 0x50, 0x20, -1);
 }
 
-THUMB void unkfunc_0217cce4(int x, int y)
+THUMB void drawTownCommandCursor(int x, int y)
 {
     drawMenuPartsAt(s_parts_02184ae4, 0, x, y);
 }
 
-THUMB void unkfunc_0217ccf8(status::HaveStatusInfo* info, int item, int flag)
+THUMB void drawItemTargetInfo(status::HaveStatusInfo* info, int item, int flag)
 {
     int param[8];
     int values[5];
@@ -1300,7 +1300,7 @@ THUMB void unkfunc_0217ccf8(status::HaveStatusInfo* info, int item, int flag)
         } else {
             param[3] = menu::MenuDataCommon::getAbilityKind(status::UseItem::getEquipType(item));
         }
-        switch (unkfunc_0217d140(info, item, values)) {
+        switch (getEquipCompareValues(info, item, values)) {
         case 0:
             param[3] = values[2];
             param[4] = param[5] = param[6] = 0;
@@ -1359,7 +1359,7 @@ THUMB void unkfunc_0217ccf8(status::HaveStatusInfo* info, int item, int flag)
     drawMenuPartsColored(s_parts_0218537a, param, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217cea8(int mode)
+THUMB void drawChooseCharaPrompt(int mode)
 {
     int param[2] = { 0x8000008d, (int)"\xff\xfe\xac\x24" };
     int y = 0x58;
@@ -1386,22 +1386,22 @@ THUMB void unkfunc_0217cf1c(int mode)
     drawMenuFrame(0, 0xa0, 0xa0, 0x20, -1);
 }
 
-THUMB int unkfunc_0217cf70(status::HaveStatusInfo* info)
+THUMB int getCharaTextColorIndex(status::HaveStatusInfo* info)
 {
     return getHpTextColorIndex(info);
 }
 
-THUMB int unkfunc_0217cf78(status::HaveStatusInfo* info)
+THUMB int getCharaCondition(status::HaveStatusInfo* info)
 {
     return getStatusCondition(info);
 }
 
-THUMB void unkfunc_0217cf80(int* param, int x, int y)
+THUMB void drawCharaFaceIcon(int* param, int x, int y)
 {
     drawMenuPartsAt(s_parts_02184da0, param, x, y);
 }
 
-THUMB void unkfunc_0217cf98(int* param, int x, int y, int flag)
+THUMB void drawItemListRow(int* param, int x, int y, int flag)
 {
     if (flag) {
         s_parts_02184e72[0].w_ = 0x10;
@@ -1414,7 +1414,7 @@ THUMB void unkfunc_0217cf98(int* param, int x, int y, int flag)
     drawMenuParts(s_parts_02184e72, param, x, y, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0217cfe8(int* param, int mode, int flag, int drawFlag)
+THUMB void drawCharaNameBarParts(int* param, int mode, int flag, int drawFlag)
 {
     if (flag) {
         s_parts_02184ed4[0].x_ = s_parts_02184ed4[1].x_ = 0x90;
@@ -1435,17 +1435,17 @@ THUMB void unkfunc_0217cfe8(int* param, int mode, int flag, int drawFlag)
     drawMenuPartsColored(s_parts_02184ed4, param, g_menuTextColors[drawFlag]);
 }
 
-THUMB void unkfunc_0217d054(status::HaveStatusInfo* info, int index, int width, int y)
+THUMB void drawCharaLevelOrCondition(status::HaveStatusInfo* info, int index, int width, int y)
 {
     int param[3];
-    if (unkfunc_0217cf78(info) == 2) {
+    if (getCharaCondition(info) == 2) {
         param[0] = menu::MenuDataCommon::convMessage(info, 0xa0000014);
-        drawMenuParts(s_parts_02184cc0, param, width * index, y, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuParts(s_parts_02184cc0, param, width * index, y, g_menuTextColors[getCharaTextColorIndex(info)]);
         return;
     }
-    if (unkfunc_0217cf78(info) == 3) {
+    if (getCharaCondition(info) == 3) {
         param[0] = menu::MenuDataCommon::convMessage(info, 0xa0000018);
-        drawMenuParts(s_parts_02184cc0, param, width * index, y, g_menuTextColors[unkfunc_0217cf70(info)]);
+        drawMenuParts(s_parts_02184cc0, param, width * index, y, g_menuTextColors[getCharaTextColorIndex(info)]);
         return;
     }
     param[0] = 0xa0000013;
@@ -1457,10 +1457,10 @@ THUMB void unkfunc_0217d054(status::HaveStatusInfo* info, int index, int width, 
         s_parts_02184f44[2].type_ = 0xf;
         param[2] = info->haveStatus_.level_;
     }
-    drawMenuParts(s_parts_02184f44, param, width * index, y, g_menuTextColors[unkfunc_0217cf70(info)]);
+    drawMenuParts(s_parts_02184f44, param, width * index, y, g_menuTextColors[getCharaTextColorIndex(info)]);
 }
 
-THUMB int unkfunc_0217d140(status::HaveStatusInfo* info, int item, int* param)
+THUMB int getEquipCompareValues(status::HaveStatusInfo* info, int item, int* param)
 {
     if (!info->isEquipEnable(item)) {
         param[2] = 0xa0000067;
@@ -1526,7 +1526,7 @@ THUMB int unkfunc_0217d140(status::HaveStatusInfo* info, int item, int* param)
     return 1;
 }
 
-THUMB int unkfunc_0217d2e8(status::HaveStatusInfo* info, int equipIndex, int* param)
+THUMB int getEquipSlotCompareValues(status::HaveStatusInfo* info, int equipIndex, int* param)
 {
     int equip = info->haveEquipment_.getEquipment((ItemType)equipIndex);
     int value = status::UseItem::getEquipValue(equip);
@@ -1587,7 +1587,7 @@ THUMB int unkfunc_0217d2e8(status::HaveStatusInfo* info, int equipIndex, int* pa
     return equip;
 }
 
-THUMB void unkfunc_0217d454(status::HaveStatusInfo* info, int* param, int flag)
+THUMB void setHpMpParams(status::HaveStatusInfo* info, int* param, int flag)
 {
     if (flag) {
         param[0] = info->haveStatus_.playerIndex_ + 0x50000000;
@@ -1620,7 +1620,7 @@ THUMB void unkfunc_0217d454(status::HaveStatusInfo* info, int* param, int flag)
     param[14] = info->getMpMax();
 }
 
-THUMB void unkfunc_0217d4f0(status::HaveStatusInfo* info, int* param, int flag)
+THUMB void setAttackDefenceParams(status::HaveStatusInfo* info, int* param, int flag)
 {
     if (flag) {
         param[0] = info->haveStatus_.playerIndex_ + 0x50000000;

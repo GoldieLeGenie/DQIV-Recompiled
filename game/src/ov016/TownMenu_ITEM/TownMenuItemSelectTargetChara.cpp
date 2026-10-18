@@ -8,7 +8,7 @@
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuScreens.hpp"
 
 THUMB void TownMenuItemSelectTargetChara::menuSetup()
 {
@@ -49,7 +49,7 @@ THUMB void TownMenuItemSelectTargetChara::menuExecute()
 
 THUMB void TownMenuItemSelectTargetChara::menuDraw()
 {
-    unkfunc_0217d870(activeChara_, targetChara_, giveItemID_, sound_);
+    drawItemTargetCharaScreen(activeChara_, targetChara_, giveItemID_, sound_);
     if (!data_020ed1bc.isOpen() && sound_ == 0) {
         menuItem_.drawActive();
     }

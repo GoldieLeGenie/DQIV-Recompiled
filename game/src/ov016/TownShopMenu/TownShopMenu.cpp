@@ -1,6 +1,6 @@
 #include "ov016/TownShopMenu/TownShopMenu.hpp"
 #include "main/status/ShopList.hpp"
-#include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_02173d7c.hpp"
+#include "ov016/UnkTownMenuDraw/TownMenuOperationDraw.hpp"
 
 THUMB TownShopMenu::TownShopMenu()
 {
@@ -22,7 +22,7 @@ THUMB void TownShopMenu::menuExecute()
 THUMB void TownShopMenu::menuDraw()
 {
     if (unk_1c != -1) {
-        unkfunc_02173f7c(unk_1c);
+        drawTownShopGoods(unk_1c);
     }
 }
 
