@@ -10,7 +10,7 @@ struct TownMenu_STATUS : menu::MenuBase
     unsigned char activeChara_;         /* 0x1D */
     unsigned char page_;                /* 0x1E */
     unsigned char pageSwap_;            /* 0x1F */
-    unsigned char unk_20;               /* 0x20 */
+    unsigned char summaryPage_;               /* 0x20 */
     CursorMoveGridLoop navigator_;      /* 0x24 */
     menu::MenuItem menuItem_;           /* 0x30 */
     menu::MenuItem cancelItem_;         /* 0x94 */

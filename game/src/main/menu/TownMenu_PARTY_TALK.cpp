@@ -99,7 +99,7 @@ THUMB void TownMenu_PARTY_TALK::menuSetup()
         }
     }
 
-    unk_1c = 2;
+    talkState_ = 2;
     int select;
     if (count == 0) {
         select = 0;
@@ -133,7 +133,7 @@ THUMB void TownMenu_PARTY_TALK::menuSetup()
         }
         if (getTalkMessage()->yesno != 0) {
             g_TownMenuMessage.setYesNo();
-            unk_1c = 1;
+            talkState_ = 1;
         }
     } else {
         close();
@@ -147,12 +147,12 @@ THUMB void TownMenu_PARTY_TALK::menuUpdate()
         int i = 0;
         if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
             g_TownMenuMessage.close();
-            if (unk_1c == 2) {
+            if (talkState_ == 2) {
                 close();
                 gTownMenu_ROOT.stat_ = menu::MenuBase::MENUBASE_STAT_OK;
                 return;
             }
-            unk_1c = 2;
+            talkState_ = 2;
             int message = getMessageNo() + getMesCount();
             g_TownMenuMessage.openMessageForTALK();
             for (; i < getTalkMessage()->yesMesCount; i++) {
@@ -174,7 +174,7 @@ THUMB void TownMenu_PARTY_TALK::menuUpdate()
                     g_TownMenuMessage.addMessage(message + i);
                 }
             }
-            unk_1c = 2;
+            talkState_ = 2;
         }
     }
 }

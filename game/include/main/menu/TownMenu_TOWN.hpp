@@ -3,14 +3,14 @@
 
 struct TownMenu_TOWN : menu::MenuBase {
     menu::MenuItem menuItem_;                   /* 0x1C */
-    int unk_80;                                 /* 0x80 */
-    int unk_84;                                 /* 0x84 */
-    int unk_88;                                 /* 0x88 */
-    int unk_8c;                                 /* 0x8C */
-    int unk_90;                                 /* 0x90 */
-    int unk_94;                                 /* 0x94 */
-    int unk_98;                                 /* 0x98 */
-    int unk_9c;                                 /* 0x9C */
+    int selectedIcon_;                                 /* 0x80 */
+    int showCamera_;                                 /* 0x84 */
+    int showMap_;                                 /* 0x88 */
+    int showShop_;                                 /* 0x8C */
+    int showMenuIcon_;                                 /* 0x90 */
+    int helpType_;                                 /* 0x94 */
+    int enable_;                                 /* 0x98 */
+    int setupWait_;                                 /* 0x9C */
 
     virtual void menuSetup();
     virtual void menuExecute();

@@ -16,9 +16,9 @@ THUMB void BattleMenu_ITEM::menuSetup()
     status::g_Party.setBattleMode();
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD, menu::MenuItem::CURSORTYPE_ACTIVE);
     cancelItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
-    unk_ec.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH, menu::MenuItem::CURSORTYPE_NONE);
+    pageItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH, menu::MenuItem::CURSORTYPE_NONE);
     int i;
-    unk_1c = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
+    activeChara_ = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(btl::BattleMenuPlayerControl::getSingleton()->activeChara_)->haveStatusInfo_;
     navigator_.setupBase();
     navigator_.setup(2, 3, info->haveItem_.getCount());
@@ -56,7 +56,7 @@ THUMB void BattleMenu_ITEM::menuExecute()
     MenuTemplate_Common::COMMON_ITEM_ICON32_2x3(&menuItem_, num, menuItem_.active_);
     MenuTemplate_battle::BATTLE_CANCEL(&cancelItem_);
     int max = navigator_.getPageMaxCount() - 1;
-    MenuTemplate_Common::TOWN_PAGE_1x1(&unk_ec, unk_ec.active_, max, 0xd8, 0x78);
+    MenuTemplate_Common::TOWN_PAGE_1x1(&pageItem_, pageItem_.active_, max, 0xd8, 0x78);
 }
 
 THUMB void BattleMenu_ITEM::menuDraw()
@@ -105,7 +105,7 @@ THUMB void BattleMenu_ITEM::menuUpdate()
         btl::BattleMenuPlayerControl::getSingleton()->activeItem_ = item;
     }
     int active = menuItem_.active_;
-    if (MenuUpdate_Assist::isPageFlipOne(unk_ec, navigator_, active) == 2) {
+    if (MenuUpdate_Assist::isPageFlipOne(pageItem_, navigator_, active) == 2) {
         menuItem_.active_ = active;
         int item = navigator_.getIndex(menuItem_.active_);
         btl::BattleMenuPlayerControl::getSingleton()->activeItem_ = item;
@@ -116,11 +116,11 @@ THUMB void BattleMenu_ITEM::menuUpdate()
 THUMB void BattleMenu_ITEM::selectUseItem()
 {
     int index = navigator_.getIndex(menuItem_.active_);
-    int action = status::UseItem::getBattleUseAction(status::g_Party.getPlayerStatus(unk_1c)->haveStatusInfo_.haveItem_.getItem(index));
+    int action = status::UseItem::getBattleUseAction(status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveItem_.getItem(index));
     status::UseItem::UseArea area = status::UseAction::getUseArea(action);
     switch (status::UseAction::getUseType(action)) {
     case status::UseItem::Myself:
-        BattleMenuJudge::getSingleton()->setItemParty(index, unk_1c);
+        BattleMenuJudge::getSingleton()->setItemParty(index, activeChara_);
         BattleMenuJudge::getSingleton()->setNextPlayer();
         close();
         return;
@@ -128,8 +128,8 @@ THUMB void BattleMenu_ITEM::selectUseItem()
         if (area == status::UseItem::One) {
             btl::BattleMenuPlayerControl::getSingleton()->targetChara_ = 0;
             gBattleMenu_ITEMUSE2PARTY.open();
-            gBattleMenu_ITEMUSE2PARTY.unk_e4 = unk_1c;
-            gBattleMenu_ITEMUSE2PARTY.unk_e8 = index;
+            gBattleMenu_ITEMUSE2PARTY.activeChara_ = activeChara_;
+            gBattleMenu_ITEMUSE2PARTY.activeItem_ = index;
             BattleMenuJudge::getSingleton()->setItemParty(index, -1);
             close();
             return;
@@ -156,8 +156,8 @@ THUMB void BattleMenu_ITEM::selectUseItem()
                 int target = BattleMenuJudge::getSingleton()->getLiveMonsterID();
                 btl::BattleMenuPlayerControl::getSingleton()->targetChara_ = target;
                 gBattleMenu_ITEMUSE2ENEMY.open();
-                gBattleMenu_ITEMUSE2ENEMY.unk_148 = unk_1c;
-                gBattleMenu_ITEMUSE2ENEMY.unk_14c = index;
+                gBattleMenu_ITEMUSE2ENEMY.activeChara_ = activeChara_;
+                gBattleMenu_ITEMUSE2ENEMY.activeItem_ = index;
             }
             close();
             return;
@@ -167,7 +167,7 @@ THUMB void BattleMenu_ITEM::selectUseItem()
         close();
         return;
     default:
-        status::g_Party.getPlayerStatus(unk_1c);
+        status::g_Party.getPlayerStatus(activeChara_);
         BattleMenuJudge::getSingleton()->setItemPartyAll(index);
         BattleMenuJudge::getSingleton()->setNextPlayer();
         close();
@@ -178,6 +178,6 @@ THUMB void BattleMenu_ITEM::selectUseItem()
 THUMB bool BattleMenu_ITEM::isSelectEquipEnable()
 {
     int index = btl::BattleMenuPlayerControl::getSingleton()->activeItem_;
-    int item = status::g_Party.getPlayerStatus(unk_1c)->haveStatusInfo_.haveItem_.getItem(index);
-    return status::g_Party.getPlayerStatus(unk_1c)->haveStatusInfo_.isEquipEnable(item);
+    int item = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveItem_.getItem(index);
+    return status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.isEquipEnable(item);
 }

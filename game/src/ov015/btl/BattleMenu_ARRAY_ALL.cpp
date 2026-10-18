@@ -13,18 +13,18 @@ THUMB void BattleMenu_ARRAY_ALL::menuSetup()
     gBattleMenuSub_HISTORY.close();
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD, menu::MenuItem::CURSORTYPE_ACTIVE);
     cancelItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
-    unk_2c = 0;
-    unk_1c[0] = -1;
-    unk_1c[1] = -1;
-    unk_1c[2] = -1;
-    unk_1c[3] = -1;
+    selectNum_ = 0;
+    newOrder_[0] = -1;
+    newOrder_[1] = -1;
+    newOrder_[2] = -1;
+    newOrder_[3] = -1;
     navigator_.setupBase();
 }
 
 THUMB void BattleMenu_ARRAY_ALL::menuExecute()
 {
     status::g_Party.setMemberShiftMode();
-    int num = unk_2c;
+    int num = selectNum_;
     int count = status::g_Party.getCount() - num;
     if (num > 0 && status::g_Party.getCarriageEnableOnGame()) {
         count++;
@@ -44,8 +44,8 @@ THUMB void BattleMenu_ARRAY_ALL::menuDraw()
     int num = 0;
     for (int i = 0; i < count; i++) {
         int free = 1;
-        for (int j = 0; j < unk_2c; j++) {
-            if (i == unk_1c[j]) {
+        for (int j = 0; j < selectNum_; j++) {
+            if (i == newOrder_[j]) {
                 free = 0;
             }
         }
@@ -57,7 +57,7 @@ THUMB void BattleMenu_ARRAY_ALL::menuDraw()
             num++;
         }
     }
-    if (unk_2c > 0 && status::g_Party.getCarriageEnableOnGame()) {
+    if (selectNum_ > 0 && status::g_Party.getCarriageEnableOnGame()) {
         if (num == menuItem_.active_) {
             int target = status::g_Party.getCount();
             btl::BattleMenuPlayerControl::getSingleton()->targetChara_ = target;
@@ -65,7 +65,7 @@ THUMB void BattleMenu_ARRAY_ALL::menuDraw()
         list[num] = -1;
         num++;
     }
-    drawFormationAllMenu(list, num, unk_1c, unk_2c);
+    drawFormationAllMenu(list, num, newOrder_, selectNum_);
     menuItem_.drawActive();
     cancelItem_.drawActive();
     int actionCount;
@@ -92,14 +92,14 @@ THUMB void BattleMenu_ARRAY_ALL::menuUpdate()
     if (MenuUpdate_Assist::isCancel(cancelItem_)) {
         cancelItem_.result_ = 0;
         cancelItem_.lastresult_ = 0;
-        if (unk_2c == 0) {
+        if (selectNum_ == 0) {
             close();
             gBattleMenu_ARRAYMENU.open();
-            gBattleMenu_ARRAYMENU.unk_1c = 1;
+            gBattleMenu_ARRAYMENU.cursorPos_ = 1;
             redraw_ = 1;
         } else {
-            unk_2c--;
-            unk_1c[unk_2c] = -1;
+            selectNum_--;
+            newOrder_[selectNum_] = -1;
         }
         menuItem_.result_ = 0;
         menuItem_.lastresult_ = 0;
@@ -119,8 +119,8 @@ THUMB void BattleMenu_ARRAY_ALL::menuUpdate()
             int active = menuItem_.active_;
             int count = status::g_Party.getCount();
             for (int i = 0; i < count; i++) {
-                for (int j = 0; j < unk_2c; j++) {
-                    if (i == unk_1c[j]) {
+                for (int j = 0; j < selectNum_; j++) {
+                    if (i == newOrder_[j]) {
                         used = 1;
                     }
                 }
@@ -133,24 +133,24 @@ THUMB void BattleMenu_ARRAY_ALL::menuUpdate()
             if (num - 1 == active) {
                 menuItem_.active_ = active - 1;
             }
-            if (active == count - unk_2c && unk_2c != 0) {
+            if (active == count - selectNum_ && selectNum_ != 0) {
                 ChangeParty(this);
                 close();
                 gBattleMenu_ARRAYMENU.open();
-                gBattleMenu_ARRAYMENU.unk_1c = 0;
+                gBattleMenu_ARRAYMENU.cursorPos_ = 0;
                 return;
             }
-            unk_1c[unk_2c] = list[active];
-            unk_2c++;
+            newOrder_[selectNum_] = list[active];
+            selectNum_++;
             int max = status::g_Party.getCount();
             if (max > 4) {
                 max = 4;
             }
-            if (unk_2c == max) {
+            if (selectNum_ == max) {
                 ChangeParty(this);
                 close();
                 gBattleMenu_ARRAYMENU.open();
-                gBattleMenu_ARRAYMENU.unk_1c = 0;
+                gBattleMenu_ARRAYMENU.cursorPos_ = 0;
             }
         }
     }
@@ -159,12 +159,12 @@ THUMB void BattleMenu_ARRAY_ALL::menuUpdate()
 THUMB void ChangeParty(BattleMenu_ARRAY_ALL* self)
 {
     for (int i = 0; i < 4; i++) {
-        if (self->unk_1c[i] >= 0) {
-            self->unk_1c[i] = status::g_Party.getPlayerIndex(self->unk_1c[i]);
+        if (self->newOrder_[i] >= 0) {
+            self->newOrder_[i] = status::g_Party.getPlayerIndex(self->newOrder_[i]);
         } else {
-            self->unk_1c[i] = 0;
+            self->newOrder_[i] = 0;
         }
     }
-    status::g_Party.reorder(self->unk_1c[0], self->unk_1c[1], self->unk_1c[2], self->unk_1c[3]);
+    status::g_Party.reorder(self->newOrder_[0], self->newOrder_[1], self->newOrder_[2], self->newOrder_[3]);
     dss::memset(btl::BattleMenuPlayerControl::getSingleton()->targetMonsterGroup_, 0, sizeof(btl::BattleMenuPlayerControl::getSingleton()->targetMonsterGroup_));
 }

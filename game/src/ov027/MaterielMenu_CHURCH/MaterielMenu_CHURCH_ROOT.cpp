@@ -24,7 +24,7 @@ THUMB void MaterielMenu_CHURCH_ROOT::menuSetup()
     activeCommand_ = -1;
     expMessageCount_ = -1;
     firstFlag_ = 1;
-    unk_164 = 1;
+    listPending_ = 1;
     churchType_ = status::g_Shop.getChurchType(0);
     int mother = false;
     const char* town = "mc";
@@ -140,8 +140,8 @@ THUMB bool MaterielMenu_CHURCH_ROOT::rootUpdate()
 THUMB bool MaterielMenu_CHURCH_ROOT::commandUpdate()
 {
     if (g_TownMenuMessage.isOpen() && g_TownMenuMessage.isMessageWAITPROG()) {
-        if (unk_164) {
-            unk_164 = 0;
+        if (listPending_) {
+            listPending_ = 0;
             redraw_ = 1;
             return false;
         }
@@ -221,7 +221,7 @@ THUMB void MaterielMenu_CHURCH_ROOT::selectNextExp()
     } else if (count >= status::g_Party.getCount()) {
         activeCommand_ = -1;
         expMessageCount_ = -1;
-        unk_164 = 1;
+        listPending_ = 1;
         g_TownMenuMessage.openMessageForTALK();
         g_TownMenuMessage.addMessageNOWAIT(sexType_ + 0xc7008);
         g_TownMenuMessage.addMessageWAITKEY();

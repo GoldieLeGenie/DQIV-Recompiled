@@ -14,7 +14,7 @@ THUMB void MaterielMenu_SHOP_SELL_QUANTITY::menuSetup()
     quantity_ = 1;
     MaterielMenuPlayerControl* control = MaterielMenuPlayerControl::getSingleton();
     itemIndex_ = control->activeItem_ + control->activeItemPage_ * 6;
-    unk_24 = 0;
+    listShown_ = 0;
     TextAPI::setMACRO0(0xa, 0x40000000, status::g_Party.haveItemSack_.getItem(itemIndex_));
     g_TownMenuMessage.openMessageForTALK();
     g_TownMenuMessage.addMessageNOWAIT(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sellHowMany());
@@ -38,9 +38,9 @@ THUMB void MaterielMenu_SHOP_SELL_QUANTITY::menuDraw()
 
 THUMB void MaterielMenu_SHOP_SELL_QUANTITY::menuUpdate()
 {
-    if (g_TownMenuMessage.isMessageWAITPROG() && unk_24 == 0) {
+    if (g_TownMenuMessage.isMessageWAITPROG() && listShown_ == 0) {
         redraw_ = 1;
-        unk_24 = 1;
+        listShown_ = 1;
     }
     navigator_.setup(1, 1, 1);
     int result = MenuUpdate_Assist::menuSelect(menuItem_, navigator_);

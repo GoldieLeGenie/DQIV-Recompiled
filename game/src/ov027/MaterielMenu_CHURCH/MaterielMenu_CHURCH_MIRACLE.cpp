@@ -31,7 +31,7 @@ THUMB void MaterielMenu_CHURCH_MIRACLE::menuSetup()
     navigator_.setup(5, 2, status::g_Party.getCount());
     miracle_ = -1;
     miracleStatus_ = MIRACLE_NONE;
-    unk_100 = 1;
+    listPending_ = 1;
     int type_;
     int mother_;
     param::MapChurch* church = status::excelParam.mapChurch_;
@@ -185,8 +185,8 @@ THUMB bool MaterielMenu_CHURCH_MIRACLE::messageUpdate()
 THUMB bool MaterielMenu_CHURCH_MIRACLE::listUpdate()
 {
     if (g_TownMenuMessage.isMessageWAITPROG()) {
-        if (unk_100) {
-            unk_100 = 0;
+        if (listPending_) {
+            listPending_ = 0;
             redraw_ = 1;
             return false;
         }

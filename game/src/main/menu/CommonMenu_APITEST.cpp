@@ -19,7 +19,7 @@ THUMB void CommonMenu_APITEST::menuSetup()
 {
     page_ = 2;
     title_ = 0;
-    unk_20 = 0;
+    baseValue_ = 0;
     wait_ = 0;
     g_MenuDisplays.face_.resetAnim();
 }
@@ -364,7 +364,7 @@ THUMB void CommonMenu_APITEST::drawFaceTestPage()
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
     int param[32];
-    param[0] = unk_20 + 1;
+    param[0] = baseValue_ + 1;
     drawMenuPartsPlain(parts, param);
 }
 
@@ -422,7 +422,7 @@ THUMB void CommonMenu_APITEST::drawBattleBgTestPage()
         { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
     };
     int param[32];
-    param[0] = unk_20;
+    param[0] = baseValue_;
     drawMenuPartsPlain(parts, param);
 }
 
@@ -504,7 +504,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage2()
     };
     int param[32];
     for (int i = 0; i < 12; i++) {
-        param[i] = unk_20 + i;
+        param[i] = baseValue_ + i;
     }
     drawMenuPartsPlain(parts, param);
 }
@@ -529,7 +529,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage3()
     };
     int param[32];
     for (int i = 0; i < 12; i++) {
-        param[i] = unk_20 + i;
+        param[i] = baseValue_ + i;
     }
     drawMenuPartsPlain(parts, param);
 }
@@ -554,7 +554,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage4()
     };
     int param[32];
     for (int i = 0; i < 12; i++) {
-        param[i] = unk_20 + i + 1000;
+        param[i] = baseValue_ + i + 1000;
     }
     drawMenuPartsPlain(parts, param);
 }
@@ -579,7 +579,7 @@ THUMB void CommonMenu_APITEST::drawIconTestPage5()
     };
     int param[32];
     for (int i = 0; i < 12; i++) {
-        param[i] = unk_20 + i + 1000;
+        param[i] = baseValue_ + i + 1000;
     }
     drawMenuPartsPlain(parts, param);
 }

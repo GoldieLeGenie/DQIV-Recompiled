@@ -9,7 +9,7 @@ struct TownStageManager;
 
 struct TownMenu_PARTY_TALK : menu::MenuBase
 {
-    char unk_1c;                            /* 0x1C */
+    char talkState_;                            /* 0x1C */
 
     virtual void menuSetup();
     virtual void menuDraw() {}

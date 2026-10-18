@@ -21,8 +21,8 @@ THUMB void TownShopMenu::menuExecute()
 
 THUMB void TownShopMenu::menuDraw()
 {
-    if (unk_1c != -1) {
-        drawTownShopGoods(unk_1c);
+    if (shopIndex_ != -1) {
+        drawTownShopGoods(shopIndex_);
     }
 }
 
@@ -35,48 +35,48 @@ THUMB int TownShopMenu::selectShopFrom(int index)
     switch (index) {
         case 0:
             if (status::g_Shop.getShopCount(2)) {
-                unk_1c = 0;
+                shopIndex_ = 0;
                 redraw_ = 1;
                 return 1;
             }
         case 1:
             if (status::g_Shop.getShopCount(3)) {
-                unk_1c = 1;
+                shopIndex_ = 1;
                 redraw_ = 1;
                 return 1;
             }
         case 2:
             if (status::g_Shop.getShopCount(4)) {
-                unk_1c = 2;
+                shopIndex_ = 2;
                 redraw_ = 1;
                 return 1;
             }
         case 3:
             if (status::g_Shop.getShopCount(8)) {
-                unk_1c = 3;
+                shopIndex_ = 3;
                 redraw_ = 1;
                 return 1;
             }
         case 4:
             if (status::g_Shop.getShopCount(9)) {
-                unk_1c = 4;
+                shopIndex_ = 4;
                 redraw_ = 1;
                 return 1;
             }
         case 5:
             if (status::g_Shop.getShopCount(10)) {
-                unk_1c = 5;
+                shopIndex_ = 5;
                 redraw_ = 1;
                 return 1;
             }
     }
-    unk_1c = -1;
+    shopIndex_ = -1;
     return 0;
 }
 
 THUMB int TownShopMenu::selectNextShop()
 {
-    if (selectShopFrom(unk_1c + 1)) {
+    if (selectShopFrom(shopIndex_ + 1)) {
         return 1;
     }
     return 0;

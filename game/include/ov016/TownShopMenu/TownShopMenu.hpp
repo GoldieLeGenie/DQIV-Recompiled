@@ -3,7 +3,7 @@
 
 // town map shop list menu
 struct TownShopMenu : menu::MenuBase {
-    int unk_1c;     /* shown shop list index (0..5), -1 = none */
+    int shopIndex_;     /* shown shop list index (0..5), -1 = none */
 
     TownShopMenu();
     ~TownShopMenu();

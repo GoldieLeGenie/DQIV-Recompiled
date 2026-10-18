@@ -4,7 +4,7 @@
 // Menu API test pages (L/R: page, A/X: message window, B: close)
 struct CommonMenu_APITEST : menu::MenuBase {
     int page_;                                  /* 0x1C */
-    int unk_20;                                 /* 0x20  first value shown */
+    int baseValue_;                                 /* 0x20  first value shown */
     const char* title_;                         /* 0x24 */
     int wait_;                                  /* 0x28 */
 

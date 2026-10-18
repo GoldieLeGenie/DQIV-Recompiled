@@ -17,10 +17,10 @@ THUMB void BattleMenu_ITEMUSEEQUIP::menuSetup()
 {
     status::g_Party.setBattleMode();
     cancelItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
-    unk_e4.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD, menu::MenuItem::CURSORTYPE_ACTIVE);
+    useEquipItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD, menu::MenuItem::CURSORTYPE_ACTIVE);
     BattleMonsterMask::getSingleton()->select(-1);
-    unk_14c = btl::BattleMenuPlayerControl::getSingleton()->activeItem_;
-    unk_148 = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
+    activeItem_ = btl::BattleMenuPlayerControl::getSingleton()->activeItem_;
+    activeChara_ = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     MenuSoundManager::getSingleton()->initialize();
     unk_154 = 0;
 }
@@ -32,9 +32,9 @@ THUMB void BattleMenu_ITEMUSEEQUIP::menuExecute()
         {1, 2, 0x90, 0xa8, 0x38, 0x10},
         {-1, -1, 0, 0, 0, 0},
     };
-    MenuTemplate_Common::COMMON_ITEM_ICON32_2x3(&menuItem_, 6, (unk_14c - 1) % 6 + 1);
+    MenuTemplate_Common::COMMON_ITEM_ICON32_2x3(&menuItem_, 6, (activeItem_ - 1) % 6 + 1);
     unkfunc_0216d488();
-    unk_e4.setMenuItem(menu, 2, 1, 2);
+    useEquipItem_.setMenuItem(menu, 2, 1, 2);
     MenuTemplate_battle::BATTLE_CANCEL(&cancelItem_);
 }
 
@@ -49,7 +49,7 @@ THUMB void BattleMenu_ITEMUSEEQUIP::menuDraw()
             items[i] = info->haveItem_.getItem(i);
         }
         drawItemUseEquipMenu(items, count, btl::BattleMenuPlayerControl::getSingleton()->activeItem_ / 6);
-        unk_e4.drawActive();
+        useEquipItem_.drawActive();
     }
 }
 
@@ -94,16 +94,16 @@ THUMB void BattleMenu_ITEMUSEEQUIP::unkfunc_0216d0f0()
         }
         return;
     }
-    unk_e4.execInput();
-    switch (unk_e4.result_) {
+    useEquipItem_.execInput();
+    switch (useEquipItem_.result_) {
     case menu::MenuItem::MENUITEM_RESULT_CHANGE:
         redraw_ = 1;
         return;
     case menu::MenuItem::MENUITEM_RESULT_OK:
-        unk_e4.result_ = 0;
-        unk_e4.lastresult_ = 0;
+        useEquipItem_.result_ = 0;
+        useEquipItem_.lastresult_ = 0;
         redraw_ = 1;
-        if (unk_e4.active_ == 0) {
+        if (useEquipItem_.active_ == 0) {
             selectUseItem();
             return;
         }
@@ -115,21 +115,21 @@ THUMB void BattleMenu_ITEMUSEEQUIP::unkfunc_0216d0f0()
         }
         return;
     case menu::MenuItem::MENUITEM_RESULT_UP:
-        unk_e4.active_ = 1;
+        useEquipItem_.active_ = 1;
         return;
     case menu::MenuItem::MENUITEM_RESULT_DOWN:
-        unk_e4.active_ = 0;
+        useEquipItem_.active_ = 0;
         return;
     }
 }
 
 THUMB void BattleMenu_ITEMUSEEQUIP::selectUseItem()
 {
-    int action = status::UseItem::getBattleUseAction(status::g_Party.getPlayerStatus(unk_148)->haveStatusInfo_.haveItem_.getItem(unk_14c));
+    int action = status::UseItem::getBattleUseAction(status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveItem_.getItem(activeItem_));
     status::UseItem::UseArea area = status::UseAction::getUseArea(action);
     switch (status::UseAction::getUseType(action)) {
     case status::UseItem::Myself:
-        BattleMenuJudge::getSingleton()->setItemParty(unk_14c, unk_148);
+        BattleMenuJudge::getSingleton()->setItemParty(activeItem_, activeChara_);
         BattleMenuJudge::getSingleton()->setNextPlayer();
         close();
         return;
@@ -137,14 +137,14 @@ THUMB void BattleMenu_ITEMUSEEQUIP::selectUseItem()
         if (area == status::UseItem::One) {
             btl::BattleMenuPlayerControl::getSingleton()->targetChara_ = 0;
             gBattleMenu_ITEMUSE2PARTY.open();
-            int item = unk_14c;
-            int chara = unk_148;
-            gBattleMenu_ITEMUSE2PARTY.unk_e4 = chara;
-            gBattleMenu_ITEMUSE2PARTY.unk_e8 = item;
+            int item = activeItem_;
+            int chara = activeChara_;
+            gBattleMenu_ITEMUSE2PARTY.activeChara_ = chara;
+            gBattleMenu_ITEMUSE2PARTY.activeItem_ = item;
             close();
             return;
         }
-        BattleMenuJudge::getSingleton()->setItemPartyAll(unk_14c);
+        BattleMenuJudge::getSingleton()->setItemPartyAll(activeItem_);
         BattleMenuJudge::getSingleton()->setNextPlayer();
         close();
         return;
@@ -158,7 +158,7 @@ THUMB void BattleMenu_ITEMUSEEQUIP::selectUseItem()
                         break;
                     }
                 }
-                BattleMenuJudge::getSingleton()->setItemEnemy(unk_14c, group);
+                BattleMenuJudge::getSingleton()->setItemEnemy(activeItem_, group);
                 BattleMenuJudge::getSingleton()->setNextPlayer();
             } else {
                 BattleMonsterNamePlate::getSingleton().init();
@@ -166,20 +166,20 @@ THUMB void BattleMenu_ITEMUSEEQUIP::selectUseItem()
                 int target = BattleMenuJudge::getSingleton()->getLiveMonsterID();
                 btl::BattleMenuPlayerControl::getSingleton()->targetChara_ = target;
                 gBattleMenu_ITEMUSE2ENEMY.open();
-                int item = unk_14c;
-                int chara = unk_148;
-                gBattleMenu_ITEMUSE2ENEMY.unk_148 = chara;
-                gBattleMenu_ITEMUSE2ENEMY.unk_14c = item;
+                int item = activeItem_;
+                int chara = activeChara_;
+                gBattleMenu_ITEMUSE2ENEMY.activeChara_ = chara;
+                gBattleMenu_ITEMUSE2ENEMY.activeItem_ = item;
             }
             close();
             return;
         }
-        BattleMenuJudge::getSingleton()->setItemEnemyAll(unk_14c);
+        BattleMenuJudge::getSingleton()->setItemEnemyAll(activeItem_);
         BattleMenuJudge::getSingleton()->setNextPlayer();
         close();
         return;
     default:
-        status::g_Party.getPlayerStatus(unk_148)->haveBattleStatus_.setSelectCommand(status::HaveBattleStatus::UseItem, unk_14c);
+        status::g_Party.getPlayerStatus(activeChara_)->haveBattleStatus_.setSelectCommand(status::HaveBattleStatus::UseItem, activeItem_);
         BattleMenuJudge::getSingleton()->setNextPlayer();
         close();
         return;
@@ -188,35 +188,35 @@ THUMB void BattleMenu_ITEMUSEEQUIP::selectUseItem()
 
 THUMB void BattleMenu_ITEMUSEEQUIP::selectEquip()
 {
-    status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(unk_148)->haveStatusInfo_;
-    if (info->haveEquipment_.isSpell(status::UseItem::getItemType(info->haveItem_.getItem(unk_14c)))) {
+    status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_;
+    if (info->haveEquipment_.isSpell(status::UseItem::getItemType(info->haveItem_.getItem(activeItem_)))) {
         MenuSoundManager::getSingleton()->setPlaySound(MenuSoundManager::MENU_SOUND_NOROI);
-        int equipment = info->haveEquipment_.getEquipment(status::UseItem::getItemType(info->haveItem_.getItem(unk_14c)));
+        int equipment = info->haveEquipment_.getEquipment(status::UseItem::getItemType(info->haveItem_.getItem(activeItem_)));
         g_TownMenuMessage.openMessageForBATTLE();
         TextAPI::setMACRO0(7, 0x40000000, equipment);
         g_TownMenuMessage.addMessage(0xc3d8d);
         unk_154 = 1;
         return;
     }
-    if (!info->haveItem_.isEquipment(unk_14c)) {
-        if (status::UseItem::isCurse(info->haveItem_.getItem(unk_14c)) && info->haveStatus_.playerIndex_ != 25) {
+    if (!info->haveItem_.isEquipment(activeItem_)) {
+        if (status::UseItem::isCurse(info->haveItem_.getItem(activeItem_)) && info->haveStatus_.playerIndex_ != 25) {
             MenuSoundManager::getSingleton()->setPlaySound(MenuSoundManager::MENU_SOUND_NOROI);
             g_TownMenuMessage.openMessageForBATTLE();
-            TextAPI::setMACRO0(10, 0x40000000, info->haveItem_.getItem(unk_14c));
+            TextAPI::setMACRO0(10, 0x40000000, info->haveItem_.getItem(activeItem_));
             g_TownMenuMessage.addMessage(0xc3d8b);
             gBattleMenuSub_HISTORY.update_ = 0;
             unk_154 = 1;
-            if (info->haveItem_.getItem(unk_14c) == 0x5a) {
+            if (info->haveItem_.getItem(activeItem_) == 0x5a) {
                 info->statusChange_.setup2(status::StatusChange::StatusConfusion, 0);
             }
         }
-        status::g_Party.getPlayerStatus(unk_148)->haveStatusInfo_.setEquipment(unk_14c);
+        status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.setEquipment(activeItem_);
     }
 }
 
 THUMB void BattleMenu_ITEMUSEEQUIP::unkfunc_0216d488()
 {
     int index = btl::BattleMenuPlayerControl::getSingleton()->activeItem_;
-    int item = status::g_Party.getPlayerStatus(unk_148)->haveStatusInfo_.haveItem_.getItem(index);
-    unk_150 = status::g_Party.getPlayerStatus(unk_148)->haveStatusInfo_.isEquipEnable(item);
+    int item = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveItem_.getItem(index);
+    equipEnable_ = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.isEquipEnable(item);
 }

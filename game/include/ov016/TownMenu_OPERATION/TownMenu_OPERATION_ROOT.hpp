@@ -11,7 +11,7 @@ struct TownMenu_OPERATION_ROOT : menu::MenuBase
     menu::MenuItem cancelItem_;             /* 0x80 */
     menu::MenuItem sortItem_;               /* 0xE4 */
     menu::MenuItem charaItem_;              /* 0x148 */
-    int unk_1ac;                            /* 0x1AC */
+    int sortDone_;                            /* 0x1AC */
     unsigned char mode_;                    /* 0x1B0 */
     char command_[9];                       /* 0x1B1 */
     unsigned char commandCount_;            /* 0x1BA */

@@ -17,7 +17,7 @@ THUMB void TownMenu_STATUS::menuSetup()
     page_ = 0;
     activeChara_ = 0;
     pageSwap_ = 0;
-    unk_20 = 2;
+    summaryPage_ = 2;
     navigator_.setPageNo(0);
     updateSelectSound();
 }
@@ -37,7 +37,7 @@ THUMB void TownMenu_STATUS::menuDraw()
     status::g_Party.setBattleMode();
     int index = activeChara_ + page_ * 5;
     if (index == status::g_Party.getCount()) {
-        switch (unk_20) {
+        switch (summaryPage_) {
         case 2:
             drawStatusMoneyScreen(page_);
             break;
@@ -64,8 +64,8 @@ THUMB void TownMenu_STATUS::menuUpdate()
     status::g_Party.setBattleMode();
     if (MenuUpdate_Assist::isCancel(cancelItem_)) {
         if (navigator_.getIndex(activeChara_) == status::g_Party.getCount()) {
-            unk_20--;
-            if (unk_20 >= 2) {
+            summaryPage_--;
+            if (summaryPage_ >= 2) {
                 redraw_ = 1;
                 return;
             }
@@ -89,9 +89,9 @@ THUMB void TownMenu_STATUS::menuUpdate()
     }
     if (result == 2) {
         if (navigator_.getIndex(activeChara_) == status::g_Party.getCount()) {
-            unk_20++;
-            if (unk_20 > 4) {
-                unk_20 = 2;
+            summaryPage_++;
+            if (summaryPage_ > 4) {
+                summaryPage_ = 2;
             }
         } else if (status::g_Party.getPlayerStatus(activeChara_ + page_ * 5)->haveStatusInfo_.haveAction_.getCount() > 0) {
             pageSwap_++;
@@ -103,7 +103,7 @@ THUMB void TownMenu_STATUS::menuUpdate()
         redraw_ = 1;
         return;
     }
-    unk_20 = 2;
+    summaryPage_ = 2;
     status::g_BattleHistory.regenesisAdventureTime();
     pageSwap_ = 0;
     page_ = navigator_.getPageNo();

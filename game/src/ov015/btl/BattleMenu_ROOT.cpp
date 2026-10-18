@@ -23,27 +23,27 @@ THUMB void BattleMenu_ROOT::menuSetup()
     gBattleMenuSub_HISTORY.update_ = 1;
     gBattleMenuSub_HISTORY.history_ = 1;
     navigator_.setupBase();
-    unk_f4 = 0;
-    unk_f0 = 0;
-    unk_f8 = 1;
+    isCancelWait_ = 0;
+    cancelWait_ = 0;
+    isSimpleMenu_ = 1;
     if (status::g_Story.chapter_ >= LAST_QUEST && g_AreaFlag.check(0x132)) {
-        unk_f8 = 0;
+        isSimpleMenu_ = 0;
     }
 }
 
 THUMB void BattleMenu_ROOT::menuExecute()
 {
-    if (unk_f4 != 0) {
-        unk_f0--;
+    if (isCancelWait_ != 0) {
+        cancelWait_--;
         menuItem_.active_ = 0;
-        if (unk_f0 <= 0) {
-            unk_f0 = 0;
-            unk_f4 = 0;
+        if (cancelWait_ <= 0) {
+            cancelWait_ = 0;
+            isCancelWait_ = 0;
             redraw_ = 1;
         }
         return;
     }
-    int count = unk_f8 ? 2 : 4;
+    int count = isSimpleMenu_ ? 2 : 4;
     navigator_.setup(2, 2, count);
     MenuTemplate_battle::BATTLE_MENUICON2x2(&menuItem_, count, menuItem_.active_);
     MenuTemplate_battle::BATTLE_RECT_ENEMY(&cancelItem_);
@@ -51,8 +51,8 @@ THUMB void BattleMenu_ROOT::menuExecute()
 
 THUMB void BattleMenu_ROOT::menuDraw()
 {
-    if (unk_f4 == 0) {
-        drawBattleRootMenu(unk_f8);
+    if (isCancelWait_ == 0) {
+        drawBattleRootMenu(isSimpleMenu_);
         menuItem_.drawActive();
     }
 }
@@ -60,7 +60,7 @@ THUMB void BattleMenu_ROOT::menuDraw()
 THUMB void BattleMenu_ROOT::menuUpdate()
 {
     status::g_Party.setBattleMode();
-    if (unk_f4 == 0) {
+    if (isCancelWait_ == 0) {
         if (g_TownMenuMessage.isOpen()) {
             if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
                 g_TownMenuMessage.close();
@@ -71,8 +71,8 @@ THUMB void BattleMenu_ROOT::menuUpdate()
             if (cancelItem_.result_ == 3) {
                 cancelItem_.result_ = 0;
                 cancelItem_.lastresult_ = 0;
-                unk_f4 = 1;
-                unk_f0 = CANCEL_WAIT_TIME;
+                isCancelWait_ = 1;
+                cancelWait_ = CANCEL_WAIT_TIME;
                 redraw_ = 1;
                 return;
             }
@@ -86,7 +86,7 @@ THUMB void BattleMenu_ROOT::menuUpdate()
             }
             menuItem_.result_ = 0;
             menuItem_.lastresult_ = 0;
-            if (unk_f8 != 0 && active == 1) {
+            if (isSimpleMenu_ != 0 && active == 1) {
                 active = 3;
             }
             switch (active) {

@@ -3,7 +3,7 @@
 #include "main/menu/MenuBase.hpp"
 
 struct TownMenuMapCaption : menu::MenuBase {
-    int unk_1c;     /* 0 = hidden, 1/2 = shown message */
+    int captionType_;     /* 0 = hidden, 1/2 = shown message */
 
     virtual void menuSetup();
     virtual void menuExecute();

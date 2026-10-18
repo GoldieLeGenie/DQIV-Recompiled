@@ -10,8 +10,8 @@
 // surechigai menus whose code (ov026) is not decompiled yet, named after their menuSetup address
 struct MaterielMenu_SURECHIGAI_REMOVE_ENVOY : menu::MenuBase
 {
-    int unk_1c;                         /* 0x1C */
-    int unk_20;                         /* 0x20 */
+    int mode_;                         /* 0x1C */
+    int envoyCount_;                         /* 0x20 */
     menu::MenuItem menuItem_;           /* 0x24 */
     CursorMoveGridLoop navigator_;     /* 0x88 */
 
@@ -23,7 +23,7 @@ struct MaterielMenu_SURECHIGAI_REMOVE_ENVOY : menu::MenuBase
 
 struct MaterielMenu_SURECHIGAI_TENANT_LIST : menu::MenuBase
 {
-    unsigned char unk_1c;               /* 0x1C */
+    unsigned char tenantCount_;               /* 0x1C */
     menu::MenuItem menuItem_;           /* 0x20 */
     CursorMoveGridLoop navigator_;     /* 0x84 */
 
@@ -35,9 +35,9 @@ struct MaterielMenu_SURECHIGAI_TENANT_LIST : menu::MenuBase
 
 struct MaterielMenu_SURECHIGAI_SETTING : menu::MenuBase
 {
-    int unk_1c;                         /* 0x1C */
-    int unk_20;                         /* 0x20 */
-    int unk_24;                         /* 0x24 */
+    int step_;                         /* 0x1C */
+    int envoyType_;                         /* 0x20 */
+    int changeTaishi_;                         /* 0x24 */
     menu::MenuItem menuItem_;           /* 0x28 */
     CursorMoveGridLoop navigator_;     /* 0x8C */
 

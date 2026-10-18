@@ -249,7 +249,7 @@ struct MaterielMenu_SHOP_SELL_QUANTITY : menu::MenuBase
 {
     int quantity_;                      /* 0x1C */
     int itemIndex_;                     /* 0x20 */
-    int unk_24;                         /* 0x24 */
+    int listShown_;                         /* 0x24 */
     menu::MenuItem menuItem_;           /* 0x28 */
     CursorMoveGridLoop navigator_;     /* 0x8C */
 

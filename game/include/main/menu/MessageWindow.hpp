@@ -17,7 +17,7 @@ struct MessageWindowConfig {
     int nameX_;                                 // 0x18
     int nameY_;                                 // 0x1C
     int lineCount_;                             // 0x20
-    int unk_24;                                 // 0x24
+    int extraHeight_;                                 // 0x24
     int intervalCursor_;                        // 0x28
     int lastCursor_;                            // 0x2C
     int font_;                                  // 0x30
@@ -27,7 +27,7 @@ struct MessageWindowConfig {
     int frameType_;                             // 0x40
     int printSpeed_;                            // 0x44
     int wait_;                                  // 0x48
-    int unk_4c;                                 // 0x4C
+    int keyDelay_;                                 // 0x4C
     int sound_;                                 // 0x50
 };
 
@@ -56,10 +56,10 @@ struct MessageWindow : MenuDisplay {
     int scroll_;                                // 0x9B4
     int keyWait_;                               // 0x9B8
     int keySound_;                              // 0x9BC
-    int unk_9c0;                                // 0x9C0
+    int keyTimer_;                                // 0x9C0
     int wait_;                                  // 0x9C4
-    int unk_9c8;                                // 0x9C8
-    int unk_9cc;                                // 0x9CC
+    int keyDelay_;                                // 0x9C8
+    int waitProgFlag_;                                // 0x9CC
     int shake_;                                 // 0x9D0
     int shakeCount_;                            // 0x9D4
     int shakeX_;                                // 0x9D8

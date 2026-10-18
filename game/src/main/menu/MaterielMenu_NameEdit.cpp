@@ -33,7 +33,7 @@ THUMB void MaterielMenu_NameEdit::menuSetup()
     keyboard_.init();
     language_ = 0;
     unk_88 = 0;
-    unk_98 = 0;
+    changeTaishi_ = 0;
     bCloseEditTownName_ = 0;
     setNameEditMode();
 }
@@ -136,16 +136,16 @@ THUMB void MaterielMenu_NameEdit::drawMessageInput(int message)
 THUMB void MaterielMenu_NameEdit::drawNameInput(int message)
 {
     int blink = 0;
-    if (unk_94 == 15 && unk_94 == 30) {
+    if (blinkCount_ == 15 && blinkCount_ == 30) {
         redraw_ = 1;
     }
-    if (unk_94 > 30) {
-        unk_94 = 0;
+    if (blinkCount_ > 30) {
+        blinkCount_ = 0;
     }
-    if (unk_94 >= 15) {
+    if (blinkCount_ >= 15) {
         blink = 1;
     }
-    unk_94++;
+    blinkCount_++;
     drawNameEditField(language_, g_nameEditLabels, g_nameEditLength, g_nameEditMaxLength, blink, 0);
     drawFrameStyleB(0, 0x30, 0x100, 0x78, 0x48);
     drawCenteredMessage(&message, 8, 0x4a, 0xf0, 0x2c);
@@ -324,8 +324,8 @@ THUMB void MaterielMenu_NameEdit::finishNameEdit(bool ok)
         case RETURN_MENU_SURECHIGAI:
             g_EnvoyManager.setName(getNameUTF8());
             gUnkMaterielMenu_02189a80.open();
-            if (unk_98 == 1) {
-                gUnkMaterielMenu_02189a80.unk_24 = 1;
+            if (changeTaishi_ == 1) {
+                gUnkMaterielMenu_02189a80.changeTaishi_ = 1;
             }
             break;
         case RETURN_MENU_SURECHIGAI_MESSAGE:
@@ -341,9 +341,9 @@ THUMB void MaterielMenu_NameEdit::finishNameEdit(bool ok)
             g_TownMenuMessage.setYesNoPosition(0xc0, 0x40);
             close();
             gUnkMaterielMenu_02189a80.open();
-            gUnkMaterielMenu_02189a80.unk_1c = 6;
-            if (unk_98 == 1) {
-                gUnkMaterielMenu_02189a80.unk_24 = 1;
+            gUnkMaterielMenu_02189a80.step_ = 6;
+            if (changeTaishi_ == 1) {
+                gUnkMaterielMenu_02189a80.changeTaishi_ = 1;
             }
             break;
         case RETURN_MENU_SURECHIGAI_TOWNNAME:
@@ -367,7 +367,7 @@ THUMB void MaterielMenu_NameEdit::finishNameEdit(bool ok)
             break;
         case RETURN_MENU_SURECHIGAI:
             gMaterielMenu_SURECHIGAI_SELECT_OBJECT.open();
-            if (unk_98 == 1) {
+            if (changeTaishi_ == 1) {
                 gMaterielMenu_SURECHIGAI_SELECT_OBJECT.changeTaishi_ = 1;
             }
             break;

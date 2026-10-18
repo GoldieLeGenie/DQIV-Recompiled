@@ -48,9 +48,9 @@ struct BattleMenu_ROOT : menu::MenuBase
     menu::MenuItem menuItem_;           /* 0x1C */
     menu::MenuItem cancelItem_;         /* 0x80 */
     CursorMoveGridLoop navigator_;     /* 0xE4 */
-    short unk_f0;                       /* 0xF0 */
-    int unk_f4;                         /* 0xF4 */
-    int unk_f8;                         /* 0xF8 */
+    short cancelWait_;                       /* 0xF0 */
+    int isCancelWait_;                         /* 0xF4 */
+    int isSimpleMenu_;                         /* 0xF8 */
 
     virtual void menuSetup();
     virtual void menuExecute();
@@ -98,9 +98,9 @@ struct BattleMenu_ITEMUSE2PARTY : menu::MenuBase
 {
     menu::MenuItem menuItem_;           /* 0x1C */
     menu::MenuItem cancelItem_;         /* 0x80 */
-    int unk_e4;                         /* 0xE4 */
-    int unk_e8;                         /* 0xE8 */
-    int unk_ec;                         /* 0xEC */
+    int activeChara_;                         /* 0xE4 */
+    int activeItem_;                         /* 0xE8 */
+    int partyMax_;                         /* 0xEC */
     CursorMoveGridLoop navigator_;     /* 0xF0 */
 
     virtual void menuSetup();
@@ -111,7 +111,7 @@ struct BattleMenu_ITEMUSE2PARTY : menu::MenuBase
 
 struct BattleMenu_ARRAYMENU : menu::MenuBase
 {
-    int unk_1c;                         /* 0x1C */
+    int cursorPos_;                         /* 0x1C */
     menu::MenuItem menuItem_;           /* 0x20 */
     menu::MenuItem cancelItem_;         /* 0x84 */
 
@@ -155,7 +155,7 @@ struct BattleMenu_MAGIC2ENEMY : menu::MenuBase
     int activeMagicPos_;                /* 0xEC */
     int activeMagicIndex_;              /* 0xF0 */
     int enemyNumMax_;                   /* 0xF4 */
-    int unk_f8;                         /* 0xF8 */
+    int monsterMask_;                         /* 0xF8 */
     TOUCHRECT touchRect_[12];           /* 0xFC */
 
     virtual void menuSetup();
@@ -169,13 +169,13 @@ struct BattleMenu_ITEMUSE2ENEMY : menu::MenuBase
     menu::MenuItem menuItem_;           /* 0x1C */
     int unk_80[25];                     /* 0x80 */
     menu::MenuItem cancelItem_;         /* 0xE4 */
-    int unk_148;                        /* 0x148 */
-    int unk_14c;                        /* 0x14C */
-    int unk_150;                        /* 0x150 */
-    int unk_154;                        /* 0x154 */
-    int unk_158;                        /* 0x158 */
-    int unk_15c;                        /* 0x15C */
-    TOUCHRECT unk_160[12];              /* 0x160 */
+    int activeChara_;                        /* 0x148 */
+    int activeItem_;                        /* 0x14C */
+    int enemyNumMax_;                        /* 0x150 */
+    int oldGroup_;                        /* 0x154 */
+    int oldActive_;                        /* 0x158 */
+    int monsterMask_;                        /* 0x15C */
+    TOUCHRECT touchRect_[12];              /* 0x160 */
 
     virtual void menuSetup();
     virtual void menuExecute();
@@ -190,15 +190,15 @@ struct BattleMenu_ITEMUSE2ENEMY : menu::MenuBase
 
 struct BattleMenu_ARRAY_CHANGE : menu::MenuBase
 {
-    int unk_1c;                         /* 0x1C */
-    int unk_20;                         /* 0x20 */
-    int unk_24;                         /* 0x24 */
+    int phase_;                         /* 0x1C */
+    int prevPhase_;                         /* 0x20 */
+    int targetPos_;                         /* 0x24 */
     menu::MenuItem menuItem_;           /* 0x28 */
-    menu::MenuItem unk_8c;              /* 0x8C */
-    menu::MenuItem unk_f0;              /* 0xF0 */
+    menu::MenuItem targetItem_;              /* 0x8C */
+    menu::MenuItem pageItem_;              /* 0xF0 */
     menu::MenuItem cancelItem_;         /* 0x154 */
-    CursorMoveGridLoop unk_1b8;        /* 0x1B8 */
-    CursorMoveGridLoop unk_1c4;        /* 0x1C4 */
+    CursorMoveGridLoop memberNavigator_;        /* 0x1B8 */
+    CursorMoveGridLoop targetNavigator_;        /* 0x1C4 */
 
     virtual void menuSetup();
     virtual void menuExecute();
@@ -211,8 +211,8 @@ struct BattleMenu_ARRAY_CHANGE : menu::MenuBase
 
 struct BattleMenu_ARRAY_ALL : menu::MenuBase
 {
-    int unk_1c[4];                      /* 0x1C */
-    int unk_2c;                         /* 0x2C */
+    int newOrder_[4];                      /* 0x1C */
+    int selectNum_;                         /* 0x2C */
     int unk_30[25];                     /* 0x30 */
     menu::MenuItem menuItem_;           /* 0x94 */
     menu::MenuItem cancelItem_;         /* 0xF8 */
@@ -226,18 +226,18 @@ struct BattleMenu_ARRAY_ALL : menu::MenuBase
 
 struct BattleMenu_TACTICSMENU : menu::MenuBase
 {
-    int unk_1c;                         /* 0x1C */
-    int unk_20;                         /* 0x20 */
-    int unk_24;                         /* 0x24 */
-    int unk_28;                         /* 0x28 */
-    int unk_2c[10];                     /* 0x2C */
-    int unk_54;                         /* 0x54 */
+    int phase_;                         /* 0x1C */
+    int prevPhase_;                         /* 0x20 */
+    int memberPos_;                         /* 0x24 */
+    int tacticsPos_;                         /* 0x28 */
+    int memberList_[10];                     /* 0x2C */
+    int memberNum_;                         /* 0x54 */
     int unk_58[25];                     /* 0x58 */
     menu::MenuItem menuItem_;           /* 0xBC */
-    menu::MenuItem unk_120;             /* 0x120 */
+    menu::MenuItem tacticsItem_;             /* 0x120 */
     menu::MenuItem cancelItem_;         /* 0x184 */
-    CursorMoveGridLoop unk_1e8;        /* 0x1E8 */
-    CursorMoveGridLoop unk_1f4;        /* 0x1F4 */
+    CursorMoveGridLoop memberNavigator_;        /* 0x1E8 */
+    CursorMoveGridLoop tacticsNavigator_;        /* 0x1F4 */
 
     virtual void menuSetup();
     virtual void menuExecute();
@@ -252,11 +252,11 @@ struct BattleMenu_TACTICSMENU : menu::MenuBase
 
 struct BattleMenu_ITEM : menu::MenuBase
 {
-    int unk_1c;                         /* 0x1C */
+    int activeChara_;                         /* 0x1C */
     int unk_20;                         /* 0x20 */
     menu::MenuItem menuItem_;           /* 0x24 */
     menu::MenuItem cancelItem_;         /* 0x88 */
-    menu::MenuItem unk_ec;              /* 0xEC */
+    menu::MenuItem pageItem_;              /* 0xEC */
     CursorMoveGridLoop navigator_;     /* 0x150 */
 
     virtual void menuSetup();
@@ -303,7 +303,7 @@ struct BattleMenu_MAGIC : menu::MenuBase
 
     menu::MenuItem menuItem_;           /* 0x1C */
     menu::MenuItem cancelItem_;         /* 0x80 */
-    menu::MenuItem unk_e4;              /* 0xE4 */
+    menu::MenuItem pageItem_;              /* 0xE4 */
     CursorMoveGridLoop navigator_;     /* 0x148 */
     int count_;                         /* 0x154 */
     int haveAction_[BTL_ACT_MAX];       /* 0x158 */
@@ -331,10 +331,10 @@ struct BattleMenu_ITEMUSEEQUIP : menu::MenuBase
 {
     menu::MenuItem menuItem_;           /* 0x1C */
     menu::MenuItem cancelItem_;         /* 0x80 */
-    menu::MenuItem unk_e4;              /* 0xE4 */
-    int unk_148;                        /* 0x148 */
-    int unk_14c;                        /* 0x14C */
-    int unk_150;                        /* 0x150 */
+    menu::MenuItem useEquipItem_;              /* 0xE4 */
+    int activeChara_;                        /* 0x148 */
+    int activeItem_;                        /* 0x14C */
+    int equipEnable_;                        /* 0x150 */
     int unk_154;                        /* 0x154 */
 
     virtual void menuSetup();

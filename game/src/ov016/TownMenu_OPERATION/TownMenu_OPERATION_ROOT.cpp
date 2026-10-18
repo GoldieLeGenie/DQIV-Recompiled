@@ -29,7 +29,7 @@ THUMB void TownMenu_OPERATION_ROOT::menuSetup()
     charaItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD, menu::MenuItem::CURSORTYPE_ACTIVE);
     mode_ = 0;
     abort_ = 0;
-    unk_1ac = 0;
+    sortDone_ = 0;
     saveResult_ = 0;
     isMantan_ = 0;
     useKiari_ = 0;
@@ -145,11 +145,11 @@ THUMB void TownMenu_OPERATION_ROOT::menuUpdate()
             }
             g_TownMenuMessage.close();
             if (mode_ == 1 || mode_ == 2) {
-                if (unk_1ac == 1) {
+                if (sortDone_ == 1) {
                     menuItem_.ctype_ = menu::MenuItem::CURSORTYPE_ACTIVE;
                     menuItem_.drawActive();
                     mode_ = 0;
-                    unk_1ac = 0;
+                    sortDone_ = 0;
                     return;
                 }
                 sortItems();
@@ -354,7 +354,7 @@ THUMB void TownMenu_OPERATION_ROOT::sortItems()
         g_TownMenuMessage.openMessageForMENU();
         g_TownMenuMessage.addMessage(0xc3d5e);
     }
-    unk_1ac = 1;
+    sortDone_ = 1;
 }
 
 THUMB int TownMenu_OPERATION_ROOT::setupCommandList(char* command)

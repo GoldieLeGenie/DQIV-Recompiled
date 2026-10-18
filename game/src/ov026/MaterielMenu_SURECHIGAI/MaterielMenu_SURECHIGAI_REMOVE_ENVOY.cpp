@@ -13,26 +13,26 @@ THUMB void MaterielMenu_SURECHIGAI_REMOVE_ENVOY::menuSetup()
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
     menuItem_.active_ = 0;
     navigator_.setupBase();
-    unk_1c = 0;
-    unk_20 = g_EnvoyManager.getEnvoyCount();
-    navigator_.setup(2, 4, unk_20);
+    mode_ = 0;
+    envoyCount_ = g_EnvoyManager.getEnvoyCount();
+    navigator_.setup(2, 4, envoyCount_);
 }
 
 THUMB void MaterielMenu_SURECHIGAI_REMOVE_ENVOY::menuExecute()
 {
-    int count = unk_20 - navigator_.getPageNo() * 8;
+    int count = envoyCount_ - navigator_.getPageNo() * 8;
     MenuTemplate_materiel::suretigaiSelectChiaus(&menuItem_, menuItem_.active_, count);
 }
 
 THUMB void MaterielMenu_SURECHIGAI_REMOVE_ENVOY::menuDraw()
 {
     if (g_TownMenuMessage.isOpen() != 1) {
-        if (unk_1c <= 1) {
+        if (mode_ <= 1) {
             int page = navigator_.getPageNo();
             int pageMax = navigator_.getPageMaxCount();
-            drawTagModeTenantListScreen(unk_1c, unk_20, page, pageMax, navigator_.getIndex(menuItem_.active_));
+            drawTagModeTenantListScreen(mode_, envoyCount_, page, pageMax, navigator_.getIndex(menuItem_.active_));
         }
-        if (unk_1c == 0) {
+        if (mode_ == 0) {
             menuItem_.drawActive();
         }
     }
@@ -43,7 +43,7 @@ THUMB void MaterielMenu_SURECHIGAI_REMOVE_ENVOY::menuUpdate()
     if (g_TownMenuMessage.isOpen()) {
         if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
             g_TownMenuMessage.close();
-            if (unk_1c == 1) {
+            if (mode_ == 1) {
                 g_EnvoyManager.selectEnvoy(navigator_.getIndex(menuItem_.active_));
                 unsigned char* name = g_EnvoyManager.getName();
                 g_TownMenuMessage.openMessageForTALK();
@@ -52,27 +52,27 @@ THUMB void MaterielMenu_SURECHIGAI_REMOVE_ENVOY::menuUpdate()
                 g_TownMenuMessage.addMessage(0x92a29, 0x92a2a);
                 g_TownMenuMessage.setYesNo(1);
                 g_TownMenuMessage.setYesNoPosition(0xc0, 0x40);
-                unk_1c = 2;
+                mode_ = 2;
                 g_EnvoyManager.removeEnvoy(navigator_.getIndex(menuItem_.active_));
-                unk_20 = g_EnvoyManager.getEnvoyCount();
-                navigator_.setup(2, 4, unk_20);
+                envoyCount_ = g_EnvoyManager.getEnvoyCount();
+                navigator_.setup(2, 4, envoyCount_);
                 return;
             }
-            if (unk_1c == 2) {
+            if (mode_ == 2) {
                 g_TownMenuMessage.openMessageForTALK();
                 g_TownMenuMessage.addMessage(0x92a1e);
                 if (g_EnvoyManager.getEnvoyCount() == 0) {
                     g_TownMenuMessage.addMessage(0x92a21, 0x92a22);
-                    unk_1c = 3;
+                    mode_ = 3;
                     return;
                 }
-                unk_1c = 0;
+                mode_ = 0;
                 menuItem_.active_ = 0;
                 navigator_.setPageNo(0);
-                unk_20 = g_EnvoyManager.getEnvoyCount();
+                envoyCount_ = g_EnvoyManager.getEnvoyCount();
                 return;
             }
-            if (unk_1c == 3) {
+            if (mode_ == 3) {
                 close();
                 g_TownMenuMessage.openMessageForTALK();
                 g_TownMenuMessage.addMessageNOWAIT(0x92a33);
@@ -83,11 +83,11 @@ THUMB void MaterielMenu_SURECHIGAI_REMOVE_ENVOY::menuUpdate()
         }
         if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
             g_TownMenuMessage.close();
-            if ((unsigned int)(unk_1c - 1) <= 1) {
-                if (unk_1c == 1) {
+            if ((unsigned int)(mode_ - 1) <= 1) {
+                if (mode_ == 1) {
                     g_TownMenuMessage.openMessageForTALK();
                     g_TownMenuMessage.addMessage(0x92a2c);
-                    unk_1c = 3;
+                    mode_ = 3;
                     return;
                 }
                 close();
@@ -99,14 +99,14 @@ THUMB void MaterielMenu_SURECHIGAI_REMOVE_ENVOY::menuUpdate()
         }
         return;
     }
-    if (unk_1c == 0) {
-        navigator_.setup(2, 4, unk_20);
+    if (mode_ == 0) {
+        navigator_.setup(2, 4, envoyCount_);
         int result = MenuUpdate_Assist::menuSelect(menuItem_, navigator_);
         if (result != 0) {
             if (result == 2) {
                 g_EnvoyManager.selectEnvoy(navigator_.getIndex(menuItem_.active_));
                 unsigned char* name = g_EnvoyManager.getName();
-                unk_1c = 1;
+                mode_ = 1;
                 g_TownMenuMessage.openMessageForTALK();
                 TextAPI::setMACRO0(0x1d, 0xd0000000, 0);
                 TextAPI::setUserString(0, (char*)name);
@@ -117,7 +117,7 @@ THUMB void MaterielMenu_SURECHIGAI_REMOVE_ENVOY::menuUpdate()
             if (result == 3) {
                 g_TownMenuMessage.openMessageForTALK();
                 g_TownMenuMessage.addMessage(0x92a2f);
-                unk_1c = 3;
+                mode_ = 3;
             }
             redraw_ = 1;
         }

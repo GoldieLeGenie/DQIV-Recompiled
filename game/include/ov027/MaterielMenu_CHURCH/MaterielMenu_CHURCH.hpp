@@ -27,7 +27,7 @@ struct MaterielMenu_CHURCH_MIRACLE : menu::MenuBase
     int activeChara_;                   /* 0xF4 */
     MIRACLE_STATUS miracleStatus_;      /* 0xF8 */
     int sexType_;                       /* 0xFC */
-    int unk_100;                        /* 0x100 */
+    int listPending_;                        /* 0x100 */
     int miracleAmount_[3];              /* 0x104 */
     int soundType_;                     /* 0x110 */
 
@@ -68,7 +68,7 @@ struct MaterielMenu_CHURCH_ROOT : menu::MenuBase
     int churchType_;                    /* 0x158 */
     int commandNum_;                    /* 0x15C */
     int firstFlag_;                     /* 0x160 */
-    int unk_164;                        /* 0x164 */
+    int listPending_;                        /* 0x164 */
     CursorMoveGridLoop navigator_;     /* 0x168 */
 
     virtual void menuSetup();

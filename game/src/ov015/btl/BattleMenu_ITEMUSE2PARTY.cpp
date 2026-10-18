@@ -7,15 +7,15 @@ THUMB void BattleMenu_ITEMUSE2PARTY::menuSetup()
 {
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD, menu::MenuItem::CURSORTYPE_ACTIVE);
     cancelItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
-    unk_e4 = 0;
-    unk_e8 = 0;
-    unk_ec = status::g_Party.getCarriageOutCount();
+    activeChara_ = 0;
+    activeItem_ = 0;
+    partyMax_ = status::g_Party.getCarriageOutCount();
 }
 
 THUMB void BattleMenu_ITEMUSE2PARTY::menuExecute()
 {
-    navigator_.setup(2, 2, unk_ec);
-    MenuTemplate_battle::BATTLE_PARTY_2x2(&menuItem_, unk_ec);
+    navigator_.setup(2, 2, partyMax_);
+    MenuTemplate_battle::BATTLE_PARTY_2x2(&menuItem_, partyMax_);
     MenuTemplate_battle::BATTLE_CANCEL(&cancelItem_);
 }
 
@@ -44,7 +44,7 @@ THUMB void BattleMenu_ITEMUSE2PARTY::menuUpdate()
         redraw_ = 1;
         if (result == 2) {
             close();
-            BattleMenuJudge::getSingleton()->setItemParty(unk_e8, menuItem_.active_);
+            BattleMenuJudge::getSingleton()->setItemParty(activeItem_, menuItem_.active_);
             BattleMenuJudge::getSingleton()->setNextPlayer();
         }
         int target = menuItem_.active_;

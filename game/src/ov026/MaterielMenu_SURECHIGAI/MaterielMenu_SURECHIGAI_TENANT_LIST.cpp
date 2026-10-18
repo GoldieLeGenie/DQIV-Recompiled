@@ -29,13 +29,13 @@ THUMB void MaterielMenu_SURECHIGAI_TENANT_LIST::menuSetup()
             count--;
         }
     }
-    unk_1c = count + g_EnvoyManager.getEnvoyCount();
-    navigator_.setup(2, 4, unk_1c);
+    tenantCount_ = count + g_EnvoyManager.getEnvoyCount();
+    navigator_.setup(2, 4, tenantCount_);
 }
 
 THUMB void MaterielMenu_SURECHIGAI_TENANT_LIST::menuExecute()
 {
-    MenuTemplate_materiel::suretigaiSelectChiaus(&menuItem_, menuItem_.active_, dss::max(dss::min(unk_1c - navigator_.getPageNo() * 8, 8), 0));
+    MenuTemplate_materiel::suretigaiSelectChiaus(&menuItem_, menuItem_.active_, dss::max(dss::min(tenantCount_ - navigator_.getPageNo() * 8, 8), 0));
 }
 
 THUMB void MaterielMenu_SURECHIGAI_TENANT_LIST::menuDraw()
@@ -51,8 +51,8 @@ THUMB void MaterielMenu_SURECHIGAI_TENANT_LIST::menuDraw()
     }
     int page = navigator_.getPageNo();
     int pageMax = navigator_.getPageMaxCount();
-    drawTagModeTenantScreen(unk_1c, page, pageMax, index, 1, flag);
-    if (unk_1c != 0) {
+    drawTagModeTenantScreen(tenantCount_, page, pageMax, index, 1, flag);
+    if (tenantCount_ != 0) {
         menuItem_.drawActive();
     }
 }
@@ -62,7 +62,7 @@ THUMB void MaterielMenu_SURECHIGAI_TENANT_LIST::menuUpdate()
     if (g_TownMenuMessage.isOpen() && (unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
         g_TownMenuMessage.close();
     }
-    navigator_.setup(2, 4, unk_1c);
+    navigator_.setup(2, 4, tenantCount_);
     int result = MenuUpdate_Assist::menuSelect(menuItem_, navigator_);
     if (result != 0) {
         if (result == 3) {

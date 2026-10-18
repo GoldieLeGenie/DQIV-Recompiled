@@ -27,8 +27,8 @@ THUMB void menu::MenuItem::setup(MENUITEM_TYPE mtype, CURSORTYPE ctype)
     unk_34 = -1;
     active_ = 0;
     unk_3C = -1;
-    unk_44 = 0;
-    unk_48 = 0;
+    baseX_ = 0;
+    baseY_ = 0;
     enableSE_ = 1;
     enableDirectButton_ = 0;
     enableLoopEdge_ = 0;
@@ -90,8 +90,8 @@ THUMB void menu::MenuItem::drawActive()
         if (view == -1) {
             continue;
         }
-        int x = unk_44 + data->x;
-        int y = unk_48 + data->y;
+        int x = baseX_ + data->x;
+        int y = baseY_ + data->y;
         int w = data->w;
         int h = data->h;
         if (enablePad_ && i == active_) {
@@ -134,8 +134,8 @@ THUMB void menu::MenuItem::setMenuItem(MENUITEM_DATA* data, int width, int heigh
 
 THUMB void menu::MenuItem::setBaseXY(int x, int y)
 {
-    unk_44 = x;
-    unk_48 = y;
+    baseX_ = x;
+    baseY_ = y;
 }
 
 THUMB int menu::MenuItem::execInput()
@@ -182,8 +182,8 @@ THUMB void menu::MenuItem::unkfunc_02051b60()
     MENUITEM_DATA* data = menuitem_data_;
     int frame = getDisplayFrame();
     for (int i = 0; i <= menuitem_max_; i++, data++) {
-        int x = unk_44 + data->x;
-        int y = unk_48 + data->y;
+        int x = baseX_ + data->x;
+        int y = baseY_ + data->y;
         int w = data->w;
         int h = data->h;
         if (i == active_ || (i & 3) == (frame & 3)) {

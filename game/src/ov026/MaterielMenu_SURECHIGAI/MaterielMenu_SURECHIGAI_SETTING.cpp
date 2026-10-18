@@ -17,13 +17,13 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::menuSetup()
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
     menuItem_.active_ = 0;
     navigator_.setupBase();
-    unk_1c = 1;
-    unk_20 = g_EnvoyManager.getType();
+    step_ = 1;
+    envoyType_ = g_EnvoyManager.getType();
 }
 
 THUMB void MaterielMenu_SURECHIGAI_SETTING::menuExecute()
 {
-    switch (unk_1c) {
+    switch (step_) {
     case 1:
         MenuTemplate_materiel::surechigaiSelectSex(&menuItem_, menuItem_.active_);
         break;
@@ -38,10 +38,10 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::menuExecute()
 
 THUMB void MaterielMenu_SURECHIGAI_SETTING::menuDraw()
 {
-    if (unk_1c != 0) {
+    if (step_ != 0) {
         MaterielMenuPlayerControl::getSingleton();
-        drawNameEditScreen(unk_1c, unk_20);
-        if (unk_1c < 4) {
+        drawNameEditScreen(step_, envoyType_);
+        if (step_ < 4) {
             menuItem_.drawActive();
         }
     }
@@ -52,7 +52,7 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::menuUpdate()
     if (g_TownMenuMessage.isOpen()) {
         if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
             g_TownMenuMessage.close();
-            if (unk_1c == 0) {
+            if (step_ == 0) {
                 close();
                 gMaterielMenu_NameEdit.open();
                 gMaterielMenu_NameEdit.returnMenu_ = MaterielMenu_NameEdit::RETURN_MENU_SURECHIGAI;
@@ -60,36 +60,36 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::menuUpdate()
                 gMaterielMenu_NameEdit.setNameEditMode();
                 return;
             }
-            if (unk_1c == 4) {
-                unk_1c = 8;
+            if (step_ == 4) {
+                step_ = 8;
                 ui_MsgSndSet(0x32);
                 g_TownMenuMessage.openMessageForTALK();
                 g_TownMenuMessage.addMessage(0x92a79);
                 return;
             }
-            if (unk_1c == 7) {
-                unk_1c = 6;
+            if (step_ == 7) {
+                step_ = 6;
                 ui_MsgSndSet(0x32);
                 g_TownMenuMessage.openMessageForTALK();
                 g_TownMenuMessage.addMessage(0x92a81);
                 return;
             }
-            if (unk_1c == 6) {
+            if (step_ == 6) {
                 g_TownMenuMessage.openMessageForTALK();
                 if (MaterielMenu_WINDOW_MANAGER::getSingleton()->editMessageForScript_ == 1) {
                     g_TownMenuMessage.addMessage(0x92a94);
                 } else {
                     ui_MsgSndSet(0x32);
                     g_TownMenuMessage.addMessage(0x92a81);
-                    if (unk_24 == 1) {
+                    if (changeTaishi_ == 1) {
                         MaterielMenu_WINDOW_MANAGER::getSingleton()->changeTaishi_ = 1;
                     }
                     g_EnvoyManager.clearBackup();
                 }
-                unk_1c = 9;
+                step_ = 9;
                 return;
             }
-            if (unk_1c > 4) {
+            if (step_ > 4) {
                 proceedStep();
                 return;
             }
@@ -98,22 +98,22 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::menuUpdate()
         }
         if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
             g_TownMenuMessage.close();
-            if (unk_1c == 4) {
-                unk_1c = 5;
+            if (step_ == 4) {
+                step_ = 5;
                 ui_MsgSndSet(0x32);
                 g_TownMenuMessage.openMessageForTALK();
                 g_TownMenuMessage.addMessage(0x92a7b);
                 return;
             }
-            if (unk_1c == 5) {
-                unk_1c = 8;
+            if (step_ == 5) {
+                step_ = 8;
                 ui_MsgSndSet(0x32);
                 g_TownMenuMessage.openMessageForTALK();
                 g_TownMenuMessage.addMessage(0x92a83);
                 return;
             }
-            if (unk_1c == 6) {
-                unk_1c = 8;
+            if (step_ == 6) {
+                step_ = 8;
                 g_TownMenuMessage.openMessageForTALK();
                 if (MaterielMenu_WINDOW_MANAGER::getSingleton()->editMessageForScript_ == 1) {
                     g_TownMenuMessage.addMessage(0x92a8e);
@@ -124,15 +124,15 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::menuUpdate()
                 proceedStep();
                 return;
             }
-            if (unk_1c == 9) {
-                unk_1c = 6;
+            if (step_ == 9) {
+                step_ = 6;
                 return;
             }
             MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
         }
         return;
     }
-    switch (unk_1c) {
+    switch (step_) {
     case 1:
         navigator_.setup(3, 1, 3);
         break;
@@ -149,20 +149,20 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::menuUpdate()
             proceedStep();
         }
         if (result == 3) {
-            unk_1c--;
-            if (unk_1c == 1) {
+            step_--;
+            if (step_ == 1) {
                 menuItem_.active_ = g_EnvoyManager.getSex();
             }
-            if (unk_1c == 2) {
+            if (step_ == 2) {
                 menuItem_.active_ = g_EnvoyManager.getAge();
             }
-            if (unk_1c == 0) {
+            if (step_ == 0) {
                 ui_MsgSndSet(0x32);
                 g_TownMenuMessage.openMessageForTALK();
                 g_TownMenuMessage.addMessage(0x92a73);
             }
         }
-        if (unk_1c == 3) {
+        if (step_ == 3) {
             int page = navigator_.getPageNo();
             MaterielMenuPlayerControl::getSingleton()->activeChiausSkillPage_ = page;
         }
@@ -172,21 +172,21 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::menuUpdate()
 
 THUMB void MaterielMenu_SURECHIGAI_SETTING::proceedStep()
 {
-    switch (unk_1c) {
+    switch (step_) {
     case 1:
-        unk_1c = 2;
+        step_ = 2;
         g_EnvoyManager.setSex(menuItem_.active_);
         menuItem_.active_ = 0;
         break;
     case 2:
-        unk_1c = 3;
+        step_ = 3;
         g_EnvoyManager.setAge(menuItem_.active_);
         menuItem_.active_ = 0;
         break;
     case 3: {
         g_EnvoyManager.setHeroName(status::g_Story.heroName);
         g_EnvoyManager.setUnique(status::g_Game.getUniqueID());
-        unk_1c = 4;
+        step_ = 4;
         g_EnvoyManager.setSkill(navigator_.getIndex(menuItem_.active_));
         int page = navigator_.getPageNo();
         MaterielMenuPlayerControl::getSingleton()->activeChiausSkillPage_ = page;
@@ -201,7 +201,7 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::proceedStep()
     case 5:
         close();
         gMaterielMenu_SURECHIGAI_SELECT_OBJECT.open();
-        if (unk_24 == 1) {
+        if (changeTaishi_ == 1) {
             gMaterielMenu_SURECHIGAI_SELECT_OBJECT.changeTaishi_ = 1;
         }
         break;
@@ -214,8 +214,8 @@ THUMB void MaterielMenu_SURECHIGAI_SETTING::proceedStep()
         gMaterielMenu_NameEdit.returnMenu_ = MaterielMenu_NameEdit::RETURN_MENU_SURECHIGAI_MESSAGE;
         gMaterielMenu_NameEdit.clearName();
         gMaterielMenu_NameEdit.setMessageMode();
-        if (unk_24 == 1) {
-            gMaterielMenu_NameEdit.unk_98 = 1;
+        if (changeTaishi_ == 1) {
+            gMaterielMenu_NameEdit.changeTaishi_ = 1;
         }
         break;
     case 9:

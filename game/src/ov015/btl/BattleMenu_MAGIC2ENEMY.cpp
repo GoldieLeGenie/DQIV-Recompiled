@@ -9,7 +9,7 @@ THUMB void BattleMenu_MAGIC2ENEMY::menuSetup()
     status::g_Party.setBattleMode();
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD, menu::MenuItem::CURSORTYPE_NONE);
     cancelItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
-    unk_f8 = 1;
+    monsterMask_ = 1;
     menuItem_.active_ = 0;
     enemyNumMax_ = BattleMenuJudge::getSingleton()->getMonsterTouchRect(touchRect_);
     for (int i = 0; i < enemyNumMax_; i++) {
@@ -31,7 +31,7 @@ THUMB void BattleMenu_MAGIC2ENEMY::menuExecute()
     enemyNumMax_ = BattleMenuJudge::getSingleton()->getMonsterTouchRect(touchRect_);
     MenuTemplate_battle::BATTLE_ICON_ENEMY(&menuItem_, menuItem_.active_, touchRect_, enemyNumMax_);
     MenuTemplate_battle::BATTLE_CANCEL(&cancelItem_);
-    if (unk_f8 == 1) {
+    if (monsterMask_ == 1) {
         BattleMonsterMask::getSingleton()->select(touchRect_[menuItem_.active_].group);
     } else {
         BattleMonsterMask::getSingleton()->select(-1);
@@ -53,7 +53,7 @@ THUMB void BattleMenu_MAGIC2ENEMY::menuUpdate()
         status::g_Party.getPlayerStatus(btl::BattleMenuPlayerControl::getSingleton()->activeChara_)->haveBattleStatus_.setSelectCommand(status::HaveBattleStatus::UseAction, -1);
         gBattleMenu_MAGIC.open();
         gBattleMenu_MAGIC.setActiveMagicPos(activeMagicPos_);
-        unk_f8 = 0;
+        monsterMask_ = 0;
         close();
         return;
     }
@@ -64,7 +64,7 @@ THUMB void BattleMenu_MAGIC2ENEMY::menuUpdate()
             break;
         }
         if (menuItem_.reason_ == 2) {
-            unk_f8 = 0;
+            monsterMask_ = 0;
             menuItem_.result_ = 0;
             menuItem_.lastresult_ = 0;
             BattleMenuJudge::getSingleton()->setMagicEnemy(activeMagic_, touchRect_[menuItem_.active_].group);
@@ -114,7 +114,7 @@ THUMB void BattleMenu_MAGIC2ENEMY::menuUpdate()
         }
         BattleMenuJudge::getSingleton()->setMagicEnemy(activeMagic_, touchRect_[menuItem_.active_].group);
         BattleMenuJudge::getSingleton()->setNextPlayer();
-        unk_f8 = 0;
+        monsterMask_ = 0;
         break;
     case 5:
     case 6:

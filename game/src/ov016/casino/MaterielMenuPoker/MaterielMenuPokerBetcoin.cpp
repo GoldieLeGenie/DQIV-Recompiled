@@ -20,7 +20,7 @@ THUMB void MaterielMenuPokerBetcoin::menuSetup()
     }
     haveCoin_ = status::g_Party.casinoCoin_ - betCoin_;
     messageMode_ = 0;
-    unk_28 = 0;
+    blinkCount_ = 0;
     MenuSoundManager::getSingleton()->initialize();
 }
 
@@ -31,7 +31,7 @@ THUMB void MaterielMenuPokerBetcoin::menuExecute()
 
 THUMB void MaterielMenuPokerBetcoin::menuDraw()
 {
-    if (unk_28 > 15) {
+    if (blinkCount_ > 15) {
         drawPokerCoinsAndBet(haveCoin_, 0xffff, 0, 0);
     } else {
         drawPokerCoinsAndBet(haveCoin_, betCoin_, 0, 0);
@@ -104,10 +104,10 @@ THUMB bool MaterielMenuPokerBetcoin::updateBetInput()
     if (!g_TownMenuMessage.isMessageWAITPROG()) {
         return false;
     }
-    if (unk_28 > 30) {
-        unk_28 = 0;
+    if (blinkCount_ > 30) {
+        blinkCount_ = 0;
         redraw_ = 1;
-    } else if (++unk_28 > 15) {
+    } else if (++blinkCount_ > 15) {
         redraw_ = 1;
     }
     cursor_.setup(1, 1, 1);
@@ -143,7 +143,7 @@ THUMB bool MaterielMenuPokerBetcoin::updateBetInput()
             if (bet == 0) {
                 showMessage(0xc92c5);
                 messageMode_ = 3;
-                unk_28 = 0;
+                blinkCount_ = 0;
                 return false;
             }
             PokerManager::getSingleton()->setBetCoin(bet, status::g_Party.casinoCoin_);
@@ -158,7 +158,7 @@ THUMB bool MaterielMenuPokerBetcoin::updateBetInput()
             g_TownMenuMessage.setYesNo();
             g_TownMenuMessage.setYesNoPosition(0xc0, 0x40);
             messageMode_ = 1;
-            unk_28 = 0;
+            blinkCount_ = 0;
             return false;
         }
         redraw_ = 1;

@@ -89,8 +89,8 @@ struct MenuItem {
     int active_;                    /* 0x38 */
     int unk_3C;                     /* 0x3C */
     int unk_40;                     /* 0x40 */
-    int unk_44;                     /* 0x44 base x */
-    int unk_48;                     /* 0x48 base y */
+    int baseX_;                     /* 0x44 base x */
+    int baseY_;                     /* 0x48 base y */
     int lastresult_;                /* 0x4C */
     int result_;                    /* 0x50 */
     int reason_;                    /* 0x54 */

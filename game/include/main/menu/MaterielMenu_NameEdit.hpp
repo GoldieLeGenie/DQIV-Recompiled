@@ -24,8 +24,8 @@ struct MaterielMenu_NameEdit : menu::MenuBase
     int unk_88;                         /* 0x88 */
     int unk_8c;                         /* 0x8C */
     RETURN_MENU_LIST returnMenu_;       /* 0x90 */
-    int unk_94;                         /* 0x94 */
-    int unk_98;                         /* 0x98 */
+    int blinkCount_;                         /* 0x94 */
+    int changeTaishi_;                         /* 0x98 */
     int bCloseEditTownName_;            /* 0x9C */
     NameEditKeyboard keyboard_;      /* 0xA0 */
 

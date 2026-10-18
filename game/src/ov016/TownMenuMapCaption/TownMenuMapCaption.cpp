@@ -11,7 +11,7 @@ static MenuPartsEntry s_parts[] = {
 
 THUMB void TownMenuMapCaption::menuSetup()
 {
-    unk_1c = 0;
+    captionType_ = 0;
 }
 
 THUMB void TownMenuMapCaption::menuExecute()
@@ -21,12 +21,12 @@ THUMB void TownMenuMapCaption::menuExecute()
 THUMB void TownMenuMapCaption::menuDraw()
 {
     int param[2];
-    if (unk_1c != 0) {
+    if (captionType_ != 0) {
         param[0] = (int)L"\xfeff\x24ac";
-        if (unk_1c == 1) {
+        if (captionType_ == 1) {
             param[1] = 0x80000087;
         }
-        if (unk_1c == 2) {
+        if (captionType_ == 2) {
             param[1] = 0x80000088;
         }
         drawMenuPartsPlain(s_parts, param);
@@ -45,5 +45,5 @@ THUMB void TownMenuMapCaption::unkfunc_02178aa8(int flag)
         open();
         redraw_ = 1;
     }
-    unk_1c = flag;
+    captionType_ = flag;
 }

@@ -107,7 +107,7 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuUpdate()
                 gMaterielMenu_NameEdit.clearName();
                 gMaterielMenu_NameEdit.setNameEditMode();
                 if (changeTaishi_ == 1) {
-                    gMaterielMenu_NameEdit.unk_98 = 1;
+                    gMaterielMenu_NameEdit.changeTaishi_ = 1;
                 }
             }
         }

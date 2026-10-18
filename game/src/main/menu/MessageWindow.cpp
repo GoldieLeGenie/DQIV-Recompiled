@@ -250,7 +250,7 @@ THUMB void MessageWindow::startWindow()
     frame_->setCursor(0);
     width_ = config_->width_;
     int height = config_->margin_ * 2 - config_->lineSpace_ + lineHeight_ * lineCount_;
-    height += config_->unk_24;
+    height += config_->extraHeight_;
     height_ = height;
     frame_->setSize(width_, height_);
     waitLine_ = NULL;
@@ -274,7 +274,7 @@ THUMB void MessageWindow::startWindow()
     shakeY_ = 0;
     keyWait_ = 0;
     keySound_ = 0;
-    unk_9cc = 0;
+    waitProgFlag_ = 0;
     if (config_->sound_ == 0) {
         sound_ = -1;
     } else {
@@ -309,7 +309,7 @@ THUMB void MessageWindow::updateNameFrame()
     frame_->setCursor(0);
     width_ = config_->width_;
     int height = config_->margin_ * 2 - config_->lineSpace_ + lineHeight_ * lineCount_;
-    height += config_->unk_24;
+    height += config_->extraHeight_;
     height_ = height;
     frame_->setSize(width_, height_);
     setPosition(config_->x_, config_->y_);
@@ -354,7 +354,7 @@ THUMB void MessageWindow::stateNextLine()
     int c = getIterator()->getChar();
     if (isEndChar(c)) {
         state_ = 4;
-        unk_9c0 = -1;
+        keyTimer_ = -1;
         return;
     }
     if (c == 0x1b) {
@@ -382,7 +382,7 @@ THUMB void MessageWindow::stateNextLine()
     }
     if (c == 0x328a) {
         state_ = 4;
-        unk_9c0 = -1;
+        keyTimer_ = -1;
         getIterator()->nextChar();
         if (getIterator()->getChar()) {
             getIterator()->prevChar();
@@ -453,7 +453,7 @@ THUMB void MessageWindow::statePrint()
         line->setVisibleCount(config_->printSpeed_ + line->getVisibleCount());
 #endif
         wait_ = config_->wait_;
-        unk_9c8 = config_->unk_4c;
+        keyDelay_ = config_->keyDelay_;
         if (sound_ != 0 && sound_ != -1) {
             if (soundTimer_ > 100) {
                 Sound::sePlay(sound_);
@@ -494,8 +494,8 @@ THUMB void MessageWindow::stateWaitKey()
         state_ = 4;
         return;
     }
-    if (unk_9c8) {
-        unk_9c8--;
+    if (keyDelay_) {
+        keyDelay_--;
         return;
     }
     if (isEndChar(getIterator()->getChar())) {
@@ -504,7 +504,7 @@ THUMB void MessageWindow::stateWaitKey()
         state_ = 6;
         return;
     }
-    if (unk_9c0 == 0) {
+    if (keyTimer_ == 0) {
         getIterator()->nextChar();
         skipNewlines(getIterator());
         frame_->setCursor(0);
@@ -517,12 +517,12 @@ THUMB void MessageWindow::stateWaitKey()
     if (intervalCursor_) {
         frame_->setCursor(1);
     }
-    if (unk_9c0 != -1) {
-        unk_9c0--;
+    if (keyTimer_ != -1) {
+        keyTimer_--;
     }
     if (keyWait_ == 1) {
         keyWait_ = 0;
-        unk_9c0 = 0;
+        keyTimer_ = 0;
         if (keySound_ == 1) {
             Sound::sePlay(300);
         }
@@ -532,11 +532,11 @@ THUMB void MessageWindow::stateWaitKey()
 
 THUMB void MessageWindow::stateWaitProg()
 {
-    if (unk_9c8) {
-        unk_9c8--;
+    if (keyDelay_) {
+        keyDelay_--;
         return;
     }
-    if (unk_9cc != 1) {
+    if (waitProgFlag_ != 1) {
         state_ = 1;
     }
 }
@@ -816,5 +816,5 @@ THUMB void MessageWindow::clearWaitTriggerNoSE()
 
 THUMB void MessageWindow::setWaitProg(int flag)
 {
-    unk_9cc = flag;
+    waitProgFlag_ = flag;
 }
