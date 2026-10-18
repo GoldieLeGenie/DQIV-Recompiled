@@ -23,7 +23,7 @@ THUMB void ScreenEffectManager::initialize()
 THUMB void ScreenEffectManager::execute()
 {
     if (current_ != NULL) {
-        if (effect3_.unk_20 != 0) {
+        if (effect3_.reverse_ != 0) {
             if (!current_->flag_.check(2)) {
                 g_Global.fadeOutBlack(1);
             } else if (fadeIn_ == 0) {

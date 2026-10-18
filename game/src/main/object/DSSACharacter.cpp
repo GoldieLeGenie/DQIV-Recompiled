@@ -35,7 +35,7 @@ ARM void DSSACharacter::setup(void* texture, DataObject* data)
 ARM void DSSACharacter::cleanup()
 {
     palette_.unkfunc_02086d4c();
-    if (unk_34 != 0) {
+    if (textureLoaded_ != 0) {
         ((TextureObject*)texture_)->unkfunc_02086868();
     }
     for (int i = 0; i < 14; i++) {
@@ -43,7 +43,7 @@ ARM void DSSACharacter::cleanup()
             dssaObject_[i].cleanup();
         }
     }
-    unk_34 = 0;
+    textureLoaded_ = 0;
     dataObject_ = 0;
 }
 

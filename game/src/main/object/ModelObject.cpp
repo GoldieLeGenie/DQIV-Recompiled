@@ -5,8 +5,8 @@ dss::Fix32 ModelObject::defaultScale(FX32_ONE * 6);
 ARM void ModelObject::setup(const char* name, const char* animName)
 {
     modelData_.setup(name, 0, 0);
-    unk_b5c.unkfunc_02083354(modelData_.getAddr());
-    unkfunc_02085370(&unk_b5c);
+    modelResource_.unkfunc_02083354(modelData_.getAddr());
+    unkfunc_02085370(&modelResource_);
     if (animName) {
         unkfunc_020587d4(animName, 0);
     }
@@ -16,8 +16,8 @@ ARM void ModelObject::setup(const char* name, const char* animName)
 ARM void ModelObject::setup(void* model, int flag)
 {
     modelData_.setup(model);
-    unk_b5c.unkfunc_02083354(modelData_.getAddr());
-    unkfunc_02085370(&unk_b5c);
+    modelResource_.unkfunc_02083354(modelData_.getAddr());
+    unkfunc_02085370(&modelResource_);
     vf00();
 }
 
@@ -34,7 +34,7 @@ ARM void ModelObject::unkfunc_020587d4(const char* name, int index)
     if (data.getAddr() == 0) {
         return;
     }
-    animation_[index].unkfunc_02082b18(data.getAddr(), unk_b5c.unkfunc_020835d0());
+    animation_[index].unkfunc_02082b18(data.getAddr(), modelResource_.unkfunc_020835d0());
     unkfunc_0208569c(animation_[index].obj_);
     if (index == 0) {
         animation_[index].obj_->ratio = FX32_ONE;
@@ -50,7 +50,7 @@ ARM void ModelObject::unkfunc_0205887c(void* animation, int index)
     if (data.getAddr() == 0) {
         return;
     }
-    animation_[index].unkfunc_02082b18(data.getAddr(), unk_b5c.unkfunc_020835d0());
+    animation_[index].unkfunc_02082b18(data.getAddr(), modelResource_.unkfunc_020835d0());
     unkfunc_0208569c(animation_[index].obj_);
 }
 
@@ -67,7 +67,7 @@ ARM void ModelObject::cleanup(int flag)
     // The DS heap left released bytes readable. Native allocations do not:
     // unbind materials and release their VRAM keys while the resource is alive.
     if (flag) {
-        unk_b5c.unkfunc_02083360();
+        modelResource_.unkfunc_02083360();
     }
 #endif
     modelData_.cleanup();
@@ -76,7 +76,7 @@ ARM void ModelObject::cleanup(int flag)
     }
 #ifndef DQIV_NATIVE
     if (flag) {
-        unk_b5c.unkfunc_02083360();
+        modelResource_.unkfunc_02083360();
     }
 #endif
 }

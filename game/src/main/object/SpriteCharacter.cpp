@@ -26,17 +26,17 @@ ARM void SpriteCharacter::unkfunc_0204b25c()
 {
     textureNum_ = getArchiveFileCount(data_.getAddr());
     for (int i = 0; i < textureNum_; i++) {
-        unk_78[i] = getArchiveFile(data_.getAddr(), i);
+        textures_[i] = getArchiveFile(data_.getAddr(), i);
     }
-    unk_58 = unk_78[0];
-    ((TextureObject*)unk_58)->unkfunc_02086798(1);
-    texture_ = unk_58;
+    dispTexture_ = textures_[0];
+    ((TextureObject*)dispTexture_)->unkfunc_02086798(1);
+    texture_ = dispTexture_;
     unkfunc_02084534(0, 0);
     anmIndex_ = 0;
     direction_ = -1;
     dispDirection_ = 0;
-    unk_9c = 0x18;
-    unk_a0 = 0x20;
+    frameWidth_ = 0x18;
+    frameHeight_ = 0x20;
     unkfunc_0204b33c();
     shadow_.unkfunc_0204b768();
     flag_.flag_ |= FLAG_DEFAULT;
@@ -44,15 +44,15 @@ ARM void SpriteCharacter::unkfunc_0204b25c()
 
 ARM void SpriteCharacter::cleanup()
 {
-    ((TextureObject*)unk_58)->unkfunc_02086868();
+    ((TextureObject*)dispTexture_)->unkfunc_02086868();
     data_.cleanup();
     shadow_.unkfunc_0204b7e4();
 }
 
 ARM void SpriteCharacter::unkfunc_0204b33c()
 {
-    unkfunc_0208456c(unk_9c, unk_a0);
-    unkfunc_02084578(0, 0, unk_9c, unk_a0);
+    unkfunc_0208456c(frameWidth_, frameHeight_);
+    unkfunc_02084578(0, 0, frameWidth_, frameHeight_);
     screens_ = 1;
 }
 
@@ -85,16 +85,16 @@ ARM void SpriteCharacter::execute()
     }
     switch (anmIndex_ / 12) {
     case 0:
-        unkfunc_02084578(0, 0, unk_9c, unk_a0);
+        unkfunc_02084578(0, 0, frameWidth_, frameHeight_);
         break;
     case 1:
-        unkfunc_02084578(unk_9c, 0, unk_9c * 2, unk_a0);
+        unkfunc_02084578(frameWidth_, 0, frameWidth_ * 2, frameHeight_);
         break;
     case 2:
-        unkfunc_02084578(unk_9c * 2, 0, unk_9c * 3, unk_a0);
+        unkfunc_02084578(frameWidth_ * 2, 0, frameWidth_ * 3, frameHeight_);
         break;
     case 3:
-        unkfunc_02084578(unk_9c, 0, unk_9c * 2, unk_a0);
+        unkfunc_02084578(frameWidth_, 0, frameWidth_ * 2, frameHeight_);
         break;
     }
     anmIndex_++;
@@ -106,13 +106,13 @@ ARM void SpriteCharacter::reload(int dir)
     if (dispDirection_ == dir) {
         return;
     }
-    ((TextureObject*)unk_58)->unkfunc_020869ec((TextureObject*)unk_78[dir], 0);
+    ((TextureObject*)dispTexture_)->unkfunc_020869ec((TextureObject*)textures_[dir], 0);
     dispDirection_ = dir;
 }
 
 ARM void SpriteCharacter::setPosition(int x, int y)
 {
-    unkfunc_02084534(x - unk_9c / 2, y - unk_a0);
+    unkfunc_02084534(x - frameWidth_ / 2, y - frameHeight_);
     if (flag_.check(FLAG_STAY)) {
         shadow_.setPosition(x, y);
     }
@@ -120,7 +120,7 @@ ARM void SpriteCharacter::setPosition(int x, int y)
 
 ARM void SpriteCharacter::setPosition(dss::Vector2<int> pos)
 {
-    unkfunc_02084534(pos.vx - unk_9c / 2, pos.vy - unk_a0);
+    unkfunc_02084534(pos.vx - frameWidth_ / 2, pos.vy - frameHeight_);
     if (flag_.check(FLAG_STAY)) {
         shadow_.setPosition(pos.vx, pos.vy);
     }

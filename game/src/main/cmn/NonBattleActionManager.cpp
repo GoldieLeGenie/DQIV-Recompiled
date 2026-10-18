@@ -129,7 +129,7 @@ ARM void cmn::NonBattleActionManager::execute()
                     fld::FieldStage::getSingleton()->fieldData.pause_ = 0;
                     SpriteCharacter::setAllCharaAnim(1);
                 }
-                if (ScreenEffectManager::getSingleton()->effect3_.unk_20 != 0) {
+                if (ScreenEffectManager::getSingleton()->effect3_.reverse_ != 0) {
                     TownPlayerManager::getSingleton()->flagMapLink_ = 1;
                     ScreenEffectManager::getSingleton()->stopEffect();
                     ScreenEffectManager::getSingleton()->effect3_.setReverse(0);
@@ -171,15 +171,15 @@ ARM void cmn::NonBattleActionManager::execute()
                 ScreenEffectManager::getSingleton()->startEffect(5);
                 if (g_GlobalDQ4.unkfunc_02058114(12)) {
                     if (g_Stage.getTimeZone() == TIME_ZONE_DAYTIME || g_Stage.getTimeZone() == TIME_ZONE_EVENING) {
-                        ScreenEffectManager::getSingleton()->effect5_.unk_68 = 0;
+                        ScreenEffectManager::getSingleton()->effect5_.isNight_ = 0;
                     } else {
-                        ScreenEffectManager::getSingleton()->effect5_.unk_68 = 1;
+                        ScreenEffectManager::getSingleton()->effect5_.isNight_ = 1;
                     }
                 } else if (g_GlobalDQ4.unkfunc_02058114(14)) {
                     if (g_Stage.getWorldTime() < 0x840) {
-                        ScreenEffectManager::getSingleton()->effect5_.unk_68 = 0;
+                        ScreenEffectManager::getSingleton()->effect5_.isNight_ = 0;
                     } else {
-                        ScreenEffectManager::getSingleton()->effect5_.unk_68 = 1;
+                        ScreenEffectManager::getSingleton()->effect5_.isNight_ = 1;
                     }
                     FieldPlayerManager::getSingleton()->savePartyDrawInfo();
                 }

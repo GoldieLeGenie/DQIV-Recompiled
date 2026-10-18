@@ -16,10 +16,10 @@ THUMB void ScreenEffectTravelDoor::start()
     rows_ = 24;
     alpha_ = 31;
     scale_ = dss::Fix32(0x8000);
-    unk_24 = 0;
-    unk_28 = 0xffff;
-    unk_2c = 100;
-    unk_20 = 0;
+    frame_ = 0;
+    angle_ = 0xffff;
+    angleSpeed_ = 100;
+    reverse_ = 0;
     ScreenEffect::start();
 }
 
@@ -40,15 +40,15 @@ THUMB void ScreenEffectTravelDoor::draw()
             func_0206adcc();
         }
         func_0206dcf0();
-        int frame = unk_24;
-        if (unk_20 != 0) {
+        int frame = frame_;
+        if (reverse_ != 0) {
             frame = 50 - frame;
         }
         for (int i = 0; i < 32; i++) {
             for (int j = 0; j < 24; j++) {
                 G3_PushMtx();
                 G3_Scale(0x8000, 0x8000, 0x8000);
-                func_02065c9c(FX_SinIdx(unk_28), FX_CosIdx(unk_28));
+                func_02065c9c(FX_SinIdx(angle_), FX_CosIdx(angle_));
                 int index = j + i * 24;
                 G3_Translate(tiles_[index].x, tiles_[index].y, tiles_[index].z);
                 setPolygonParams(0x18);
@@ -78,31 +78,31 @@ THUMB void ScreenEffectTravelDoor::draw()
                 G3_PopMtx(1);
             }
         }
-        unk_24++;
-        unk_28 += unk_2c;
-        if (unk_28 > 0xffff) {
-            unk_28 -= 0xffff;
+        frame_++;
+        angle_ += angleSpeed_;
+        if (angle_ > 0xffff) {
+            angle_ -= 0xffff;
         }
-        if (unk_28 < 0) {
-            unk_28 += 0xffff;
+        if (angle_ < 0) {
+            angle_ += 0xffff;
         }
     }
 }
 
 THUMB bool ScreenEffectTravelDoor::isEnd()
 {
-    return unk_24 > 50;
+    return frame_ > 50;
 }
 
 THUMB void ScreenEffectTravelDoor::setReverse(int flag)
 {
-    unk_20 = flag;
+    reverse_ = flag;
     if (flag) {
-        unk_2c = 100;
-        unk_28 = 0xffff - unk_2c * 49;
+        angleSpeed_ = 100;
+        angle_ = 0xffff - angleSpeed_ * 49;
     } else {
-        unk_2c = -100;
-        unk_28 = 0xffff;
+        angleSpeed_ = -100;
+        angle_ = 0xffff;
     }
 }
 
@@ -115,8 +115,8 @@ THUMB void ScreenEffectBattle::start()
     scale_ = dss::Fix32(0x8000);
     unk_20 = 0;
     unk_24 = 0;
-    unk_30 = 0xffff;
-    unk_34 = 0xffff;
+    angle0_ = 0xffff;
+    angle1_ = 0xffff;
     unk_2c = 0xffff;
 }
 
@@ -125,7 +125,7 @@ THUMB void ScreenEffectBattle::unkfunc_020302e0(short column, short row, short i
     const int unused[1] = {2};  // unreferenced, only its .rodata copy remains
     int which = dssrand::rand(2);
     int count = which ? unk_20 : unk_24;
-    int angle = which ? unk_30 : unk_34;
+    int angle = which ? angle0_ : angle1_;
     int column2 = column * 2;
     if (count > column2) {
         tiles_[index].x -= 2;
@@ -182,16 +182,16 @@ THUMB void ScreenEffectBattle::draw()
         unk_20 += 2;
         if (unk_20 > 20) {
             unk_24 += 2;
-            if (unk_34 > 0xc000) {
-                unk_34 -= 0xf0;
+            if (angle1_ > 0xc000) {
+                angle1_ -= 0xf0;
             } else {
-                unk_34 = 0xc000;
+                angle1_ = 0xc000;
             }
         }
-        if (unk_30 > 0xc000) {
-            unk_30 -= 0xf0;
+        if (angle0_ > 0xc000) {
+            angle0_ -= 0xf0;
         } else {
-            unk_30 = 0xc000;
+            angle0_ = 0xc000;
         }
         if (unk_2c < 0) {
             unk_2c += 0xffff;

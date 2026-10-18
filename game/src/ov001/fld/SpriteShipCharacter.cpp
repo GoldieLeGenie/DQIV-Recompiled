@@ -12,8 +12,8 @@ ARM SpriteShipCharacter::~SpriteShipCharacter()
 ARM void SpriteShipCharacter::setup(const char* name)
 {
     SpriteCharacter::setup(name);
-    unk_a0 = 0x28;
-    unk_9c = 0x28;
+    frameHeight_ = 0x28;
+    frameWidth_ = 0x28;
     unkfunc_0204b33c();
 }
 

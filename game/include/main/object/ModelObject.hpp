@@ -68,7 +68,7 @@ struct ModelObject : ModelObjectBase {
 
     DataObject modelData_;                  /* 0xAEC */
     DataObject animData_[6];                /* 0xAFC */
-    ModelResource unk_b5c;                 /* 0xB5C */
+    ModelResource modelResource_;                 /* 0xB5C */
     ModelAnimation animation_[6];        /* 0xB68 */
     int m_play_flag;                        /* 0xC28 */
     int m_pause_flag;                       /* 0xC2C */

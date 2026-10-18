@@ -8316,18 +8316,18 @@ ARM void fld::FieldData::setup(int map, int ch)
     setupBlock(map);
     setupSymbol();
     setKanban();
-    unk_20d4 = 0;
-    unk_20d8 = 0;
+    pattern8Frame_ = 0;
+    pattern24Frame_ = 0;
     position_.vx.value = 0;
     position_.vy.value = 0;
     if (ch != 0) {
         m_cell_map.worldChange(ch - 1);
     }
     offset_ = 0;
-    unk_2104 = -14;
-    unk_210c = 14;
-    unk_2108 = -12;
-    unk_2110 = 6;
+    searchLeft_ = -14;
+    searchRight_ = 14;
+    searchTop_ = -12;
+    searchBottom_ = 6;
 }
 
 ARM void fld::FieldData::setupBlock(int map)
@@ -8336,61 +8336,61 @@ ARM void fld::FieldData::setupBlock(int map)
     switch (map) {
     case 0:
         dataObject_.setup("data/field/bin/worldmap.bin", 0, 0);
-        unk_1c24.setup(unkfunc_02122e84());
+        blockTextureData_.setup(unkfunc_02122e84());
         break;
     case 1:
         dataObject_.setup("data/field/bin/gotmap.bin", 0, 0);
-        unk_1c24.setup(unkfunc_02122e84());
+        blockTextureData_.setup(unkfunc_02122e84());
         break;
     case 2:
         dataObject_.setup("data/field/bin/yamimap.bin", 0, 0);
-        unk_1c24.setup(unkfunc_02122e90());
+        blockTextureData_.setup(unkfunc_02122e90());
         break;
     }
     m_cell_map.setup(dataObject_.getAddr());
-    unk_1cc4.setup_symbol(m_cell_map.m_symbol_chunk);
-    void* texture = unk_1c24.getAddr();
+    m_world_symbol.setup_symbol(m_cell_map.m_symbol_chunk);
+    void* texture = blockTextureData_.getAddr();
 #ifdef DQIV_NATIVE
-    unk_1c38.setupReadOnly(*(const TextureObject*)texture, 1);
+    blockTexture_.setupReadOnly(*(const TextureObject*)texture, 1);
 #else
     ((TextureObject*)texture)->unkfunc_02086798(1);
-    dss::memcpy(&unk_1c38, texture, sizeof(TextureObject));
+    dss::memcpy(&blockTexture_, texture, sizeof(TextureObject));
 #endif
-    unk_1c34 = &unk_1c38;
-    dss::memcpy(unk_1ed4, (void*)unk_1c34->unkfunc_02086aac(), unk_1c34->unkfunc_02086ab4());
-    unk_1c24.cleanup();
+    pBlockTexture_ = &blockTexture_;
+    dss::memcpy(blockPaletteOrg_, (void*)pBlockTexture_->unkfunc_02086aac(), pBlockTexture_->unkfunc_02086ab4());
+    blockTextureData_.cleanup();
     switch (map) {
     case 0:
     case 1:
         dss::sprintf_s(path, sizeof(path), "data/field/texture/pattern8.pack");
-        unk_0000.setup(path, 0, 0);
+        pattern8Data_.setup(path, 0, 0);
         dss::sprintf_s(path, sizeof(path), "data/field/texture/pattern24.pack");
-        unk_0010.setup(path, 0, 0);
+        pattern24Data_.setup(path, 0, 0);
         break;
     case 2:
         dss::sprintf_s(path, sizeof(path), "data/field/texture/ypattern8.pack");
-        unk_0000.setup(path, 0, 0);
+        pattern8Data_.setup(path, 0, 0);
         dss::sprintf_s(path, sizeof(path), "data/field/texture/ypattern24.pack");
-        unk_0010.setup(path, 0, 0);
+        pattern24Data_.setup(path, 0, 0);
         break;
     }
-    unk_1ccc = g_VramTransfer.allocTexVram(getArchiveFileSize(unk_0000.getAddr(), 0));
-    unk_1cd0 = g_VramTransfer.allocTexVram(getArchiveFileSize(unk_0010.getAddr(), 0));
+    pattern8TexBlock_ = g_VramTransfer.allocTexVram(getArchiveFileSize(pattern8Data_.getAddr(), 0));
+    pattern24TexBlock_ = g_VramTransfer.allocTexVram(getArchiveFileSize(pattern24Data_.getAddr(), 0));
 }
 
 ARM void fld::FieldData::setupSymbol()
 {
     char path[0x80];
     dss::sprintf_s(path, sizeof(path), "data/field/symbol/symbol.pack");
-    unk_0020.setup(path, 0, 0);
+    symbolData_.setup(path, 0, 0);
     for (int i = 0; i < SYMBOL_TEXTURE_NUM; i++) {
-        unk_0030[i] = (TextureObject*)getArchiveFile(unk_0020.getAddr(), i);
-        unk_0030[i]->unkfunc_02086798(1);
+        symbolTexture_[i] = (TextureObject*)getArchiveFile(symbolData_.getAddr(), i);
+        symbolTexture_[i]->unkfunc_02086798(1);
     }
     for (int i = 0; i < SYMBOL_NUM_MAX; i++) {
-        if (i < unk_1cc4.m_symbol_num) {
-            WorldSymbolData* data = &unk_1cc4.m_symbol_data[i];
-            m_symbol[i].texture_ = unk_0030[data->id];
+        if (i < m_world_symbol.m_symbol_num) {
+            WorldSymbolData* data = &m_world_symbol.m_symbol_data[i];
+            m_symbol[i].texture_ = symbolTexture_[data->id];
             m_symbol[i].unkfunc_0208456c(data->w, data->h);
             m_symbol[i].unkfunc_02084578(0, 0, data->w, data->h);
             m_symbol[i].screens_ = 1;
@@ -8400,7 +8400,7 @@ ARM void fld::FieldData::setupSymbol()
             m_symbol[i].unkfunc_0208456c(8, 8);
             m_symbol[i].unkfunc_02084578(0, 0, 8, 8);
             m_symbol[i].screens_ = 1;
-            m_symbol[i].texture_ = unk_0030[0];
+            m_symbol[i].texture_ = symbolTexture_[0];
             m_symbol[i].depth_ = 1;
         }
     }
@@ -8408,15 +8408,15 @@ ARM void fld::FieldData::setupSymbol()
 
 ARM void fld::FieldData::cleanup()
 {
-    g_VramTransfer.freeTexVram(unk_1ccc);
-    g_VramTransfer.freeTexVram(unk_1cd0);
-    unk_0000.cleanup();
-    unk_0010.cleanup();
+    g_VramTransfer.freeTexVram(pattern8TexBlock_);
+    g_VramTransfer.freeTexVram(pattern24TexBlock_);
+    pattern8Data_.cleanup();
+    pattern24Data_.cleanup();
     for (int i = 0; i < SYMBOL_TEXTURE_NUM; i++) {
-        unk_0030[i]->unkfunc_02086868();
+        symbolTexture_[i]->unkfunc_02086868();
     }
-    unk_0020.cleanup();
-    unk_1c38.unkfunc_02086868();
+    symbolData_.cleanup();
+    blockTexture_.unkfunc_02086868();
     dataObject_.cleanup();
 }
 
@@ -8491,8 +8491,8 @@ ARM void fld::FieldData::drawBlock()
     unsigned short Edgex = m_cell_map.m_size[2] * m_cell_map.m_size[0];
     unsigned short Edgey = m_cell_map.m_size[3] * m_cell_map.m_size[1];
     G3_PushMtx();
-    unk_1c34->unkfunc_02086abc();
-    unk_1c34->unkfunc_02086b3c();
+    pBlockTexture_->unkfunc_02086abc();
+    pBlockTexture_->unkfunc_02086b3c();
     int address = 0;
     int firstX = -4, lastX = 20, lastY = 16;
     int y = baseBlock_.vy - 4;
@@ -8526,17 +8526,17 @@ ARM void fld::FieldData::drawBlock()
             CNK_TEX* data = &m_cell_map.m_tex[num];
             unsigned short no;
             if (data->aflag == 0) {
-                address = unk_1c34->unkfunc_02086a94();
+                address = pBlockTexture_->unkfunc_02086a94();
                 no = data->no;
             } else {
                 if (data->aflag == 8) {
-                    address = g_VramTransfer.getTexVramAddr(unk_1ccc);
+                    address = g_VramTransfer.getTexVramAddr(pattern8TexBlock_);
                 } else if (data->aflag == 24) {
-                    address = g_VramTransfer.getTexVramAddr(unk_1cd0);
+                    address = g_VramTransfer.getTexVramAddr(pattern24TexBlock_);
                 }
                 no = data->ano;
             }
-            G3_TexImageParam(unk_1c34->texFormat_, 1, unk_1c34->sizeS_, unk_1c34->sizeT_, 0, 0, 1, address);
+            G3_TexImageParam(pBlockTexture_->texFormat_, 1, pBlockTexture_->sizeS_, pBlockTexture_->sizeT_, 0, 0, 1, address);
             G3_PolygonAttr(0, 0, 0xc0, 0, 31, 0);
             draw2DField(px, y << 4, (no & 0xf) * 16, (no / 16) * 16);
             x++;
@@ -8566,8 +8566,8 @@ ARM void fld::FieldData::draw2DField(int x, int y, int u, int v)
 
 ARM void fld::FieldData::drawSymbol()
 {
-    for (int i = 0; i < unk_1cc4.m_symbol_num; i++) {
-        WorldSymbolData* data = &unk_1cc4.m_symbol_data[i];
+    for (int i = 0; i < m_world_symbol.m_symbol_num; i++) {
+        WorldSymbolData* data = &m_world_symbol.m_symbol_data[i];
         int y = data->y - data->h;
         int margin = offset_ + 0x40;
         int marginX = margin, marginY = margin, endX = offset_ + 0x100, endY = offset_ + 0xc0;
@@ -8599,21 +8599,21 @@ ARM void fld::FieldData::drawSymbol()
 
 ARM void fld::FieldData::nextAnimation()
 {
-    void* data = getArchiveFile(unk_0000.getAddr(), unk_20d4);
+    void* data = getArchiveFile(pattern8Data_.getAddr(), pattern8Frame_);
     if (data != NULL) {
-        g_VramTransfer.transferToVram(0, data, g_VramTransfer.getTexVramAddr(unk_1ccc), g_VramTransfer.getTexVramSize(unk_1ccc), 0);
+        g_VramTransfer.transferToVram(0, data, g_VramTransfer.getTexVramAddr(pattern8TexBlock_), g_VramTransfer.getTexVramSize(pattern8TexBlock_), 0);
     }
-    data = getArchiveFile(unk_0010.getAddr(), unk_20d8);
+    data = getArchiveFile(pattern24Data_.getAddr(), pattern24Frame_);
     if (data != NULL) {
-        g_VramTransfer.transferToVram(0, data, g_VramTransfer.getTexVramAddr(unk_1cd0), g_VramTransfer.getTexVramSize(unk_1cd0), 0);
+        g_VramTransfer.transferToVram(0, data, g_VramTransfer.getTexVramAddr(pattern24TexBlock_), g_VramTransfer.getTexVramSize(pattern24TexBlock_), 0);
     }
-    unk_20d4++;
-    if (unk_20d4 >= ANIM_PATTERN8) {
-        unk_20d4 = 0;
+    pattern8Frame_++;
+    if (pattern8Frame_ >= ANIM_PATTERN8) {
+        pattern8Frame_ = 0;
     }
-    unk_20d8++;
-    if (unk_20d8 >= ANIM_PATTERN24) {
-        unk_20d8 = 0;
+    pattern24Frame_++;
+    if (pattern24Frame_ >= ANIM_PATTERN24) {
+        pattern24Frame_ = 0;
     }
 }
 
@@ -8659,7 +8659,7 @@ ARM void fld::FieldData::setPosition(dss::Fix32Vector3& pos)
 ARM bool fld::FieldData::isEnable(int bx, int by)
 {
     for (int i = 0; i < SYMBOL_NUM_MAX; i++) {
-        WorldSymbolData* pSymbolData = &unk_1cc4.m_symbol_data[i];
+        WorldSymbolData* pSymbolData = &m_world_symbol.m_symbol_data[i];
         if (pSymbolData->id == 1 && cmn::g_extraMapLink.checkEraseSymbolNo(pSymbolData->uid) != 1) {
             int tx = (pSymbolData->x - pSymbolData->w / 2) / 16 + 1;
             int ty = (pSymbolData->y - pSymbolData->h / 2) / 16 - 1;
@@ -8720,8 +8720,8 @@ ARM int fld::FieldData::getAttr(int bx, int by)
 ARM dss::Fix32Vector3 fld::FieldData::getSymbolPosition(int index)
 {
     dss::Fix32Vector3 pos;
-    for (int i = 0; i < unk_1cc4.m_symbol_num; i++) {
-        WorldSymbolData* data = &unk_1cc4.m_symbol_data[i];
+    for (int i = 0; i < m_world_symbol.m_symbol_num; i++) {
+        WorldSymbolData* data = &m_world_symbol.m_symbol_data[i];
         if (data->uid == (index & 0xfff)) {
             pos.vx.value = data->x << 12;
             pos.vy.value = data->y << 12;
@@ -8734,12 +8734,12 @@ ARM dss::Fix32Vector3 fld::FieldData::getSymbolPosition(int index)
 
 ARM int fld::FieldData::getSearchSymbolAttach(dss::Fix32Vector3& pos)
 {
-    for (int i = 0; i < unk_1cc4.m_symbol_num; i++) {
-        WorldSymbolData* data = &unk_1cc4.m_symbol_data[i];
+    for (int i = 0; i < m_world_symbol.m_symbol_num; i++) {
+        WorldSymbolData* data = &m_world_symbol.m_symbol_data[i];
         int dx = pos.vx.value / FX32_ONE - data->x;
-        if (dx >= unk_2104 && dx <= unk_210c) {
+        if (dx >= searchLeft_ && dx <= searchRight_) {
             int dy = pos.vy.value / FX32_ONE - data->y;
-            if (dy >= unk_2108 && dy <= unk_2110) {
+            if (dy >= searchTop_ && dy <= searchBottom_) {
                 if (cmn::g_extraMapLink.checkEraseSymbolNo(data->uid) == 0) {
                     return data->uid;
                 }
@@ -8782,24 +8782,24 @@ ARM void fld::FieldData::setKekaiSymbol(int index, int x, int y, int w, int h)
 
 ARM void fld::FieldData::setPaletteRate(dss::Fix32Vector3& rate)
 {
-    dss::memcpy(unk_1cd4, unk_1ed4, unk_1c34->unkfunc_02086ab4());
+    dss::memcpy(blockPalette_, blockPaletteOrg_, pBlockTexture_->unkfunc_02086ab4());
     setPaletteRgbRate(2, rate);
-    applyPaletteRgbRate(unk_1cd4, unk_1c34->unkfunc_02086ab4(), rate);
-    g_VramTransfer.transferToVram(1, unk_1cd4, unk_1c34->unkfunc_02086aa4(), unk_1c34->unkfunc_02086ab4(), 0);
+    applyPaletteRgbRate(blockPalette_, pBlockTexture_->unkfunc_02086ab4(), rate);
+    g_VramTransfer.transferToVram(1, blockPalette_, pBlockTexture_->unkfunc_02086aa4(), pBlockTexture_->unkfunc_02086ab4(), 0);
     for (int i = 0; i < SYMBOL_TEXTURE_NUM; i++) {
-        MI_CpuCopyU8((void*)unk_0030[i]->unkfunc_02086aac(), unk_1974[i], unk_0030[i]->unkfunc_02086ab4());
+        MI_CpuCopyU8((void*)symbolTexture_[i]->unkfunc_02086aac(), symbolPalette_[i], symbolTexture_[i]->unkfunc_02086ab4());
         setPaletteRgbRate(2, rate);
-        applyPaletteRgbRate(unk_1974[i], unk_0030[i]->unkfunc_02086ab4(), rate);
-        g_VramTransfer.transferToVram(1, unk_1974[i], unk_0030[i]->unkfunc_02086aa4(), unk_0030[i]->unkfunc_02086ab4(), 0);
+        applyPaletteRgbRate(symbolPalette_[i], symbolTexture_[i]->unkfunc_02086ab4(), rate);
+        g_VramTransfer.transferToVram(1, symbolPalette_[i], symbolTexture_[i]->unkfunc_02086aa4(), symbolTexture_[i]->unkfunc_02086ab4(), 0);
     }
 }
 
 ARM void fld::FieldData::setKanban()
 {
     kanbanCount_ = 0;
-    int num = unk_1cc4.m_symbol_num;
+    int num = m_world_symbol.m_symbol_num;
     for (int i = 0; i < num; i++) {
-        WorldSymbolData* data = &unk_1cc4.m_symbol_data[i];
+        WorldSymbolData* data = &m_world_symbol.m_symbol_data[i];
         if (data->id == 8) {
             kanbanPos_[kanbanCount_].vx = data->x;
             kanbanPos_[kanbanCount_].vy = data->y;
@@ -8828,7 +8828,7 @@ ARM int fld::FieldData::searchKanban(int x, int y, dss::Vector2<dss::Fix32>* pos
 ARM void fld::FieldData::setDispSymbol(int id, int disp)
 {
     for (int i = 0; i < SYMBOL_NUM_MAX; i++) {
-        int uid = unk_1cc4.m_symbol_data[i].uid;
+        int uid = m_world_symbol.m_symbol_data[i].uid;
         if (uid == id) {
             m_symbol[i].enable_ = disp;
         }

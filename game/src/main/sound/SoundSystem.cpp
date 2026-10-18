@@ -11,12 +11,12 @@ int g_seqStartVolume = 0x7f;
 
 ARM SoundSeqHandle::SoundSeqHandle()
 {
-    unk_08 = 0x7f;
-    unk_0c = 0x7f;
-    unk_10 = 0;
+    volumeSys_ = 0x7f;
+    volume_ = 0x7f;
+    seqNo_ = 0;
     unk_14 = 0;
-    unk_18 = 0;
-    unk_1c = 0;
+    seNo_ = 0;
+    justStarted_ = 0;
 }
 
 ARM SoundSeqHandle::~SoundSeqHandle()
@@ -33,14 +33,14 @@ ARM void SoundSeqHandle::unkfunc_020864ac(int bgm)
 {
 #ifdef DQIV_NATIVE
     // The smartphone recording instead of the sequence, when there is one.
-    if (pc::mobileSoundStart(this, pc::mobileBgm, bgm, unk_08 * unk_0c / 127, Sound::nativeBgmVolume(bgm))) {
+    if (pc::mobileSoundStart(this, pc::mobileBgm, bgm, volumeSys_ * volume_ / 127, Sound::nativeBgmVolume(bgm))) {
         func_0207343c(this, 0);
-        unk_10 = bgm;
+        seqNo_ = bgm;
         return;
     }
 #endif
     func_0207581c(this, bgm);
-    unk_10 = bgm;
+    seqNo_ = bgm;
     func_020734e0(this, g_seqStartVolume);
     unkfunc_020865b4();
 }
@@ -60,13 +60,13 @@ ARM int SoundSeqHandle::unkfunc_020864ec()
         return pc::mobileSoundPlaying(this);
     }
 #endif
-    return func_02073478(unk_10) != 0;
+    return func_02073478(seqNo_) != 0;
 }
 
 ARM void SoundSeqHandle::unkfunc_02086508(int a, int se)
 {
 #ifdef DQIV_NATIVE
-    if (pc::mobileSoundStart(this, pc::mobileEffect, se, unk_08 * unk_0c / 127, 0x7f)) {
+    if (pc::mobileSoundStart(this, pc::mobileEffect, se, volumeSys_ * volume_ / 127, 0x7f)) {
         func_0207343c(this, 0);
     } else {
         func_02075864(this, a, se);
@@ -75,8 +75,8 @@ ARM void SoundSeqHandle::unkfunc_02086508(int a, int se)
     func_02075864(this, a, se);
 #endif
     unk_14 = a;
-    unk_18 = se;
-    unk_1c = 1;
+    seNo_ = se;
+    justStarted_ = 1;
 }
 
 ARM int SoundSeqHandle::unkfunc_02086530(int a, int se)
@@ -84,7 +84,7 @@ ARM int SoundSeqHandle::unkfunc_02086530(int a, int se)
     if (unk_14 != a) {
         return 0;
     }
-    return unk_18 == se;
+    return seNo_ == se;
 }
 
 ARM void SoundSeqHandle::unkfunc_02086554(int fade)
@@ -94,28 +94,28 @@ ARM void SoundSeqHandle::unkfunc_02086554(int fade)
 #endif
     func_0207343c(this, fade);
     unk_14 = -1;
-    unk_18 = -1;
-    unk_1c = 0;
+    seNo_ = -1;
+    justStarted_ = 0;
 }
 
 ARM int SoundSeqHandle::unkfunc_02086578()
 {
 #ifdef DQIV_NATIVE
     if (pc::mobileSoundOwns(this)) {
-        return pc::mobileSoundPlaying(this) || unk_1c == 1;
+        return pc::mobileSoundPlaying(this) || justStarted_ == 1;
     }
 #endif
     if (func_02073564(this) != 0) {
         return 1;
     }
-    return unk_1c == 1;
+    return justStarted_ == 1;
 }
 
 ARM void SoundSeqHandle::unkfunc_020865a4(int volume)
 {
-    unk_0c = volume;
+    volume_ = volume;
 #ifdef DQIV_NATIVE
-    pc::mobileSoundVolume(this, unk_08 * volume / 127);
+    pc::mobileSoundVolume(this, volumeSys_ * volume / 127);
 #endif
     func_020734cc(this, volume);
 }
@@ -123,9 +123,9 @@ ARM void SoundSeqHandle::unkfunc_020865a4(int volume)
 ARM void SoundSeqHandle::unkfunc_020865b4()
 {
 #ifdef DQIV_NATIVE
-    pc::mobileSoundVolume(this, unk_08 * unk_0c / 127);
+    pc::mobileSoundVolume(this, volumeSys_ * volume_ / 127);
 #endif
-    func_020734cc(this, unk_08 * unk_0c / 127);
+    func_020734cc(this, volumeSys_ * volume_ / 127);
 }
 
 ARM DsSoundSystem::DsSoundSystem()
@@ -139,20 +139,20 @@ ARM DsSoundSystem::~DsSoundSystem()
 
 ARM void DsSoundSystem::unkfunc_020865f4(void* file, int flag)
 {
-    unk_9c = file;
-    unk_a0 = flag;
-    unk_00 = dssAlloc(&g_appHeap, 0x9b000, 0x20);
-    unk_04 = func_02074bd8(unk_00, 0x9b000);
+    arcFileName_ = file;
+    useStream_ = flag;
+    heapMemory_ = dssAlloc(&g_appHeap, 0x9b000, 0x20);
+    heap_ = func_02074bd8(heapMemory_, 0x9b000);
     unkfunc_02086634();
 }
 
 ARM void DsSoundSystem::unkfunc_02086634()
 {
-    func_02074c60(unk_04);
-    func_02074550(unk_08, unk_9c, unk_04, 0);
-    func_02075780(unk_04);
-    if (unk_a0 != 0) {
-        func_02075aa4(0x14, unk_04);
+    func_02074c60(heap_);
+    func_02074550(arc_, arcFileName_, heap_, 0);
+    func_02075780(heap_);
+    if (useStream_ != 0) {
+        func_02075aa4(0x14, heap_);
     }
     func_020741d0(3);
     func_02073370(0, 5);
@@ -174,15 +174,15 @@ ARM void DsSoundSystem::unkfunc_020866e4(int bgm)
     if (bgm == 0x22) {
         unkfunc_02086634();
     }
-    if (func_02074e24(bgm, unk_04) == 0) {
-        func_02074e24(bgm, unk_04);
+    if (func_02074e24(bgm, heap_) == 0) {
+        func_02074e24(bgm, heap_);
     }
 }
 
 ARM void DsSoundSystem::unkfunc_02086720(int a, int b)
 {
-    func_02074e50(a, unk_04);
-    func_02074e7c(b, unk_04);
+    func_02074e50(a, heap_);
+    func_02074e7c(b, heap_);
 }
 
 ARM SoundStreamHandle::SoundStreamHandle()

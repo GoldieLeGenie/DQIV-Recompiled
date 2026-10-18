@@ -7,8 +7,8 @@ struct ScreenEffectBattle : ScreenEffect {
     int unk_24;                                 // 0x24
     int unk_28;                                 // 0x28
     int unk_2c;                                 // 0x2C
-    int unk_30;                                 // 0x30
-    int unk_34;                                 // 0x34
+    int angle0_;                                 // 0x30
+    int angle1_;                                 // 0x34
 
     virtual void start();
     virtual void draw();
@@ -18,10 +18,10 @@ struct ScreenEffectBattle : ScreenEffect {
 
 // ScreenEffectManager type 3 (travel door)
 struct ScreenEffectTravelDoor : ScreenEffect {
-    int unk_20;                                 // 0x20
-    int unk_24;                                 // 0x24
-    int unk_28;                                 // 0x28
-    int unk_2c;                                 // 0x2C
+    int reverse_;                                 // 0x20
+    int frame_;                                 // 0x24
+    int angle_;                                 // 0x28
+    int angleSpeed_;                                 // 0x2C
 
     virtual void start();
     virtual void draw();

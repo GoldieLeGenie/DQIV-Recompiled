@@ -23,7 +23,7 @@ struct DSSACharacterData {
 };
 
 struct DSSACharacter : Position {
-    int unk_34;                                 // 0x034
+    int textureLoaded_;                                 // 0x034
     int currentAnimationIndex_;                 // 0x038
     int nextAnimationIndex_;                    // 0x03C
     int firstAnimationIndex_;                   // 0x040

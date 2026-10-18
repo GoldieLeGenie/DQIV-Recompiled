@@ -176,7 +176,7 @@ ARM void BillboardCharacter::draw()
     unkfunc_020498e8(s_scale);
     setCameraDirection(&camera_->getDirection());
     if (flag_ & FLAG_ANIM_PALLET) {
-        applyTexturePaletteRgbRate((TextureObject*)texture_, &unk_fc.vx);
+        applyTexturePaletteRgbRate((TextureObject*)texture_, &paletteRgbRate_.vx);
     }
     execute();
     Billboard::draw();
@@ -446,7 +446,7 @@ ARM bool BillboardCharacter::isAllAnimation()
 
 ARM void BillboardCharacter::unkfunc_020499f0(const dss::Fix32Vector3* rate)
 {
-    unk_fc = *rate;
+    paletteRgbRate_ = *rate;
 }
 
 ARM void BillboardCharacter::unkfunc_02049a00(int flag)

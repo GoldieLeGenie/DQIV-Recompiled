@@ -5,12 +5,12 @@
 struct SoundSeqHandle {
     int unk_00;                                 // 0x00
     int unk_04;                                 // 0x04
-    int unk_08;                                 // 0x08  volume (sys)
-    int unk_0c;                                 // 0x0C  volume
-    int unk_10;                                 // 0x10
+    int volumeSys_;                                 // 0x08  volume (sys)
+    int volume_;                                 // 0x0C  volume
+    int seqNo_;                                 // 0x10
     int unk_14;                                 // 0x14
-    int unk_18;                                 // 0x18
-    int unk_1c;                                 // 0x1C
+    int seNo_;                                 // 0x18
+    int justStarted_;                                 // 0x1C
 
     SoundSeqHandle();
     ~SoundSeqHandle();
@@ -41,7 +41,7 @@ struct SoundStreamHandle {
 struct DsSoundPlayer {
     int enable_;                                // 0x000
     int bgm_;                                   // 0x004
-    SoundStreamHandle unk_008;                     // 0x008
+    SoundStreamHandle strmHandle_;                     // 0x008
     SoundSeqHandle bgmHandle_[2];               // 0x010
     SoundSeqHandle seHandle_[8];                // 0x050
     int bgmVolumeSys_;                          // 0x150
@@ -74,12 +74,12 @@ struct DsSoundPlayer {
 
 // sound system: sound heap + sound archive
 struct DsSoundSystem {
-    void* unk_00;                               // 0x00 sound heap memory
-    void* unk_04;                               // 0x04 sound heap
-    unsigned char unk_08[0x90];                 // 0x08 sound archive
+    void* heapMemory_;                               // 0x00 sound heap memory
+    void* heap_;                               // 0x04 sound heap
+    unsigned char arc_[0x90];                 // 0x08 sound archive
     int unk_98;                                 // 0x98
-    void* unk_9c;                               // 0x9C sound archive file
-    int unk_a0;                                 // 0xA0
+    void* arcFileName_;                               // 0x9C sound archive file
+    int useStream_;                                 // 0xA0
 
     DsSoundSystem();
     ~DsSoundSystem();

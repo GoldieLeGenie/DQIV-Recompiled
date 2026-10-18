@@ -17,7 +17,7 @@ ARM DsSoundPlayer::~DsSoundPlayer()
 ARM void DsSoundPlayer::unkfunc_0205c710()
 {
     enable_ = 1;
-    unk_008.unkfunc_02086750();
+    strmHandle_.unkfunc_02086750();
     bgmHandle_[0].unkfunc_02086494(-1);
     bgmHandle_[1].unkfunc_02086494(-1);
     for (int i = 0; i < 8; i++) {
@@ -149,22 +149,22 @@ ARM void DsSoundPlayer::unkfunc_0205ca2c(int fade)
 ARM void DsSoundPlayer::unkfunc_0205ca68(int value)
 {
     if (enable_) {
-        unk_008.unkfunc_0208675c(value);
+        strmHandle_.unkfunc_0208675c(value);
     }
 }
 
 ARM void DsSoundPlayer::unkfunc_0205ca84(int value)
 {
     if (enable_) {
-        unk_008.unkfunc_02086784(value);
+        strmHandle_.unkfunc_02086784(value);
     }
 }
 
 ARM void DsSoundPlayer::unkfunc_0205caa0()
 {
     for (int i = 0; i < 8; i++) {
-        if (seHandle_[i].unk_1c) {
-            seHandle_[i].unk_1c = 0;
+        if (seHandle_[i].justStarted_) {
+            seHandle_[i].justStarted_ = 0;
         } else if (!seHandle_[i].unkfunc_02086578()) {
             seHandle_[i].unkfunc_02086554(5);
         }
