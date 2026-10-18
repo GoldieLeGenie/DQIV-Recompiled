@@ -1,4 +1,4 @@
-#include "main/dss/UnkSystemText.hpp"
+#include "main/dss/SystemText.hpp"
 #include "main/dss/UnkDisplay.hpp"
 #include "main/dss/UnkBgBuffer.hpp"
 #include "main/menu/UnkMenuIconDisplay.hpp"

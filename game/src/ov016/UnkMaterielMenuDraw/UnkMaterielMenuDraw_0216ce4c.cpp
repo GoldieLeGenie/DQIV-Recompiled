@@ -17,7 +17,7 @@
 #include "main/status/GameStatus.hpp"
 #include "ov009/casino/PokerManager.hpp"
 #include "ov028/MaterielMenu_SHOP/MaterielMenu_SHOP.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
 #ifdef DQIV_NATIVE
 #include "main/dss/UnkBgText.hpp"

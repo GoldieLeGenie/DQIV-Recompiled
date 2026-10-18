@@ -1,7 +1,7 @@
 #include <nitro/native_video.h>
 #include "main/dss/DisplayPlugin.hpp"
 #include "main/dss/UnkDisplay.hpp"
-#include "main/dss/UnkSystemText.hpp"
+#include "main/dss/SystemText.hpp"
 #include "nitro/gx.hpp"
 #include "nitro/g2.hpp"
 

@@ -11,7 +11,7 @@
 #include "main/menu/UnkMenuIconDisplay.hpp"
 #include "main/status/GameStatus.hpp"
 #include "nitro/os.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 
 MessageDebugPart g_MessageDebugPart;
 

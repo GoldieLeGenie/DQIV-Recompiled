@@ -1,6 +1,6 @@
 #include "main/menu/TownMenu_TOWN.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/status/OptionStatus.hpp"
 
 static UnkMenuParts s_menuIconParts[] = {

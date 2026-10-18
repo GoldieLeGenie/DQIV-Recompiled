@@ -16,7 +16,7 @@
 #include "main/dss/UnkFog.hpp"
 #include "main/dss/UnkLanguage.hpp"
 #include "main/dss/UnkMemory.hpp"
-#include "main/dss/UnkSystemText.hpp"
+#include "main/dss/SystemText.hpp"
 #include "main/dss/UnkTextConvert.hpp"
 #include "main/dss/UnkVramTransfer.hpp"
 #include "main/encount/Encount.hpp"

@@ -11,7 +11,7 @@
 #include "ov016/TownMenuPlayerControl/TownMenuPlayerControl.hpp"
 #include "ov016/status/FukuroItemInfo.hpp"
 #include "ov016/status/PlayerItemInfo.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
 
 // not in the ROM (dead-stripped), keeps the const locals of this file

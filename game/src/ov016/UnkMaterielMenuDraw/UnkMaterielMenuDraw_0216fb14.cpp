@@ -7,7 +7,7 @@
 #include "main/status/UseItem.hpp"
 #include "main/status/ShopList.hpp"
 #include "ov028/MaterielMenu_SHOP/MaterielMenu_SHOP.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
 
 static UnkMenuParts s_parts_02181fd0[] = {

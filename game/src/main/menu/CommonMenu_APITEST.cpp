@@ -7,7 +7,7 @@
 #include "main/menu/TownMenu_TOWN.hpp"
 #include "main/menu/UnkMenuBg.hpp"
 #include "main/menu/UnkMenuDisplays.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Pad.hpp"
 #include "main/sound/Sound.hpp"

@@ -8,7 +8,7 @@
 #include "main/dss/Pad.hpp"
 #include "main/sound/Sound.hpp"
 #include "nitro/pad.h"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 
 THUMB void unkfunc_020518f8(MENUITEM_DATA* data, int x, int y)
 {

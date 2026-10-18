@@ -6,7 +6,7 @@
 #include "main/status/StoryStatus.hpp"
 #include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
 #ifdef DQIV_NATIVE
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/text/TextAPI.hpp"
 #include "Settings.hpp"
 #include "main/dss/Pad.hpp"

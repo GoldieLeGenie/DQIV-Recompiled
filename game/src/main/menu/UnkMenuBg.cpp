@@ -5,7 +5,7 @@
 #include "main/menu/UnkMenuSystem.hpp"
 #include "main/menu/UiMsg.hpp"
 #include "nitro/gx.h"
-#include "main/dss/UnkVramRequest.hpp"
+#include "main/dss/VramRequest.hpp"
 #ifdef DQIV_NATIVE
 #include "main/dss/UnkMemory.hpp"
 #include "HdPictures.hpp"

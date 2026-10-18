@@ -1,5 +1,5 @@
 #include <nitro/native_video.h>
-#include "main/dss/UnkVramRequest.hpp"
+#include "main/dss/VramRequest.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/UnkMemory.hpp"
 

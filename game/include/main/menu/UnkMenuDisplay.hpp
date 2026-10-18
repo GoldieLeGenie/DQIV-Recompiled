@@ -1,7 +1,7 @@
 #pragma once
 #include <globaldefs.h>
 #include "nitro/gx.h"
-#include "main/dss/UnkVramRequest.hpp"
+#include "main/dss/VramRequest.hpp"
 
 
 

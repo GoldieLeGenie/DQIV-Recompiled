@@ -1,7 +1,7 @@
 #include "main/menu/MenuManager.hpp"
 #include "main/dss/UnkDisplay.hpp"
 #include "main/menu/UnkMenuBg.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 
 static int s_updateTime;
 static MenuSubManager* s_currentMenu;

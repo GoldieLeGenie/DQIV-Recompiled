@@ -3,7 +3,7 @@
 #ifdef DQIV_NATIVE
 #include "ov003/status/MonsterPartyWithDraw.hpp"
 #include "main/dss/UnkDisplay.hpp"
-#include "main/dss/UnkVramRequest.hpp"
+#include "main/dss/VramRequest.hpp"
 #include <stdlib.h>
 #endif
 #include "ov015/btl/BattleMenuPlayerControl.hpp"
@@ -14,7 +14,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/status/PlayerStatus.hpp"
 #include "main/dss/DssUtils.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
 
 // parts lists (their definition order sets the .data layout)

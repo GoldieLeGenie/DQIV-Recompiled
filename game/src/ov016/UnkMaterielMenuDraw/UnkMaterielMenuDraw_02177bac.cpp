@@ -2,7 +2,7 @@
 #include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/MenuManager.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 
 // parts lists (their definition order sets the .data layout)
 static UnkMenuParts s_parts_02183a2c[] = {

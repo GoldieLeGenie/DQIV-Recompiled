@@ -6,7 +6,7 @@
 #include "HdPictures.hpp"
 #endif
 #include "main/menu/MenuDataCommon.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/status/GameStatus.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "main/status/PlayerStatus.hpp"

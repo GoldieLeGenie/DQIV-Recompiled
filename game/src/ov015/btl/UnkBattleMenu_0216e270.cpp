@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "ov015/btl/BattleMenu.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 
 static UnkMenuParts s_parts[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0x00, 0x98, 0xe0, 0x28 },

@@ -9,7 +9,7 @@
 #include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_02173d7c.hpp"
 #include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217ad94.hpp"
 #include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
 
 static UnkMenuParts s_parts[] = {

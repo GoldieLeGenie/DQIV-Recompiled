@@ -7,7 +7,7 @@
 #include "main/status/ShopList.hpp"
 #include "main/status/UseItem.hpp"
 #include "main/dss/DssUtils.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 
 // not in the ROM (dead-stripped), its parts list and const locals are still in .data/.rodata
 THUMB void unkfunc_unused(int active)

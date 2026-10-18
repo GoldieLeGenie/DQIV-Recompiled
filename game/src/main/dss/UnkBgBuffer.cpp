@@ -1,6 +1,6 @@
 #include "main/dss/UnkBgBuffer.hpp"
 #include "main/dss/DssUtils.hpp"
-#include "main/dss/UnkSystemText.hpp"
+#include "main/dss/SystemText.hpp"
 
 ARM void unkfunc_02080110(UnkCharBuffer* buffer, void* buf, int width, int height)
 {

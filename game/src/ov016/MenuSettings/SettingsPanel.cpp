@@ -2,7 +2,7 @@
 #include "ov016/MenuSettings/SettingsPanel.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
 #include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216ce4c.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/status/GameStatus.hpp"
 #include "main/status/OptionStatus.hpp"
 #include "main/text/TextAPI.hpp"

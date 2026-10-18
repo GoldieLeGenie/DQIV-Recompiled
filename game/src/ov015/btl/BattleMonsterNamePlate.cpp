@@ -5,7 +5,7 @@
 #include "main/menu/MenuBase.hpp"
 #include "main/text/TextAPI.hpp"
 #include "main/dss/DssUtils.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #ifdef DQIV_NATIVE
 #include "DualScreen.hpp"
 #endif

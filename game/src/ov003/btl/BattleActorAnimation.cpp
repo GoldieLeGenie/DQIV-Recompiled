@@ -5,7 +5,7 @@
 #include "main/status/HaveEquipment.hpp"
 #include "ov003/btl/BattleExecVictory.hpp"
 #include "main/dss/ScreenPosition.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 
 int monsterChangeCount;
 

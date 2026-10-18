@@ -9,7 +9,7 @@
 #include "main/dss/UnkDisplay.hpp"
 #include "main/dss/UnkFog.hpp"
 #include "main/dss/UnkSleep.hpp"
-#include "main/dss/UnkVramRequest.hpp"
+#include "main/dss/VramRequest.hpp"
 #include "main/dss/UnkVramTransfer.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/UnkMenuSystem.hpp"

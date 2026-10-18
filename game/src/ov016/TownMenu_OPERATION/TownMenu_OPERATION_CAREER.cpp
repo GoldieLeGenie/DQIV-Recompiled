@@ -7,7 +7,7 @@
 #include "ov037/PlayerTitle.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
 #include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_02173d7c.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
 #include "main/menu/UnkMenuOverlay.hpp"
 

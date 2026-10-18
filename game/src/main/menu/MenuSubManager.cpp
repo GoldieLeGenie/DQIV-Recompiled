@@ -1,5 +1,5 @@
 #include "main/menu/MenuManager.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 
 THUMB void MenuSubManager::setup()
 {

@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "ov016/UnkTownMenu_02178a58/UnkTownMenu_02178a58.hpp"
-#include "main/menu/UnkMenuPartsDraw.hpp"
+#include "main/menu/MenuPartsDraw.hpp"
 
 static UnkMenuParts s_parts[] = {
     { 0x01, 0x00, (short)0xf000, 0, 0x40, 0x48, 0x78, 0x28 },

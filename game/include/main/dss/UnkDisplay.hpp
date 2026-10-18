@@ -2,7 +2,7 @@
 #include <globaldefs.h>
 #include "main/dss/DisplayPlugin.hpp"
 #include "main/dss/UnkBgBuffer.hpp"
-#include "main/dss/UnkVramRequest.hpp"
+#include "main/dss/VramRequest.hpp"
 
 // BG used for the system text on each screen
 struct UnkDisplayText {
