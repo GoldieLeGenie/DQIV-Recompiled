@@ -35,7 +35,7 @@ GameWindow::GameWindow(bool hidden,bool mute):hidden_(hidden) {
         context_=SDL_GL_CreateContext(window_);
         require(context_!=nullptr);
         require(SDL_GL_MakeCurrent(window_,static_cast<SDL_GLContext>(context_)));
-        if(!SDL_GL_SetSwapInterval(-1))SDL_GL_SetSwapInterval(1);
+        SDL_GL_SetSwapInterval(1);
         gl::load();
         gpu_=std::make_unique<GpuRenderer>();
         std::printf("OpenGL: %s / %s\n",reinterpret_cast<const char*>(gl::GetString(GL_RENDERER)),reinterpret_cast<const char*>(gl::GetString(GL_VERSION)));
@@ -66,8 +66,12 @@ void GameWindow::applySettings() {
         SDL_SetWindowSize(window_,windowSizes[s.windowSize][0],windowSizes[s.windowSize][1]);
         SDL_SetWindowPosition(window_,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED);
     } else setFullscreen(true);
-    if(!s.vsync)SDL_GL_SetSwapInterval(0);
-    else if(!SDL_GL_SetSwapInterval(-1))SDL_GL_SetSwapInterval(1);
+    // Strict vertical sync: the adaptive one (-1) shows a frame that misses
+    // the refresh at once, and the game's own 60 Hz pace makes that steady,
+    // a tear across the middle of the screen.
+    SDL_GL_SetSwapInterval(s.vsync?1:0);
+    int interval=0;SDL_GL_GetSwapInterval(&interval);
+    std::printf("Vertical sync: %d\n",interval);
     dualScreen().canvasWidth=s.wide?384*16/9.f:256.f;
     stretch_=s.stretch;
     gpu_->settings.autoQuality=s.quality==0;
