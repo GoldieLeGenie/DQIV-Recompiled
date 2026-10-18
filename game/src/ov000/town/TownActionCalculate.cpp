@@ -309,7 +309,7 @@ ARM void TownActionCalculate::normalMove(dss::Fix32Vector3& position, short& dir
         return;
     }
     unsigned short dirInput = TownPlayerManager::getSingleton()->player_.dirInput_;
-    dss::Fix32Vector3 dir(TownCamera::getSingleton()->camera_.unk_004.getDirection());
+    dss::Fix32Vector3 dir(TownCamera::getSingleton()->camera_.m_camera0.getDirection());
     dir.vy = 0L;
     dir.normalize();
     dss::Matrix43 mtx;
@@ -317,7 +317,7 @@ ARM void TownActionCalculate::normalMove(dss::Fix32Vector3& position, short& dir
     dir = mtx * dir;
     dir.vy = 0L;
     position = position + dir * speed;
-    dirIdx = 0x8000 - dirInput + TownCamera::getSingleton()->camera_.unk_004.getAngle().vy;
+    dirIdx = 0x8000 - dirInput + TownCamera::getSingleton()->camera_.m_camera0.getAngle().vy;
     dirIdx = (unsigned short&)dirIdx;
 }
 

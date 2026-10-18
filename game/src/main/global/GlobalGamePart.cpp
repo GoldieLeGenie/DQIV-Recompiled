@@ -60,9 +60,9 @@ ARM void GlobalGamePart::vf00()
     s_taskTick = getTick();
     initMenuSystem();
     TextAPI::Init();
-    g_VramTransfer.unk_814 = 1;
+    g_VramTransfer.vblankTransfer_ = 1;
     initialize();
-    g_VramTransfer.unk_814 = 0;
+    g_VramTransfer.vblankTransfer_ = 0;
     unkfunc_0203f1a8();
     startMenuSystem();
     TextAPI::start();

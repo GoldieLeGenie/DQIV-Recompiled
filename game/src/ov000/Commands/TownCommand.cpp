@@ -3241,7 +3241,7 @@ __cmd_set_camera_target_chara_frame g_cmd_set_camera_target_chara_frame;
 THUMB void __cmd_set_camera_angle_abs::initialize(char* scriptParam)
 {
     PARAM_SET_CAMERA_ANGLE_ABS* data = (PARAM_SET_CAMERA_ANGLE_ABS*)scriptParam;
-    dss::Vector3short& nowAngle = TownCamera::getSingleton()->camera_.unk_004.getAngle();
+    dss::Vector3short& nowAngle = TownCamera::getSingleton()->camera_.m_camera0.getAngle();
     short x = nowAngle.vx;
     short z = nowAngle.vz;
     dss::Vector3<short> angle;

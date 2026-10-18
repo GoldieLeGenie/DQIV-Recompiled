@@ -53,7 +53,7 @@ ARM void SpriteCharacter::unkfunc_0204b33c()
 {
     unkfunc_0208456c(unk_9c, unk_a0);
     unkfunc_02084578(0, 0, unk_9c, unk_a0);
-    unk_2c = 1;
+    screens_ = 1;
 }
 
 ARM void SpriteCharacter::setAlpha(int alpha)
@@ -209,8 +209,8 @@ ARM void SpriteShadow::unkfunc_0204b768()
     unkfunc_02084534(0, 0);
     unkfunc_0208456c(0x12, 0xc);
     unkfunc_02084578(0, 0, 0x20, 0x20);
-    unk_2c = 1;
-    unk_28 = 4;
+    screens_ = 1;
+    depth_ = 4;
     setAlpha(15);
 }
 

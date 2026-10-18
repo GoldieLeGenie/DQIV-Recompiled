@@ -69,7 +69,7 @@ struct Billboard : RenderObject3D {
     BillboardTexCoord texCoord_;                // 0x58
     BillboardVertex drawVertex_;                // 0x78
     BillboardTexCoord drawTexCoord_;            // 0x88
-    dss::Vector2<dss::Fix32> unk_a8;            // 0xA8 texture coordinate offset
+    dss::Vector2<dss::Fix32> texCoordOffset_;            // 0xA8 texture coordinate offset
     unsigned short color_;                      // 0xB0
 
     Billboard();                                // C2 0x02083da8

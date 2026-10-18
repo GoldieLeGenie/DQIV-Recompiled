@@ -93,7 +93,7 @@ ARM void TownPlayerAction::setup()
         position.vx.value = 0;
         position.vy.value = dss::Fix32Vector3(g_cmnPartyInfo.startPos_).vy.value;
         position.vz.value = 0x4000;
-        TownCamera::getSingleton()->camera_.unk_004.setTarget(position);
+        TownCamera::getSingleton()->camera_.m_camera0.setTarget(position);
         position.vy.value = 0x5000;
         g_cmnPartyInfo.startPos_ = position;
         g_cmnPartyInfo.setDirIdx(0);

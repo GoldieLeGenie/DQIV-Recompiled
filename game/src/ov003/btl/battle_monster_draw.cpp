@@ -66,7 +66,7 @@ THUMB void btl::BattleMonster::draw()
 {
     CharacterPalette* palette = &monsterDraw_.palette_;
     if (palette->enable_) {
-        paletteAnim_.unkfunc_0205b584(palette->unk_408, palette->unk_404);
+        paletteAnim_.unkfunc_0205b584(palette->address_, palette->size_);
         if (paletteAnim_.unkfunc_0205b628()) {
             palette->enable_ = 0;
             paletteData_.cleanup();

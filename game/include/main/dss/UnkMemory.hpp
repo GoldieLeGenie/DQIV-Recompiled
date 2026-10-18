@@ -30,7 +30,7 @@ struct DssHeap {
     unsigned int free0_;                        // 0x48
     unsigned int free1_;                        // 0x4C
     unsigned int free2_;                        // 0x50
-    unsigned int unk_54;                        // 0x54 program size
+    unsigned int programSize_;                        // 0x54 program size
 };
 
 extern TouchPanelState g_TouchPanel;

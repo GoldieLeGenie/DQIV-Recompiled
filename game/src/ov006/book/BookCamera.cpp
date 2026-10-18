@@ -26,8 +26,8 @@ ARM BookCamera* BookCamera::getSingleton()
 
 ARM void BookCamera::initialize()
 {
-    camera_.unk_004.setup();
-    camera_.unk_068.setup();
+    camera_.m_camera0.setup();
+    camera_.m_camera1.setup();
     camera_.setTarget(s_target, 0);
     camera_.setDistance(s_distance);
     camera_.setRotXYZ(s_angle);
@@ -37,8 +37,8 @@ ARM void BookCamera::initialize()
     camera_.unk_d0 = 0;
     camera_.unk_d4 = 0;
     int fov = s_fov;
-    camera_.unk_004.setFOV2(fov);
-    camera_.unk_068.setFOV2(fov);
+    camera_.m_camera0.setFOV2(fov);
+    camera_.m_camera1.setFOV2(fov);
     camera_.setScaleW(dss::Fix32(0x1000));
 }
 

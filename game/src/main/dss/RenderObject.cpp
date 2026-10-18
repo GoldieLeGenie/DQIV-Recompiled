@@ -24,7 +24,7 @@ ARM inline void Position::setScale(dss::Fix32 scale)
 
 ARM inline void Position::setRotationIdx(const dss::Vector3<unsigned short>& rotation)
 {
-    unk_28 = rotation;
+    rotationIdx_ = rotation;
 }
 
 ARM inline void Position::setRotation(const dss::Fix32Vector3& rotation)
@@ -261,7 +261,7 @@ ARM void PolygonObject::unkfunc_02083848()
     func_0206dcf0();
     G3_PushMtx();
     G3_Translate(position_.vx.value, position_.vy.value, position_.vz.value);
-    func_02065c60(FX_SinIdx(unk_28.vy), FX_CosIdx(unk_28.vy));
+    func_02065c60(FX_SinIdx(rotationIdx_.vy), FX_CosIdx(rotationIdx_.vy));
     G3_Scale(scale_.vx.value, scale_.vy.value, scale_.vz.value);
     G3_MaterialColorDiffAmb(0x7fff, 0x4210, 1);
     G3_MaterialColorSpecEmi(0x4210, 0, 0);
@@ -291,7 +291,7 @@ ARM void ShadowPolygon::draw()
     func_0206dcf0();
     G3_PushMtx();
     G3_Translate(position_.vx.value, position_.vy.value, position_.vz.value);
-    func_02065c60(FX_SinIdx(unk_28.vy), FX_CosIdx(unk_28.vy));
+    func_02065c60(FX_SinIdx(rotationIdx_.vy), FX_CosIdx(rotationIdx_.vy));
     G3_Scale(scale_.vx.value, scale_.vy.value, scale_.vz.value);
     disableTexture();
     if (data_0211d36c == 0) {
@@ -304,7 +304,7 @@ ARM void ShadowPolygon::draw()
         unkfunc_020836c0();
     }
     G3_Begin(1);
-    G3_Color(unk_80.vx | (unk_80.vy << 5) | (unk_80.vz << 10));
+    G3_Color(color_.vx | (color_.vy << 5) | (color_.vz << 10));
     for (int i = 0; i < 4; i++) {
         G3_Vtx(vertex_.v[i].vx.value, vertex_.v[i].vy.value, vertex_.v[i].vz.value);
     }
@@ -321,17 +321,17 @@ ARM void ShadowPolygon::unkfunc_02083b1c()
     func_0206dcf0();
     G3_PushMtx();
     G3_Translate(position_.vx.value, position_.vy.value, position_.vz.value);
-    func_02065c60(FX_SinIdx(unk_28.vy), FX_CosIdx(unk_28.vy));
+    func_02065c60(FX_SinIdx(rotationIdx_.vy), FX_CosIdx(rotationIdx_.vy));
     G3_Scale(scale_.vx.value, scale_.vy.value, scale_.vz.value);
     disableTexture();
     G3_MaterialColorDiffAmb(0, 0, 0);
     G3_MaterialColorSpecEmi(0, 0, 0);
     unkfunc_020836a8();
     G3_Begin(1);
-    G3_Color(unk_80.vx | (unk_80.vy << 5) | (unk_80.vz << 10));
+    G3_Color(color_.vx | (color_.vy << 5) | (color_.vz << 10));
     for (int j = 0; j < 8; j++) {
         for (int i = 0; i < 4; i++) {
-            G3_Vtx(unk_84[j].v[i].vx.value, unk_84[j].v[i].vy.value, unk_84[j].v[i].vz.value);
+            G3_Vtx(volumeVertex_[j].v[i].vx.value, volumeVertex_[j].v[i].vy.value, volumeVertex_[j].v[i].vz.value);
         }
     }
     G3_End();
@@ -339,10 +339,10 @@ ARM void ShadowPolygon::unkfunc_02083b1c()
     G3_MaterialColorSpecEmi(0, 0, 0);
     unkfunc_020836c0();
     G3_Begin(1);
-    G3_Color(unk_80.vx | (unk_80.vy << 5) | (unk_80.vz << 10));
+    G3_Color(color_.vx | (color_.vy << 5) | (color_.vz << 10));
     for (int j = 0; j < 8; j++) {
         for (int i = 0; i < 4; i++) {
-            G3_Vtx(unk_84[j].v[i].vx.value, unk_84[j].v[i].vy.value, unk_84[j].v[i].vz.value);
+            G3_Vtx(volumeVertex_[j].v[i].vx.value, volumeVertex_[j].v[i].vy.value, volumeVertex_[j].v[i].vz.value);
         }
     }
     G3_End();
@@ -351,7 +351,7 @@ ARM void ShadowPolygon::unkfunc_02083b1c()
 
 ARM void ShadowPolygon::unkfunc_02083d00(int index, const PolygonVertex* vertex)
 {
-    unk_84[index] = *vertex;
+    volumeVertex_[index] = *vertex;
 }
 
 ARM Billboard::Billboard()
@@ -382,15 +382,15 @@ ARM BillboardTexCoord* Billboard::unkfunc_020841a8()
 
 ARM void Billboard::unkfunc_020841b0(const dss::Vector2<dss::Fix32>* offset)
 {
-    unk_a8 = *offset;
+    texCoordOffset_ = *offset;
 }
 
 ARM void Billboard::unkfunc_020841d4()
 {
     drawVertex_ = vertex_;
     for (int i = 0; i < 4; i++) {
-        drawTexCoord_.v[i].vx = texCoord_.v[i].vx + unk_a8.vx;
-        drawTexCoord_.v[i].vy = texCoord_.v[i].vy + unk_a8.vy;
+        drawTexCoord_.v[i].vx = texCoord_.v[i].vx + texCoordOffset_.vx;
+        drawTexCoord_.v[i].vy = texCoord_.v[i].vy + texCoordOffset_.vy;
     }
 }
 
@@ -440,42 +440,42 @@ ARM void loadBillboardMatrix()
 
 ARM Sprite2D::Sprite2D()
 {
-    unk_1c = 0;
-    unk_1e = 0;
-    unk_20 = 0;
-    unk_22 = 0;
-    unk_24 = 0;
-    unk_26 = 0;
-    unk_28 = 0;
-    unk_30 = 0;
-    unk_32 = 0;
-    unk_34 = 0x7fff;
+    width_ = 0;
+    height_ = 0;
+    u0_ = 0;
+    v0_ = 0;
+    u1_ = 0;
+    v1_ = 0;
+    depth_ = 0;
+    rotation_ = 0;
+    color0Opaque_ = 0;
+    color_ = 0x7fff;
 }
 
 ARM void Sprite2D::unkfunc_02084534(int x, int y)
 {
-    unk_14.vx.value = x << FX32_SHIFT;
-    unk_14.vy.value = y << FX32_SHIFT;
+    position_.vx.value = x << FX32_SHIFT;
+    position_.vy.value = y << FX32_SHIFT;
 }
 
 ARM void Sprite2D::unkfunc_02084548(dss::Fix32 x, dss::Fix32 y)
 {
-    unk_14.vx = x;
-    unk_14.vy = y;
+    position_.vx = x;
+    position_.vy = y;
 }
 
 ARM void Sprite2D::unkfunc_0208456c(int w, int h)
 {
-    unk_1c = w;
-    unk_1e = h;
+    width_ = w;
+    height_ = h;
 }
 
 ARM void Sprite2D::unkfunc_02084578(int u0, int v0, int u1, int v1)
 {
-    unk_20 = u0;
-    unk_22 = v0;
-    unk_24 = u1;
-    unk_26 = v1;
+    u0_ = u0;
+    v0_ = v0;
+    u1_ = u1;
+    v1_ = v1;
 }
 
 ARM void Sprite2D::draw()
@@ -485,29 +485,29 @@ ARM void Sprite2D::draw()
     }
 #ifdef DQIV_NATIVE
     if (pc::spritesOnBothScreens()) {
-        if (!(unk_2c & 3)) {
+        if (!(screens_ & 3)) {
             return;
         }
     } else
 #endif
     if (getDisplayFrame() & 1) {
-        if (!(unk_2c & 1)) {
+        if (!(screens_ & 1)) {
             return;
         }
-    } else if (!(unk_2c & 2)) {
+    } else if (!(screens_ & 2)) {
         return;
     }
 #ifdef DQIV_NATIVE
     // Wide field: sprites of the top screen only (the map information) belong
     // to its inset, not to the field drawn over the whole canvas.
     const unsigned previousLayer = pc::drawLayer();
-    if (pc::wideFieldFrame() && (unk_2c & 3) == 2) {
+    if (pc::wideFieldFrame() && (screens_ & 3) == 2) {
         pc::setDrawLayer(1);
     }
 #endif
     G3_PushMtx();
     if (texture_) {
-        if (unk_32 == 0) {
+        if (color0Opaque_ == 0) {
             ((TextureObject*)texture_)->unkfunc_02086abc();
             ((TextureObject*)texture_)->unkfunc_02086b3c();
         } else {
@@ -523,16 +523,16 @@ ARM void Sprite2D::draw()
     G3_PolygonAttr(0, 0, 0xc0, polygonID_, alpha_, 0x8000);
 #endif
     G3_Identity();
-    G3_Color(unk_34);
-    G3_Translate(unk_14.vx.value, unk_14.vy.value, (unk_28 - 0x400) << FX32_SHIFT);
-    G3_Translate(unk_1c * FX32_ONE / 2, unk_1e * FX32_ONE / 2, 0);
-    func_02065c9c(FX_SinIdx(unk_30), FX_CosIdx(unk_30));
-    G3_Translate(unk_1c * -FX32_ONE / 2, unk_1e * -FX32_ONE / 2, 0);
-    G3_Scale(unk_1c << FX32_SHIFT, unk_1e << FX32_SHIFT, FX32_ONE);
-    fx32 u0 = unk_20 << FX32_SHIFT;
-    fx32 u1 = unk_24 << FX32_SHIFT;
-    fx32 v0 = unk_22 << FX32_SHIFT;
-    fx32 v1 = unk_26 << FX32_SHIFT;
+    G3_Color(color_);
+    G3_Translate(position_.vx.value, position_.vy.value, (depth_ - 0x400) << FX32_SHIFT);
+    G3_Translate(width_ * FX32_ONE / 2, height_ * FX32_ONE / 2, 0);
+    func_02065c9c(FX_SinIdx(rotation_), FX_CosIdx(rotation_));
+    G3_Translate(width_ * -FX32_ONE / 2, height_ * -FX32_ONE / 2, 0);
+    G3_Scale(width_ << FX32_SHIFT, height_ << FX32_SHIFT, FX32_ONE);
+    fx32 u0 = u0_ << FX32_SHIFT;
+    fx32 u1 = u1_ << FX32_SHIFT;
+    fx32 v0 = v0_ << FX32_SHIFT;
+    fx32 v1 = v1_ << FX32_SHIFT;
     G3_Begin(1);
     G3_TexCoord(u0, v1);
     G3_Vtx(0, FX32_ONE, 0);
@@ -725,12 +725,12 @@ ARM void drawSubScreenShade()
 
 ARM void Sprite2D::setColor(int r, int g, int b)
 {
-    unk_34 = r | (g << 5) | (b << 10);
+    color_ = r | (g << 5) | (b << 10);
 }
 
 ARM void Sprite2D::setColor(int color)
 {
-    unk_34 = color;
+    color_ = color;
 }
 
 

@@ -95,7 +95,7 @@ ARM void cmn::CommonChapterTitle::setup(int chapter, int flag)
     sprite_.setAlpha(0x1f);
     sprite_.setPolygonID(0x3f);
     sprite_.setDepth(0x80);
-    sprite_.sprite_.unk_32 = 1;
+    sprite_.sprite_.color0Opaque_ = 1;
     sprite_.setPosition(x, y);
     sprite_.setSize(w, h);
     if (texCoord) {

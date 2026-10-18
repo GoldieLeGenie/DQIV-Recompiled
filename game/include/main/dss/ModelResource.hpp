@@ -4,9 +4,9 @@
 
 // model file of a model object: binds its textures (loaded in VRAM) to its model set
 struct ModelResource {
-    void* unk_00;                               // 0x00 model file
-    NNSG3dResMdl* unk_04;                       // 0x04 last model of the set
-    NNSG3dResTex* unk_08;                       // 0x08 textures
+    void* modelFile_;                               // 0x00 model file
+    NNSG3dResMdl* model_;                       // 0x04 last model of the set
+    NNSG3dResTex* texture_;                       // 0x08 textures
 
     ModelResource();
     void unkfunc_02083354(void* data);         // set the model file

@@ -338,10 +338,10 @@ ARM int unkfunc_02081608(int y)
         ret = -1;
         break;
     case 1:
-        ret = y < 192 ? display->text_.unk_0c : display->text_.unk_10;
+        ret = y < 192 ? display->text_.backScreen1_ : display->text_.backScreen2_;
         break;
     case 2:
-        ret = y < 192 ? display->text_.unk_10 : display->text_.unk_0c;
+        ret = y < 192 ? display->text_.backScreen2_ : display->text_.backScreen1_;
         break;
     case 3:
         if ((getDisplayFrame() & 1) == 0) {
@@ -353,25 +353,25 @@ ARM int unkfunc_02081608(int y)
                 return -1;
             }
         }
-        ret = display->text_.unk_0c;
+        ret = display->text_.backScreen1_;
         break;
     }
     return ret;
 }
 
-ARM void setDisplayTextBgs(int type, int screen1, int screen2, int unk_0c, int unk_10, int unk_14)
+ARM void setDisplayTextBgs(int type, int screen1, int screen2, int backScreen1, int backScreen2, int iconEnable)
 {
     g_Display.text_.type_ = type;
     g_Display.text_.screen1_ = screen1;
     g_Display.text_.screen2_ = screen2;
-    g_Display.text_.unk_0c = unk_0c;
-    g_Display.text_.unk_10 = unk_10;
-    g_Display.text_.unk_14 = unk_14;
+    g_Display.text_.backScreen1_ = backScreen1;
+    g_Display.text_.backScreen2_ = backScreen2;
+    g_Display.text_.iconEnable_ = iconEnable;
 }
 
 ARM int unkfunc_0208170c()
 {
-    return g_Display.text_.unk_14;
+    return g_Display.text_.iconEnable_;
 }
 
 ARM BgScreenBuffer* getDebugScreenBuffer()

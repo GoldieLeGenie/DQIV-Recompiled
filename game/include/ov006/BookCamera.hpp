@@ -12,5 +12,5 @@ struct BookCamera {
     void initialize();
     void terminate();
     void draw();
-    dss::Camera& getCamera() { return getSingleton()->camera_.unk_004; }
+    dss::Camera& getCamera() { return getSingleton()->camera_.m_camera0; }
 };

@@ -45,7 +45,7 @@ THUMB void TownEndrollManager::setup()
         staff_[i].setAlpha(0x1f);
         staff_[i].setPolygonID(0x3f);
         staff_[i].setBothScreens();
-        staff_[i].sprite_.unk_32 = 1;
+        staff_[i].sprite_.color0Opaque_ = 1;
         staff_[i].setSize(0x100, 0xc0);
         staff_[i].setTexCoords(0, 0, 0x100, 0xc0);
     }
@@ -130,7 +130,7 @@ THUMB void TownEndrollManager::drawStaffRoll()
             // black continues across the wide picture, under the panel.
             // It samples the panel's own black corner, for the same shade.
             Sprite2D& sprite = staff_[i].sprite_;
-            const short u0 = sprite.unk_20, v0 = sprite.unk_22, u1 = sprite.unk_24, v1 = sprite.unk_26;
+            const short u0 = sprite.u0_, v0 = sprite.v0_, u1 = sprite.u1_, v1 = sprite.v1_;
             sprite.unkfunc_02084578(0, 0, 1, 1);
             sprite.draw();
             sprite.unkfunc_02084578(u0, v0, u1, v1);
@@ -172,7 +172,7 @@ THUMB void TownEndrollManager::startTheEnd()
     theEnd_.unkfunc_02084534(0x48, 0x20);
     theEnd_.unkfunc_02084578(0, 0, 0x80, 0x60);
     theEnd_.unkfunc_0208456c(0x80, 0x60);
-    theEnd_.unk_2c = 1;
+    theEnd_.screens_ = 1;
 }
 
 THUMB bool TownEndrollManager::isEndTheEnd()

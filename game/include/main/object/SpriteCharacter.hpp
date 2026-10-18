@@ -56,7 +56,7 @@ struct SpriteCharacter : Sprite2D {
     void reload(int dir);
     void setPosition(int x, int y);
     void setPosition(dss::Vector2<int> pos);
-    void setDepth(int depth) { unk_28 = depth; }
+    void setDepth(int depth) { depth_ = depth; }
     void setShadowWH(int w, int h) { shadow_.unkfunc_0208456c(w, h); }
     void setDirection(unsigned short dir);
     void setDisplayEnable(int flag);

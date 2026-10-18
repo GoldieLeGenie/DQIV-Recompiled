@@ -21,7 +21,7 @@ struct Position : PositionInterface {
     dss::Fix32Vector3 position_;         /* 0x04 */
     dss::Fix32Vector3 scale_;            /* 0x10 */
     dss::Fix32Vector3 rotation_;         /* 0x1C */
-    dss::Vector3<unsigned short> unk_28; /* 0x28 rotation (angle index) */
+    dss::Vector3<unsigned short> rotationIdx_; /* 0x28 rotation (angle index) */
     dss::Fix32 unk_30;                   /* 0x30 */
 
     Position();                         // C2 0x020835e8

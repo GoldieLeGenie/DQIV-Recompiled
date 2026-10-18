@@ -53,7 +53,7 @@ int g_cameraFovSinCosTable[40][2] = {
 
 ARM dss::Camera::Camera()
 {
-    unk_60 = 0;
+    m_noUpdate = 0;
     m_perspective.m_fovySin = 0x424;
     m_perspective.m_fovyCos = 0xf74;
     m_perspective.m_aspect = 0x1555;
@@ -93,7 +93,7 @@ ARM void dss::Camera::calcPosition()
 
 ARM void dss::Camera::applyCamera()
 {
-    if (unk_60 == 0) {
+    if (m_noUpdate == 0) {
         update();
     }
     calcPosition();

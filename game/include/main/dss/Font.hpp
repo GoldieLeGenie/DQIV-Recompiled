@@ -13,22 +13,22 @@ struct G2dCharCanvas {
 
 // font information block of a font file
 struct G2dFontInfo {
-    unsigned char unk_00;                       // 0x00
-    signed char unk_01;                         // 0x01
+    unsigned char fontType_;                       // 0x00
+    signed char linefeed_;                         // 0x01
     unsigned short alterCharIndex_;             // 0x02 glyph drawn for the missing chars
 };
 
 // widths of a glyph
 struct GlyphWidths {
-    signed char unk_00;                         // 0x00
-    unsigned char unk_01;                       // 0x01
+    signed char left_;                         // 0x00
+    unsigned char glyphWidth_;                       // 0x01
     signed char charWidth_;                     // 0x02
 };
 
 // NitroSystem 2D font
 struct G2dFont {
     G2dFontInfo* info_;                         // 0x00
-    void* unk_04;                               // 0x04
+    void* splitChar_;                               // 0x04
 };
 
 extern "C" {

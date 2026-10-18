@@ -4,11 +4,11 @@
 
 // copy of the palette of a texture, loaded in its own palette VRAM block
 struct CharacterPalette {
-    unsigned char unk_000[0x400];               // 0x000 palette
-    int unk_400;                                // 0x400 texture format
-    int unk_404;                                // 0x404 palette size
-    int unk_408;                                // 0x408 palette VRAM address
-    int unk_40c;                                // 0x40C palette VRAM handle
+    unsigned char palette_[0x400];               // 0x000 palette
+    int texFormat_;                                // 0x400 texture format
+    int size_;                                // 0x404 palette size
+    int address_;                                // 0x408 palette VRAM address
+    int handle_;                                // 0x40C palette VRAM handle
     int enable_;                                // 0x410
 
     CharacterPalette();

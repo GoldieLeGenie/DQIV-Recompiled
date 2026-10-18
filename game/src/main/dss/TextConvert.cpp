@@ -280,7 +280,7 @@ ARM char* convertUtf8ToSjisWork(const char* src)
 
 ARM Utf16Iterator::Utf16Iterator()
 {
-    unk_04 = 2;
+    encoding_ = 2;
 }
 
 ARM unsigned short Utf16Iterator::getChar()

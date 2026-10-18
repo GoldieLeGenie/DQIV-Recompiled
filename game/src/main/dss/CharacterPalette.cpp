@@ -5,9 +5,9 @@
 
 ARM CharacterPalette::CharacterPalette()
 {
-    unk_404 = 0;
-    unk_408 = 0;
-    unk_40c = 0;
+    size_ = 0;
+    address_ = 0;
+    handle_ = 0;
     enable_ = 0;
 }
 
@@ -19,26 +19,26 @@ ARM void CharacterPalette::unkfunc_02086ccc(TextureObject* texture, int flag)
 {
     int data = texture->unkfunc_02086aac();
     int size = texture->unkfunc_02086ab4();
-    dss::memcpy(unk_000, (void*)data, size);
-    unk_404 = size;
-    unk_40c = g_VramTransfer.allocPlttVram(size);
-    unk_408 = g_VramTransfer.getPlttVramAddr(unk_40c);
+    dss::memcpy(palette_, (void*)data, size);
+    size_ = size;
+    handle_ = g_VramTransfer.allocPlttVram(size);
+    address_ = g_VramTransfer.getPlttVramAddr(handle_);
     unkfunc_02086d78(flag);
-    unk_400 = texture->unk_20;
+    texFormat_ = texture->texFormat_;
     enable_ = 0;
 }
 
 ARM void CharacterPalette::unkfunc_02086d4c()
 {
-    if (unk_40c != 0) {
-        g_VramTransfer.freePlttVram(unk_40c);
-        unk_40c = 0;
+    if (handle_ != 0) {
+        g_VramTransfer.freePlttVram(handle_);
+        handle_ = 0;
     }
 }
 
 ARM void CharacterPalette::unkfunc_02086d78(int flag)
 {
-    g_VramTransfer.transferToVram(1, unk_000, unk_408, unk_404, flag);
+    g_VramTransfer.transferToVram(1, palette_, address_, size_, flag);
 }
 
 ARM void CharacterPalette::unkfunc_02086dac()
@@ -46,5 +46,5 @@ ARM void CharacterPalette::unkfunc_02086dac()
     if (enable_ == 0) {
         return;
     }
-    G3_WRITE(0x2b, (unsigned int)unk_408 >> (4 - (unk_400 == 2)));
+    G3_WRITE(0x2b, (unsigned int)address_ >> (4 - (texFormat_ == 2)));
 }

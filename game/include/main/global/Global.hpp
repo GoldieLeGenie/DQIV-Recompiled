@@ -137,19 +137,19 @@ struct GlobalSpriteFade : GlobalPartBase {
         sprite_[0].unkfunc_02084534(0, 0);
         sprite_[0].unkfunc_0208456c(256, 192);
         sprite_[0].texture_ = NULL;
-        sprite_[0].unk_2c = 1;
+        sprite_[0].screens_ = 1;
         sprite_[0].setColor(0, 0, 0);
         sprite_[0].setPolygonID(63);
         sprite_[0].setAlpha(0);
-        sprite_[0].unk_28 = 0;
+        sprite_[0].depth_ = 0;
         sprite_[1].unkfunc_02084534(0, 0);
         sprite_[1].unkfunc_0208456c(256, 192);
         sprite_[1].texture_ = NULL;
-        sprite_[1].unk_2c = 2;
+        sprite_[1].screens_ = 2;
         sprite_[1].setColor(0, 0, 0);
         sprite_[1].setAlpha(0);
         sprite_[1].setPolygonID(63);
-        sprite_[1].unk_28 = 0;
+        sprite_[1].depth_ = 0;
     }
     virtual void update();
     virtual void draw();

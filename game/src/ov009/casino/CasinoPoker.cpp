@@ -35,7 +35,7 @@ ARM void CasinoPoker::initialize()
     upperSprite_.setSubScreen();
     upperSprite_.setPolygonID(0x3e);
     upperSprite_.setDepth(0);
-    upperSprite_.sprite_.unk_32 = 1;
+    upperSprite_.sprite_.color0Opaque_ = 1;
     upperSprite_.setTexCoords(0, 0, 0x100, 0xc0);
     upperSprite_.setSize(0x100, 0xc0);
     upperSprite_.attachRender(&CasinoSystem::getSingleton()->render_);

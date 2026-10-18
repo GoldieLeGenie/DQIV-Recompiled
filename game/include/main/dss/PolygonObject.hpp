@@ -22,7 +22,7 @@ struct PolygonObject : RenderObject3D {
 
     PolygonVertex vertex_;                      // 0x48
     BillboardTexCoord texCoord_;                // 0x60
-    dss::Vector3<char> unk_80;                  // 0x80 color (r, g, b)
+    dss::Vector3<char> color_;                  // 0x80 color (r, g, b)
 
     void unkfunc_02083734(const PolygonVertex* vertex);         // setVertex
     void unkfunc_020837d0(const BillboardTexCoord* texCoord);   // setTexCoord
@@ -33,9 +33,9 @@ struct PolygonObject : RenderObject3D {
 /* vtable 0x020c447c */
 struct ShadowPolygon : PolygonObject {
     virtual void draw();                        // 0x020839bc
-    virtual void unkfunc_02083b1c();            // draw unk_84
+    virtual void unkfunc_02083b1c();            // draw volumeVertex_
 
-    PolygonVertex unk_84[8];                    // 0x84
+    PolygonVertex volumeVertex_[8];                    // 0x84
 
     void unkfunc_02083d00(int index, const PolygonVertex* vertex);
 };

@@ -81,7 +81,7 @@ ARM void TownPartyDraw::setup()
             }
             dss::sprintf_s(path, sizeof(path), "data/chr/h%03d.pack", chara);
             partyCharacter_[i].setRender(&TownSystem::getSingleton()->render_);
-            BillboardCharacter::setCamera(&TownCamera::getSingleton()->camera_.unk_004);
+            BillboardCharacter::setCamera(&TownCamera::getSingleton()->camera_.m_camera0);
             partyCharacter_[i].setup(path, 0);
             partyCharacter_[i].setPosition(defaultPosition);
             partyCharacter_[i].setRotate(0);
@@ -114,7 +114,7 @@ ARM void TownPartyDraw::setup()
             }
             dss::sprintf_s(path, sizeof(path), "data/chr/h%03d.pack", chara);
             partyCharacter_[i].setRender(&TownSystem::getSingleton()->render_);
-            BillboardCharacter::setCamera(&TownCamera::getSingleton()->camera_.unk_004);
+            BillboardCharacter::setCamera(&TownCamera::getSingleton()->camera_.m_camera0);
             partyCharacter_[i].setup(path, 0);
             partyCharacter_[i].setPosition(defaultPosition);
             partyCharacter_[i].setRotate(0);
@@ -380,7 +380,7 @@ ARM void TownPartyDraw::setVanAndBasha()
         }
         dss::sprintf_s(path, sizeof(path), "data/chr/h%03d.pack", chara);
         partyCharacter_[i].setRender(&TownSystem::getSingleton()->render_);
-        BillboardCharacter::setCamera(&TownCamera::getSingleton()->camera_.unk_004);
+        BillboardCharacter::setCamera(&TownCamera::getSingleton()->camera_.m_camera0);
         partyCharacter_[i].setup(path, 0);
         partyCharacter_[i].setPosition(defaultPosition);
         partyCharacter_[i].setRotate(0);

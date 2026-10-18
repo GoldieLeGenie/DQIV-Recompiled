@@ -8,18 +8,18 @@
 struct Sprite2D : RenderObject {
     virtual void draw();                        // 0x02084590
 
-    dss::Vector2<dss::Fix32> unk_14;            // 0x14 position
-    short unk_1c;                               // 0x1C width
-    short unk_1e;                               // 0x1E height
-    short unk_20;                               // 0x20 texture u0
-    short unk_22;                               // 0x22 texture v0
-    short unk_24;                               // 0x24 texture u1
-    short unk_26;                               // 0x26 texture v1
-    int unk_28;                                 // 0x28 depth
-    int unk_2c;                                 // 0x2C screens (bit 0: main, bit 1: sub)
-    unsigned short unk_30;                      // 0x30 rotation
-    unsigned short unk_32;                      // 0x32 texture mode
-    unsigned short unk_34;                      // 0x34 color
+    dss::Vector2<dss::Fix32> position_;            // 0x14 position
+    short width_;                               // 0x1C width
+    short height_;                               // 0x1E height
+    short u0_;                               // 0x20 texture u0
+    short v0_;                               // 0x22 texture v0
+    short u1_;                               // 0x24 texture u1
+    short v1_;                               // 0x26 texture v1
+    int depth_;                                 // 0x28 depth
+    int screens_;                                 // 0x2C screens (bit 0: main, bit 1: sub)
+    unsigned short rotation_;                      // 0x30 rotation
+    unsigned short color0Opaque_;                      // 0x32 texture mode
+    unsigned short color_;                      // 0x34 color
 
     Sprite2D();
     void unkfunc_02084534(int x, int y);

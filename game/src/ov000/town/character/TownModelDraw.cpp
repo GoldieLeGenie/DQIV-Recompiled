@@ -168,9 +168,9 @@ ARM dss::Fix32Vector3 TownModelDraw::getPosition()
 
 ARM void TownModelDraw::setPaletteRate(dss::Fix32 r, dss::Fix32 g, dss::Fix32 b)
 {
-    setPaletteEffectTexture(model_.unk_b5c.unk_08);
+    setPaletteEffectTexture(model_.unk_b5c.texture_);
     dss::Fix32Vector3 rate(r, g, b);
-    applyModelPaletteRgbRate(model_.unk_b5c.unk_08, rate);
+    applyModelPaletteRgbRate(model_.unk_b5c.texture_, rate);
 }
 
 ARM void TownModelDraw::setPaletteRate(unsigned char r, unsigned char g, unsigned char b, dss::Fix32 rate)
@@ -179,7 +179,7 @@ ARM void TownModelDraw::setPaletteRate(unsigned char r, unsigned char g, unsigne
     int gg = status::BaseStatus::getClampValue(0, g, 0x1f);
     int bb = status::BaseStatus::getClampValue(0, b, 0x1f);
     rate.value = dss::clamp<int>(0, rate.value, basePalletRate_.value);
-    blendModelPaletteToColor(model_.unk_b5c.unk_08, rr, gg, bb, rate);
+    blendModelPaletteToColor(model_.unk_b5c.texture_, rr, gg, bb, rate);
 }
 
 ARM void TownModelDraw::setMotion(int motion, int loop)

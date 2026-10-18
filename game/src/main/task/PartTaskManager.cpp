@@ -36,7 +36,7 @@ THUMB void task::PartTaskManager::run() {
         currentTask_ = parts_[currentTaskID_];
         currentTask_->initialize();
 
-        g_VramTransfer.unk_814 = 0;
+        g_VramTransfer.vblankTransfer_ = 0;
     }
 
     BattleAutoFeed::printCounter();

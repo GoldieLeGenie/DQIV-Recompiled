@@ -27,7 +27,7 @@ ARM void FieldCarrirerDraw::draw(dss::Vector2<int> pos)
 
 ARM void FieldCarrirerDraw::setDepth(int depth)
 {
-    carrier_->unk_28 = depth;
+    carrier_->depth_ = depth;
 }
 
 ARM FieldShipDraw::FieldShipDraw()
@@ -41,12 +41,12 @@ ARM FieldShipDraw::~FieldShipDraw()
 ARM void FieldShipDraw::setup()
 {
     ship_.setup("data/chr/h193.pack");
-    ship_.unk_28 = 2;
+    ship_.depth_ = 2;
     ship_.setDirection(4);
     ship_.setShadowFlag(0);
     ship_.setAnimFlag(0);
     nami_.setup("data/chr/h194.pack");
-    nami_.unk_28 = 2;
+    nami_.depth_ = 2;
     nami_.setDirection(4);
     nami_.setShadowFlag(0);
     carrier_ = &ship_;
@@ -96,7 +96,7 @@ ARM void FieldBalloonDraw::setHigh(int high)
 ARM void FieldBalloonDraw::setup()
 {
     balloon_.setup("data/chr/h183.pack");
-    balloon_.unk_28 = 3;
+    balloon_.depth_ = 3;
     balloon_.setDirection(4);
     high_ = 0;
     frame_ = 0;

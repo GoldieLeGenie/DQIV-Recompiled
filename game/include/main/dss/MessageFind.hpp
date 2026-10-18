@@ -15,8 +15,8 @@ struct MessageFileHeader {
     unsigned int firstId_;                      // 0x08
     unsigned int lastId_;                       // 0x0C
     unsigned int count_;                        // 0x10
-    int unk_14;                                 // 0x14
-    int unk_18;                                 // 0x18
+    int entriesOffset_;                                 // 0x14
+    int entriesSize_;                                 // 0x18
     int unk_1c;                                 // 0x1C
     MessageEntry entries_[1];                // 0x20
 };

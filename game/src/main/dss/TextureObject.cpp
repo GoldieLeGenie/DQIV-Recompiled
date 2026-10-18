@@ -23,11 +23,11 @@ void TextureObject::setupReadOnly(const TextureObject& source, int flag)
     // private header while keeping the immutable pixel/palette payload shared.
     *this = source;
     const unsigned char* bytes = (const unsigned char*)&source;
-    unk_34 = (int)(bytes + source.unk_34);
-    unk_3c = (int)(bytes + source.unk_3c);
-    if (unk_18 == 1 || unk_18 == 2) {
+    texData_ = (int)(bytes + source.texData_);
+    plttData_ = (int)(bytes + source.plttData_);
+    if (type_ == 1 || type_ == 2) {
         unk_54 = (int)(bytes + source.unk_54);
-        unk_5c = (int)(bytes + source.unk_5c);
+        subPlttData_ = (int)(bytes + source.subPlttData_);
     }
     unkfunc_020868dc();
     unkfunc_02086968(flag != 0);
@@ -42,48 +42,48 @@ int TextureObject::relocated(int field) const
 
 ARM void TextureObject::unkfunc_02086798(int flag)
 {
-    if (unk_14 & 1) {
+    if (flags_ & 1) {
         return;
     }
-    unk_14 |= 1;
+    flags_ |= 1;
 #ifdef DQIV_NATIVE
     // A released texture keeps its addresses (unkfunc_02086868 clears the flag
     // only): set up again, the DS added its address a second time and read
     // far outside the file (a town closing after a character changed pose,
     // as Maya dancing at the start of chapter 4). Addresses already made
     // point past this header; file offsets are far smaller.
-    unk_34 = relocated(unk_34);
-    unk_3c = relocated(unk_3c);
+    texData_ = relocated(texData_);
+    plttData_ = relocated(plttData_);
 #else
-    unk_34 = (int)((unsigned char*)this + unk_34);
-    unk_3c = (int)((unsigned char*)this + unk_3c);
+    texData_ = (int)((unsigned char*)this + texData_);
+    plttData_ = (int)((unsigned char*)this + plttData_);
 #endif
 #ifndef DQIV_NATIVE
-    unk_30 = roundUp(unk_30, 0x400);
-    unk_38 = roundUp(unk_38, 0x20);
+    texSize_ = roundUp(texSize_, 0x400);
+    plttSize_ = roundUp(plttSize_, 0x20);
 #else
     // The rounded palette size matters: characters copy every direction's
     // palette with the first one's size (a 16-colour palette after an 8-colour
     // one). Rounded as on the DS, within the bytes the file really holds.
     {
-        const unsigned int rounded = roundUp(unk_38, 0x20);
-        const std::size_t available = pc::gameBytesAfter((const void*)unk_3c);
-        if (rounded > unk_38 && available >= rounded) {
-            unk_38 = rounded;
+        const unsigned int rounded = roundUp(plttSize_, 0x20);
+        const std::size_t available = pc::gameBytesAfter((const void*)plttData_);
+        if (rounded > plttSize_ && available >= rounded) {
+            plttSize_ = rounded;
         }
     }
 #endif
-    if (unk_18 == 1 || unk_18 == 2) {
+    if (type_ == 1 || type_ == 2) {
 #ifdef DQIV_NATIVE
         unk_54 = relocated(unk_54);
-        unk_5c = relocated(unk_5c);
+        subPlttData_ = relocated(subPlttData_);
 #else
         unk_54 = (int)((unsigned char*)this + unk_54);
-        unk_5c = (int)((unsigned char*)this + unk_5c);
+        subPlttData_ = (int)((unsigned char*)this + subPlttData_);
 #endif
 #ifndef DQIV_NATIVE
         unk_50 = roundUp(unk_50, 0x400);
-        unk_58 = roundUp(unk_58, 0x20);
+        subPlttSize_ = roundUp(subPlttSize_, 0x20);
 #endif
     }
     unkfunc_020868dc();
@@ -96,101 +96,101 @@ ARM void TextureObject::unkfunc_02086798(int flag)
 
 ARM void TextureObject::unkfunc_02086868()
 {
-    if (!(unk_14 & 1)) {
+    if (!(flags_ & 1)) {
         return;
     }
-    unk_14 &= ~1;
-    if (unk_40 != 0) {
-        g_VramTransfer.freeTexVram(unk_40);
+    flags_ &= ~1;
+    if (texVramKey_ != 0) {
+        g_VramTransfer.freeTexVram(texVramKey_);
     }
-    if (unk_44 != 0) {
-        g_VramTransfer.freePlttVram(unk_44);
+    if (plttVramKey_ != 0) {
+        g_VramTransfer.freePlttVram(plttVramKey_);
     }
-    if (unk_18 == 1 || unk_18 == 2) {
-        if (unk_64 != 0) {
-            g_VramTransfer.freePlttVram(unk_64);
+    if (type_ == 1 || type_ == 2) {
+        if (subPlttVramKey_ != 0) {
+            g_VramTransfer.freePlttVram(subPlttVramKey_);
         }
     }
 }
 
 ARM void TextureObject::unkfunc_020868dc()
 {
-    unk_14 |= 1;
+    flags_ |= 1;
 #ifdef DQIV_NATIVE
     // The DS copies the rounded VRAM allocation size past short texture files
     // (common.tex has only 512 texture bytes). Keep transfer lengths exact on
     // the host while retaining the original VRAM allocation boundaries.
-    unk_40 = g_VramTransfer.allocTexVram(roundUp(unk_30, 0x400));
-    unk_44 = g_VramTransfer.allocPlttVram(roundUp(unk_38, 0x20));
+    texVramKey_ = g_VramTransfer.allocTexVram(roundUp(texSize_, 0x400));
+    plttVramKey_ = g_VramTransfer.allocPlttVram(roundUp(plttSize_, 0x20));
 #else
-    unk_40 = g_VramTransfer.allocTexVram(unk_30);
-    unk_44 = g_VramTransfer.allocPlttVram(unk_38);
+    texVramKey_ = g_VramTransfer.allocTexVram(texSize_);
+    plttVramKey_ = g_VramTransfer.allocPlttVram(plttSize_);
 #endif
-    unk_48 = g_VramTransfer.getTexVramAddr(unk_40);
-    unk_4c = g_VramTransfer.getPlttVramAddr(unk_44);
-    if (unk_18 == 1 || unk_18 == 2) {
+    texAddr_ = g_VramTransfer.getTexVramAddr(texVramKey_);
+    plttAddr_ = g_VramTransfer.getPlttVramAddr(plttVramKey_);
+    if (type_ == 1 || type_ == 2) {
 #ifdef DQIV_NATIVE
-        unk_64 = g_VramTransfer.allocPlttVram(roundUp(unk_58, 0x20));
+        subPlttVramKey_ = g_VramTransfer.allocPlttVram(roundUp(subPlttSize_, 0x20));
 #else
-        unk_64 = g_VramTransfer.allocPlttVram(unk_58);
+        subPlttVramKey_ = g_VramTransfer.allocPlttVram(subPlttSize_);
 #endif
-        unk_6c = g_VramTransfer.getPlttVramAddr(unk_64);
+        subPlttAddr_ = g_VramTransfer.getPlttVramAddr(subPlttVramKey_);
     }
 }
 
 ARM void TextureObject::unkfunc_02086968(int flag)
 {
-    g_VramTransfer.transferToVram(0, (void*)unk_34, unk_48, unk_30, flag);
-    g_VramTransfer.transferToVram(1, (void*)unk_3c, unk_4c, unk_38, flag);
-    if (unk_18 == 1 || unk_18 == 2) {
-        g_VramTransfer.transferToVram(1, (void*)unk_5c, unk_6c, unk_58, flag);
+    g_VramTransfer.transferToVram(0, (void*)texData_, texAddr_, texSize_, flag);
+    g_VramTransfer.transferToVram(1, (void*)plttData_, plttAddr_, plttSize_, flag);
+    if (type_ == 1 || type_ == 2) {
+        g_VramTransfer.transferToVram(1, (void*)subPlttData_, subPlttAddr_, subPlttSize_, flag);
     }
 }
 
 ARM void TextureObject::unkfunc_020869ec(TextureObject* src, int flag)
 {
-    if (src->unk_14 & 1) {
-        g_VramTransfer.transferToVram(0, (void*)unk_34, unk_48, unk_30, flag);
-        g_VramTransfer.transferToVram(1, (void*)unk_3c, unk_4c, unk_38, flag);
+    if (src->flags_ & 1) {
+        g_VramTransfer.transferToVram(0, (void*)texData_, texAddr_, texSize_, flag);
+        g_VramTransfer.transferToVram(1, (void*)plttData_, plttAddr_, plttSize_, flag);
     } else {
-        g_VramTransfer.transferToVram(0, (unsigned char*)src + src->unk_34, unk_48, unk_30, flag);
-        g_VramTransfer.transferToVram(1, (unsigned char*)src + src->unk_3c, unk_4c, unk_38, flag);
+        g_VramTransfer.transferToVram(0, (unsigned char*)src + src->texData_, texAddr_, texSize_, flag);
+        g_VramTransfer.transferToVram(1, (unsigned char*)src + src->plttData_, plttAddr_, plttSize_, flag);
     }
 }
 
 ARM int TextureObject::unkfunc_02086a94()
 {
-    return unk_48;
+    return texAddr_;
 }
 
 ARM int TextureObject::unkfunc_02086a9c()
 {
-    return unk_34;
+    return texData_;
 }
 
 ARM int TextureObject::unkfunc_02086aa4()
 {
-    return unk_4c;
+    return plttAddr_;
 }
 
 ARM int TextureObject::unkfunc_02086aac()
 {
-    return unk_3c;
+    return plttData_;
 }
 
 ARM int TextureObject::unkfunc_02086ab4()
 {
-    return unk_38;
+    return plttSize_;
 }
 
 ARM void TextureObject::unkfunc_02086abc()
 {
-    G3_TexImageParam(unk_20, 1, unk_24, unk_28, 0, 0, 1, unk_48);
+    G3_TexImageParam(texFormat_, 1, sizeS_, sizeT_, 0, 0, 1, texAddr_);
 }
 
 ARM void TextureObject::unkfunc_02086af4()
 {
-    G3_TexImageParam(unk_20, 1, unk_24, unk_28, 0, 0, 0, unk_48);
+    G3_TexImageParam(texFormat_, 1, sizeS_, sizeT_, 0, 0, 0, texAddr_);
 }
 
 ARM void disableTexture()
@@ -200,54 +200,54 @@ ARM void disableTexture()
 
 ARM void TextureObject::unkfunc_02086b3c()
 {
-    G3_WRITE(0x2b, (unsigned int)unk_4c >> (4 - (unk_20 == 2)));
+    G3_WRITE(0x2b, (unsigned int)plttAddr_ >> (4 - (texFormat_ == 2)));
 }
 
 ARM void TextureObject::unkfunc_02086b68()
 {
-    if (unk_18 == 1) {
-        G3_TexImageParam(1, 1, unk_24, unk_28, 0, 0, 1, unk_48);
+    if (type_ == 1) {
+        G3_TexImageParam(1, 1, sizeS_, sizeT_, 0, 0, 1, texAddr_);
     }
-    if (unk_18 == 2) {
-        G3_TexImageParam(6, 1, unk_24, unk_28, 0, 0, 1, unk_48);
+    if (type_ == 2) {
+        G3_TexImageParam(6, 1, sizeS_, sizeT_, 0, 0, 1, texAddr_);
     }
 }
 
 ARM void TextureObject::unkfunc_02086bd8()
 {
-    if (unk_18 == 1) {
-        G3_WRITE(0x2b, (unsigned int)unk_6c >> 4);
+    if (type_ == 1) {
+        G3_WRITE(0x2b, (unsigned int)subPlttAddr_ >> 4);
     }
-    if (unk_18 == 2) {
-        G3_WRITE(0x2b, (unsigned int)unk_6c >> 4);
+    if (type_ == 2) {
+        G3_WRITE(0x2b, (unsigned int)subPlttAddr_ >> 4);
     }
 }
 
 ARM int TextureObject::unkfunc_02086c18()
 {
     int width = 0;
-    if (unk_24 == 0) {
+    if (sizeS_ == 0) {
         width = 8;
     }
-    if (unk_24 == 1) {
+    if (sizeS_ == 1) {
         width = 0x10;
     }
-    if (unk_24 == 2) {
+    if (sizeS_ == 2) {
         width = 0x20;
     }
-    if (unk_24 == 3) {
+    if (sizeS_ == 3) {
         width = 0x40;
     }
-    if (unk_24 == 4) {
+    if (sizeS_ == 4) {
         width = 0x80;
     }
-    if (unk_24 == 5) {
+    if (sizeS_ == 5) {
         width = 0x100;
     }
-    if (unk_24 == 6) {
+    if (sizeS_ == 6) {
         width = 0x200;
     }
-    if (unk_24 == 7) {
+    if (sizeS_ == 7) {
         width = 0x400;
     }
     return width;
@@ -256,28 +256,28 @@ ARM int TextureObject::unkfunc_02086c18()
 ARM int TextureObject::unkfunc_02086c64()
 {
     int height = 0;
-    if (unk_28 == 0) {
+    if (sizeT_ == 0) {
         height = 8;
     }
-    if (unk_28 == 1) {
+    if (sizeT_ == 1) {
         height = 0x10;
     }
-    if (unk_28 == 2) {
+    if (sizeT_ == 2) {
         height = 0x20;
     }
-    if (unk_28 == 3) {
+    if (sizeT_ == 3) {
         height = 0x40;
     }
-    if (unk_28 == 4) {
+    if (sizeT_ == 4) {
         height = 0x80;
     }
-    if (unk_28 == 5) {
+    if (sizeT_ == 5) {
         height = 0x100;
     }
-    if (unk_28 == 6) {
+    if (sizeT_ == 6) {
         height = 0x200;
     }
-    if (unk_28 == 7) {
+    if (sizeT_ == 7) {
         height = 0x400;
     }
     return height;

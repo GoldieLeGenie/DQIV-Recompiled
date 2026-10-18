@@ -31,8 +31,8 @@ static dss::Fix32 offset(2L);
 
 ARM void CasinoCamera::initialize()
 {
-    camera_.unk_004.setup();
-    camera_.unk_068.setup();
+    camera_.m_camera0.setup();
+    camera_.m_camera1.setup();
     camera_.setTarget(position, 0);
     camera_.setDistance(distance);
     camera_.setRotXYZ(default_angle);
@@ -42,8 +42,8 @@ ARM void CasinoCamera::initialize()
     camera_.unk_d0 = 0;
     camera_.unk_d4 = 0;
     short fov = cameraFov;
-    camera_.unk_004.setFOV2(fov);
-    camera_.unk_068.setFOV2(fov);
+    camera_.m_camera0.setFOV2(fov);
+    camera_.m_camera1.setFOV2(fov);
 }
 
 ARM void CasinoCamera::terminate()

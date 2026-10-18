@@ -97,8 +97,8 @@ ARM void LogoPart::initialize()
     s_sprite.loadFile("data/2d/opening.tex", 0);
     s_sprite.attachRender(&s_render);
     s_sprite.setMainScreen();
-    s_camera.unk_004.setup();
-    s_camera.unk_068.setup();
+    s_camera.m_camera0.setup();
+    s_camera.m_camera1.setup();
     s_camera.m_dirOffset = 0x5b0;
     s_camera.setTarget(s_target, 0);
     s_camera.setDistance(s_distance);
@@ -108,8 +108,8 @@ ARM void LogoPart::initialize()
     s_camera.unk_d0 = 0;
     s_camera.unk_d4 = 0;
     int fov = s_fov;
-    s_camera.unk_004.setFOV2(fov);
-    s_camera.unk_068.setFOV2(fov);
+    s_camera.m_camera0.setFOV2(fov);
+    s_camera.m_camera1.setFOV2(fov);
     setupLogoModel();
     setState(0);
     Sound::unkfunc_02055980(0);

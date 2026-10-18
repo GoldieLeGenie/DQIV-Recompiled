@@ -22,7 +22,7 @@ ARM void TownShopListMap::initialize()
         shopSprite_.setSubScreen();
         shopSprite_.setAlpha(0);
         shopSprite_.setPolygonID(0x3f);
-        shopSprite_.sprite_.unk_32 = 1;
+        shopSprite_.sprite_.color0Opaque_ = 1;
         blackSprite_.setSize(0x100, 0xc0);
         blackSprite_.setAlpha(0);
         blackSprite_.setSubScreen();

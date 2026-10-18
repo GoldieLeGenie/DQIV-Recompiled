@@ -25,7 +25,7 @@ namespace dss {
         int m_fov2;                             // 0x44
         Fix32 m_scaleW;                          // 0x48
         CameraPerspective m_perspective;        // 0x4C
-        int unk_60;                             // 0x60
+        int m_noUpdate;                             // 0x60
 
         Camera();
         virtual void update();
@@ -66,8 +66,8 @@ extern int g_cameraFovSinCosTable[40][2];
 namespace dss {
     struct DualCameraBase {
         // vtable                               // 0x00
-        Camera unk_004;                         // 0x04
-        Camera unk_068;                         // 0x68
+        Camera m_camera0;                         // 0x04
+        Camera m_camera1;                         // 0x68
         int m_cameraNo;                         // 0xCC
 
         DualCameraBase();
@@ -95,20 +95,20 @@ namespace dss {
         virtual void update();
         virtual void calcPosition();
 
-        void setRotXYZ(Vector3short angle) { unk_004.setAngle(angle); }
+        void setRotXYZ(Vector3short angle) { m_camera0.setAngle(angle); }
         void setDistance(Fix32 distance)
         {
-            unk_004.setDistance(distance);
-            unk_068.setDistance(distance);
+            m_camera0.setDistance(distance);
+            m_camera1.setDistance(distance);
         }
         void setNear(const int& value)
         {
-            unk_004.setNear(value);
-            unk_068.setNear(value);
+            m_camera0.setNear(value);
+            m_camera1.setNear(value);
         }
         void setScaleW(Fix32 scaleW)
         {
-            Camera* sub = &unk_004;
+            Camera* sub = &m_camera0;
             sub->setScaleW(scaleW);
             (sub + 1)->setScaleW(scaleW);
         }

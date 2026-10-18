@@ -4,7 +4,7 @@
 
 ARM TextIterator::TextIterator()
 {
-    unk_04 = 0;
+    encoding_ = 0;
     buf_ = NULL;
     pos_ = 0;
     count_ = 0;
@@ -76,7 +76,7 @@ ARM void TextIterator::truncate(int pos)
 
 ARM Utf8Iterator::Utf8Iterator()
 {
-    unk_04 = 1;
+    encoding_ = 1;
 }
 
 ARM unsigned short Utf8Iterator::getChar()

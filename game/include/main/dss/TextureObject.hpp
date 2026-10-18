@@ -5,29 +5,29 @@
 // texture file of the dss engine: texture + palette (+ second palette for the types 1 and 2), loaded in VRAM
 struct TextureObject {
     unsigned char unk_00[0x14];                 // 0x00
-    volatile int unk_14;                        // 0x14 bit 0: loaded in VRAM
-    int unk_18;                                 // 0x18 type
+    volatile int flags_;                        // 0x14 bit 0: loaded in VRAM
+    int type_;                                 // 0x18 type
     int unk_1c;                                 // 0x1C
-    int unk_20;                                 // 0x20 texture format
-    int unk_24;                                 // 0x24 width (GX size S)
-    int unk_28;                                 // 0x28 height (GX size T)
+    int texFormat_;                                 // 0x20 texture format
+    int sizeS_;                                 // 0x24 width (GX size S)
+    int sizeT_;                                 // 0x28 height (GX size T)
     int unk_2c;                                 // 0x2C
-    unsigned int unk_30;                        // 0x30 texture size
-    int unk_34;                                 // 0x34 texture data (file offset, then address)
-    unsigned int unk_38;                        // 0x38 palette size
-    int unk_3c;                                 // 0x3C palette data (file offset, then address)
-    int unk_40;                                 // 0x40 texture VRAM handle
-    int unk_44;                                 // 0x44 palette VRAM handle
-    int unk_48;                                 // 0x48 texture VRAM address
-    int unk_4c;                                 // 0x4C palette VRAM address
+    unsigned int texSize_;                        // 0x30 texture size
+    int texData_;                                 // 0x34 texture data (file offset, then address)
+    unsigned int plttSize_;                        // 0x38 palette size
+    int plttData_;                                 // 0x3C palette data (file offset, then address)
+    int texVramKey_;                                 // 0x40 texture VRAM handle
+    int plttVramKey_;                                 // 0x44 palette VRAM handle
+    int texAddr_;                                 // 0x48 texture VRAM address
+    int plttAddr_;                                 // 0x4C palette VRAM address
     unsigned int unk_50;                        // 0x50 second texture size
     int unk_54;                                 // 0x54 second texture data
-    unsigned int unk_58;                        // 0x58 second palette size
-    int unk_5c;                                 // 0x5C second palette data
+    unsigned int subPlttSize_;                        // 0x58 second palette size
+    int subPlttData_;                                 // 0x5C second palette data
     int unk_60;                                 // 0x60
-    int unk_64;                                 // 0x64 second palette VRAM handle
+    int subPlttVramKey_;                                 // 0x64 second palette VRAM handle
     int unk_68;                                 // 0x68
-    int unk_6c;                                 // 0x6C second palette VRAM address
+    int subPlttAddr_;                                 // 0x6C second palette VRAM address
 
     TextureObject();
     ~TextureObject();

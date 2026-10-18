@@ -29,15 +29,15 @@ ARM void CasinoSlot::initialize()
     dss::Vector3<short> angle(cameraAngleX, cameraAngleY, cameraAngleZ);
     dss::Fix32 distance(cameraDistance);
     CasinoCamera* camera = CasinoCamera::getSingleton();
-    camera->camera_.unk_004.setDistance(distance);
-    camera->camera_.unk_068.setDistance(distance);
+    camera->camera_.m_camera0.setDistance(distance);
+    camera->camera_.m_camera1.setDistance(distance);
     CasinoCamera::getSingleton()->camera_.setRotXYZ(angle);
     CasinoCamera::getSingleton()->camera_.m_cameraNo = 1;
     CasinoCamera::getSingleton()->camera_.unk_d0 = 0;
     CasinoCamera::getSingleton()->camera_.unk_d4 = 0;
     camera = CasinoCamera::getSingleton();
-    camera->camera_.unk_004.setFOV2(12);
-    camera->camera_.unk_068.setFOV2(12);
+    camera->camera_.m_camera0.setFOV2(12);
+    camera->camera_.m_camera1.setFOV2(12);
     MaterielMenu_WINDOW_MANAGER::getSingleton()->openMaterielWindow(13);
 }
 

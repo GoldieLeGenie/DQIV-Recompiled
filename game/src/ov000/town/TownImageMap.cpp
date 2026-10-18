@@ -37,7 +37,7 @@ ARM void TownImageMap::setup()
     mapSprite_.setSubScreen();
     mapSprite_.setAlpha(0);
     mapSprite_.setPolygonID(0x3f);
-    mapSprite_.sprite_.unk_32 = 1;
+    mapSprite_.sprite_.color0Opaque_ = 1;
     dss::sprintf_s(filename, 0x80, "data/field/2d/point_s.tex");
     pointSprite_.loadFile(filename, 0);
     pointSprite_.setSubScreen();
@@ -223,7 +223,7 @@ ARM void TownImageMap::initialize()
     dss::Vector3<short> angle;
     dss::Fix32Vector3 target;
     TownCamera* townCamera = TownCamera::getSingleton();
-    camera = townCamera->camera_.unk_004;
+    camera = townCamera->camera_.m_camera0;
     camera.setTarget(zero);
     unsigned int i;
     param::MapCamera* mapcamera = status::excelParam.mapCamera_;

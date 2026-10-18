@@ -8393,15 +8393,15 @@ ARM void fld::FieldData::setupSymbol()
             m_symbol[i].texture_ = unk_0030[data->id];
             m_symbol[i].unkfunc_0208456c(data->w, data->h);
             m_symbol[i].unkfunc_02084578(0, 0, data->w, data->h);
-            m_symbol[i].unk_2c = 1;
-            m_symbol[i].unk_28 = 1;
+            m_symbol[i].screens_ = 1;
+            m_symbol[i].depth_ = 1;
         } else {
             m_symbol[i].unkfunc_02084534(0x100, 0xc0);
             m_symbol[i].unkfunc_0208456c(8, 8);
             m_symbol[i].unkfunc_02084578(0, 0, 8, 8);
-            m_symbol[i].unk_2c = 1;
+            m_symbol[i].screens_ = 1;
             m_symbol[i].texture_ = unk_0030[0];
-            m_symbol[i].unk_28 = 1;
+            m_symbol[i].depth_ = 1;
         }
     }
 }
@@ -8536,7 +8536,7 @@ ARM void fld::FieldData::drawBlock()
                 }
                 no = data->ano;
             }
-            G3_TexImageParam(unk_1c34->unk_20, 1, unk_1c34->unk_24, unk_1c34->unk_28, 0, 0, 1, address);
+            G3_TexImageParam(unk_1c34->texFormat_, 1, unk_1c34->sizeS_, unk_1c34->sizeT_, 0, 0, 1, address);
             G3_PolygonAttr(0, 0, 0xc0, 0, 31, 0);
             draw2DField(px, y << 4, (no & 0xf) * 16, (no / 16) * 16);
             x++;
@@ -8765,7 +8765,7 @@ ARM void fld::FieldData::setKekaiSymbol(int index, int x, int y, int w, int h)
         fy.value = ofsBlock_.vy.value + ((y - sh) << 12);
         m_symbol[index].unkfunc_0208456c(sw, sh);
         m_symbol[index].unkfunc_02084548(fx, fy);
-        m_symbol[index].unk_28 = i + 2;
+        m_symbol[index].depth_ = i + 2;
         if (counter < TURN / 2) {
             m_symbol[index].setAlpha((unsigned char)(counter * (maxAlpha - minAlpha) / (TURN / 2) + minAlpha));
         } else {

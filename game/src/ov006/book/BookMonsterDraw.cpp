@@ -2008,10 +2008,10 @@ ARM void BookMonsterDraw::setup(int index)
     character_.setCameraType(DSSAObjectWithCamera::Near);
     if (index == 0x6b || index == 0x7c || index == 0x8c) {
         float distance = 17.4f;
-        BookCamera::getSingleton()->camera_.unk_004.setDistance(dss::Fix32(distance));
+        BookCamera::getSingleton()->camera_.m_camera0.setDistance(dss::Fix32(distance));
     } else {
         float distance = 17.35f;
-        BookCamera::getSingleton()->camera_.unk_004.setDistance(dss::Fix32(distance));
+        BookCamera::getSingleton()->camera_.m_camera0.setDistance(dss::Fix32(distance));
     }
     character_.setCamera(&BookCamera::getSingleton()->getCamera());
     animation_ = param::getBookMonsterAnim();
@@ -2059,7 +2059,7 @@ ARM void BookMonsterDraw::execute()
 ARM void BookMonsterDraw::draw()
 {
     if (character_.palette_.enable_) {
-        paletteAnim_.unkfunc_0205b584(character_.palette_.unk_408, character_.palette_.unk_404);
+        paletteAnim_.unkfunc_0205b584(character_.palette_.address_, character_.palette_.size_);
         if (paletteAnim_.unkfunc_0205b628()) {
             character_.palette_.enable_ = 0;
             dataObject_.cleanup();
@@ -2149,7 +2149,7 @@ ARM void BookMonsterDraw::setPaletteAnim(int animNo)
     dataObject_.setup(path, 1, 0);
     character_.palette_.enable_ = 1;
     paletteAnim_.anim_.setup(dataObject_.getAddr());
-    paletteAnim_.unkfunc_0205b514(character_.palette_.unk_408, character_.palette_.unk_404);
+    paletteAnim_.unkfunc_0205b514(character_.palette_.address_, character_.palette_.size_);
 }
 
 ARM void BookMonsterDraw::setupEffect(int index)

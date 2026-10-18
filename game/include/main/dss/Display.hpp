@@ -9,9 +9,9 @@ struct DisplayTextBgs {
     int type_;                                  // 0x00 0: none, 1: main + sub, 2: sub + main, 3: alternated
     int screen1_;                               // 0x04 BG of the first screen
     int screen2_;                               // 0x08 BG of the second screen
-    int unk_0c;                                 // 0x0C
-    int unk_10;                                 // 0x10
-    int unk_14;                                 // 0x14
+    int backScreen1_;                                 // 0x0C
+    int backScreen2_;                                 // 0x10
+    int iconEnable_;                                 // 0x14
 };
 
 // window of the main screen
@@ -71,7 +71,7 @@ OamBuffer* getOamBuffer(int screen);     // OAM buffer
 OamBuffer* getOamBufferAtY(int y);          // OAM buffer of a position (0: main screen, 192: sub screen)
 int getTextBgAtY(int y);                    // text BG of a position
 int unkfunc_02081608(int y);
-void setDisplayTextBgs(int type, int screen1, int screen2, int unk_0c, int unk_10, int unk_14);
+void setDisplayTextBgs(int type, int screen1, int screen2, int backScreen1, int backScreen2, int iconEnable);
 int unkfunc_0208170c();
 BgScreenBuffer* getDebugScreenBuffer();            // debug screen
 void setDisplayTextCounter(int counter);             // show the text

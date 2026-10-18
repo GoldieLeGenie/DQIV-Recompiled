@@ -30,9 +30,9 @@ THUMB BattleMonsterMask* BattleMonsterMask::getSingleton()
 
 THUMB void BattleMonsterMask::initialize()
 {
-    sprite_.unk_2c = 3;
+    sprite_.screens_ = 3;
     sprite_.setPolygonID(0x3e);
-    sprite_.unk_28 = 0;
+    sprite_.depth_ = 0;
     sprite_.setAlpha(10);
     sprite_.unkfunc_02084534(0, 0);
     sprite_.unkfunc_0208456c(0x80, 0x80);

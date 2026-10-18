@@ -557,7 +557,7 @@ ARM void CharacterShadow::draw()
         position_.vy.value -= 0x100;
         return;
     }
-    s_shadowPolygons[0].setRotationIdx(unk_28);
+    s_shadowPolygons[0].setRotationIdx(rotationIdx_);
     s_shadowPolygons[0].setPosition(position_);
     s_shadowPolygons[0].unkfunc_02083b1c();
 }

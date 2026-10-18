@@ -8,8 +8,8 @@ NNSG3dResTex* g_lastLoadedTex;
 
 ARM ModelResource::ModelResource()
 {
-    unk_00 = NULL;
-    unk_04 = NULL;
+    modelFile_ = NULL;
+    model_ = NULL;
 }
 
 ARM void ModelResource::unkfunc_02083354(void* data)
@@ -30,14 +30,14 @@ ARM void ModelResource::unkfunc_0208336c()
 
 ARM void ModelResource::unkfunc_02083384(void* data)
 {
-    unk_00 = data;
+    modelFile_ = data;
     unkfunc_02083460();
-    unk_04 = NNS_G3dGetMdlByIdx(func_0206e8c0(unk_00), 0);
-    NNSG3dResMdlSet* mdlSet = func_0206e8c0(unk_00);
+    model_ = NNS_G3dGetMdlByIdx(func_0206e8c0(modelFile_), 0);
+    NNSG3dResMdlSet* mdlSet = func_0206e8c0(modelFile_);
     for (int i = 0; i < mdlSet->dict.numEntry; i++) {
-        unk_04 = NNS_G3dGetMdlByIdx(func_0206e8c0(unk_00), i);
+        model_ = NNS_G3dGetMdlByIdx(func_0206e8c0(modelFile_), i);
         func_0206aea8(0, 0, 2, 0, 0x1f, 0x8000);
-        func_0206e484(unk_04, 0, 0x8000);
+        func_0206e484(model_, 0, 0x8000);
     }
 }
 
@@ -48,13 +48,13 @@ ARM void ModelResource::unkfunc_02083454()
 
 ARM void ModelResource::unkfunc_02083460()
 {
-    NNSG3dResMdlSet* mdlSet = func_0206e8c0(unk_00);
-    NNSG3dResTex* tex = func_0206e8d0(unk_00);
+    NNSG3dResMdlSet* mdlSet = func_0206e8c0(modelFile_);
+    NNSG3dResTex* tex = func_0206e8d0(modelFile_);
     if (tex == NULL) {
         return;
     }
     g_lastLoadedTex = tex;
-    unk_08 = tex;
+    texture_ = tex;
     int texSize = func_0206a600(tex);
     func_0206a60c(tex);
     int plttSize = func_0206a71c(tex);
@@ -73,8 +73,8 @@ ARM void ModelResource::unkfunc_02083460()
 
 ARM void ModelResource::unkfunc_02083530()
 {
-    NNSG3dResMdlSet* mdlSet = func_0206e8c0(unk_00);
-    NNSG3dResTex* tex = func_0206e8d0(unk_00);
+    NNSG3dResMdlSet* mdlSet = func_0206e8c0(modelFile_);
+    NNSG3dResTex* tex = func_0206e8d0(modelFile_);
     if (tex == NULL) {
         return;
     }
@@ -90,17 +90,17 @@ ARM void ModelResource::unkfunc_02083530()
         g_VramTransfer.freeTexVram(texKey);
     }
     g_lastLoadedTex = NULL;
-    unk_08 = NULL;
+    texture_ = NULL;
 }
 
 ARM void* ModelResource::unkfunc_020835c8()
 {
-    return unk_00;
+    return modelFile_;
 }
 
 ARM NNSG3dResMdl* ModelResource::unkfunc_020835d0()
 {
-    return unk_04;
+    return model_;
 }
 
 ARM NNSG3dResTex* getLastModelTexture()

@@ -45,7 +45,7 @@ ARM void TownMonsterDraw::draw()
     DSSAObject::calcType_ = 0;
     bool even = (getDisplayFrame() & 1) == 0;
     TownCamera* camera = TownCamera::getSingleton();
-    setCamera(!even || pc::unifiedFrame() ? &camera->camera_.unk_004 : &camera->camera_.unk_068);
+    setCamera(!even || pc::unifiedFrame() ? &camera->camera_.m_camera0 : &camera->camera_.m_camera1);
     monster_.draw();
     dss::Fix32Vector3 pos = *monster_.getPosition();
     DSSAObject::calcType_ = 1;

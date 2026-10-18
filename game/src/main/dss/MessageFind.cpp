@@ -13,8 +13,8 @@ ARM char* findMessage(char* addr, unsigned int msg_id)
     unsigned int first = file->firstId_;
     unsigned int last = file->lastId_;
     unsigned int count = file->count_;
-    int offset1 = file->unk_14;
-    int offset2 = file->unk_18;
+    int offset1 = file->entriesOffset_;
+    int offset2 = file->entriesSize_;
     g_lastFoundMsgId = -1;
     g_lastFoundMessage = NULL;
     g_lastFoundMsgSize = -1;

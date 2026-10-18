@@ -16,7 +16,7 @@ struct TextInterface {
 // Text cursor over a char buffer: read (setText + getChar/nextChar) or write (initBuffer +
 // putChar)
 struct TextIterator : TextInterface {
-    int unk_04;                                 // 0x04
+    int encoding_;                                 // 0x04
     char* buf_;                                 // 0x08
     int pos_;                                   // 0x0C
     int count_;                                 // 0x10

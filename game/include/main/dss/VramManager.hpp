@@ -12,12 +12,12 @@ struct VramTransferTask {
 // texture/palette VRAM managers and the VRAM transfer queue of the dss engine
 struct VramTransferManager {
     int unk_00;                                 // 0x00
-    int unk_04;                                 // 0x04 palette VRAM in use
+    int plttUsed_;                                 // 0x04 palette VRAM in use
     unsigned int unk_08;                        // 0x08 texture VRAM size
     int texSize_;                               // 0x0C
     VramTransferTask tasks_[0x80];           // 0x10
     int unk_810;                                // 0x810
-    int unk_814;                                // 0x814 transfer in the V-blank
+    int vblankTransfer_;                                // 0x814 transfer in the V-blank
 
     VramTransferManager();
     ~VramTransferManager();

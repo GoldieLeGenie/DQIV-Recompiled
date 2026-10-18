@@ -98,17 +98,17 @@ ARM void MenuSprite::setEnabled(int enable)
 
 ARM void MenuSprite::setMainScreen()
 {
-    sprite_.unk_2c = 1;
+    sprite_.screens_ = 1;
 }
 
 ARM void MenuSprite::setSubScreen()
 {
-    sprite_.unk_2c = 2;
+    sprite_.screens_ = 2;
 }
 
 ARM void MenuSprite::setBothScreens()
 {
-    sprite_.unk_2c = 3;
+    sprite_.screens_ = 3;
 }
 
 ARM void MenuSprite::setAlpha(int a)
@@ -123,12 +123,12 @@ ARM void MenuSprite::setPolygonID(int polygonID)
 
 ARM void MenuSprite::setDepth(int a)
 {
-    sprite_.unk_28 = a;
+    sprite_.depth_ = a;
 }
 
 ARM void MenuSprite::setRotation(int a)
 {
-    sprite_.unk_30 = a;
+    sprite_.rotation_ = a;
 }
 
 ARM void MenuSprite::setColor(unsigned char r, unsigned char g, unsigned char b)

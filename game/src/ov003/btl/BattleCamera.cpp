@@ -28,7 +28,7 @@ THUMB void BattleCamera::initialize()
     normalCamera_.setFOV(0x6c3, 0xe80);
     normalCamera_.setFar(0x400000);
     normalCamera_.setFOV2(0x32);
-    normalCamera_.unk_60 = 1;
+    normalCamera_.m_noUpdate = 1;
     dss::Fix32 scaleW;
     scaleW.value = 0x1000;
     normalCamera_.setScaleW(scaleW);

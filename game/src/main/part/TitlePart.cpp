@@ -80,12 +80,12 @@ ARM void TitlePart::onDrawPart()
         g_DebugConsole.unkfunc_0207e88c(2, i + 1, "%1d:%s", i + 1, s_item[i].name);
     }
     g_DebugConsole.unkfunc_0207e8f4(x_, cursor_);
-    g_DebugConsole.unkfunc_0207e88c(12, 16, "Size:0x%08x", g_appHeap.unk_54);
-    g_DebugConsole.unkfunc_0207e88c(12, 17, "Size:0x%08x", g_appHeap.unk_54);
-    g_DebugConsole.unkfunc_0207e88c(12, 18, "Size:0x%08x", g_appHeap.unk_54);
-    g_DebugConsole.unkfunc_0207e88c(12, 19, "Size:0x%08x", g_appHeap.unk_54);
-    g_DebugConsole.unkfunc_0207e88c(12, 20, "Size:0x%08x", g_appHeap.unk_54);
-    g_DebugConsole.unkfunc_0207e88c(12, 21, "Size:0x%08x", g_appHeap.unk_54);
+    g_DebugConsole.unkfunc_0207e88c(12, 16, "Size:0x%08x", g_appHeap.programSize_);
+    g_DebugConsole.unkfunc_0207e88c(12, 17, "Size:0x%08x", g_appHeap.programSize_);
+    g_DebugConsole.unkfunc_0207e88c(12, 18, "Size:0x%08x", g_appHeap.programSize_);
+    g_DebugConsole.unkfunc_0207e88c(12, 19, "Size:0x%08x", g_appHeap.programSize_);
+    g_DebugConsole.unkfunc_0207e88c(12, 20, "Size:0x%08x", g_appHeap.programSize_);
+    g_DebugConsole.unkfunc_0207e88c(12, 21, "Size:0x%08x", g_appHeap.programSize_);
     g_DebugConsole.unkfunc_0207e88c(12, 22, "Build.%s %s", buildDate_.dateString_, buildDate_.time_);
     g_DebugConsole.unkfunc_0207e88c(12, 23, "Convt.%s %s", g_BuildDate.date_, g_BuildDate.time_);
 }
