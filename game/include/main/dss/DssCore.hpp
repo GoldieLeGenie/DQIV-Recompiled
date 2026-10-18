@@ -19,16 +19,16 @@ extern int data_02116ce4;                       // main extended arena enabled
 
 void unkfunc_0207e7e0();
 void unkfunc_0207e7e4();
-int unkfunc_0207e7e8();                         // tick count
-void unkfunc_0207e7f4(const char* format, ...); // debug print
-void unkfunc_0207e918();                        // V-blank interrupt
-void unkfunc_0207e934(int exArena);             // OS/system init
-void unkfunc_0207e9f4();                        // clear the VRAM, OAM and palettes
-unsigned int unkfunc_0207ebc0(unsigned int value, unsigned int align);  // round up
-unsigned int unkfunc_0207ebf8(unsigned int value, unsigned int align);  // round down
+int getTick();                         // tick count
+void debugPrintfStub(const char* format, ...); // debug print
+void dssVBlankIntr();                        // V-blank interrupt
+void initSystem(int exArena);             // OS/system init
+void clearVram();                        // clear the VRAM, OAM and palettes
+unsigned int roundUp(unsigned int value, unsigned int align);  // round up
+unsigned int roundDown(unsigned int value, unsigned int align);  // round down
 void unkfunc_0207ecf4();                        // reset the BG/OBJ VRAM
-void unkfunc_0207ed24(int brightness);          // main screen master brightness
-void unkfunc_0207ed3c(int brightness);          // sub screen master brightness
+void setMainBrightness(int brightness);          // main screen master brightness
+void setSubBrightness(int brightness);          // sub screen master brightness
 
 extern "C" {
     unsigned long long func_02079bf0(void);     // OS_GetTick

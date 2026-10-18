@@ -1,6 +1,6 @@
 #include "main/global/GlobalDQ4.hpp"
 #include "main/data/DataObject.hpp"
-#include "main/dss/UnkArrayWarning.hpp"
+#include "main/dss/ArrayErrorLog.hpp"
 #ifdef DQIV_NATIVE
 #include <stdexcept>
 #include "nitro/os.hpp"
@@ -34,14 +34,14 @@ ARM void GlobalDQ4::unkfunc_02058014(int partId)
     while (nativeStep()) OS_Wait();
 #else
     part_id_ = partId;
-    unkfunc_0207f898(&data_0211a60c);
+    markHeapBlocks(&data_0211a60c);
     while (1) {
         int id = part_id_;
         if (id > 24) {
-            unkfunc_0208960c(id, 24);
+            reportArrayError(id, 24);
         }
         if (id < 0) {
-            unkfunc_0208960c(id, 24);
+            reportArrayError(id, 24);
         }
         currentTask_ = task_[id];
         unkfunc_02058148(currentTask_);
@@ -65,10 +65,10 @@ ARM void GlobalDQ4::unkfunc_020580bc(int partId, UnkGameTask* task)
     if (partId < 0 || partId >= 24 || !task) throw std::runtime_error("Invalid native game task registration");
 #else
     if (partId > 24) {
-        unkfunc_0208960c(partId, 24);
+        reportArrayError(partId, 24);
     }
     if (partId < 0) {
-        unkfunc_0208960c(partId, 24);
+        reportArrayError(partId, 24);
     }
 #endif
     task_[partId] = task;

@@ -1,7 +1,7 @@
 #include "main/profile/SaveLoad.hpp"
 #include "main/data/DataObject.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
-#include "main/dss/UnkSleep.hpp"
+#include "main/dss/BgBuffer.hpp"
+#include "main/dss/SleepControl.hpp"
 #include "main/text/TextAPI.hpp"
 #include "main/status/StageStatus.hpp"
 #include "nitro/card.hpp"
@@ -20,7 +20,7 @@ int profile::SaveLoad::asyncResult_;
 profile::CatalogView profile::SaveLoad::catalogView_[3];
 static char s_name[0x200];
 
-THUMB int profile::SaveLoad::unkfunc_0202b684(int bank)
+THUMB int profile::SaveLoad::checkbank(int bank)
 {
     unsigned char buff[0x200];
     PROFILE_SYSTEM* system = (PROFILE_SYSTEM*)buff;
@@ -35,13 +35,13 @@ THUMB int profile::SaveLoad::unkfunc_0202b684(int bank)
 
 THUMB profile::CatalogView* profile::SaveLoad::getCatalogView()
 {
-    unsigned char* buff = (unsigned char*)unkfunc_0207f834(&data_0211a60c, BANK_SIZE * 3, 0x20);
+    unsigned char* buff = (unsigned char*)dssAlloc(&data_0211a60c, BANK_SIZE * 3, 0x20);
     if (buff == NULL) {
         return NULL;
     }
     if (!memoryload(0x400, buff, BANK_SIZE * 3)) {
         if (buff != NULL) {
-            unkfunc_0207f840(&data_0211a60c, buff);
+            dssFree(&data_0211a60c, buff);
         }
         return NULL;
     }
@@ -87,7 +87,7 @@ THUMB profile::CatalogView* profile::SaveLoad::getCatalogView()
             views[i]->useFlag_ = 0;
         }
     }
-    unkfunc_0207f840(&data_0211a60c, buff);
+    dssFree(&data_0211a60c, buff);
     catalogRecent_ = getSaveBank();
     return catalogView_;
 }
@@ -102,13 +102,13 @@ THUMB int profile::SaveLoad::loadbank(int bank)
     if (!isCardOK()) {
         return 0;
     }
-    Profile* padr = (Profile*)unkfunc_0207f834(&data_0211a60c, sizeof(Profile), 0x20);
+    Profile* padr = (Profile*)dssAlloc(&data_0211a60c, sizeof(Profile), 0x20);
     if (padr == NULL) {
         return 0;
     }
     memoryload(BANK_OFFSET(bank), &padr->profiledata_, BANK_SIZE);
     int result = padr->deliverDATA(bank);
-    unkfunc_0207f840(&data_0211a60c, padr);
+    dssFree(&data_0211a60c, padr);
     return result;
 }
 
@@ -117,13 +117,13 @@ THUMB bool profile::SaveLoad::savebank(int bank, SAVETYPE type)
     if (!isCardOK()) {
         return 0;
     }
-    Profile* padr = (Profile*)unkfunc_0207f834(&data_0211a60c, sizeof(Profile), 0x20);
+    Profile* padr = (Profile*)dssAlloc(&data_0211a60c, sizeof(Profile), 0x20);
     if (padr == NULL) {
         return 0;
     }
     padr->collectDATA(bank, type);
     bool result = memorysave(BANK_OFFSET(bank), &padr->profiledata_, BANK_SIZE);
-    unkfunc_0207f840(&data_0211a60c, padr);
+    dssFree(&data_0211a60c, padr);
     if (bank < 3) {
         setSaveBank(bank);
     } else {
@@ -141,7 +141,7 @@ THUMB void profile::SaveLoad::savebankAsync(int bank, SAVETYPE type)
         asyncResult_ = 0;
         return;
     }
-    asyncBuff_ = (Profile*)unkfunc_0207f834(&data_0211a60c, sizeof(Profile), 0x20);
+    asyncBuff_ = (Profile*)dssAlloc(&data_0211a60c, sizeof(Profile), 0x20);
     if (asyncBuff_ == NULL) {
         asyncResult_ = 0;
         return;
@@ -161,7 +161,7 @@ THUMB int profile::SaveLoad::savebankAsyncWait()
 THUMB int profile::SaveLoad::savebankAsyncResult()
 {
     if (asyncBuff_ != NULL) {
-        unkfunc_0207f840(&data_0211a60c, asyncBuff_);
+        dssFree(&data_0211a60c, asyncBuff_);
         asyncBuff_ = NULL;
     }
     if (asyncResult_ == 0) {
@@ -178,19 +178,19 @@ THUMB int profile::SaveLoad::savebankAsyncResult()
 
 THUMB bool profile::SaveLoad::killbank(int bank)
 {
-    unsigned char* addr = (unsigned char*)unkfunc_0207f834(&data_0211a60c, BANK_SIZE, 0x20);
+    unsigned char* addr = (unsigned char*)dssAlloc(&data_0211a60c, BANK_SIZE, 0x20);
     dss::memset(addr, 0xff, BANK_SIZE);
     bool result = memorysave(BANK_OFFSET(bank), addr, 0x200);
-    unkfunc_0207f840(&data_0211a60c, addr);
+    dssFree(&data_0211a60c, addr);
     return result;
 }
 
-THUMB int profile::SaveLoad::unkfunc_0202ba3c(int bank)
+THUMB int profile::SaveLoad::verifybank(int bank)
 {
     if (!isCardOK()) {
         return 0;
     }
-    Profile* padr = (Profile*)unkfunc_0207f834(&data_0211a60c, sizeof(Profile), 0x20);
+    Profile* padr = (Profile*)dssAlloc(&data_0211a60c, sizeof(Profile), 0x20);
     if (padr == NULL) {
         return 0;
     }
@@ -198,20 +198,20 @@ THUMB int profile::SaveLoad::unkfunc_0202ba3c(int bank)
     if (padr->isValidData()) {
         result = padr->calcCheckSum();
     }
-    unkfunc_0207f840(&data_0211a60c, padr);
+    dssFree(&data_0211a60c, padr);
     return result;
 }
 
 THUMB bool profile::SaveLoad::memorysave(unsigned int seek, void* buff, unsigned int size)
 {
-    int sleep = unkfunc_02089568();
-    unkfunc_02089558(0);
+    int sleep = isSleepEnabled();
+    setSleepEnabled(0);
     func_0205d6f8(BACKUP_LOCK_ID);
     func_0205dc74(CARD_BACKUP_TYPE_EEPROM_512KBITS);
     CARD_WriteAndVerifyBackup(seek, buff, size);
     int result = func_0205d6ac();
     func_0205d708(BACKUP_LOCK_ID);
-    unkfunc_02089558(sleep);
+    setSleepEnabled(sleep);
     if (result == 0) {
         return 1;
     }
@@ -220,8 +220,8 @@ THUMB bool profile::SaveLoad::memorysave(unsigned int seek, void* buff, unsigned
 
 THUMB void profile::SaveLoad::memorysaveAsync(unsigned int seek, void* buff, unsigned int size)
 {
-    lastSleep_ = unkfunc_02089568();
-    unkfunc_02089558(0);
+    lastSleep_ = isSleepEnabled();
+    setSleepEnabled(0);
     func_0205d6f8(BACKUP_LOCK_ID);
     func_0205dc74(CARD_BACKUP_TYPE_EEPROM_512KBITS);
     CARD_WriteAndVerifyBackupAsync(seek, buff, size, NULL, NULL);
@@ -236,7 +236,7 @@ THUMB int profile::SaveLoad::memorysaveAsyncResult()
 {
     int result = func_0205d6ac();
     func_0205d708(BACKUP_LOCK_ID);
-    unkfunc_02089558(lastSleep_);
+    setSleepEnabled(lastSleep_);
     if (result == 0) {
         return 1;
     }
@@ -281,7 +281,7 @@ THUMB void profile::SaveLoad::setCatalogMacro(CatalogView* view)
     TextAPI::setMACRO0(0x18, 0xd0000000, 1);
     TextAPI::setMACRO0(0x5e, 0xf0000000, level);
     dss::sprintf_s(text, sizeof(text), "%4d:%02d", playTime / (60 * 60 * 60), playTime % (60 * 60 * 60) / (60 * 60));
-    unkfunc_02087f14(data_020c47d4, data_020c4894, time, sizeof(time), text);
+    translateText(data_020c47d4, data_020c4894, time, sizeof(time), text);
     TextAPI::setUserString(0, view->name_);
     TextAPI::setUserString(1, time);
 }
@@ -427,7 +427,7 @@ THUMB int profile::SaveLoad::isCardOK()
     return memoryload(0, buff, sizeof(buff));
 }
 
-THUMB int profile::SaveLoad::unkfunc_0202c058()
+THUMB int profile::SaveLoad::checkBackup()
 {
     int result = 1;
     unsigned char buff[0x200];
@@ -452,7 +452,7 @@ THUMB int profile::SaveLoad::unkfunc_0202c058()
         }
     } else {
         for (int i = 0; i < 4; i++) {
-            if (!unkfunc_0202ba3c(i)) {
+            if (!verifybank(i)) {
                 result = -2;
                 if (!killbank(i)) {
                     return -5;

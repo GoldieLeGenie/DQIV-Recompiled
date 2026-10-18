@@ -25,7 +25,7 @@ namespace cmn {
         virtual void setDisplayType(int type) = 0;
         int isEnable();
 
-        static void operator delete(void* p) { unkfunc_0207f8ac(p); }
+        static void operator delete(void* p) { freeSystemMemory(p); }
     };
 
     struct CommonEffectFlat : CommonEffectSimple {

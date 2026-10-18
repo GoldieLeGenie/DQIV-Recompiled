@@ -1,5 +1,5 @@
 #include "ov028/MaterielMenu_CHANGEGIFT/MaterielMenu_CHANGEGIFT.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/text/TextAPI.hpp"
 #include "main/status/PartyStatus.hpp"
@@ -9,7 +9,7 @@
 THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::menuSetup()
 {
     status::g_Party.setPlayerMode();
-    unkfunc_02080e64(-4, 0);
+    setCaptureOffset(-4, 0);
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD, menu::MenuItem::CURSORTYPE_ACTIVE);
     menuItem2_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
     navigator_.setupBase();
@@ -56,7 +56,7 @@ THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::menuUpdate()
             if (selectChara_) {
                 close();
                 gMaterielMenu_CHANGEGIFT_SELECTCHARA.open();
-                unkfunc_02080e78();
+                resetCaptureOffset();
             }
         }
         return;
@@ -105,5 +105,5 @@ THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::cancelChange()
     TextAPI::setMACRO0(0x2a, 0xf0000000, status::g_Party.casinoCoin_);
     data_020ed1bc.addMessage(0xc8afa);
     data_020ed1bc.setYesNo();
-    unkfunc_02080e78();
+    resetCaptureOffset();
 }

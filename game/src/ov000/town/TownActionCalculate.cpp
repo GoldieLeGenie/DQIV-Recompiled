@@ -9,7 +9,7 @@
 #include "main/cmn/CommonCalculate.hpp"
 #include "main/dss/Camera.hpp"
 #include <nitro/fx/fx_atan.h>
-#include "main/dss/UnkMatrix43.hpp"
+#include "main/dss/Matrix43.hpp"
 
 const dss::Fix32 TownActionCalculate::cos_PI_6(0xddb);
 

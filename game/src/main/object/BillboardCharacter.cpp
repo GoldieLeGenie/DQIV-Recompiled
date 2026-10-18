@@ -6,7 +6,7 @@ namespace dss {
 template<typename T> inline Vector3<T>::Vector3() : vz(0L), vy(0L), vx(0L) {}
 template<typename T> inline Vector2<T>::Vector2() : vy(bcLiteral_Ey), vx(bcLiteral_Ex) {}
 }
-#include "main/dss/UnkMatrix43.hpp"
+#include "main/dss/Matrix43.hpp"
 #include "main/dss/UnkMemory.hpp"
 #include "main/dss/PaletteEffect.hpp"
 #include "main/formation/FormationId.hpp"
@@ -117,9 +117,9 @@ ARM BillboardCharacter::BillboardCharacter() : direction_(0), flag_(0)
 
 ARM void BillboardCharacter::setTexture(void* data)
 {
-    textureNum_ = unkfunc_0207f8c4(data);
+    textureNum_ = getArchiveFileCount(data);
     for (int i = 0; i < textureNum_; i++) {
-        textures_[i] = unkfunc_0207f8dc(data, i);
+        textures_[i] = getArchiveFile(data, i);
     }
     OS_Wait();
     unkfunc_02058680(&s_vertex, &s_texCoord, textures_[0]);

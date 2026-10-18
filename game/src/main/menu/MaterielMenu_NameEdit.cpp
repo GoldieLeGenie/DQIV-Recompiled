@@ -268,7 +268,7 @@ THUMB int MaterielMenu_NameEdit::validateName()
         ng = 1;
     }
     if (returnMenu_ == RETURN_MENU_LOAD || returnMenu_ == RETURN_MENU_SURECHIGAI) {
-        if (unkfunc_020549f0(getNameUTF8())) {
+        if (isNameTooWide(getNameUTF8())) {
             ng = 1;
         }
     }
@@ -401,7 +401,7 @@ THUMB char* MaterielMenu_NameEdit::getNameUTF8()
         pos += unpackCharCode(data_020f17c4[i], &data_020f1ae8[pos]);
     }
     data_020f1ae8[pos] = 0;
-    unkfunc_02088078(data_020f1ae8);
+    convertUtf8ToSjisWork(data_020f1ae8);
     return data_020f1ae8;
 }
 
@@ -451,8 +451,8 @@ THUMB int MaterielMenu_NameEdit::isDefaultTownName()
     }
     dss::strcpy_s(townName, 0x2a, status::g_Story.heroName);
     dss::strcpy_s(landName, 0x2a, status::g_Story.heroName);
-    unkfunc_02087e08(townSuffix, 0x2a, town);
-    unkfunc_02087e08(landSuffix, 0x2a, land);
+    convertSjisToUtf8(townSuffix, 0x2a, town);
+    convertSjisToUtf8(landSuffix, 0x2a, land);
     dss::strcat_s(townName, 0x2a, townSuffix);
     dss::strcat_s(landName, 0x2a, landSuffix);
     if (dss::strcmp((char*)data_020f0078.getTownName(), townName) == 0 || dss::strcmp((char*)data_020f0078.getTownName(), landName) == 0) {

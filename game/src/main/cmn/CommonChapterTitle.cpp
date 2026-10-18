@@ -90,29 +90,29 @@ ARM void cmn::CommonChapterTitle::setup(int chapter, int flag)
         w = 0x80;
         h = 0x40;
     }
-    sprite_.unkfunc_02057d60(filename, 0);
-    sprite_.unkfunc_02057edc();
-    sprite_.unkfunc_02057f00(0x1f);
-    sprite_.unkfunc_02057f18(0x3f);
-    sprite_.unkfunc_02057f30(0x80);
+    sprite_.loadFile(filename, 0);
+    sprite_.setMainScreen();
+    sprite_.setAlpha(0x1f);
+    sprite_.setPolygonID(0x3f);
+    sprite_.setDepth(0x80);
     sprite_.sprite_.unk_32 = 1;
-    sprite_.unkfunc_02057e88(x, y);
-    sprite_.unkfunc_02057e98(w, h);
+    sprite_.setPosition(x, y);
+    sprite_.setSize(w, h);
     if (texCoord) {
-        sprite_.unkfunc_02057ea8(0, 0, 0x100, 0xc0);
+        sprite_.setTexCoords(0, 0, 0x100, 0xc0);
     }
 }
 
 ARM void cmn::CommonChapterTitle::cleanup()
 {
-    if (sprite_.unkfunc_02057e74()) {
-        sprite_.unkfunc_02057e34();
+    if (sprite_.isLoaded()) {
+        sprite_.unload();
     }
 }
 
 ARM void cmn::CommonChapterTitle::draw()
 {
-    if (sprite_.unkfunc_02057e74()) {
-        sprite_.unkfunc_02057ec0();
+    if (sprite_.isLoaded()) {
+        sprite_.draw();
     }
 }

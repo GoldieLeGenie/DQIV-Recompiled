@@ -13,7 +13,7 @@ struct LogoPart : GlobalGamePart {
     virtual void onDrawPart();
     virtual void onWindowPart();
     virtual void onDebugPart();
-    void unkfunc_02009f10(int state);           // set state
+    void setState(int state);           // set state
 };
 
 extern LogoPart g_LogoPart;

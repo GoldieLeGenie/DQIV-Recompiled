@@ -287,13 +287,13 @@ THUMB unsigned char* UnkEnvoyManager::getTownName()
 THUMB void UnkEnvoyManager::setComment(const char* comment)
 {
     Utf8Iterator src;
-    src.unkfunc_020875ec((char*)comment);
+    src.setText((char*)comment);
     Utf8Iterator dst;
     char buf[0x200];
-    dst.unkfunc_02087634(buf, 0x200);
+    dst.initBuffer(buf, 0x200);
     while (true) {
-        int c = src.unkfunc_0208771c();
-        src.unkfunc_020877b8();
+        int c = src.getChar();
+        src.nextChar();
         if (c == 0) {
             break;
         }
@@ -305,7 +305,7 @@ THUMB void UnkEnvoyManager::setComment(const char* comment)
             case 0x24d9: c = 0x84; break;
             case 0x24c6: c = 0x85; break;
         }
-        dst.unkfunc_02087734(c);
+        dst.putChar(c);
     }
     comment = buf;
     if (mode_ == 1) {

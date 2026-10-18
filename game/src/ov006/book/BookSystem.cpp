@@ -41,10 +41,10 @@ ARM void BookSystem::initialize()
     DSSAObject::setDefaultScale(scl);
     DSSAObject::setPriority(1);
     dss::sprintf_s(path, sizeof(path), "data/2d/map/encyclopedia.tex");
-    sprite_.unkfunc_02057d60(path, 0);
-    sprite_.unkfunc_02057edc();
-    sprite_.unkfunc_02057f00(0x1f);
-    sprite_.unkfunc_02057f18(0x20);
+    sprite_.loadFile(path, 0);
+    sprite_.setMainScreen();
+    sprite_.setAlpha(0x1f);
+    sprite_.setPolygonID(0x20);
 }
 
 ARM void BookSystem::terminate()
@@ -52,7 +52,7 @@ ARM void BookSystem::terminate()
     BookMonsterDraw::getSingleton()->terminate();
     BookCamera::getSingleton()->terminate();
     render_.unkfunc_02084f50();
-    sprite_.unkfunc_02057e34();
+    sprite_.unload();
 }
 
 ARM void BookSystem::execute()
@@ -69,6 +69,6 @@ ARM void BookSystem::draw()
     if (gMaterielMenu_PICTUREBOOK_DETAIL.isOpen_) {
         BookMonsterDraw::getSingleton()->draw();
     }
-    unkfunc_020847e8();
-    sprite_.unkfunc_02057ec0();
+    setupOrtho2D();
+    sprite_.draw();
 }

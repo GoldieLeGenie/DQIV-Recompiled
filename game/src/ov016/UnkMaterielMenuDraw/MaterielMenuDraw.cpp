@@ -20,7 +20,7 @@
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/MenuCommonDraw.hpp"
 #ifdef DQIV_NATIVE
-#include "main/dss/UnkBgText.hpp"
+#include "main/dss/BgText.hpp"
 #endif
 #include "main/cmn/EnvoyManager.hpp"
 
@@ -677,9 +677,9 @@ void unkfunc_native_tabs(const char* const* names, int count, int active, int x,
     int widths[MAX_TABS];
     count = count < MAX_TABS ? count : MAX_TABS;
     for (int k = 0; k < count; k++) {
-        unkfunc_02080038(10);
-        unkfunc_0207f9b8(NULL, 0, 0, 0, names[k], 0);
-        widths[k] = (unkfunc_02080100() + 16 + 7) & ~7;
+        setBgTextFontSize(10);
+        drawBgTextWrapped(NULL, 0, 0, 0, names[k], 0);
+        widths[k] = (getBgTextWidth() + 16 + 7) & ~7;
     }
     const int room = (w - 0x20) & ~7;
     int first = active, last = active + 1, total = count > 0 ? widths[active] : 0;
@@ -2018,42 +2018,42 @@ THUMB void drawNameEditName(unsigned char* name, int flag)
 THUMB void splitCommentLines(char* line1, char* line2, char* line3, char* comment)
 {
     Utf8Iterator src;
-    src.unkfunc_020875ec(comment);
+    src.setText(comment);
     Utf8Iterator dst1;
-    dst1.unkfunc_02087634(line1, 0x400);
+    dst1.initBuffer(line1, 0x400);
     Utf8Iterator dst2;
-    dst2.unkfunc_02087634(line2, 0x400);
+    dst2.initBuffer(line2, 0x400);
     Utf8Iterator dst3;
-    dst3.unkfunc_02087634(line3, 0x400);
+    dst3.initBuffer(line3, 0x400);
     for (int i = 0; ; i++) {
-        int c = src.unkfunc_0208771c();
-        src.unkfunc_020877b8();
+        int c = src.getChar();
+        src.nextChar();
         if (c == 0) {
             break;
         }
-        dst1.unkfunc_02087734(c);
+        dst1.putChar(c);
         if (i == 0xe) {
             break;
         }
     }
     for (int i = 0; ; i++) {
-        int c = src.unkfunc_0208771c();
-        src.unkfunc_020877b8();
+        int c = src.getChar();
+        src.nextChar();
         if (c == 0) {
             break;
         }
-        dst2.unkfunc_02087734(c);
+        dst2.putChar(c);
         if (i == 0xe) {
             break;
         }
     }
     for (int i = 0; ; i++) {
-        int c = src.unkfunc_0208771c();
-        src.unkfunc_020877b8();
+        int c = src.getChar();
+        src.nextChar();
         if (c == 0) {
             break;
         }
-        dst3.unkfunc_02087734(c);
+        dst3.putChar(c);
         if (i == 0xe) {
             break;
         }

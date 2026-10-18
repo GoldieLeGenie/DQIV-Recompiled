@@ -31,7 +31,7 @@ ARM UnkBattleTest::UnkBattleTest()
     counter_ = -1;
 }
 
-ARM void UnkBattleTest::unkfunc_02089b34()
+ARM void UnkBattleTest::update()
 {
     switch (state_) {
     case 0:
@@ -92,9 +92,9 @@ ARM void UnkBattleTest::unkfunc_02089b34()
                     g_Global.startBattle();
                     state_ = 2;
                     counter_ = -1;
-                    dss::g_Pad.unkfunc_0207f400();
-                    dss::g_Pad.unkfunc_0207f44c(1, 4);
-                    dss::g_Pad.unkfunc_0207f320();
+                    dss::g_Pad.clearRecord();
+                    dss::g_Pad.addRecordPresses(1, 4);
+                    dss::g_Pad.startPlay();
                 } else {
                     state_ = 4;
                     counter_ = -1;
@@ -112,7 +112,7 @@ ARM void UnkBattleTest::unkfunc_02089b34()
         if (data_0210bb94.unkfunc_0205810c() != 13) {
             state_ = 4;
             counter_ = -1;
-            dss::g_Pad.unkfunc_0207f3bc();
+            dss::g_Pad.stopPlay();
         } else {
             int turn = status::g_BattleResult.battleTurnCount_ + 1;
             data_02116ce0.unkfunc_0207e88c(0, 0x16, "TURN%2d/%2d/%2d  ACT=%d", turn, noDamageTurn_, endTurn_, act_);
@@ -133,7 +133,7 @@ ARM void UnkBattleTest::unkfunc_02089b34()
                 }
                 state_ = 4;
                 counter_ = -1;
-                dss::g_Pad.unkfunc_0207f3bc();
+                dss::g_Pad.stopPlay();
             }
         }
         break;
@@ -149,7 +149,7 @@ ARM void UnkBattleTest::unkfunc_02089b34()
                 if (play_ == playCount_) {
                     state_ = 5;
                     counter_ = -1;
-                    dss::g_Pad.unkfunc_0207f3bc();
+                    dss::g_Pad.stopPlay();
                 } else {
                     state_ = 1;
                     counter_ = -1;

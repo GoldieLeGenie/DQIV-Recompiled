@@ -14,10 +14,10 @@ int data_02116ce4=0;
 // These hooks are empty in the original retail game as well.
 void unkfunc_0207e7e0() {}
 void unkfunc_0207e7e4() {}
-void unkfunc_0207e7f4(const char*,...) {}
-int unkfunc_0207e7e8() {return static_cast<int>(func_02079bf0());}
+void debugPrintfStub(const char*,...) {}
+int getTick() {return static_cast<int>(func_02079bf0());}
 
-void unkfunc_0207e934(int extendedArena) {
+void initSystem(int extendedArena) {
     // Host heaps, files, clock and graphics contexts are established by main.
     (void)pc::activeVideo();(void)pc::activeGeometry();
     data_02116ce4=extendedArena!=0;
@@ -28,7 +28,7 @@ void unkfunc_0207e934(int extendedArena) {
     // before this application's startup can be considered operational.
     func_0207315c();
 }
-void unkfunc_0207e9f4() {
+void clearVram() {
     auto& video=pc::activeVideo();GX_SetBankForLcdc(0x1ff);
     std::vector<std::uint8_t> zero(0xa4000);video.write(0x06800000,zero);
     func_02064abc();
@@ -40,5 +40,5 @@ void unkfunc_0207ecf4() {
     func_02065088();func_02065228();func_0206dfa4();
     *VIDEO_REG(u32,0x04000000)&=~0x3f000000u;
 }
-void unkfunc_0207ed24(int brightness) {func_020638f8(VIDEO_REG(u16,0x0400006c),brightness);}
-void unkfunc_0207ed3c(int brightness) {func_020638f8(VIDEO_REG(u16,0x0400106c),brightness);}
+void setMainBrightness(int brightness) {func_020638f8(VIDEO_REG(u16,0x0400006c),brightness);}
+void setSubBrightness(int brightness) {func_020638f8(VIDEO_REG(u16,0x0400106c),brightness);}

@@ -1,7 +1,7 @@
 #pragma once
 #include "globaldefs.h"
 #include "main/menu/MenuBase.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 #include "main/menu/MaterielMenu_SlotEnter.hpp"
 #include "main/menu/MaterielMenuPlayerControl.hpp"
 

@@ -31,19 +31,19 @@ ARM void CasinoPoker::initialize()
     PokerManager::getSingleton()->allClear();
     MaterielMenu_WINDOW_MANAGER::getSingleton()->openMaterielWindow(14);
     dss::sprintf_s(filename, sizeof(filename), "data/minigame/poker/casino_upper.tex");
-    upperSprite_.unkfunc_02057d60(filename, 0);
-    upperSprite_.unkfunc_02057ee8();
-    upperSprite_.unkfunc_02057f18(0x3e);
-    upperSprite_.unkfunc_02057f30(0);
+    upperSprite_.loadFile(filename, 0);
+    upperSprite_.setSubScreen();
+    upperSprite_.setPolygonID(0x3e);
+    upperSprite_.setDepth(0);
     upperSprite_.sprite_.unk_32 = 1;
-    upperSprite_.unkfunc_02057ea8(0, 0, 0x100, 0xc0);
-    upperSprite_.unkfunc_02057e98(0x100, 0xc0);
-    upperSprite_.unkfunc_02057e58(&CasinoSystem::getSingleton()->render_);
+    upperSprite_.setTexCoords(0, 0, 0x100, 0xc0);
+    upperSprite_.setSize(0x100, 0xc0);
+    upperSprite_.attachRender(&CasinoSystem::getSingleton()->render_);
 }
 
 ARM void CasinoPoker::terminate()
 {
-    upperSprite_.unkfunc_02057e34();
+    upperSprite_.unload();
     CasinoPokerDraw::getSingleton()->terminate();
 }
 
@@ -54,8 +54,8 @@ ARM void CasinoPoker::execute()
 ARM void CasinoPoker::draw()
 {
     CasinoPokerDraw::getSingleton()->draw();
-    unkfunc_020847e8();
-    upperSprite_.unkfunc_02057ec0();
+    setupOrtho2D();
+    upperSprite_.draw();
 }
 
 ARM char* CasinoPoker::getStageName()

@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "ov000/town/TownCharacter.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "ov000/town/TownActionCalculate.hpp"
 #include "ov000/town/TownCharacterManager.hpp"
 #include "ov000/town/TownPlayerManager.hpp"
@@ -459,7 +459,7 @@ ARM void TownCharacterBase::execPursueMove()
         }
     }
     short idx = getDir();
-    if (moveData_.counter % 60 < 30 && (unkfunc_02081254() & 1)) {
+    if (moveData_.counter % 60 < 30 && (getDisplayFrame() & 1)) {
         vec.normalize();
         dss::Fix32Vector3 newPos = oldPos + vec * moveData_.speed;
         TownStageManager::getSingleton()->characoterColl(oldPos, newPos, TownPlayerAction::collR, &newPos, 3);

@@ -1,7 +1,7 @@
 #pragma ipa file
 
 #include "ov000/town/TownCamera.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "ov000/town/TownActionCalculate.hpp"
 #include "main/object/DSSAObject.hpp"
 #include "ov000/town/TownPlayerManager.hpp"
@@ -12,15 +12,15 @@
 #include "main/status/BaseActionStatus.hpp"
 #include "main/status/BaseStatus.hpp"
 #include "ov000/Commands/TownCommand.hpp"
-#include "main/dss/UnkDssMath.hpp"
-#include "main/dss/UnkMatrix43.hpp"
+#include "main/dss/DssMath.hpp"
+#include "main/dss/Matrix43.hpp"
 #include "DualScreen.hpp"
 #ifdef DQIV_NATIVE
 #include "Settings.hpp"
 #include <cmath>
 #endif
 
-inline bool isEven() { return (unkfunc_02081254() & 1) == 0; }
+inline bool isEven() { return (getDisplayFrame() & 1) == 0; }
 static const float TOWN_CAMERA_DISTANCE = 39.55f;
 static const dss::Fix32Vector3 position(0, 0, 0);
 static dss::Vector3<short> default_angle(-8556, 0, 0);
@@ -263,8 +263,8 @@ ARM void TownCamera::draw()
 #endif
         camera_.applyCamera();
     } else {
-        dss::Camera* cam = (unkfunc_02081254() & 1) == 0 ? &camera_.unk_004 : &camera_.unk_068;
-        int no = unkfunc_02081254() & 1;
+        dss::Camera* cam = (getDisplayFrame() & 1) == 0 ? &camera_.unk_004 : &camera_.unk_068;
+        int no = getDisplayFrame() & 1;
 #ifdef DQIV_NATIVE
         // The unified picture uses the bottom camera, read from the map's first slot.
         if (pc::unifiedFrame()) {
@@ -339,7 +339,7 @@ ARM void TownCamera::rotateL()
     if (limitL == dss::Fix32(-1L)) {
         angle.vy = 0;
     } else if (limitL != dss::Fix32(0L)) {
-        angle.vy = dss::clamp<int>(angle.vy, -unkfunc_02080d94(limitR), unkfunc_02080d94(limitL));
+        angle.vy = dss::clamp<int>(angle.vy, -degreeToAngle(limitR), degreeToAngle(limitL));
     }
     if (angle.vy == 0) {
         flagRotateL = false;
@@ -360,7 +360,7 @@ ARM void TownCamera::rotateR()
     if (limitR == dss::Fix32(-1L)) {
         angle.vy = 0;
     } else if (limitR != dss::Fix32(0L)) {
-        angle.vy = dss::clamp<int>(angle.vy, -unkfunc_02080d94(limitR), unkfunc_02080d94(limitL));
+        angle.vy = dss::clamp<int>(angle.vy, -degreeToAngle(limitR), degreeToAngle(limitL));
     }
     if (angle.vy == 0) {
         flagRotateR = false;

@@ -60,13 +60,13 @@ THUMB void TextEnv::add_msg_var(int def, int array_index_no, int type, int no, i
 THUMB void TextEnv::process_msg(char* dst, int size, const char* src)
 {
     MessageMacro macro;
-    char* tmp = (char*)unkfunc_0207f77c(&data_0211a60c, 0x802, 0x20);
+    char* tmp = (char*)allocAppHeap(&data_0211a60c, 0x802, 0x20);
     macro.processMessage(tmp, 0x800, src);
-    unkfunc_02053e04(dst, size, (unsigned char*)tmp);
-    unkfunc_0207f840(&data_0211a60c, tmp);
+    expandVars(dst, size, (unsigned char*)tmp);
+    dssFree(&data_0211a60c, tmp);
 }
 
-THUMB void TextEnv::unkfunc_02053e04(char* dst, int size, unsigned char* src)
+THUMB void TextEnv::expandVars(char* dst, int size, unsigned char* src)
 {
     char tmp[0x200];
     int cap = 0;
@@ -102,10 +102,10 @@ THUMB void TextEnv::unkfunc_02053e04(char* dst, int size, unsigned char* src)
                 } else {
                     str = check_text_hook(def, idx);
                     if (str == 0) {
-                        str = unkfunc_02053f90(def, idx);
+                        str = getUndefinedMacroText(def, idx);
                     }
                 }
-                dst = unkfunc_02054010(dst, size, (unsigned char*)str, cap);
+                dst = copyWithCase(dst, size, (unsigned char*)str, cap);
                 cap = 0;
                 c = 0;
             }
@@ -125,7 +125,7 @@ THUMB MsgVar* TextEnv::search_msg_var(int def, int array_index_no)
 {
     MsgVar* var = m_msg_var;
     for (int i = 0; i < m_msg_var_length; i++, var++) {
-        if (var->unkfunc_02053b2c(def, array_index_no)) {
+        if (var->matches(def, array_index_no)) {
             return var;
         }
     }
@@ -144,7 +144,7 @@ THUMB char* TextEnv::check_text_hook(int def, int array_index_no)
     return s_hook_buf;
 }
 
-THUMB MACRO_STAT TextEnv::unkfunc_02053f74(int def, int array_index_no)
+THUMB MACRO_STAT TextEnv::getHookMacroStat(int def, int array_index_no)
 {
     if (m_text_hook == 0) {
         return MST_NULL;
@@ -152,7 +152,7 @@ THUMB MACRO_STAT TextEnv::unkfunc_02053f74(int def, int array_index_no)
     return (MACRO_STAT)m_text_hook->getMacroStat(def, array_index_no);
 }
 
-THUMB char* TextEnv::unkfunc_02053f90(int def, int array_index_no)
+THUMB char* TextEnv::getUndefinedMacroText(int def, int array_index_no)
 {
     for (int i = 0; s_macro_name_tbl[i].id != -1; i++) {
         if (def == s_macro_name_tbl[i].id) {
@@ -168,20 +168,20 @@ THUMB char* TextEnv::unkfunc_02053f90(int def, int array_index_no)
     return s_macro_buf;
 }
 
-THUMB char* TextEnv::unkfunc_02054010(char* dst, int size, unsigned char* src, int cap)
+THUMB char* TextEnv::copyWithCase(char* dst, int size, unsigned char* src, int cap)
 {
     unsigned char tmp[0x200];
     switch (cap) {
         case 1:
-            unkfunc_02087fbc(data_020c45b0, data_020c4618, (char*)tmp, 0x200, (char*)src, 1);
+            translateTextPrefix(data_020c45b0, data_020c4618, (char*)tmp, 0x200, (char*)src, 1);
             src = tmp;
             break;
         case 2:
-            unkfunc_02087f14(data_020c45b0, data_020c4618, (char*)tmp, 0x200, (char*)src);
+            translateText(data_020c45b0, data_020c4618, (char*)tmp, 0x200, (char*)src);
             src = tmp;
             break;
         case 3:
-            unkfunc_02087f14(data_020c4618, data_020c45b0, (char*)tmp, 0x200, (char*)src);
+            translateText(data_020c4618, data_020c45b0, (char*)tmp, 0x200, (char*)src);
             src = tmp;
             break;
     }
@@ -200,7 +200,7 @@ THUMB MACRO_STAT TextEnv::macro_getMacroStat(int def, int array_index_no)
     result = (MACRO_STAT)(result | macro_checkActorTarget());
     MsgVar* var = search_msg_var(def, array_index_no);
     if (var != 0) {
-        if (var->unkfunc_02053d04()) {
+        if (var->isNumber()) {
             int no = var->m_no;
             if (no >= 0) {
                 result = (MACRO_STAT)(result | MST_PLUS);
@@ -219,7 +219,7 @@ THUMB MACRO_STAT TextEnv::macro_getMacroStat(int def, int array_index_no)
         result = (MACRO_STAT)(result | var->m_macro_stat);
     } else {
         ptr = check_text_hook(def, array_index_no);
-        result = (MACRO_STAT)(result | unkfunc_02053f74(def, array_index_no));
+        result = (MACRO_STAT)(result | getHookMacroStat(def, array_index_no));
     }
     result = (MACRO_STAT)(result | macro_checkVowel(ptr));
     return (MACRO_STAT)(macro_checkLastS(ptr) | result);
@@ -251,8 +251,8 @@ THUMB MACRO_STAT TextEnv::macro_checkVowel(char* text)
         return (MACRO_STAT)result;
     }
     Utf8Iterator it;
-    it.unkfunc_020875ec(text);
-    switch (it.unkfunc_0208771c()) {
+    it.setText(text);
+    switch (it.getChar()) {
         case 'A': case 'E': case 'I': case 'O': case 'U':
         case 'a': case 'e': case 'i': case 'o': case 'u':
         case 0xc0: case 0xc1: case 0xc2: case 0xc4: case 0xc8: case 0xc9: case 0xca: case 0xcb:
@@ -274,13 +274,13 @@ THUMB MACRO_STAT TextEnv::macro_checkLastS(char* text)
         return (MACRO_STAT)result;
     }
     Utf8Iterator it;
-    it.unkfunc_020875ec(text);
-    int c = it.unkfunc_0208771c();
+    it.setText(text);
+    int c = it.getChar();
     int last = 0;
     while (c != 0) {
         last = c;
-        c = it.unkfunc_0208771c();
-        it.unkfunc_020877b8();
+        c = it.getChar();
+        it.nextChar();
     }
     switch (last) {
         case 'S': case 'X': case 'Z':

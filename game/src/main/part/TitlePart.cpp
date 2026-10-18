@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "main/part/TitlePart.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/global/Global.hpp"
 #include "main/global/StageLink.hpp"
 #include "main/data/DataObject.hpp"
@@ -31,8 +31,8 @@ ARM void TitlePart::initialize()
     data_0210baf8.end0_ = 0;
     data_0210baf8.end1_ = 0;
     data_0210baf8.end2_ = 0;
-    unkfunc_02080e90(&dss::g_DISPLAYPLUGIN_SINGLE3D);
-    dss::g_Pad.unkfunc_0207f2b4(0);
+    changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_SINGLE3D);
+    dss::g_Pad.setMaskL(0);
     int i = 0;
     TITLE_PART_ITEM* item = s_item;
     while (1) {

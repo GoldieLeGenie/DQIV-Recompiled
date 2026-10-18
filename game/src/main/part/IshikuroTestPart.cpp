@@ -25,7 +25,7 @@ ARM void IshikuroTestPart::onExecutePart()
         data_0210bb94.unkfunc_020580fc(TITLE_PART);
     }
     if (dss::g_Pad.edge() & 2) {
-        unkfunc_0207f834(&data_0211a60c, 0x400, 0x20);
+        dssAlloc(&data_0211a60c, 0x400, 0x20);
     }
 }
 

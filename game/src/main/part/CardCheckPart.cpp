@@ -6,7 +6,7 @@ CardCheckPart g_CardCheckPart;
 
 ARM void CardCheckPart::initialize()
 {
-    switch (profile::SaveLoad::unkfunc_0202c058()) {
+    switch (profile::SaveLoad::checkBackup()) {
     case 1:
         data_0210bb94.unkfunc_020580fc(MENU_PART);
         break;
@@ -14,16 +14,16 @@ ARM void CardCheckPart::initialize()
         data_0210bb94.unkfunc_020580fc(MENU_PART);
         break;
     case -2:
-        g_GameEndPart.unkfunc_0205d2ec(5, MENU_PART);
+        g_GameEndPart.startWithNextPart(5, MENU_PART);
         break;
     case -3:
-        g_GameEndPart.unkfunc_0205d2d0(1);
+        g_GameEndPart.start(1);
         break;
     case -4:
-        g_GameEndPart.unkfunc_0205d2d0(4);
+        g_GameEndPart.start(4);
         break;
     case -5:
-        g_GameEndPart.unkfunc_0205d2d0(3);
+        g_GameEndPart.start(3);
         break;
     }
 }

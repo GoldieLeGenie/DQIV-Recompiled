@@ -1,5 +1,5 @@
 #include "main/menu/MenuBg.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/menu/MenuIconData.hpp"
 #include "main/menu/UnkMenuIconDisplay.hpp"
 #include "main/menu/MenuSystem.hpp"
@@ -17,26 +17,26 @@ void registerHdIcon(unsigned int key, void* src, int w, int h, int offset)
 {
     const unsigned int type = key & 0xff000000;
     void* shown = type == 0xfa000000 || type == 0xfb000000 ? getMenuIconData(0xf0000000, key & 0xffffff) : src;
-    if (shown == NULL || unkfunc_0207f52c(src) != (unsigned int)(w * h * 64) || unkfunc_0207f52c(shown) != 32 * 32) {
+    if (shown == NULL || getUncompressedSize(src) != (unsigned int)(w * h * 64) || getUncompressedSize(shown) != 32 * 32) {
         return;
     }
-    unsigned char* tiles = (unsigned char*)unkfunc_0207f590(src);
-    unsigned char* picture = shown == src ? tiles : (unsigned char*)unkfunc_0207f590(shown);
+    unsigned char* tiles = (unsigned char*)uncompressAlloc(src);
+    unsigned char* picture = shown == src ? tiles : (unsigned char*)uncompressAlloc(shown);
     const unsigned int base = (unsigned int)(unsigned long)func_02064ea0() - 0x06000000;
     pc::registerHdPicture(false, base + offset, std::span<const std::uint8_t>(tiles, w * h * 64), w, h,
                           std::span<const std::uint8_t>(picture, 32 * 32));
     if (picture != tiles) {
-        unkfunc_0207f840(&data_0211a60c, picture);
+        dssFree(&data_0211a60c, picture);
     }
-    unkfunc_0207f840(&data_0211a60c, tiles);
+    dssFree(&data_0211a60c, tiles);
 }
 }
 #endif
 
 THUMB void UnkMenuWindowBg::init()
 {
-    unkfunc_02080110(&char_, charData_, 32, 48);
-    unkfunc_02080278(&screen_, screenData_, 32, 48);
+    initCharBuffer(&char_, charData_, 32, 48);
+    initScreenBuffer(&screen_, screenData_, 32, 48);
 }
 
 THUMB UnkCharBuffer* UnkMenuWindowBg::getCharBuffer()
@@ -106,8 +106,8 @@ THUMB void UnkMenuIconBg::init(int enable)
     pc::clearHdPictures(1);
 #endif
     if (enable) {
-        unkfunc_02080278(&screen_, screenData_, 32, 48);
-        unkfunc_020802b4(&screen_, 0);
+        initScreenBuffer(&screen_, screenData_, 32, 48);
+        fillScreenBuffer(&screen_, 0);
         for (int i = 0; i < 28; i++) {
             slots_[i].init(i * 32 + 2);
         }
@@ -118,7 +118,7 @@ THUMB void UnkMenuIconBg::init(int enable)
 
 THUMB void UnkMenuIconBg::loadPalettes()
 {
-    UnkPaletteBuffer* palette = unkfunc_02081364(0);
+    UnkPaletteBuffer* palette = getBgPaletteBuffer(0);
     void* item = getMenuIconData(0xf0000000, 9999);
     void* chara = getMenuIconData(0xf1000000, 9999);
     palette->loadColors(0, 0, item, 0xa0);
@@ -127,7 +127,7 @@ THUMB void UnkMenuIconBg::loadPalettes()
 
 THUMB void UnkMenuIconBg::clearScreen()
 {
-    unkfunc_020802b4(&screen_, 0);
+    fillScreenBuffer(&screen_, 0);
 #ifdef DQIV_NATIVE
     // The menus are drawn again: so are the pictures placed by them.
     pc::clearHdPictures(0);
@@ -158,7 +158,7 @@ THUMB int UnkMenuIconBg::loadIcon(unsigned int key, void* src, int size)
     }
     slots_[slot].setKey(key);
     slots_[slot].setState(1);
-    unkfunc_02082794(7, slots_[slot].getOffset() << 5, src, size << 6);
+    requestCompressedVramCopy(7, slots_[slot].getOffset() << 5, src, size << 6);
     return slot;
 }
 
@@ -240,7 +240,7 @@ THUMB void UnkMenuIconBg::drawIcon(int x, int y, int w, int h, int type, int ind
     int chr = slots_[slot].getOffset() / 2;
     for (int j = 0; j < h; j++) {
         for (int i = 0; i < w; i++) {
-            unkfunc_02080430(&screen_, x + i, y - 24 + j, chr++);
+            setScreenBufferCell(&screen_, x + i, y - 24 + j, chr++);
         }
     }
 }
@@ -281,7 +281,7 @@ THUMB void UnkMenuIconBg::flush(int frame)
     if (enable_) {
         drawRequests();
         if (frame == 1) {
-            unkfunc_020827f0(unkfunc_02082aa4(3), 0, screenData_, 0x600);
+            requestVramCopy(getBgScreenVramType(3), 0, screenData_, 0x600);
         }
         for (int i = 0; i < 28; i++) {
             if (slots_[i].getState() == 1) {
@@ -299,7 +299,7 @@ THUMB void initMenuBg()
     data_020facb8.icon_.init(unkfunc_0208170c());
 }
 
-THUMB void unkfunc_02050368()
+THUMB void updateMenuBg()
 {
 }
 
@@ -313,20 +313,20 @@ UnkMenuBg data_020facb8;
 THUMB void transferMenuBg()
 {
     UnkMenuBg* bg = &data_020facb8;
-    if (!unkfunc_0208121c() || bg->transferCount_ == 0) {
+    if (!isDisplayTextReady() || bg->transferCount_ == 0) {
         return;
     }
-    int frame = unkfunc_02081254() & 1;
+    int frame = getDisplayFrame() & 1;
     int line = frame * 192;
-    int index = unkfunc_02081534(line);
+    int index = getTextBgAtY(line);
     if (index != -1) {
         int y = frame * 24;
-        void* chr = unkfunc_0208011c(bg->window_.getCharBuffer(), 0, y);
-        unkfunc_020827f0(unkfunc_02082a30(index), 0x1000, chr, 0x6000);
+        void* chr = getCharBufferTile(bg->window_.getCharBuffer(), 0, y);
+        requestVramCopy(getBgCharVramType(index), 0x1000, chr, 0x6000);
         UnkScreenBuffer* window = bg->window_.getScreenBuffer();
-        UnkScreenBuffer* screen = unkfunc_0208171c();
-        unsigned short* src = unkfunc_020802a0(window, 0, y);
-        unsigned short* dst = unkfunc_020802a0(screen, 0, y);
+        UnkScreenBuffer* screen = getDebugScreenBuffer();
+        unsigned short* src = getScreenBufferCell(window, 0, y);
+        unsigned short* dst = getScreenBufferCell(screen, 0, y);
         for (int i = 0; i < 0x300; i++) {
             if (*dst < 0xf020 || *dst == 0xf07f || *dst >= 0xf080) {
                 *dst = *src;
@@ -337,8 +337,8 @@ THUMB void transferMenuBg()
     }
     index = unkfunc_02081608(line);
     if (index != -1) {
-        unsigned short* back = unkfunc_020802a0(bg->back_.getScreenBuffer(), 0, frame * 24);
-        unkfunc_020827f0(unkfunc_02082aa4(index), 0, back, 0x600);
+        unsigned short* back = getScreenBufferCell(bg->back_.getScreenBuffer(), 0, frame * 24);
+        requestVramCopy(getBgScreenVramType(index), 0, back, 0x600);
     }
     bg->icon_.flush(frame);
     bg->transferCount_--;
@@ -351,7 +351,7 @@ THUMB void requestMenuBgTransfer()
 
 THUMB void UnkMenuBackBg::init()
 {
-    unkfunc_02080278(&screen_, screenData_, 32, 48);
+    initScreenBuffer(&screen_, screenData_, 32, 48);
     startFade(0, 0, 0, 0);
     enable_ = 0;
     unk_c34 = 0;
@@ -386,9 +386,9 @@ THUMB void UnkMenuBackBg::update()
         b_ += (targetB_ - b_) / frame_;
         frame_--;
     }
-    unkfunc_02081364(1)->unkfunc_020826c8(13, 15, GX_RGB(r_, g_, b_));
-    unkfunc_020803b8(&screen_, 0, 24, 16, 20, 13, 7);
-    unkfunc_020803b8(&screen_, unk_c34 * 8, 44, 32 - unk_c34 * 8, 4, 13, 7);
+    getBgPaletteBuffer(1)->setColor(13, 15, GX_RGB(r_, g_, b_));
+    fillScreenBufferTiles(&screen_, 0, 24, 16, 20, 13, 7);
+    fillScreenBufferTiles(&screen_, unk_c34 * 8, 44, 32 - unk_c34 * 8, 4, 13, 7);
 }
 
 THUMB void initMenuMsgSystem()

@@ -15,10 +15,10 @@ struct GameEndPart : GlobalGamePart {
     virtual void onDrawPart();
     virtual void onWindowPart();
     virtual void onDebugPart();
-    void unkfunc_0205d228(int type);
-    void unkfunc_0205d238(int type, int nextPart);
-    void unkfunc_0205d2d0(int type);
-    void unkfunc_0205d2ec(int type, int nextPart);
+    void setType(int type);
+    void setTypeAndNextPart(int type, int nextPart);
+    void start(int type);
+    void startWithNextPart(int type, int nextPart);
 };
 
 extern GameEndPart g_GameEndPart;

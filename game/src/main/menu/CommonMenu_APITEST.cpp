@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "main/menu/CommonMenu_APITEST.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/menu/CommonMenu_YESNO.hpp"
 #include "main/menu/MenuDataCommon.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
@@ -94,9 +94,9 @@ THUMB void CommonMenu_APITEST::menuExecute()
             stat_ = MENUBASE_STAT_CANCEL;
         }
         if (dss::g_Pad.pad() & PAD_BUTTON_Y) {
-            unkfunc_02080e64(0, 0);
+            setCaptureOffset(0, 0);
         } else {
-            unkfunc_02080e78();
+            resetCaptureOffset();
         }
         redraw_ = 1;
     }
@@ -686,8 +686,8 @@ THUMB void CommonMenu_APITEST::drawWidthConvertTestPage()
     char text2[0x80];
     char text3[0x80];
     dss::strcpy_s(text1, sizeof(text1), text);
-    unkfunc_02087f14(data_020c47d4, data_020c4894, text2, sizeof(text2), text);
-    unkfunc_02087f14(data_020c47d4, data_020c4894, text3, sizeof(text3), text);
+    translateText(data_020c47d4, data_020c4894, text2, sizeof(text2), text);
+    translateText(data_020c47d4, data_020c4894, text3, sizeof(text3), text);
     title_ = "@\x94\xbc\x8ap\x91S\x8ap\x95\xcf\x8a\xb7\x83" "e\x83X\x83g";  // @半角全角変換テスト
     UnkMenuParts parts[] = {
         { 0x0d, 0x04, (short)0xf100, 0, 0x40, 0x30, 0x64, 0x10 },

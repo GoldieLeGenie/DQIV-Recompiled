@@ -1,7 +1,7 @@
 #pragma once
 #include <globaldefs.h>
 #include "main/menu/MenuBase.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 
 extern int data_021098a4;                       // origin of the parts
 extern int data_021098a8;

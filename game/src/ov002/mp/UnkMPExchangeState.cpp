@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "ov002/mp/UnkMPExchange.hpp"
-#include "main/debug/UnkDebugPrint.hpp"
+#include "main/debug/DebugConsole.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Pad.hpp"
 #include "main/text/TextAPI.hpp"
@@ -37,7 +37,7 @@ ARM void UnkMPExchange::unkfunc_02122a38()
 ARM void UnkMPExchange::unkfunc_02122ab0()
 {
     unkfunc_021239d4(1);
-    unkfunc_0203d720(2, 1, "BEACON CNT %d", unkfunc_021229f0());
+    debugConsolePrintfIfEnabled(2, 1, "BEACON CNT %d", unkfunc_021229f0());
     role_.unkfunc_0212407c();
     if (unkfunc_021229f0() > 1 && unk_1c != 0) {
         unkfunc_02123d4c();
@@ -94,7 +94,7 @@ ARM void UnkMPExchange::unkfunc_02122be4()
 ARM void UnkMPExchange::unkfunc_02122c6c()
 {
     char buf[0x20];
-    unkfunc_0203d720(2, 1, "CHANNEL %d", unk_40);
+    debugConsolePrintfIfEnabled(2, 1, "CHANNEL %d", unk_40);
     role_.unkfunc_0212407c();
     if (unk_1c != 0) {
         if (unkfunc_02121f50() == WH_SYSSTATE_SCANNING) {
@@ -105,7 +105,7 @@ ARM void UnkMPExchange::unkfunc_02122c6c()
     }
     if (parentCount_ > 0) {
         dss::sprintf_s(buf, sizeof(buf), "%2d %08x", 0, bssDesc_[0].gameInfo.ggid);
-        unkfunc_0203d6e4(1, 2, buf);
+        debugConsolePrint(1, 2, buf);
         if (unkfunc_02121f50() == WH_SYSSTATE_SCANNING) {
             unkfunc_021218f4();
         }
@@ -122,7 +122,7 @@ ARM void UnkMPExchange::unkfunc_02122c6c()
 
 ARM void UnkMPExchange::unkfunc_02122d6c()
 {
-    unkfunc_0203d720(2, 1, "CHANNEL %d", unk_40);
+    debugConsolePrintfIfEnabled(2, 1, "CHANNEL %d", unk_40);
     role_.unkfunc_0212407c();
     if (unkfunc_02121f50() != WH_SYSSTATE_IDLE) {
         return;
@@ -238,14 +238,14 @@ ARM void UnkMPExchange::unkfunc_02123004()
                         if (i == 1) {
                             dss::memcpy(receiveData_, &packet->data_, 0xe4);
                             unk_fc++;
-                            unkfunc_02088078((char*)((UnkEnvoyData*)receiveData_)->name);
-                            unkfunc_02088078((char*)((UnkEnvoyData*)receiveData_)->comment);
+                            convertUtf8ToSjisWork((char*)((UnkEnvoyData*)receiveData_)->name);
+                            convertUtf8ToSjisWork((char*)((UnkEnvoyData*)receiveData_)->comment);
                         }
                     } else if (i == 0) {
                         dss::memcpy(receiveData_, &packet->data_, 0xe4);
                         unk_fc++;
-                        unkfunc_02088078((char*)((UnkEnvoyData*)receiveData_)->name);
-                        unkfunc_02088078((char*)((UnkEnvoyData*)receiveData_)->comment);
+                        convertUtf8ToSjisWork((char*)((UnkEnvoyData*)receiveData_)->name);
+                        convertUtf8ToSjisWork((char*)((UnkEnvoyData*)receiveData_)->comment);
                     }
                 } else {
                     packet->linkLevel_ = 0;

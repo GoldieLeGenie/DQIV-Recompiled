@@ -1,5 +1,5 @@
 #include "main/menu/MenuManager.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/menu/MenuBg.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
 
@@ -34,18 +34,18 @@ THUMB void MenuManager::setup()
 THUMB void MenuManager::setMenuDisplay(int mode)
 {
     if (mode == MENUDISPLAY_OFF) {
-        unkfunc_02081728(4);
+        setDisplayTextCounter(4);
         data_020facb8.icon_.init(0);
-        unkfunc_0208120c(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
+        requestDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     }
     if (mode == MENUDISPLAY_NORMAL) {
-        unkfunc_02081728(4);
+        setDisplayTextCounter(4);
         data_020facb8.icon_.init(0);
-        unkfunc_0208120c(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
+        requestDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     }
     if (mode == MENUDISPLAY_EXTRA) {
-        unkfunc_02081728(4);
-        unkfunc_0208120c(&dss::g_DISPLAYPLUGIN_CAPTURE);
+        setDisplayTextCounter(4);
+        requestDisplayPlugin(&dss::g_DISPLAYPLUGIN_CAPTURE);
         data_020facb8.icon_.init(1);
     }
     clearMenuAll();
@@ -107,17 +107,17 @@ THUMB void MenuManager::execute()
     if (s_currentMenu->m_update) {
         s_redraw = 1;
     }
-    int start = unkfunc_0207e7e8();
+    int start = getTick();
     setupMenuBgDraw(s_redraw);
     s_currentMenu->draw(0, 0xc0);
     s_currentMenu->m_update = 0;
-    int drawTime = unkfunc_0207e7e8() - start;
+    int drawTime = getTick() - start;
     if (s_redraw) {
         requestMenuBgTransfer();
     }
-    start = unkfunc_0207e7e8();
+    start = getTick();
     s_currentMenu->update();
-    int updateTime = unkfunc_0207e7e8() - start;
+    int updateTime = getTick() - start;
     if (s_redraw) {
         s_redraw = 0;
         s_drawTimeRedraw = drawTime;

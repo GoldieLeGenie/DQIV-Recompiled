@@ -18,7 +18,7 @@ void drawMenuDisplays();
 void moveMenuDisplays();                        // move all menu displays
 void resetMenuDisplays();
 void initMenuBg();
-void unkfunc_02050368();
+void updateMenuBg();
 void executeMenuBg();
 void transferMenuBg();
 void initMenuMsgSystem();                        // ui_MsgSystemInit

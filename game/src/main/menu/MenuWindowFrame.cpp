@@ -42,16 +42,16 @@ THUMB void UnkMenuWindowFrame::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
             return;
         }
         if (cursor_ && blink) {
-            G2_SetOBJAttr(sub->unkfunc_02082694(), x + w_ / 2 - 8, y + bottom + 16, 0, GX_OAM_MODE_NORMAL, 0,
+            G2_SetOBJAttr(sub->allocEntry(), x + w_ / 2 - 8, y + bottom + 16, 0, GX_OAM_MODE_NORMAL, 0,
                           GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_16, 0x192, 15, 0);
         }
         if (arrow_) {
             int chr = data_020f530c.arrow_.getAnimCharName();
-            G2_SetOBJAttr(sub->unkfunc_02082694(), arrowX_ - 8, arrowY_ - 8, 0, GX_OAM_MODE_NORMAL, 0, GX_OAM_EFFECT_NONE,
+            G2_SetOBJAttr(sub->allocEntry(), arrowX_ - 8, arrowY_ - 8, 0, GX_OAM_MODE_NORMAL, 0, GX_OAM_EFFECT_NONE,
                           GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_16, chr, 15, 0);
         }
         if (unk_38) {
-            G2_SetOBJAttr(sub->unkfunc_02082694(), x_ + w_ - 24, y + bottom + 8, 0, GX_OAM_MODE_NORMAL, 0,
+            G2_SetOBJAttr(sub->allocEntry(), x_ + w_ - 24, y + bottom + 8, 0, GX_OAM_MODE_NORMAL, 0,
                           GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_16, 0x152, 15, 0);
         }
         UnkMenuFrameDisplay* frames = &data_020f530c.frames_;
@@ -293,6 +293,6 @@ THUMB void UnkMenuWindowFrame::drawSprite(UnkOamBuffer* oam, int x, int y, int c
     if (size == 32) {
         shape = GX_OAM_SHAPE_32x32;
     }
-    GXOamAttr* obj = oam->unkfunc_02082694();
+    GXOamAttr* obj = oam->allocEntry();
     G2_SetOBJAttr(obj, x, y, 0, GX_OAM_MODE_NORMAL, 0, GX_OAM_EFFECT_NONE, shape, GX_OAM_COLORMODE_16, chr, 15, 0);
 }

@@ -85,5 +85,5 @@ struct Billboard : RenderObject3D {
 
 
 #ifndef BILLBOARD_CHARACTER_TU
-#include "main/dss/UnkTextureBillboard.hpp"
+#include "main/dss/TextureBillboard.hpp"
 #endif

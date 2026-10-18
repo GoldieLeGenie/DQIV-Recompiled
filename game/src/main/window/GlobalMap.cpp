@@ -22,9 +22,9 @@ ARM void window::GlobalMap::setup(Render* render)
 
 ARM void window::GlobalMap::cleanup()
 {
-    unk_100.unkfunc_02057e34();
-    unk_08.unkfunc_02057e34();
-    unk_a8.unkfunc_02057e34();
+    unk_100.unload();
+    unk_08.unload();
+    unk_a8.unload();
     render_ = NULL;
 }
 
@@ -32,39 +32,39 @@ ARM void window::GlobalMap::setup()
 {
     char path[0x80];
     dss::sprintf_s(path, sizeof(path), "data/field/2d/dsdq4wmap01.tex");
-    unk_08.unkfunc_02057d60(path, 0);
-    unk_08.unkfunc_02057ee8();
-    unk_08.unkfunc_02057f18(0x3e);
-    unk_08.unkfunc_02057f30(0);
+    unk_08.loadFile(path, 0);
+    unk_08.setSubScreen();
+    unk_08.setPolygonID(0x3e);
+    unk_08.setDepth(0);
     dss::sprintf_s(path, sizeof(path), "data/field/2d/dsdq4wmap01m.tex");
-    unk_100.unkfunc_02057d60(path, 0);
-    unk_100.unkfunc_02057ee8();
-    unk_100.unkfunc_02057f18(0x3e);
-    unk_100.unkfunc_02057f30(8);
-    unk_08.unkfunc_02057f00(0);
-    unk_100.unkfunc_02057f00(0);
-    unk_08.unkfunc_02057d1c();
-    unk_100.unkfunc_02057d1c();
+    unk_100.loadFile(path, 0);
+    unk_100.setSubScreen();
+    unk_100.setPolygonID(0x3e);
+    unk_100.setDepth(8);
+    unk_08.setAlpha(0);
+    unk_100.setAlpha(0);
+    unk_08.freeVram();
+    unk_100.freeVram();
     dss::sprintf_s(path, sizeof(path), "data/field/2d/wmap_x.tex");
-    unk_a8.unkfunc_02057d60(path, 0);
-    unk_a8.unkfunc_02057ee8();
-    unk_a8.unkfunc_02057f18(0x3e);
-    unk_a8.unkfunc_02057f30(9);
-    unk_a8.unkfunc_02057f00(0);
-    unk_a8.unkfunc_02057ed4(1);
-    unk_a8.unkfunc_02057ea8(0, 0, 0x10, 0x10);
-    unk_58.unkfunc_02057ee8();
-    unk_58.unkfunc_02057f18(0x3e);
-    unk_58.unkfunc_02057f30(4);
-    unk_58.unkfunc_02057f00(0);
-    unk_58.unkfunc_02057e98(3, 3);
+    unk_a8.loadFile(path, 0);
+    unk_a8.setSubScreen();
+    unk_a8.setPolygonID(0x3e);
+    unk_a8.setDepth(9);
+    unk_a8.setAlpha(0);
+    unk_a8.setEnabled(1);
+    unk_a8.setTexCoords(0, 0, 0x10, 0x10);
+    unk_58.setSubScreen();
+    unk_58.setPolygonID(0x3e);
+    unk_58.setDepth(4);
+    unk_58.setAlpha(0);
+    unk_58.setSize(3, 3);
 }
 
 ARM void window::GlobalMap::draw()
 {
-    unkfunc_020847e8();
+    setupOrtho2D();
     if (g_AreaFlag.check(0x140)) {
-        unk_a8.unkfunc_02057ec0();
+        unk_a8.draw();
     }
     drawVeilMap();
     drawSymbols(0);
@@ -72,30 +72,30 @@ ARM void window::GlobalMap::draw()
 
 ARM void window::GlobalMap::drawVeilMap()
 {
-    unk_08.unkfunc_02057ee8();
-    unk_08.unkfunc_02057f30(0);
-    unk_08.unkfunc_02057ea8(0, 0, 0x30, 0xc0);
-    unk_08.unkfunc_02057e88(0, 0);
-    unk_08.unkfunc_02057e98(0x30, 0xc0);
-    unk_08.unkfunc_02057ec0();
-    unk_08.unkfunc_02057ee8();
-    unk_08.unkfunc_02057f30(0);
-    unk_08.unkfunc_02057ea8(0xd0, 0, 0x100, 0xc0);
-    unk_08.unkfunc_02057e88(0xd0, 0);
-    unk_08.unkfunc_02057e98(0x30, 0xc0);
-    unk_08.unkfunc_02057ec0();
-    unk_08.unkfunc_02057ee8();
-    unk_08.unkfunc_02057f30(0);
-    unk_08.unkfunc_02057ea8(0x30, 0, 0xd0, 0x10);
-    unk_08.unkfunc_02057e88(0x30, 0);
-    unk_08.unkfunc_02057e98(0xa0, 0x10);
-    unk_08.unkfunc_02057ec0();
-    unk_08.unkfunc_02057ee8();
-    unk_08.unkfunc_02057f30(0);
-    unk_08.unkfunc_02057ea8(0x30, 0xb0, 0xd0, 0xc0);
-    unk_08.unkfunc_02057e88(0x30, 0xb0);
-    unk_08.unkfunc_02057e98(0xa0, 0x10);
-    unk_08.unkfunc_02057ec0();
+    unk_08.setSubScreen();
+    unk_08.setDepth(0);
+    unk_08.setTexCoords(0, 0, 0x30, 0xc0);
+    unk_08.setPosition(0, 0);
+    unk_08.setSize(0x30, 0xc0);
+    unk_08.draw();
+    unk_08.setSubScreen();
+    unk_08.setDepth(0);
+    unk_08.setTexCoords(0xd0, 0, 0x100, 0xc0);
+    unk_08.setPosition(0xd0, 0);
+    unk_08.setSize(0x30, 0xc0);
+    unk_08.draw();
+    unk_08.setSubScreen();
+    unk_08.setDepth(0);
+    unk_08.setTexCoords(0x30, 0, 0xd0, 0x10);
+    unk_08.setPosition(0x30, 0);
+    unk_08.setSize(0xa0, 0x10);
+    unk_08.draw();
+    unk_08.setSubScreen();
+    unk_08.setDepth(0);
+    unk_08.setTexCoords(0x30, 0xb0, 0xd0, 0xc0);
+    unk_08.setPosition(0x30, 0xb0);
+    unk_08.setSize(0xa0, 0x10);
+    unk_08.draw();
     for (int y = 0; y < 16; y++) {
         for (int x = 0; x < 16; x++) {
             veilDraw(x, y, g_Stage.isMapVeil(x, y));
@@ -106,34 +106,34 @@ ARM void window::GlobalMap::drawVeilMap()
 ARM void window::GlobalMap::veilDraw(int x, int y, int flag)
 {
     if (flag) {
-        unk_100.unkfunc_02057ee8();
-        unk_100.unkfunc_02057f30(8);
-        unk_100.unkfunc_02057ea8(x * 10 + 0x30, y * 10 + 0x10, (x + 1) * 10 + 0x30, (y + 1) * 10 + 0x10);
-        unk_100.unkfunc_02057e88(x * 10 + 0x30, y * 10 + 0x10);
-        unk_100.unkfunc_02057e98(10, 10);
-        unk_100.unkfunc_02057ec0();
+        unk_100.setSubScreen();
+        unk_100.setDepth(8);
+        unk_100.setTexCoords(x * 10 + 0x30, y * 10 + 0x10, (x + 1) * 10 + 0x30, (y + 1) * 10 + 0x10);
+        unk_100.setPosition(x * 10 + 0x30, y * 10 + 0x10);
+        unk_100.setSize(10, 10);
+        unk_100.draw();
     }
-    unk_08.unkfunc_02057ee8();
-    unk_08.unkfunc_02057f30(0);
-    unk_08.unkfunc_02057ea8(x * 10 + 0x30, y * 10 + 0x10, (x + 1) * 10 + 0x30, (y + 1) * 10 + 0x10);
-    unk_08.unkfunc_02057e88(x * 10 + 0x30, y * 10 + 0x10);
-    unk_08.unkfunc_02057e98(10, 10);
-    unk_08.unkfunc_02057ec0();
+    unk_08.setSubScreen();
+    unk_08.setDepth(0);
+    unk_08.setTexCoords(x * 10 + 0x30, y * 10 + 0x10, (x + 1) * 10 + 0x30, (y + 1) * 10 + 0x10);
+    unk_08.setPosition(x * 10 + 0x30, y * 10 + 0x10);
+    unk_08.setSize(10, 10);
+    unk_08.draw();
 }
 
 ARM void window::GlobalMap::load()
 {
     OS_Wait();
-    unk_08.unkfunc_02057d40();
-    unk_08.unkfunc_02057d2c();
-    unk_100.unkfunc_02057d40();
-    unk_100.unkfunc_02057d2c();
+    unk_08.allocVram();
+    unk_08.transferToVram();
+    unk_100.allocVram();
+    unk_100.transferToVram();
 }
 
 ARM void window::GlobalMap::clear()
 {
-    unk_08.unkfunc_02057d1c();
-    unk_100.unkfunc_02057d1c();
+    unk_08.freeVram();
+    unk_100.freeVram();
 }
 
 ARM dss::Vector2<int> window::GlobalMap::convertMapPos(int x, int y)
@@ -146,10 +146,10 @@ ARM dss::Vector2<int> window::GlobalMap::convertMapPos(int x, int y)
 
 ARM void window::GlobalMap::setAlpha(unsigned char alpha)
 {
-    unk_08.unkfunc_02057f00(alpha);
-    unk_100.unkfunc_02057f00(alpha);
-    unk_58.unkfunc_02057f00(alpha);
-    unk_a8.unkfunc_02057f00(alpha);
+    unk_08.setAlpha(alpha);
+    unk_100.setAlpha(alpha);
+    unk_58.setAlpha(alpha);
+    unk_a8.setAlpha(alpha);
 }
 
 ARM void window::GlobalMap::playerMapPosition()

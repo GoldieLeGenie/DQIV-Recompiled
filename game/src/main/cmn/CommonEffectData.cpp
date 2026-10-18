@@ -227,7 +227,7 @@ ARM void cmn::CommonEffectData::setup(int index)
         dss::sprintf_s(path, 0x80, "data/effect/effect%03db.lz", index - 10000);
     }
     effectData_.setup(path, 1, 1);
-    m_effect_type = *(int*)unkfunc_0207f8dc(effectData_.getAddr(), 0);
+    m_effect_type = *(int*)getArchiveFile(effectData_.getAddr(), 0);
     if (m_effect_type == 0) {
         setupTexture();
     }
@@ -255,12 +255,12 @@ ARM void cmn::CommonEffectData::cleanupTexture()
 
 ARM void* cmn::CommonEffectData::getTextureData()
 {
-    return unkfunc_0207f8dc(effectData_.getAddr(), 1);
+    return getArchiveFile(effectData_.getAddr(), 1);
 }
 
 ARM void* cmn::CommonEffectData::getAnimationData()
 {
-    return unkfunc_0207f8dc(effectData_.getAddr(), 2);
+    return getArchiveFile(effectData_.getAddr(), 2);
 }
 
 ARM void* cmn::CommonEffectData::getPaletteAnimData()
@@ -268,25 +268,25 @@ ARM void* cmn::CommonEffectData::getPaletteAnimData()
     if (!isPamEnable()) {
         return 0;
     }
-    return unkfunc_0207f8dc(effectData_.getAddr(), 3);
+    return getArchiveFile(effectData_.getAddr(), 3);
 }
 
 ARM int cmn::CommonEffectData::isPamEnable()
 {
-    return unkfunc_0207f8c4(effectData_.getAddr()) > 3;
+    return getArchiveFileCount(effectData_.getAddr()) > 3;
 }
 
 ARM void* cmn::CommonEffectData::getModelData()
 {
-    return unkfunc_0207f8dc(effectData_.getAddr(), 1);
+    return getArchiveFile(effectData_.getAddr(), 1);
 }
 
 ARM void* cmn::CommonEffectData::getAnimData(int index)
 {
-    if (unkfunc_0207f8c4(effectData_.getAddr()) <= index + 2) {
+    if (getArchiveFileCount(effectData_.getAddr()) <= index + 2) {
         return 0;
     }
-    return unkfunc_0207f8dc(effectData_.getAddr(), index + 2);
+    return getArchiveFile(effectData_.getAddr(), index + 2);
 }
 
 ARM int cmn::CommonEffectData::isEnable()

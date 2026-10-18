@@ -52,8 +52,8 @@ ARM void Render::unkfunc_02084fa4()
     func_0206adcc();
     dss::g_Pad.edge();
     data_0211d3e0[0] = func_02079bf0() - start;
-    unkfunc_02084964();
-    unkfunc_02084a1c();
+    setupOrtho2DBackground();
+    drawBackgroundGradient();
     data_0211d3e0[1] = func_02079bf0() - start;
     unkfunc_020852f0();
     data_0211d3e0[2] = func_02079bf0() - start;
@@ -66,7 +66,7 @@ ARM void Render::unkfunc_02084fa4()
     unkfunc_0208521c();
     unkfunc_02085254();
     data_0211d3e0[5] = func_02079bf0() - start;
-    unkfunc_02084de4();
+    drawSubScreenShade();
     data_0211d3e0[6] = func_02079bf0() - start;
     unkfunc_02085298();
     data_0211d3e0[7] = func_02079bf0() - start;
@@ -172,7 +172,7 @@ ARM void Render::unkfunc_020852c8(RenderObject* object)
 
 ARM void Render::unkfunc_020852f0()
 {
-    unkfunc_020847e8();
+    setupOrtho2D();
     for (int i = 0; i < 128; i++) {
         if (unk_404[i] != NULL) {
             unk_404[i]->draw();

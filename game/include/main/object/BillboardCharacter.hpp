@@ -24,7 +24,7 @@ struct CharacterShadow : PolygonObject {
 
 /* vtable 0x020c1d00 */
 
-#include "main/dss/UnkTextureBillboard.hpp"
+#include "main/dss/TextureBillboard.hpp"
 
 struct BillboardCharacter : UnkTextureBillboard {
     enum {

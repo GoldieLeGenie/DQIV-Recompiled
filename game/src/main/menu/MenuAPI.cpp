@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "main/menu/MenuAPI.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
@@ -154,7 +154,7 @@ THUMB void MenuAPI::openBattleMenu()
 
 THUMB void MenuAPI::setBattleBackDrop(unsigned short backDrop)
 {
-    unkfunc_02081264(backDrop);
+    setBackdropColor(backDrop);
 }
 
 THUMB void MenuAPI::openBattleStadiumAbort()

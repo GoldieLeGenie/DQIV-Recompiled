@@ -81,7 +81,7 @@ THUMB void UnkMenuArrowDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
             break;
         }
         if (charName != 0x12a) {
-            GXOamAttr* oam = sub->unkfunc_02082694();
+            GXOamAttr* oam = sub->allocEntry();
             oam->attr01 = ((x & 0x1ff) << 16) | ((y & 0xff) | GX_OAM_SHAPE_16x16) | effect;
             oam->attr2 = charName | (15 << 12);
         }

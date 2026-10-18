@@ -24,7 +24,7 @@ struct profile::SaveLoad {
     static int catalogRecent_;
     static CatalogView catalogView_[3];
 
-    static int unkfunc_0202b684(int bank);
+    static int checkbank(int bank);
     static CatalogView* getCatalogView();
     static int getCatalogRecent();
     static int loadbank(int bank);
@@ -33,7 +33,7 @@ struct profile::SaveLoad {
     static int savebankAsyncWait();
     static int savebankAsyncResult();
     static bool killbank(int bank);
-    static int unkfunc_0202ba3c(int bank);
+    static int verifybank(int bank);
     static bool memorysave(unsigned int seek, void* buff, unsigned int size);
     static void memorysaveAsync(unsigned int seek, void* buff, unsigned int size);
     static int memorysaveAsyncWait();
@@ -45,7 +45,7 @@ struct profile::SaveLoad {
     static int getPlaceNameByChapter(int chap);
     static int isThisMap(const char* map, const char* name);
     static int isCardOK();
-    static int unkfunc_0202c058();
+    static int checkBackup();
     static int setSaveBank(int bank);
     static int getSaveBank();
 };

@@ -4,7 +4,7 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/global/Global.hpp"
 #include "ov000/town/TownCharacterManager.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 #include "main/effect/ScreenEffectManager.hpp"
 
 struct TownStageManager;

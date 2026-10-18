@@ -8,7 +8,7 @@
 #include "GameInfo.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/UnkLanguage.hpp"
-#include "main/dss/UnkModelMember.hpp"
+#include "main/dss/ModelResource.hpp"
 #include "main/global/StageLink.hpp"
 #include "ov000/town/TownCharacterManager.hpp"
 #include "ov000/town/TownCamera.hpp"

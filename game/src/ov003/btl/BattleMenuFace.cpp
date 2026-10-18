@@ -21,7 +21,7 @@ THUMB void BattleMenuFace::setDisplayOn(int type, int x, int y)
     }
     x_ = x;
     y_ = y;
-    face_.unkfunc_02057e88(x_ - 8, (y - 26) / 2);
+    face_.setPosition(x_ - 8, (y - 26) / 2);
 }
 
 THUMB void BattleMenuFace::setDisplayOff(int type)

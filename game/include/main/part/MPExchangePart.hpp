@@ -21,11 +21,11 @@ struct MPExchangePart : GlobalGamePart {
     virtual void onDrawPart();
     virtual void onWindowPart();
     virtual void onDebugPart();
-    void unkfunc_0203a228(int state);
-    void unkfunc_0203a230();
-    void unkfunc_0203a254();                    // LCD off while the lid is closed
-    void unkfunc_0203a2dc();
-    void unkfunc_0203a318();
+    void setState(int state);
+    void updateState();
+    void updateLcdPower();                    // LCD off while the lid is closed
+    void playWaitSe();
+    void restoreLcdAndSleep();
 };
 
 extern MPExchangePart g_MPExchangePart;

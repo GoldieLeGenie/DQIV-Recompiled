@@ -1,5 +1,5 @@
 #include "main/effect/ScreenEffectManager.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/cmn/NonBattleActionManager.hpp"
 #include "main/global/Global.hpp"
 #include "main/global/GlobalGamePart.hpp"

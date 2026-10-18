@@ -1,7 +1,7 @@
 #pragma once
 #include <globaldefs.h>
 #include "main/menu/MenuDisplay.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 
 // One line of text drawn as sprites (data_020f530c.texts_: message window lines and name plate)
 struct UnkMenuTextDisplay : UnkMenuDisplay {

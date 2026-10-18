@@ -2,7 +2,7 @@
 #include "ov015/btl/BattleMenuDrawCommon.hpp"
 #ifdef DQIV_NATIVE
 #include "ov003/status/MonsterPartyWithDraw.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/dss/VramRequest.hpp"
 #include <stdlib.h>
 #endif
@@ -279,7 +279,7 @@ static void unkfunc_native_platePalettes()
         { GX_RGB(31, 6, 6), GX_RGB(22, 3, 3) },
     };
     for (int screen = 0; screen < 2; screen++) {
-        UnkPaletteBuffer* obj = unkfunc_020813e0(screen);
+        UnkPaletteBuffer* obj = getObjPaletteBuffer(screen);
         for (int color = 0; color < 2; color++) {
             for (int dim = 0; dim < 2; dim++) {
                 const int index = 10 + color * 2 + dim;
@@ -291,7 +291,7 @@ static void unkfunc_native_platePalettes()
                         // Half as bright, like palette 14.
                         rgb = (unsigned short)(((rgb >> 1) & 0x3def));
                     }
-                    obj->unkfunc_020826c8(index, 1 + c, rgb);
+                    obj->setColor(index, 1 + c, rgb);
                 }
             }
         }

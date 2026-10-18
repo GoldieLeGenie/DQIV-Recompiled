@@ -23,7 +23,7 @@ struct UnkBattleTest {
     int act_;                                   // 0x44
 
     UnkBattleTest();
-    void unkfunc_02089b34();                    // update
+    void update();                    // update
 };
 
 extern UnkBattleTest data_02121094;

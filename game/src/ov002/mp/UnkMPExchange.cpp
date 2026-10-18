@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "ov002/mp/UnkMPExchange.hpp"
-#include "main/debug/UnkDebugPrint.hpp"
+#include "main/debug/DebugConsole.hpp"
 #include "main/dss/DssCore.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Pad.hpp"
@@ -24,7 +24,7 @@ ARM void UnkMPExchange::unkfunc_02123230()
     char buf[0x20];
     char line[0x20];
     dss::sprintf_s(buf, sizeof(buf), "    0x%04x 0x%04x", SEND_PACKET->pad_, (u16)SEND_PACKET->frame_);
-    unkfunc_0203d6e4(1, 0, buf);
+    debugConsolePrint(1, 0, buf);
     for (int i = 0; i < 16; i++) {
         if (connected_[i]) {
             UnkMPExchangePacket* packet = RECV_PACKET(i);
@@ -33,7 +33,7 @@ ARM void UnkMPExchange::unkfunc_02123230()
         } else {
             dss::sprintf_s(line, sizeof(line), "%2d  NO CHILD", i);
         }
-        unkfunc_0203d6e4(1, i + 2, line);
+        debugConsolePrint(1, i + 2, line);
     }
 }
 
@@ -103,7 +103,7 @@ ARM void UnkMPExchange::unkfunc_02123498()
     }
     }
     unkfunc_021239d0();
-    unkfunc_0203d688(unkfunc_021237e8(mode_));
+    clearDebugConsole(unkfunc_021237e8(mode_));
     switch (mode_) {
     case SYSMODE_STOP:
         break;
@@ -167,7 +167,7 @@ ARM void UnkMPExchange::unkfunc_02123724()
         unkfunc_02123004();
         unkfunc_02123188();
         int state = unkfunc_02121f50();
-        unkfunc_0203d720(0, 23, "%02d %02d %s", state, unk_02127140, unkfunc_02121f60());
+        debugConsolePrintfIfEnabled(0, 23, "%02d %02d %s", state, unk_02127140, unkfunc_02121f60());
         if (++unk_02127140 == 100) {
             unk_02127140 = 0;
         }
@@ -451,8 +451,8 @@ ARM void UnkMPExchangeRole::unkfunc_0212407c()
     if (table_[index_] == 1) {
         pos = 0;
     }
-    unkfunc_0203d6e4(0, 4, line);
-    unkfunc_0203d6e4(index_ + pos, 5, "^");
+    debugConsolePrint(0, 4, line);
+    debugConsolePrint(index_ + pos, 5, "^");
 }
 
 ARM void UnkMPExchangeRole::unkfunc_02124168()

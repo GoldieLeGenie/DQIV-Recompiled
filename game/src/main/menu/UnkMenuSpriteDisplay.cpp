@@ -25,7 +25,7 @@ THUMB void UnkMenuSpriteDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
 {
     if (isDrawable(main, sub)) {
         for (int i = 0; i < count_; i++) {
-            GXOamAttr* oam = sub->unkfunc_02082694();
+            GXOamAttr* oam = sub->allocEntry();
             G2_SetOBJAttr(oam, posX_[i], posY_[i] - 192, 0, GX_OAM_MODE_NORMAL, 0, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_32x32,
                           GX_OAM_COLORMODE_256, attr_[i], 0, 0);
         }

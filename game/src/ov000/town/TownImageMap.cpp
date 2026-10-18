@@ -33,26 +33,26 @@ ARM void TownImageMap::setup()
     if (!isEnable_) {
         return;
     }
-    mapSprite_.unkfunc_02057d60(mapdata, 0);
-    mapSprite_.unkfunc_02057ee8();
-    mapSprite_.unkfunc_02057f00(0);
-    mapSprite_.unkfunc_02057f18(0x3f);
+    mapSprite_.loadFile(mapdata, 0);
+    mapSprite_.setSubScreen();
+    mapSprite_.setAlpha(0);
+    mapSprite_.setPolygonID(0x3f);
     mapSprite_.sprite_.unk_32 = 1;
     dss::sprintf_s(filename, 0x80, "data/field/2d/point_s.tex");
-    pointSprite_.unkfunc_02057d60(filename, 0);
-    pointSprite_.unkfunc_02057ee8();
-    pointSprite_.unkfunc_02057f00(0);
-    pointSprite_.unkfunc_02057f18(0x3d);
-    pointSprite_.unkfunc_02057f30(0x18);
-    pointSprite_.unkfunc_02057ea8(8, 7, 0x18, 0x18);
-    pointSprite_.unkfunc_02057e98(0x10, 0x10);
+    pointSprite_.loadFile(filename, 0);
+    pointSprite_.setSubScreen();
+    pointSprite_.setAlpha(0);
+    pointSprite_.setPolygonID(0x3d);
+    pointSprite_.setDepth(0x18);
+    pointSprite_.setTexCoords(8, 7, 0x18, 0x18);
+    pointSprite_.setSize(0x10, 0x10);
 }
 
 ARM void TownImageMap::cleanup()
 {
     if (isEnable_) {
-        mapSprite_.unkfunc_02057e34();
-        pointSprite_.unkfunc_02057e34();
+        mapSprite_.unload();
+        pointSprite_.unload();
     }
     isEnable_ = 0;
 }
@@ -68,9 +68,9 @@ ARM void TownImageMap::execute()
         break;
     case 1:
         calcTargetPos();
-        mapSprite_.unkfunc_02057ed4(1);
+        mapSprite_.setEnabled(1);
         if (frame_ >= 2) {
-            pointSprite_.unkfunc_02057ed4(1);
+            pointSprite_.setEnabled(1);
             updatePointScreenPos();
         }
         if (++frame_ == 0x1f) {
@@ -81,7 +81,7 @@ ARM void TownImageMap::execute()
         break;
     case 3:
         if (--frame_ <= 0) {
-            mapSprite_.unkfunc_02057ed4(0);
+            mapSprite_.setEnabled(0);
             cleanup();
             phase_ = 0;
         }
@@ -100,9 +100,9 @@ ARM void TownImageMap::execute()
             y = 0x10;
         }
     }
-    pointSprite_.unkfunc_02057e88(x, y - 0x10);
-    mapSprite_.unkfunc_02057f00(frame_);
-    pointSprite_.unkfunc_02057f00(frame_);
+    pointSprite_.setPosition(x, y - 0x10);
+    mapSprite_.setAlpha(frame_);
+    pointSprite_.setAlpha(frame_);
 }
 
 ARM void TownImageMap::exitFloor()
@@ -163,16 +163,16 @@ ARM void TownImageMap::draw()
         return;
     }
     camera.applyCamera();
-    unkfunc_020847e8();
-    mapSprite_.unkfunc_02057ec0();
-    pointSprite_.unkfunc_02057ec0();
+    setupOrtho2D();
+    mapSprite_.draw();
+    pointSprite_.draw();
 }
 
 ARM void TownImageMap::open()
 {
     setup();
     camera.applyCamera();
-    unkfunc_020847e8();
+    setupOrtho2D();
     phase_ = 1;
 }
 
@@ -207,12 +207,12 @@ ARM void TownImageMap::calcTargetPos()
     } else {
         pos = dss::Fix32Vector3(g_Stage.overviewTempPosition_);
     }
-    unkfunc_0205710c(0, &pos);
+    setWorldPosition(0, &pos);
 }
 
 ARM void TownImageMap::updatePointScreenPos()
 {
-    unk_04 = *unkfunc_02057128(0);
+    unk_04 = *getScreenPosition(0);
 }
 
 ARM void TownImageMap::initialize()

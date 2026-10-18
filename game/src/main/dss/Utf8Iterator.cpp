@@ -14,7 +14,7 @@ ARM UnkTextIterator::UnkTextIterator()
     lengthValid_ = 0;
 }
 
-ARM void UnkTextIterator::unkfunc_020875ec(const char* text)
+ARM void UnkTextIterator::setText(const char* text)
 {
     buf_ = (char*)text;
     pos_ = 0;
@@ -25,7 +25,7 @@ ARM void UnkTextIterator::unkfunc_020875ec(const char* text)
     size_ = 0;
 }
 
-ARM void UnkTextIterator::unkfunc_02087610(char* text, int size)
+ARM void UnkTextIterator::setBuffer(char* text, int size)
 {
     buf_ = text;
     pos_ = 0;
@@ -36,7 +36,7 @@ ARM void UnkTextIterator::unkfunc_02087610(char* text, int size)
     size_ = size;
 }
 
-ARM void UnkTextIterator::unkfunc_02087634(char* buf, int size)
+ARM void UnkTextIterator::initBuffer(char* buf, int size)
 {
     buf_ = buf;
     pos_ = 0;
@@ -49,25 +49,25 @@ ARM void UnkTextIterator::unkfunc_02087634(char* buf, int size)
     buf_[pos_ + 1] = 0;
 }
 
-ARM int UnkTextIterator::unkfunc_02087674()
+ARM int UnkTextIterator::getCount()
 {
     if (countValid_ == 0) {
-        count_ = unkfunc_02087850();
+        count_ = countChars();
         countValid_ = 1;
     }
     return count_;
 }
 
-ARM int UnkTextIterator::unkfunc_020876a8()
+ARM int UnkTextIterator::getLength()
 {
     if (lengthValid_ == 0) {
-        length_ = unkfunc_020878b8();
+        length_ = getByteLength();
         lengthValid_ = 1;
     }
     return length_;
 }
 
-ARM void UnkTextIterator::unkfunc_020876dc(int pos)
+ARM void UnkTextIterator::truncate(int pos)
 {
     buf_[pos] = 0;
     countValid_ = 0;
@@ -79,19 +79,19 @@ ARM Utf8Iterator::Utf8Iterator()
     unk_04 = 1;
 }
 
-ARM unsigned short Utf8Iterator::unkfunc_0208771c()
+ARM unsigned short Utf8Iterator::getChar()
 {
-    return unkfunc_02087940((unsigned char*)buf_ + pos_);
+    return decodeChar((unsigned char*)buf_ + pos_);
 }
 
-ARM int Utf8Iterator::unkfunc_02087734(int c)
+ARM int Utf8Iterator::putChar(int c)
 {
-    unkfunc_02087674();
-    int length = unkfunc_020876a8();
+    getCount();
+    int length = getLength();
     if ((unsigned int)(length + 4) > (unsigned int)size_) {
         return 0;
     }
-    int size = unkfunc_020879dc((unsigned char*)buf_ + length, c);
+    int size = encodeChar((unsigned char*)buf_ + length, c);
     if ((unsigned int)(length_ + size) < (unsigned int)size_) {
         count_++;
         length_ += size;
@@ -101,9 +101,9 @@ ARM int Utf8Iterator::unkfunc_02087734(int c)
     return 0;
 }
 
-ARM int Utf8Iterator::unkfunc_020877b8()
+ARM int Utf8Iterator::nextChar()
 {
-    int size = unkfunc_02087900((unsigned char*)buf_ + pos_);
+    int size = getCharSize((unsigned char*)buf_ + pos_);
     if (size == -1) {
         return 0;
     }
@@ -114,37 +114,37 @@ ARM int Utf8Iterator::unkfunc_020877b8()
     return 1;
 }
 
-ARM int Utf8Iterator::unkfunc_02087800()
+ARM int Utf8Iterator::prevChar()
 {
     if (pos_ == 0) {
         return 0;
     }
     while (pos_ != 0) {
         pos_--;
-        if (unkfunc_020878e8((unsigned char*)buf_ + pos_) == 1) {
+        if (isLeadByte((unsigned char*)buf_ + pos_) == 1) {
             break;
         }
     }
     return 1;
 }
 
-ARM int Utf8Iterator::unkfunc_02087850()
+ARM int Utf8Iterator::countChars()
 {
     if (buf_ == NULL) {
         return 0;
     }
     int pos = pos_;
-    unkfunc_02087900((unsigned char*)buf_);
+    getCharSize((unsigned char*)buf_);
     int count = 0;
     pos_ = 0;
-    while (unkfunc_020877b8()) {
+    while (nextChar()) {
         count++;
     }
     pos_ = pos;
     return count;
 }
 
-ARM int Utf8Iterator::unkfunc_020878b8()
+ARM int Utf8Iterator::getByteLength()
 {
     int length = 0;
     if (buf_ == NULL) {
@@ -156,12 +156,12 @@ ARM int Utf8Iterator::unkfunc_020878b8()
     return length;
 }
 
-ARM int Utf8Iterator::unkfunc_020878e8(const unsigned char* p)
+ARM int Utf8Iterator::isLeadByte(const unsigned char* p)
 {
     return (*p & 0xc0) != 0x80;
 }
 
-ARM int Utf8Iterator::unkfunc_02087900(const unsigned char* p)
+ARM int Utf8Iterator::getCharSize(const unsigned char* p)
 {
     unsigned char c = *p;
     if (c == 0) {
@@ -179,9 +179,9 @@ ARM int Utf8Iterator::unkfunc_02087900(const unsigned char* p)
     return -1;
 }
 
-ARM unsigned short Utf8Iterator::unkfunc_02087940(const unsigned char* p)
+ARM unsigned short Utf8Iterator::decodeChar(const unsigned char* p)
 {
-    int size = unkfunc_02087900(p);
+    int size = getCharSize(p);
     if (size == 0) {
         return 0;
     }
@@ -204,7 +204,7 @@ ARM unsigned short Utf8Iterator::unkfunc_02087940(const unsigned char* p)
     return 0xffff;
 }
 
-ARM int Utf8Iterator::unkfunc_020879dc(unsigned char* p, int c)
+ARM int Utf8Iterator::encodeChar(unsigned char* p, int c)
 {
     if ((unsigned int)c <= 0x7f) {
         p[0] = c & 0x7f;
@@ -257,29 +257,29 @@ static inline int isSeparator(int c)
     return separator;
 }
 
-ARM int unkfunc_02087a74(UnkTextIterator* src, char* buf, int size)
+ARM int readNextWord(UnkTextIterator* src, char* buf, int size)
 {
     int found = 0;
     Utf8Iterator dst;
-    dst.unkfunc_02087634(buf, size);
+    dst.initBuffer(buf, size);
     while (true) {
-        int c = src->unkfunc_0208771c();
+        int c = src->getChar();
         if (c == 0 || c == 0xffff) {
             break;
         }
         if (!isSeparator(c)) {
             break;
         }
-        src->unkfunc_020877b8();
+        src->nextChar();
     }
     while (true) {
-        int c = src->unkfunc_0208771c();
-        src->unkfunc_020877b8();
+        int c = src->getChar();
+        src->nextChar();
         if (c == 0 || c == 0xffff || c == 9 || c == 0x20 || c == 0xd || c == 0xa || c == 0x3000 || c == 0xff0e ||
             c == 0x2026 || c == 0xff1f || c == 0xff01) {
             break;
         }
-        dst.unkfunc_02087734(c);
+        dst.putChar(c);
         found = 1;
     }
     return found;

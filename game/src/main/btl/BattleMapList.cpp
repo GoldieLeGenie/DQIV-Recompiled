@@ -13,7 +13,7 @@ THUMB UnkBattleMapList::~UnkBattleMapList()
 {
 }
 
-THUMB void UnkBattleMapList::unkfunc_02048e34(const char* filename)
+THUMB void UnkBattleMapList::load(const char* filename)
 {
     unkfunc_0205726c(filename, 0);
     group_ = 0;
@@ -22,17 +22,17 @@ THUMB void UnkBattleMapList::unkfunc_02048e34(const char* filename)
     loaded_ = 1;
 }
 
-THUMB int UnkBattleMapList::unkfunc_02048e4c()
+THUMB int UnkBattleMapList::isLoaded()
 {
     return loaded_;
 }
 
-THUMB char* UnkBattleMapList::unkfunc_02048e50()
+THUMB char* UnkBattleMapList::getGroupName()
 {
     return unkfunc_02057368(group_ + map_, 1);
 }
 
-THUMB void UnkBattleMapList::unkfunc_02048e60()
+THUMB void UnkBattleMapList::nextGroup()
 {
     int i = 0;
     char* name = unkfunc_02057368(group_ + map_, 1);
@@ -57,7 +57,7 @@ THUMB void UnkBattleMapList::unkfunc_02048e60()
     }
 }
 
-THUMB void UnkBattleMapList::unkfunc_02048ee0()
+THUMB void UnkBattleMapList::prevGroup()
 {
     int i = 0;
     int offset = 0;
@@ -91,12 +91,12 @@ THUMB void UnkBattleMapList::unkfunc_02048ee0()
     }
 }
 
-THUMB char* UnkBattleMapList::unkfunc_02048f7c()
+THUMB char* UnkBattleMapList::getMapName()
 {
     return unkfunc_02057368(group_ + map_ + unk_28, 2);
 }
 
-THUMB void UnkBattleMapList::unkfunc_02048f90()
+THUMB void UnkBattleMapList::nextMap()
 {
     unkfunc_02057368(group_, 0);
     char* name = unkfunc_02057368(group_ + map_, 1);
@@ -109,7 +109,7 @@ THUMB void UnkBattleMapList::unkfunc_02048f90()
     }
 }
 
-THUMB void UnkBattleMapList::unkfunc_02048ff8()
+THUMB void UnkBattleMapList::prevMap()
 {
     unkfunc_02057368(group_, 0);
     char* name = unkfunc_02057368(group_ + map_, 1);

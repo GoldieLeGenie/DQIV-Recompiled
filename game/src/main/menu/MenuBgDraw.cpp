@@ -1,5 +1,5 @@
 #include "main/menu/MenuPartsDraw.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/menu/UnkMenuDisplays.hpp"
 #include "main/menu/MenuBg.hpp"
 #include "main/menu/MenuSystem.hpp"
@@ -31,9 +31,9 @@ THUMB void setupMenuBgDraw(int enable)
     data_021098b0 = data_020facb8.back_.getScreenBuffer();
     data_021098ac = enable;
     if (enable) {
-        unkfunc_02080130(data_021098b8, 0);
-        unkfunc_02080334(data_021098b4, 0, 0, 32, 48, 0xf000);
-        unkfunc_02080334(data_021098b0, 0, 0, 32, 48, 0xf000);
+        fillCharBuffer(data_021098b8, 0);
+        fillScreenBufferRect(data_021098b4, 0, 0, 32, 48, 0xf000);
+        fillScreenBufferRect(data_021098b0, 0, 0, 32, 48, 0xf000);
         data_020facb8.icon_.clearScreen();
         resetMenuDisplays();
     }
@@ -48,21 +48,21 @@ THUMB void setMenuDrawOffset(int x, int y)
 THUMB void fillMenuBackRect(int x, int y, int w, int h, int palette)
 {
     if (data_021098ac == 1) {
-        unkfunc_02080694(data_021098b0, x / 8, y / 8, w / 8, h / 8, palette);
+        fillWindowBackRect(data_021098b0, x / 8, y / 8, w / 8, h / 8, palette);
     }
 }
 
 THUMB void drawMenuWindowBack(int x, int y, int w, int h, int palette)
 {
     if (data_021098ac == 1) {
-        unkfunc_020806dc(data_021098b0, x / 8, y / 8, w / 8, h / 8, palette);
+        drawWindowBack(data_021098b0, x / 8, y / 8, w / 8, h / 8, palette);
     }
 }
 
 THUMB void drawMenuWindowBorder(int x, int y, int w, int h, int palette)
 {
     if (data_021098ac == 1) {
-        unkfunc_020808cc(data_021098b4, x / 8, y / 8, w / 8, h / 8, palette);
+        drawWindowBorder(data_021098b4, x / 8, y / 8, w / 8, h / 8, palette);
     }
 }
 
@@ -104,10 +104,10 @@ THUMB void drawMenuSystemTiles(int x, int y, int w, int h, int palette, int flip
         h /= 8;
         for (int j = 0; j < h; j++) {
             for (int i = 0; i < w; i++) {
-                unkfunc_0208021c(data_021098b8, x + i, y + j, flip, bank, chr);
+                drawCharBufferSystemTile(data_021098b8, x + i, y + j, flip, bank, chr);
             }
         }
-        unkfunc_02080444(data_021098b4, x, y, w, h, palette);
+        mapCharBufferToScreen(data_021098b4, x, y, w, h, palette);
     }
 }
 
@@ -136,7 +136,7 @@ THUMB int drawMenuText(int x, int y, int w, int h, int palette, int color, int a
             }
             g_text_extractor.extract_text(buf, sizeof(buf), type, id, ex, 0);
             if (type == 0x40000000 || type == 0x60000000) {
-                unkfunc_02087fbc(data_020c45b0, data_020c4618, buf2, sizeof(buf2), buf, 1);
+                translateTextPrefix(data_020c45b0, data_020c4618, buf2, sizeof(buf2), buf, 1);
                 dss::strcpy_s(buf, sizeof(buf), buf2);
             }
             text = buf;
@@ -145,11 +145,11 @@ THUMB int drawMenuText(int x, int y, int w, int h, int palette, int color, int a
         }
         if (msgId == -1) {
             if (text[0] == '@') {
-                unkfunc_02087e08(work, sizeof(work), text + 1);
+                convertSjisToUtf8(work, sizeof(work), text + 1);
                 text = work;
             }
             if ((unsigned char)text[0] == 0xff && (unsigned char)text[1] == 0xfe) {
-                unkfunc_02087c00(work, sizeof(work), text);
+                convertUtf16ToUtf8(work, sizeof(work), text);
                 text = work;
             }
         }
@@ -160,34 +160,34 @@ THUMB int drawMenuText(int x, int y, int w, int h, int palette, int color, int a
         int y8 = y / 8;
         int right8 = right / 8 + (right % 8 ? 1 : 0);
         int bottom8 = bottom / 8 + (bottom % 8 ? 1 : 0);
-        unkfunc_02080444(data_021098b4, x8, y8, right8 - x8, bottom8 - y8, palette);
+        mapCharBufferToScreen(data_021098b4, x8, y8, right8 - x8, bottom8 - y8, palette);
         int size;
         if (font == 12) {
             size = 12;
         } else {
             size = 10;
         }
-        unkfunc_02080038(size);
-        unkfunc_0207f9b8(NULL, 0, 0, 0, text, wrap);
-        int width = unkfunc_02080100();
+        setBgTextFontSize(size);
+        drawBgTextWrapped(NULL, 0, 0, 0, text, wrap);
+        int width = getBgTextWidth();
         int offsetX = 0;
         int offsetY = 0;
         if (wrap && !strchr(text, ';') && !strchr(text, '$') && width > w) {
             Utf8Iterator src;
-            src.unkfunc_020875ec((char*)text);
+            src.setText((char*)text);
             int breakPos = -1;
             int lineWidth = 0;
             int count = 0;
-            if (src.unkfunc_0208771c()) {
+            if (src.getChar()) {
                 unsigned short ch;
                 do {
-                    ch = src.unkfunc_0208771c();
-                    src.unkfunc_020877b8();
+                    ch = src.getChar();
+                    src.nextChar();
                     count++;
                     if (ch == ' ' || ch == '-' || ch == 0x3220) {
                         breakPos = count;
                     }
-                    lineWidth += unkfunc_0207fc88(NULL, 0, 0, 0, ch);
+                    lineWidth += drawBgChar(NULL, 0, 0, 0, ch);
                     if (lineWidth > w) {
                         if (breakPos == -1) {
                             breakPos = count;
@@ -197,22 +197,22 @@ THUMB int drawMenuText(int x, int y, int w, int h, int palette, int color, int a
                 } while (ch != 0);
             }
             Utf8Iterator dst;
-            dst.unkfunc_02087634(buf2, sizeof(buf2));
+            dst.initBuffer(buf2, sizeof(buf2));
             src.pos_ = 0;
             for (int i = 0;; i++) {
                 if (i == breakPos) {
-                    dst.unkfunc_02087734(';');
+                    dst.putChar(';');
                 }
-                int ch = src.unkfunc_0208771c();
-                src.unkfunc_020877b8();
-                dst.unkfunc_02087734(ch);
+                int ch = src.getChar();
+                src.nextChar();
+                dst.putChar(ch);
                 if (ch == 0) {
                     break;
                 }
             }
             text = buf2;
-            unkfunc_0207f9b8(NULL, 0, 0, 0, text, wrap);
-            width = unkfunc_02080100();
+            drawBgTextWrapped(NULL, 0, 0, 0, text, wrap);
+            width = getBgTextWidth();
             offsetX = 0;
             offsetY = 0;
         }
@@ -230,13 +230,13 @@ THUMB int drawMenuText(int x, int y, int w, int h, int palette, int color, int a
         if (wrap && !dss::strchr(text, ';') && !dss::strchr(text, '$') && !dss::strchr(text, '\n')) {
             offsetY += font / 2 + 2;
         }
-        unkfunc_02080038(size);
+        setBgTextFontSize(size);
         int left = x + offsetX;
         if (left < 0 || y + offsetY < 0) {
-            unkfunc_02088078(text);
+            convertUtf8ToSjisWork(text);
         }
-        unkfunc_0207f9b8(data_021098b8, left, y + offsetY, color, text, wrap);
-        return left + unkfunc_02080100();
+        drawBgTextWrapped(data_021098b8, left, y + offsetY, color, text, wrap);
+        return left + getBgTextWidth();
     }
 }
 
@@ -246,7 +246,7 @@ THUMB int drawMenuNumber(int x, int y, int w, int h, int palette, int color, int
     char number[0x400];
     if (data_021098ac == 1) {
         dss::sprintf_s(buf, sizeof(buf), "%d", value);
-        unkfunc_02087f14(data_020c47d4, data_020c4894, number, sizeof(number), buf);
+        translateText(data_020c47d4, data_020c4894, number, sizeof(number), buf);
         return drawMenuText(x, y, w, h, palette, color, align, font, (int)number, 0);
     }
 }
@@ -281,7 +281,7 @@ THUMB void drawMenuHpGauge(int x, int y, int percent)
             inner = s_gaugeLowInner;
         }
         for (int i = 0; i < 6; i++) {
-            int* tile = (int*)unkfunc_0208011c(data_021098b8, (x + 8) / 8, y / 8);
+            int* tile = (int*)getCharBufferTile(data_021098b8, (x + 8) / 8, y / 8);
             int n = 0;
             if (i < full) {
                 n = 8;

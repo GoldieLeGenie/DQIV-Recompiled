@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/dss/UnkOverlaySlot.hpp"
+#include "main/dss/OverlaySlot.hpp"
 
 extern UnkOverlaySlot data_020efc58;
 

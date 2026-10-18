@@ -48,17 +48,17 @@ ARM void FldStage::setup()
     void* model = m_model.getAddr();
     void* texture = m_texture.getAddr();
     void* coll = m_coll.getAddr();
-    m_fld.Setup(model, texture, coll, (int)*unkfunc_0207f88c(&data_0211a60c));
+    m_fld.Setup(model, texture, coll, (int)*getHeap0(&data_0211a60c));
     dss::Fix32Vector3 scale(1, 1, 1);
     setPaletteRgbRate(0, scale);
     int color = m_fld.m_scene->backColor;
-    unkfunc_02084c78((color & 0xff) >> 3, ((color >> 8) & 0xff) >> 3, ((color >> 16) & 0xff) >> 3);
+    setBackgroundColor((color & 0xff) >> 3, ((color >> 8) & 0xff) >> 3, ((color >> 16) & 0xff) >> 3);
     extraObjectNum_ = 0;
 }
 
 ARM void FldStage::cleanup()
 {
-    unkfunc_02084c78(0, 0, 0);
+    setBackgroundColor(0, 0, 0);
     unkfunc_02085348();
     m_fld.Final();
     m_model.cleanup();
@@ -85,10 +85,10 @@ ARM void FldStage::load(const char* name)
     char buf[0x80];
     dss::sprintf_s(buf, sizeof(buf), "%s/%s.lz", path_, name);
     m_data.setup(buf, 1, 1);
-    m_model.setup(unkfunc_0207f8dc(m_data.getAddr(), 0));
-    m_texture.setup(unkfunc_0207f8dc(m_data.getAddr(), 1));
-    if (unkfunc_0207f8cc(m_data.getAddr(), 2)) {
-        m_coll.setup(unkfunc_0207f8dc(m_data.getAddr(), 2));
+    m_model.setup(getArchiveFile(m_data.getAddr(), 0));
+    m_texture.setup(getArchiveFile(m_data.getAddr(), 1));
+    if (getArchiveFileSize(m_data.getAddr(), 2)) {
+        m_coll.setup(getArchiveFile(m_data.getAddr(), 2));
     }
     if (m_coll.getAddr()) {
         collisionFlag_ = 1;
@@ -99,7 +99,7 @@ static void resetGlbMatrix();
 
 ARM void FldStage::draw()
 {
-    drawTick = unkfunc_0207e7e8();
+    drawTick = getTick();
     resetGlbMatrix();
     m_fld.calc();
     resetGlbMatrix();
@@ -108,7 +108,7 @@ ARM void FldStage::draw()
         m_fld.draw();
     }
     resetGlbMatrix();
-    drawTick = unkfunc_0207e7e8() - drawTick;
+    drawTick = getTick() - drawTick;
 }
 
 ARM void FldStage::execAnime()

@@ -3,11 +3,11 @@
 #ifdef DQIV_NATIVE
 #include "Settings.hpp"
 #endif
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/menu/MenuTextDisplay.hpp"
 #include "main/menu/MenuWindowFrame.hpp"
 #include "main/dss/DssUtils.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 #include "main/sound/Sound.hpp"
 #include <nitro/std.h>
 #include "main/menu/UnkMenuDisplays.hpp"
@@ -56,7 +56,7 @@ THUMB void MessageWindow::execute(UnkOamBuffer* main, UnkOamBuffer* sub)
 THUMB void MessageWindow::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
 {
     if (!enable_) {
-        unkfunc_0208174c(0);
+        setWindow0Enable(0);
     }
     if (!isDrawable(main, sub) || state_ == 0) {
         return;
@@ -81,7 +81,7 @@ THUMB void MessageWindow::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
         }
     }
     int type;
-    switch (unkfunc_020817bc()) {
+    switch (getDisplayPluginType()) {
     case 1:
         type = 0x14;
         break;
@@ -96,8 +96,8 @@ THUMB void MessageWindow::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
         break;
     }
     if (type) {
-        unkfunc_0208174c(1);
-        unkfunc_0208176c(type, x_ + 2 + shakeX_, y_ - 0xbe + shakeY_, width_ - 4, height_ - 4);
+        setWindow0Enable(1);
+        setWindow0(type, x_ + 2 + shakeX_, y_ - 0xbe + shakeY_, width_ - 4, height_ - 4);
     }
 }
 
@@ -122,72 +122,72 @@ THUMB void MessageWindow::appendText(const char* text)
     int length = dss::strlen(buf);
     int maxWidth = config_->width_ - config_->margin_ * 2;
     int x = 0;
-    unkfunc_02080038(config_->font_);
+    setBgTextFontSize(config_->font_);
     Utf8Iterator src;
-    src.unkfunc_020875ec(text);
+    src.setText(text);
     Utf8Iterator dst;
-    dst.unkfunc_02087610(buf + length, sizeof(text_));
-    unsigned short c = src.unkfunc_0208771c();
+    dst.setBuffer(buf + length, sizeof(text_));
+    unsigned short c = src.getChar();
     int wordPos = -1;
     int wordLength = -1;
     int line = 0;
     while (c != 0) {
-        c = src.unkfunc_0208771c();
-        src.unkfunc_020877b8();
+        c = src.getChar();
+        src.nextChar();
         if (c == 0x1b) {
-            dst.unkfunc_02087734(c);
-            c = src.unkfunc_0208771c();
-            src.unkfunc_020877b8();
-            dst.unkfunc_02087734(c);
-            c = src.unkfunc_0208771c();
-            src.unkfunc_020877b8();
+            dst.putChar(c);
+            c = src.getChar();
+            src.nextChar();
+            dst.putChar(c);
+            c = src.getChar();
+            src.nextChar();
         }
         if (c == 0xd) {
-            dst.unkfunc_02087734(c);
-            c = src.unkfunc_0208771c();
-            src.unkfunc_020877b8();
+            dst.putChar(c);
+            c = src.getChar();
+            src.nextChar();
         }
         if (c == 0x3221) {
-            src.unkfunc_020877b8();
+            src.nextChar();
             int count = lineCount_ - line;
             if (line == 0 && x == 0) {
                 count = 0;
             }
             for (; count != 0; count--) {
-                dst.unkfunc_02087734('\n');
+                dst.putChar('\n');
                 line++;
             }
             x = 0;
         } else if (c != '\n') {
-            int width = unkfunc_0207fc88(NULL, 0, 0, 0, c);
-            dst.unkfunc_02087734(c);
+            int width = drawBgChar(NULL, 0, 0, 0, c);
+            dst.putChar(c);
             if (c == ' ' || c == '-' || c == 0x3220) {
                 wordPos = src.pos_;
-                wordLength = dst.unkfunc_020876a8();
+                wordLength = dst.getLength();
             }
             x += width;
             if (x > maxWidth) {
                 if (wordPos != -1) {
                     src.pos_ = wordPos;
                     wordPos = -1;
-                    dst.unkfunc_020876dc(wordLength);
+                    dst.truncate(wordLength);
                     wordLength = -1;
                 }
-                dst.unkfunc_02087734('\n');
+                dst.putChar('\n');
                 x = 0;
                 line++;
             }
         } else {
-            dst.unkfunc_02087734(c);
+            dst.putChar(c);
             x = 0;
             line++;
         }
-        if (line == lineCount_ && src.unkfunc_0208771c() != 0) {
-            dst.unkfunc_02087734(0x328a);
+        if (line == lineCount_ && src.getChar() != 0) {
+            dst.putChar(0x328a);
             line = 0;
         }
     }
-    dst.unkfunc_02087734(0);
+    dst.putChar(0);
 }
 int data_020c1e74[8] = { -2, 0, 0, 0, -2, 0, 0, 0 };
 int data_020c1e54[8] = { 0, 0, -2, 0, 0, 0, -2, 0 };
@@ -266,7 +266,7 @@ THUMB void MessageWindow::startWindow()
     setPosition(config_->x_, config_->y_);
     intervalCursor_ = config_->intervalCursor_ ? 1 : 0;
     lastCursor_ = config_->lastCursor_ ? 1 : 0;
-    iterator_.unkfunc_020875ec(text_);
+    iterator_.setText(text_);
     state_ = 1;
     shake_ = 0;
     shakeCount_ = 0;
@@ -351,16 +351,16 @@ THUMB void MessageWindow::stateIdle()
 THUMB void MessageWindow::stateNextLine()
 {
     char buf[0x800];
-    int c = getIterator()->unkfunc_0208771c();
+    int c = getIterator()->getChar();
     if (isEndChar(c)) {
         state_ = 4;
         unk_9c0 = -1;
         return;
     }
     if (c == 0x1b) {
-        getIterator()->unkfunc_020877b8();
-        c = getIterator()->unkfunc_0208771c();
-        getIterator()->unkfunc_020877b8();
+        getIterator()->nextChar();
+        c = getIterator()->getChar();
+        getIterator()->nextChar();
         if (sound_ != -1) {
             if (c == '0') {
                 sound_ = 0;
@@ -383,14 +383,14 @@ THUMB void MessageWindow::stateNextLine()
     if (c == 0x328a) {
         state_ = 4;
         unk_9c0 = -1;
-        getIterator()->unkfunc_020877b8();
-        if (getIterator()->unkfunc_0208771c()) {
-            getIterator()->unkfunc_02087800();
+        getIterator()->nextChar();
+        if (getIterator()->getChar()) {
+            getIterator()->prevChar();
         }
         return;
     }
     if (c == 0x328d) {
-        getIterator()->unkfunc_020877b8();
+        getIterator()->nextChar();
         state_ = 5;
         setWaitProg(1);
         return;
@@ -406,7 +406,7 @@ THUMB void MessageWindow::stateNextLine()
     char* start = iterator_.buf_ + iterator_.pos_;
     char* end;
     while (true) {
-        c = getIterator()->unkfunc_0208771c();
+        c = getIterator()->getChar();
         end = iterator_.buf_ + iterator_.pos_;
         if (isEndChar(c) || isControlCode(c)) {
             break;
@@ -415,7 +415,7 @@ THUMB void MessageWindow::stateNextLine()
             skipNewlines(getIterator());
             break;
         }
-        getIterator()->unkfunc_020877b8();
+        getIterator()->nextChar();
     }
     int len = end - start;
     MI_CpuCopyU8(start, buf, len);
@@ -498,14 +498,14 @@ THUMB void MessageWindow::stateWaitKey()
         unk_9c8--;
         return;
     }
-    if (isEndChar(getIterator()->unkfunc_0208771c())) {
+    if (isEndChar(getIterator()->getChar())) {
         keyWait_ = 0;
         keySound_ = 0;
         state_ = 6;
         return;
     }
     if (unk_9c0 == 0) {
-        getIterator()->unkfunc_020877b8();
+        getIterator()->nextChar();
         skipNewlines(getIterator());
         frame_->setCursor(0);
         waitLine_ = NULL;
@@ -655,8 +655,8 @@ THUMB int MessageWindow::isControlCode(int c)
 
 THUMB void MessageWindow::skipNewlines(UnkTextIterator* it)
 {
-    while (isNewlineChar(it->unkfunc_0208771c())) {
-        it->unkfunc_020877b8();
+    while (isNewlineChar(it->getChar())) {
+        it->nextChar();
     }
 }
 
@@ -671,7 +671,7 @@ THUMB void MessageWindow::openWindow(int type, const char* name, const char* tex
 THUMB void MessageWindow::addText(const char* text)
 {
     appendText(text);
-    iterator_.unkfunc_020875ec(text_);
+    iterator_.setText(text_);
 }
 
 THUMB void MessageWindow::addWaitKey()

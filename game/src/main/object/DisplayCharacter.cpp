@@ -193,13 +193,13 @@ ARM void DisplayCharacter::drawQuad(dss::Fix32Vector3& position, BillboardVertex
 {
     G3_PushMtx();
     G3_Translate(position.vx.value, position.vy.value, position.vz.value);
-    unkfunc_020843d4();
+    loadBillboardMatrix();
     G3_Scale(scale_.vx.value, scale_.vx.value, scale_.vx.value);
     if (RenderObject::texture_) {
         ((TextureObject*)RenderObject::texture_)->unkfunc_02086abc();
         ((TextureObject*)RenderObject::texture_)->unkfunc_02086b3c();
     } else {
-        unkfunc_02086b28();
+        disableTexture();
     }
     unkfunc_02083680();
     unkfunc_020841d4();

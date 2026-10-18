@@ -4,7 +4,7 @@
 #include "main/menu/CommonMenu_YESNO.hpp"
 #include "main/cmn/CommonCounterInfo.hpp"
 #include "main/status/GameStatus.hpp"
-#include "main/debug/UnkDebugInfo.hpp"
+#include "main/debug/DebugInfo.hpp"
 
 int g_menuTextColors[5] = { 1, 7, 9, 2, 4 };
 
@@ -24,7 +24,7 @@ THUMB void TownMenu_MESSAGE::menuSetup()
     yesNoSuperCancel_ = 1;
     suspendInput_ = 0;
     noClose_ = 0;
-    data_020f1d88.unkfunc_0203cc0c();
+    data_020f1d88.clearMessageIDs();
 }
 
 THUMB void TownMenu_MESSAGE::menuExecute()
@@ -161,7 +161,7 @@ THUMB void TownMenu_MESSAGE::openMessage(eMessageWindow type)
 THUMB void TownMenu_MESSAGE::addMessageNOWAIT(int messageID)
 {
     ui_MsgAdd(messageID);
-    data_020f1d88.unkfunc_0203cc20(messageID);
+    data_020f1d88.addMessageID(messageID);
 }
 
 THUMB void TownMenu_MESSAGE::addMessage(int messageID)
@@ -172,7 +172,7 @@ THUMB void TownMenu_MESSAGE::addMessage(int messageID)
     }
     ui_MsgAdd(messageID);
     ui_MsgAddWaitTrigger();
-    data_020f1d88.unkfunc_0203cc20(messageID);
+    data_020f1d88.addMessageID(messageID);
 }
 
 THUMB void TownMenu_MESSAGE::addMessage(int messageID1, int messageID2)
@@ -212,7 +212,7 @@ THUMB void TownMenu_MESSAGE::addMessage(const char* message)
 {
     ui_MsgAdd(message);
     ui_MsgAddWaitTrigger();
-    data_020f1d88.unkfunc_0203cc20(99999999);
+    data_020f1d88.addMessageID(99999999);
 }
 
 THUMB void TownMenu_MESSAGE::setYesNo()
@@ -248,7 +248,7 @@ THUMB void TownMenu_MESSAGE::restartMessage()
     ynPosY_ = 0x40;
     s_draw->restart();
     s_msgCount = 0;
-    data_020f1d88.unkfunc_0203cc0c();
+    data_020f1d88.clearMessageIDs();
 }
 
 THUMB void TownMenu_MESSAGE::addMessageWAITKEY()

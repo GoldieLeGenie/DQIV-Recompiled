@@ -72,7 +72,7 @@ THUMB void UnkMenuFrameRequest::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
         oam = sub;
     }
     if (oam) {
-        GXOamAttr* obj = oam->unkfunc_02082694();
+        GXOamAttr* obj = oam->allocEntry();
         G2_SetOBJAttrFrame(obj, x_, y, priority_, mode_, 0, effect_, shape_, GX_OAM_COLORMODE_16, chr_, palette_, 0);
     }
 }

@@ -54,4 +54,4 @@ struct TextureObject {
     int unkfunc_02086c64();                     // height
 };
 
-void unkfunc_02086b28();                        // G3 no texture
+void disableTexture();                        // G3 no texture

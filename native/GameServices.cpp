@@ -103,7 +103,7 @@ namespace pc {
 GameServices::GameServices(const Assets& files) {
     if (mounted) throw std::runtime_error("Game services already running");
     mounted = &files;
-    try { unkfunc_0207f5c8(&data_0211a60c, 0x18000, 0x1000, 64 * 1024 * 1024, 0); dss::g_File.unkfunc_0207ea64(0); }
+    try { initHeap(&data_0211a60c, 0x18000, 0x1000, 64 * 1024 * 1024, 0); dss::g_File.unkfunc_0207ea64(0); }
     catch (...) { heaps().clear(); mounted = nullptr; throw; }
 }
 GameServices::~GameServices() {
@@ -149,7 +149,7 @@ std::span<const std::uint8_t> gameAllocation(const void* pointer) {
     throw std::runtime_error("Resource pointer is outside a game allocation");
 }
 }
-void unkfunc_0207f5c8(UnkHeap* h, unsigned int s0, unsigned int s1, unsigned int s2, int) {
+void initHeap(UnkHeap* h, unsigned int s0, unsigned int s1, unsigned int s2, int) {
     if (h->heap0_ || h->heap1_ || h->heap2_) throw std::runtime_error("Game heaps already initialized");
     h->heap0_ = makeHeap(s0); h->heap1_ = makeHeap(s1); h->heap2_ = makeHeap(s2);
     h->size0_ = s0; h->size1_ = s1; h->size2_ = s2;
@@ -163,34 +163,34 @@ extern "C" int pcTryInitAllocator(void* allocator, void* heap, int alignment) {
     initAllocator(static_cast<NNSFndAllocator*>(allocator),heap,alignment);
     return 1;
 }
-void* unkfunc_0207f77c(UnkHeap* h, int n, int a) { return allocate(h->heap2_, n, a); }
-void* unkfunc_0207f834(UnkHeap* h, int n, int a) { return allocate(h->heap2_, n, a); }
-void unkfunc_0207f728(UnkHeap* h, void* p) { release(h->heap1_, p); }
-void unkfunc_0207f7e0(UnkHeap* h, void* p) { release(h->heap2_, p); }
-void unkfunc_0207f840(UnkHeap* h, void* p) { release(h->heap2_, p); }
-unsigned int unkfunc_0207f84c(UnkHeap* h) { auto& v = getHeap(h->heap0_); return static_cast<unsigned int>(v.capacity - v.used); }
-unsigned int unkfunc_0207f85c(UnkHeap* h) { auto& v = getHeap(h->heap1_); return static_cast<unsigned int>(v.capacity - v.used); }
-unsigned int unkfunc_0207f86c(UnkHeap* h) { auto& v = getHeap(h->heap2_); return static_cast<unsigned int>(v.capacity - v.used); }
-unsigned int unkfunc_0207f87c(UnkHeap* h) { return unkfunc_0207f86c(h); }
-void** unkfunc_0207f88c(UnkHeap* h) { return &h->heap0_; }
-void** unkfunc_0207f890(UnkHeap* h) { return &h->heap1_; }
-void unkfunc_0207f8ac(void* p) { unkfunc_0207f728(&data_0211a60c, p); }
+void* allocAppHeap(UnkHeap* h, int n, int a) { return allocate(h->heap2_, n, a); }
+void* dssAlloc(UnkHeap* h, int n, int a) { return allocate(h->heap2_, n, a); }
+void freeSystemHeap(UnkHeap* h, void* p) { release(h->heap1_, p); }
+void freeAppHeap(UnkHeap* h, void* p) { release(h->heap2_, p); }
+void dssFree(UnkHeap* h, void* p) { release(h->heap2_, p); }
+unsigned int getHeap0FreeSize(UnkHeap* h) { auto& v = getHeap(h->heap0_); return static_cast<unsigned int>(v.capacity - v.used); }
+unsigned int getSystemHeapFreeSize(UnkHeap* h) { auto& v = getHeap(h->heap1_); return static_cast<unsigned int>(v.capacity - v.used); }
+unsigned int getAppHeapFreeSize(UnkHeap* h) { auto& v = getHeap(h->heap2_); return static_cast<unsigned int>(v.capacity - v.used); }
+unsigned int getAppHeapTotalFreeSize(UnkHeap* h) { return getAppHeapFreeSize(h); }
+void** getHeap0(UnkHeap* h) { return &h->heap0_; }
+void** getSystemHeap(UnkHeap* h) { return &h->heap1_; }
+void freeSystemMemory(void* p) { freeSystemHeap(&data_0211a60c, p); }
 
-void unkfunc_0207f4c4(void* src) { data_0211a604[0] = src; }
-unsigned int unkfunc_0207f52c(void* src) {
+void setCompressedData(void* src) { data_0211a604[0] = src; }
+unsigned int getUncompressedSize(void* src) {
     auto bytes = pc::gameAllocation(src ? src : data_0211a604[0]);
     if (bytes.size() < 4) throw std::runtime_error("Compression header truncated");
     return bytes[1] | (unsigned(bytes[2]) << 8) | (unsigned(bytes[3]) << 16);
 }
-int unkfunc_0207f548(void* src) { return pc::isCompressed(pc::gameAllocation(src)); }
-void unkfunc_0207f4d4(void* dst) {
+int isCompressed(void* src) { return pc::isCompressed(pc::gameAllocation(src)); }
+void uncompressData(void* dst) {
     auto decoded = pc::decompress(pc::gameAllocation(data_0211a604[0]));
     if (pc::gameAllocation(dst).size() < decoded.size()) throw std::runtime_error("Decompression destination too small");
     std::memcpy(dst, decoded.data(), decoded.size()); data_0211a604[1] = dst;
 }
-void* unkfunc_0207f590(void* src) {
+void* uncompressAlloc(void* src) {
     auto decoded = pc::decompress(pc::gameAllocation(src));
-    auto* p = unkfunc_0207f834(&data_0211a60c, static_cast<int>(decoded.size()), 4);
+    auto* p = dssAlloc(&data_0211a60c, static_cast<int>(decoded.size()), 4);
     std::memcpy(p, decoded.data(), decoded.size()); return p;
 }
 namespace {
@@ -206,8 +206,8 @@ void decompressSdk(const void* src, void* dst, unsigned format) {
 extern "C" void func_02067b88(const void* src,void* dst) { decompressSdk(src,dst,0x10); }
 extern "C" void func_02067c1c(const void* src,void* dst) { decompressSdk(src,dst,0x20); }
 extern "C" void func_02067cf4(const void* src,void* dst) { decompressSdk(src,dst,0x30); }
-unsigned int unkfunc_0207ebc0(unsigned int n, unsigned int a) { return (n + a - 1) & ~(a - 1); }
-unsigned int unkfunc_0207ebf8(unsigned int n, unsigned int a) { return n & ~(a - 1); }
+unsigned int roundUp(unsigned int n, unsigned int a) { return (n + a - 1) & ~(a - 1); }
+unsigned int roundDown(unsigned int n, unsigned int a) { return n & ~(a - 1); }
 void dss::File::unkfunc_0207ea64(int) { unkfunc_0207ea80(); unk_4c = unk_50 = size_ = 0; }
 void dss::File::unkfunc_0207ea80() { assets(); unk_54 = 0x200; }
 int dss::File::unkfunc_0207eac0(const char* name, void* dst, int a) {
@@ -218,12 +218,12 @@ int dss::File::unkfunc_0207eb10(const char* n, void* p) { return unkfunc_0207ec0
 void* dss::File::unkfunc_0207eb28(const char* name, int tail, int mode) {
     const int n = unkfunc_0207ecb0(name);
     if (!assets().contains(name)) throw std::runtime_error(std::string("Game resource missing: ") + name);
-    void* p = unkfunc_0207f834(&data_0211a60c, n, tail ? -32 : 32);
+    void* p = dssAlloc(&data_0211a60c, n, tail ? -32 : 32);
     try { unkfunc_0207eac0(name, p, mode); }
-    catch (...) { unkfunc_0207f840(&data_0211a60c, p); throw; }
+    catch (...) { dssFree(&data_0211a60c, p); throw; }
     return p;
 }
-int dss::File::unkfunc_0207eba0(const char* n, int align) { auto size = unkfunc_0207ecb0(n); return align ? unkfunc_0207ebc0(size, 0x200) : size; }
+int dss::File::unkfunc_0207eba0(const char* n, int align) { auto size = unkfunc_0207ecb0(n); return align ? roundUp(size, 0x200) : size; }
 bool dss::File::isExist(const char* n) { return unkfunc_0207ecb0(n) != 0; }
 int dss::File::unkfunc_0207ebf0() { return size_; }
 int dss::File::unkfunc_0207ecb0(const char* n) { return static_cast<int>(read(n).size()); }
@@ -236,6 +236,6 @@ int dss::File::unkfunc_0207ec08(const char* name, void* dst) {
     if (count) { if (!dst) throw std::runtime_error("Null game file destination"); std::memcpy(dst, bytes.data() + offset, count); }
     size_ = static_cast<int>(count); return size_;
 }
-int unkfunc_0207f8c4(void* archive) { return static_cast<int>(pc::Archive(pc::gameAllocation(archive)).count()); }
-int unkfunc_0207f8cc(void* archive, int index) { return static_cast<int>(pc::Archive(pc::gameAllocation(archive)).file(index).size()); }
-void* unkfunc_0207f8dc(void* archive, int index) { return const_cast<std::uint8_t*>(pc::Archive(pc::gameAllocation(archive)).file(index).data()); }
+int getArchiveFileCount(void* archive) { return static_cast<int>(pc::Archive(pc::gameAllocation(archive)).count()); }
+int getArchiveFileSize(void* archive, int index) { return static_cast<int>(pc::Archive(pc::gameAllocation(archive)).file(index).size()); }
+void* getArchiveFile(void* archive, int index) { return const_cast<std::uint8_t*>(pc::Archive(pc::gameAllocation(archive)).file(index).data()); }

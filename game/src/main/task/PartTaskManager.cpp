@@ -1,7 +1,7 @@
 #pragma ipa file
 #include "main/task/PartTaskManager.hpp"
 #include "main/btl/BattleAutoFeed.hpp"
-#include "main/dss/UnkVramTransfer.hpp"
+#include "main/dss/VramManager.hpp"
 
 task::PartTaskManager g_PartTaskManager;
 task::Sample00Task g_Sample00Task;

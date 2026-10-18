@@ -18,16 +18,16 @@ ARM void TownShopListMap::initialize()
 {
     checkData();
     if (isEnable_) {
-        shopSprite_.unkfunc_02057d60("data/2d/map/shop.tex", 0);
-        shopSprite_.unkfunc_02057ee8();
-        shopSprite_.unkfunc_02057f00(0);
-        shopSprite_.unkfunc_02057f18(0x3f);
+        shopSprite_.loadFile("data/2d/map/shop.tex", 0);
+        shopSprite_.setSubScreen();
+        shopSprite_.setAlpha(0);
+        shopSprite_.setPolygonID(0x3f);
         shopSprite_.sprite_.unk_32 = 1;
-        blackSprite_.unkfunc_02057e98(0x100, 0xc0);
-        blackSprite_.unkfunc_02057f00(0);
-        blackSprite_.unkfunc_02057ee8();
-        blackSprite_.unkfunc_02057f40(0, 0, 0);
-        blackSprite_.unkfunc_02057f18(0x3f);
+        blackSprite_.setSize(0x100, 0xc0);
+        blackSprite_.setAlpha(0);
+        blackSprite_.setSubScreen();
+        blackSprite_.setColor(0, 0, 0);
+        blackSprite_.setPolygonID(0x3f);
     }
     phase_ = 0;
 }
@@ -35,7 +35,7 @@ ARM void TownShopListMap::initialize()
 ARM void TownShopListMap::cleanup()
 {
     if (isEnable_) {
-        shopSprite_.unkfunc_02057e34();
+        shopSprite_.unload();
     }
     isEnable_ = 0;
 }
@@ -50,8 +50,8 @@ ARM void TownShopListMap::execute()
         frame_ = 0;
         break;
     case 1:
-        shopSprite_.unkfunc_02057ed4(1);
-        shopSprite_.unkfunc_02057f00(frame_);
+        shopSprite_.setEnabled(1);
+        shopSprite_.setAlpha(frame_);
         frame_++;
         if (frame_ == 31) {
             phase_ = 2;
@@ -59,22 +59,22 @@ ARM void TownShopListMap::execute()
         break;
     case 2:
         frame_ = 31;
-        shopSprite_.unkfunc_02057f00(31);
-        shopSprite_.unkfunc_02057ed4(1);
+        shopSprite_.setAlpha(31);
+        shopSprite_.setEnabled(1);
         break;
     case 3:
         frame_ = dss::clamp<int>(frame_, 0, 31);
-        shopSprite_.unkfunc_02057f00(frame_);
+        shopSprite_.setAlpha(frame_);
         frame_--;
         if (frame_ <= 0) {
-            shopSprite_.unkfunc_02057ed4(0);
+            shopSprite_.setEnabled(0);
             phase_ = 0;
             cleanup();
         }
         break;
     case 4:
-        shopSprite_.unkfunc_02057ed4(0);
-        blackSprite_.unkfunc_02057f00(31);
+        shopSprite_.setEnabled(0);
+        blackSprite_.setAlpha(31);
         frame_++;
         if (frame_ == 31) {
             initialize();
@@ -82,12 +82,12 @@ ARM void TownShopListMap::execute()
         }
         break;
     case 5:
-        shopSprite_.unkfunc_02057ed4(1);
-        shopSprite_.unkfunc_02057f00(31 - frame_);
-        blackSprite_.unkfunc_02057f00(31);
+        shopSprite_.setEnabled(1);
+        shopSprite_.setAlpha(31 - frame_);
+        blackSprite_.setAlpha(31);
         if (--frame_ == 0) {
-            shopSprite_.unkfunc_02057ed4(1);
-            blackSprite_.unkfunc_02057f00(0);
+            shopSprite_.setEnabled(1);
+            blackSprite_.setAlpha(0);
             phase_ = 2;
         }
         break;
@@ -102,8 +102,8 @@ ARM void TownShopListMap::checkData()
 ARM void TownShopListMap::draw()
 {
     if (isEnable_) {
-        unkfunc_020847e8();
-        shopSprite_.unkfunc_02057ec0();
+        setupOrtho2D();
+        shopSprite_.draw();
     }
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <globaldefs.h>
 #include "main/dss/DssUtils.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 #include "main/window/InputControl.hpp"
 #include "main/window/NormalControl.hpp"
 #include "main/window/MapControl.hpp"

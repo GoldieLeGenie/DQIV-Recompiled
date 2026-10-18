@@ -31,7 +31,7 @@ ARM void DataObject::cleanup()
 {
     s_dataCount--;
     if (m_flag & 1) {
-        unkfunc_0207f840(&data_0211a60c, m_addr);
+        dssFree(&data_0211a60c, m_addr);
     }
     m_flag = 0;
     m_addr = 0;
@@ -52,17 +52,17 @@ ARM void LZDataObject::setup(const char* filename, int a, int b)
     m_flag |= 1;
     m_addr = dss::g_File.unkfunc_0207eb28(filename, b, a);
     m_size = dss::g_File.unkfunc_0207ebf0();
-    if (unkfunc_0207f548(m_addr)) {
+    if (isCompressed(m_addr)) {
 #ifdef DQIV_NATIVE
         try {
 #endif
-        m_size = unkfunc_0207f52c(m_addr);
-        void* data = unkfunc_0207f590(m_addr);
-        unkfunc_0207f840(&data_0211a60c, m_addr);
+        m_size = getUncompressedSize(m_addr);
+        void* data = uncompressAlloc(m_addr);
+        dssFree(&data_0211a60c, m_addr);
         m_addr = data;
 #ifdef DQIV_NATIVE
         } catch (...) {
-            unkfunc_0207f840(&data_0211a60c, m_addr);
+            dssFree(&data_0211a60c, m_addr);
             m_addr = 0;
             m_flag = 0;
             throw;

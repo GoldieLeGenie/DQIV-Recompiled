@@ -18,10 +18,10 @@ ARM void ScriptObject::setup(void* addr)
 
 ARM void ScriptObject::setup()
 {
-    placeParam_.setup(unkfunc_0207f8dc(dataObject_.getAddr(), 0));
-    initializeScriptParam_.setup(unkfunc_0207f8dc(dataObject_.getAddr(), 1));
-    executeScriptParam_.setup(unkfunc_0207f8dc(dataObject_.getAddr(), 2));
-    terminateScriptParam_.setup(unkfunc_0207f8dc(dataObject_.getAddr(), 3));
+    placeParam_.setup(getArchiveFile(dataObject_.getAddr(), 0));
+    initializeScriptParam_.setup(getArchiveFile(dataObject_.getAddr(), 1));
+    executeScriptParam_.setup(getArchiveFile(dataObject_.getAddr(), 2));
+    terminateScriptParam_.setup(getArchiveFile(dataObject_.getAddr(), 3));
 }
 
 ARM void ScriptObject::cleanup()

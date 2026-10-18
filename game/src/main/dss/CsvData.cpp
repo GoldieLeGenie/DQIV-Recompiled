@@ -35,7 +35,7 @@ ARM void CsvData::unkfunc_02057234(const char* filename, int a)
 ARM void CsvData::unkfunc_0205726c(const char* filename, int a)
 {
     unkfunc_02057234(filename, a);
-    row_ = (CsvRow*)unkfunc_0207f834(&data_0211a60c, 0x2800, -0x20);
+    row_ = (CsvRow*)dssAlloc(&data_0211a60c, 0x2800, -0x20);
     for (int i = 0; i < 0x280; i++) {
         row_[i].unkfunc_020571c4();
     }

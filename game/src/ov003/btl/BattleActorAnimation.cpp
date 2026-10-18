@@ -181,7 +181,7 @@ THUMB void btl::BattleActorAnimation::setResultAnimation(status::UseActionParam*
                         }
                     }
 
-                    int* ctrl = (int*)unkfunc_02057128(partyIndex);
+                    int* ctrl = (int*)getScreenPosition(partyIndex);
                     int a = ctrl[0];
                     int b = ctrl[1];
                     int value = b - status::HaveEquipment::getAbsoluteValue(tai[1] - tai[3]);

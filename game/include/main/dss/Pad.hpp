@@ -20,26 +20,26 @@ namespace dss {
         unsigned short mask_;                   // 0x4C
         int maskL_;                             // 0x50
 
-        Pad() { unkfunc_0207ed54(); }
-        void unkfunc_0207ed54();                // init
-        void unkfunc_0207ed74();                // read the keys
-        void unkfunc_0207f1f8();                // update
+        Pad() { init(); }
+        void init();                // init
+        void readKeys();                // read the keys
+        void update();                // update
         int pad();                              // held keys & enable mask
         int padDir();                           // direction
         int edge();                             // triggered keys & enable mask
-        int unkfunc_0207f290();                 // repeat keys & enable mask
-        int unkfunc_0207f2a0();                 // L+R+SELECT+START held
-        void unkfunc_0207f2b4(int flag);        // flag != 0: mask out the L button
-        void unkfunc_0207f2d4();                // start recording
-        void unkfunc_0207f2f0();                // stop recording
-        void unkfunc_0207f320();                // start playing
-        void unkfunc_0207f340();                // play again
-        unsigned short unkfunc_0207f360();      // next played keys
-        void unkfunc_0207f39c(unsigned short keys);     // record keys
-        void unkfunc_0207f3bc();                // stop playing
-        void unkfunc_0207f400();                // clear the record
-        void unkfunc_0207f40c(unsigned short keys, int count);  // record keys count times
-        void unkfunc_0207f44c(unsigned short keys, int count);  // record count presses of keys
+        int repeat();                 // repeat keys & enable mask
+        int isResetComboHeld();                 // L+R+SELECT+START held
+        void setMaskL(int flag);        // flag != 0: mask out the L button
+        void startRecord();                // start recording
+        void stopRecord();                // stop recording
+        void startPlay();                // start playing
+        void restartPlay();                // play again
+        unsigned short getPlayKeys();      // next played keys
+        void recordKeys(unsigned short keys);     // record keys
+        void stopPlay();                // stop playing
+        void clearRecord();                // clear the record
+        void addRecordKeys(unsigned short keys, int count);  // record keys count times
+        void addRecordPresses(unsigned short keys, int count);  // record count presses of keys
     };
 
     extern Pad g_Pad;

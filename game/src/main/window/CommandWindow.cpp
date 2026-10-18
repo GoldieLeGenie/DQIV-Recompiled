@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "main/window/CommandWindow.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/menu/MenuAPI.hpp"
 #include "main/status/StageStatus.hpp"
@@ -160,7 +160,7 @@ ARM bool window::CommandWindow::updateTouchScreenCapture()
         int x = data_0211a5d4.x_;
         int y = data_0211a5d4.y_;
         if (x < 0x20 && y < 0x20) {
-            unkfunc_020817d8();
+            requestScreenCapture();
             unk_020bea5c = 0;
             return true;
         }
@@ -171,7 +171,7 @@ ARM bool window::CommandWindow::updateTouchScreenCapture()
     if (unk_020bea5c == -1) {
         return false;
     }
-    if (!unkfunc_0208198c()) {
+    if (!isScreenCaptureDone()) {
         return false;
     }
     unkfunc_02068ec8(0x6b);

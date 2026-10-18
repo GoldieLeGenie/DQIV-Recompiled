@@ -35,7 +35,7 @@ THUMB void MaterielMenuExtraChapterTitle::menuDraw()
         if (m_chapter == 0 && m_chapter_end == 1) {
             drawChapterTitleScreen(m_chapter, m_chapter_end);
         } else {
-            unkfunc_020848a8();
+            setupOrtho2DFine();
             drawChapterTitleScreen(m_chapter, m_chapter_end);
         }
 

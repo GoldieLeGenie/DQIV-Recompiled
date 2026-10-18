@@ -4199,43 +4199,43 @@ ARM void UnkFieldMapSprite_0212c884::setup(FieldSystem* system)
 
 ARM void UnkFieldMapSprite_0212c884::cleanup()
 {
-    unk_54.unkfunc_02057e34();
-    unk_04.unkfunc_02057e34();
+    unk_54.unload();
+    unk_04.unload();
     system_ = NULL;
 }
 
 ARM void UnkFieldMapSprite_0212c884::initSprites()
 {
     char path[0x80];
-    unk_04.unkfunc_02057ea8(0, 0, 0x20, 0x20);
+    unk_04.setTexCoords(0, 0, 0x20, 0x20);
 #ifdef DQIV_NATIVE
     // The large map rewrites its texture as the player moves. Give both its
     // header and pixels owned writable storage instead of modifying .rdata.
-    void* texture = unkfunc_0207f834(&data_0211a60c, sizeof(s_texture_0214e0a8), 0x20);
+    void* texture = dssAlloc(&data_0211a60c, sizeof(s_texture_0214e0a8), 0x20);
     if (!texture) throw std::bad_alloc();
     std::memcpy(texture, s_texture_0214e0a8, sizeof(s_texture_0214e0a8));
     unk_54.data_.setup(texture);
     unk_54.data_.m_flag |= 1;
     unk_54.data_.m_size = sizeof(s_texture_0214e0a8);
-    unk_54.unkfunc_02057dac();
+    unk_54.setupTexture();
 #else
-    unk_54.unkfunc_02057d88(getLargeMapTextureData());
+    unk_54.loadFromMemory(getLargeMapTextureData());
 #endif
-    unk_54.unkfunc_02057e58(&system_->render_);
-    unk_54.unkfunc_02057ee8();
-    unk_54.unkfunc_02057f18(0x3e);
-    unk_54.unkfunc_02057f30(0x10);
-    unk_54.unkfunc_02057f00(0);
+    unk_54.attachRender(&system_->render_);
+    unk_54.setSubScreen();
+    unk_54.setPolygonID(0x3e);
+    unk_54.setDepth(0x10);
+    unk_54.setAlpha(0);
     dss::sprintf_s(path, sizeof(path), "data/field/2d/point.tex");
-    unk_04.unkfunc_02057d60(path, 0);
-    unk_04.unkfunc_02057e58(&system_->render_);
-    unk_04.unkfunc_02057ee8();
-    unk_04.unkfunc_02057f18(0x34);
-    unk_04.unkfunc_02057f30(0x40);
-    unk_04.unkfunc_02057f00(0);
-    unk_04.unkfunc_02057ed4(1);
-    unk_04.unkfunc_02057d1c();
-    unk_54.unkfunc_02057d1c();
+    unk_04.loadFile(path, 0);
+    unk_04.attachRender(&system_->render_);
+    unk_04.setSubScreen();
+    unk_04.setPolygonID(0x34);
+    unk_04.setDepth(0x40);
+    unk_04.setAlpha(0);
+    unk_04.setEnabled(1);
+    unk_04.freeVram();
+    unk_54.freeVram();
 }
 
 ARM int UnkFieldMapSprite_0212c884::loadSpecialBlock(int x, int y, void* buffer)
@@ -4316,9 +4316,9 @@ ARM void UnkFieldMapSprite_0212c884::loadMapBlocks(int x, int y)
 {
     char* src[8];
     void* buffer[8];
-    char* dst = (char*)unk_54.unkfunc_02057d50();
+    char* dst = (char*)unk_54.getTextureData();
     for (int i = 0; i < 8; i++) {
-        buffer[i] = unkfunc_0207f834(&data_0211a60c, 0x400, 0x20);
+        buffer[i] = dssAlloc(&data_0211a60c, 0x400, 0x20);
     }
     for (int j = 0; j < 6; j++) {
         int bx;
@@ -4355,7 +4355,7 @@ ARM void UnkFieldMapSprite_0212c884::loadMapBlocks(int x, int y)
     }
     DC_CleanAll();
     for (int i = 0; i < 8; i++) {
-        unkfunc_0207f840(&data_0211a60c, buffer[i]);
+        dssFree(&data_0211a60c, buffer[i]);
     }
 }
 
@@ -4366,24 +4366,24 @@ ARM void UnkFieldMapSprite_0212c884::load()
     int y = (pos.vy.value + 0x40000) / 0x80000 - 3;
     loadMapBlocks(x, y);
     OS_Wait();
-    unk_54.unkfunc_02057d40();
-    unk_54.unkfunc_02057d2c();
+    unk_54.allocVram();
+    unk_54.transferToVram();
     int px = (pos.vx.value - (x << 19)) / 0x4000;
     int py = (pos.vy.value - (y << 19)) / 0x4000;
-    unk_04.unkfunc_02057d40();
-    unk_04.unkfunc_02057d2c();
-    unk_04.unkfunc_02057e98(0x20, 0x20);
-    unk_04.unkfunc_02057e88(px, py - 0x20);
+    unk_04.allocVram();
+    unk_04.transferToVram();
+    unk_04.setSize(0x20, 0x20);
+    unk_04.setPosition(px, py - 0x20);
 }
 
 ARM void UnkFieldMapSprite_0212c884::clear()
 {
-    unk_04.unkfunc_02057d1c();
-    unk_54.unkfunc_02057d1c();
+    unk_04.freeVram();
+    unk_54.freeVram();
 }
 
 ARM void UnkFieldMapSprite_0212c884::setAlpha(unsigned char alpha)
 {
-    unk_54.unkfunc_02057f00(alpha);
-    unk_04.unkfunc_02057f00(alpha);
+    unk_54.setAlpha(alpha);
+    unk_04.setAlpha(alpha);
 }

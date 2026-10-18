@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 
 // Sub screen window BG: characters + screen (data_020fb8f4)
 struct UnkMenuWindowBg {

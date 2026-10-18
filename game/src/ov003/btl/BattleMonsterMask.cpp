@@ -38,16 +38,16 @@ THUMB void BattleMonsterMask::initialize()
     sprite_.unkfunc_0208456c(0x80, 0x80);
     sprite_.enable_ = 0;
     sprite_.setColor(0, 0, 0);
-    mask_[0].unkfunc_02057d60("data/mask/en02.tex", 0);
-    mask_[0].unkfunc_02057f00(1);
-    mask_[1].unkfunc_02057d60("data/mask/en01.tex", 0);
-    mask_[1].unkfunc_02057f00(1);
+    mask_[0].loadFile("data/mask/en02.tex", 0);
+    mask_[0].setAlpha(1);
+    mask_[1].loadFile("data/mask/en01.tex", 0);
+    mask_[1].setAlpha(1);
     for (int i = 0; i < 2; i++) {
-        mask_[i].unkfunc_02057ef4();
-        mask_[i].unkfunc_02057f18(0x3e);
-        mask_[i].unkfunc_02057f30(0);
-        mask_[i].unkfunc_02057e88(0, 0);
-        mask_[i].unkfunc_02057ed4(0);
+        mask_[i].setBothScreens();
+        mask_[i].setPolygonID(0x3e);
+        mask_[i].setDepth(0);
+        mask_[i].setPosition(0, 0);
+        mask_[i].setEnabled(0);
     }
     scale_ = 0x1000;
 }
@@ -65,7 +65,7 @@ THUMB void BattleMonsterMask::setup()
 THUMB void BattleMonsterMask::terminate()
 {
     for (int i = 0; i < 2; i++) {
-        mask_[i].unkfunc_02057e34();
+        mask_[i].unload();
     }
 }
 
@@ -99,7 +99,7 @@ THUMB void BattleMonsterMask::draw()
             short* rect = MonsterTaiData[g_monster.getMonsterIndex(i)];
             const int h = status::HaveEquipment::getAbsoluteValue(rect[1] - rect[3]);
             double monsterFit = pc::battleZoomToFit(h, rect[3] / 2);
-            const dss::Vector2<int> screen = *unkfunc_02057128(i);
+            const dss::Vector2<int> screen = *getScreenPosition(i);
             if (resting && screen.vx == -1 && screen.vy == -1 && zoomUsed > 1) {
                 // Beyond the band: smaller until it shows.
                 const double smaller = zoomUsed * 0.95;
@@ -139,26 +139,26 @@ THUMB void BattleMonsterMask::draw()
     if (select_ < 0) {
         sprite_.enable_ = 0;
         for (int i = 0; i < 2; i++) {
-            mask_[i].unkfunc_02057ed4(0);
+            mask_[i].setEnabled(0);
         }
         return;
     }
     sprite_.enable_ = 1;
     for (int i = 0; i < 2; i++) {
-        mask_[i].unkfunc_02057ed4(1);
+        mask_[i].setEnabled(1);
     }
     for (int i = 0; i < g_monster.getCount(); i++) {
         if (g_monster.getMonsterStatus(i)->isBattleEnable() && select_ == g_monster.getMonsterGroup(i)) {
             targetPos[i] = getTargetPos(i);
         }
     }
-    unkfunc_020848a8();
+    setupOrtho2DFine();
     for (int j = 0; j < 2; j++) {
         for (int i = 0; i < 12; i++) {
             if (select_ == g_monster.getMonsterGroup(i) && g_monster.getMonsterStatus(i)->isBattleEnable()) {
-                mask_[j].unkfunc_02057e88(targetPos[i].vx / 2, targetPos[i].vy * 2 / 3);
-                mask_[j].unkfunc_02057f38(0);
-                mask_[j].unkfunc_02057ec0();
+                mask_[j].setPosition(targetPos[i].vx / 2, targetPos[i].vy * 2 / 3);
+                mask_[j].setRotation(0);
+                mask_[j].draw();
             }
         }
     }
@@ -173,7 +173,7 @@ THUMB void BattleMonsterMask::calcTargetPos(int actorindex)
     int index = g_monster.getMonsterStatus(actorindex)->haveStatusInfo_.drawCtrlId_;
     dss::Fix32Vector3* position = btl::BattleMonsterDraw2::getSingleton()->monsters_[index].monsterDraw_.getPosition();
     pos = dss::Fix32Vector3(*position);
-    unkfunc_0205710c(actorindex, &pos);
+    setWorldPosition(actorindex, &pos);
 }
 
 THUMB dss::Vector2<int> BattleMonsterMask::getTargetPos(int actorindex)
@@ -184,7 +184,7 @@ THUMB dss::Vector2<int> BattleMonsterMask::getTargetPos(int actorindex)
     int maskScaleX = status::HaveEquipment::getAbsoluteValue(rect[1] - rect[3]);
     int maskScaleY = ((scale_ * status::HaveEquipment::getAbsoluteValue(rect[2] - rect[4])).value / 4096);
     maskScaleX = (scale_ * maskScaleX).value / 4096;
-    screen = *unkfunc_02057128(actorindex);
+    screen = *getScreenPosition(actorindex);
     maskScaleY = maskScaleY * 2 / 3;
 #ifdef DQIV_NATIVE
     // Zoomed 16:9 battles: the light around the target grows with the monster.
@@ -194,7 +194,7 @@ THUMB dss::Vector2<int> BattleMonsterMask::getTargetPos(int actorindex)
     screen.vx -= maskScaleY;
     screen.vy -= maskScaleX;
     for (int i = 0; i < 2; i++) {
-        mask_[i].unkfunc_02057e98(maskScaleY, maskScaleX);
+        mask_[i].setSize(maskScaleY, maskScaleX);
     }
     return screen;
 }
@@ -212,7 +212,7 @@ THUMB int* BattleMonsterMask::getMonsterTouchRect(int actorindex)
     w = (int)(w * scale + 0.5);
     h = (int)(h * scale + 0.5);
 #endif
-    dss::Vector2<int> screen = *unkfunc_02057128(actorindex);
+    dss::Vector2<int> screen = *getScreenPosition(actorindex);
     monsterRectTemp[0] = g_monster.getMonsterGroup(actorindex);
     monsterRectTemp[1] = screen.vx - w / 2;
     monsterRectTemp[2] = screen.vy - h - rect[3] / 2;

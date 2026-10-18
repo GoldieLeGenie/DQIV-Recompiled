@@ -1,10 +1,10 @@
 #pragma ipa file
 #include "main/part/MessageDebugPart.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/global/Global.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Pad.hpp"
-#include "main/dss/UnkVramTransfer.hpp"
+#include "main/dss/VramManager.hpp"
 #include "main/menu/MenuAPI.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
@@ -17,7 +17,7 @@ MessageDebugPart g_MessageDebugPart;
 
 THUMB void MessageDebugPart::initialize()
 {
-    unkfunc_02080e90(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
+    changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     unk_20 = 0;
     snapState_ = 0;
     isDisp_ = 0;
@@ -45,14 +45,14 @@ THUMB void MessageDebugPart::initialize()
     step_ = 1;
     back_ = 1;
     isChanged_ = 0;
-    data_0211e450.unkfunc_020861c4(0x40000, 0x4000);
+    data_0211e450.initVramManagers(0x40000, 0x4000);
     OS_Wait();
     g_Global.fadeIn(30);
 }
 
 THUMB void MessageDebugPart::terminate()
 {
-    unkfunc_02080e90(&dss::g_DISPLAYPLUGIN_STOP);
+    changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_STOP);
     data_0211e450.unkfunc_02086278();
 }
 
@@ -67,27 +67,27 @@ THUMB void MessageDebugPart::onExecutePart()
     } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
         data_020ed1bc.close();
     }
-    if (unkfunc_0200a644(4)) {
+    if (isKeyHeld(4)) {
         MenuManager::setMenuEnable(1);
         isDisp_ = (isDisp_ == 0) ? 1 : 0;
         data_02116ce0.unkfunc_0207e810();
     }
-    if (unkfunc_0200a644(0)) {
+    if (isKeyHeld(0)) {
         step_ = 1;
     }
-    if (unkfunc_0200a644(2)) {
+    if (isKeyHeld(2)) {
         step_ = 10;
     }
-    if (unkfunc_0200a644(0x100)) {
+    if (isKeyHeld(0x100)) {
         step_ = 100;
     }
-    if (unkfunc_0200a644(0x102)) {
+    if (isKeyHeld(0x102)) {
         step_ = 1000;
     }
-    if (unkfunc_0200a644(0x200)) {
+    if (isKeyHeld(0x200)) {
         step_ = 10000;
     }
-    if (unkfunc_0200a644(0x202)) {
+    if (isKeyHeld(0x202)) {
         step_ = 100000;
     }
     if (dss::g_Pad.edge() & 0x20) {
@@ -194,11 +194,11 @@ THUMB void MessageDebugPart::onExecutePart()
         break;
     }
     case 3:
-        unkfunc_020827f0(0x23, 0, (unsigned char*)snap_.getAddr() + 0x14, 0x18000);
+        requestVramCopy(0x23, 0, (unsigned char*)snap_.getAddr() + 0x14, 0x18000);
         snapState_++;
         break;
     case 4:
-        unkfunc_020827f0(10, 0, (unsigned char*)snap_.getAddr() + 0x18014, 0x18000);
+        requestVramCopy(10, 0, (unsigned char*)snap_.getAddr() + 0x18014, 0x18000);
         snapState_++;
         break;
     case 5:
@@ -239,7 +239,7 @@ THUMB void MessageDebugPart::onDebugPart()
     data_02116ce0.unkfunc_0207e88c(1, 13, "  <PAD>  + B + L  ... 100000");
 }
 
-THUMB int MessageDebugPart::unkfunc_0200a644(int key)
+THUMB int MessageDebugPart::isKeyHeld(int key)
 {
     if (key == 0 && dss::g_Pad.pad() == 0) {
         return 1;

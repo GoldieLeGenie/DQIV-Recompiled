@@ -12,12 +12,12 @@ static char s_buildDate[0x20] = "Build Date Time";
 
 ARM int DebugMenuPad::isRightRepeat()
 {
-    return dss::g_Pad.unkfunc_0207f290() & 0x10;
+    return dss::g_Pad.repeat() & 0x10;
 }
 
 ARM int DebugMenuPad::isLeftRepeat()
 {
-    return dss::g_Pad.unkfunc_0207f290() & 0x20;
+    return dss::g_Pad.repeat() & 0x20;
 }
 
 ARM int DebugMenuPad::isAPressed()

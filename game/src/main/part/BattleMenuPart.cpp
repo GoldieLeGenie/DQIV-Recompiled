@@ -65,8 +65,8 @@ ARM void BattleMenuPart::initialize()
     cursor_ = 0;
     mode_ = 0;
     isStart_ = 0;
-    if (data_020c4fb4.unkfunc_02048e4c() == 0) {
-        data_020c4fb4.unkfunc_02048e34("data/btlmap/_list.txt");
+    if (data_020c4fb4.isLoaded() == 0) {
+        data_020c4fb4.load("data/btlmap/_list.txt");
     }
     MenuAPI::setBattleBackDrop(0);
     g_Global.fadeIn(30);
@@ -96,11 +96,11 @@ ARM void BattleMenuPart::onExecutePart()
         }
     }
     if (mode_ == 0) {
-        unkfunc_02008d84();
+        updateEncountMode();
         cursor_ = dss::loop<int>(cursor_, 0, 4);
     }
     if (mode_ == 1) {
-        unkfunc_02008ed0();
+        updateSelectMode();
         cursor_ = dss::loop<int>(cursor_, 0, 5);
     }
     if (isStart_ != 0) {
@@ -110,7 +110,7 @@ ARM void BattleMenuPart::onExecutePart()
         return;
     }
     isStart_ = 1;
-    dss::sprintf_s(path, sizeof(path), "data/btlmap/%s.lz", data_020c4fb4.unkfunc_02048f7c());
+    dss::sprintf_s(path, sizeof(path), "data/btlmap/%s.lz", data_020c4fb4.getMapName());
     if (!dss::g_File.isExist(path)) {
         return;
     }
@@ -126,7 +126,7 @@ ARM void BattleMenuPart::onExecutePart()
             encount::Encount::getSingleton()->setMonsterCount(i, count_[i]);
         }
     }
-    g_Stage.setBtlMapName(data_020c4fb4.unkfunc_02048f7c());
+    g_Stage.setBtlMapName(data_020c4fb4.getMapName());
     g_Global.directStartBattle();
 }
 
@@ -135,11 +135,11 @@ ARM void BattleMenuPart::onDrawPart()
     data_02116ce0.unkfunc_0207e88c(x_, y_ + cursor_, ">");
     if (mode_ == 0) {
         data_02116ce0.unkfunc_0207e88c(x_ + 1, y_, "1.Mode : Encount");
-        unkfunc_020090f4();
+        drawEncountMode();
     }
     if (mode_ == 1) {
         data_02116ce0.unkfunc_0207e88c(x_ + 1, y_, "1.Mode : Select");
-        unkfunc_020091f0();
+        drawSelectMode();
     }
 }
 
@@ -152,123 +152,123 @@ ARM void BattleMenuPart::onDebugPart()
     data_02116ce0.unkfunc_0207e88c(0, 0, "Battle Menu Part", REG_GFX_RAM_COUNT);
 }
 
-ARM void BattleMenuPart::unkfunc_02008d84()
+ARM void BattleMenuPart::updateEncountMode()
 {
     switch (cursor_) {
     case 0:
         break;
     case 1:
-        if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
+        if (dss::g_Pad.repeat() & 0x10) {
             tileId_++;
         }
-        if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
+        if (dss::g_Pad.repeat() & 0x20) {
             tileId_--;
         }
         break;
     case 2:
-        if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
+        if (dss::g_Pad.repeat() & 0x10) {
             timeZone_++;
         }
-        if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
+        if (dss::g_Pad.repeat() & 0x20) {
             timeZone_--;
         }
         timeZone_ = dss::clamp<int>(timeZone_, 0, 2);
         break;
     case 3:
-        if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
-            data_020c4fb4.unkfunc_02048e60();
+        if (dss::g_Pad.repeat() & 0x10) {
+            data_020c4fb4.nextGroup();
         }
-        if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
-            data_020c4fb4.unkfunc_02048ee0();
+        if (dss::g_Pad.repeat() & 0x20) {
+            data_020c4fb4.prevGroup();
         }
         break;
     case 4:
-        if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
-            data_020c4fb4.unkfunc_02048f90();
+        if (dss::g_Pad.repeat() & 0x10) {
+            data_020c4fb4.nextMap();
         }
-        if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
-            data_020c4fb4.unkfunc_02048ff8();
+        if (dss::g_Pad.repeat() & 0x20) {
+            data_020c4fb4.prevMap();
         }
         break;
     }
 }
 
-ARM void BattleMenuPart::unkfunc_02008ed0()
+ARM void BattleMenuPart::updateSelectMode()
 {
     switch (cursor_) {
     case 0:
         break;
     case 1:
-        if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
+        if (dss::g_Pad.repeat() & 0x10) {
             group_++;
         }
-        if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
+        if (dss::g_Pad.repeat() & 0x20) {
             group_--;
         }
         group_ = dss::clamp<int>(group_, 0, 3);
         break;
     case 2:
         if (dss::g_Pad.pad() & 0x100) {
-            if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
+            if (dss::g_Pad.repeat() & 0x10) {
                 monster_[group_] += 10;
             }
-            if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
+            if (dss::g_Pad.repeat() & 0x20) {
                 monster_[group_] -= 10;
             }
         } else {
-            if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
+            if (dss::g_Pad.repeat() & 0x10) {
                 monster_[group_]++;
             }
-            if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
+            if (dss::g_Pad.repeat() & 0x20) {
                 monster_[group_]--;
             }
         }
         monster_[group_] = dss::clamp<int>(monster_[group_], 0, 0x140);
         break;
     case 3:
-        if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
+        if (dss::g_Pad.repeat() & 0x10) {
             count_[group_]++;
         }
-        if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
+        if (dss::g_Pad.repeat() & 0x20) {
             count_[group_]--;
         }
         count_[group_] = dss::clamp<int>(count_[group_], 0, 8);
         break;
     case 4:
-        if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
-            data_020c4fb4.unkfunc_02048e60();
+        if (dss::g_Pad.repeat() & 0x10) {
+            data_020c4fb4.nextGroup();
         }
-        if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
-            data_020c4fb4.unkfunc_02048ee0();
+        if (dss::g_Pad.repeat() & 0x20) {
+            data_020c4fb4.prevGroup();
         }
         break;
     case 5:
-        if (dss::g_Pad.unkfunc_0207f290() & 0x10) {
-            data_020c4fb4.unkfunc_02048f90();
+        if (dss::g_Pad.repeat() & 0x10) {
+            data_020c4fb4.nextMap();
         }
-        if (dss::g_Pad.unkfunc_0207f290() & 0x20) {
-            data_020c4fb4.unkfunc_02048ff8();
+        if (dss::g_Pad.repeat() & 0x20) {
+            data_020c4fb4.prevMap();
         }
         break;
     }
 }
 
-ARM void BattleMenuPart::unkfunc_020090f4()
+ARM void BattleMenuPart::drawEncountMode()
 {
     data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 1, "2.Encount Tile : %3d", tileId_);
     char timeZone[3][8] = { "None", "Day", "Night" };
     data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 2, "3.Time Zone    : %s", timeZone[timeZone_]);
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 3, "4.Group        : %s", data_020c4fb4.unkfunc_02048e50());
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 4, "5.Map          : %s", data_020c4fb4.unkfunc_02048f7c());
+    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 3, "4.Group        : %s", data_020c4fb4.getGroupName());
+    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 4, "5.Map          : %s", data_020c4fb4.getMapName());
 }
 
-ARM void BattleMenuPart::unkfunc_020091f0()
+ARM void BattleMenuPart::drawSelectMode()
 {
     data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 1, "2.GROUP   : %d", group_ + 1);
     data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 2, "3.MONSTER : m%03d", monster_[group_]);
     data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 3, "4.COUNT   : %d", count_[group_]);
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 4, "5.Group   : %s", data_020c4fb4.unkfunc_02048e50());
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 5, "6.Map     : %s", data_020c4fb4.unkfunc_02048f7c());
+    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 4, "5.Group   : %s", data_020c4fb4.getGroupName());
+    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 5, "6.Map     : %s", data_020c4fb4.getMapName());
     data_02116ce0.unkfunc_0207e88c(x_ + 0x18, y_ + 1, "m%03d(%d)", monster_[0], count_[0]);
     data_02116ce0.unkfunc_0207e88c(x_ + 0x18, y_ + 2, "m%03d(%d)", monster_[1], count_[1]);
     data_02116ce0.unkfunc_0207e88c(x_ + 0x18, y_ + 3, "m%03d(%d)", monster_[2], count_[2]);

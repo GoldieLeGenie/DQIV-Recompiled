@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/sound/UnkSoundPlayer.hpp"
+#include "main/sound/SoundPlayer.hpp"
 
 struct Sound {
     static void unkfunc_0205590c(int bgm);

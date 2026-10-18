@@ -10,7 +10,7 @@
 #include "main/dss/Billboard.hpp"
 #include "main/dss/PolygonObject.hpp"
 #include "main/dss/UnkSprite2D.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/object/DSSAObject.hpp"
 #include "nitro/g3.hpp"
 #include "nitro/fx/fx_trig.h"
@@ -269,7 +269,7 @@ ARM void PolygonObject::unkfunc_02083848()
         ((TextureObject*)texture_)->unkfunc_02086abc();
         ((TextureObject*)texture_)->unkfunc_02086b3c();
     } else {
-        unkfunc_02086b28();
+        disableTexture();
     }
     unkfunc_02083680();
     G3_Begin(1);
@@ -293,7 +293,7 @@ ARM void UnkShadowPolygon::draw()
     G3_Translate(position_.vx.value, position_.vy.value, position_.vz.value);
     func_02065c60(FX_SinIdx(unk_28.vy), FX_CosIdx(unk_28.vy));
     G3_Scale(scale_.vx.value, scale_.vy.value, scale_.vz.value);
-    unkfunc_02086b28();
+    disableTexture();
     if (data_0211d36c == 0) {
         G3_MaterialColorDiffAmb(0, 0, 0);
         G3_MaterialColorSpecEmi(0, 0, 0);
@@ -323,7 +323,7 @@ ARM void UnkShadowPolygon::unkfunc_02083b1c()
     G3_Translate(position_.vx.value, position_.vy.value, position_.vz.value);
     func_02065c60(FX_SinIdx(unk_28.vy), FX_CosIdx(unk_28.vy));
     G3_Scale(scale_.vx.value, scale_.vy.value, scale_.vz.value);
-    unkfunc_02086b28();
+    disableTexture();
     G3_MaterialColorDiffAmb(0, 0, 0);
     G3_MaterialColorSpecEmi(0, 0, 0);
     unkfunc_020836a8();
@@ -403,13 +403,13 @@ ARM void Billboard::draw()
 {
     G3_PushMtx();
     G3_Translate(position_.vx.value, position_.vy.value, position_.vz.value);
-    unkfunc_020843d4();
+    loadBillboardMatrix();
     G3_Scale(scale_.vx.value, scale_.vx.value, scale_.vx.value);
     if (texture_) {
         ((TextureObject*)texture_)->unkfunc_02086abc();
         ((TextureObject*)texture_)->unkfunc_02086b3c();
     } else {
-        unkfunc_02086b28();
+        disableTexture();
     }
     unkfunc_02083680();
     unkfunc_020841d4();
@@ -423,7 +423,7 @@ ARM void Billboard::draw()
     G3_PopMtx(1);
 }
 
-ARM void unkfunc_020843d4()
+ARM void loadBillboardMatrix()
 {
     unsigned int* trans = &data_020c4328[12];
     MtxFx44 clip;
@@ -490,7 +490,7 @@ ARM void UnkSprite2D::draw()
         }
     } else
 #endif
-    if (unkfunc_02081254() & 1) {
+    if (getDisplayFrame() & 1) {
         if (!(unk_2c & 1)) {
             return;
         }
@@ -515,7 +515,7 @@ ARM void UnkSprite2D::draw()
             ((TextureObject*)texture_)->unkfunc_02086b3c();
         }
     } else {
-        unkfunc_02086b28();
+        disableTexture();
     }
 #ifdef DQIV_NATIVE
     G3_PolygonAttr(0, 0, 0xc0, polygonID_, alpha_, pc::spriteDecal() ? 0xc000 : 0x8000);
@@ -559,7 +559,7 @@ ARM void unkfunc_unused_29()
     G3_SEND(data_020c4364, sizeof(data_020c4364));
 }
 
-ARM void unkfunc_020847e8()
+ARM void setupOrtho2D()
 {
     func_0206dcf0();
     G3_Viewport(0, 0, 255, 191);
@@ -572,7 +572,7 @@ ARM void unkfunc_020847e8()
     func_02065a98(&camPos, &camUp, &target, 1, NULL);
 }
 
-ARM void unkfunc_020848a8()
+ARM void setupOrtho2DFine()
 {
     G3_Viewport(0, 0, 255, 191);
     func_020657d4(0, 192 << FX32_SHIFT, 0, 256 << FX32_SHIFT, -1024 << FX32_SHIFT, 1024 << FX32_SHIFT, 0x40, 1, NULL);
@@ -584,7 +584,7 @@ ARM void unkfunc_020848a8()
     func_02065a98(&camPos, &camUp, &target, 1, NULL);
 }
 
-ARM void unkfunc_02084964()
+ARM void setupOrtho2DBackground()
 {
     G3_Viewport(0, 0, 255, 191);
     func_020657d4(0, 192 << FX32_SHIFT, 0, 256 << FX32_SHIFT, -1024 << FX32_SHIFT, 1024 << FX32_SHIFT, 1024 << FX32_SHIFT, 1, NULL);
@@ -596,7 +596,7 @@ ARM void unkfunc_02084964()
     func_02065a98(&camPos, &camUp, &target, 1, NULL);
 }
 
-ARM void unkfunc_02084a1c()
+ARM void drawBackgroundGradient()
 {
     if (data_0211d368 == 0) {
         return;
@@ -607,7 +607,7 @@ ARM void unkfunc_02084a1c()
     G3_Color(data_0211d380.vx | (data_0211d380.vy << 5) | (data_0211d380.vz << 10));
     G3_Translate(0, 0, 1024 << FX32_SHIFT);
     G3_Scale(256 << FX32_SHIFT, 192 << FX32_SHIFT, FX32_ONE);
-    if (unkfunc_02081254() & 1) {
+    if (getDisplayFrame() & 1) {
         G3_Begin(1);
         G3_Color(data_0211d3bc.vx | (data_0211d3bc.vy << 5) | (data_0211d3bc.vz << 10));
         G3_TexCoord(0, 0);
@@ -641,7 +641,7 @@ ARM void unkfunc_02084a1c()
     G3_PopMtx(1);
 }
 
-ARM void unkfunc_02084c78(int r, int g, int b)
+ARM void setBackgroundColor(int r, int g, int b)
 {
     data_0211d398.vx = r;
     data_0211d398.vy = g;
@@ -670,7 +670,7 @@ ARM void unkfunc_02084c78(int r, int g, int b)
     data_0211d368 = 1;
 }
 
-ARM void unkfunc_02084cec(unsigned char* bottomUpLeft, unsigned char* bottomUpRight, unsigned char* bottomDownLeft, unsigned char* bottomDownRight,
+ARM void setBackgroundGradient(unsigned char* bottomUpLeft, unsigned char* bottomUpRight, unsigned char* bottomDownLeft, unsigned char* bottomDownRight,
                           unsigned char* topUpLeft, unsigned char* topUpRight, unsigned char* topDownLeft, unsigned char* topDownRight)
 {
     data_0211d3d4.vx = topUpLeft[0];
@@ -700,20 +700,20 @@ ARM void unkfunc_02084cec(unsigned char* bottomUpLeft, unsigned char* bottomUpRi
     data_0211d368 = 1;
 }
 
-ARM void unkfunc_02084dd4(int enable)
+ARM void setBackgroundGradientEnable(int enable)
 {
     data_0211d368 = enable;
 }
 
-ARM void unkfunc_02084de4()
+ARM void drawSubScreenShade()
 {
     if (data_0211d370 == 0) {
         return;
     }
-    if (unkfunc_02081254() & 1) {
+    if (getDisplayFrame() & 1) {
         return;
     }
-    unkfunc_020847e8();
+    setupOrtho2D();
     G3_PushMtx();
     G3_TexImageParam(0, 1, 0, 0, 0, 0, 1, 0);
     G3_PolygonAttr(0, 0, 0xc0, 0, 15, 0);

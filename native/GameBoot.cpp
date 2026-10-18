@@ -31,7 +31,7 @@ __declspec(dllexport) int AmdPowerXpressRequestHighPerformance=1;
 extern "C" {
 #include <nitro/os/thread.h>
 }
-#include "main/global/UnkGameApplication.hpp"
+#include "main/global/GameApplication.hpp"
 #include "main/global/GlobalDQ4.hpp"
 #include <array>
 #include <cstdio>

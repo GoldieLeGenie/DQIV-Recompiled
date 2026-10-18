@@ -3,7 +3,7 @@
 #include "DualScreen.hpp"
 #endif
 #include "main/dss/RenderObject.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/cmn/CommonEffectData.hpp"
 #include "main/dss/Camera.hpp"
 #include "main/dss/UnkLanguage.hpp"
@@ -34,20 +34,20 @@ THUMB void TownEndrollManager::setup()
     for (int i = 0; i < STAFF_MAX; i++) {
         staffPos_[i] = -(i * 0xc0);
         staffIndex_[i] = i;
-        if (unkfunc_0208a104() == 2) {
+        if (getGameRegion() == 2) {
             dss::sprintf_s(filename, 0x80, "data/endroll_na/endroll%02d.tex", i);
             staffCount_ = 0x40;
         } else {
             dss::sprintf_s(filename, 0x80, "data/endroll_eu/endroll%02d.tex", i);
             staffCount_ = 0x40;
         }
-        staff_[i].unkfunc_02057d60(filename, 1);
-        staff_[i].unkfunc_02057f00(0x1f);
-        staff_[i].unkfunc_02057f18(0x3f);
-        staff_[i].unkfunc_02057ef4();
+        staff_[i].loadFile(filename, 1);
+        staff_[i].setAlpha(0x1f);
+        staff_[i].setPolygonID(0x3f);
+        staff_[i].setBothScreens();
         staff_[i].sprite_.unk_32 = 1;
-        staff_[i].unkfunc_02057e98(0x100, 0xc0);
-        staff_[i].unkfunc_02057ea8(0, 0, 0x100, 0xc0);
+        staff_[i].setSize(0x100, 0xc0);
+        staff_[i].setTexCoords(0, 0, 0x100, 0xc0);
     }
     theEndFrame_ = 0;
     enableTheEnd_ = 0;
@@ -60,8 +60,8 @@ THUMB void TownEndrollManager::cleanup()
 {
     if (enable_) {
         for (int i = 0; i < STAFF_MAX; i++) {
-            if (staff_[i].unkfunc_02057e74()) {
-                staff_[i].unkfunc_02057e34();
+            if (staff_[i].isLoaded()) {
+                staff_[i].unload();
             }
         }
         theEndData_.cleanup();
@@ -78,7 +78,7 @@ THUMB void TownEndrollManager::cleanup()
 THUMB void TownEndrollManager::animTheEnd()
 {
     char filename[0x80];
-    if (enableTheEnd_ && (unkfunc_02081254() & 1)) {
+    if (enableTheEnd_ && (getDisplayFrame() & 1)) {
         if (theEndData_.getAddr()) {
             theEndData_.cleanup();
         }
@@ -101,23 +101,23 @@ THUMB void TownEndrollManager::drawStaffRoll()
         return;
     }
     for (int i = 0; i < STAFF_MAX; i++) {
-        if (!staff_[i].unkfunc_02057e74()) {
+        if (!staff_[i].isLoaded()) {
             continue;
         }
-        if (unkfunc_02081254() & 1) {
-            staff_[i].unkfunc_02057e88(0, 0xc0 - staffPos_[i]);
+        if (getDisplayFrame() & 1) {
+            staff_[i].setPosition(0, 0xc0 - staffPos_[i]);
         } else {
-            staff_[i].unkfunc_02057e88(0, 0x180 - staffPos_[i]);
+            staff_[i].setPosition(0, 0x180 - staffPos_[i]);
         }
         if ((staffCount_ - 1 == staffIndex_[i] && staffPos_[i] >= 0xc0) ||
             (staffCount_ - 2 == staffIndex_[i] && staffPos_[i] >= 0x180)) {
             if (staffCount_ - 1 == staffIndex_[i]) {
-                staff_[i].unkfunc_02057edc();
+                staff_[i].setMainScreen();
             } else {
-                staff_[i].unkfunc_02057ee8();
+                staff_[i].setSubScreen();
             }
-            staff_[i].unkfunc_02057e88(0, 0);
-            staff_[i].unkfunc_02057ec0();
+            staff_[i].setPosition(0, 0);
+            staff_[i].draw();
             staffDone_ = 1;
             continue;
         }
@@ -135,24 +135,24 @@ THUMB void TownEndrollManager::drawStaffRoll()
             sprite.draw();
             sprite.unkfunc_02084578(u0, v0, u1, v1);
             pc::setSpriteDecal(true);
-            staff_[i].unkfunc_02057ec0();
+            staff_[i].draw();
             pc::setSpriteDecal(false);
         } else
 #endif
-        staff_[i].unkfunc_02057ec0();
+        staff_[i].draw();
         if (staffPos_[i] >= 0x240) {
             staffPos_[i] = 0;
             staffIndex_[i] = staffIndex_[i] + 3;
-            staff_[i].unkfunc_02057e34();
+            staff_[i].unload();
             if (staffIndex_[i] < staffCount_) {
-                if (unkfunc_0208a104() == 2) {
+                if (getGameRegion() == 2) {
                     dss::sprintf_s(filename, 0x80, "data/endroll_na/endroll%02d.tex", staffIndex_[i]);
                 } else {
                     dss::sprintf_s(filename, 0x80, "data/endroll_eu/endroll%02d.tex", staffIndex_[i]);
                 }
-                staff_[i].unkfunc_02057d60(filename, 1);
-                staff_[i].unkfunc_02057e98(0x100, 0xc0);
-                staff_[i].unkfunc_02057ea8(0, 0, 0x100, 0xc0);
+                staff_[i].loadFile(filename, 1);
+                staff_[i].setSize(0x100, 0xc0);
+                staff_[i].setTexCoords(0, 0, 0x100, 0xc0);
             }
         }
     }
@@ -183,7 +183,7 @@ THUMB bool TownEndrollManager::isEndTheEnd()
 THUMB void TownEndrollManager::draw()
 {
     if (enable_) {
-        unkfunc_020847e8();
+        setupOrtho2D();
         UnkSprite2D& theEnd = theEnd_;
         theEnd.draw();
         drawStaffRoll();

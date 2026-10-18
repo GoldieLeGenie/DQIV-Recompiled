@@ -2,7 +2,7 @@
 
 THUMB void MessageMacro::initialize(char* dst, int size, const char* src)
 {
-    unkfunc_02088078(src);
+    convertUtf8ToSjisWork(src);
     dst_ = dst;
     size_ = size;
     src_ = src;

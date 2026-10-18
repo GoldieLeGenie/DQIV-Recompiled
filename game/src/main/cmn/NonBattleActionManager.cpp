@@ -1,5 +1,5 @@
 #include "main/cmn/NonBattleActionManager.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/global/GlobalDQ4.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/object/SpriteCharacter.hpp"

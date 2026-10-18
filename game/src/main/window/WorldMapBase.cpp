@@ -19,12 +19,12 @@ ARM void window::UnkMapBase_020381d0::drawSymbols(int world)
         if (world == symbol->world) {
             if (symbol->color == 1) {
                 if (g_Stage.getSymbolFlag(i)) {
-                    unk_58.unkfunc_02057e88(symbol->dispX - 1, symbol->dispY - 3);
-                    unk_58.unkfunc_02057f40(0x1f, status::HaveEquipment::getAbsoluteValue(unk_f8 / 4), 0);
-                    unk_58.unkfunc_02057ec0();
+                    unk_58.setPosition(symbol->dispX - 1, symbol->dispY - 3);
+                    unk_58.setColor(0x1f, status::HaveEquipment::getAbsoluteValue(unk_f8 / 4), 0);
+                    unk_58.draw();
                 }
             } else if (symbol->color == 3) {
-                unk_a8.unkfunc_02057e88(symbol->dispX - 8, symbol->dispY - 8);
+                unk_a8.setPosition(symbol->dispX - 8, symbol->dispY - 8);
             }
         }
     }

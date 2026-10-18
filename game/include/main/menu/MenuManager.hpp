@@ -3,7 +3,7 @@
 #include "main/dss/DssCore.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/DebugMenu.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 
 enum MENUDISPLAY_MODE {
     MENUDISPLAY_OFF = 0,

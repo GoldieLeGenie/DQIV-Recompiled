@@ -1,7 +1,7 @@
 #pragma once
 #include "globaldefs.h"
 #include "main/dss/DssUtils.hpp"
-#include "main/dss/UnkFog.hpp"
+#include "main/dss/Fog.hpp"
 #include "main/data/DataObject.hpp"
 #include "main/param/Param.hpp"
 #include "main/param/ColorCorrect.hpp"

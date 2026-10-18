@@ -79,7 +79,7 @@ struct GlobalGamePartManager {
 extern GlobalGamePartManager data_0210bc18;
 extern int data_020c1b7c;
 
-void unkfunc_0203f268(void (*callback)());       // set the per-frame callback
+void setPartFrameCallback(void (*callback)());       // set the per-frame callback
 
 extern "C" {
     void ov001_entry(void);                     // called by the parts right after loading the overlay

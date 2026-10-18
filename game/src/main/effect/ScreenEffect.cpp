@@ -1,9 +1,9 @@
 #pragma ipa file
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/effect/ScreenEffect.hpp"
 #include "main/effect/UnkEffectCamera.hpp"
 #include "main/object/DisplayCharacter.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 #include "main/data/DataObject.hpp"
 #include "main/object/DSSAObject.hpp"
 #include "nitro/g3.hpp"
@@ -50,7 +50,7 @@ THUMB void UnkScreenEffect::start()
     s_texCoord.v[2] = s_texCoordRightTop;
     s_texCoord.v[3] = s_texCoordLeftTop;
     if (tiles_ == NULL) {
-        tiles_ = (UnkScreenEffectTile*)unkfunc_0207f834(&data_0211a60c, sizeof(UnkScreenEffectTile) * columns_ * rows_, 0x20);
+        tiles_ = (UnkScreenEffectTile*)dssAlloc(&data_0211a60c, sizeof(UnkScreenEffectTile) * columns_ * rows_, 0x20);
     }
     counter_ = 0;
 }
@@ -64,7 +64,7 @@ THUMB int UnkScreenEffect::setupTiles()
     const int width = 256;
     const int height = 192;
     wait_ = 0;
-    unkfunc_020817d8();
+    requestScreenCapture();
     for (int i = 0; i < columns_; i++) {
         for (int j = 0; j < rows_; j++) {
             int index = j + i * rows_;
@@ -99,7 +99,7 @@ THUMB int UnkScreenEffect::setupTiles()
 
 THUMB void UnkScreenEffect::terminate()
 {
-    unkfunc_0207f840(&data_0211a60c, tiles_);
+    dssFree(&data_0211a60c, tiles_);
     tiles_ = NULL;
     UnkEffectCamera::getSingleton()->terminate();
 }
@@ -112,7 +112,7 @@ THUMB void UnkScreenEffect::update()
         }
         flag_.flag_ |= 1;
     }
-    if (unkfunc_0208198c()) {
+    if (isScreenCaptureDone()) {
         if (flag_.check(4) == false) {
             if (counter_ >= 2) {
                 flag_.flag_ |= 4;
@@ -128,7 +128,7 @@ THUMB void UnkScreenEffect::update()
 
 THUMB void UnkScreenEffect::setPolygonParams(int polygonID)
 {
-    if (unkfunc_02081254() & 1) {
+    if (getDisplayFrame() & 1) {
         G3_TexImageParam(7, 1, 5, 5, 0, 0, 1, 0x20000);
     } else {
         G3_TexImageParam(7, 1, 5, 5, 0, 0, 1, 0);

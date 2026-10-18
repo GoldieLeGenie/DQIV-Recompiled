@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "main/part/LogoPart.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/global/Global.hpp"
 #include "main/data/FileLoader.hpp"
 #include "main/dss/Camera.hpp"
@@ -8,7 +8,7 @@
 #include "main/dss/Pad.hpp"
 #include "main/dss/Render.hpp"
 #include "main/dss/UnkSprite2D.hpp"
-#include "main/dss/UnkVramTransfer.hpp"
+#include "main/dss/VramManager.hpp"
 #include "main/fld/FldStage.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/object/ModelObject.hpp"
@@ -37,7 +37,7 @@ static ModelObject s_model;
 static UnkMenuSprite s_sprite;
 static short s_fov = 10;
 
-ARM static void unkfunc_020099f0()
+ARM static void setupLogoModel()
 {
     char path[128];
     int index = 0;
@@ -74,7 +74,7 @@ ARM static void unkfunc_020099f0()
     s_model.setRotationIdx(rot);
 }
 
-ARM static void unkfunc_02009b90()
+ARM static void cleanupLogoModel()
 {
     s_model.cleanup(1);
 }
@@ -87,16 +87,16 @@ ARM void LogoPart::initialize()
     GX_ResetBankForSubObj();
     GX_ResetBankForSubBg();
     GX_SetBankForTex(GX_VRAM_AB);
-    data_0211e450.unkfunc_020861c4(0x40000, 0x4000);
-    unkfunc_02080e90(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
+    data_0211e450.initVramManagers(0x40000, 0x4000);
+    changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     s_render.unkfunc_02084efc();
     s_stage.setRender(&s_render);
     s_stage.setPath(s_mapPath);
     s_stage.load("ev01");
     s_stage.setup();
-    s_sprite.unkfunc_02057d60("data/2d/opening.tex", 0);
-    s_sprite.unkfunc_02057e58(&s_render);
-    s_sprite.unkfunc_02057edc();
+    s_sprite.loadFile("data/2d/opening.tex", 0);
+    s_sprite.attachRender(&s_render);
+    s_sprite.setMainScreen();
     s_camera.unk_004.setup();
     s_camera.unk_068.setup();
     s_camera.m_dirOffset = 0x5b0;
@@ -110,16 +110,16 @@ ARM void LogoPart::initialize()
     int fov = s_fov;
     s_camera.unk_004.setFOV2(fov);
     s_camera.unk_068.setFOV2(fov);
-    unkfunc_020099f0();
-    unkfunc_02009f10(0);
+    setupLogoModel();
+    setState(0);
     Sound::unkfunc_02055980(0);
     g_Global.fadeIn(30);
 }
 
 ARM void LogoPart::terminate()
 {
-    unkfunc_02009b90();
-    s_sprite.unkfunc_02057e34();
+    cleanupLogoModel();
+    s_sprite.unload();
     s_stage.cleanup();
     g_Global.setMapName("caf1");
     status::g_Story.setChapter(1);
@@ -133,12 +133,12 @@ ARM void LogoPart::onExecutePart()
     switch (state_) {
     case 0:
         if (frame_ == 120) {
-            unkfunc_02009f10(1);
+            setState(1);
         }
         break;
     case 1:
         if (dss::g_Pad.edge() & 0xcf3) {
-            unkfunc_02009f10(2);
+            setState(2);
             Sound::unkfunc_02055998(15);
             g_Global.fadeOutBlack(30);
         }
@@ -146,7 +146,7 @@ ARM void LogoPart::onExecutePart()
     case 2:
         if (frame_ == 30) {
             g_Global.startGame();
-            unkfunc_02009f10(3);
+            setState(3);
         }
         break;
     }
@@ -173,7 +173,7 @@ ARM void LogoPart::onDebugPart()
 {
 }
 
-ARM void LogoPart::unkfunc_02009f10(int state)
+ARM void LogoPart::setState(int state)
 {
     state_ = state;
     frame_ = 0;

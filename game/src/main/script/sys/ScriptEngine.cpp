@@ -19,7 +19,7 @@ ARM void ScriptEngine::setup(void* addr, int chapter)
 
 ARM void ScriptEngine::setup()
 {
-    scriptGroup_.setup(unkfunc_0207f8dc(dataObject_.getAddr(), chapter_));
+    scriptGroup_.setup(getArchiveFile(dataObject_.getAddr(), chapter_));
     enable_ = 1;
 }
 

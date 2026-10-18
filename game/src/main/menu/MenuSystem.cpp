@@ -26,7 +26,7 @@ ARM void endMenuSystem()
 ARM void updateMenuSystem()
 {
     updateMenuDisplays();
-    unkfunc_02050368();
+    updateMenuBg();
 }
 
 ARM void executeMenuSystem()

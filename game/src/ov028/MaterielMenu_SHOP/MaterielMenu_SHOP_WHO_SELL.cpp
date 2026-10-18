@@ -1,5 +1,5 @@
 #include "ov028/MaterielMenu_SHOP/MaterielMenu_SHOP.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/text/TextAPI.hpp"
 #include "main/status/PartyStatus.hpp"
@@ -11,7 +11,7 @@
 THUMB void MaterielMenu_SHOP_WHO_SELL::menuSetup()
 {
     status::g_Party.setPlayerMode();
-    unkfunc_02080e78();
+    resetCaptureOffset();
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
     menuItem2_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
     activeChara_ = MaterielMenuPlayerControl::getSingleton()->activeChara_;

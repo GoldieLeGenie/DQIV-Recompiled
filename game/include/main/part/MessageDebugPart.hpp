@@ -22,7 +22,7 @@ struct MessageDebugPart : GlobalGamePart {
     virtual void onDrawPart();
     virtual void onWindowPart();
     virtual void onDebugPart();
-    int unkfunc_0200a644(int key);              // keys held (0: always true)
+    int isKeyHeld(int key);              // keys held (0: always true)
 };
 
 extern MessageDebugPart g_MessageDebugPart;

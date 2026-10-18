@@ -48,12 +48,12 @@ ARM void GameEndPart::onDebugPart()
 {
 }
 
-ARM void GameEndPart::unkfunc_0205d228(int type)
+ARM void GameEndPart::setType(int type)
 {
-    unkfunc_0205d238(type, -1);
+    setTypeAndNextPart(type, -1);
 }
 
-ARM void GameEndPart::unkfunc_0205d238(int type, int nextPart)
+ARM void GameEndPart::setTypeAndNextPart(int type, int nextPart)
 {
     type_ = type;
     nextPart_ = nextPart;
@@ -82,14 +82,14 @@ ARM void GameEndPart::unkfunc_0205d238(int type, int nextPart)
     }
 }
 
-ARM void GameEndPart::unkfunc_0205d2d0(int type)
+ARM void GameEndPart::start(int type)
 {
-    unkfunc_0205d228(type);
+    setType(type);
     data_0210bb94.unkfunc_020580fc(GAME_END_PART);
 }
 
-ARM void GameEndPart::unkfunc_0205d2ec(int type, int nextPart)
+ARM void GameEndPart::startWithNextPart(int type, int nextPart)
 {
-    unkfunc_0205d238(type, nextPart);
+    setTypeAndNextPart(type, nextPart);
     data_0210bb94.unkfunc_020580fc(GAME_END_PART);
 }

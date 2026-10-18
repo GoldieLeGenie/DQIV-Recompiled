@@ -2,9 +2,9 @@
 #include <globaldefs.h>
 #include "main/dss/DssUtils.hpp"
 
-void unkfunc_0205710c(int index, dss::Fix32Vector3* position);
-dss::Vector2<int>* unkfunc_02057128(int index);
-void unkfunc_0205714c();
+void setWorldPosition(int index, dss::Fix32Vector3* position);
+dss::Vector2<int>* getScreenPosition(int index);
+void updateScreenPositions();
 
 extern "C" {
     int func_0206dfcc(dss::Fix32Vector3* world, int* x, int* y);           /* world pos -> screen pos */

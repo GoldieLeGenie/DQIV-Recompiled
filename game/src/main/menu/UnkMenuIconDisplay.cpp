@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "main/menu/UnkMenuIconDisplay.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "nitro/g2.hpp"
 
@@ -62,12 +62,12 @@ THUMB void UnkMenuIconDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
 THUMB void UnkMenuIconDisplay::drawIcon(UnkOamBuffer* oam, int x, int y, int index)
 {
     index *= 8;
-    G2_SetOBJAttr(oam->unkfunc_02082694(), x, y, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_32x32, GX_OAM_COLORMODE_256, index + 0xe0, 0, 0);
-    G2_SetOBJAttr(oam->unkfunc_02082694(), x, y + 0x20, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_32x16, GX_OAM_COLORMODE_256, index + 0x160, 0, 0);
-    G2_SetOBJAttr(oam->unkfunc_02082694(), x + 0x20, y, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_256, index + 0x1a0, 0, 0);
-    G2_SetOBJAttr(oam->unkfunc_02082694(), x + 0x20, y + 0x10, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_256, index + 0x1a4, 0, 0);
-    G2_SetOBJAttr(oam->unkfunc_02082694(), x + 0x20, y + 0x20, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x8, GX_OAM_COLORMODE_256, index + 0x1e0, 0, 0);
-    G2_SetOBJAttr(oam->unkfunc_02082694(), x + 0x20, y + 0x28, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x8, GX_OAM_COLORMODE_256, index + 0x1e4, 0, 0);
+    G2_SetOBJAttr(oam->allocEntry(), x, y, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_32x32, GX_OAM_COLORMODE_256, index + 0xe0, 0, 0);
+    G2_SetOBJAttr(oam->allocEntry(), x, y + 0x20, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_32x16, GX_OAM_COLORMODE_256, index + 0x160, 0, 0);
+    G2_SetOBJAttr(oam->allocEntry(), x + 0x20, y, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_256, index + 0x1a0, 0, 0);
+    G2_SetOBJAttr(oam->allocEntry(), x + 0x20, y + 0x10, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_256, index + 0x1a4, 0, 0);
+    G2_SetOBJAttr(oam->allocEntry(), x + 0x20, y + 0x20, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x8, GX_OAM_COLORMODE_256, index + 0x1e0, 0, 0);
+    G2_SetOBJAttr(oam->allocEntry(), x + 0x20, y + 0x28, 2, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x8, GX_OAM_COLORMODE_256, index + 0x1e4, 0, 0);
 }
 
 THUMB void UnkMenuIconDisplay::loadIcon(int index, int value)
@@ -93,7 +93,7 @@ THUMB void UnkMenuIconDisplay::loadIcon(int index, int value)
     transferIconTiles(index * 8 + 4, 14, src, 8, 3, 4);
     transferIconTiles(index * 8, 15, src, 8, 4, 4);
     transferIconTiles(index * 8 + 4, 15, src, 8, 5, 4);
-    unkfunc_020813e0(1)->loadColors(0, 0, getMenuIconData(0xf5000000, 9999), 0xa0);
+    getObjPaletteBuffer(1)->loadColors(0, 0, getMenuIconData(0xf5000000, 9999), 0xa0);
 }
 
 THUMB void UnkMenuIconDisplay::setIconPosition(int index, int x, int y)
@@ -109,7 +109,7 @@ THUMB void UnkMenuIconDisplay::setIconVisible(int index, int flag)
 
 THUMB void UnkMenuIconDisplay::transferIconTiles(int x, int y, void* src, int srcX, int srcY, int width)
 {
-    unkfunc_020827f0(0x23, (x + y * 32) * 32, (char*)src + (srcX + srcY * 12) * 32, width * 32);
+    requestVramCopy(0x23, (x + y * 32) * 32, (char*)src + (srcX + srcY * 12) * 32, width * 32);
 }
 
 THUMB void UnkHoppingDigit::clear()
@@ -182,7 +182,7 @@ THUMB void UnkHoppingDigit::draw(UnkOamBuffer* oam)
         default:
             return;
     }
-    G2_SetOBJAttr(oam->unkfunc_02082694(), x_, drawY_, 0, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_8x8, GX_OAM_COLORMODE_16, name, 15, 0);
+    G2_SetOBJAttr(oam->allocEntry(), x_, drawY_, 0, GX_OAM_MODE_NORMAL, FALSE, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_8x8, GX_OAM_COLORMODE_16, name, 15, 0);
 }
 
 THUMB int UnkHoppingDigit::isFree()

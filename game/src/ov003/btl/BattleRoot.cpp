@@ -141,9 +141,9 @@ THUMB void btl::BattleRoot::cleanupBattle()
 
 THUMB void btl::BattleRoot::setupMonster()
 {
-    backupPartyStatus_ = (status::PartyStatus*)unkfunc_0207f834(&data_0211a60c, sizeof(status::PartyStatus), 0x20);
-    backupPlayerStatus_ = (status::PlayerStatus*)unkfunc_0207f834(&data_0211a60c, sizeof(status::PlayerStatus) * 26, 0x20);
-    backupPlayerFlag_ = (status::PlayerFlag*)unkfunc_0207f834(&data_0211a60c, sizeof(status::PlayerFlag) * 26, 0x20);
+    backupPartyStatus_ = (status::PartyStatus*)dssAlloc(&data_0211a60c, sizeof(status::PartyStatus), 0x20);
+    backupPlayerStatus_ = (status::PlayerStatus*)dssAlloc(&data_0211a60c, sizeof(status::PlayerStatus) * 26, 0x20);
+    backupPlayerFlag_ = (status::PlayerFlag*)dssAlloc(&data_0211a60c, sizeof(status::PlayerFlag) * 26, 0x20);
     store();
     status::MonsterParty::initializeSortIndex();
 
@@ -235,9 +235,9 @@ THUMB void btl::BattleRoot::cleanupMonster()
     status::BaseAction::doubleFlag_ = 0;
     status::BaseAction::allKaishinFlag_ = 0;
     g_monster.clear();
-    unkfunc_0207f840(&data_0211a60c, backupPartyStatus_);
-    unkfunc_0207f840(&data_0211a60c, backupPlayerStatus_);
-    unkfunc_0207f840(&data_0211a60c, backupPlayerFlag_);
+    dssFree(&data_0211a60c, backupPartyStatus_);
+    dssFree(&data_0211a60c, backupPlayerStatus_);
+    dssFree(&data_0211a60c, backupPlayerFlag_);
 }
 
 THUMB void btl::BattleRoot::setupCrusingMenu()

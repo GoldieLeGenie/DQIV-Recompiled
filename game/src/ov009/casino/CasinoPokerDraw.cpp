@@ -219,7 +219,7 @@ ARM void PokerCardPolygon::draw()
         ((TextureObject*)texture_)->unkfunc_02086abc();
         ((TextureObject*)texture_)->unkfunc_02086b3c();
     } else {
-        unkfunc_02086b28();
+        disableTexture();
     }
     unkfunc_02083680();
     G3_Begin(1);

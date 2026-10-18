@@ -1,8 +1,8 @@
 #pragma once
 #include <globaldefs.h>
 #include "main/dss/DssUtils.hpp"
-#include "main/dss/UnkMatrix43.hpp"
-#include "main/dss/UnkModelMember.hpp"
+#include "main/dss/Matrix43.hpp"
+#include "main/dss/ModelResource.hpp"
 #include "main/data/DataObject.hpp"
 #include "main/dss/Camera.hpp"
 

@@ -22,10 +22,10 @@ struct BattleMenuPart : GlobalGamePart {
     virtual void onDrawPart();
     virtual void onWindowPart();
     virtual void onDebugPart();
-    void unkfunc_02008d84();                    // encount mode input
-    void unkfunc_02008ed0();                    // select mode input
-    void unkfunc_020090f4();                    // encount mode draw
-    void unkfunc_020091f0();                    // select mode draw
+    void updateEncountMode();                    // encount mode input
+    void updateSelectMode();                    // select mode input
+    void drawEncountMode();                    // encount mode draw
+    void drawSelectMode();                    // select mode draw
 };
 
 extern BattleMenuPart g_BattleMenuPart;

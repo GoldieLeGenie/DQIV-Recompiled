@@ -2,7 +2,7 @@
 
 #include "ov000/Commands/TownCommand.hpp"
 #include "main/dss/RenderObject.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "ov000/town/TownWindowSystem.hpp"
 #include "ov000/town/TownPlayerManager.hpp"
 #include "main/status/StageStatus.hpp"
@@ -2062,7 +2062,7 @@ THUMB void __cmd_map_set_back_color::execute()
     for (int i = 0; i < 24; i++) {
         color[i] = ((one - ratio) * current->color[i] + ratio * next->color[i]).value / 0x1000;
     }
-    unkfunc_02084cec(&color[12], &color[15], &color[18], &color[21], &color[0], &color[3], &color[6], &color[9]);
+    setBackgroundGradient(&color[12], &color[15], &color[18], &color[21], &color[0], &color[3], &color[6], &color[9]);
 }
 
 THUMB int __cmd_map_set_back_color::isEnd()
@@ -2103,7 +2103,7 @@ THUMB void __cmd_map_restore_back_color::execute()
     for (int i = 0; i < 24; i++) {
         color[i] = ((one - ratio) * next->color[i] + ratio * current->color[i]).value / 0x1000;
     }
-    unkfunc_02084cec(&color[12], &color[15], &color[18], &color[21], &color[0], &color[3], &color[6], &color[9]);
+    setBackgroundGradient(&color[12], &color[15], &color[18], &color[21], &color[0], &color[3], &color[6], &color[9]);
 }
 
 THUMB int __cmd_map_restore_back_color::isEnd()
@@ -2157,7 +2157,7 @@ THUMB int cmd_map_change_timezone(int* param)
 
 THUMB int cmd_map_effect_sepia()
 {
-    applyModelPaletteSepia(unkfunc_020835d8());
+    applyModelPaletteSepia(getLastModelTexture());
     TownStageManager::getSingleton()->stage_.m_fld.SetSepia();
     return 1;
 }
@@ -3512,7 +3512,7 @@ THUMB int cmd_set_default_map_name(int* param)
     for (int i = 0; i < 42; i++) {
         name[i] = 0;
     }
-    unkfunc_0208a114(name, 42, param[0]);
+    getDefaultTownName(name, 42, param[0]);
     data_020f0078.mode_ = 1;
     data_020f0078.setTownName(name);
     return 0;
@@ -3923,7 +3923,7 @@ __cmd_character_rgb_anim2 g_cmd_character_rgb_anim2;
 
 THUMB int cmd_map_black(int* param)
 {
-    NNSG3dResTex* obj = unkfunc_020835d8();
+    NNSG3dResTex* obj = getLastModelTexture();
     dss::Fix32Vector3 pos(0, 0, 0);
     applyModelPaletteRgbRate(obj, pos);
     return 1;

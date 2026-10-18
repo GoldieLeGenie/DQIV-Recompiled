@@ -1338,7 +1338,7 @@ THUMB int cmd_is_party_top(int* param)
     if (param[0] != 0 && unkfunc_020254b8(i, param[0]) == 0) {
         return 0;
     }
-    if (param[1] != 0 && unkfunc_02025514(i, param[1]) == 0) {
+    if (param[1] != 0 && isMemberSexMatch(i, param[1]) == 0) {
         return 0;
     }
     return 1;
@@ -1406,10 +1406,10 @@ THUMB int cmd_is_party_all(int* param)
     }
     int result = 0;
     for (int j = 0; j < matchCount; j++) {
-        if (param[0] != 0 && unkfunc_02025514(match[j], param[0])) {
+        if (param[0] != 0 && isMemberSexMatch(match[j], param[0])) {
             result = 1;
         }
-        if (param[1] != 0 && unkfunc_0202555c(match[j], param[1])) {
+        if (param[1] != 0 && isMemberAliveMatch(match[j], param[1])) {
             result = 1;
         }
     }
@@ -1429,7 +1429,7 @@ THUMB int cmd_is_not_party_all(int* param)
 
 THUMB int cmd_is_party_head_count(int* param)
 {
-    unsigned int count = unkfunc_0202528c(param);
+    unsigned int count = getPartyHeadCount(param);
     if (param[3] == 0) {
         if (count == (unsigned int)param[4]) {
             return 1;
@@ -1453,7 +1453,7 @@ THUMB int cmd_is_not_party_head_count(int* param)
 }
 
 //gonna check ingame soon to name it didn't find it in the mobile vers yet  
-THUMB short unkfunc_0202528c(int* param)
+THUMB short getPartyHeadCount(int* param)
 {
     status::g_Party.setNormalMode();
     short normalCount = status::g_Party.getCount();
@@ -1491,33 +1491,33 @@ THUMB short unkfunc_0202528c(int* param)
         short total = playerAlive + (other + npcAlive);
         short totalOut = playerOutAlive + (other + npcOutAlive);
         if (param[1] == 0) {
-            return unkfunc_020254a4(normalCount, total, param[2]);
+            return selectHeadCount(normalCount, total, param[2]);
         }
         if (param[1] == 1) {
-            return unkfunc_020254a4(normalOut, totalOut, param[2]);
+            return selectHeadCount(normalOut, totalOut, param[2]);
         }
-        return unkfunc_020254a4(normalCount - normalOut, total - totalOut, param[2]);
+        return selectHeadCount(normalCount - normalOut, total - totalOut, param[2]);
     }
     if (param[0] == 1) {
         if (param[1] == 0) {
-            return unkfunc_020254a4(playerCount, playerAlive, param[2]);
+            return selectHeadCount(playerCount, playerAlive, param[2]);
         }
         if (param[1] == 1) {
-            return unkfunc_020254a4(playerOut, playerOutAlive, param[2]);
+            return selectHeadCount(playerOut, playerOutAlive, param[2]);
         }
-        return unkfunc_020254a4(playerCount - playerOut, playerAlive - playerOutAlive, param[2]);
+        return selectHeadCount(playerCount - playerOut, playerAlive - playerOutAlive, param[2]);
     }
     if (param[1] == 0) {
-        return unkfunc_020254a4(npcCount, npcAlive, param[2]);
+        return selectHeadCount(npcCount, npcAlive, param[2]);
     }
     if (param[1] == 1) {
-        return unkfunc_020254a4(npcOut, npcOutAlive, param[2]);
+        return selectHeadCount(npcOut, npcOutAlive, param[2]);
     }
-    return unkfunc_020254a4(npcCount - npcOut, npcAlive - npcOutAlive, param[2]);
+    return selectHeadCount(npcCount - npcOut, npcAlive - npcOutAlive, param[2]);
 }
 
 //gonna check ingame soon to name it didn't find it in the mobile vers yet  
-THUMB short unkfunc_020254a4(short count, short alive, int mode)
+THUMB short selectHeadCount(short count, short alive, int mode)
 {
     if (mode == 1) {
         return alive;
@@ -1554,7 +1554,7 @@ THUMB int unkfunc_020254b8(int index, int type)
 }
 
 //gonna check ingame soon to name it didn't find it in the mobile vers yet  
-THUMB int unkfunc_02025514(int index, int type)
+THUMB int isMemberSexMatch(int index, int type)
 {
     status::g_Party.setMemberShiftMode();
     status::g_Party.getPlayerStatus(index);
@@ -1575,7 +1575,7 @@ THUMB int unkfunc_02025514(int index, int type)
 
 
 //gonna check ingame soon to name it didn't find it in the mobile vers yet  
-THUMB int unkfunc_0202555c(int index, int type)
+THUMB int isMemberAliveMatch(int index, int type)
 {
     status::g_Party.setMemberShiftMode();
     status::PlayerStatus* player = status::g_Party.getPlayerStatus(index);

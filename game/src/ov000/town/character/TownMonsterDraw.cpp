@@ -1,5 +1,5 @@
 #include "ov000/town/TownCharacter.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "ov000/town/TownCamera.hpp"
 #include "DualScreen.hpp"
 #include "main/object/DSSAObject.hpp"
@@ -43,7 +43,7 @@ ARM void TownMonsterDraw::draw()
         return;
     }
     DSSAObject::calcType_ = 0;
-    bool even = (unkfunc_02081254() & 1) == 0;
+    bool even = (getDisplayFrame() & 1) == 0;
     TownCamera* camera = TownCamera::getSingleton();
     setCamera(!even || pc::unifiedFrame() ? &camera->camera_.unk_004 : &camera->camera_.unk_068);
     monster_.draw();

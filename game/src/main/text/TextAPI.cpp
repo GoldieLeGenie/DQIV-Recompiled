@@ -64,12 +64,12 @@ THUMB void TextAPI::resetMacro()
 
 THUMB int TextAPI::isExistMessage(int messageID)
 {
-    return unkfunc_02054970(messageID, m_lang);
+    return msgExists(messageID, m_lang);
 }
 
 THUMB void TextAPI::getMessage(char* message, int messageSize, char* name, int nameSize, int messageID)
 {
-    unkfunc_02054984(messageID, m_lang);
+    loadMessage(messageID, m_lang);
     dss::strcpy_s(m_work1, 0x200, msg_get_body());
     dss::strcpy_s(m_work2, 0x80, msg_get_head());
     m_msg_last_sound = msg_get_sound();
@@ -95,7 +95,7 @@ THUMB void TextAPI::getMonsterNamePlateTextImitation(char* text, int monsterInde
         opt = 2;
     }
     var.extract_var(work, 0x200, opt);
-    unkfunc_02087fbc(data_020c45b0, data_020c4618, upper, 0x200, work, 1);
+    translateTextPrefix(data_020c45b0, data_020c4618, upper, 0x200, work, 1);
     g_text_extractor.extractText(name, 0x200, 0xf0000000, flag);
     if (flag == 1) {
         dss::sprintf(text, "%s", upper);
@@ -113,7 +113,7 @@ THUMB void TextAPI::getPlayerNamePlateTextImitation(char* text, int playerIndex,
 
     var.set(1, 0, 0x50000000, playerIndex, 1, -1);
     var.extract_var(work, 0x200, 0);
-    unkfunc_02087fbc(data_020c45b0, data_020c4618, upper, 0x200, work, 1);
+    translateTextPrefix(data_020c45b0, data_020c4618, upper, 0x200, work, 1);
     g_text_extractor.extractText(name, 0x200, 0xf0000000, flag);
     if (flag == 1) {
         dss::sprintf(text, "%s", upper);

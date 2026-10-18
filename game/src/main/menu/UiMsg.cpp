@@ -68,7 +68,7 @@ THUMB void ui_MsgAdd(const char* str)
     buf[1] = '0';
     name[0] = 0;
     if (*(const unsigned char*)str == '@') {
-        unkfunc_02087e08(buf + 2, 0x3fe, str + 1);
+        convertSjisToUtf8(buf + 2, 0x3fe, str + 1);
     } else {
         dss::strcpy_s(buf + 2, 0x3fe, (char*)str);
     }

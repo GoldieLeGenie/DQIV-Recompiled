@@ -2,9 +2,9 @@
 #include "globaldefs.h"
 #include "main/dss/DssUtils.hpp"
 #include "main/data/DataObject.hpp"
-#include "main/dss/UnkTextConvert.hpp"
-#include "main/dss/UnkMessageFind.hpp"
-#include "main/dss/UnkBgText.hpp"
+#include "main/dss/TextConvert.hpp"
+#include "main/dss/MessageFind.hpp"
+#include "main/dss/BgText.hpp"
 
 struct TextHookBase;
 
@@ -30,11 +30,11 @@ struct TextAPI {
     static int isGermanMonsterException(int monsterIndex);
     static void unkfunc_02054690();
     static void Init();
-    static void unkfunc_020547f0();
-    static void unkfunc_020547f4();
-    static void unkfunc_0205487c();
-    static void unkfunc_02054884();
-    static void unkfunc_02054888();
+    static void start();
+    static void terminate();
+    static void update();
+    static void execute();
+    static void draw();
 
     static unsigned char m_msg_last_sound;
     static int m_lang;
@@ -76,9 +76,9 @@ struct MsgVar {
 
     void set(int def, int array_index_no, int type, int no, int fake, int opt);
     void set(int def, int array_index_no, int type, int no, int opt);
-    int unkfunc_02053b2c(int def, int array_index_no);
+    int matches(int def, int array_index_no);
     int extract_var(char* dst, int size, int ex);
-    int unkfunc_02053d04();
+    int isNumber();
 };
 
 struct TextEnv {
@@ -92,12 +92,12 @@ struct TextEnv {
     void add_msg_var(int def, int array_index_no, int type, int no, int opt);
     void add_msg_var(int def, int array_index_no, int type, int no, int fake, int opt);
     void process_msg(char* dst, int size, const char* src);
-    void unkfunc_02053e04(char* dst, int size, unsigned char* src);
+    void expandVars(char* dst, int size, unsigned char* src);
     MsgVar* search_msg_var(int def, int array_index_no);
     char* check_text_hook(int def, int array_index_no);
-    MACRO_STAT unkfunc_02053f74(int def, int array_index_no);
-    char* unkfunc_02053f90(int def, int array_index_no);
-    char* unkfunc_02054010(char* dst, int size, unsigned char* src, int cap);
+    MACRO_STAT getHookMacroStat(int def, int array_index_no);
+    char* getUndefinedMacroText(int def, int array_index_no);
+    char* copyWithCase(char* dst, int size, unsigned char* src, int cap);
     MACRO_STAT macro_getMacroStat(int def, int array_index_no);
     MACRO_STAT macro_checkActorTarget();
     MACRO_STAT macro_checkVowel(char* text);
@@ -118,9 +118,9 @@ struct TextExtractor {
     int extract_text_user_str(char* dst, int size, int no);
     void setUserString(int num, char* name);
     int extract_text_number(char* dst, int size, int no);
-    const char* unkfunc_02055280(int type);
-    void unkfunc_020553c4(char* dst, const unsigned char* src, int number, int art, int casus);
-    const char* unkfunc_02055438(int number, int art, int casus, int c);
+    const char* getTypeName(int type);
+    void applyGrammarSuffixes(char* dst, const unsigned char* src, int number, int art, int casus);
+    const char* getGrammarSuffix(int number, int art, int casus, int c);
 };
 
 struct GrammarSuffix {
@@ -140,9 +140,9 @@ struct MsgData {
 
     MsgData();
     void msg_setup(int msg_base_id, int arg1, int size, int count);
-    void unkfunc_020554ec();
-    int unkfunc_02055510(unsigned int msg_id);
-    int unkfunc_02055524(unsigned int msg_id, int lang);
+    void cleanup();
+    int containsId(unsigned int msg_id);
+    int loadBlock(unsigned int msg_id, int lang);
 };
 
 struct MsgMeta {
@@ -151,8 +151,8 @@ struct MsgMeta {
     unsigned char m_body[0x200];     /* 0x580 */
     unsigned char m_sound[0x80];     /* 0x780 */
 
-    int unkfunc_02055604(const unsigned char* src, int msg_id, int lang);
-    unsigned char* unkfunc_02055740(int index);
+    int parse(const unsigned char* src, int msg_id, int lang);
+    unsigned char* getField(int index);
 };
 
 struct MsgFile {
@@ -162,21 +162,21 @@ struct MsgFile {
     int m_msg_id;                   /* 0x808 */
     int unk_80c;                    /* 0x80C */
 
-    void unkfunc_020557cc();
-    void unkfunc_020557f8();
-    int unkfunc_02055810(unsigned int msg_id, int lang);
-    int unkfunc_02055848(unsigned int msg_id, int lang);
-    int unkfunc_02055894(unsigned int msg_id, int lang);
-    unsigned char* unkfunc_020558cc(int index);
+    void init();
+    void cleanup();
+    int hasMessage(unsigned int msg_id, int lang);
+    int readMessage(unsigned int msg_id, int lang);
+    int loadMessage(unsigned int msg_id, int lang);
+    unsigned char* getField(int index);
 };
 
 struct BadWordList {
     DataObject m_data;              /* 0x00 */
 
-    void unkfunc_02056b00();
-    void unkfunc_02056b48();
-    int unkfunc_02056b50(char* name);
-    int unkfunc_02056c1c(char* word);
+    void load();
+    void unload();
+    int containsBadWord(char* name);
+    int isBadWord(char* word);
 };
 
 struct MessageMacro {
@@ -204,14 +204,14 @@ struct MacroName {
     const char* name;
 };
 
-MsgData* unkfunc_0205488c(int msg_id);
-int unkfunc_02054970(int msg_id, int lang);
-int unkfunc_02054984(int msg_id, int lang);
+MsgData* findMsgData(int msg_id);
+int msgExists(int msg_id, int lang);
+int loadMessage(int msg_id, int lang);
 char* msg_get_head();
 char* msg_get_body();
 unsigned char msg_get_sound();
 int CheckBadWord(char* name);
-int unkfunc_020549f0(char* name);
+int isNameTooWide(char* name);
 
 extern MsgData g_msg_data_default;
 extern MsgData g_msg_data[11];

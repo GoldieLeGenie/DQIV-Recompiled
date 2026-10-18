@@ -1,5 +1,5 @@
 #include "main/global/Global.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/global/GlobalDQ4.hpp"
 #include "main/status/ExcelParam.hpp"
 #include "main/status/Status.hpp"
@@ -366,8 +366,8 @@ THUMB void GlobalFade::draw()
             brightness_ = 16 - brightness_;
             break;
     }
-    unkfunc_0207ed24(brightness_);
-    unkfunc_0207ed3c(brightness_);
+    setMainBrightness(brightness_);
+    setSubBrightness(brightness_);
 }
 
 THUMB int GlobalFade::isEnd()

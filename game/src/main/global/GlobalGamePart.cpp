@@ -6,15 +6,15 @@
 #include "main/dss/Pad.hpp"
 #include "main/dss/RenderObject.hpp"
 #include "main/dss/ScreenPosition.hpp"
-#include "main/dss/UnkDisplay.hpp"
-#include "main/dss/UnkFog.hpp"
-#include "main/dss/UnkSleep.hpp"
+#include "main/dss/Display.hpp"
+#include "main/dss/Fog.hpp"
+#include "main/dss/SleepControl.hpp"
 #include "main/dss/VramRequest.hpp"
-#include "main/dss/UnkVramTransfer.hpp"
+#include "main/dss/VramManager.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/MenuSystem.hpp"
 #include "main/object/DSSAObject.hpp"
-#include "main/sound/UnkSoundPlayer.hpp"
+#include "main/sound/SoundPlayer.hpp"
 #include "main/text/TextAPI.hpp"
 #include "nitro/g3.hpp"
 #include "nitro/gx.h"
@@ -35,8 +35,8 @@ extern "C" {
 }
 
 static void unkfunc_0203f1a8();
-static void unkfunc_0203f1b4();
-static void unkfunc_0203f1f4();
+static void updatePolygonOverflow();
+static void updateRenderedLines();
 
 int data_020c1b7c = 2;
 static unsigned int s_swapLine;
@@ -57,7 +57,7 @@ UnkSpriteFade data_020f21f8;
 
 ARM void GlobalGamePart::vf00()
 {
-    s_taskTick = unkfunc_0207e7e8();
+    s_taskTick = getTick();
     initMenuSystem();
     TextAPI::Init();
     data_0211e450.unk_814 = 1;
@@ -65,8 +65,8 @@ ARM void GlobalGamePart::vf00()
     data_0211e450.unk_814 = 0;
     unkfunc_0203f1a8();
     startMenuSystem();
-    TextAPI::unkfunc_020547f0();
-    s_taskTick = unkfunc_0207e7e8() - s_taskTick;
+    TextAPI::start();
+    s_taskTick = getTick() - s_taskTick;
 }
 
 ARM void GlobalGamePart::initialize()
@@ -75,13 +75,13 @@ ARM void GlobalGamePart::initialize()
 
 ARM void GlobalGamePart::vf04()
 {
-    s_taskTick = unkfunc_0207e7e8();
+    s_taskTick = getTick();
     data_02116ce0.unkfunc_0207e810();
     endMenuSystem();
-    TextAPI::unkfunc_020547f4();
+    TextAPI::terminate();
     terminate();
     unkfunc_0203f1a8();
-    s_taskTick = unkfunc_0207e7e8() - s_taskTick;
+    s_taskTick = getTick() - s_taskTick;
 }
 
 ARM void GlobalGamePart::terminate()
@@ -92,37 +92,37 @@ ARM void GlobalGamePart::vf08()
 {
     func_02065194();
     func_020652c0();
-    dss::g_Pad.unkfunc_0207f1f8();
-    unkfunc_02080f3c();
+    dss::g_Pad.update();
+    clearOamBuffers();
     updateMenuSystem();
-    TextAPI::unkfunc_0205487c();
+    TextAPI::update();
 }
 
 ARM void GlobalGamePart::vf10()
 {
-    unkfunc_02089470();
+    updateSleep();
     if (GX_GetVCount() > 180) {
         while (GX_GetVCount() > 180) {
         }
     }
     s_swapLine = GX_GetVCount();
     drawMenuSystem();
-    TextAPI::unkfunc_02054888();
+    TextAPI::draw();
     func_0206dcf0();
     onSwapBuffersPart();
-    unkfunc_0205714c();
-    unkfunc_020832d8();
+    updateScreenPositions();
+    updateFog();
     s_drawLine = GX_GetVCount();
     OS_Wait();
-    unkfunc_0203f1b4();
-    unkfunc_0203f1f4();
-    unkfunc_02081814();
+    updatePolygonOverflow();
+    updateRenderedLines();
+    updateScreenCapture();
     s_textureSize = data_0211e450.texSize_;
-    data_0211e450.unkfunc_02086454();
+    data_0211e450.doTransfers();
     s_frameEndLine = GX_GetVCount();
     if (REG_GFX_VTX_RAM_COUNT == 0) {
-        unkfunc_02080f5c();
-        unkfunc_02082724();
+        updateDisplay();
+        flushVramRequests();
     }
     data_0210bc18.unkfunc_02058244();
     s_endLine = GX_GetVCount();
@@ -130,16 +130,16 @@ ARM void GlobalGamePart::vf10()
 
 ARM void GlobalGamePart::vf0c()
 {
-    int index = (unkfunc_02081254() & 1) ? 0 : 1;
-    s_tickLog[index][0] = unkfunc_0207e7e8();
+    int index = (getDisplayFrame() & 1) ? 0 : 1;
+    s_tickLog[index][0] = getTick();
     s_lineLog[index][0] = GX_GetVCount();
     executeMenuSystem();
-    TextAPI::unkfunc_02054884();
+    TextAPI::execute();
     if (unkfunc_0203f210()) {
         onExecutePart();
         unkfunc_0203f1a8();
     }
-    s_tickLog[index][1] = unkfunc_0207e7e8();
+    s_tickLog[index][1] = getTick();
     s_lineLog[index][1] = GX_GetVCount();
 #ifdef DQIV_NATIVE
     // Towns and dungeons view one scene through the two screens' cameras.
@@ -148,7 +148,7 @@ ARM void GlobalGamePart::vf0c()
     UnkScreenEffectManager* effects = UnkScreenEffectManager::getSingleton();
     // A chapter title composes its screen from two frames (the picture and the
     // plaque come on alternate frames): it is shown as its own panel.
-    const bool chapterTitle = cmn::CommonChapterTitle::getSingleton()->sprite_.unkfunc_02057e74() != 0;
+    const bool chapterTitle = cmn::CommonChapterTitle::getSingleton()->sprite_.isLoaded() != 0;
     pc::setUnifiedFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
                         data_0210bb94.unkfunc_02058114(TOWN_PART) && !effects->isEffectDrawing() && !chapterTitle);
     pc::setWideFieldFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
@@ -166,31 +166,31 @@ ARM void GlobalGamePart::vf0c()
     pc::setStartScreen(data_0210bb94.unkfunc_02058114(GAME_START_PART));
 #endif
     onDrawPart();
-    s_tickLog[index][2] = unkfunc_0207e7e8();
+    s_tickLog[index][2] = getTick();
     s_lineLog[index][2] = GX_GetVCount();
-    unkfunc_020848a8();
+    setupOrtho2DFine();
     data_020f21f8.sprite_[0].draw();
     data_020f21f8.sprite_[1].draw();
     onWindowPart();
-    s_tickLog[index][3] = unkfunc_0207e7e8();
+    s_tickLog[index][3] = getTick();
     s_lineLog[index][3] = GX_GetVCount();
     onDebugPart();
-    s_tickLog[index][4] = unkfunc_0207e7e8();
+    s_tickLog[index][4] = getTick();
     s_lineLog[index][4] = GX_GetVCount();
     data_0210bc18.unkfunc_020581f4();
     data_0211fc7c.unkfunc_020866d8();
-    s_tickLog[index][5] = unkfunc_0207e7e8();
+    s_tickLog[index][5] = getTick();
     s_lineLog[index][5] = GX_GetVCount();
     if (s_callback) {
         s_callback();
     }
     while (REG_GFX_STATUS & 0x8000000) {
     }
-    s_tickLog[index][6] = unkfunc_0207e7e8();
+    s_tickLog[index][6] = getTick();
     s_lineLog[index][6] = GX_GetVCount();
-    s_tickLog[index][7] = unkfunc_0207e7e8();
+    s_tickLog[index][7] = getTick();
     s_lineLog[index][7] = GX_GetVCount();
-    s_tickLog[index][8] = unkfunc_0207e7e8();
+    s_tickLog[index][8] = getTick();
     s_lineLog[index][8] = GX_GetVCount();
 }
 
@@ -215,7 +215,7 @@ ARM static void unkfunc_0203f1a8()
     unkfunc_0207e7e4();
 }
 
-ARM static void unkfunc_0203f1b4()
+ARM static void updatePolygonOverflow()
 {
     if (!(REG_DISP3DCNT & 0x1000)) {
         s_polygonOverflow = 0;
@@ -225,7 +225,7 @@ ARM static void unkfunc_0203f1b4()
     s_polygonOverflow = 1;
 }
 
-ARM static void unkfunc_0203f1f4()
+ARM static void updateRenderedLines()
 {
     s_renderedLines = REG_RDLINES_COUNT;
 }
@@ -245,7 +245,7 @@ ARM void GlobalGamePart::onSwapBuffersPart()
     OS_RestoreIME(enable);
 }
 
-ARM void unkfunc_0203f268(void (*callback)())
+ARM void setPartFrameCallback(void (*callback)())
 {
     s_callback = callback;
 }

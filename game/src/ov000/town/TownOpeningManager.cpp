@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "ov000/town/TownOpeningManager.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "ov000/town/TownCharacterManager.hpp"
 #include "main/cmn/CommonEffectData.hpp"
 #include "main/cmn/CommonEffectLocation.hpp"
@@ -35,7 +35,7 @@ ARM void TownOpeningManager::setup()
     dss::Fix32Vector3 pos;
     char area[8];
     char lang[8];
-    if (unkfunc_0208a104() == 2) {
+    if (getGameRegion() == 2) {
         dss::strcpy(area, "na");
         switch (status::g_Game.language) {
             case French:
@@ -153,7 +153,7 @@ ARM void TownOpeningManager::draw()
     if (!m_enable) {
         return;
     }
-    if (!(unkfunc_02081254() & 1)) {
+    if (!(getDisplayFrame() & 1)) {
         return;
     }
     if (m_counter == -45) {

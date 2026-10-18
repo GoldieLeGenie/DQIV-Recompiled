@@ -25,123 +25,123 @@ THUMB void TextAPI::Init()
     g_msg_data[8].msg_setup(1006000, 0, 0x1400, 1000);
     g_msg_data[9].msg_setup(1007000, 0, 0x800, 1000);
     g_msg_data[10].msg_setup(1010000, 0, 0x3400, 1000);
-    g_msg_file.unkfunc_020557cc();
+    g_msg_file.init();
 }
 
-THUMB void TextAPI::unkfunc_020547f0()
+THUMB void TextAPI::start()
 {
 }
 
-THUMB void TextAPI::unkfunc_020547f4()
+THUMB void TextAPI::terminate()
 {
-    g_msg_data_default.unkfunc_020554ec();
-    g_msg_data[0].unkfunc_020554ec();
-    g_msg_data[1].unkfunc_020554ec();
-    g_msg_data[2].unkfunc_020554ec();
-    g_msg_data[3].unkfunc_020554ec();
-    g_msg_data[4].unkfunc_020554ec();
-    g_msg_data[5].unkfunc_020554ec();
-    g_msg_data[6].unkfunc_020554ec();
-    g_msg_data[7].unkfunc_020554ec();
-    g_msg_data[8].unkfunc_020554ec();
-    g_msg_data[9].unkfunc_020554ec();
-    g_msg_data[10].unkfunc_020554ec();
-    g_msg_file.unkfunc_020557f8();
+    g_msg_data_default.cleanup();
+    g_msg_data[0].cleanup();
+    g_msg_data[1].cleanup();
+    g_msg_data[2].cleanup();
+    g_msg_data[3].cleanup();
+    g_msg_data[4].cleanup();
+    g_msg_data[5].cleanup();
+    g_msg_data[6].cleanup();
+    g_msg_data[7].cleanup();
+    g_msg_data[8].cleanup();
+    g_msg_data[9].cleanup();
+    g_msg_data[10].cleanup();
+    g_msg_file.cleanup();
 }
 
-THUMB void TextAPI::unkfunc_0205487c()
+THUMB void TextAPI::update()
 {
     resetMacro();
 }
 
-THUMB void TextAPI::unkfunc_02054884()
+THUMB void TextAPI::execute()
 {
 }
 
-THUMB void TextAPI::unkfunc_02054888()
+THUMB void TextAPI::draw()
 {
 }
 
-THUMB MsgData* unkfunc_0205488c(int msg_id)
+THUMB MsgData* findMsgData(int msg_id)
 {
     MsgData* msg = 0;
-    if (g_msg_data_default.unkfunc_02055510(msg_id)) {
+    if (g_msg_data_default.containsId(msg_id)) {
         msg = &g_msg_data_default;
     }
-    if (g_msg_data[0].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[0].containsId(msg_id)) {
         msg = &g_msg_data[0];
     }
-    if (g_msg_data[1].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[1].containsId(msg_id)) {
         msg = &g_msg_data[1];
     }
-    if (g_msg_data[2].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[2].containsId(msg_id)) {
         msg = &g_msg_data[2];
     }
-    if (g_msg_data[3].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[3].containsId(msg_id)) {
         msg = &g_msg_data[3];
     }
-    if (g_msg_data[4].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[4].containsId(msg_id)) {
         msg = &g_msg_data[4];
     }
-    if (g_msg_data[5].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[5].containsId(msg_id)) {
         msg = &g_msg_data[5];
     }
-    if (g_msg_data[6].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[6].containsId(msg_id)) {
         msg = &g_msg_data[6];
     }
-    if (g_msg_data[7].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[7].containsId(msg_id)) {
         msg = &g_msg_data[7];
     }
-    if (g_msg_data[8].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[8].containsId(msg_id)) {
         msg = &g_msg_data[8];
     }
-    if (g_msg_data[9].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[9].containsId(msg_id)) {
         msg = &g_msg_data[9];
     }
-    if (g_msg_data[10].unkfunc_02055510(msg_id)) {
+    if (g_msg_data[10].containsId(msg_id)) {
         msg = &g_msg_data[10];
     }
     return msg;
 }
 
-THUMB int unkfunc_02054970(int msg_id, int lang)
+THUMB int msgExists(int msg_id, int lang)
 {
-    return g_msg_file.unkfunc_02055810(msg_id, lang);
+    return g_msg_file.hasMessage(msg_id, lang);
 }
 
-THUMB int unkfunc_02054984(int msg_id, int lang)
+THUMB int loadMessage(int msg_id, int lang)
 {
-    return g_msg_file.unkfunc_02055894(msg_id, lang);
+    return g_msg_file.loadMessage(msg_id, lang);
 }
 
 THUMB char* msg_get_head()
 {
-    return (char*)g_msg_file.unkfunc_020558cc(10);
+    return (char*)g_msg_file.getField(10);
 }
 
 THUMB char* msg_get_body()
 {
-    return (char*)g_msg_file.unkfunc_020558cc(11);
+    return (char*)g_msg_file.getField(11);
 }
 
 THUMB unsigned char msg_get_sound()
 {
-    return *g_msg_file.unkfunc_020558cc(12);
+    return *g_msg_file.getField(12);
 }
 
 THUMB int CheckBadWord(char* name)
 {
-    g_bad_word_list.unkfunc_02056b00();
-    int result = g_bad_word_list.unkfunc_02056b50(name);
-    g_bad_word_list.unkfunc_02056b48();
+    g_bad_word_list.load();
+    int result = g_bad_word_list.containsBadWord(name);
+    g_bad_word_list.unload();
     return result;
 }
 
-THUMB int unkfunc_020549f0(char* name)
+THUMB int isNameTooWide(char* name)
 {
-    unkfunc_02080038(10);
-    unkfunc_0207f9b8(NULL, 0, 0, 0, name, 0);
-    if (unkfunc_02080100() > 0x30) {
+    setBgTextFontSize(10);
+    drawBgTextWrapped(NULL, 0, 0, 0, name, 0);
+    if (getBgTextWidth() > 0x30) {
         return 1;
     }
     return 0;

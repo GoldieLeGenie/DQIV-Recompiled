@@ -1,7 +1,7 @@
 #include "main/effect/UnkScreenEffect_0202c678.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/effect/UnkEffectCamera.hpp"
-#include "main/dss/UnkBgBuffer.hpp"
+#include "main/dss/BgBuffer.hpp"
 #include "main/object/DSSAObject.hpp"
 #include "nnsys/g3d.hpp"
 #include "nitro/g3.hpp"
@@ -162,7 +162,7 @@ THUMB void UnkScreenEffect_0202c9b8::draw()
                 G3_PushMtx();
                 G3_Scale(0x8000, 0x8000, 0x8000);
                 tiles_[index].z += 80;
-                if (unkfunc_02081254() & 1) {
+                if (getDisplayFrame() & 1) {
                     G3_Translate(tiles_[index].x, tiles_[index].y + unk_24, tiles_[index].z);
                 } else {
                     G3_Translate(tiles_[index].x, tiles_[index].y - unk_24, tiles_[index].z);
@@ -264,7 +264,7 @@ THUMB void UnkScreenEffect_0202ce0c::draw()
             func_0206adcc();
         }
         func_0206dcf0();
-        if (unkfunc_02081254() & 1) {
+        if (getDisplayFrame() & 1) {
             G3_PushMtx();
             G3_Translate(tiles_[0].x, unk_24 + tiles_[0].y, tiles_[0].z - unk_20);
             const s16* sinCos = &FX_SinCosTable_[(unk_28 >> 4) * 2];

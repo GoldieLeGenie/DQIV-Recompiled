@@ -34,11 +34,11 @@ unsigned char* itemIconReduced(int index, int tiles)
     if (found != icons.end()) {
         return found->second;
     }
-    void* packed = unkfunc_02088484((char*)s_item32.getAddr(), index);
-    if (packed == NULL || unkfunc_0207f52c(packed) < 16 * 64) {
+    void* packed = findMessage((char*)s_item32.getAddr(), index);
+    if (packed == NULL || getUncompressedSize(packed) < 16 * 64) {
         return NULL;
     }
-    const unsigned char* src = (const unsigned char*)unkfunc_0207f590(packed);
+    const unsigned char* src = (const unsigned char*)uncompressAlloc(packed);
     enum { RUN = 128 };
     const int side = tiles * 8, size = tiles * tiles * 64;
     unsigned char pixels[9 * 64];
@@ -48,8 +48,8 @@ unsigned char* itemIconReduced(int index, int tiles)
             pixels[((y / 8) * tiles + x / 8) * 64 + (y % 8) * 8 + x % 8] = src[((sy / 8) * 4 + sx / 8) * 64 + (sy % 8) * 8 + sx % 8];
         }
     }
-    unkfunc_0207f840(&data_0211a60c, (void*)src);
-    unsigned char* icon = (unsigned char*)unkfunc_0207f77c(&data_0211a60c, 4 + size + (size + RUN - 1) / RUN, 4);
+    dssFree(&data_0211a60c, (void*)src);
+    unsigned char* icon = (unsigned char*)allocAppHeap(&data_0211a60c, 4 + size + (size + RUN - 1) / RUN, 4);
     unsigned char* out = icon;
     *out++ = 0x30;
     *out++ = size & 0xff;
@@ -145,5 +145,5 @@ THUMB void* getMenuIconData(int type, int index)
     default:
         return NULL;
     }
-    return (void*)unkfunc_02088484((char*)data->getAddr(), index);
+    return (void*)findMessage((char*)data->getAddr(), index);
 }

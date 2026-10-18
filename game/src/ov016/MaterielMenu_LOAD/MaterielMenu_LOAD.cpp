@@ -49,7 +49,7 @@ THUMB void MaterielMenu_LOAD::menuSetup()
     killResult_ = 0;
     makeResult_ = 0;
     resume_ = 0;
-    if (profile::SaveLoad::unkfunc_0202b684(3) == 1) {
+    if (profile::SaveLoad::checkbank(3) == 1) {
         resume_ = 1;
     }
     frame_ = 0;

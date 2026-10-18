@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/debug/UnkDebugDisplay.hpp"
+#include "main/debug/DebugDisplay.hpp"
 #include "main/status/HaveStatusInfo.hpp"
 
 // Debug battle page: status of one player or monster
@@ -13,8 +13,8 @@ struct UnkDebugBattleInfo : UnkDebugDisplay {
 
     virtual void initialize();
     virtual void draw();
-    void unkfunc_0203d224(int x, int y);        // heap
-    void unkfunc_0203d264(int x, int y, status::HaveStatusInfo* info);
+    void drawHeap(int x, int y);        // heap
+    void drawStatusInfo(int x, int y, status::HaveStatusInfo* info);
 };
 
 extern UnkDebugBattleInfo data_020f2008;

@@ -9,7 +9,7 @@
 dss::Pad dss::g_Pad;
 unsigned short data_02116d94[7200];
 
-ARM void dss::Pad::unkfunc_0207ed54()
+ARM void dss::Pad::init()
 {
 #ifdef DQIV_NATIVE
     std::memset(this, 0, sizeof(*this));
@@ -18,10 +18,10 @@ ARM void dss::Pad::unkfunc_0207ed54()
     mode_ = 0;
     playIndex_ = 0;
     recordCount_ = 0;
-    unkfunc_0207f2b4(0);
+    setMaskL(0);
 }
 
-ARM void dss::Pad::unkfunc_0207ed74()
+ARM void dss::Pad::readKeys()
 {
     unsigned short keys = PAD_Read();
     if ((keys & (PAD_KEY_UP | PAD_KEY_DOWN)) == (PAD_KEY_UP | PAD_KEY_DOWN)) {
@@ -35,10 +35,10 @@ ARM void dss::Pad::unkfunc_0207ed74()
         if (trig_ & 0x2000) {
             if (keys & PAD_BUTTON_B) {
                 keys = 0;
-                unkfunc_0207f320();
+                startPlay();
             } else {
                 keys = 0;
-                unkfunc_0207f2d4();
+                startRecord();
             }
         }
         break;
@@ -50,18 +50,18 @@ ARM void dss::Pad::unkfunc_0207ed74()
         } else {
             data_02116ce0.unkfunc_0207e88c(0x18, 0x17, "REC %4d", 7200 - recordCount_);
             if (PAD_DetectFold()) {
-                unkfunc_0207f2f0();
+                stopRecord();
             }
             if (keys & PAD_BUTTON_SELECT) {
-                unkfunc_0207f2f0();
+                stopRecord();
             }
             if (keys & PAD_BUTTON_START) {
-                unkfunc_0207f2f0();
+                stopRecord();
             }
             if (mode_ == 1) {
-                unkfunc_0207f39c(keys);
+                recordKeys(keys);
                 if (recordCount_ == 7200) {
-                    unkfunc_0207f2f0();
+                    stopRecord();
                 }
             }
         }
@@ -75,16 +75,16 @@ ARM void dss::Pad::unkfunc_0207ed74()
             data_02116ce0.unkfunc_0207e88c(0x17, 0x17, "PLAY %4d", playCount_ + 1);
             data_02116ce0.unkfunc_0207e88c(0x17, 0x16, "%4d/%4d", playIndex_, recordCount_);
             if (PAD_DetectFold()) {
-                unkfunc_0207f3bc();
+                stopPlay();
             }
             if (keys & PAD_BUTTON_SELECT) {
-                unkfunc_0207f3bc();
+                stopPlay();
             }
             if (keys & PAD_BUTTON_START) {
-                unkfunc_0207f3bc();
+                stopPlay();
             }
             if (mode_ == 2) {
-                keys = unkfunc_0207f360();
+                keys = getPlayKeys();
             }
         }
         break;
@@ -145,9 +145,9 @@ ARM void dss::Pad::unkfunc_0207ed74()
     }
 }
 
-ARM void dss::Pad::unkfunc_0207f1f8()
+ARM void dss::Pad::update()
 {
-    unkfunc_0207ed74();
+    readKeys();
     if (maskL_ == 0) {
         return;
     }
@@ -157,7 +157,7 @@ ARM void dss::Pad::unkfunc_0207f1f8()
     }
     do {
         mask_ = 0xfcff;
-        unkfunc_0207ed74();
+        readKeys();
         OS_Wait();
         if (trig_ & PAD_BUTTON_R) {
             return;
@@ -165,7 +165,7 @@ ARM void dss::Pad::unkfunc_0207f1f8()
         if (!(cont_ & PAD_BUTTON_L)) {
             return;
         }
-    } while (!unkfunc_0207f2a0());
+    } while (!isResetComboHeld());
 }
 
 ARM int dss::Pad::pad()
@@ -183,17 +183,17 @@ ARM int dss::Pad::edge()
     return trig_ & mask_;
 }
 
-ARM int dss::Pad::unkfunc_0207f290()
+ARM int dss::Pad::repeat()
 {
     return repeat_ & mask_;
 }
 
-ARM int dss::Pad::unkfunc_0207f2a0()
+ARM int dss::Pad::isResetComboHeld()
 {
     return cont_ == (PAD_BUTTON_L | PAD_BUTTON_R | PAD_BUTTON_SELECT | PAD_BUTTON_START);
 }
 
-ARM void dss::Pad::unkfunc_0207f2b4(int flag)
+ARM void dss::Pad::setMaskL(int flag)
 {
     maskL_ = flag;
     if (flag) {
@@ -203,20 +203,20 @@ ARM void dss::Pad::unkfunc_0207f2b4(int flag)
     }
 }
 
-ARM void dss::Pad::unkfunc_0207f2d4()
+ARM void dss::Pad::startRecord()
 {
     mode_ = 1;
     recordCount_ = 0;
     wait_ = 60;
 }
 
-ARM void dss::Pad::unkfunc_0207f2f0()
+ARM void dss::Pad::stopRecord()
 {
     data_02116ce0.unkfunc_0207e88c(0x18, 0x17, "        ");
     mode_ = 0;
 }
 
-ARM void dss::Pad::unkfunc_0207f320()
+ARM void dss::Pad::startPlay()
 {
     mode_ = 2;
     playIndex_ = 0;
@@ -224,50 +224,50 @@ ARM void dss::Pad::unkfunc_0207f320()
     wait_ = 60;
 }
 
-ARM void dss::Pad::unkfunc_0207f340()
+ARM void dss::Pad::restartPlay()
 {
     mode_ = 2;
     playIndex_ = 0;
     playCount_++;
 }
 
-ARM unsigned short dss::Pad::unkfunc_0207f360()
+ARM unsigned short dss::Pad::getPlayKeys()
 {
     unsigned short keys = data_02116d94[playIndex_++];
     if (playIndex_ == recordCount_) {
-        unkfunc_0207f340();
+        restartPlay();
     }
     return keys;
 }
 
-ARM void dss::Pad::unkfunc_0207f39c(unsigned short keys)
+ARM void dss::Pad::recordKeys(unsigned short keys)
 {
     data_02116d94[recordCount_++] = keys;
 }
 
-ARM void dss::Pad::unkfunc_0207f3bc()
+ARM void dss::Pad::stopPlay()
 {
     data_02116ce0.unkfunc_0207e88c(0x17, 0x17, "         ");
     data_02116ce0.unkfunc_0207e88c(0x17, 0x16, "         ");
     mode_ = 0;
 }
 
-ARM void dss::Pad::unkfunc_0207f400()
+ARM void dss::Pad::clearRecord()
 {
     recordCount_ = 0;
 }
 
-ARM void dss::Pad::unkfunc_0207f40c(unsigned short keys, int count)
+ARM void dss::Pad::addRecordKeys(unsigned short keys, int count)
 {
     for (int i = 0; i < count; i++) {
         data_02116d94[recordCount_++] = keys;
     }
 }
 
-ARM void dss::Pad::unkfunc_0207f44c(unsigned short keys, int count)
+ARM void dss::Pad::addRecordPresses(unsigned short keys, int count)
 {
     for (int i = 0; i < count; i++) {
-        unkfunc_0207f40c(keys, 10);
-        unkfunc_0207f40c(0, 10);
+        addRecordKeys(keys, 10);
+        addRecordKeys(0, 10);
     }
 }

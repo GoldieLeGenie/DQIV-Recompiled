@@ -1,6 +1,6 @@
 #include <nitro/native_video.h>
 #include "main/dss/DisplayPlugin.hpp"
-#include "main/dss/UnkDisplay.hpp"
+#include "main/dss/Display.hpp"
 #include "main/dss/SystemText.hpp"
 #include "nitro/gx.hpp"
 #include "nitro/g2.hpp"
@@ -20,25 +20,25 @@ static dss::DisplayPlugin* const s_pluginTable[] = {
     &dss::g_DISPLAYPLUGIN_TEXTONLY,
 };
 
-ARM void dss::DisplayPlugin::unkfunc_020819a8(int chr)
+ARM void dss::DisplayPlugin::drawCaptureObjs(int chr)
 {
-    UnkOamBuffer* oam = unkfunc_0208141c(1);
+    UnkOamBuffer* oam = getOamBuffer(1);
     REG32(0x04001000) = (REG32(0x04001000) & ~0x60) | 0x20;
     for (int y = 0; y < 192; y += 64) {
         for (int x = 0; x < 256; x += 64) {
-            G2_SetOBJAttr(oam->unkfunc_02082694(), x, y, 3, 3, 0, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_64x64, GX_OAM_COLORMODE_16,
+            G2_SetOBJAttr(oam->allocEntry(), x, y, 3, 3, 0, GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_64x64, GX_OAM_COLORMODE_16,
                           chr + (y / 8) * 32 + x / 8, 15, 0);
         }
     }
 }
 
-ARM void dss::DisplayPlugin::unkfunc_02081a38(int textType, int screen1, int screen2, int bg0, int bg1, int unk_10, int palette)
+ARM void dss::DisplayPlugin::setupDisplayText(int textType, int screen1, int screen2, int bg0, int bg1, int unk_10, int palette)
 {
-    unkfunc_02086e70(textType, screen1, screen2);
+    loadSystemTextChars(textType, screen1, screen2);
     if (palette) {
         loadSystemTextPalettes(textType, screen1, screen2);
     }
-    unkfunc_020816dc(textType, screen1, screen2, bg0, bg1, unk_10);
+    setDisplayTextBgs(textType, screen1, screen2, bg0, bg1, unk_10);
     displayTextCounter_ = 2;
 }
 
@@ -57,7 +57,7 @@ ARM void dss::DisplayPlugin::setDisplayText(int counter)
 ARM void dss::DisplayPlugin_CAPTURE::initialize()
 {
     type_ = 1;
-    unkfunc_02081a38(2, 1, 5, 0, 4, 1, 0);
+    setupDisplayText(2, 1, 5, 0, 4, 1, 0);
     displayTextCounter_ = 0;
 }
 
@@ -96,7 +96,7 @@ ARM void dss::DisplayPlugin_CAPTURE::update(int frame)
     } else {
         GXS_SetVisiblePlane(plane & 0x13);
     }
-    unkfunc_020819a8(0);
+    drawCaptureObjs(0);
     G2S_SetBG0Control(0, 0, 0xf, 0, 0);
     G2S_SetBG1Control(0, 0, 0xe, 0, 0);
     G2_SetBG0Priority(2);
@@ -107,13 +107,13 @@ ARM void dss::DisplayPlugin_CAPTURE::update(int frame)
     G2S_SetBG1Priority(0);
     G2S_SetBG2Priority(0);
     G2S_SetBG3Priority(3);
-    unkfunc_02081284(3);
+    setDisplayBlendMode(3);
     GX_SetVisibleWnd(7);
     G2_SetWndOBJInsidePlane(0x1e, 1);
     G2_SetWndOutsidePlane(0x1f, 1);
     int x;
     int y;
-    unkfunc_02080e48(&x, &y);
+    getCaptureOffset(&x, &y);
     MtxFx22 mtx;
     func_02061b70(&mtx);
     func_02064f40((volatile void*)VIDEO_REG(u32, 0x04000030), &mtx, 128, 96, x, y);
@@ -122,7 +122,7 @@ ARM void dss::DisplayPlugin_CAPTURE::update(int frame)
 ARM void dss::DisplayPlugin_DOUBLE3D::initialize()
 {
     type_ = 3;
-    unkfunc_02081a38(3, 1, 5, 2, 6, 0, 1);
+    setupDisplayText(3, 1, 5, 2, 6, 0, 1);
     blur_ = 0;
     eva_ = 0x10;
     evb_ = 0;
@@ -201,7 +201,7 @@ ARM void dss::DisplayPlugin_DOUBLE3D::update(int frame)
     } else {
         GXS_SetGraphicsMode(3);
         GXS_SetVisiblePlane(0x10);
-        unkfunc_020819a8(0);
+        drawCaptureObjs(0);
     }
     G2_SetBG0Priority(3);
     G2_SetBG1Priority(0);
@@ -214,7 +214,7 @@ ARM void dss::DisplayPlugin_DOUBLE3D::update(int frame)
     GX_SetVisibleWnd(7);
     G2_SetWndOBJInsidePlane(0x1b, 1);
     G2_SetWndOutsidePlane(0x1f, 1);
-    unkfunc_02081284(2);
+    setDisplayBlendMode(2);
 }
 
 #pragma pop
@@ -233,7 +233,7 @@ ARM void dss::DisplayPlugin_DOUBLE3D::SetBlur(int eva, int evb)
 ARM void dss::DisplayPlugin_SINGLE3D::initialize()
 {
     type_ = 2;
-    unkfunc_02081a38(2, 1, 5, 2, 6, 1, 1);
+    setupDisplayText(2, 1, 5, 2, 6, 1, 1);
 }
 
 ARM void dss::DisplayPlugin_SINGLE3D::finalize()
@@ -278,10 +278,10 @@ ARM void dss::DisplayPlugin_SINGLE3D::update(int frame)
     GX_SetVisibleWnd(7);
     G2_SetWndOBJInsidePlane(0x1b, 1);
     G2_SetWndOutsidePlane(0x1f, 1);
-    unkfunc_02081284(2);
+    setDisplayBlendMode(2);
     int x;
     int y;
-    unkfunc_02080e48(&x, &y);
+    getCaptureOffset(&x, &y);
     MtxFx22 mtx;
     func_02061b70(&mtx);
     func_02064f40((volatile void*)VIDEO_REG(u32, 0x04000030), &mtx, 128, 96, x, y);
@@ -290,7 +290,7 @@ ARM void dss::DisplayPlugin_SINGLE3D::update(int frame)
 ARM void dss::DisplayPlugin_STOP::initialize()
 {
     type_ = 0;
-    unkfunc_02081a38(1, 1, 5, 2, 6, 0, 1);
+    setupDisplayText(1, 1, 5, 2, 6, 0, 1);
 }
 
 ARM void dss::DisplayPlugin_STOP::finalize()
@@ -304,7 +304,7 @@ ARM void dss::DisplayPlugin_STOP::update(int frame)
 ARM void dss::DisplayPlugin_TEXTONLY::initialize()
 {
     type_ = 4;
-    unkfunc_02081a38(2, 1, 5, 2, 6, 0, 1);
+    setupDisplayText(2, 1, 5, 2, 6, 0, 1);
 }
 
 ARM void dss::DisplayPlugin_TEXTONLY::finalize()
@@ -345,5 +345,5 @@ ARM void dss::DisplayPlugin_TEXTONLY::update(int frame)
     GX_SetVisibleWnd(7);
     G2_SetWndOBJInsidePlane(0x1b, 1);
     G2_SetWndOutsidePlane(0x1f, 1);
-    unkfunc_02081284(2);
+    setDisplayBlendMode(2);
 }

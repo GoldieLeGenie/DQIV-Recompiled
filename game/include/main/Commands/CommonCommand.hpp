@@ -137,8 +137,8 @@ int cmd_set_ship_pos(int* param);
 int cmd_set_title_part(int* param);
 
 
-short unkfunc_0202528c(int* param);
-short unkfunc_020254a4(short count, short alive, int mode);
+short getPartyHeadCount(int* param);
+short selectHeadCount(short count, short alive, int mode);
 int unkfunc_020254b8(int index, int type);
-int unkfunc_02025514(int index, int type);
-int unkfunc_0202555c(int index, int type);
+int isMemberSexMatch(int index, int type);
+int isMemberAliveMatch(int index, int type);

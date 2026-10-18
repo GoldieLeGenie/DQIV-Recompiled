@@ -24,9 +24,9 @@ ARM void SpriteCharacter::setup(const char* name)
 
 ARM void SpriteCharacter::unkfunc_0204b25c()
 {
-    textureNum_ = unkfunc_0207f8c4(data_.getAddr());
+    textureNum_ = getArchiveFileCount(data_.getAddr());
     for (int i = 0; i < textureNum_; i++) {
-        unk_78[i] = unkfunc_0207f8dc(data_.getAddr(), i);
+        unk_78[i] = getArchiveFile(data_.getAddr(), i);
     }
     unk_58 = unk_78[0];
     ((TextureObject*)unk_58)->unkfunc_02086798(1);

@@ -1,7 +1,7 @@
 #pragma ipa file
 #include "main/dss/Camera.hpp"
-#include "main/dss/UnkDisplay.hpp"
-#include "main/dss/UnkMatrix43.hpp"
+#include "main/dss/Display.hpp"
+#include "main/dss/Matrix43.hpp"
 #ifdef DQIV_NATIVE
 #include "DualScreen.hpp"
 #endif
@@ -44,7 +44,7 @@ ARM dss::DualCameraBase::DualCameraBase()
 
 ARM void dss::DualCameraBase::updateCameraNo()
 {
-    if (unkfunc_02081254() & 1) {
+    if (getDisplayFrame() & 1) {
         m_cameraNo = 0;
     } else {
         m_cameraNo = 1;
