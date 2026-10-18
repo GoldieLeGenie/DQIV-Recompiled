@@ -165,7 +165,7 @@ THUMB void profile::Profile::collectDATA_PARTY()
     this->pPARTY->UNIQUEID = status::g_Game.getUniqueID();
 
     for (int i = 0; i < 0x32; i++) {
-        this->pPARTY->SELECTTAISHI_FLAG[i] = data_020f0078.isTypeSelectable(i);
+        this->pPARTY->SELECTTAISHI_FLAG[i] = g_EnvoyManager.isTypeSelectable(i);
     }
 }
 
@@ -258,33 +258,33 @@ THUMB void profile::Profile::collectDATA_MONSTER()
 THUMB void profile::Profile::collectDATA_ENVOY()
 {
     for (int i = 0; i < 0x18; i++) {
-        if (data_020f0078.isEnvoyEnabled(i) != 0) {
-            data_020f0078.selectEnvoy(i);
-            this->pENVOY->UNIQUE = data_020f0078.getUnique();
-            this->pENVOY->TYPE = data_020f0078.getType();
-            this->pENVOY->SEX = data_020f0078.getSex();
-            this->pENVOY->AGE = data_020f0078.getAge();
-            this->pENVOY->SKILL = data_020f0078.getSkill();
-            dss::memcpy(this->pENVOY->NAME, data_020f0078.getName(), 0x1A);
-            dss::memcpy(this->pENVOY->HERONAME, data_020f0078.getHeroName(), 0x1A);
-            dss::memcpy(this->pENVOY->TOWNNAME, data_020f0078.getTownName(), 0x2A);
-            dss::memcpy(this->pENVOY->COMMENT, data_020f0078.getComment(), 0x5C);
+        if (g_EnvoyManager.isEnvoyEnabled(i) != 0) {
+            g_EnvoyManager.selectEnvoy(i);
+            this->pENVOY->UNIQUE = g_EnvoyManager.getUnique();
+            this->pENVOY->TYPE = g_EnvoyManager.getType();
+            this->pENVOY->SEX = g_EnvoyManager.getSex();
+            this->pENVOY->AGE = g_EnvoyManager.getAge();
+            this->pENVOY->SKILL = g_EnvoyManager.getSkill();
+            dss::memcpy(this->pENVOY->NAME, g_EnvoyManager.getName(), 0x1A);
+            dss::memcpy(this->pENVOY->HERONAME, g_EnvoyManager.getHeroName(), 0x1A);
+            dss::memcpy(this->pENVOY->TOWNNAME, g_EnvoyManager.getTownName(), 0x2A);
+            dss::memcpy(this->pENVOY->COMMENT, g_EnvoyManager.getComment(), 0x5C);
         } else {
             this->pENVOY->TYPE = 0xFF;
         }
         this->pENVOY++;
     }
-    if (data_020f0078.isMyEnvoyEnabled() != 0) {
-        data_020f0078.mode_ = 1;
-        this->pENVOY->UNIQUE = data_020f0078.getUnique();
-        this->pENVOY->TYPE = data_020f0078.getType();
-        this->pENVOY->SEX = data_020f0078.getSex();
-        this->pENVOY->AGE = data_020f0078.getAge();
-        this->pENVOY->SKILL = data_020f0078.getSkill();
-        dss::memcpy(this->pENVOY->NAME, data_020f0078.getName(), 0x1A);
-        dss::memcpy(this->pENVOY->HERONAME, data_020f0078.getHeroName(), 0x1A);
-        dss::memcpy(this->pENVOY->TOWNNAME, data_020f0078.getTownName(), 0x2A);
-        dss::memcpy(this->pENVOY->COMMENT, data_020f0078.getComment(), 0x5C);
+    if (g_EnvoyManager.isMyEnvoyEnabled() != 0) {
+        g_EnvoyManager.mode_ = 1;
+        this->pENVOY->UNIQUE = g_EnvoyManager.getUnique();
+        this->pENVOY->TYPE = g_EnvoyManager.getType();
+        this->pENVOY->SEX = g_EnvoyManager.getSex();
+        this->pENVOY->AGE = g_EnvoyManager.getAge();
+        this->pENVOY->SKILL = g_EnvoyManager.getSkill();
+        dss::memcpy(this->pENVOY->NAME, g_EnvoyManager.getName(), 0x1A);
+        dss::memcpy(this->pENVOY->HERONAME, g_EnvoyManager.getHeroName(), 0x1A);
+        dss::memcpy(this->pENVOY->TOWNNAME, g_EnvoyManager.getTownName(), 0x2A);
+        dss::memcpy(this->pENVOY->COMMENT, g_EnvoyManager.getComment(), 0x5C);
     } else {
         this->pENVOY->TYPE = 0xFF;
     }

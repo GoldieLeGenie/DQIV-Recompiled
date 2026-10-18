@@ -74,9 +74,9 @@ THUMB void TownMenu_OPERATION_SHIFT_PARTY::menuUpdate()
         applyNewOrder();
         return;
     }
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK || data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             close();
             gTownMenu_ROOT.open();
             gTownMenu_ROOT.menuItem_.active_ = TownMenu_ROOT::ROOT_OPERATION;
@@ -177,7 +177,7 @@ THUMB void TownMenu_OPERATION_SHIFT_PARTY::applyNewOrder()
     close();
     stat_ = MENUBASE_STAT_OK;
     gTownMenu_ROOT.stat_ = MENUBASE_STAT_OK;
-    if (data_0210bb94.unkfunc_02058114(0xe) == 1) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xe) == 1) {
         SoundManager::fieldPlay();
     }
 }

@@ -28,21 +28,21 @@ THUMB void MaterielMenu_EXTRA_SIDEJOB_SELL::menuDraw()
 
 THUMB void MaterielMenu_EXTRA_SIDEJOB_SELL::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             selectYes();
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             selectNo();
         }
     } else if (mode_ == SELL_WAIT) {
         if (waitCount_ > WAIT_COUNT) {
-            data_020ed1bc.openMessageForTALK();
+            g_TownMenuMessage.openMessageForTALK();
             TextAPI::setMACRO0(0xa, 0x40000000, sellItemID_);
             TextAPI::setMACRO0(0x3e, 0xf0000000, status::UseItem::getBuyPrice(sellItemID_));
-            data_020ed1bc.addMessage(0x63c3);
-            data_020ed1bc.setYesNo();
+            g_TownMenuMessage.addMessage(0x63c3);
+            g_TownMenuMessage.setYesNo();
             mode_ = SELL_ITEM;
         } else {
             waitCount_++;
@@ -60,29 +60,29 @@ THUMB void MaterielMenu_EXTRA_SIDEJOB_SELL::selectYes()
         sellItemYesCheck();
         break;
     case SELL_CHECK:
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63e2);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63e2);
         sellItemPrice_ /= 16;
         addPay();
         mode_ = SELL_END;
         break;
     case SELL_ABATEMENT:
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63c9);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63c9);
         sellItemPrice_ = 1;
         addPay();
         mode_ = SELL_END;
         break;
     case SELL_ADVANCE:
         if (dssrand::rand(4) == 0) {
-            data_020ed1bc.openMessageForTALK();
-            data_020ed1bc.addMessage(0x63d3);
+            g_TownMenuMessage.openMessageForTALK();
+            g_TownMenuMessage.addMessage(0x63d3);
             sellItemPrice_ = (sellItemPrice_ + sellItemPrice_ / 10) / 8;
             addPay();
             mode_ = SELL_END;
         } else {
-            data_020ed1bc.openMessageForTALK();
-            data_020ed1bc.addMessage(0x63d6);
+            g_TownMenuMessage.openMessageForTALK();
+            g_TownMenuMessage.addMessage(0x63d6);
             mode_ = SELL_END;
         }
         break;
@@ -96,25 +96,25 @@ THUMB void MaterielMenu_EXTRA_SIDEJOB_SELL::selectNo()
 {
     switch (mode_) {
     case SELL_FIRST:
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63e6);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63e6);
+        g_TownMenuMessage.setYesNo();
         break;
     case SELL_ITEM:
         sellItemNoCheck();
         break;
     case SELL_CHECK:
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63e4);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63e4);
         mode_ = SELL_END;
         break;
     case SELL_ABATEMENT:
     case SELL_ADVANCE:
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         TextAPI::setMACRO0(0xa, 0x40000000, sellItemID_);
         TextAPI::setMACRO0(0x3e, 0xf0000000, status::UseItem::getBuyPrice(sellItemID_));
-        data_020ed1bc.addMessage(0x63c6, 0x63c3);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.addMessage(0x63c6, 0x63c3);
+        g_TownMenuMessage.setYesNo();
         mode_ = SELL_ITEM;
         break;
     case SELL_END:
@@ -141,22 +141,22 @@ THUMB void MaterielMenu_EXTRA_SIDEJOB_SELL::sellItemYesCheck()
 {
     int odds = dssrand::rand(ODDS_SELECT);
     if (odds == NO_MONEY) {
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63d9, 0x63da);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63d9, 0x63da);
         mode_ = SELL_END;
     } else if (odds == HAVE_MAX_ITEM) {
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63dd, 0x63de);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63dd, 0x63de);
         mode_ = SELL_END;
     } else if (odds == NOT_EQUIPMENT) {
         TextAPI::setMACRO0(0xa, 0x40000000, sellItemID_);
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63e1);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63e1);
+        g_TownMenuMessage.setYesNo();
         mode_ = SELL_CHECK;
     } else {
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63c9);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63c9);
         sellItemPrice_ /= 16;
         addPay();
         mode_ = SELL_END;
@@ -169,28 +169,28 @@ THUMB void MaterielMenu_EXTRA_SIDEJOB_SELL::sellItemNoCheck()
     TextAPI::setMACRO0(0xa, 0x40000000, sellItemID_);
     if (odds == ABATEMENT_PRICE) {
         int price = sellItemPrice_ * 9 / 10;
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         TextAPI::setMACRO0(0x4b, 0xf0000000, price);
-        data_020ed1bc.addMessage(0x63cc);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.addMessage(0x63cc);
+        g_TownMenuMessage.setYesNo();
         mode_ = SELL_ABATEMENT;
     } else if (odds == ADVANCE_PRICE) {
         int price = sellItemPrice_;
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         TextAPI::setMACRO0(0x4b, 0xf0000000, price + price / 10);
-        data_020ed1bc.addMessage(0x63d0);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.addMessage(0x63d0);
+        g_TownMenuMessage.setYesNo();
         mode_ = SELL_ADVANCE;
     } else if (odds == CANCEL_SELL) {
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63d6);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63d6);
         mode_ = SELL_END;
     } else {
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         TextAPI::setMACRO0(0xa, 0x40000000, sellItemID_);
         TextAPI::setMACRO0(0x3e, 0xf0000000, status::UseItem::getBuyPrice(sellItemID_));
-        data_020ed1bc.addMessage(0x63c6, 0x63c3);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.addMessage(0x63c6, 0x63c3);
+        g_TownMenuMessage.setYesNo();
         mode_ = SELL_ITEM;
     }
 }

@@ -76,7 +76,7 @@ THUMB void MaterielMenu_CHURCH_MIRACLE::menuExecute()
 
 THUMB void MaterielMenu_CHURCH_MIRACLE::menuDraw()
 {
-    if (data_020ed1bc.isMessageWAITPROG() && miracleStatus_ != MIRACLE_ISEND && miracleStatus_ != MIRACLE_SOUND && miracleStatus_ != MIRACLE_SOUNDEND) {
+    if (g_TownMenuMessage.isMessageWAITPROG() && miracleStatus_ != MIRACLE_ISEND && miracleStatus_ != MIRACLE_SOUND && miracleStatus_ != MIRACLE_SOUNDEND) {
         status::g_Party.setBattleMode();
         drawChurchMiracleScreen(status::g_Party.getCount());
         menuItem_.drawActive();
@@ -97,14 +97,14 @@ THUMB void MaterielMenu_CHURCH_MIRACLE::menuUpdate()
 
 THUMB bool MaterielMenu_CHURCH_MIRACLE::messageUpdate()
 {
-    int stat = data_020ed1bc.stat_;
-    if (data_020ed1bc.isOpen() == false && miracleStatus_ != MIRACLE_ISEND) {
+    int stat = g_TownMenuMessage.stat_;
+    if (g_TownMenuMessage.isOpen() == false && miracleStatus_ != MIRACLE_ISEND) {
         return false;
     }
     switch (miracleStatus_) {
     case MIRACLE_NONE:
         if (stat == 1 || stat == 2) {
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             redraw_ = 1;
         }
         break;
@@ -119,39 +119,39 @@ THUMB bool MaterielMenu_CHURCH_MIRACLE::messageUpdate()
                     selectAntiCurse();
                 }
             } else {
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
                 selectCheckNG();
             }
             redraw_ = 1;
         } else if (stat == 2) {
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             selectNG();
             redraw_ = 1;
         }
         break;
     case MIRACLE_SOUND:
-        if (stat == 1 || stat == 2 || data_020ed1bc.isMessageWAITPROG()) {
+        if (stat == 1 || stat == 2 || g_TownMenuMessage.isMessageWAITPROG()) {
             int type = 0x32;
             if (soundType_ == 0) {
                 type = 0x31;
             }
             ui_MsgSndSet(type);
-            data_020ed1bc.close();
-            data_020ed1bc.openMessageForTALK();
-            data_020ed1bc.addMessageNOWAIT(sexType_ + 0xc7008);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.close();
+            g_TownMenuMessage.openMessageForTALK();
+            g_TownMenuMessage.addMessageNOWAIT(sexType_ + 0xc7008);
+            g_TownMenuMessage.addMessageWAITKEY();
             openRootMenu();
         }
         return true;
     case MIRACLE_ISEND:
-        if (stat == 1 || stat == 2 || data_020ed1bc.isMessageWAITPROG()) {
-            data_020ed1bc.close();
+        if (stat == 1 || stat == 2 || g_TownMenuMessage.isMessageWAITPROG()) {
+            g_TownMenuMessage.close();
             selectRevivalEnd();
             redraw_ = 1;
         }
         return true;
     case MIRACLE_SOUNDEND:
-        if (data_020ed1bc.isMessageWAITPROG()) {
+        if (g_TownMenuMessage.isMessageWAITPROG()) {
             MenuSoundManager::getSingleton()->setPlaySound(MenuSoundManager::MENU_SOUND_MIRACLE);
             if (miracle_ == MaterielMenu_CHURCH_ROOT::MIRACLE_ORDER_REVIVAL) {
                 miracleStatus_ = MIRACLE_ISEND;
@@ -176,7 +176,7 @@ THUMB bool MaterielMenu_CHURCH_MIRACLE::messageUpdate()
         }
         return true;
     }
-    if (data_020ed1bc.isMessageWAITPROG() == false) {
+    if (g_TownMenuMessage.isMessageWAITPROG() == false) {
         return true;
     }
     return false;
@@ -184,7 +184,7 @@ THUMB bool MaterielMenu_CHURCH_MIRACLE::messageUpdate()
 
 THUMB bool MaterielMenu_CHURCH_MIRACLE::listUpdate()
 {
-    if (data_020ed1bc.isMessageWAITPROG()) {
+    if (g_TownMenuMessage.isMessageWAITPROG()) {
         if (unk_100) {
             unk_100 = 0;
             redraw_ = 1;
@@ -213,17 +213,17 @@ THUMB bool MaterielMenu_CHURCH_MIRACLE::listUpdate()
                 } else {
                     int messageID = sexType_ + miracleMessage[miracle_][4];
                     int playerID = status::g_Party.getPlayerIndex(active);
-                    data_020ed1bc.openMessageForTALK();
+                    g_TownMenuMessage.openMessageForTALK();
                     TextAPI::setMACRO0(0x12, 0x50000000, playerID);
-                    data_020ed1bc.addMessage(messageID);
-                    data_020ed1bc.setMessageLastCursor(true);
+                    g_TownMenuMessage.addMessage(messageID);
+                    g_TownMenuMessage.setMessageLastCursor(true);
                     miracleStatus_ = MIRACLE_SOUND;
                 }
                 return true;
             }
             if (result == 3) {
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(sexType_ + 0xc700e);
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(sexType_ + 0xc700e);
                 miracleStatus_ = MIRACLE_SOUND;
                 redraw_ = 1;
                 return true;
@@ -240,19 +240,19 @@ THUMB bool MaterielMenu_CHURCH_MIRACLE::listUpdate()
 
 THUMB void MaterielMenu_CHURCH_MIRACLE::selectRevival()
 {
-    data_020ed1bc.close();
+    g_TownMenuMessage.close();
     int playerID = status::g_Party.getPlayerIndex(activeChara_);
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0x12, 0x50000000, playerID);
-    data_020ed1bc.addMessage(sexType_ + 0xc6fd3, sexType_ + 0xc6fd4);
-    data_020ed1bc.addMessageWAITKEY();
+    g_TownMenuMessage.addMessage(sexType_ + 0xc6fd3, sexType_ + 0xc6fd4);
+    g_TownMenuMessage.addMessageWAITKEY();
     miracleStatus_ = MIRACLE_SOUNDEND;
 }
 
 THUMB void MaterielMenu_CHURCH_MIRACLE::selectRevivalEnd()
 {
     status::HaveStatusInfo& statusInfo = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_;
-    data_020ed1bc.close();
+    g_TownMenuMessage.close();
     if (g_Global.bookingFlag_ == Global::BOOKING_NONE) {
         redraw_ = 1;
         payOutMiracle();
@@ -268,9 +268,9 @@ THUMB void MaterielMenu_CHURCH_MIRACLE::selectRevivalEnd()
     cmn::GameManager::getSingleton()->playerManager_->charaColl_ = 1;
     BillboardCharacter::setAllCharaAnim(1);
     int playerID = status::g_Party.getPlayerIndex(activeChara_);
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     TextAPI::setMACRO0(0x12, 0x50000000, playerID);
-    data_020ed1bc.addMessage(sexType_ + 0xc6fd5);
+    g_TownMenuMessage.addMessage(sexType_ + 0xc6fd5);
     g_Global.bookingFlag_ = Global::BOOKING_NONE;
     miracleStatus_ = MIRACLE_SOUND;
 }
@@ -278,12 +278,12 @@ THUMB void MaterielMenu_CHURCH_MIRACLE::selectRevivalEnd()
 THUMB void MaterielMenu_CHURCH_MIRACLE::selectAntidote()
 {
     status::HaveStatusInfo& statusInfo = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_;
-    data_020ed1bc.close();
+    g_TownMenuMessage.close();
     int playerID = status::g_Party.getPlayerIndex(activeChara_);
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0x12, 0x50000000, playerID);
-    data_020ed1bc.addMessage(sexType_ + 0xc6fe8);
-    data_020ed1bc.addMessageWAITKEY();
+    g_TownMenuMessage.addMessage(sexType_ + 0xc6fe8);
+    g_TownMenuMessage.addMessageWAITKEY();
     payOutMiracle();
     miracleStatus_ = MIRACLE_SOUNDEND;
 }
@@ -291,11 +291,11 @@ THUMB void MaterielMenu_CHURCH_MIRACLE::selectAntidote()
 THUMB void MaterielMenu_CHURCH_MIRACLE::selectAntiCurse()
 {
     status::HaveStatusInfo& statusInfo = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_;
-    data_020ed1bc.close();
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.close();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0x12, 0x50000000, status::g_Party.getPlayerIndex(activeChara_));
-    data_020ed1bc.addMessage(sexType_ + 0xc6ffb);
-    data_020ed1bc.addMessageWAITKEY();
+    g_TownMenuMessage.addMessage(sexType_ + 0xc6ffb);
+    g_TownMenuMessage.addMessageWAITKEY();
     payOutMiracle();
     miracleStatus_ = MIRACLE_SOUNDEND;
 }
@@ -315,13 +315,13 @@ THUMB void MaterielMenu_CHURCH_MIRACLE::selectGoldCheck()
 {
     int messageID = sexType_ + miracleMessage[miracle_][0];
     int playerID = status::g_Party.getPlayerIndex(activeChara_);
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0x12, 0x50000000, playerID);
     TextAPI::setMACRO0(0x41, 0xf0000000, miracleAmount_[0]);
     TextAPI::setMACRO0(0x40, 0xf0000000, miracleAmount_[1]);
     TextAPI::setMACRO0(0x28, 0xf0000000, miracleAmount_[2]);
-    data_020ed1bc.addMessage(messageID);
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.addMessage(messageID);
+    g_TownMenuMessage.setYesNo();
 }
 
 THUMB void MaterielMenu_CHURCH_MIRACLE::selectCheckNG()
@@ -329,16 +329,16 @@ THUMB void MaterielMenu_CHURCH_MIRACLE::selectCheckNG()
     int messageID[2];
     messageID[0] = sexType_ + miracleMessage[miracle_][1];
     messageID[1] = sexType_ + miracleMessage[miracle_][2];
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(messageID[0], messageID[1]);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(messageID[0], messageID[1]);
     miracleStatus_ = MIRACLE_SOUND;
 }
 
 THUMB void MaterielMenu_CHURCH_MIRACLE::selectNG()
 {
     int messageID = sexType_ + miracleMessage[miracle_][3];
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(messageID);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(messageID);
     miracleStatus_ = MIRACLE_SOUND;
 }
 

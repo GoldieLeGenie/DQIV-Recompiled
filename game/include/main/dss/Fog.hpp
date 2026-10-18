@@ -2,10 +2,10 @@
 #include <globaldefs.h>
 #include "main/dss/DssUtils.hpp"
 
-extern int data_0211d310;                       // fog enabled
+extern int g_fogEnabled;                       // fog enabled
 extern dss::Fix32 data_0211d314[2];
-extern int data_0211d31c[2];                    // fog offset of each screen
-extern unsigned int data_0211d324[2][8];        // fog table of each screen
+extern int g_fogOffsets[2];                    // fog offset of each screen
+extern unsigned int g_fogTables[2][8];        // fog table of each screen
 
 void initFog();                        // init
 void setFogOffset(int side, int offset);    // fog offset

@@ -20,7 +20,7 @@ struct UnkBgText {
     int mode_;                                  // 0x15C full-width digits glyphs (1 or 2)
 };
 
-extern UnkBgText data_0211a664;
+extern UnkBgText g_BgText;
 
 void initBgText();                        // init
 void loadBgFont12(void* data, void* subData);   // load the 12 dots fonts

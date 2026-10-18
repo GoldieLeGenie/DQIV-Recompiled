@@ -5,10 +5,10 @@
 #include "nnsys/g3d.hpp"
 
 // palette color effects (rgb rate, blend toward a color, sepia)
-extern NNSG3dResTex* data_0211d430;             // last loaded model textures
+extern NNSG3dResTex* g_paletteEffectTex;             // last loaded model textures
 extern int data_0211d434;
-extern dss::Fix32Vector3 data_0211d438;         // rgb rate
-extern unsigned short data_0211d444[0x800];     // palette work
+extern dss::Fix32Vector3 g_paletteRgbRate;         // rgb rate
+extern unsigned short g_paletteEffectBuffer[0x800];     // palette work
 
 void setPaletteEffectTexture(NNSG3dResTex* tex);
 void setPaletteRgbRate(int index, dss::Fix32Vector3 rate);

@@ -33,7 +33,7 @@ THUMB void MaterielMenu_BANK_ROOT::menuExecute()
 
 THUMB void MaterielMenu_BANK_ROOT::menuDraw()
 {
-    if (data_020ed1bc.isMessageWAITPROG()) {
+    if (g_TownMenuMessage.isMessageWAITPROG()) {
         drawBankRootScreen();
         menuItem_.drawActive();
     }
@@ -41,8 +41,8 @@ THUMB void MaterielMenu_BANK_ROOT::menuDraw()
 
 THUMB void MaterielMenu_BANK_ROOT::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.isMessageWAITPROG()) {
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.isMessageWAITPROG()) {
             if (first_) {
                 redraw_ = 1;
                 first_ = 0;
@@ -54,7 +54,7 @@ THUMB void MaterielMenu_BANK_ROOT::menuUpdate()
                 return;
             }
             if (result == 2) {
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
                 switch (menuItem_.active_) {
                 case 0:
                     gMaterielMenu_BANK_PUTIN.open();
@@ -78,28 +78,28 @@ THUMB void MaterielMenu_BANK_ROOT::menuUpdate()
             redraw_ = 1;
             return;
         }
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
             if (end_) {
                 MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
             }
         }
     } else if (first_) {
         TextAPI::setMACRO0(0xb, 0x50000000, status::g_Party.getPlayerStatus(playerID_)->haveStatusInfo_.haveStatus_.playerIndex_);
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         if (status::g_Story.isUseBank() == false) {
             status::g_Story.setUseBank(true);
-            data_020ed1bc.addMessage(0xc6bb2, 0xc6bb3, 0xc6be8, 0xc6bb4);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessage(0xc6bb2, 0xc6bb3, 0xc6be8, 0xc6bb4);
+            g_TownMenuMessage.addMessageWAITKEY();
         } else if (status::g_Party.bankMoney_ == 0) {
-            data_020ed1bc.addMessage(0xc6bdf);
-            data_020ed1bc.addMessageNOWAIT(0xc6be5);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessage(0xc6bdf);
+            g_TownMenuMessage.addMessageNOWAIT(0xc6be5);
+            g_TownMenuMessage.addMessageWAITKEY();
         } else {
             TextAPI::setMACRO0(0x30, 0xf0000000, status::g_Party.bankMoney_);
-            data_020ed1bc.addMessage(0xc6bdf);
-            data_020ed1bc.addMessageNOWAIT(0xc6be2);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessage(0xc6bdf);
+            g_TownMenuMessage.addMessageNOWAIT(0xc6be2);
+            g_TownMenuMessage.addMessageWAITKEY();
         }
     }
 }
@@ -107,13 +107,13 @@ THUMB void MaterielMenu_BANK_ROOT::menuUpdate()
 THUMB void MaterielMenu_BANK_ROOT::closeBank()
 {
     int playerIndex = status::g_Party.getPlayerStatus(playerID_)->haveStatusInfo_.haveStatus_.playerIndex_;
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     if (status::g_Party.bankMoney_ == 0) {
         TextAPI::setMACRO0(0xb, 0x50000000, playerIndex);
-        data_020ed1bc.addMessage(0xc6bdd);
+        g_TownMenuMessage.addMessage(0xc6bdd);
     } else {
         TextAPI::setMACRO0(0x30, 0xf0000000, status::g_Party.bankMoney_);
-        data_020ed1bc.addMessage(0xc6bdb);
+        g_TownMenuMessage.addMessage(0xc6bdb);
     }
     end_ = 1;
 }

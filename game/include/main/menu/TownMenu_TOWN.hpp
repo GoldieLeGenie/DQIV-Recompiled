@@ -22,4 +22,4 @@ struct TownMenu_TOWN : menu::MenuBase {
     void unkfunc_02027424();
 };
 
-extern TownMenu_TOWN data_020ed11c;             /* gTownMenu_TOWN */
+extern TownMenu_TOWN g_TownMenuTown;             /* gTownMenu_TOWN */

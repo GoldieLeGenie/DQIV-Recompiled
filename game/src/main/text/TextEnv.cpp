@@ -60,10 +60,10 @@ THUMB void TextEnv::add_msg_var(int def, int array_index_no, int type, int no, i
 THUMB void TextEnv::process_msg(char* dst, int size, const char* src)
 {
     MessageMacro macro;
-    char* tmp = (char*)allocAppHeap(&data_0211a60c, 0x802, 0x20);
+    char* tmp = (char*)allocAppHeap(&g_appHeap, 0x802, 0x20);
     macro.processMessage(tmp, 0x800, src);
     expandVars(dst, size, (unsigned char*)tmp);
-    dssFree(&data_0211a60c, tmp);
+    dssFree(&g_appHeap, tmp);
 }
 
 THUMB void TextEnv::expandVars(char* dst, int size, unsigned char* src)
@@ -173,15 +173,15 @@ THUMB char* TextEnv::copyWithCase(char* dst, int size, unsigned char* src, int c
     unsigned char tmp[0x200];
     switch (cap) {
         case 1:
-            translateTextPrefix(data_020c45b0, data_020c4618, (char*)tmp, 0x200, (char*)src, 1);
+            translateTextPrefix(g_upperCaseCharTable, g_lowerCaseCharTable, (char*)tmp, 0x200, (char*)src, 1);
             src = tmp;
             break;
         case 2:
-            translateText(data_020c45b0, data_020c4618, (char*)tmp, 0x200, (char*)src);
+            translateText(g_upperCaseCharTable, g_lowerCaseCharTable, (char*)tmp, 0x200, (char*)src);
             src = tmp;
             break;
         case 3:
-            translateText(data_020c4618, data_020c45b0, (char*)tmp, 0x200, (char*)src);
+            translateText(g_lowerCaseCharTable, g_upperCaseCharTable, (char*)tmp, 0x200, (char*)src);
             src = tmp;
             break;
     }

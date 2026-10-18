@@ -161,7 +161,7 @@ extern Global g_Global; // 0x020c768c
 extern GlobalChangePart g_GlobalChangePart;
 extern GlobalWaitPart g_GlobalWaitPart;
 extern GlobalFade g_GlobalFade;
-extern UnkSpriteFade data_020f21f8;
+extern UnkSpriteFade g_SpriteFade;
 
 extern const char mlb1a[8]; // "mlb1a data_0208c9ec"
 extern const char za1f1[8]; //za1f1 data_0208c9f4
@@ -175,6 +175,6 @@ inline void UnkSpriteFade::flashWhite(int frames, int r, int g, int b)
     frames_ = frames;
     sprite_[0].setColor(r, g, b);
     sprite_[1].setColor(r, g, b);
-    data_0210bc18.unkfunc_02058294(this);
+    g_GlobalGamePartManager.unkfunc_02058294(this);
 }
 

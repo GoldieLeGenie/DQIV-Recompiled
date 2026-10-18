@@ -34,23 +34,23 @@ THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::menuUpdate()
         status::PlayerStatus* player = status::g_Party.getPlayerStatus(activeChara_);
         ItemType equipType = status::UseItem::getItemType(itemID_);
         int equipItem = player->haveStatusInfo_.haveEquipment_.getEquipment(equipType);
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         TextAPI::setMACRO0(7, 0x40000000, equipItem);
-        data_020ed1bc.addMessage(0xc8b15);
+        g_TownMenuMessage.addMessage(0xc8b15);
         equipmode_ = 4;
         yesnoFlag_ = 0;
         playSound_ = 0;
     }
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             if (yesnoFlag_ == 0) {
                 setMessage();
             } else {
                 equipYesMessage();
             }
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             if (yesnoFlag_ == 0) {
                 setMessage();
             } else if (equipmode_ == 2) {
@@ -67,19 +67,19 @@ THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::menuUpdate()
 THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::equipCheck()
 {
     status::HaveStatusInfo& statusInfo = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_;
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0x12, 0x50000000, statusInfo.haveStatus_.playerIndex_);
     if (fukuro_) {
         getGift();
         TextAPI::setMACRO0(0xa, 0x40000000, itemID_);
-        data_020ed1bc.addMessage(0xc8b06);
+        g_TownMenuMessage.addMessage(0xc8b06);
         close();
         gMaterielMenu_CHANGEGIFT_ROOT.open();
         gMaterielMenu_CHANGEGIFT_ROOT.mode_ = 1;
         return;
     }
     if (statusInfo.haveItem_.getCount() == 12) {
-        data_020ed1bc.addMessage(0xc8b09);
+        g_TownMenuMessage.addMessage(0xc8b09);
         equipmode_ = 1;
         return;
     }
@@ -88,32 +88,32 @@ THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::equipCheck()
         return;
     }
     if (statusInfo.isEquipEnable(itemID_) == false) {
-        data_020ed1bc.addMessage(0xc8b0d);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.addMessage(0xc8b0d);
+        g_TownMenuMessage.setYesNo();
         equipmode_ = 3;
         yesnoFlag_ = 1;
         return;
     }
-    data_020ed1bc.addMessage(0xc8b24);
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.addMessage(0xc8b24);
+    g_TownMenuMessage.setYesNo();
     equipmode_ = 2;
     yesnoFlag_ = 1;
 }
 
 THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::setMessage()
 {
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     switch (equipmode_) {
     case 1:
         TextAPI::setMACRO0(0xa, 0x40000000, itemID_);
-        data_020ed1bc.addMessage(0xc8b0a);
+        g_TownMenuMessage.addMessage(0xc8b0a);
         break;
     case 4:
         TextAPI::setMACRO0(0xa, 0x40000000, itemID_);
-        data_020ed1bc.addMessage(0xc8b16);
+        g_TownMenuMessage.addMessage(0xc8b16);
         break;
     }
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.setYesNo();
     yesnoFlag_ = 1;
 }
 
@@ -128,8 +128,8 @@ THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::equipYesMessage()
     }
     switch (equipmode_) {
     case 1:
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0xc8b03);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0xc8b03);
         close();
         gMaterielMenu_CHANGEGIFT_SELECTCHARA.open();
         break;
@@ -141,10 +141,10 @@ THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::equipYesMessage()
         }
         getGift();
         statusInfo.setEquipment(statusInfo.haveItem_.getCount() - 1);
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         TextAPI::setMACRO0(0x12, 0x50000000, statusInfo.haveStatus_.playerIndex_);
         TextAPI::setMACRO0(0xa, 0x40000000, itemID_);
-        data_020ed1bc.addMessage(0xc8b12);
+        g_TownMenuMessage.addMessage(0xc8b12);
         close();
         gMaterielMenu_CHANGEGIFT_ROOT.open();
         gMaterielMenu_CHANGEGIFT_ROOT.mode_ = 1;
@@ -159,11 +159,11 @@ THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::equipYesMessage()
 THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::equipNoMessage()
 {
     status::PlayerStatus* player = status::g_Party.getPlayerStatus(MaterielMenuPlayerControl::getSingleton()->leadpc_);
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0xb, 0x50000000, player->haveStatusInfo_.haveStatus_.playerIndex_);
     TextAPI::setMACRO0(0x2a, 0xf0000000, status::g_Party.casinoCoin_);
-    data_020ed1bc.addMessage(0xc8afa);
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.addMessage(0xc8afa);
+    g_TownMenuMessage.setYesNo();
     close();
     gMaterielMenu_CHANGEGIFT_ROOT.open();
     gMaterielMenu_CHANGEGIFT_ROOT.mode_ = 3;
@@ -173,12 +173,12 @@ THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::aliveCheck()
 {
     status::HaveStatusInfo& statusInfo = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_;
     getGift();
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0x12, 0x50000000, statusInfo.haveStatus_.playerIndex_);
     if (statusInfo.isDeath() == false) {
-        data_020ed1bc.addMessage(0xc8b1b);
+        g_TownMenuMessage.addMessage(0xc8b1b);
     } else {
-        data_020ed1bc.addMessage(0xc8b1e);
+        g_TownMenuMessage.addMessage(0xc8b1e);
     }
     close();
     gMaterielMenu_CHANGEGIFT_ROOT.open();

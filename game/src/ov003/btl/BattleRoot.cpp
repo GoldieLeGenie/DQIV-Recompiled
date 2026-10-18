@@ -59,20 +59,20 @@ THUMB void btl::BattleRoot::terminate()
         cleanupCrusingMenu();
     }
 
-    switch (data_020f21f8.state_) {
+    switch (g_SpriteFade.state_) {
     case GlobalFade::FADE_NONE:
-        data_020f21f8.state_ = GlobalFade::FADE_OUT_BLACK;
+        g_SpriteFade.state_ = GlobalFade::FADE_OUT_BLACK;
         break;
     case GlobalFade::FADE_IN_BLACK:
-        data_020f21f8.state_ = GlobalFade::FADE_OUT_WHITE;
+        g_SpriteFade.state_ = GlobalFade::FADE_OUT_WHITE;
         break;
     default:
-        data_020f21f8.state_ = GlobalFade::FADE_OUT_BLACK;
+        g_SpriteFade.state_ = GlobalFade::FADE_OUT_BLACK;
         break;
     }
-    data_020f21f8.count_ = 0;
-    data_020f21f8.frames_ = 3;
-    data_0210bc18.unkfunc_02058294(&data_020f21f8);
+    g_SpriteFade.count_ = 0;
+    g_SpriteFade.frames_ = 3;
+    g_GlobalGamePartManager.unkfunc_02058294(&g_SpriteFade);
 }
 
 THUMB void btl::BattleRoot::execute()
@@ -141,9 +141,9 @@ THUMB void btl::BattleRoot::cleanupBattle()
 
 THUMB void btl::BattleRoot::setupMonster()
 {
-    backupPartyStatus_ = (status::PartyStatus*)dssAlloc(&data_0211a60c, sizeof(status::PartyStatus), 0x20);
-    backupPlayerStatus_ = (status::PlayerStatus*)dssAlloc(&data_0211a60c, sizeof(status::PlayerStatus) * 26, 0x20);
-    backupPlayerFlag_ = (status::PlayerFlag*)dssAlloc(&data_0211a60c, sizeof(status::PlayerFlag) * 26, 0x20);
+    backupPartyStatus_ = (status::PartyStatus*)dssAlloc(&g_appHeap, sizeof(status::PartyStatus), 0x20);
+    backupPlayerStatus_ = (status::PlayerStatus*)dssAlloc(&g_appHeap, sizeof(status::PlayerStatus) * 26, 0x20);
+    backupPlayerFlag_ = (status::PlayerFlag*)dssAlloc(&g_appHeap, sizeof(status::PlayerFlag) * 26, 0x20);
     store();
     status::MonsterParty::initializeSortIndex();
 
@@ -235,9 +235,9 @@ THUMB void btl::BattleRoot::cleanupMonster()
     status::BaseAction::doubleFlag_ = 0;
     status::BaseAction::allKaishinFlag_ = 0;
     g_monster.clear();
-    dssFree(&data_0211a60c, backupPartyStatus_);
-    dssFree(&data_0211a60c, backupPlayerStatus_);
-    dssFree(&data_0211a60c, backupPlayerFlag_);
+    dssFree(&g_appHeap, backupPartyStatus_);
+    dssFree(&g_appHeap, backupPlayerStatus_);
+    dssFree(&g_appHeap, backupPlayerFlag_);
 }
 
 THUMB void btl::BattleRoot::setupCrusingMenu()

@@ -373,7 +373,7 @@ const param::ExcelFile<param::PriestData, 100> priestDataTable = {
     }
 };
 
-const param::ExcelFile<param::MageData, 100> data_020919d8 = {
+const param::ExcelFile<param::MageData, 100> mageDataTable = {
     0x5730, {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
         { 0, 3, 5, 8, 2, 16, 10, 13, 0, 1, 1, 1, 1 },
@@ -478,7 +478,7 @@ const param::ExcelFile<param::MageData, 100> data_020919d8 = {
     }
 };
 
-const param::ExcelFile<param::TraderData, 100> data_0209233c = {
+const param::ExcelFile<param::TraderData, 100> traderDataTable = {
     0x5730, {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
         { 0, 4, 5, 5, 3, 20, 0, 0, 0, 1, 0, 1, 1 },
@@ -583,7 +583,7 @@ const param::ExcelFile<param::TraderData, 100> data_0209233c = {
     }
 };
 
-const param::ExcelFile<param::WarlockData, 100> data_02092ca0 = {
+const param::ExcelFile<param::WarlockData, 100> warlockDataTable = {
     0x5730, {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
         { 0, 4, 4, 6, 6, 18, 7, 50, 196, 1, 1, 1, 1 },
@@ -688,7 +688,7 @@ const param::ExcelFile<param::WarlockData, 100> data_02092ca0 = {
     }
 };
 
-const param::ExcelFile<param::DancerData, 100> data_02093604 = {
+const param::ExcelFile<param::DancerData, 100> dancerDataTable = {
     0x5730, {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
         { 0, 3, 5, 4, 6, 16, 9, 1, 0, 1, 1, 1, 1 },
@@ -793,7 +793,7 @@ const param::ExcelFile<param::DancerData, 100> data_02093604 = {
     }
 };
 
-const param::ExcelFile<param::PissaroData, 100> data_02093f68 = {
+const param::ExcelFile<param::PissaroData, 100> pissaroDataTable = {
     0x5730, {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
         { 0, 8, 6, 7, 1, 25, 8, 16, 0, 1, 1, 1, 1 },
@@ -1003,7 +1003,7 @@ const param::ExcelFile<param::HeroData, 100> heroDataTable = {
     }
 };
 
-const param::ExcelFile<param::ItemData, 162> data_020978d8 = {
+const param::ExcelFile<param::ItemData, 162> itemDataTable = {
     0x12205e, {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, -1, 31, 21, 1 },
         { 0, 0xcae1a, 0, 7, 0, 2, 159, 327, 49, 117, 1, 0, 1, 12, -73, 1, 21, 1 },
@@ -1170,7 +1170,7 @@ const param::ExcelFile<param::ItemData, 162> data_020978d8 = {
     }
 };
 
-const param::ExcelFile<param::CharaVoice, 217> data_0208d9ac = {
+const param::ExcelFile<param::CharaVoice, 217> charaVoiceTable = {
     0x1a, {
         { 0, 302 },
         { 1, 301 },
@@ -1392,7 +1392,7 @@ const param::ExcelFile<param::CharaVoice, 217> data_0208d9ac = {
     }
 };
 
-const param::ExcelFile<param::ActionParam, 595> data_020aa600 = {
+const param::ExcelFile<param::ActionParam, 595> actionParamTable = {
     0xbca4e0, {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 0, 3, 0, 1, 1, 1 },
         { 0xc3938, 0xc3926, 0xc3928, 0xc3922, 0xc3924, 0xc3a67, 0xc3a67, 0, 0xcaa56, 1, 1, 0, 202, 8, 14, 7, 12, 1, 1, 0, 1, 1, 2, 1, 1, 3, 32, 120, 2, 96, 54, 99, 9, 1, 1, 1 },
@@ -1992,7 +1992,7 @@ const param::ExcelFile<param::ActionParam, 595> data_020aa600 = {
     }
 };
 
-const param::ExcelFile<param::AbreactTurn, 52> data_0208e3a8 = {
+const param::ExcelFile<param::AbreactTurn, 52> abreactTurnTable = {
     0x76aa2, {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
@@ -2049,7 +2049,7 @@ const param::ExcelFile<param::AbreactTurn, 52> data_0208e3a8 = {
     }
 };
 
-const param::ExcelFile<param::MonsterData, 315> data_020a02e4 = {
+const param::ExcelFile<param::MonsterData, 315> monsterDataTable = {
     0x9e3460, {
         { 0, 1, 1, 0, 8, 9, 5, 2, 111, 71, 260, 71, 71, 260, 71, 3, 5, 1, 0, 0, 0, 0, 0, 7, 0, 0, 31, 1, 0, 31, 1, 0, 0, 0, -12, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
         { 1, 1, 1, 0, 8, 8, 5, 2, 111, 71, 71, 260, 71, 71, 71, 8, 4, 1, 1, 0, 0, 1, 0, 7, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, -12, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 },
@@ -2369,7 +2369,7 @@ const param::ExcelFile<param::MonsterData, 315> data_020a02e4 = {
     }
 };
 
-const param::ExcelFile<param::BookData, 210> data_0208dd14 = {
+const param::ExcelFile<param::BookData, 210> bookDataTable = {
     0xf54, {
         { 0, 1, 0, 1, 1, 1, 1 },
         { 3, 2, 0, 1, 1, 1, 1 },
@@ -2584,7 +2584,7 @@ const param::ExcelFile<param::BookData, 210> data_0208dd14 = {
     }
 };
 
-const param::ExcelFile<param::SplitMsg, 39> data_02098d1c = {
+const param::ExcelFile<param::SplitMsg, 39> splitMsgTable = {
     0xd7e96, {
         { 0xaae60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0xaae61, 0xc3a97, 0xc3a99, 0xc3cc7, 0xc3cc9, 0xc3ccb, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -2628,7 +2628,7 @@ const param::ExcelFile<param::SplitMsg, 39> data_02098d1c = {
     }
 };
 
-const param::ExcelFile<param::EncountData, 256> data_0209dae0 = {
+const param::ExcelFile<param::EncountData, 256> encountDataTable = {
     0x29220, {
         { 0, 164, 158, 152, 148, 164, 153, 158, 148, 148, 153, 1000, 167, 0, 0, 17, 3, 6, 0, 0, 0, 0, 1, 1, 1 },
         { 0, 153, 150, 154, 167, 153, 160, 155, 148, 154, 160, 1000, 155, 0, 0, 19, 3, 7, 0, 0, 0, 0, 1, 1, 1 },
@@ -2889,7 +2889,7 @@ const param::ExcelFile<param::EncountData, 256> data_0209dae0 = {
     }
 };
 
-const param::ExcelFile<param::EncountFormationID, 9> data_0208cdc4 = {
+const param::ExcelFile<param::EncountFormationID, 9> encountFormationIdTable = {
     0x36d14, {
         { 10, 0, 10, 25, 25, 20, 35, 10, 4, 7, 13, 1, 3, 25, 2, 4, 25, 4, 7, 30, 4, 7, 0, 10, 10, 18, 1, 1 },
         { 40, 20, 15, 15, 15, 15, 20, 6, 2, 2, 30, 1, 3, 30, 2, 4, 18, 4, 7, 30, 1, 3, 10, 12, 20, 0, 1, 1 },
@@ -2903,7 +2903,7 @@ const param::ExcelFile<param::EncountFormationID, 9> data_0208cdc4 = {
     }
 };
 
-const param::ExcelFile<param::EncountFormNum, 18> data_0208cab4 = {
+const param::ExcelFile<param::EncountFormNum, 18> encountFormNumTable = {
     0x686, {
         { 70, 256, 1, 1, 1, 1 },
         { 70, 256, 1, 2, 2, 1 },
@@ -2926,7 +2926,7 @@ const param::ExcelFile<param::EncountFormNum, 18> data_0208cab4 = {
     }
 };
 
-const param::ExcelFile<param::EncountSpecial, 104> data_02095c60 = {
+const param::ExcelFile<param::EncountSpecial, 104> encountSpecialTable = {
     0x11e74, {
         { 0, 1000, 0, 0, 1000, 0, 0, 1000, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0, 1 },
         { 1, 15, 1, 1, 6, 1, 1, 7, 1, 1, 1000, 0, 0, 2, 66, 0, 0, 2, 1 },
@@ -3035,7 +3035,7 @@ const param::ExcelFile<param::EncountSpecial, 104> data_02095c60 = {
     }
 };
 
-const param::ExcelFile<param::MonsterMap, 201> data_020948cc = {
+const param::ExcelFile<param::MonsterMap, 201> monsterMapTable = {
     0x27c, {
         { 64, 1, "dab1", 1 },
         { 0, 1, "dbout", 1 },
@@ -3241,7 +3241,7 @@ const param::ExcelFile<param::MonsterMap, 201> data_020948cc = {
     }
 };
 
-const param::ExcelFile<param::EffectColorParam, 162> data_0209523c = {
+const param::ExcelFile<param::EffectColorParam, 162> effectColorTable = {
     0xc12, {
         { 0x1000, 0x1000, 0x1000, 0, 1, 1 },
         { 0x1000, 0xccc, 0xccc, 20, 1, 1 },
@@ -3408,7 +3408,7 @@ const param::ExcelFile<param::EffectColorParam, 162> data_0209523c = {
     }
 };
 
-const param::ExcelFile<param::ColorCorrect, 540> data_0209a448 = {
+const param::ExcelFile<param::ColorCorrect, 540> colorCorrectTable = {
     0x12f2, {
         { 0, "-", 0, 0, 1 },
         { 0, "-", 1, 1, 1 },
@@ -3953,14 +3953,14 @@ const param::ExcelFile<param::ColorCorrect, 540> data_0209a448 = {
     }
 };
 
-const param::ExcelFile<param::FloorFog, 2> data_0208ca88 = {
+const param::ExcelFile<param::FloorFog, 2> floorFogTable = {
     0x8ad6, {
         { 0x1000, 0xb33, 28, 29, 31, 12, 28, 29, 31, 7, 1, 1, 1, 1 },
         { 0x1000, 0x1b33, 31, 14, 0, 17, 31, 14, 0, 16, 2, 1, 1, 1 }
     }
 };
 
-const param::ExcelFile<param::CLUTCode, 15> data_0208ccd0 = {
+const param::ExcelFile<param::CLUTCode, 15> clutCodeTable = {
     0x114c, {
         { 0x1000, 0x1000, 0x1000, 0, 1, 1, 1 },
         { 0x7d7, 0x999, 0xf33, 1, 1, 1, 1 },
@@ -3980,7 +3980,7 @@ const param::ExcelFile<param::CLUTCode, 15> data_0208ccd0 = {
     }
 };
 
-const param::ExcelFile<param::FloorBackColor, 15> data_0208d2d4 = {
+const param::ExcelFile<param::FloorBackColor, 15> floorBackColorTable = {
     0x36d14, {
         { 0, { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 1, 1, 1 },
         { 1, { { 14, 18, 31, 14, 18, 31, 14, 18, 31, 14, 18, 31, 14, 18, 31, 14, 18, 31, 14, 18, 31, 14, 18, 31 } }, 1, 1, 1 },
@@ -4000,7 +4000,7 @@ const param::ExcelFile<param::FloorBackColor, 15> data_0208d2d4 = {
     }
 };
 
-const param::ExcelFile<param::SurechigaiObjectData, 50> data_0208cc04 = {
+const param::ExcelFile<param::SurechigaiObjectData, 50> surechigaiObjectDataTable = {
     0x10fe, {
         { 0, 1, 1, 1 },
         { 1, 1, 17, 1 },
@@ -4055,7 +4055,7 @@ const param::ExcelFile<param::SurechigaiObjectData, 50> data_0208cc04 = {
     }
 };
 
-const param::ExcelFile<param::FloorParam, 544> data_020a4cbc = {
+const param::ExcelFile<param::FloorParam, 544> floorParamTable = {
     0x3ead8, {
         { 2, 3, "caf1", "0", "0", 2, 1, 1, 16, 0, 1, 1, 1, 1 },
         { 2, 0, "caf2a", "0", "0", 2, 0, 1, 16, 0, 1, 1, 1, 1 },
@@ -4604,7 +4604,7 @@ const param::ExcelFile<param::FloorParam, 544> data_020a4cbc = {
     }
 };
 
-const param::ExcelFile<param::ShopDataFirst, 988> data_02096964 = {
+const param::ExcelFile<param::ShopDataFirst, 988> shopDataFirstTable = {
     0x1a, {
         { 0, 4 },
         { 0, 1 },
@@ -5597,7 +5597,7 @@ const param::ExcelFile<param::ShopDataFirst, 988> data_02096964 = {
     }
 };
 
-const param::ExcelFile<param::ShopDataSecond, 1872> data_0209bd9c = {
+const param::ExcelFile<param::ShopDataSecond, 1872> shopDataSecondTable = {
     0x1a, {
         { 0, 3 },
         { 0, 1 },
@@ -7474,7 +7474,7 @@ const param::ExcelFile<param::ShopDataSecond, 1872> data_0209bd9c = {
     }
 };
 
-const param::ExcelFile<unsigned char, 256> data_0208d0cc = {
+const param::ExcelFile<unsigned char, 256> encountSeaTileTable = {
     0x18c, {
         0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x03, 0x03, 0x03, 0x03, 0x03,
         0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x03, 0x03, 0x03, 0x03, 0x03,
@@ -7495,7 +7495,7 @@ const param::ExcelFile<unsigned char, 256> data_0208d0cc = {
     }
 };
 
-const param::ExcelFile<unsigned char, 256> data_0208d1d0 = {
+const param::ExcelFile<unsigned char, 256> encountTile2Table = {
     0x18c, {
         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x14, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x14, 0x14, 0x14, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -7516,7 +7516,7 @@ const param::ExcelFile<unsigned char, 256> data_0208d1d0 = {
     }
 };
 
-const param::ExcelFile<unsigned char, 256> data_0208cec4 = {
+const param::ExcelFile<unsigned char, 256> encountTile3Table = {
     0x18c, {
         0xff, 0x2c, 0x2c, 0xff, 0xff, 0xff, 0xff, 0xff, 0x2d, 0xff, 0xff, 0xff, 0xff, 0x2e, 0x2e, 0xff,
         0xff, 0x2c, 0x2c, 0x2c, 0xff, 0xff, 0x1c, 0x1c, 0x2d, 0x2d, 0x2d, 0x2e, 0x2e, 0x2e, 0x2e, 0x2e,
@@ -7537,7 +7537,7 @@ const param::ExcelFile<unsigned char, 256> data_0208cec4 = {
     }
 };
 
-const param::ExcelFile<unsigned char, 256> data_0208cfc8 = {
+const param::ExcelFile<unsigned char, 256> encountTile1Table = {
     0x18c, {
         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x05, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x14, 0x14, 0x05, 0x05, 0x06, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -7558,7 +7558,7 @@ const param::ExcelFile<unsigned char, 256> data_0208cfc8 = {
     }
 };
 
-const param::ExcelFile<unsigned char, 16> data_0208ca74 = {
+const param::ExcelFile<unsigned char, 16> encountGotTileTable = {
     0x18c, {
         0x35, 0x35, 0x35, 0x35,
         0x34, 0x34, 0x34, 0x34,
@@ -7567,7 +7567,7 @@ const param::ExcelFile<unsigned char, 16> data_0208ca74 = {
     }
 };
 
-const param::ExcelFile<unsigned char, 9> data_0208ca64 = {
+const param::ExcelFile<unsigned char, 9> encountYamiTileTable = {
     0x18c, {
         0x36, 0x36, 0x36,
         0x36, 0x36, 0x36,
@@ -7575,7 +7575,7 @@ const param::ExcelFile<unsigned char, 9> data_0208ca64 = {
     }
 };
 
-const param::ExcelFile<param::VehicleData, 29> data_0208d6f0 = {
+const param::ExcelFile<param::VehicleData, 29> vehicleDataTable = {
     0x2700, {
         { 0x9a8000, 0x498000, 0x988000, 0x470000, 0, 50, "cf", 1, 1 },
         { 0x67c000, 0x678000, 0x660000, 0x660000, 0, 39, "cc", 1, 1 },
@@ -7609,7 +7609,7 @@ const param::ExcelFile<param::VehicleData, 29> data_0208d6f0 = {
     }
 };
 
-const param::ExcelFile<param::MapChurch, 26> data_0208d47c = {
+const param::ExcelFile<param::MapChurch, 26> mapChurchTable = {
     0x1b6c, {
         { 0x59c2, 0, -0x1051, 49152, "cdf1", 1, 1 },
         { -0x5614, 0, -0x11e, 49152, "cff1", 0, 1 },
@@ -7640,7 +7640,7 @@ const param::ExcelFile<param::MapChurch, 26> data_0208d47c = {
     }
 };
 
-const param::ExcelFile<param::SurechigaiTenant, 23> data_0208cb48 = {
+const param::ExcelFile<param::SurechigaiTenant, 23> surechigaiTenantTable = {
     0x4a9a, {
         { 1, 1, 1, 42, 6, -124, 1, 1 },
         { 2, 2, 2, 5, 4, 36, 1, 1 },

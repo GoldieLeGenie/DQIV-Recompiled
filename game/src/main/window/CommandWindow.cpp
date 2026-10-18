@@ -156,9 +156,9 @@ ARM bool window::CommandWindow::isMessage()
 
 ARM bool window::CommandWindow::updateTouchScreenCapture()
 {
-    if (data_0211a5d4.touch_ != 0) {
-        int x = data_0211a5d4.x_;
-        int y = data_0211a5d4.y_;
+    if (g_TouchPanel.touch_ != 0) {
+        int x = g_TouchPanel.x_;
+        int y = g_TouchPanel.y_;
         if (x < 0x20 && y < 0x20) {
             requestScreenCapture();
             unk_020bea5c = 0;

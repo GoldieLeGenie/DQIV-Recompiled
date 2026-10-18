@@ -3,7 +3,7 @@
 #include "main/menu/MenuDisplay.hpp"
 #include "main/dss/BgBuffer.hpp"
 
-// One line of text drawn as sprites (data_020f530c.texts_: message window lines and name plate)
+// One line of text drawn as sprites (g_MenuDisplays.texts_: message window lines and name plate)
 struct UnkMenuTextDisplay : UnkMenuDisplay {
     unsigned char charWidths_[0x100];           // 0x030
     int visibleWidth_;                          // 0x130

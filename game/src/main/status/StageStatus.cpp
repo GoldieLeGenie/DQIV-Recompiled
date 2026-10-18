@@ -644,7 +644,7 @@ THUMB int status::StageStatus::isAbortSaveTown()
 {
     char local[2];
 
-    if (data_0210bb94.unkfunc_02058114(12) == 1)
+    if (g_GlobalDQ4.unkfunc_02058114(12) == 1)
     {
         if (TownPlayerManager::getSingleton()->isSaveAndBattleOK() == 0)
         {
@@ -688,7 +688,7 @@ THUMB int status::StageStatus::isAbortSaveDungeon()
 {
     char local[2];
 
-    if (data_0210bb94.unkfunc_02058114(12) == 1)
+    if (g_GlobalDQ4.unkfunc_02058114(12) == 1)
     {
         if (TownPlayerManager::getSingleton()->isSaveAndBattleOK() == 0)
         {
@@ -1108,7 +1108,7 @@ THUMB void status::StageStatus::setRuraFlag(int rura)
     this->ruraFlag_ = rura;
     if (rura == 1)
     {
-        if (data_0210bb94.unkfunc_02058114(0xE) != 0)
+        if (g_GlobalDQ4.unkfunc_02058114(0xE) != 0)
         {
             FieldPlayerManager::getSingleton();
             cmn::PlayerManager::setLock(1);

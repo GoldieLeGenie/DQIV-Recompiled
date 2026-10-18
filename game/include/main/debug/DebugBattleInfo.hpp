@@ -17,4 +17,4 @@ struct UnkDebugBattleInfo : UnkDebugDisplay {
     void drawStatusInfo(int x, int y, status::HaveStatusInfo* info);
 };
 
-extern UnkDebugBattleInfo data_020f2008;
+extern UnkDebugBattleInfo g_DebugBattleInfo;

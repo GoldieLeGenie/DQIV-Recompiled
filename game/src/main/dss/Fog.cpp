@@ -4,25 +4,25 @@
 #include "main/dss/Camera.hpp"
 #include "main/dss/DssMath.hpp"
 
-int data_0211d310;
+int g_fogEnabled;
 dss::Fix32 data_0211d314[2];
-int data_0211d31c[2];
-unsigned int data_0211d324[2][8];
+int g_fogOffsets[2];
+unsigned int g_fogTables[2][8];
 
 ARM void initFog()
 {
-    data_0211d310 = 0;
+    g_fogEnabled = 0;
     func_02065350(0, 0, 10, 1000);
     for (signed char i = 0; i < 8; i++) {
-        data_0211d324[0][i] = packRgba((unsigned char)(i * 16 + 12), (unsigned char)(i * 16 + 8), (unsigned char)(i * 16 + 4), (unsigned char)(i * 16));
+        g_fogTables[0][i] = packRgba((unsigned char)(i * 16 + 12), (unsigned char)(i * 16 + 8), (unsigned char)(i * 16 + 4), (unsigned char)(i * 16));
     }
-    func_02065408(data_0211d324[0]);
+    func_02065408(g_fogTables[0]);
     *VIDEO_REG(volatile unsigned int, 0x04000358) = 0x1f7fff;
 }
 
 ARM void setFogOffset(int side, int offset)
 {
-    data_0211d31c[side] = offset;
+    g_fogOffsets[side] = offset;
 }
 
 ARM void setFogRate(int side, dss::Fix32 rate)
@@ -36,7 +36,7 @@ ARM void setFogRate(int side, dss::Fix32 rate)
         if (i == 7) {
             r = 0x7f;
         }
-        data_0211d324[side][i] = packRgba((unsigned char)r, (unsigned char)g, (unsigned char)b, (unsigned char)a);
+        g_fogTables[side][i] = packRgba((unsigned char)r, (unsigned char)g, (unsigned char)b, (unsigned char)a);
     }
 }
 
@@ -47,20 +47,20 @@ ARM void setFogColor(int r, int g, int b)
 
 ARM void setFogEnable(int enable)
 {
-    data_0211d310 = enable;
+    g_fogEnabled = enable;
     func_02065350(0, 0, 10, 1000);
 }
 
 ARM void updateFog()
 {
-    if (data_0211d310 == 0) {
+    if (g_fogEnabled == 0) {
         return;
     }
     if (getDisplayFrame() & 1) {
-        func_02065350(1, 0, 10, data_0211d31c[0]);
-        func_02065408(data_0211d324[0]);
+        func_02065350(1, 0, 10, g_fogOffsets[0]);
+        func_02065408(g_fogTables[0]);
     } else {
-        func_02065350(1, 0, 10, data_0211d31c[1]);
-        func_02065408(data_0211d324[1]);
+        func_02065350(1, 0, 10, g_fogOffsets[1]);
+        func_02065408(g_fogTables[1]);
     }
 }

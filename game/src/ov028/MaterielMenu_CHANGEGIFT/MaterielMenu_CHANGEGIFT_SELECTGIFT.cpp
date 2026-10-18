@@ -37,7 +37,7 @@ THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::menuExecute()
 
 THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::menuDraw()
 {
-    if (data_020ed1bc.isOpen()) {
+    if (g_TownMenuMessage.isOpen()) {
         drawChangeGiftScreen();
         return;
     }
@@ -47,9 +47,9 @@ THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::menuDraw()
 
 THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
             if (message_) {
                 cancelChange();
             }
@@ -82,14 +82,14 @@ THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::checkAmount()
 {
     int itemID = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(activeItem_);
     int itemPrice = MaterielMenu_SHOP_MANAGER::getSingleton()->getItemPrice(activeItem_);
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0xa, 0x40000000, itemID);
     if (status::g_Party.casinoCoin_ < itemPrice) {
-        data_020ed1bc.addMessage(0xc8aff);
+        g_TownMenuMessage.addMessage(0xc8aff);
         message_ = 1;
         return;
     }
-    data_020ed1bc.addMessage(0xc8b02, 0xc8b03);
+    g_TownMenuMessage.addMessage(0xc8b02, 0xc8b03);
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
     selectChara_ = 1;
 }
@@ -100,10 +100,10 @@ THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::cancelChange()
     close();
     gMaterielMenu_CHANGEGIFT_ROOT.open();
     gMaterielMenu_CHANGEGIFT_ROOT.mode_ = 3;
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0xb, 0x50000000, status::g_Party.getPlayerIndex(leadpc));
     TextAPI::setMACRO0(0x2a, 0xf0000000, status::g_Party.casinoCoin_);
-    data_020ed1bc.addMessage(0xc8afa);
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.addMessage(0xc8afa);
+    g_TownMenuMessage.setYesNo();
     resetCaptureOffset();
 }

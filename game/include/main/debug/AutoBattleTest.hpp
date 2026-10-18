@@ -26,4 +26,4 @@ struct UnkBattleTest {
     void update();                    // update
 };
 
-extern UnkBattleTest data_02121094;
+extern UnkBattleTest g_AutoBattleTest;

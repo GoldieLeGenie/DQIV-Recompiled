@@ -43,7 +43,7 @@ THUMB void SoundManager::update() {
     if (!Sound::unkfunc_02055968()) {
         bgmIndex_ = 0;
     }
-    data_0210bd4c.unkfunc_0205caa0();
+    g_SoundPlayer.unkfunc_0205caa0();
 }
 
 THUMB void SoundManager::play(int bgm, int param) {
@@ -96,7 +96,7 @@ THUMB void SoundManager::townPlay() {
     townBgmEnable_ = 1;
     for (int i = 0; i < 15; i++) {
         update();
-        data_0211fc7c.unkfunc_020866d8();
+        g_SoundSystem.unkfunc_020866d8();
         OS_Wait();
     }
 }
@@ -193,7 +193,7 @@ THUMB void SoundManager::fieldPlay() {
     townBgmEnable_ = 1;
     for (int i = 0; i < 15; i++) {
         update();
-        data_0211fc7c.unkfunc_020866d8();
+        g_SoundSystem.unkfunc_020866d8();
         OS_Wait();
     }
 }

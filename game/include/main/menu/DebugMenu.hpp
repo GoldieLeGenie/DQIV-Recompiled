@@ -56,4 +56,4 @@ struct DebugMenu : UnkGlobalPart {
     void drawItems();
 };
 
-extern DebugMenu data_0210bc40;
+extern DebugMenu g_DebugMenu;

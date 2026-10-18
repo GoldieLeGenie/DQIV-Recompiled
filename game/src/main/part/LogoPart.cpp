@@ -87,7 +87,7 @@ ARM void LogoPart::initialize()
     GX_ResetBankForSubObj();
     GX_ResetBankForSubBg();
     GX_SetBankForTex(GX_VRAM_AB);
-    data_0211e450.initVramManagers(0x40000, 0x4000);
+    g_VramTransfer.initVramManagers(0x40000, 0x4000);
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     s_render.unkfunc_02084efc();
     s_stage.setRender(&s_render);

@@ -26,7 +26,7 @@ THUMB void MaterielMenu_BANK_PUTIN::menuExecute()
 THUMB void MaterielMenu_BANK_PUTIN::menuDraw()
 {
     if (first_ == 0) {
-        if (data_020ed1bc.isOpen()) {
+        if (g_TownMenuMessage.isOpen()) {
             drawBankAmountScreen(1, 1, putinMoney_);
         } else {
             drawBankAmountScreen(0, 1, putinMoney_);
@@ -44,9 +44,9 @@ THUMB void MaterielMenu_BANK_PUTIN::menuUpdate()
 
 THUMB bool MaterielMenu_BANK_PUTIN::messageUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
             if (end_) {
                 MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
             }
@@ -55,14 +55,14 @@ THUMB bool MaterielMenu_BANK_PUTIN::messageUpdate()
     }
     if (first_) {
         first_ = 0;
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         if (status::g_Party.bankMoney_ >= 99999000) {
             TextAPI::setMACRO0(0x30, 0xf0000000, status::g_Party.bankMoney_);
-            data_020ed1bc.addMessage(0xc6bb8, 0xc6bdb);
+            g_TownMenuMessage.addMessage(0xc6bb8, 0xc6bdb);
             end_ = 1;
             return true;
         }
-        data_020ed1bc.addMessage(0xc6bbb);
+        g_TownMenuMessage.addMessage(0xc6bbb);
     }
     return false;
 }
@@ -115,9 +115,9 @@ THUMB void MaterielMenu_BANK_PUTIN::bankUpdate()
 
 THUMB void MaterielMenu_BANK_PUTIN::bankPutin()
 {
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     if (putinMoney_ > status::g_Party.gold_) {
-        data_020ed1bc.addMessage(0xc6bbe);
+        g_TownMenuMessage.addMessage(0xc6bbe);
         menuItem_.result_ = 0;
         menuItem_.lastresult_ = 0;
         putinMoney_ = 0;
@@ -126,7 +126,7 @@ THUMB void MaterielMenu_BANK_PUTIN::bankPutin()
     }
     if (putinMoney_ + status::g_Party.bankMoney_ > 99999000) {
         TextAPI::setMACRO0(0x34, 0xf0000000, 99999000 - status::g_Party.bankMoney_);
-        data_020ed1bc.addMessage(0xc6bc1);
+        g_TownMenuMessage.addMessage(0xc6bc1);
         menuItem_.result_ = 0;
         menuItem_.lastresult_ = 0;
         putinMoney_ = 0;
@@ -137,7 +137,7 @@ THUMB void MaterielMenu_BANK_PUTIN::bankPutin()
     status::g_Party.setGold(status::g_Party.gold_ - putinMoney_);
     TextAPI::setMACRO0(0x31, 0xf0000000, putinMoney_);
     TextAPI::setMACRO0(0x30, 0xf0000000, status::g_Party.bankMoney_);
-    data_020ed1bc.addMessage(0xc6bc4, 0xc6bdb);
+    g_TownMenuMessage.addMessage(0xc6bc4, 0xc6bdb);
     menuItem_.result_ = 0;
     menuItem_.lastresult_ = 0;
     end_ = 1;
@@ -145,8 +145,8 @@ THUMB void MaterielMenu_BANK_PUTIN::bankPutin()
 
 THUMB void MaterielMenu_BANK_PUTIN::cancelPutin()
 {
-    data_020ed1bc.close();
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.close();
+    g_TownMenuMessage.openMessageForTALK();
     if (status::g_Party.bankMoney_ == 0) {
         int i = 0;
         bool alive = !status::g_Party.getPlayerStatus(i)->haveStatusInfo_.isDeath();
@@ -155,10 +155,10 @@ THUMB void MaterielMenu_BANK_PUTIN::cancelPutin()
             alive = !status::g_Party.getPlayerStatus(i)->haveStatusInfo_.isDeath();
         }
         TextAPI::setMACRO0(0xb, 0x50000000, status::g_Party.getPlayerStatus(i)->haveStatusInfo_.haveStatus_.playerIndex_);
-        data_020ed1bc.addMessage(0xc6bd7, 0xc6bdd);
+        g_TownMenuMessage.addMessage(0xc6bd7, 0xc6bdd);
     } else {
         TextAPI::setMACRO0(0x30, 0xf0000000, status::g_Party.bankMoney_);
-        data_020ed1bc.addMessage(0xc6bd7, 0xc6bdb);
+        g_TownMenuMessage.addMessage(0xc6bd7, 0xc6bdb);
     }
     end_ = 1;
 }

@@ -3,12 +3,12 @@
 #include "main/menu/MenuBase.hpp"
 #include "main/dss/BgBuffer.hpp"
 
-extern int data_021098a4;                       // origin of the parts
-extern int data_021098a8;
-extern int data_021098ac;                       // 1: sub screen BGs set up
-extern UnkScreenBuffer* data_021098b0;          // back BG screen
-extern UnkScreenBuffer* data_021098b4;          // window BG screen
-extern UnkCharBuffer* data_021098b8;            // window BG characters
+extern int g_menuPartsOriginX;                       // origin of the parts
+extern int g_menuPartsOriginY;
+extern int g_menuBgDrawEnabled;                       // 1: sub screen BGs set up
+extern UnkScreenBuffer* g_menuBackScreen;          // back BG screen
+extern UnkScreenBuffer* g_menuWindowScreen;          // window BG screen
+extern UnkCharBuffer* g_menuWindowChars;            // window BG characters
 
 // Menu parts drawn on the sub screen BGs (window frames, tiles, texts, numbers, gauges, icons, faces, arrows)
 void setupMenuBgDraw(int enable);              // set up the sub screen BGs
@@ -18,7 +18,7 @@ void drawMenuWindowBack(int x, int y, int w, int h, int palette);
 void drawMenuWindowBorder(int x, int y, int w, int h, int palette);
 void drawMenuWindowBox(int x, int y, int w, int h);  // clear a rect of both BGs
 void drawMenuObjFrame(int x, int y, int w, int h, int xlu);
-void drawMenuItemFrame(int x, int y, int w, int h, int priority, int flag);  // frame on data_020f530c.frames_
+void drawMenuItemFrame(int x, int y, int w, int h, int priority, int flag);  // frame on g_MenuDisplays.frames_
 void drawMenuIcon(int x, int y, int w, int h, int type, int index);     // icon
 void drawMenuSystemTiles(int x, int y, int w, int h, int palette, int flip, int bank, int chr);
 int drawMenuText(int x, int y, int w, int h, int palette, int color, int align, int font, int value, int wrap);

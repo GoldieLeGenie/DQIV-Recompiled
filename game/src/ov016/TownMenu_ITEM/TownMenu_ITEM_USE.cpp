@@ -69,7 +69,7 @@ THUMB void TownMenu_ITEM_USE::menuExecute()
 THUMB void TownMenu_ITEM_USE::menuDraw()
 {
     drawItemUseTargetScreen(charaItem_.active_, itemID_, page_);
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         charaItem_.drawActive();
         cancelItem_.drawActive();
         pageItem_.drawActive();
@@ -80,8 +80,8 @@ THUMB void TownMenu_ITEM_USE::menuUpdate()
 {
     status::g_Party.setBattleMode();
     int active = charaItem_.active_;
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == MENUBASE_STAT_OK) {
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == MENUBASE_STAT_OK) {
             if (useHealItem() == 1 && openMessage_ == 1) {
                 if (itemID_ == 0x80) {
                     if (isResult_ == 1) {
@@ -93,13 +93,13 @@ THUMB void TownMenu_ITEM_USE::menuUpdate()
                     return;
                 }
             }
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             close();
             if (itemID_ == 0x82 && isResult_ == 1) {
                 gTownMenu_ROOT.stat_ = MENUBASE_STAT_OK;
-                if (data_0210bb94.unkfunc_02058114(0xc) == 1) {
+                if (g_GlobalDQ4.unkfunc_02058114(0xc) == 1) {
                     TownWindowSystem::getSingleton()->cmdWindow_.menuRefresh();
-                } else if (data_0210bb94.unkfunc_02058114(0xe) == 1) {
+                } else if (g_GlobalDQ4.unkfunc_02058114(0xe) == 1) {
                     FieldWindowSystem::getSingleton()->cmdWindow_.menuRefresh();
                 }
                 cmn::GameManager::getSingleton()->resetParty();
@@ -173,7 +173,7 @@ THUMB void TownMenu_ITEM_USE::itemUse()
     if (status::g_Party.getPlayerStatus(playerIndex)->haveStatusInfo_.getCondition() == 6) {
         conditionPoison_ = 1;
     }
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     if (TownMenuPlayerControl::getSingleton()->activeFukuro_) {
         int count = 0;
         while (status::g_Party.getPlayerStatus(count)->haveStatusInfo_.haveStatus_.isBattleNpc_ || status::g_Party.getPlayerStatus(count)->haveStatusInfo_.isDeath()) {
@@ -219,17 +219,17 @@ THUMB void TownMenu_ITEM_USE::itemUse()
     status::UseActionMacro::setResultMacro(useActionParam.actorCharacterStatus_, useActionParam.targetCharacterStatus_[0], useActionParam.actionIndex_);
     status::g_Party.getPlayerStatus(playerIndex);
     TextAPI::setMACRO0(10, 0x40000000, itemID_);
-    data_020ed1bc.addMessage(useMes[0]);
+    g_TownMenuMessage.addMessage(useMes[0]);
     openMessage_ = 1;
     while (resultMes[mesCount] != -1) {
         if (mesCount > 4) {
             break;
         }
         if (useHealItem() == 0) {
-            data_020ed1bc.addMessage(resultMes[mesCount]);
+            g_TownMenuMessage.addMessage(resultMes[mesCount]);
         } else {
             resultMes_[mesCount] = resultMes[mesCount];
-            data_020ed1bc.setMessageCursor(true);
+            g_TownMenuMessage.setMessageCursor(true);
         }
         mesCount++;
     }
@@ -266,7 +266,7 @@ THUMB int TownMenu_ITEM_USE::checkUseCharaAlive(int target)
             }
             TextAPI::setMACRO0(10, 0x40000000, itemID_);
             TextAPI::setMACRO0(0x12, 0x50000000, status::g_Party.getPlayerIndex(target));
-            data_020ed1bc.addMessage(mesNo, 0xc3dd4);
+            g_TownMenuMessage.addMessage(mesNo, 0xc3dd4);
             return 1;
         }
     }
@@ -287,11 +287,11 @@ THUMB int TownMenu_ITEM_USE::useHealItem()
 THUMB void TownMenu_ITEM_USE::openHealMessage()
 {
     int target = navigator_.getIndex(charaItem_.active_);
-    data_020ed1bc.restartMessage();
+    g_TownMenuMessage.restartMessage();
     for (int count = 0; resultMes_[count] != 0; count++) {
         TextAPI::setMACRO0(0x12, 0x50000000, status::g_Party.getPlayerIndex(target));
         TextAPI::setMACRO0(0x51, 0xf0000000, status::g_Party.getPlayerStatus(target)->haveStatusInfo_.effectValue_);
-        data_020ed1bc.addMessage(resultMes_[count]);
+        g_TownMenuMessage.addMessage(resultMes_[count]);
     }
     if (isResult_ == 1 && itemID_ != 0x70) {
         SoundManager::playSe(0x1f5, 0);

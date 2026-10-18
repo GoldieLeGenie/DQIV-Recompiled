@@ -51,12 +51,12 @@ THUMB void MaterielMenu_INN_ROOT::menuDraw()
 
 THUMB void MaterielMenu_INN_ROOT::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             selectYes();
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             showMessage(0xc67d6);
             mode_ = 4;
         }
@@ -82,10 +82,10 @@ THUMB void MaterielMenu_INN_ROOT::menuUpdate()
     }
     if (g_Stage.getTimeZone() == 4 || g_Stage.getTimeZone() == 1) {
         showMessage(0xc67cd);
-        data_020ed1bc.setMessageLastCursor(true);
+        g_TownMenuMessage.setMessageLastCursor(true);
     } else {
         showMessage(0xc67ca);
-        data_020ed1bc.setMessageLastCursor(true);
+        g_TownMenuMessage.setMessageLastCursor(true);
     }
 }
 
@@ -93,10 +93,10 @@ THUMB void MaterielMenu_INN_ROOT::selectYes()
 {
     switch (mode_) {
     case 0:
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         TextAPI::setMACRO0(0x33, 0xf0000000, innCharge_);
-        data_020ed1bc.addMessage(0xc67ce);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.addMessage(0xc67ce);
+        g_TownMenuMessage.setYesNo();
         mode_ = 2;
         break;
     case 2:
@@ -132,8 +132,8 @@ THUMB void MaterielMenu_INN_ROOT::checkMoney()
         showMessage(0xc67d1);
         mode_ = 1;
     } else {
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0xc67d5, 0xc67d6);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0xc67d5, 0xc67d6);
         mode_ = 4;
     }
 }
@@ -199,8 +199,8 @@ THUMB void MaterielMenu_INN_ROOT::fadeEffect()
 
 THUMB void MaterielMenu_INN_ROOT::showMessage(int mes)
 {
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(mes);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(mes);
 }
 
 ARM void MaterielMenu_INN_ROOT::menuExecute()

@@ -46,7 +46,7 @@ struct UnkVramRequestQueue {
     int executeRequest(UnkVramRequest* request);  // copy
 };
 
-extern UnkVramRequestQueue data_0211c508;
+extern UnkVramRequestQueue g_VramRequestQueue;
 
 void flushVramRequests();                        // copy all the queued requests
 UnkVramRequest* requestCompressedVramCopy(int type, int offset, void* data, int size);   // queue compressed data

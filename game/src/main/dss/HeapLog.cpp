@@ -2,8 +2,8 @@
 #include "main/dss/DssUtils.hpp"
 #include "nnsys/fnd.hpp"
 
-char data_02120548[0x400];
-UnkHeapLog data_02120948;
+char g_heapLogText[0x400];
+UnkHeapLog g_HeapLog;
 
 ARM void UnkHeapLog::unkfunc_02089214()
 {
@@ -63,17 +63,17 @@ ARM void UnkHeapLog::unkfunc_020892cc(const char* name, void* addr, void* caller
 
 ARM char* UnkHeapLog::unkfunc_0208934c()
 {
-    data_02120548[0] = 0;
+    g_heapLogText[0] = 0;
     UnkHeapLogEntry* entry = entries_;
     for (int i = 0; i < 100; i++) {
         if (entry->state_ != 0 && entry->state_ == 1) {
             char buf[0x100];
             dss::sprintf_s(buf, sizeof(buf), "A=%07x Z=%d F=%07x\n", entry->addr_, entry->size_, entry->caller_);
-            dss::strcat_s(data_02120548, sizeof(data_02120548), buf);
+            dss::strcat_s(g_heapLogText, sizeof(g_heapLogText), buf);
         }
         entry++;
     }
-    return data_02120548;
+    return g_heapLogText;
 }
 
 ARM void UnkHeapLog::unkfunc_020893e0()

@@ -21,8 +21,8 @@ ARM void UnkCharacterPalette::unkfunc_02086ccc(TextureObject* texture, int flag)
     int size = texture->unkfunc_02086ab4();
     dss::memcpy(unk_000, (void*)data, size);
     unk_404 = size;
-    unk_40c = data_0211e450.allocPlttVram(size);
-    unk_408 = data_0211e450.getPlttVramAddr(unk_40c);
+    unk_40c = g_VramTransfer.allocPlttVram(size);
+    unk_408 = g_VramTransfer.getPlttVramAddr(unk_40c);
     unkfunc_02086d78(flag);
     unk_400 = texture->unk_20;
     enable_ = 0;
@@ -31,14 +31,14 @@ ARM void UnkCharacterPalette::unkfunc_02086ccc(TextureObject* texture, int flag)
 ARM void UnkCharacterPalette::unkfunc_02086d4c()
 {
     if (unk_40c != 0) {
-        data_0211e450.freePlttVram(unk_40c);
+        g_VramTransfer.freePlttVram(unk_40c);
         unk_40c = 0;
     }
 }
 
 ARM void UnkCharacterPalette::unkfunc_02086d78(int flag)
 {
-    data_0211e450.transferToVram(1, unk_000, unk_408, unk_404, flag);
+    g_VramTransfer.transferToVram(1, unk_000, unk_408, unk_404, flag);
 }
 
 ARM void UnkCharacterPalette::unkfunc_02086dac()

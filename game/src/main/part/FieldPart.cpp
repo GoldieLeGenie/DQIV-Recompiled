@@ -28,7 +28,7 @@ ARM void FieldPart::initialize()
     GX_ResetBankForSubObj();
     GX_ResetBankForSubBg();
     GX_SetBankForTex(GX_VRAM_AB);
-    data_0211e450.initVramManagers(0x40000, 0x4000);
+    g_VramTransfer.initVramManagers(0x40000, 0x4000);
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     setBackgroundGradientEnable(0);
     loadOverlay(DQIV_OVERLAY_ID(1));
@@ -48,7 +48,7 @@ ARM void FieldPart::terminate()
     unloadOverlay(DQIV_OVERLAY_ID(1));
     unloadOverlay(DQIV_OVERLAY_ID(16));
     dss::g_Pad.setMaskL(0);
-    data_0211e450.unkfunc_02086278();
+    g_VramTransfer.unkfunc_02086278();
 }
 
 ARM void FieldPart::onExecutePart()

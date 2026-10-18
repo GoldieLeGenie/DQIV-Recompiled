@@ -26,7 +26,7 @@ ARM void BattlePart::initialize()
     GX_ResetBankForSubObj();
     GX_ResetBankForSubBg();
     GX_SetBankForTex(GX_VRAM_ABCD);
-    data_0211e450.initVramManagers(0x80000, 0x4000);
+    g_VramTransfer.initVramManagers(0x80000, 0x4000);
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_SINGLE3D);
     loadOverlay(DQIV_OVERLAY_ID(3));
     ov003_entry();
@@ -36,7 +36,7 @@ ARM void BattlePart::initialize()
     } else {
         loadOverlay(DQIV_OVERLAY_ID(16));
     }
-    data_020efc58.unkfunc_02087564();
+    g_MaterielOverlaySlot.unkfunc_02087564();
     btl::BattleSystem2::getSingleton()->initialize();
     UnkBattleSystem::getSingleton()->initialize();
     func_0206dd70(1);
@@ -57,7 +57,7 @@ ARM void BattlePart::terminate()
         unloadOverlay(DQIV_OVERLAY_ID(16));
     }
     encount::Encount::getSingleton()->battleMode_ = encount::Encount::Normal;
-    data_0211e450.unkfunc_02086278();
+    g_VramTransfer.unkfunc_02086278();
 }
 
 ARM void BattlePart::onExecutePart()

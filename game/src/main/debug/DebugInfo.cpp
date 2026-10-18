@@ -13,7 +13,7 @@
 #include "ov000/town/TownPlayerManager.hpp"
 
 static int s_frame;
-UnkDebugInfo data_020f1d88;
+UnkDebugInfo g_DebugInfo;
 
 THUMB void UnkDebugInfo::initialize()
 {
@@ -81,7 +81,7 @@ THUMB void UnkDebugInfo::drawPosition(int x, int y)
     dss::Fix32Vector3 pos;
     short dir;
     g_cmnPartyInfo.getPartyInfo(&pos, &dir);
-    if (data_0210bb94.unkfunc_0205810c() == 12) {
+    if (g_GlobalDQ4.unkfunc_0205810c() == 12) {
         if (lastX_ != pos.vx.value) {
             lastX_ = pos.vx.value;
             dss::sprintf_s(xText_, 0x20, "X:%10f", pos.vx.getfloat());
@@ -227,12 +227,12 @@ THUMB void UnkDebugInfo::drawWorldTime(int x, int y)
 
 THUMB void UnkDebugInfo::drawWalkCounter(int x, int y)
 {
-    if (data_0210bb94.unkfunc_0205810c() == 12) {
+    if (g_GlobalDQ4.unkfunc_0205810c() == 12) {
         debugConsolePrintf(x, y, "WALK");
         TownPlayerManager* manager = TownPlayerManager::getSingleton();
         debugConsolePrintf(x, y + 1, "%4d", manager->walkCounter_ >> 4);
         drawDebugWindow(x, y, 4, 2);
-    } else if (data_0210bb94.unkfunc_0205810c() == 14) {
+    } else if (g_GlobalDQ4.unkfunc_0205810c() == 14) {
     }
 }
 
@@ -249,9 +249,9 @@ THUMB void UnkDebugInfo::drawPlayTime(int x, int y)
 THUMB void UnkDebugInfo::drawHeap(int x, int y)
 {
     debugConsolePrintf(x, y, "HEAP");
-    debugConsolePrintf(x, y + 1, "%3dK", getAppHeapFreeSize(&data_0211a60c) >> 10);
+    debugConsolePrintf(x, y + 1, "%3dK", getAppHeapFreeSize(&g_appHeap) >> 10);
     debugConsolePrintf(x, y + 2, "VRAM");
-    debugConsolePrintf(x, y + 3, "%3dk", data_0211e450.unk_08 >> 10);
+    debugConsolePrintf(x, y + 3, "%3dk", g_VramTransfer.unk_08 >> 10);
     drawDebugWindow(x, y, 5, 4);
 }
 

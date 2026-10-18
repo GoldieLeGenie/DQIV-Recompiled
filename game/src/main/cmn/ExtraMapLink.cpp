@@ -49,7 +49,7 @@ ARM void cmn::ExtraMapLink::setup()
     mapLinkDataCount_ = 0;
     rectLinkCount_ = 0;
 
-    if (data_0210bb94.unkfunc_02058114(12)) {
+    if (g_GlobalDQ4.unkfunc_02058114(12)) {
         switch (g_Global.getMapName()[0]) {
             case 'c':
                 switch (g_Global.getMapName()[1]) {
@@ -598,9 +598,9 @@ ARM void cmn::ExtraMapLink::setRuraLink()
 
 ARM void cmn::ExtraMapLink::setRanaLink()
 {
-    if (data_0210bb94.unkfunc_02058114(12)) {
+    if (g_GlobalDQ4.unkfunc_02058114(12)) {
         setExtraExitTown(g_Stage.lastRanaStageName_, g_Stage.lastFldSurface_);
-    } else if (data_0210bb94.unkfunc_02058114(14)) {
+    } else if (g_GlobalDQ4.unkfunc_02058114(14)) {
         g_cmnPartyInfo.prevLocation_ = 1;
         dss::Fix32Vector3 pos = FieldPlayerManager::getSingleton()->getPosition();
         setExtraLinkFieldAbsPos(g_Global.getFieldType(), pos, 4);
@@ -628,7 +628,7 @@ ARM void cmn::ExtraMapLink::setData(int index, int nowId, int nextId, LINK_TYPE 
     if (nextMapName != NULL) {
         dss::strcpy_s(mapLinkData_[index].nextMapName, sizeof(mapLinkData_[index].nextMapName), nextMapName);
     }
-    if (data_0210bb94.unkfunc_02058114(12)) {
+    if (g_GlobalDQ4.unkfunc_02058114(12)) {
         eraseSurface(nowId, type, nowMapName);
     }
 }

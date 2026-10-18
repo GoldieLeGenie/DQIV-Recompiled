@@ -36,8 +36,8 @@ THUMB void MessageWindow::setup(int id)
 THUMB void MessageWindow::update(UnkOamBuffer* main, UnkOamBuffer* sub)
 {
     if (shake_) {
-        shakeX_ = data_020c1e54[shakeCount_ / 2];
-        shakeY_ = data_020c1e74[shakeCount_ / 2];
+        shakeX_ = g_msgWindowShakeOffsetX[shakeCount_ / 2];
+        shakeY_ = g_msgWindowShakeOffsetY[shakeCount_ / 2];
         shakeCount_++;
         if (shakeCount_ == 16) {
             shake_ = 0;
@@ -189,8 +189,8 @@ THUMB void MessageWindow::appendText(const char* text)
     }
     dst.putChar(0);
 }
-int data_020c1e74[8] = { -2, 0, 0, 0, -2, 0, 0, 0 };
-int data_020c1e54[8] = { 0, 0, -2, 0, 0, 0, -2, 0 };
+int g_msgWindowShakeOffsetY[8] = { -2, 0, 0, 0, -2, 0, 0, 0 };
+int g_msgWindowShakeOffsetX[8] = { 0, 0, -2, 0, 0, 0, -2, 0 };
 static MessageWindowConfig s_config[8] = {
     { 0, 0, 0x138, 128, 72, 8, 16, 16, 3, 8, 1, 0, 12, 12, 4, 2, 1, 1, 0, 0, 0 },
     { 1, 0, 0x138, 256, 72, 8, 16, 16, 3, 8, 1, 0, 12, 12, 4, 2, 1, 1, 0, 0, 1 },
@@ -235,7 +235,7 @@ THUMB void MessageWindow::startWindow()
     }
     int offset;
     if (name) {
-        namePlate_ = &data_020f530c.texts_[3];
+        namePlate_ = &g_MenuDisplays.texts_[3];
         namePlate_->setText(config_->font_, name, 0, 0, 1);
         offset = config_->nameX_ + namePlate_->getTextWidth();
     } else {
@@ -243,7 +243,7 @@ THUMB void MessageWindow::startWindow()
         namePlate_ = NULL;
     }
     initLines();
-    frame_ = &data_020f530c.windowFrame1_;
+    frame_ = &g_MenuDisplays.windowFrame1_;
     frame_->setNameWidth(offset);
     frame_->setPosition(x_, y_);
     frame_->setFrameType(config_->frameType_);
@@ -295,14 +295,14 @@ THUMB void MessageWindow::updateNameFrame()
     }
     int offset;
     if (name) {
-        namePlate_ = &data_020f530c.texts_[3];
+        namePlate_ = &g_MenuDisplays.texts_[3];
         namePlate_->setText(config_->font_, name, 0, 0, 1);
         offset = config_->nameX_ + namePlate_->getTextWidth();
     } else {
         offset = 0;
         namePlate_ = NULL;
     }
-    frame_ = &data_020f530c.windowFrame1_;
+    frame_ = &g_MenuDisplays.windowFrame1_;
     frame_->setNameWidth(offset);
     frame_->setPosition(x_, y_);
     frame_->setFrameType(config_->frameType_);
@@ -567,7 +567,7 @@ THUMB void MessageWindow::initLines()
 {
     for (int i = 0; i < lineCount_; i++) {
         lines_[i] = NULL;
-        freeLines_[i] = &data_020f530c.texts_[i];
+        freeLines_[i] = &g_MenuDisplays.texts_[i];
     }
 }
 

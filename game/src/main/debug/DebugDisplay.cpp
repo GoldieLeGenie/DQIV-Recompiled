@@ -18,28 +18,28 @@ THUMB void debugConsolePrintf(int x, int y, const char* fmt, ...)
     va_list args;
     va_start(args, fmt);
     vsnprintf(buf, 0x80, fmt, args);
-    data_02116ce0.unkfunc_0207e864(x, y, buf);
+    g_DebugConsole.unkfunc_0207e864(x, y, buf);
 }
 
 THUMB void debugPrint(int x, int y, const char* str)
 {
     if (!MenuManager::isRequesting()) {
-        data_02116ce0.unkfunc_0207e864(x, y, str);
+        g_DebugConsole.unkfunc_0207e864(x, y, str);
     }
 }
 
 THUMB void drawDebugBox(int x, int y, int w, int h)
 {
     if (!MenuManager::isRequesting()) {
-        fillWindowBackRect(data_020facb8.back_.getScreenBuffer(), x, y, w, h, 0xf);
+        fillWindowBackRect(g_MenuBg.back_.getScreenBuffer(), x, y, w, h, 0xf);
     }
 }
 
 THUMB void drawDebugWindow(int x, int y, int w, int h)
 {
     if (!MenuManager::isRequesting()) {
-        drawWindowBorder(data_020facb8.window_.getScreenBuffer(), x - 1, y - 1, w + 2, h + 2, 0xf);
-        drawWindowBack(data_020facb8.back_.getScreenBuffer(), x - 1, y - 1, w + 2, h + 2, 0xf);
+        drawWindowBorder(g_MenuBg.window_.getScreenBuffer(), x - 1, y - 1, w + 2, h + 2, 0xf);
+        drawWindowBack(g_MenuBg.back_.getScreenBuffer(), x - 1, y - 1, w + 2, h + 2, 0xf);
     }
 }
 
@@ -49,7 +49,7 @@ THUMB void initDebugDisplay()
     if (display != NULL) {
         display->initialize();
     }
-    data_02116ce0.unkfunc_0207e810();
+    g_DebugConsole.unkfunc_0207e810();
 }
 
 THUMB void updateDebugDisplay()
@@ -58,15 +58,15 @@ THUMB void updateDebugDisplay()
     if (display != NULL) {
         display->draw();
     }
-    data_02121094.update();
+    g_AutoBattleTest.update();
     if (s_arrayWarningCount != getArrayErrorCount()) {
         s_arrayWarningCount = getArrayErrorCount();
         setDebugDisplayPage(1);
-        data_020f1d88.setShowArrayWarning(1);
+        g_DebugInfo.setShowArrayWarning(1);
     }
     if (s_messageTime != 0) {
         if (s_messageTime & 1) {
-            data_02116ce0.unkfunc_0207e864(0, 0x18, s_message);
+            g_DebugConsole.unkfunc_0207e864(0, 0x18, s_message);
         }
         s_messageTime--;
     }
@@ -79,23 +79,23 @@ THUMB void setDebugDisplayPage(int type)
     if (s_display[index] != NULL) {
         s_display[index]->initialize();
     }
-    data_02116ce0.unkfunc_0207e810();
+    g_DebugConsole.unkfunc_0207e810();
 }
 
 THUMB UnkDebugDisplay* getDebugDisplayPage(int type)
 {
     switch (type) {
     case 1:
-        return &data_020f1d88;
+        return &g_DebugInfo;
     case 2:
-        return &data_020f2008;
+        return &g_DebugBattleInfo;
     }
     return NULL;
 }
 
 THUMB int getDebugDisplaySlot()
 {
-    switch (data_0210bb94.unkfunc_0205810c()) {
+    switch (g_GlobalDQ4.unkfunc_0205810c()) {
     case 12:
         return 2;
     case 14:

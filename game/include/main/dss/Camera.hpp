@@ -58,10 +58,10 @@ struct UnkCamera : dss::Camera {
     virtual void calcPosition();
 };
 
-extern short data_020c4158[4];
+extern short g_cameraDefaultAngle[4];
 
 
-extern int data_020c4160[40][2];
+extern int g_cameraFovSinCosTable[40][2];
 
 namespace dss {
     struct DualCameraBase {

@@ -121,7 +121,7 @@ THUMB void MaterielMenu_SHOP_BUYMENU::menuExecute()
 
 THUMB void MaterielMenu_SHOP_BUYMENU::menuDraw()
 {
-    if (data_020ed1bc.isOpen()) {
+    if (g_TownMenuMessage.isOpen()) {
         drawShopScreen();
         return;
     }
@@ -150,9 +150,9 @@ THUMB void MaterielMenu_SHOP_BUYMENU::menuDraw()
 
 THUMB void MaterielMenu_SHOP_BUYMENU::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
             if (message_) {
                 menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
                 message_ = 0;
@@ -162,9 +162,9 @@ THUMB void MaterielMenu_SHOP_BUYMENU::menuUpdate()
     }
     if (MenuUpdate_Assist::isCancel(menuItem2_)) {
         close();
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessageNOWAIT(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->cancel());
-        data_020ed1bc.addMessageWAITKEY();
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessageNOWAIT(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->cancel());
+        g_TownMenuMessage.addMessageWAITKEY();
         gMaterielMenu_SHOP_ROOT.open();
         gMaterielMenu_SHOP_ROOT.mode_ = 1;
         return;
@@ -226,14 +226,14 @@ THUMB void MaterielMenu_SHOP_BUYMENU::menuUpdate()
 THUMB void MaterielMenu_SHOP_BUYMENU::checkBuy()
 {
     MaterielMenu_SHOP_MANAGER* manager = MaterielMenu_SHOP_MANAGER::getSingleton();
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     unsigned int gold = status::g_Party.gold_;
     if (gold < manager->getItemPriceSum(activeItem_)) {
         int mes[2];
         MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->noMoney(mes);
-        data_020ed1bc.addMessage(mes[0]);
-        data_020ed1bc.addMessageNOWAIT(mes[1]);
-        data_020ed1bc.addMessageWAITKEY();
+        g_TownMenuMessage.addMessage(mes[0]);
+        g_TownMenuMessage.addMessageNOWAIT(mes[1]);
+        g_TownMenuMessage.addMessageWAITKEY();
         close();
         gMaterielMenu_SHOP_ROOT.open();
         gMaterielMenu_SHOP_ROOT.mode_ = 1;
@@ -260,11 +260,11 @@ THUMB void MaterielMenu_SHOP_BUYMENU::checkBuy()
     }
     TextAPI::setMACRO0(0x54, 0xf0000000, manager->getItemQuantity(activeItem_));
     if (mes[2] == 0) {
-        data_020ed1bc.addMessage(mes[0], mes[1]);
+        g_TownMenuMessage.addMessage(mes[0], mes[1]);
     } else {
-        data_020ed1bc.addMessage(mes[0], mes[1], mes[2]);
+        g_TownMenuMessage.addMessage(mes[0], mes[1], mes[2]);
     }
-    data_020ed1bc.setMessageLastCursor(true);
+    g_TownMenuMessage.setMessageLastCursor(true);
     close();
     int activeItem = activeItem_;
     MaterielMenuPlayerControl::getSingleton()->activeItem_ = activeItem;

@@ -311,9 +311,9 @@ THUMB void drawPartyMemberWindow(status::HaveStatusInfo* info, int pos)
     void* icon = portrait ? getMenuIconData(0xf1000000, info->haveStatus_.iconIndex_) : NULL;
     if (icon != NULL && getUncompressedSize(icon) == 32 * 32) {
         unsigned char* picture = (unsigned char*)uncompressAlloc(icon);
-        pc::placeHdPicture(0, (pos << 6) + data_021098a4 + 4, data_021098a8 + 5, 20, 20,
+        pc::placeHdPicture(0, (pos << 6) + g_menuPartsOriginX + 4, g_menuPartsOriginY + 5, 20, 20,
                            std::span<const std::uint8_t>(picture, 32 * 32));
-        dssFree(&data_0211a60c, picture);
+        dssFree(&g_appHeap, picture);
     }
 #endif
     drawMenuParts(s_memberParts, param, pos << 6, 0, g_menuTextColors[getHpTextColorIndex(info)]);

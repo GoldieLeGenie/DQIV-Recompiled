@@ -33,9 +33,9 @@ struct UnkHeap {
     unsigned int unk_54;                        // 0x54 program size
 };
 
-extern UnkTouchPanel data_0211a5d4;
-extern void* data_0211a604[2];                  // compressed data, uncompressed data
-extern UnkHeap data_0211a60c;
+extern UnkTouchPanel g_TouchPanel;
+extern void* g_compressedDataPtrs[2];                  // compressed data, uncompressed data
+extern UnkHeap g_appHeap;
 
 void setCompressedData(void* src);               // set the compressed data
 void uncompressData(void* dst);               // uncompress

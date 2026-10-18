@@ -5,10 +5,10 @@
 #endif
 
 #pragma explicit_zero_data on
-short data_020c4158[4] = { 0, 0, 0, 0 };
+short g_cameraDefaultAngle[4] = { 0, 0, 0, 0 };
 #pragma explicit_zero_data reset
 
-int data_020c4160[40][2] = {
+int g_cameraFovSinCosTable[40][2] = {
     { 0x00000000, 0x00001000 },
     { 0x00000047, 0x00000fff },
     { 0x0000008f, 0x00000ffe },
@@ -68,9 +68,9 @@ ARM dss::Camera::Camera()
 ARM void dss::Camera::setup()
 {
     m_target_pos.setFix32(0, 0, 0);
-    m_angle.vx = data_020c4158[0];
-    m_angle.vy = data_020c4158[2];
-    m_angle.vz = data_020c4158[1];
+    m_angle.vx = g_cameraDefaultAngle[0];
+    m_angle.vy = g_cameraDefaultAngle[2];
+    m_angle.vz = g_cameraDefaultAngle[1];
     m_distance = 0x10L;
     m_distanceSq = m_distance * m_distance;
     m_up.setFix32(0, 1, 0);
@@ -184,7 +184,7 @@ ARM void dss::Camera::setFOV2(int fovy)
 {
     int index = (int)dss::clamp<int>(fovy, 0, 0x4e) / 2;
     m_fov2 = index;
-    setFOV(data_020c4160[index][0], data_020c4160[index][1]);
+    setFOV(g_cameraFovSinCosTable[index][0], g_cameraFovSinCosTable[index][1]);
 }
 
 ARM void dss::Camera::setScaleW(Fix32 scaleW)

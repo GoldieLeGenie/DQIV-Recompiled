@@ -8,10 +8,10 @@ ARM void CardCheckPart::initialize()
 {
     switch (profile::SaveLoad::checkBackup()) {
     case 1:
-        data_0210bb94.unkfunc_020580fc(MENU_PART);
+        g_GlobalDQ4.unkfunc_020580fc(MENU_PART);
         break;
     case -1:
-        data_0210bb94.unkfunc_020580fc(MENU_PART);
+        g_GlobalDQ4.unkfunc_020580fc(MENU_PART);
         break;
     case -2:
         g_GameEndPart.startWithNextPart(5, MENU_PART);

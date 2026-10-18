@@ -180,7 +180,7 @@ ARM void cmn::CommonPartyInfo::callCarriage()
     g_Stage.setBashaEnable(1);
     g_Stage.setBashaEnter(1);
     this->barron_ = 1;
-    if (data_0210bb94.unkfunc_02058114(0xE) != 0) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xE) != 0) {
         FieldPlayerManager::getSingleton()->resetParty();
         return;
     }
@@ -190,7 +190,7 @@ ARM void cmn::CommonPartyInfo::callCarriage()
 
 ARM int cmn::CommonPartyInfo::isBarronArea(dss::Fix32Vector3* pos)
 {
-    if (data_0210bb94.unkfunc_02058114(0xE) != 0) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xE) != 0) {
         return FieldPlayerManager::getSingleton()->checkBarronArea(*pos);
     }
     if (dss::strcmp(s_srout_map, g_Global.getMapName()) == 0) {
@@ -215,7 +215,7 @@ ARM void cmn::CommonPartyInfo::checkBallon(dss::Fix32Vector3* pos)
             status::g_Party.basha_ = 1;
             return;
         }
-        if (data_0210bb94.unkfunc_02058114(0xE) != 0) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xE) != 0) {
             status::g_Party.basha_ = 0;
             return;
         }
@@ -233,14 +233,14 @@ ARM void cmn::CommonPartyInfo::checkBallon(dss::Fix32Vector3* pos)
 ARM void cmn::CommonPartyInfo::setMenuAction(MENU_ACTION mode)
 {
     if (mode != MENU_ACTION_NONE) {
-        if (data_0210bb94.unkfunc_02058114(0xE) != MENU_ACTION_NONE) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xE) != MENU_ACTION_NONE) {
             FieldPlayerManager::getSingleton();
             cmn::PlayerManager::setLock(1);
         } else {
             TownPlayerManager::getSingleton()->setLock(1);
         }
     } else {
-        if (data_0210bb94.unkfunc_02058114(0xE) != MENU_ACTION_NONE) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xE) != MENU_ACTION_NONE) {
             FieldPlayerManager::getSingleton();
             cmn::PlayerManager::setLock(0);
         } else {

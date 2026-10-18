@@ -11,43 +11,43 @@ ARM UnkDisplay* UnkDisplay::init()
     changeDisplayPlugin(NULL);
     setBackdropColor(0);
     unkfunc_02081274(0x7c0f);
-    data_0211a7d0.capture_ = 0;
-    data_0211a7d0.captureStep_ = 0;
-    data_0211a7d0.captureX_ = -4;
-    data_0211a7d0.captureY_ = -4;
-    data_0211a7d0.blendA_ = 10;
-    data_0211a7d0.blendB_ = 5;
+    g_Display.capture_ = 0;
+    g_Display.captureStep_ = 0;
+    g_Display.captureX_ = -4;
+    g_Display.captureY_ = -4;
+    g_Display.blendA_ = 10;
+    g_Display.blendB_ = 5;
     return this;
 }
 
-UnkDisplay data_0211a7d0;
+UnkDisplay g_Display;
 
 ARM void getCaptureOffset(int* x, int* y)
 {
-    *x = data_0211a7d0.captureX_;
-    *y = data_0211a7d0.captureY_;
+    *x = g_Display.captureX_;
+    *y = g_Display.captureY_;
 }
 
 ARM void setCaptureOffset(int x, int y)
 {
-    data_0211a7d0.captureX_ = x;
-    data_0211a7d0.captureY_ = y;
+    g_Display.captureX_ = x;
+    g_Display.captureY_ = y;
 }
 
 ARM void resetCaptureOffset()
 {
-    data_0211a7d0.captureX_ = -4;
-    data_0211a7d0.captureY_ = -4;
+    g_Display.captureX_ = -4;
+    g_Display.captureY_ = -4;
 }
 
 ARM void changeDisplayPlugin(dss::DisplayPlugin* plugin)
 {
-    UnkDisplay* display = &data_0211a7d0;
-    initScreenBuffer(&data_0211a7d0.screen_, data_0211a7d0.screenData_, 32, 48);
-    data_0211a7d0.nextPlugin_ = plugin;
-    data_0211a7d0.plugin_ = plugin;
-    data_0211a7d0.frame_ = 0;
-    data_0211a7d0.blendMode_ = 0;
+    UnkDisplay* display = &g_Display;
+    initScreenBuffer(&g_Display.screen_, g_Display.screenData_, 32, 48);
+    g_Display.nextPlugin_ = plugin;
+    g_Display.plugin_ = plugin;
+    g_Display.frame_ = 0;
+    g_Display.blendMode_ = 0;
     setDisplayBlendMode(2);
     setBackdropColor(0);
     if (plugin == NULL) {
@@ -62,13 +62,13 @@ ARM void changeDisplayPlugin(dss::DisplayPlugin* plugin)
 
 ARM void clearOamBuffers()
 {
-    data_0211a7d0.oam_[0].clear();
-    data_0211a7d0.oam_[1].clear();
+    g_Display.oam_[0].clear();
+    g_Display.oam_[1].clear();
 }
 
 ARM void updateDisplay()
 {
-    UnkDisplay* display = &data_0211a7d0;
+    UnkDisplay* display = &g_Display;
     if (isDisplayTextReady()) {
         int odd = getDisplayFrame() & 1;
         int bg = getTextBgAtY(odd * 192);
@@ -122,12 +122,12 @@ ARM void updateDisplay()
 
 ARM void requestDisplayPlugin(dss::DisplayPlugin* plugin)
 {
-    data_0211a7d0.nextPlugin_ = plugin;
+    g_Display.nextPlugin_ = plugin;
 }
 
 ARM int isDisplayTextReady()
 {
-    UnkDisplay* display = &data_0211a7d0;
+    UnkDisplay* display = &g_Display;
     if (display->text_.type_ == 0) {
         return 0;
     }
@@ -136,22 +136,22 @@ ARM int isDisplayTextReady()
 
 ARM int getDisplayFrame()
 {
-    return data_0211a7d0.frame_;
+    return g_Display.frame_;
 }
 
 ARM void setBackdropColor(unsigned short color)
 {
-    data_0211a7d0.backColor_ = color;
+    g_Display.backColor_ = color;
 }
 
 ARM void unkfunc_02081274(unsigned short value)
 {
-    data_0211a7d0.unk_0e = value;
+    g_Display.unk_0e = value;
 }
 
 ARM void setDisplayBlendMode(int mode)
 {
-    UnkDisplay* display = &data_0211a7d0;
+    UnkDisplay* display = &g_Display;
     *VIDEO_REG(volatile unsigned short, 0x04000050) = 0;
     *VIDEO_REG(volatile unsigned short, 0x04001050) = 0;
     if (display->blendMode_ == 1) {
@@ -178,7 +178,7 @@ ARM void setDisplayBlendMode(int mode)
 
 ARM UnkPaletteBuffer* getBgPaletteBuffer(int bg)
 {
-    UnkDisplay* display = &data_0211a7d0;
+    UnkDisplay* display = &g_Display;
     switch (bg) {
     case 0:
         return &display->bgPalette_[0];
@@ -202,7 +202,7 @@ ARM UnkPaletteBuffer* getBgPaletteBuffer(int bg)
 
 ARM UnkPaletteBuffer* getObjPaletteBuffer(int screen)
 {
-    UnkDisplay* display = &data_0211a7d0;
+    UnkDisplay* display = &g_Display;
     switch (screen) {
     case 0:
         return &display->objPalette_[0];
@@ -214,7 +214,7 @@ ARM UnkPaletteBuffer* getObjPaletteBuffer(int screen)
 
 ARM UnkOamBuffer* getOamBuffer(int screen)
 {
-    UnkDisplay* display = &data_0211a7d0;
+    UnkDisplay* display = &g_Display;
     switch (screen) {
     case 0:
         return &display->oam_[0];
@@ -226,7 +226,7 @@ ARM UnkOamBuffer* getOamBuffer(int screen)
 
 ARM UnkOamBuffer* getOamBufferAtY(int y)
 {
-    UnkDisplay* display = &data_0211a7d0;
+    UnkDisplay* display = &g_Display;
     int screen = 0;
     if (display->plugin_ == NULL) {
         return NULL;
@@ -277,7 +277,7 @@ ARM UnkOamBuffer* getOamBufferAtY(int y)
 
 ARM int getTextBgAtY(int y)
 {
-    UnkDisplay* display = &data_0211a7d0;
+    UnkDisplay* display = &g_Display;
     int ret = 0;
     if (display->plugin_ == NULL) {
         return -1;
@@ -319,7 +319,7 @@ ARM int getTextBgAtY(int y)
 
 ARM int unkfunc_02081608(int y)
 {
-    UnkDisplay* display = &data_0211a7d0;
+    UnkDisplay* display = &g_Display;
     int ret = 0;
     if (display->plugin_ == NULL) {
         return -1;
@@ -361,101 +361,101 @@ ARM int unkfunc_02081608(int y)
 
 ARM void setDisplayTextBgs(int type, int screen1, int screen2, int unk_0c, int unk_10, int unk_14)
 {
-    data_0211a7d0.text_.type_ = type;
-    data_0211a7d0.text_.screen1_ = screen1;
-    data_0211a7d0.text_.screen2_ = screen2;
-    data_0211a7d0.text_.unk_0c = unk_0c;
-    data_0211a7d0.text_.unk_10 = unk_10;
-    data_0211a7d0.text_.unk_14 = unk_14;
+    g_Display.text_.type_ = type;
+    g_Display.text_.screen1_ = screen1;
+    g_Display.text_.screen2_ = screen2;
+    g_Display.text_.unk_0c = unk_0c;
+    g_Display.text_.unk_10 = unk_10;
+    g_Display.text_.unk_14 = unk_14;
 }
 
 ARM int unkfunc_0208170c()
 {
-    return data_0211a7d0.text_.unk_14;
+    return g_Display.text_.unk_14;
 }
 
 ARM UnkScreenBuffer* getDebugScreenBuffer()
 {
-    return &data_0211a7d0.screen_;
+    return &g_Display.screen_;
 }
 
 ARM void setDisplayTextCounter(int counter)
 {
-    if (data_0211a7d0.plugin_ != NULL) {
-        data_0211a7d0.plugin_->setDisplayText(counter);
+    if (g_Display.plugin_ != NULL) {
+        g_Display.plugin_->setDisplayText(counter);
     }
 }
 
 ARM void setWindow0Enable(int enable)
 {
-    data_0211a7d0.windowEnable_[0] = enable;
+    g_Display.windowEnable_[0] = enable;
 }
 
 ARM void setWindow1Enable(int enable)
 {
-    data_0211a7d0.windowEnable_[1] = enable;
+    g_Display.windowEnable_[1] = enable;
 }
 
 ARM void setWindow0(int plane, int x, int y, int w, int h)
 {
-    data_0211a7d0.window_[0].plane_ = plane;
-    data_0211a7d0.window_[0].x_ = x;
-    data_0211a7d0.window_[0].y_ = y;
-    data_0211a7d0.window_[0].w_ = w;
-    data_0211a7d0.window_[0].h_ = h;
+    g_Display.window_[0].plane_ = plane;
+    g_Display.window_[0].x_ = x;
+    g_Display.window_[0].y_ = y;
+    g_Display.window_[0].w_ = w;
+    g_Display.window_[0].h_ = h;
 }
 
 ARM void setWindow1(int plane, int x, int y, int w, int h)
 {
-    data_0211a7d0.window_[1].plane_ = plane;
-    data_0211a7d0.window_[1].x_ = x;
-    data_0211a7d0.window_[1].y_ = y;
-    data_0211a7d0.window_[1].w_ = w;
-    data_0211a7d0.window_[1].h_ = h;
+    g_Display.window_[1].plane_ = plane;
+    g_Display.window_[1].x_ = x;
+    g_Display.window_[1].y_ = y;
+    g_Display.window_[1].w_ = w;
+    g_Display.window_[1].h_ = h;
 }
 
 ARM int getDisplayPluginType()
 {
-    if (data_0211a7d0.plugin_ == NULL) {
+    if (g_Display.plugin_ == NULL) {
         return 0;
     }
-    return data_0211a7d0.plugin_->getType();
+    return g_Display.plugin_->getType();
 }
 
 ARM void requestScreenCapture()
 {
-    data_0211a7d0.capture_ = 1;
-    data_0211a7d0.captureStep_ = 0;
+    g_Display.capture_ = 1;
+    g_Display.captureStep_ = 0;
     dss::g_DISPLAYPLUGIN_DOUBLE3D.ReqBlurMode(1);
     dss::g_DISPLAYPLUGIN_DOUBLE3D.SetBlur(0, 0x10);
 }
 
 ARM void updateScreenCapture()
 {
-    UnkDisplay* display = &data_0211a7d0;
-    if (data_0211a7d0.capture_ == 0) {
+    UnkDisplay* display = &g_Display;
+    if (g_Display.capture_ == 0) {
         return;
     }
     GX_ResetBankForSubBg();
     GX_ResetBankForSubObj();
     switch (display->captureStep_) {
     case 0:
-        data_0211e450.transferToVram(0, VIDEO_LCDC_SOURCE(0x06860000, 0x8000), 0, 0x8000, 0);
+        g_VramTransfer.transferToVram(0, VIDEO_LCDC_SOURCE(0x06860000, 0x8000), 0, 0x8000, 0);
         break;
     case 1:
-        data_0211e450.transferToVram(0, VIDEO_LCDC_SOURCE(0x06868000, 0x8000), 0x8000, 0x8000, 0);
+        g_VramTransfer.transferToVram(0, VIDEO_LCDC_SOURCE(0x06868000, 0x8000), 0x8000, 0x8000, 0);
         break;
     case 2:
-        data_0211e450.transferToVram(0, VIDEO_LCDC_SOURCE(0x06870000, 0x8000), 0x10000, 0x8000, 0);
+        g_VramTransfer.transferToVram(0, VIDEO_LCDC_SOURCE(0x06870000, 0x8000), 0x10000, 0x8000, 0);
         break;
     case 3:
-        data_0211e450.transferToVram(0, VIDEO_LCDC_SOURCE(0x06840000, 0x8000), 0x20000, 0x8000, 0);
+        g_VramTransfer.transferToVram(0, VIDEO_LCDC_SOURCE(0x06840000, 0x8000), 0x20000, 0x8000, 0);
         break;
     case 4:
-        data_0211e450.transferToVram(0, VIDEO_LCDC_SOURCE(0x06848000, 0x8000), 0x28000, 0x8000, 0);
+        g_VramTransfer.transferToVram(0, VIDEO_LCDC_SOURCE(0x06848000, 0x8000), 0x28000, 0x8000, 0);
         break;
     case 5:
-        data_0211e450.transferToVram(0, VIDEO_LCDC_SOURCE(0x06850000, 0x8000), 0x30000, 0x8000, 0);
+        g_VramTransfer.transferToVram(0, VIDEO_LCDC_SOURCE(0x06850000, 0x8000), 0x30000, 0x8000, 0);
         break;
     }
     if (display->captureStep_ < 6) {
@@ -468,5 +468,5 @@ ARM void updateScreenCapture()
 
 ARM int isScreenCaptureDone()
 {
-    return data_0211a7d0.captureStep_ == 6;
+    return g_Display.captureStep_ == 6;
 }

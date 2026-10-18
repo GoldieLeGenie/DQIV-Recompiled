@@ -10,7 +10,7 @@ void GX_DispOff();
 void GX_SetBankForLcdc(int);
 int GX_VBlankIntr(int);
 }
-int data_02116ce4=0;
+int g_mainExArenaEnabled=0;
 // These hooks are empty in the original retail game as well.
 void unkfunc_0207e7e0() {}
 void unkfunc_0207e7e4() {}
@@ -20,7 +20,7 @@ int getTick() {return static_cast<int>(func_02079bf0());}
 void initSystem(int extendedArena) {
     // Host heaps, files, clock and graphics contexts are established by main.
     (void)pc::activeVideo();(void)pc::activeGeometry();
-    data_02116ce4=extendedArena!=0;
+    g_mainExArenaEnabled=extendedArena!=0;
     GX_Init();func_02063920(-1);GX_DispOff();
     *VIDEO_REG(u32,0x04001000)&=~0x10000u;
     GX_VBlankIntr(1);

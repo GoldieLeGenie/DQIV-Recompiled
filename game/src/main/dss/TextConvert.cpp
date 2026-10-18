@@ -1,18 +1,18 @@
 #include "main/dss/TextConvert.hpp"
 
-unsigned short data_020c455c[21] = {
+unsigned short g_normalKanaCharTable[21] = {
     0x3042, 0x3044, 0x3046, 0x3048, 0x304a, 0x3064, 0x3084, 0x3086,
     0x3088, 0x308f, 0x30a2, 0x30a4, 0x30a6, 0x30a8, 0x30aa, 0x30c4,
     0x30e4, 0x30e6, 0x30e8, 0x30ef, 0x0000,
 };
 
-unsigned short data_020c4586[21] = {
+unsigned short g_smallKanaCharTable[21] = {
     0x3041, 0x3043, 0x3045, 0x3047, 0x3049, 0x3063, 0x3083, 0x3085,
     0x3087, 0x308e, 0x30a1, 0x30a3, 0x30a5, 0x30a7, 0x30a9, 0x30c3,
     0x30e3, 0x30e5, 0x30e7, 0x30ee, 0x0000,
 };
 
-unsigned short data_020c4618[52] = {
+unsigned short g_lowerCaseCharTable[52] = {
     0x0061, 0x0062, 0x0063, 0x0064, 0x0065, 0x0066, 0x0067, 0x0068,
     0x0069, 0x006a, 0x006b, 0x006c, 0x006d, 0x006e, 0x006f, 0x0070,
     0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076, 0x0077, 0x0078,
@@ -22,7 +22,7 @@ unsigned short data_020c4618[52] = {
     0x00fa, 0x00fb, 0x00fc, 0x0000,
 };
 
-unsigned short data_020c45b0[52] = {
+unsigned short g_upperCaseCharTable[52] = {
     0x0041, 0x0042, 0x0043, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048,
     0x0049, 0x004a, 0x004b, 0x004c, 0x004d, 0x004e, 0x004f, 0x0050,
     0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057, 0x0058,
@@ -32,7 +32,7 @@ unsigned short data_020c45b0[52] = {
     0x00da, 0x00db, 0x00dc, 0x0000,
 };
 
-unsigned short data_020c4680[85] = {
+unsigned short g_katakanaCharTable[85] = {
     0x30a1, 0x30a2, 0x30a3, 0x30a4, 0x30a5, 0x30a6, 0x30a7, 0x30a8,
     0x30a9, 0x30aa, 0x30ab, 0x30ac, 0x30ad, 0x30ae, 0x30af, 0x30b0,
     0x30b1, 0x30b2, 0x30b3, 0x30b4, 0x30b5, 0x30b6, 0x30b7, 0x30b8,
@@ -46,7 +46,7 @@ unsigned short data_020c4680[85] = {
     0x30f1, 0x30f2, 0x30f3, 0xff0d, 0x0000,
 };
 
-unsigned short data_020c472a[85] = {
+unsigned short g_hiraganaCharTable[85] = {
     0x3041, 0x3042, 0x3043, 0x3044, 0x3045, 0x3046, 0x3047, 0x3048,
     0x3049, 0x304a, 0x304b, 0x304c, 0x304d, 0x304e, 0x304f, 0x3050,
     0x3051, 0x3052, 0x3053, 0x3054, 0x3055, 0x3056, 0x3057, 0x3058,
@@ -60,7 +60,7 @@ unsigned short data_020c472a[85] = {
     0x3091, 0x3092, 0x3093, 0x30fc, 0x0000,
 };
 
-unsigned short data_020c4894[96] = {
+unsigned short g_asciiCharTable[96] = {
     0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025, 0x0026, 0x0027,
     0x0028, 0x0029, 0x002a, 0x002b, 0x002c, 0x002d, 0x002e, 0x002f,
     0x0030, 0x0031, 0x0032, 0x0033, 0x0034, 0x0035, 0x0036, 0x0037,
@@ -75,7 +75,7 @@ unsigned short data_020c4894[96] = {
     0x0078, 0x0079, 0x007a, 0x007b, 0x007c, 0x007d, 0x007e, 0x0000,
 };
 
-unsigned short data_020c47d4[96] = {
+unsigned short g_fullWidthCharTable[96] = {
     0x3000, 0xff01, 0x201d, 0xff03, 0xff04, 0xff05, 0xff06, 0x2019,
     0xff08, 0xff09, 0xff0a, 0xff0b, 0xff0c, 0xff0d, 0xff0e, 0xff0f,
     0xff10, 0xff11, 0xff12, 0xff13, 0xff14, 0xff15, 0xff16, 0xff17,
@@ -90,16 +90,16 @@ unsigned short data_020c47d4[96] = {
     0xff58, 0xff59, 0xff5a, 0xff5b, 0xff5c, 0xff5d, 0xffe3, 0x0000,
 };
 
-UnkSjisTable data_0211fd34;
-unsigned char data_0211fd44[0x800];
+UnkSjisTable g_sjisTables;
+unsigned char g_sjisTextBuffer[0x800];
 
 ARM void initSjisTables(unsigned short* table81, int size81, unsigned short* tableE0, int sizeE0)
 {
-    data_0211fd34.table81_ = table81;
-    data_0211fd34.tableE0_ = tableE0;
-    data_0211fd34.size81_ = size81;
-    data_0211fd34.sizeE0_ = sizeE0;
-    data_0211fd44[0] = 0;
+    g_sjisTables.table81_ = table81;
+    g_sjisTables.tableE0_ = tableE0;
+    g_sjisTables.size81_ = size81;
+    g_sjisTables.sizeE0_ = sizeE0;
+    g_sjisTextBuffer[0] = 0;
 }
 
 ARM int convertUtf16ToUtf8(char* dst, int size, const char* src)
@@ -135,14 +135,14 @@ ARM unsigned short unicodeToSjis(unsigned short c)
     if (c <= 0xff) {
         return 0x3f;
     }
-    table = data_0211fd34.table81_;
-    for (i = 0; i < (unsigned int)data_0211fd34.size81_ / 2; i++) {
+    table = g_sjisTables.table81_;
+    for (i = 0; i < (unsigned int)g_sjisTables.size81_ / 2; i++) {
         if (c == table[i]) {
             return (unsigned short)(i + 0x8100);
         }
     }
-    table = data_0211fd34.tableE0_;
-    for (i = 0; i < (unsigned int)data_0211fd34.sizeE0_ / 2; i++) {
+    table = g_sjisTables.tableE0_;
+    for (i = 0; i < (unsigned int)g_sjisTables.sizeE0_ / 2; i++) {
         if (c == table[i]) {
             return (unsigned short)(i + 0xe000);
         }
@@ -197,11 +197,11 @@ ARM int convertSjisToUtf8(char* dst, int size, const char* src)
             unsigned short* table = NULL;
             if (lead >= 0x81 && lead <= 0x9f) {
                 lead -= 0x81;
-                table = data_0211fd34.table81_;
+                table = g_sjisTables.table81_;
             }
             if (lead >= 0xe0 && lead <= 0xef) {
                 lead -= 0xe0;
-                table = data_0211fd34.tableE0_;
+                table = g_sjisTables.tableE0_;
             }
             if (table != NULL && table[(lead << 8) + trail] != 0) {
                 out.putChar(table[(lead << 8) + trail]);
@@ -269,13 +269,13 @@ ARM int translateTextPrefix(unsigned short* from, unsigned short* to, char* dst,
 
 ARM char* convertUtf8ToSjisWork(const char* src)
 {
-    convertUtf8ToSjis((char*)data_0211fd44, sizeof(data_0211fd44), src);
-    for (int i = 0; data_0211fd44[i] != 0; i++) {
-        if (data_0211fd44[i] == 0xa) {
-            data_0211fd44[i] = 0x7c;
+    convertUtf8ToSjis((char*)g_sjisTextBuffer, sizeof(g_sjisTextBuffer), src);
+    for (int i = 0; g_sjisTextBuffer[i] != 0; i++) {
+        if (g_sjisTextBuffer[i] == 0xa) {
+            g_sjisTextBuffer[i] = 0x7c;
         }
     }
-    return (char*)data_0211fd44;
+    return (char*)g_sjisTextBuffer;
 }
 
 ARM Utf16Iterator::Utf16Iterator()

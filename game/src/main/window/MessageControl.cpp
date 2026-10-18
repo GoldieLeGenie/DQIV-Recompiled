@@ -8,9 +8,9 @@
 
 ARM void window::MessageControl::setup()
 {
-    if (data_0210bb94.unkfunc_02058114(0xc)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
         BillboardCharacter::allAnimLock = 1;
-    } else if (data_0210bb94.unkfunc_02058114(0xe)) {
+    } else if (g_GlobalDQ4.unkfunc_02058114(0xe)) {
         back_ = SpriteCharacter::getAllCharaAnim();
         SpriteCharacter::setAllCharaAnim(false);
     }
@@ -31,7 +31,7 @@ ARM void window::MessageControl::execute()
             if (MenuAPI::isMenuModeNormal()) {
                 setupIcon();
                 if (goNext(prev_)) {
-                    if (data_0210bb94.unkfunc_02058114(0xc)) {
+                    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
                         BillboardCharacter::allAnimLock = 0;
                     } else {
                         SpriteCharacter::setAllCharaAnim(back_);

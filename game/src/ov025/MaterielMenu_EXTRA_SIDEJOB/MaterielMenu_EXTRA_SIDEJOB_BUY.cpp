@@ -20,12 +20,12 @@ THUMB void MaterielMenu_EXTRA_SIDEJOB_BUY::menuDraw()
 
 THUMB void MaterielMenu_EXTRA_SIDEJOB_BUY::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             selectYes();
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             selectNo();
         }
     }
@@ -36,19 +36,19 @@ THUMB void MaterielMenu_EXTRA_SIDEJOB_BUY::selectYes()
     switch (mode_) {
     case JOB_FIRST:
         getSellItem();
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         TextAPI::setMACRO0(0xa, 0x40000000, itemID_);
         TextAPI::setMACRO0(0x3e, 0xf0000000, status::UseItem::getSellPrice(itemID_));
-        data_020ed1bc.addMessage(0x63ee);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.addMessage(0x63ee);
+        g_TownMenuMessage.setYesNo();
         mode_ = JOB_SELL;
         break;
     case JOB_SELL:
         if (status::g_Shop.sideJobItemFlag_[itemIndex_] == 0) {
             status::g_Shop.sideJobItemFlag_[itemIndex_] = 1;
         }
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63ef);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63ef);
         mode_ = JOB_END;
         break;
     case JOB_END:
@@ -61,13 +61,13 @@ THUMB void MaterielMenu_EXTRA_SIDEJOB_BUY::selectNo()
 {
     switch (mode_) {
     case JOB_FIRST:
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63f3);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63f3);
         mode_ = JOB_END;
         break;
     case JOB_SELL:
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x63f1);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x63f1);
         mode_ = JOB_END;
         break;
     case JOB_END:

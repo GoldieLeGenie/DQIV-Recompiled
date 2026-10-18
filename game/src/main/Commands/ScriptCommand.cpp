@@ -42,7 +42,7 @@ ARM void __cmd_count::initialize(char* scriptParam)
 ARM void __cmd_count::execute()
 {
     count_ += add_;
-    data_02116ce0.unkfunc_0207e88c(0xe, 0x28, "%04d", count_);
+    g_DebugConsole.unkfunc_0207e88c(0xe, 0x28, "%04d", count_);
 }
 
 ARM int __cmd_count::isEnd()
@@ -142,7 +142,7 @@ ARM int __cmd_character_action_vanish::isEnd()
 ARM void __cmd_menu_yes_no::initialize(char* scriptParam)
 {
     PARAM_MENU_YES_NO* param = (PARAM_MENU_YES_NO*)scriptParam;
-    data_020ed1bc.setYesNo(param->position);
+    g_TownMenuMessage.setYesNo(param->position);
     type_ = param->type;
     index_ = param->index;
     position_ = param->position;
@@ -150,7 +150,7 @@ ARM void __cmd_menu_yes_no::initialize(char* scriptParam)
 
 ARM int __cmd_menu_yes_no::isEnd()
 {
-    menu::MenuBase::MENUBASE_STAT stat = data_020ed1bc.stat_;
+    menu::MenuBase::MENUBASE_STAT stat = g_TownMenuMessage.stat_;
     if (stat == menu::MenuBase::MENUBASE_STAT_OK) {
         setFlag(true);
         return true;
@@ -201,7 +201,7 @@ ARM int cmd_message1(int* param)
 {
     int index = getPlacementCtrlId();
     if (getObjectCount() > index) {
-        if (data_0210bb94.unkfunc_02058114(0xc) != 0) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xc) != 0) {
             cmn::g_talkSound.setVoice(TownCharacterManager::getSingleton()->getCharaIndex(index));
         }
     } else {
@@ -212,7 +212,7 @@ ARM int cmd_message1(int* param)
     if (!g_HengeNoTsue.isMonster()) {
         cmn::PartyTalk::getSingleton()->setPreMessageNo(param[0]);
     }
-    if (data_0210bb94.unkfunc_02058114(0xe) != 0) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xe) != 0) {
         FieldWindowSystem::getSingleton()->openMessage(param[0], param[1]);
     } else {
         TownWindowSystem::getSingleton()->openMessage(param[0], param[1]);
@@ -224,7 +224,7 @@ ARM int cmd_message2(int* param)
 {
     int index = getPlacementCtrlId();
     if (getObjectCount() > index) {
-        if (data_0210bb94.unkfunc_02058114(0xc) != 0) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xc) != 0) {
             cmn::g_talkSound.setVoice(TownCharacterManager::getSingleton()->getCharaIndex(index));
         }
     } else {
@@ -283,7 +283,7 @@ ARM int cmd_random_message(int* param)
 {
     int index = getPlacementCtrlId();
     if (getObjectCount() > index) {
-        if (data_0210bb94.unkfunc_02058114(0xc) != 0) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xc) != 0) {
             cmn::g_talkSound.setVoice(TownCharacterManager::getSingleton()->getCharaIndex(index));
         }
     } else {
@@ -325,31 +325,31 @@ ARM void __cmd_message_with_sound::initialize(char* scriptParam)
     if (!g_HengeNoTsue.isMonster()) {
         cmn::PartyTalk::getSingleton()->setPreMessageNo(param->message);
     }
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     if (param->count == 1) {
-        data_020ed1bc.addMessageNOWAIT(param->message);
+        g_TownMenuMessage.addMessageNOWAIT(param->message);
         SoundManager::stopBgm(0);
     } else if (param->count == 2) {
         lastMessage_ = param->message + 1;
-        data_020ed1bc.addMessageNOWAIT(param->message);
+        g_TownMenuMessage.addMessageNOWAIT(param->message);
     } else if (param->count >= 3) {
         lastMessage_ = param->message + param->count - 1;
-        data_020ed1bc.addMessageCount(param->message, param->count - 2);
-        data_020ed1bc.addMessageNOWAIT(param->message + param->count - 2);
+        g_TownMenuMessage.addMessageCount(param->message, param->count - 2);
+        g_TownMenuMessage.addMessageNOWAIT(param->message + param->count - 2);
     }
-    data_020ed1bc.addMessageWAITKEY();
+    g_TownMenuMessage.addMessageWAITKEY();
 }
 
 ARM void __cmd_message_with_sound::execute()
 {
-    if (data_020ed1bc.isMessageWAITPROG()) {
+    if (g_TownMenuMessage.isMessageWAITPROG()) {
         if (stopSound_ == 0 && lastMessage_ != 0) {
             stopSound_ = 1;
-            data_020ed1bc.close();
-            data_020ed1bc.clearMessageWAITPROG();
+            g_TownMenuMessage.close();
+            g_TownMenuMessage.clearMessageWAITPROG();
             SoundManager::stopBgm(0);
         } else if (soundCount_ == -1) {
-            data_020ed1bc.clearMessageWAITPROG();
+            g_TownMenuMessage.clearMessageWAITPROG();
             if (wait_ == 0) {
                 playEnd_ = 1;
             }
@@ -368,10 +368,10 @@ ARM void __cmd_message_with_sound::execute()
             soundCount_ = -1;
         }
     } else if (stopSound_ == 1) {
-        if (!data_020ed1bc.isOpen()) {
-            data_020ed1bc.openMessageForTALK();
-            data_020ed1bc.addMessageNOWAIT(lastMessage_);
-            data_020ed1bc.addMessageWAITKEY();
+        if (!g_TownMenuMessage.isOpen()) {
+            g_TownMenuMessage.openMessageForTALK();
+            g_TownMenuMessage.addMessageNOWAIT(lastMessage_);
+            g_TownMenuMessage.addMessageWAITKEY();
         }
     }
 }
@@ -379,18 +379,18 @@ ARM void __cmd_message_with_sound::execute()
 ARM int __cmd_message_with_sound::isEnd()
 {
     if (wait_ == 1) {
-        menu::MenuBase::MENUBASE_STAT stat = data_020ed1bc.stat_;
+        menu::MenuBase::MENUBASE_STAT stat = g_TownMenuMessage.stat_;
         if (stat == menu::MenuBase::MENUBASE_STAT_OK || stat == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.stat_ = menu::MenuBase::MENUBASE_STAT_OK;
-            data_020ed1bc.close();
+            g_TownMenuMessage.stat_ = menu::MenuBase::MENUBASE_STAT_OK;
+            g_TownMenuMessage.close();
             playEnd_ = 1;
             wait_ = 0;
         }
         return false;
     }
     if (playEnd_ == 1 && wait_ == 0) {
-        data_020ed1bc.stat_ = menu::MenuBase::MENUBASE_STAT_OK;
-        data_020ed1bc.close();
+        g_TownMenuMessage.stat_ = menu::MenuBase::MENUBASE_STAT_OK;
+        g_TownMenuMessage.close();
         return true;
     }
     return false;
@@ -455,7 +455,7 @@ ARM int cmd_set_party_total_recovery(int* param)
         }
     }
     if (param[0] == 1) {
-        if (data_0210bb94.unkfunc_02058114(0xc) != 0) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xc) != 0) {
             TownPlayerManager::getSingleton()->resetParty();
         } else {
             FieldPlayerManager::getSingleton()->resetParty();

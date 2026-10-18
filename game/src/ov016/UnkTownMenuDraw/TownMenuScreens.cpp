@@ -28,7 +28,7 @@ THUMB void unkfunc_unused_11()
 
 THUMB void drawRootMenuScreen()
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawRootMenuCommands(-1, -1);
         drawRootMenuButtonFrames(0, 0, 1);
     }
@@ -38,13 +38,13 @@ THUMB void drawRootMenuScreen()
 
 THUMB void drawItemCharaSelectScreen(int chara)
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawItemMenuHeader(chara, 0, 1, 0);
         drawChooseCharaPrompt(1);
         drawCharaSelectWindow(1, 0);
     }
     drawPartyStatusWindows();
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawCharaItemList(chara, 0);
         drawMenuFrame(0, 0x50, 0x100, 0x70, -1);
     }
@@ -52,7 +52,7 @@ THUMB void drawItemCharaSelectScreen(int chara)
 
 THUMB void drawItemSelectScreen(int chara, int itemID, int page)
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawItemMenuHeader(chara, 0, 1, 0);
         drawItemListPage(chara, page, 0);
         drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
@@ -86,7 +86,7 @@ THUMB void drawItemSelectScreen(int chara, int itemID, int page)
 
 THUMB void drawItemCommandScreen(int chara, int itemID, int page, int sound)
 {
-    if (!data_020ed1bc.isOpen() && sound == 0) {
+    if (!g_TownMenuMessage.isOpen() && sound == 0) {
         int x = (TownMenuPlayerControl::getSingleton()->activeItem_ % 2) * 0x78 + 0x14;
         int y = (TownMenuPlayerControl::getSingleton()->activeItem_ / 2) * 32 + 0x14;
         int command;
@@ -102,7 +102,7 @@ THUMB void drawItemCommandScreen(int chara, int itemID, int page, int sound)
         drawTownCommandCursor(x, y + 4);
     }
     drawPartyStatusWindows();
-    if (!data_020ed1bc.isOpen() && sound == 0) {
+    if (!g_TownMenuMessage.isOpen() && sound == 0) {
         drawMenuFrame(0, 0x78, 0xb0, 0x48, 0x90);
         switch (status::UseItem::getItemType(itemID)) {
         case 0:
@@ -122,14 +122,14 @@ THUMB void drawItemCommandScreen(int chara, int itemID, int page, int sound)
 THUMB void drawItemUseTargetScreen(int active, int itemID, int page)
 {
     status::g_Party.setBattleMode();
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawItemMenuHeader(active + page * 4, 0, 1, 1);
         drawMenuFrame(0, 0, 0x100, 0xa0, -1);
         drawPartyHpMpListBattle(page);
         status::g_Party.setPlayerMode();
     }
     drawPartyStatusWindows();
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawItemUsageInfo(itemID);
         drawMenuFrame(0, 0x78, 0xb0, 0x48, 0x90);
     }
@@ -137,7 +137,7 @@ THUMB void drawItemUseTargetScreen(int active, int itemID, int page)
 
 THUMB void drawItemTargetCharaScreen(int activeChara, int targetChara, int itemID, int sound)
 {
-    if (!data_020ed1bc.isOpen() && sound == 0) {
+    if (!g_TownMenuMessage.isOpen() && sound == 0) {
         drawItemMenuHeader(activeChara, 0, 0, 0);
         drawSmallButtonFrame(0x88, 0xa0);
         drawTargetCharaNameBar(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_);
@@ -152,7 +152,7 @@ THUMB void drawItemTargetCharaScreen(int activeChara, int targetChara, int itemI
 
 THUMB void drawItemTargetItemScreen(int activeChara, int targetChara, int itemID, int page, int sound)
 {
-    if (!data_020ed1bc.isOpen() && sound == 0) {
+    if (!g_TownMenuMessage.isOpen() && sound == 0) {
         drawItemMenuHeader(activeChara, 0, 0, 0);
         drawSmallButtonFrame(0x88, 0xa0);
         drawTargetCharaNameBar(&status::g_Party.getPlayerStatus(targetChara)->haveStatusInfo_);
@@ -171,7 +171,7 @@ THUMB void drawItemTargetItemScreen(int activeChara, int targetChara, int itemID
 
 THUMB void drawMagicRootScreen(int mp1, int mp2, int magicID, int chara, int mode)
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_;
         drawMagicMenuHeader(chara);
         drawCasterMpBar(info, mp1, mp2);
@@ -192,7 +192,7 @@ THUMB void drawMagicRootScreen(int mp1, int mp2, int magicID, int chara, int mod
 
 THUMB void drawMagicCharaSelectScreen(int mp, int useMp, int chara, int page)
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawMagicMenuHeader(chara);
         drawCasterMpBar(&status::g_Party.getPlayerStatus(chara)->haveStatusInfo_, mp, useMp);
         drawMenuFrame(0, 0, 0x100, 0xa0, -1);
@@ -204,7 +204,7 @@ THUMB void drawMagicCharaSelectScreen(int mp, int useMp, int chara, int page)
 
 THUMB void drawWarpTownSelectScreen(int mp, int useMp, int chara, int page, unsigned char* town)
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         if (mp != -1 && useMp != -1) {
             drawRootMenuCommands(1, -1);
             drawRootMenuButtonFrames(0x40, 0xa0, 0);
@@ -262,7 +262,7 @@ THUMB void drawStatusMoneyScreen(int page)
 
 THUMB void drawOperationRootScreen(int mode, char* command, int count, int chara)
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawRootMenuCommands(5, -1);
         drawRootMenuButtonFrames(0x40, 0xa0, 0);
         if (mode == 2) {
@@ -330,7 +330,7 @@ THUMB void drawTacticsSelectScreen(char* chara, int index, int active)
 
 THUMB void drawShiftPartyScreen(char* select, char* list, int active, int count)
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawShiftPartyIconList(select, list, count);
         drawMenuFrame(0, 0x68, 0xe0, 0x58, -1);
         drawShiftPartyFrontSlots(select);
@@ -352,7 +352,7 @@ THUMB void drawShiftPartyScreen(char* select, char* list, int active, int count)
 
 THUMB void drawEquipScreen(int itemType, int chara, int page, unsigned char* list, int count, int active)
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawRootMenuCommands(5, 0);
         drawRootMenuButtonFrames(0, 0xa0, 0);
         drawEquipTitle();
@@ -521,7 +521,7 @@ THUMB void drawItemListPage(int chara, int page, int target)
             drawItemSlot(item, (i % 2 + 1) * 16 + (i % 2) * 0x68 + 4, (i / 2) * 8 + (i / 2) * 0x18 + 4);
         }
     }
-    if (!data_020ed1bc.isOpen() && target != 0 && count < 6) {
+    if (!g_TownMenuMessage.isOpen() && target != 0 && count < 6) {
         drawItemSlot(-1, (count % 2 + 1) * 16 + (count % 2) * 0x68 + 4, (count / 2) * 8 + (count / 2) * 0x18 + 4);
     }
 }

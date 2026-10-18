@@ -113,10 +113,10 @@ ARM int cmn::CommonEffectLocation::calcPaletteRate()
 
     rgb = this->prev_ * (one - rate) + this->next_ * rate;
 
-    if (data_0210bb94.unkfunc_02058114(0xC) != 0)
+    if (g_GlobalDQ4.unkfunc_02058114(0xC) != 0)
         TownStageManager::getSingleton()->SetRGBRate(rgb, 0);
 
-    if (data_0210bb94.unkfunc_02058114(0xD) != 0)
+    if (g_GlobalDQ4.unkfunc_02058114(0xD) != 0)
         setFieldRGBRate(rgb);
 
     this->counter_ = this->counter_ + 1;

@@ -35,13 +35,13 @@ THUMB int profile::SaveLoad::checkbank(int bank)
 
 THUMB profile::CatalogView* profile::SaveLoad::getCatalogView()
 {
-    unsigned char* buff = (unsigned char*)dssAlloc(&data_0211a60c, BANK_SIZE * 3, 0x20);
+    unsigned char* buff = (unsigned char*)dssAlloc(&g_appHeap, BANK_SIZE * 3, 0x20);
     if (buff == NULL) {
         return NULL;
     }
     if (!memoryload(0x400, buff, BANK_SIZE * 3)) {
         if (buff != NULL) {
-            dssFree(&data_0211a60c, buff);
+            dssFree(&g_appHeap, buff);
         }
         return NULL;
     }
@@ -87,7 +87,7 @@ THUMB profile::CatalogView* profile::SaveLoad::getCatalogView()
             views[i]->useFlag_ = 0;
         }
     }
-    dssFree(&data_0211a60c, buff);
+    dssFree(&g_appHeap, buff);
     catalogRecent_ = getSaveBank();
     return catalogView_;
 }
@@ -102,13 +102,13 @@ THUMB int profile::SaveLoad::loadbank(int bank)
     if (!isCardOK()) {
         return 0;
     }
-    Profile* padr = (Profile*)dssAlloc(&data_0211a60c, sizeof(Profile), 0x20);
+    Profile* padr = (Profile*)dssAlloc(&g_appHeap, sizeof(Profile), 0x20);
     if (padr == NULL) {
         return 0;
     }
     memoryload(BANK_OFFSET(bank), &padr->profiledata_, BANK_SIZE);
     int result = padr->deliverDATA(bank);
-    dssFree(&data_0211a60c, padr);
+    dssFree(&g_appHeap, padr);
     return result;
 }
 
@@ -117,13 +117,13 @@ THUMB bool profile::SaveLoad::savebank(int bank, SAVETYPE type)
     if (!isCardOK()) {
         return 0;
     }
-    Profile* padr = (Profile*)dssAlloc(&data_0211a60c, sizeof(Profile), 0x20);
+    Profile* padr = (Profile*)dssAlloc(&g_appHeap, sizeof(Profile), 0x20);
     if (padr == NULL) {
         return 0;
     }
     padr->collectDATA(bank, type);
     bool result = memorysave(BANK_OFFSET(bank), &padr->profiledata_, BANK_SIZE);
-    dssFree(&data_0211a60c, padr);
+    dssFree(&g_appHeap, padr);
     if (bank < 3) {
         setSaveBank(bank);
     } else {
@@ -141,7 +141,7 @@ THUMB void profile::SaveLoad::savebankAsync(int bank, SAVETYPE type)
         asyncResult_ = 0;
         return;
     }
-    asyncBuff_ = (Profile*)dssAlloc(&data_0211a60c, sizeof(Profile), 0x20);
+    asyncBuff_ = (Profile*)dssAlloc(&g_appHeap, sizeof(Profile), 0x20);
     if (asyncBuff_ == NULL) {
         asyncResult_ = 0;
         return;
@@ -161,7 +161,7 @@ THUMB int profile::SaveLoad::savebankAsyncWait()
 THUMB int profile::SaveLoad::savebankAsyncResult()
 {
     if (asyncBuff_ != NULL) {
-        dssFree(&data_0211a60c, asyncBuff_);
+        dssFree(&g_appHeap, asyncBuff_);
         asyncBuff_ = NULL;
     }
     if (asyncResult_ == 0) {
@@ -178,10 +178,10 @@ THUMB int profile::SaveLoad::savebankAsyncResult()
 
 THUMB bool profile::SaveLoad::killbank(int bank)
 {
-    unsigned char* addr = (unsigned char*)dssAlloc(&data_0211a60c, BANK_SIZE, 0x20);
+    unsigned char* addr = (unsigned char*)dssAlloc(&g_appHeap, BANK_SIZE, 0x20);
     dss::memset(addr, 0xff, BANK_SIZE);
     bool result = memorysave(BANK_OFFSET(bank), addr, 0x200);
-    dssFree(&data_0211a60c, addr);
+    dssFree(&g_appHeap, addr);
     return result;
 }
 
@@ -190,7 +190,7 @@ THUMB int profile::SaveLoad::verifybank(int bank)
     if (!isCardOK()) {
         return 0;
     }
-    Profile* padr = (Profile*)dssAlloc(&data_0211a60c, sizeof(Profile), 0x20);
+    Profile* padr = (Profile*)dssAlloc(&g_appHeap, sizeof(Profile), 0x20);
     if (padr == NULL) {
         return 0;
     }
@@ -198,7 +198,7 @@ THUMB int profile::SaveLoad::verifybank(int bank)
     if (padr->isValidData()) {
         result = padr->calcCheckSum();
     }
-    dssFree(&data_0211a60c, padr);
+    dssFree(&g_appHeap, padr);
     return result;
 }
 
@@ -281,7 +281,7 @@ THUMB void profile::SaveLoad::setCatalogMacro(CatalogView* view)
     TextAPI::setMACRO0(0x18, 0xd0000000, 1);
     TextAPI::setMACRO0(0x5e, 0xf0000000, level);
     dss::sprintf_s(text, sizeof(text), "%4d:%02d", playTime / (60 * 60 * 60), playTime % (60 * 60 * 60) / (60 * 60));
-    translateText(data_020c47d4, data_020c4894, time, sizeof(time), text);
+    translateText(g_fullWidthCharTable, g_asciiCharTable, time, sizeof(time), text);
     TextAPI::setUserString(0, view->name_);
     TextAPI::setUserString(1, time);
 }

@@ -3,7 +3,7 @@
 #include "main/menu/MenuDisplay.hpp"
 
 // Window frame drawn as sprites on the sub screen, with its name tab, blinking key cursor and arrow
-// (data_020f530c.windowFrame1_, windowFrame2_)
+// (g_MenuDisplays.windowFrame1_, windowFrame2_)
 struct UnkMenuWindowFrame : UnkMenuDisplay {
     int cursor_;                                // 0x30  key cursor shown
     int arrow_;                                 // 0x34  arrow shown

@@ -16,7 +16,7 @@ struct UnkMenuFrameRequest {
     void draw(UnkOamBuffer* main, UnkOamBuffer* sub);
 };
 
-// Frames drawn as sprites, queued each frame (data_020f530c.frames_)
+// Frames drawn as sprites, queued each frame (g_MenuDisplays.frames_)
 struct UnkMenuFrameDisplay : UnkMenuDisplay {
     UnkMenuFrameRequest requests_[128];         // 0x0030
     int requestCount_;                          // 0x1030

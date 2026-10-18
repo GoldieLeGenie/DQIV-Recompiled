@@ -385,7 +385,7 @@ THUMB int TextExtractor::extract_text_number(char* dst, int size, int no)
     char buf[0x200];
     if (TextAPI::m_lang == 0) {
         dss::sprintf_s(buf, 0x200, "%d", no);
-        translateText(data_020c47d4, data_020c4894, dst, size, buf);
+        translateText(g_fullWidthCharTable, g_asciiCharTable, dst, size, buf);
     } else {
         dss::sprintf_s(dst, size, "%d", no);
     }

@@ -238,7 +238,7 @@ THUMB int status::BaseActionStatus::actionTypeRebirth(status::CharacterStatus *t
             target->setRebirthAnimation();
             ret = 1;
 
-            if (data_0210bb94.unkfunc_02058114(0xD) && target->characterType_ == MONSTER)
+            if (g_GlobalDQ4.unkfunc_02058114(0xD) && target->characterType_ == MONSTER)
             {
                 short log;
                 for (int i = 0; i < g_monster.getCount(); i++)
@@ -269,7 +269,7 @@ THUMB int status::BaseActionStatus::actionTypeRebirth(status::CharacterStatus *t
         target->setRebirthAnimation();
         ret = 1;
 
-        if (data_0210bb94.unkfunc_02058114(0xD) &&
+        if (g_GlobalDQ4.unkfunc_02058114(0xD) &&
             target->characterType_ == MONSTER)
         {
             short log;
@@ -864,7 +864,7 @@ THUMB int status::BaseActionStatus::actionTypeNone(status::CharacterStatus *acto
     }
 
     if (status::BaseActionStatus::actionIndex_ == 0xD4) {
-        if (data_0210bb94.unkfunc_02058114(0xc) == 0) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xc) == 0) {
             ret = 0;
         } else {
             if (TownFurnitureManager::getSingleton()->searchFloorItem() == 0) {
@@ -875,7 +875,7 @@ THUMB int status::BaseActionStatus::actionTypeNone(status::CharacterStatus *acto
 
     if (status::BaseActionStatus::actionIndex_ == 0xD8) {
         if (g_Stage.isEncount() != 0 && encount::Encount::getSingleton()->enable_ != 0) {
-            if (data_0210bb94.unkfunc_02058114(0xc) != 0) {
+            if (g_GlobalDQ4.unkfunc_02058114(0xc) != 0) {
                 if (TownPlayerManager::getSingleton()->isSaveAndBattleOK() == 0) {
                     ret = 0;
                 } else {
@@ -999,13 +999,13 @@ THUMB int status::BaseActionStatus::actionTypeNone(status::CharacterStatus *acto
 
     if (status::BaseActionStatus::actionIndex_ == 0xB2) {
         ret = 0;
-        if (data_0210bb94.unkfunc_02058114(0xc) != 0) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xc) != 0) {
             if (g_Stage.getTimeZone() == TIME_ZONE_DAYTIME || g_Stage.getTimeZone() == TIME_ZONE_EVENING) {
                 ret = execLanaruta();
             } else {
                 ret = 0;
             }
-        } else if (data_0210bb94.unkfunc_02058114(0xe) != 0) {
+        } else if (g_GlobalDQ4.unkfunc_02058114(0xe) != 0) {
             if (g_Stage.getWorldTime() < 0x840) {
                 ret = execLanaruta();
             } else {

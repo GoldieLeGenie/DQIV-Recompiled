@@ -1,6 +1,6 @@
 #include "main/global/Global.hpp"
 
-GlobalGamePartManager data_0210bc18;
+GlobalGamePartManager g_GlobalGamePartManager;
 
 ARM GlobalGamePartManager::GlobalGamePartManager()
 {

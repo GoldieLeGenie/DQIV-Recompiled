@@ -101,14 +101,14 @@ ARM void TextureObject::unkfunc_02086868()
     }
     unk_14 &= ~1;
     if (unk_40 != 0) {
-        data_0211e450.freeTexVram(unk_40);
+        g_VramTransfer.freeTexVram(unk_40);
     }
     if (unk_44 != 0) {
-        data_0211e450.freePlttVram(unk_44);
+        g_VramTransfer.freePlttVram(unk_44);
     }
     if (unk_18 == 1 || unk_18 == 2) {
         if (unk_64 != 0) {
-            data_0211e450.freePlttVram(unk_64);
+            g_VramTransfer.freePlttVram(unk_64);
         }
     }
 }
@@ -120,41 +120,41 @@ ARM void TextureObject::unkfunc_020868dc()
     // The DS copies the rounded VRAM allocation size past short texture files
     // (common.tex has only 512 texture bytes). Keep transfer lengths exact on
     // the host while retaining the original VRAM allocation boundaries.
-    unk_40 = data_0211e450.allocTexVram(roundUp(unk_30, 0x400));
-    unk_44 = data_0211e450.allocPlttVram(roundUp(unk_38, 0x20));
+    unk_40 = g_VramTransfer.allocTexVram(roundUp(unk_30, 0x400));
+    unk_44 = g_VramTransfer.allocPlttVram(roundUp(unk_38, 0x20));
 #else
-    unk_40 = data_0211e450.allocTexVram(unk_30);
-    unk_44 = data_0211e450.allocPlttVram(unk_38);
+    unk_40 = g_VramTransfer.allocTexVram(unk_30);
+    unk_44 = g_VramTransfer.allocPlttVram(unk_38);
 #endif
-    unk_48 = data_0211e450.getTexVramAddr(unk_40);
-    unk_4c = data_0211e450.getPlttVramAddr(unk_44);
+    unk_48 = g_VramTransfer.getTexVramAddr(unk_40);
+    unk_4c = g_VramTransfer.getPlttVramAddr(unk_44);
     if (unk_18 == 1 || unk_18 == 2) {
 #ifdef DQIV_NATIVE
-        unk_64 = data_0211e450.allocPlttVram(roundUp(unk_58, 0x20));
+        unk_64 = g_VramTransfer.allocPlttVram(roundUp(unk_58, 0x20));
 #else
-        unk_64 = data_0211e450.allocPlttVram(unk_58);
+        unk_64 = g_VramTransfer.allocPlttVram(unk_58);
 #endif
-        unk_6c = data_0211e450.getPlttVramAddr(unk_64);
+        unk_6c = g_VramTransfer.getPlttVramAddr(unk_64);
     }
 }
 
 ARM void TextureObject::unkfunc_02086968(int flag)
 {
-    data_0211e450.transferToVram(0, (void*)unk_34, unk_48, unk_30, flag);
-    data_0211e450.transferToVram(1, (void*)unk_3c, unk_4c, unk_38, flag);
+    g_VramTransfer.transferToVram(0, (void*)unk_34, unk_48, unk_30, flag);
+    g_VramTransfer.transferToVram(1, (void*)unk_3c, unk_4c, unk_38, flag);
     if (unk_18 == 1 || unk_18 == 2) {
-        data_0211e450.transferToVram(1, (void*)unk_5c, unk_6c, unk_58, flag);
+        g_VramTransfer.transferToVram(1, (void*)unk_5c, unk_6c, unk_58, flag);
     }
 }
 
 ARM void TextureObject::unkfunc_020869ec(TextureObject* src, int flag)
 {
     if (src->unk_14 & 1) {
-        data_0211e450.transferToVram(0, (void*)unk_34, unk_48, unk_30, flag);
-        data_0211e450.transferToVram(1, (void*)unk_3c, unk_4c, unk_38, flag);
+        g_VramTransfer.transferToVram(0, (void*)unk_34, unk_48, unk_30, flag);
+        g_VramTransfer.transferToVram(1, (void*)unk_3c, unk_4c, unk_38, flag);
     } else {
-        data_0211e450.transferToVram(0, (unsigned char*)src + src->unk_34, unk_48, unk_30, flag);
-        data_0211e450.transferToVram(1, (unsigned char*)src + src->unk_3c, unk_4c, unk_38, flag);
+        g_VramTransfer.transferToVram(0, (unsigned char*)src + src->unk_34, unk_48, unk_30, flag);
+        g_VramTransfer.transferToVram(1, (unsigned char*)src + src->unk_3c, unk_4c, unk_38, flag);
     }
 }
 

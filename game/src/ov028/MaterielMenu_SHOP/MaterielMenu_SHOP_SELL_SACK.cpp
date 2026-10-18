@@ -35,7 +35,7 @@ THUMB void MaterielMenu_SHOP_SELL_SACK::menuExecute()
 
 THUMB void MaterielMenu_SHOP_SELL_SACK::menuDraw()
 {
-    if (data_020ed1bc.isOpen()) {
+    if (g_TownMenuMessage.isOpen()) {
         drawShopScreen();
         return;
     }
@@ -45,9 +45,9 @@ THUMB void MaterielMenu_SHOP_SELL_SACK::menuDraw()
 
 THUMB void MaterielMenu_SHOP_SELL_SACK::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
         }
         return;
     }

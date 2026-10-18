@@ -7,7 +7,7 @@
 #endif
 
 int data_0211fc68[2];
-int data_020c4514 = 0x7f;
+int g_seqStartVolume = 0x7f;
 
 ARM UnkSoundHandle::UnkSoundHandle()
 {
@@ -41,7 +41,7 @@ ARM void UnkSoundHandle::unkfunc_020864ac(int bgm)
 #endif
     func_0207581c(this, bgm);
     unk_10 = bgm;
-    func_020734e0(this, data_020c4514);
+    func_020734e0(this, g_seqStartVolume);
     unkfunc_020865b4();
 }
 
@@ -141,7 +141,7 @@ ARM void UnkSoundSystem::unkfunc_020865f4(void* file, int flag)
 {
     unk_9c = file;
     unk_a0 = flag;
-    unk_00 = dssAlloc(&data_0211a60c, 0x9b000, 0x20);
+    unk_00 = dssAlloc(&g_appHeap, 0x9b000, 0x20);
     unk_04 = func_02074bd8(unk_00, 0x9b000);
     unkfunc_02086634();
 }
@@ -201,13 +201,13 @@ ARM void UnkSoundMember::unkfunc_02086750()
 ARM void UnkSoundMember::unkfunc_0208675c(int value)
 {
 #ifdef DQIV_NATIVE
-    if (pc::mobileSoundStart(this, pc::mobileStream, value, data_020c4518, 0x7f)) {
+    if (pc::mobileSoundStart(this, pc::mobileStream, value, g_strmStartVolume, 0x7f)) {
         func_02075d14(this, 0);
         return;
     }
 #endif
     func_02075cec(this, value, 0);
-    func_02075d30(this, data_020c4518);
+    func_02075d30(this, g_strmStartVolume);
 }
 
 ARM void UnkSoundMember::unkfunc_02086784(int value)
@@ -218,5 +218,5 @@ ARM void UnkSoundMember::unkfunc_02086784(int value)
     func_02075d14(this, value);
 }
 
-UnkSoundSystem data_0211fc7c;
-int data_020c4518 = 0x7f;
+UnkSoundSystem g_SoundSystem;
+int g_strmStartVolume = 0x7f;

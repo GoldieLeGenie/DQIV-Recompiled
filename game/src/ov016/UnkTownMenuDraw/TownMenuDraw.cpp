@@ -900,9 +900,9 @@ THUMB void drawRuraTownList(int page, unsigned char* rura)
         int y = (i / 2) * 16 + 0xc;
         y2 = (i / 2) * 8;
         int param = menu::MenuDataCommon::getRuraName(rura[index]);
-        if (rura[index] == 0xd && data_020f0078.isMyEnvoyEnabled() == 1) {
-            data_020f0078.mode_ = 1;
-            param = (int)data_020f0078.getTownName();
+        if (rura[index] == 0xd && g_EnvoyManager.isMyEnvoyEnabled() == 1) {
+            g_EnvoyManager.mode_ = 1;
+            param = (int)g_EnvoyManager.getTownName();
         }
         drawMenuParts(s_parts_02184be0, &param, x, y + y2, g_menuTextColors[0]);
         i++;

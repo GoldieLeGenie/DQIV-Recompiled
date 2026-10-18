@@ -12,7 +12,7 @@
 #include "main/task/PartTaskManager.hpp"
 #include "ov003/status/MonsterPartyWithDraw.hpp"
 
-UnkBattleTest data_02121094;
+UnkBattleTest g_AutoBattleTest;
 
 ARM UnkBattleTest::UnkBattleTest()
 {
@@ -103,21 +103,21 @@ ARM void UnkBattleTest::update()
         }
         break;
     case 2:
-        if (data_0210bb94.unkfunc_0205810c() == 13) {
+        if (g_GlobalDQ4.unkfunc_0205810c() == 13) {
             state_ = 3;
             counter_ = -1;
         }
         break;
     case 3:
-        if (data_0210bb94.unkfunc_0205810c() != 13) {
+        if (g_GlobalDQ4.unkfunc_0205810c() != 13) {
             state_ = 4;
             counter_ = -1;
             dss::g_Pad.stopPlay();
         } else {
             int turn = status::g_BattleResult.battleTurnCount_ + 1;
-            data_02116ce0.unkfunc_0207e88c(0, 0x16, "TURN%2d/%2d/%2d  ACT=%d", turn, noDamageTurn_, endTurn_, act_);
-            data_02116ce0.unkfunc_0207e88c(0xc, 0x17, "PLAY%2d/%2d", play_, playCount_);
-            data_02116ce0.unkfunc_0207e88c(0, 0x17, "TILE%3d/%3d", tile_, lastTile_);
+            g_DebugConsole.unkfunc_0207e88c(0, 0x16, "TURN%2d/%2d/%2d  ACT=%d", turn, noDamageTurn_, endTurn_, act_);
+            g_DebugConsole.unkfunc_0207e88c(0xc, 0x17, "PLAY%2d/%2d", play_, playCount_);
+            g_DebugConsole.unkfunc_0207e88c(0, 0x17, "TILE%3d/%3d", tile_, lastTile_);
             if (turn > noDamageTurn_) {
                 status::PartyStatus::setNoDamageEnableForMonster(false);
                 int count = g_monster.getCount();

@@ -114,7 +114,7 @@ THUMB void drawShopScreen()
 
 THUMB void drawChurchScreen(int activeCommand, int firstFlag)
 {
-    if (activeCommand == -1 && data_020ed1bc.isMessageWAITPROG() && firstFlag == 0) {
+    if (activeCommand == -1 && g_TownMenuMessage.isMessageWAITPROG() && firstFlag == 0) {
         drawChurchCommands();
     }
     drawMoneyAndPartyWindows();

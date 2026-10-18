@@ -3,18 +3,18 @@
 #include "main/dss/BgBuffer.hpp"
 #include "main/menu/UnkMenuIconDisplay.hpp"
 
-void* data_0211fd20[5];
+void* g_systemTextResources[5];
 
 ARM void initSystemText(void* res0, void* res1, void* res2, void* res3, void* res4)
 {
     for (int i = 0; i < 5; i++) {
-        data_0211fd20[i] = NULL;
+        g_systemTextResources[i] = NULL;
     }
-    data_0211fd20[0] = res0;
-    data_0211fd20[1] = res1;
-    data_0211fd20[2] = res2;
-    data_0211fd20[3] = res3;
-    data_0211fd20[4] = res4;
+    g_systemTextResources[0] = res0;
+    g_systemTextResources[1] = res1;
+    g_systemTextResources[2] = res2;
+    g_systemTextResources[3] = res3;
+    g_systemTextResources[4] = res4;
     unsigned char* tile = (unsigned char*)getSystemTextData(1);
     for (int i = 0; i < 0xa0; i++) {
         flipTileHorizontal(tile, NULL);
@@ -24,12 +24,12 @@ ARM void initSystemText(void* res0, void* res1, void* res2, void* res3, void* re
 
 ARM void* getSystemTextData(int index)
 {
-    return data_0211fd20[index];
+    return g_systemTextResources[index];
 }
 
 ARM void* getSystemTextPalette(int index)
 {
-    return data_0211fd20[index];
+    return g_systemTextResources[index];
 }
 
 ARM void loadSystemTextChars(int type, int screen1, int screen2)

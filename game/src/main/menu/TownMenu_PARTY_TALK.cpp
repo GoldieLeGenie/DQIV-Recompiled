@@ -91,7 +91,7 @@ THUMB void TownMenu_PARTY_TALK::menuSetup()
         }
     }
 
-    if (data_0210bb94.unkfunc_02058114(12) == 1 && TownStageManager::getSingleton()->isRozariStage() == 1) {
+    if (g_GlobalDQ4.unkfunc_02058114(12) == 1 && TownStageManager::getSingleton()->isRozariStage() == 1) {
         int last = status::g_Party.getCount() - 1;
         if (status::g_Party.getPlayerStatus(last)->haveStatusInfo_.haveStatus_.playerIndex_ == 0x18) {
             list[count] = last;
@@ -127,12 +127,12 @@ THUMB void TownMenu_PARTY_TALK::menuSetup()
         if (message != 0xc3df2 && message != 0xc3d97 && message != 0xc3d99 && message != 0x80092 && g_HengeNoTsue.change_ == 1) {
             ui_MsgSndSet(cmn::g_talkSound.getPlayerVoice(g_HengeNoTsue.charNo_));
         }
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         for (; i < mesCount; i++) {
-            data_020ed1bc.addMessage(message + i);
+            g_TownMenuMessage.addMessage(message + i);
         }
         if (getTalkMessage()->yesno != 0) {
-            data_020ed1bc.setYesNo();
+            g_TownMenuMessage.setYesNo();
             unk_1c = 1;
         }
     } else {
@@ -143,10 +143,10 @@ THUMB void TownMenu_PARTY_TALK::menuSetup()
 
 THUMB void TownMenu_PARTY_TALK::menuUpdate()
 {
-    if (data_020ed1bc.isOpen() != 0) {
+    if (g_TownMenuMessage.isOpen() != 0) {
         int i = 0;
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             if (unk_1c == 2) {
                 close();
                 gTownMenu_ROOT.stat_ = menu::MenuBase::MENUBASE_STAT_OK;
@@ -154,24 +154,24 @@ THUMB void TownMenu_PARTY_TALK::menuUpdate()
             }
             unk_1c = 2;
             int message = getMessageNo() + getMesCount();
-            data_020ed1bc.openMessageForTALK();
+            g_TownMenuMessage.openMessageForTALK();
             for (; i < getTalkMessage()->yesMesCount; i++) {
-                data_020ed1bc.addMessage(message + i);
+                g_TownMenuMessage.addMessage(message + i);
             }
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
-            data_020ed1bc.openMessageForTALK();
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
+            g_TownMenuMessage.openMessageForTALK();
             if (getTalkMessage()->noMesCount == 0) {
                 int message = getMessageNo() + getMesCount();
                 for (; i < getTalkMessage()->yesMesCount; i++) {
-                    data_020ed1bc.addMessage(message + i);
+                    g_TownMenuMessage.addMessage(message + i);
                 }
             } else {
                 int yesMesCount = getTalkMessage()->yesMesCount;
                 int mesCount = getTalkMessage()->mesCount;
                 int message = mesCount + yesMesCount + getTalkMessage()->message;
                 for (; i < getTalkMessage()->noMesCount; i++) {
-                    data_020ed1bc.addMessage(message + i);
+                    g_TownMenuMessage.addMessage(message + i);
                 }
             }
             unk_1c = 2;

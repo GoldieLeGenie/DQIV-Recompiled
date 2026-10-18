@@ -76,7 +76,7 @@ struct GlobalGamePartManager {
     void unkfunc_020582b8(UnkGlobalPart* part);    // remove
 };
 
-extern GlobalGamePartManager data_0210bc18;
+extern GlobalGamePartManager g_GlobalGamePartManager;
 extern int data_020c1b7c;
 
 void setPartFrameCallback(void (*callback)());       // set the per-frame callback

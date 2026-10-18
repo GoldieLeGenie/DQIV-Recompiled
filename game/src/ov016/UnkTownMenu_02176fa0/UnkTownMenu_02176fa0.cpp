@@ -57,16 +57,16 @@ THUMB void UnkTownMenu_02176fa0::menuDraw()
         itemId = status::PlayerItemInfo::getItemIndex(chara, TownMenuPlayerControl::getSingleton()->getActiveItemIndexToAll());
     }
     drawItemSelectScreen(chara, itemId, page_);
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         menuItem_.drawActive();
     }
 }
 
 THUMB void UnkTownMenu_02176fa0::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
         }
         return;
     }

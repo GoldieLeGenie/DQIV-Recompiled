@@ -166,7 +166,7 @@ THUMB void status::UseActionMacro::setResultMacro(CharacterStatus* actor, Charac
         TextAPI::setMACRO0(0x17, 0xa0000000, 0xf);
         TextAPI::setMACRO0(0x51, 0xf0000000, damage);
     }
-    if (actionIndex == 0xd4 && data_0210bb94.unkfunc_02058114(0xc) == 1) {
+    if (actionIndex == 0xd4 && g_GlobalDQ4.unkfunc_02058114(0xc) == 1) {
         TextAPI::setMACRO0(0x3d, 0xf0000000, TownFurnitureManager::getSingleton()->searchFloorItem());
     }
     if (actionIndex == 0xd1) {

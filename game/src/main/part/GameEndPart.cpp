@@ -23,15 +23,15 @@ ARM void GameEndPart::onExecutePart()
     if (type_ == 0) {
         return;
     }
-    if (!data_020ed1bc.isOpen()) {
-        data_020ed1bc.openMessageForMENU();
-        data_020ed1bc.addMessage(message_);
+    if (!g_TownMenuMessage.isOpen()) {
+        g_TownMenuMessage.openMessageForMENU();
+        g_TownMenuMessage.addMessage(message_);
     }
     if (nextPart_ == -1) {
         return;
     }
-    if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-        data_0210bb94.unkfunc_020580fc(nextPart_);
+    if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+        g_GlobalDQ4.unkfunc_020580fc(nextPart_);
         type_ = 0;
     }
 }
@@ -85,11 +85,11 @@ ARM void GameEndPart::setTypeAndNextPart(int type, int nextPart)
 ARM void GameEndPart::start(int type)
 {
     setType(type);
-    data_0210bb94.unkfunc_020580fc(GAME_END_PART);
+    g_GlobalDQ4.unkfunc_020580fc(GAME_END_PART);
 }
 
 ARM void GameEndPart::startWithNextPart(int type, int nextPart)
 {
     setTypeAndNextPart(type, nextPart);
-    data_0210bb94.unkfunc_020580fc(GAME_END_PART);
+    g_GlobalDQ4.unkfunc_020580fc(GAME_END_PART);
 }

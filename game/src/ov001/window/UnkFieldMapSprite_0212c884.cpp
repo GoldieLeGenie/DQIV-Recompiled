@@ -4211,7 +4211,7 @@ ARM void UnkFieldMapSprite_0212c884::initSprites()
 #ifdef DQIV_NATIVE
     // The large map rewrites its texture as the player moves. Give both its
     // header and pixels owned writable storage instead of modifying .rdata.
-    void* texture = dssAlloc(&data_0211a60c, sizeof(s_texture_0214e0a8), 0x20);
+    void* texture = dssAlloc(&g_appHeap, sizeof(s_texture_0214e0a8), 0x20);
     if (!texture) throw std::bad_alloc();
     std::memcpy(texture, s_texture_0214e0a8, sizeof(s_texture_0214e0a8));
     unk_54.data_.setup(texture);
@@ -4318,7 +4318,7 @@ ARM void UnkFieldMapSprite_0212c884::loadMapBlocks(int x, int y)
     void* buffer[8];
     char* dst = (char*)unk_54.getTextureData();
     for (int i = 0; i < 8; i++) {
-        buffer[i] = dssAlloc(&data_0211a60c, 0x400, 0x20);
+        buffer[i] = dssAlloc(&g_appHeap, 0x400, 0x20);
     }
     for (int j = 0; j < 6; j++) {
         int bx;
@@ -4355,7 +4355,7 @@ ARM void UnkFieldMapSprite_0212c884::loadMapBlocks(int x, int y)
     }
     DC_CleanAll();
     for (int i = 0; i < 8; i++) {
-        dssFree(&data_0211a60c, buffer[i]);
+        dssFree(&g_appHeap, buffer[i]);
     }
 }
 

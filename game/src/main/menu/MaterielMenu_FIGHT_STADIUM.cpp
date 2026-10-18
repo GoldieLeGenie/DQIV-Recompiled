@@ -95,10 +95,10 @@ THUMB void MaterielMenu_FIGHT_STADIUM::menuUpdate()
 
 THUMB bool MaterielMenu_FIGHT_STADIUM::messageUpdate()
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         return false;
     }
-    int stat = data_020ed1bc.stat_;
+    int stat = g_TownMenuMessage.stat_;
     switch (status_) {
     case FIGHT_STADIUM_START:
     case FIGHT_STADIUM_BATTLE:
@@ -108,8 +108,8 @@ THUMB bool MaterielMenu_FIGHT_STADIUM::messageUpdate()
     case FIGHT_STADIUM_CHOICE:
     case FIGHT_STADIUM_BET:
         if ((unsigned int)(stat - 1) <= 1) {
-            data_020ed1bc.close();
-            data_020ed1bc.setMessageLastCursor(false);
+            g_TownMenuMessage.close();
+            g_TownMenuMessage.setMessageLastCursor(false);
         }
         return false;
     case FIGHT_STADIUM_RESULT:
@@ -150,13 +150,13 @@ THUMB bool MaterielMenu_FIGHT_STADIUM::messageUpdate()
                 closeMessage();
             }
         } else if (stat == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             g_Global.doubleUpFlag_ = 0;
             status_ = FIGHT_STADIUM_START;
             messageCount_ = -1;
             messageCount_++;
         } else if (stat == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             showMessage(0xc8f16);
             status_ = FIGHT_STADIUM_END;
             messageCount_ = -1;
@@ -173,9 +173,9 @@ THUMB void MaterielMenu_FIGHT_STADIUM::statusUpdate()
     case FIGHT_STADIUM_START:
         if (messageCount_ == -1) {
             FightStadiumManager::getSingleton()->setup();
-            data_020ed1bc.openMessageForTALK();
-            data_020ed1bc.addMessage(0xc8eda);
-            data_020ed1bc.addMessage(0xc8edb);
+            g_TownMenuMessage.openMessageForTALK();
+            g_TownMenuMessage.addMessage(0xc8eda);
+            g_TownMenuMessage.addMessage(0xc8edb);
             messageCount_++;
             g_Global.betOnIndex_ = -1;
             g_Global.betCoin_ = 0;
@@ -183,7 +183,7 @@ THUMB void MaterielMenu_FIGHT_STADIUM::statusUpdate()
             result_ = RESULT_NONE;
         } else {
             showMessage(0xc8edd);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessageWAITKEY();
             monsterItem_.active_ = 0;
             monsterItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_INACTIVE);
             status_ = FIGHT_STADIUM_CHOICE;
@@ -204,7 +204,7 @@ THUMB void MaterielMenu_FIGHT_STADIUM::statusUpdate()
         break;
     case FIGHT_STADIUM_RETRY:
         showMessage(0xc8ef8);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         messageCount_++;
         break;
     case FIGHT_STADIUM_END:
@@ -216,11 +216,11 @@ THUMB void MaterielMenu_FIGHT_STADIUM::statusUpdate()
 
 THUMB void MaterielMenu_FIGHT_STADIUM::monsterListUpdate()
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         return;
     }
     int oldWaitProg = waitProg_;
-    waitProg_ = data_020ed1bc.isMessageWAITPROG();
+    waitProg_ = g_TownMenuMessage.isMessageWAITPROG();
     if (waitProg_ == 0) {
         return;
     }
@@ -232,12 +232,12 @@ THUMB void MaterielMenu_FIGHT_STADIUM::monsterListUpdate()
     monsterItem_.execInput();
     switch (monsterItem_.result_) {
     case 3:
-        data_020ed1bc.close();
+        g_TownMenuMessage.close();
         monsterItem_.result_ = 0;
         monsterItem_.lastresult_ = 0;
         if (g_Global.doubleUpFlag_ != 0) {
             showMessage(0xc8ee3);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessageWAITKEY();
         } else {
             showMessage(0xc8f16);
             status_ = FIGHT_STADIUM_END;
@@ -275,8 +275,8 @@ THUMB void MaterielMenu_FIGHT_STADIUM::monsterListUpdate()
             messageCount_ = -1;
         } else {
             showMessage(0xc8ee6);
-            data_020ed1bc.addMessageWAITKEY();
-            data_020ed1bc.setMessageLastCursor(true);
+            g_TownMenuMessage.addMessageWAITKEY();
+            g_TownMenuMessage.setMessageLastCursor(true);
             messageCount_++;
         }
         redraw_ = 1;
@@ -304,9 +304,9 @@ THUMB void MaterielMenu_FIGHT_STADIUM::coinUpdate()
     figure[0] = betCoin / 10;
     figure[1] = betCoin % 10;
     int figureMax[BET_FIGURE_MAX] = { 5, 9 };
-    if (data_020ed1bc.isOpen()) {
+    if (g_TownMenuMessage.isOpen()) {
         int oldWaitProg = waitProg_;
-        waitProg_ = data_020ed1bc.isMessageWAITPROG();
+        waitProg_ = g_TownMenuMessage.isMessageWAITPROG();
         if (waitProg_ != 0) {
             if (oldWaitProg == 0 && waitProg_ != 0) {
                 blink_ = 1;
@@ -320,7 +320,7 @@ THUMB void MaterielMenu_FIGHT_STADIUM::coinUpdate()
             case 3:
                 g_Global.betCoin_ = 0;
                 haveCoin_ = status::g_Party.casinoCoin_;
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
                 betItem_.result_ = 0;
                 betItem_.lastresult_ = 0;
                 status_ = FIGHT_STADIUM_START;
@@ -335,7 +335,7 @@ THUMB void MaterielMenu_FIGHT_STADIUM::coinUpdate()
                 status_ = FIGHT_STADIUM_BET;
                 messageCount_ = -1;
                 if (g_Global.betCoin_ == 0) {
-                    data_020ed1bc.close();
+                    g_TownMenuMessage.close();
                     betItem_.result_ = 0;
                     betItem_.lastresult_ = 0;
                     status_ = FIGHT_STADIUM_START;
@@ -403,20 +403,20 @@ THUMB void MaterielMenu_FIGHT_STADIUM::resultUpdate()
 {
     FightStadiumManager::getSingleton()->setup();
     if (result_ == RESULT_WIN) {
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         if (messageCount_ == -1) {
             TextAPI::setMACRO0(0x48, 0xf0000000, g_Global.betCoin_);
-            data_020ed1bc.addMessage(0xc8eee);
+            g_TownMenuMessage.addMessage(0xc8eee);
             messageCount_++;
         } else if (g_Global.betCoin_ > DOUBLEUP_COIN_MAX) {
             g_Global.doubleUpFlag_ = 0;
             status_ = FIGHT_STADIUM_RETRY;
             messageCount_ = -1;
-            data_020ed1bc.addMessage(0xc8ef1);
+            g_TownMenuMessage.addMessage(0xc8ef1);
         } else {
             messageCount_++;
-            data_020ed1bc.addMessage(0xc8ef4);
-            data_020ed1bc.setYesNo();
+            g_TownMenuMessage.addMessage(0xc8ef4);
+            g_TownMenuMessage.setYesNo();
         }
     } else if (result_ == RESULT_LOSE) {
         showMessage(0xc8efd);
@@ -468,13 +468,13 @@ THUMB void MaterielMenu_FIGHT_STADIUM::playBackMenu(int result)
 
 THUMB void MaterielMenu_FIGHT_STADIUM::showMessage(int messageID)
 {
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(messageID);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(messageID);
 }
 
 THUMB void MaterielMenu_FIGHT_STADIUM::closeMessage()
 {
-    if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-        data_020ed1bc.close();
+    if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+        g_TownMenuMessage.close();
     }
 }

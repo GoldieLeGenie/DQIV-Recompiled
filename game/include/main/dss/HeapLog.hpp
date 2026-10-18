@@ -22,5 +22,5 @@ struct UnkHeapLog {
     void unkfunc_020893e0();                    // mark the allocated blocks
 };
 
-extern char data_02120548[0x400];
-extern UnkHeapLog data_02120948;
+extern char g_heapLogText[0x400];
+extern UnkHeapLog g_HeapLog;

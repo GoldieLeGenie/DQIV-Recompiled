@@ -15,9 +15,9 @@ ARM window::TalkControl::~TalkControl()
 
 ARM void window::TalkControl::setup()
 {
-    if (data_0210bb94.unkfunc_02058114(0xc)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
         BillboardCharacter::setAllCharaAnim(false);
-    } else if (data_0210bb94.unkfunc_02058114(0xe)) {
+    } else if (g_GlobalDQ4.unkfunc_02058114(0xe)) {
         SpriteCharacter::setAllCharaAnim(false);
     }
     playerLock(true);
@@ -29,7 +29,7 @@ ARM void window::TalkControl::execute()
     if (gTownMenu_PARTY_TALK.isOpen()) {
         return;
     }
-    if (data_0210bb94.unkfunc_02058114(0xc)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
         BillboardCharacter::setAllCharaAnim(true);
     } else {
         SpriteCharacter::setAllCharaAnim(true);

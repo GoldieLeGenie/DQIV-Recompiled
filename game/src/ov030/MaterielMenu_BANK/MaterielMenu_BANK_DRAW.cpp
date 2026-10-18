@@ -33,7 +33,7 @@ THUMB void MaterielMenu_BANK_DRAW::menuExecute()
 THUMB void MaterielMenu_BANK_DRAW::menuDraw()
 {
     if (first_ == 0) {
-        if (data_020ed1bc.isOpen()) {
+        if (g_TownMenuMessage.isOpen()) {
             drawBankAmountScreen(1, 0, drawMoney_);
         } else {
             drawBankAmountScreen(0, 0, drawMoney_);
@@ -51,9 +51,9 @@ THUMB void MaterielMenu_BANK_DRAW::menuUpdate()
 
 THUMB bool MaterielMenu_BANK_DRAW::messageUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
             if (end_) {
                 MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
             }
@@ -62,15 +62,15 @@ THUMB bool MaterielMenu_BANK_DRAW::messageUpdate()
     }
     if (first_) {
         first_ = 0;
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         if (status::g_Party.bankMoney_ == 0) {
             TextAPI::setMACRO0(0xb, 0x50000000, alivePlayer_);
-            data_020ed1bc.addMessage(0xc6bc8, 0xc6bdd);
+            g_TownMenuMessage.addMessage(0xc6bc8, 0xc6bdd);
             end_ = 1;
             return true;
         }
         TextAPI::setMACRO0(0x30, 0xf0000000, status::g_Party.bankMoney_);
-        data_020ed1bc.addMessage(0xc6bcb);
+        g_TownMenuMessage.addMessage(0xc6bcb);
     }
     return false;
 }
@@ -123,15 +123,15 @@ THUMB void MaterielMenu_BANK_DRAW::bankUpdate()
 
 THUMB void MaterielMenu_BANK_DRAW::bankDraw()
 {
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     if (drawMoney_ > status::g_Party.bankMoney_) {
-        data_020ed1bc.addMessage(0xc6bce);
+        g_TownMenuMessage.addMessage(0xc6bce);
         drawMoney_ = 0;
         first_ = 1;
         return;
     }
     if (drawMoney_ + status::g_Party.gold_ > 999999) {
-        data_020ed1bc.addMessage(0xc6bd1);
+        g_TownMenuMessage.addMessage(0xc6bd1);
         drawMoney_ = 0;
         first_ = 1;
         return;
@@ -139,26 +139,26 @@ THUMB void MaterielMenu_BANK_DRAW::bankDraw()
     status::g_Party.setBankMoney(status::g_Party.bankMoney_ - drawMoney_);
     status::g_Party.addGold(drawMoney_);
     TextAPI::setMACRO0(0x37, 0xf0000000, drawMoney_);
-    data_020ed1bc.addMessage(0xc6bd4);
+    g_TownMenuMessage.addMessage(0xc6bd4);
     if (status::g_Party.bankMoney_ == 0) {
         TextAPI::setMACRO0(0xb, 0x50000000, alivePlayer_);
-        data_020ed1bc.addMessage(0xc6bdd);
+        g_TownMenuMessage.addMessage(0xc6bdd);
     } else {
         TextAPI::setMACRO0(0x30, 0xf0000000, status::g_Party.bankMoney_);
-        data_020ed1bc.addMessage(0xc6bdb);
+        g_TownMenuMessage.addMessage(0xc6bdb);
     }
     end_ = 1;
 }
 
 THUMB void MaterielMenu_BANK_DRAW::cancelDrawfrom()
 {
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     if (status::g_Party.bankMoney_ == 0) {
         TextAPI::setMACRO0(0xb, 0x50000000, alivePlayer_);
-        data_020ed1bc.addMessage(0xc6bd7, 0xc6bdd);
+        g_TownMenuMessage.addMessage(0xc6bd7, 0xc6bdd);
     } else {
         TextAPI::setMACRO0(0x30, 0xf0000000, status::g_Party.bankMoney_);
-        data_020ed1bc.addMessage(0xc6bd7, 0xc6bdb);
+        g_TownMenuMessage.addMessage(0xc6bd7, 0xc6bdb);
     }
     end_ = 1;
 }

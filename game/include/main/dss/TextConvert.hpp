@@ -21,16 +21,16 @@ struct UnkSjisTable {
     unsigned short* table81_;                   // 0x0C lead bytes 0x81-0x9F
 };
 
-extern unsigned short data_020c455c[21];        // normal kana
-extern unsigned short data_020c4586[21];        // small kana
-extern unsigned short data_020c4618[52];        // lower case
-extern unsigned short data_020c45b0[52];        // upper case
-extern unsigned short data_020c4680[85];        // katakana
-extern unsigned short data_020c472a[85];        // hiragana
-extern unsigned short data_020c4894[96];        // ASCII
-extern unsigned short data_020c47d4[96];        // full width
-extern UnkSjisTable data_0211fd34;
-extern unsigned char data_0211fd44[0x800];
+extern unsigned short g_normalKanaCharTable[21];        // normal kana
+extern unsigned short g_smallKanaCharTable[21];        // small kana
+extern unsigned short g_lowerCaseCharTable[52];        // lower case
+extern unsigned short g_upperCaseCharTable[52];        // upper case
+extern unsigned short g_katakanaCharTable[85];        // katakana
+extern unsigned short g_hiraganaCharTable[85];        // hiragana
+extern unsigned short g_asciiCharTable[96];        // ASCII
+extern unsigned short g_fullWidthCharTable[96];        // full width
+extern UnkSjisTable g_sjisTables;
+extern unsigned char g_sjisTextBuffer[0x800];
 
 void initSjisTables(unsigned short* table81, int size81, unsigned short* tableE0, int sizeE0);
 int convertUtf16ToUtf8(char* dst, int size, const char* src);                                     // UTF-16 -> UTF-8

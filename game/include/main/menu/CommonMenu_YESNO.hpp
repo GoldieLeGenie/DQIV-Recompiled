@@ -16,4 +16,4 @@ struct CommonMenu_YESNO : menu::MenuBase {
     void setSuperCancel(int flag);
 };
 
-extern CommonMenu_YESNO data_020ed094;
+extern CommonMenu_YESNO g_CommonMenuYesNo;

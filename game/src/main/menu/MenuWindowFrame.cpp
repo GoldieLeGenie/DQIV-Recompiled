@@ -46,7 +46,7 @@ THUMB void UnkMenuWindowFrame::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
                           GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_16, 0x192, 15, 0);
         }
         if (arrow_) {
-            int chr = data_020f530c.arrow_.getAnimCharName();
+            int chr = g_MenuDisplays.arrow_.getAnimCharName();
             G2_SetOBJAttr(sub->allocEntry(), arrowX_ - 8, arrowY_ - 8, 0, GX_OAM_MODE_NORMAL, 0, GX_OAM_EFFECT_NONE,
                           GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_16, chr, 15, 0);
         }
@@ -54,7 +54,7 @@ THUMB void UnkMenuWindowFrame::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
             G2_SetOBJAttr(sub->allocEntry(), x_ + w_ - 24, y + bottom + 8, 0, GX_OAM_MODE_NORMAL, 0,
                           GX_OAM_EFFECT_NONE, GX_OAM_SHAPE_16x16, GX_OAM_COLORMODE_16, 0x152, 15, 0);
         }
-        UnkMenuFrameDisplay* frames = &data_020f530c.frames_;
+        UnkMenuFrameDisplay* frames = &g_MenuDisplays.frames_;
         if (frameType_ == 1) {
             frames->addFrame(x_ + 4, y_ + 4, w_ - 8, h_ - 8, 0, 15);
         } else {

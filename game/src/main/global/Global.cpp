@@ -54,7 +54,7 @@ THUMB void Global::initialize()
 THUMB void Global::startGame()
 {
     g_GlobalChangePart.setNextPart(3);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(30);
 }
 
@@ -62,7 +62,7 @@ THUMB void Global::startFirstTown()
 {
     setMapName(mlb1a);
     g_GlobalChangePart.setNextPart(12);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(30);
 }
 
@@ -70,7 +70,7 @@ THUMB void Global::startDebugTown()
 {
     setMapName(za1f1);
     g_GlobalChangePart.setNextPart(12);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(30);
 }
 
@@ -78,7 +78,7 @@ THUMB void Global::startTown(const char* name)
 {
     setMapName(name);
     g_GlobalChangePart.setNextPart(12);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(30);
     partChangeFlag_ = 1;
 }
@@ -87,7 +87,7 @@ THUMB void Global::startTown(const char* name)
 THUMB void Global::startCasino() {
     setMapName(DefaultCasinoMap);
     g_GlobalChangePart.setNextPart(0xF);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(0x1E);
 }
 
@@ -96,7 +96,7 @@ THUMB void Global::startBook()
 {
     setMapName(DefaultBookMap);
     g_GlobalChangePart.setNextPart(0x10);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(0x1E);
 }
 
@@ -105,7 +105,7 @@ THUMB void Global::startSurechigai()
 {
     setMapName(s_mapSurechigai);
     g_GlobalChangePart.setNextPart(0x13);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(0x1E);
 }
 
@@ -167,7 +167,7 @@ THUMB void Global::startField()
 {
     setMapName(DefaultFieldMap);
     g_GlobalChangePart.setNextPart(0xE);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(0x1E);
     partChangeFlag_ = 1;
 }
@@ -186,9 +186,9 @@ THUMB void Global::startBattle()
 THUMB void Global::acceptBattle()
 {
     cmn::PlayerManager::setLock(1);
-    currentGamePart_ = data_0210bb94.unkfunc_0205810c();
+    currentGamePart_ = g_GlobalDQ4.unkfunc_0205810c();
     g_GlobalChangePart.setNextPart(0xD);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     partChangeFlag_ = 1;
     fadeOutBlack(0xF);
 }
@@ -201,9 +201,9 @@ THUMB void Global::directStartBattle()
     } else {
         SoundManager::crusingPlay();
     }
-    currentGamePart_ = data_0210bb94.unkfunc_0205810c();
+    currentGamePart_ = g_GlobalDQ4.unkfunc_0205810c();
     g_GlobalChangePart.setNextPart(0xD);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     partChangeFlag_ = 1;
     fadeOutBlack(0xF);
 }
@@ -217,7 +217,7 @@ THUMB void Global::endBattle(bool wipeout)
         cmn::g_extraMapLink.setExtraLinkTown(fightingarenaMapName_, fightingarenaPosition_, 0);
     } else if (!wipeout) {
         g_GlobalChangePart.setNextPart(currentGamePart_);
-        data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+        g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     } else {
         g_GlobalFlag.clear();
         g_LocalFlag.clear();
@@ -253,7 +253,7 @@ THUMB void Global::startTitle()
     status::g_Story.setChapter(0);
     setMapName(s_mapEv01);
     g_GlobalChangePart.setNextPart(0xC);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(0x1E);
     Sound::unkfunc_020559ec(0xA);
     partChangeFlag_ = 1;
@@ -262,13 +262,13 @@ THUMB void Global::startTitle()
 THUMB void Global::startLogo()
 {
     g_GlobalChangePart.setNextPart(0);
-    data_0210bc18.unkfunc_02058294(&g_GlobalChangePart);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalChangePart);
     fadeOutBlack(0x1E);
 }
 
 THUMB bool Global::isNextPart(int part)
 {
-    if (part == data_0210bb94.unkfunc_02058104()) {
+    if (part == g_GlobalDQ4.unkfunc_02058104()) {
         return true;
     }
     return false;
@@ -278,10 +278,10 @@ THUMB void Global::fadeOutBlack(int frames)
 {
     if (g_GlobalFade.isFadeOutBlack() == 0 && g_GlobalFade.isFadeOutWhite() == 0) {
         if (g_GlobalFade.isFadeInBlack() != 0) {
-            data_0210bc18.unkfunc_020582b8(&g_GlobalFade);
+            g_GlobalGamePartManager.unkfunc_020582b8(&g_GlobalFade);
         }
         g_GlobalFade.fadeOutBlack(frames);
-        data_0210bc18.unkfunc_02058294(&g_GlobalFade);
+        g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalFade);
     }
 }
 
@@ -289,32 +289,32 @@ THUMB void Global::fadeOutWhite(int frames)
 {
     if (g_GlobalFade.isFadeOutWhite() == 0) {
         g_GlobalFade.fadeOutWhite(frames);
-        data_0210bc18.unkfunc_02058294(&g_GlobalFade);
+        g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalFade);
     }
 }
 
 THUMB void Global::fadeInBlack(int frames)
 {
     g_GlobalFade.fadeInBlack(frames);
-    data_0210bc18.unkfunc_02058294(&g_GlobalFade);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalFade);
 }
 
 THUMB void Global::fadeInWhite(int frames)
 {
     g_GlobalFade.fadeInWhite(frames);
-    data_0210bc18.unkfunc_02058294(&g_GlobalFade);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalFade);
 }
 
 THUMB void Global::fadeIn(int frames)
 {
     g_GlobalFade.fadeIn(frames);
-    data_0210bc18.unkfunc_02058294(&g_GlobalFade);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_GlobalFade);
 }
 
 THUMB void GlobalChangePart::update()
 {
     if (g_GlobalFade.isFadeEnd()) {
-        data_0210bb94.unkfunc_020580fc(nextPart_);
+        g_GlobalDQ4.unkfunc_020580fc(nextPart_);
         nextPart_ = 0x1A;
     }
 }

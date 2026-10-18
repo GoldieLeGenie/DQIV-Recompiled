@@ -1,8 +1,8 @@
 #include "main/dss/MessageFind.hpp"
 
-int data_020c4978 = -1;
-int data_020c4974 = -1;
-unsigned char* data_02120544;
+int g_lastFoundMsgSize = -1;
+int g_lastFoundMsgId = -1;
+unsigned char* g_lastFoundMessage;
 
 ARM char* findMessage(char* addr, unsigned int msg_id)
 {
@@ -15,9 +15,9 @@ ARM char* findMessage(char* addr, unsigned int msg_id)
     unsigned int count = file->count_;
     int offset1 = file->unk_14;
     int offset2 = file->unk_18;
-    data_020c4974 = -1;
-    data_02120544 = NULL;
-    data_020c4978 = -1;
+    g_lastFoundMsgId = -1;
+    g_lastFoundMessage = NULL;
+    g_lastFoundMsgSize = -1;
     if (first > msg_id) {
         return NULL;
     }
@@ -30,9 +30,9 @@ ARM char* findMessage(char* addr, unsigned int msg_id)
         if (entry->id_ == msg_id) {
             int size = entry->size_;
             char* msg = addr + (offset1 + offset2 + (entry->offset_ << 2));
-            data_020c4974 = msg_id;
-            data_02120544 = (unsigned char*)msg;
-            data_020c4978 = size;
+            g_lastFoundMsgId = msg_id;
+            g_lastFoundMessage = (unsigned char*)msg;
+            g_lastFoundMsgSize = size;
             return msg;
         }
         entry++;

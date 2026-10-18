@@ -11,7 +11,7 @@ THUMB MsgData::MsgData()
 
 THUMB void MsgData::msg_setup(int msg_base_id, int arg1, int size, int count)
 {
-    m_addr = (char*)allocAppHeap(&data_0211a60c, size, -4);
+    m_addr = (char*)allocAppHeap(&g_appHeap, size, -4);
     m_size = size;
     m_msg_base_id = msg_base_id;
     if (arg1 == 0) {
@@ -26,7 +26,7 @@ THUMB void MsgData::msg_setup(int msg_base_id, int arg1, int size, int count)
 
 THUMB void MsgData::cleanup()
 {
-    dssFree(&data_0211a60c, m_addr);
+    dssFree(&g_appHeap, m_addr);
     m_addr = 0;
     m_size = 0;
     m_msg_base_id = -1;
@@ -208,14 +208,14 @@ THUMB unsigned char* MsgMeta::getField(int index)
 
 THUMB void MsgFile::init()
 {
-    m_addr = (unsigned char*)allocAppHeap(&data_0211a60c, 0x404, -4);
+    m_addr = (unsigned char*)allocAppHeap(&g_appHeap, 0x404, -4);
     m_size = 0x400;
     unk_80c = 0;
 }
 
 THUMB void MsgFile::cleanup()
 {
-    dssFree(&data_0211a60c, m_addr);
+    dssFree(&g_appHeap, m_addr);
     m_addr = 0;
     m_size = 0;
 }
@@ -240,8 +240,8 @@ THUMB int MsgFile::readMessage(unsigned int msg_id, int lang)
     if (hasMessage(msg_id, lang) == 0) {
         return 0;
     }
-    unsigned char* src = data_02120544;
-    int len = data_020c4978;
+    unsigned char* src = g_lastFoundMessage;
+    int len = g_lastFoundMsgSize;
     if (*src != '@') {
         return 0;
     }

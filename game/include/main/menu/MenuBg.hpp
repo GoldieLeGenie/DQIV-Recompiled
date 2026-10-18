@@ -87,7 +87,7 @@ struct UnkMenuBackBg {
     void update();
 };
 
-// Sub screen menu BGs (data_020facb8)
+// Sub screen menu BGs (g_MenuBg)
 struct UnkMenuBg {
     int transferCount_;                         // 0x0000  frames left to transfer the BGs
     UnkMenuBackBg back_;                        // 0x0004
@@ -95,6 +95,6 @@ struct UnkMenuBg {
     UnkMenuIconBg icon_;                        // 0xD860
 };
 
-extern UnkMenuBg data_020facb8;
+extern UnkMenuBg g_MenuBg;
 
 void requestMenuBgTransfer();                        // transfer the sub screen BGs on the next two frames

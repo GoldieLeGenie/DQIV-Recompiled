@@ -810,43 +810,43 @@ namespace param {
     };
 }
 
-extern const param::ExcelFile<unsigned char, 9> data_0208ca64;                 // EncountYamiTile tiles (3x3)
-extern const param::ExcelFile<unsigned char, 16> data_0208ca74;                // EncountGotTile tiles (4x4)
-extern const param::ExcelFile<param::FloorFog, 2> data_0208ca88;
-extern const param::ExcelFile<param::EncountFormNum, 18> data_0208cab4;
-extern const param::ExcelFile<param::SurechigaiTenant, 23> data_0208cb48;
-extern const param::ExcelFile<param::SurechigaiObjectData, 50> data_0208cc04;
-extern const param::ExcelFile<param::CLUTCode, 15> data_0208ccd0;
-extern const param::ExcelFile<param::EncountFormationID, 9> data_0208cdc4;
-extern const param::ExcelFile<unsigned char, 256> data_0208cec4;               // EncountTile3 tiles (16x16)
-extern const param::ExcelFile<unsigned char, 256> data_0208cfc8;               // EncountTile1 tiles (16x16)
-extern const param::ExcelFile<unsigned char, 256> data_0208d0cc;               // EncountSeaTile tiles (16x16)
-extern const param::ExcelFile<unsigned char, 256> data_0208d1d0;               // EncountTile2 tiles (16x16)
-extern const param::ExcelFile<param::FloorBackColor, 15> data_0208d2d4;
-extern const param::ExcelFile<param::MapChurch, 26> data_0208d47c;
-extern const param::ExcelFile<param::VehicleData, 29> data_0208d6f0;
-extern const param::ExcelFile<param::CharaVoice, 217> data_0208d9ac;
-extern const param::ExcelFile<param::BookData, 210> data_0208dd14;
-extern const param::ExcelFile<param::AbreactTurn, 52> data_0208e3a8;
+extern const param::ExcelFile<unsigned char, 9> encountYamiTileTable;                 // EncountYamiTile tiles (3x3)
+extern const param::ExcelFile<unsigned char, 16> encountGotTileTable;                // EncountGotTile tiles (4x4)
+extern const param::ExcelFile<param::FloorFog, 2> floorFogTable;
+extern const param::ExcelFile<param::EncountFormNum, 18> encountFormNumTable;
+extern const param::ExcelFile<param::SurechigaiTenant, 23> surechigaiTenantTable;
+extern const param::ExcelFile<param::SurechigaiObjectData, 50> surechigaiObjectDataTable;
+extern const param::ExcelFile<param::CLUTCode, 15> clutCodeTable;
+extern const param::ExcelFile<param::EncountFormationID, 9> encountFormationIdTable;
+extern const param::ExcelFile<unsigned char, 256> encountTile3Table;               // EncountTile3 tiles (16x16)
+extern const param::ExcelFile<unsigned char, 256> encountTile1Table;               // EncountTile1 tiles (16x16)
+extern const param::ExcelFile<unsigned char, 256> encountSeaTileTable;               // EncountSeaTile tiles (16x16)
+extern const param::ExcelFile<unsigned char, 256> encountTile2Table;               // EncountTile2 tiles (16x16)
+extern const param::ExcelFile<param::FloorBackColor, 15> floorBackColorTable;
+extern const param::ExcelFile<param::MapChurch, 26> mapChurchTable;
+extern const param::ExcelFile<param::VehicleData, 29> vehicleDataTable;
+extern const param::ExcelFile<param::CharaVoice, 217> charaVoiceTable;
+extern const param::ExcelFile<param::BookData, 210> bookDataTable;
+extern const param::ExcelFile<param::AbreactTurn, 52> abreactTurnTable;
 extern const param::ExcelFile<param::CharInitData, 27> charInitDataTable;
 extern const param::ExcelFile<param::HeroData, 100> heroDataTable;
 extern const param::ExcelFile<param::WarriorData, 100> warriorDataTable;
 extern const param::ExcelFile<param::PrincessData, 100> princessDataTable;
 extern const param::ExcelFile<param::PriestData, 100> priestDataTable;
-extern const param::ExcelFile<param::MageData, 100> data_020919d8;
-extern const param::ExcelFile<param::TraderData, 100> data_0209233c;
-extern const param::ExcelFile<param::WarlockData, 100> data_02092ca0;
-extern const param::ExcelFile<param::DancerData, 100> data_02093604;
-extern const param::ExcelFile<param::PissaroData, 100> data_02093f68;
-extern const param::ExcelFile<param::MonsterMap, 201> data_020948cc;
-extern const param::ExcelFile<param::EffectColorParam, 162> data_0209523c;
-extern const param::ExcelFile<param::EncountSpecial, 104> data_02095c60;
-extern const param::ExcelFile<param::ShopDataFirst, 988> data_02096964;
-extern const param::ExcelFile<param::ItemData, 162> data_020978d8;
-extern const param::ExcelFile<param::SplitMsg, 39> data_02098d1c;
-extern const param::ExcelFile<param::ColorCorrect, 540> data_0209a448;
-extern const param::ExcelFile<param::ShopDataSecond, 1872> data_0209bd9c;
-extern const param::ExcelFile<param::EncountData, 256> data_0209dae0;
-extern const param::ExcelFile<param::MonsterData, 315> data_020a02e4;
-extern const param::ExcelFile<param::FloorParam, 544> data_020a4cbc;
-extern const param::ExcelFile<param::ActionParam, 595> data_020aa600;
+extern const param::ExcelFile<param::MageData, 100> mageDataTable;
+extern const param::ExcelFile<param::TraderData, 100> traderDataTable;
+extern const param::ExcelFile<param::WarlockData, 100> warlockDataTable;
+extern const param::ExcelFile<param::DancerData, 100> dancerDataTable;
+extern const param::ExcelFile<param::PissaroData, 100> pissaroDataTable;
+extern const param::ExcelFile<param::MonsterMap, 201> monsterMapTable;
+extern const param::ExcelFile<param::EffectColorParam, 162> effectColorTable;
+extern const param::ExcelFile<param::EncountSpecial, 104> encountSpecialTable;
+extern const param::ExcelFile<param::ShopDataFirst, 988> shopDataFirstTable;
+extern const param::ExcelFile<param::ItemData, 162> itemDataTable;
+extern const param::ExcelFile<param::SplitMsg, 39> splitMsgTable;
+extern const param::ExcelFile<param::ColorCorrect, 540> colorCorrectTable;
+extern const param::ExcelFile<param::ShopDataSecond, 1872> shopDataSecondTable;
+extern const param::ExcelFile<param::EncountData, 256> encountDataTable;
+extern const param::ExcelFile<param::MonsterData, 315> monsterDataTable;
+extern const param::ExcelFile<param::FloorParam, 544> floorParamTable;
+extern const param::ExcelFile<param::ActionParam, 595> actionParamTable;

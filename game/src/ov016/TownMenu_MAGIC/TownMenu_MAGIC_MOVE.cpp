@@ -71,7 +71,7 @@ THUMB void TownMenu_MAGIC_MOVE::menuDraw()
 {
     status::g_Party.setBattleMode();
     drawWarpTownSelectScreen(status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.getMp(), status::UseAction::getUseMp(0xcb), activeChara_, pageStart_, moveTown_);
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         menuItem_.drawActive();
         cancelItem_.drawActive();
     }
@@ -80,9 +80,9 @@ THUMB void TownMenu_MAGIC_MOVE::menuDraw()
 THUMB void TownMenu_MAGIC_MOVE::menuUpdate()
 {
     status::g_Party.setBattleMode();
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             gTownMenu_MAGIC_ROOT.mode_ = 0;
             close();
             gTownMenu_ROOT.stat_ = MENUBASE_STAT_OK;
@@ -138,18 +138,18 @@ THUMB void TownMenu_MAGIC_MOVE::moveTown()
     g_cmnPartyInfo.actorIndex_ = useActionParam.actorCharacterStatus_->haveStatusInfo_.haveStatus_.playerIndex_;
     g_cmnPartyInfo.targetIndex_ = useActionParam.targetCharacterStatus_[0]->haveStatusInfo_.haveStatus_.playerIndex_;
     SoundManager::playSe(0x132, 0);
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     status::UseActionMacro::setExecMacro(useActionParam.actorCharacterStatus_, useActionParam.targetCharacterStatus_[0], useActionParam.actionIndex_);
     status::UseActionMacro::setResultMacro(useActionParam.actorCharacterStatus_, useActionParam.targetCharacterStatus_[0], useActionParam.actionIndex_);
     TownMenuPlayerControl::getSingleton()->setActiveCharaIndex(useActionParam.actorCharacterStatus_->haveStatusInfo_.haveStatus_.playerIndex_);
     TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerIndex(activeChara_));
     status::UseActionMessage& useActionMessage = useActionParam.message_[0];
     for (int i = 0; useActionMessage.execMessage_[i] != 0; i++) {
-        data_020ed1bc.addMessage(useActionMessage.execMessage_[i]);
+        g_TownMenuMessage.addMessage(useActionMessage.execMessage_[i]);
     }
     if (g_Stage.isRulaDisable() == 1) {
         for (int i = 0; useActionMessage.resultMessage_[i] != 0; i++) {
-            data_020ed1bc.addMessage(useActionMessage.resultMessage_[i]);
+            g_TownMenuMessage.addMessage(useActionMessage.resultMessage_[i]);
         }
     }
 }

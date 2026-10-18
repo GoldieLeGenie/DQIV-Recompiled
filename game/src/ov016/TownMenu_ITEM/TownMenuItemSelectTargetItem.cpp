@@ -62,7 +62,7 @@ THUMB void TownMenuItemSelectTargetItem::menuDraw()
 {
     int targetChara = TownMenuPlayerControl::getSingleton()->targetChara_;
     drawItemTargetItemScreen(TownMenuPlayerControl::getSingleton()->activeChara_, targetChara, giveItemID_, startPage_, sound_);
-    if (!data_020ed1bc.isOpen() && sound_ == 0) {
+    if (!g_TownMenuMessage.isOpen() && sound_ == 0) {
         menuItem_.drawActive();
     }
 }

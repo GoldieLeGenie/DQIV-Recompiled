@@ -63,4 +63,4 @@ struct UnkEnvoyManager {
     int isTypeSelectable(int type);
 };
 
-extern UnkEnvoyManager data_020f0078;
+extern UnkEnvoyManager g_EnvoyManager;

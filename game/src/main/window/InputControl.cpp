@@ -27,20 +27,20 @@ ARM void window::InputControl::initialize(dss::BitFlag<unsigned int>* permit, ds
 
 ARM void window::InputControl::playerLock(bool flag)
 {
-    if (data_0210bb94.unkfunc_02058114(0xc)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
         TownPlayerManager::getSingleton()->setLock(flag);
     }
-    if (data_0210bb94.unkfunc_02058114(0xe)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xe)) {
         FieldPlayerManager::getSingleton()->setLock(flag);
     }
 }
 
 ARM bool window::InputControl::isPlayerLock()
 {
-    if (data_0210bb94.unkfunc_02058114(0xc)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
         return TownPlayerManager::getSingleton()->isLock();
     }
-    if (!data_0210bb94.unkfunc_02058114(0xe)) {
+    if (!g_GlobalDQ4.unkfunc_02058114(0xe)) {
         return true;
     }
     return FieldPlayerManager::getSingleton()->isLock();
@@ -48,7 +48,7 @@ ARM bool window::InputControl::isPlayerLock()
 
 ARM void window::InputControl::setupIcon()
 {
-    data_020ed11c.setIconVisibility(((icon_->flag_ & 1) ? true : false), ((icon_->flag_ & 2) ? true : false), ((icon_->flag_ & 4) ? true : false), ((icon_->flag_ & 8) ? true : false));
+    g_TownMenuTown.setIconVisibility(((icon_->flag_ & 1) ? true : false), ((icon_->flag_ & 2) ? true : false), ((icon_->flag_ & 4) ? true : false), ((icon_->flag_ & 8) ? true : false));
 }
 
 ARM void window::InputControl::setNextPhase(int phase)

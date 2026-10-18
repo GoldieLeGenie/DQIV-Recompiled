@@ -48,7 +48,7 @@ ARM void FldStage::setup()
     void* model = m_model.getAddr();
     void* texture = m_texture.getAddr();
     void* coll = m_coll.getAddr();
-    m_fld.Setup(model, texture, coll, (int)*getHeap0(&data_0211a60c));
+    m_fld.Setup(model, texture, coll, (int)*getHeap0(&g_appHeap));
     dss::Fix32Vector3 scale(1, 1, 1);
     setPaletteRgbRate(0, scale);
     int color = m_fld.m_scene->backColor;

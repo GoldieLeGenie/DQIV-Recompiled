@@ -61,4 +61,4 @@ struct GlobalDQ4 {
 #endif
 };
 
-extern GlobalDQ4 data_0210bb94;
+extern GlobalDQ4 g_GlobalDQ4;

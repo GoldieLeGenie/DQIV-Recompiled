@@ -31,7 +31,7 @@ struct MessageWindowConfig {
     int sound_;                                 // 0x50
 };
 
-// Message window drawn on the sub screen (data_020f530c.message_)
+// Message window drawn on the sub screen (g_MenuDisplays.message_)
 struct MessageWindow : UnkMenuDisplay {
     int windowType_;                            // 0x030
     MessageWindowConfig* config_;               // 0x034
@@ -120,5 +120,5 @@ struct MessageWindow : UnkMenuDisplay {
     UnkTextIterator* getIterator() { return &iterator_; }
 };
 
-extern int data_020c1e54[8];             // shake offsets x
-extern int data_020c1e74[8];             // shake offsets y
+extern int g_msgWindowShakeOffsetX[8];             // shake offsets x
+extern int g_msgWindowShakeOffsetY[8];             // shake offsets y

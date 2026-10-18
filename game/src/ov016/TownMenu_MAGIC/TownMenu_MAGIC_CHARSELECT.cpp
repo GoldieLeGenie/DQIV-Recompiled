@@ -56,7 +56,7 @@ THUMB void TownMenu_MAGIC_CHARSELECT::menuExecute()
 THUMB void TownMenu_MAGIC_CHARSELECT::menuDraw()
 {
     drawMagicCharaSelectScreen(status::g_Party.getPlayerStatus(fromActiveChara_)->haveStatusInfo_.getMp(), status::UseAction::getUseMp(magicID_), fromActiveChara_, page_);
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         charaItem_.drawActive();
         cancelItem_.drawActive();
     }
@@ -65,15 +65,15 @@ THUMB void TownMenu_MAGIC_CHARSELECT::menuDraw()
 THUMB void TownMenu_MAGIC_CHARSELECT::menuUpdate()
 {
     status::g_Party.setBattleMode();
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == MENUBASE_STAT_OK) {
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == MENUBASE_STAT_OK) {
             if (openMessage_ == 1) {
                 int count = 0;
                 unsigned int targetIndex = navigator_.getIndex(toActiveChara_);
-                data_020ed1bc.restartMessage();
+                g_TownMenuMessage.restartMessage();
                 for (; resultMes_[count] != 0; count++) {
                     TextAPI::setMACRO0(0x12, 0x50000000, status::g_Party.getPlayerIndex(targetIndex));
-                    data_020ed1bc.addMessage(resultMes_[count]);
+                    g_TownMenuMessage.addMessage(resultMes_[count]);
                 }
                 if (isResult_ == 1 && magicID_ != 0xca) {
                     SoundManager::playSe(0x1f5, 0);
@@ -93,9 +93,9 @@ THUMB void TownMenu_MAGIC_CHARSELECT::menuUpdate()
             if ((magicID_ == 0xc8 || magicID_ == 0xc9) && isResult_ == 1) {
                 close();
                 gTownMenu_ROOT.stat_ = MENUBASE_STAT_OK;
-                if (data_0210bb94.unkfunc_02058114(0xc) == 1) {
+                if (g_GlobalDQ4.unkfunc_02058114(0xc) == 1) {
                     TownWindowSystem::getSingleton()->cmdWindow_.menuRefresh();
-                } else if (data_0210bb94.unkfunc_02058114(0xe) == 1) {
+                } else if (g_GlobalDQ4.unkfunc_02058114(0xe) == 1) {
                     FieldWindowSystem::getSingleton()->cmdWindow_.menuRefresh();
                 }
                 cmn::GameManager::getSingleton()->resetParty();
@@ -103,7 +103,7 @@ THUMB void TownMenu_MAGIC_CHARSELECT::menuUpdate()
             }
             TownMenuPlayerControl::getSingleton()->setActiveChara(fromActiveChara_);
             TownMenuPlayerControl::getSingleton()->setActiveMagic(activeMagic_);
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             close();
             gTownMenu_MAGIC_ROOT.open();
             gTownMenu_MAGIC_ROOT.restoreCharaItem();
@@ -146,13 +146,13 @@ THUMB void TownMenu_MAGIC_CHARSELECT::useMagic()
     int pageStart = page_ * 4;
     TownMenuPlayerControl::getSingleton()->targetChara_ = chara;
     TownMenuPlayerControl::getSingleton()->setTargetItemPage(page_);
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerIndex(fromActiveChara_));
     if (magicID_ == 0xc4 || magicID_ == 0xc5 || magicID_ == 0xc6 || magicID_ == 0xca) {
         if (status::g_Party.getPlayerStatus(chara + pageStart)->haveStatusInfo_.isDeath()) {
             TextAPI::setMACRO0(0x11, 0x70000000, status::UseAction::getWordDBIndex(magicID_));
             TextAPI::setMACRO0(0x12, 0x50000000, status::g_Party.getPlayerIndex(chara + pageStart));
-            data_020ed1bc.addMessage(0xc3cd2, 0xc3dd4);
+            g_TownMenuMessage.addMessage(0xc3cd2, 0xc3dd4);
             SoundManager::playSe(0x132, 0);
             return;
         }
@@ -177,8 +177,8 @@ THUMB void TownMenu_MAGIC_CHARSELECT::useMagic()
     status::UseActionMacro::setExecMacro(useActionParam.actorCharacterStatus_, useActionParam.targetCharacterStatus_[0], useActionParam.actionIndex_);
     status::UseActionMacro::setResultMacro(useActionParam.actorCharacterStatus_, useActionParam.targetCharacterStatus_[0], useActionParam.actionIndex_);
     status::UseActionMessage& useActionMessage = useActionParam.message_[0];
-    data_020ed1bc.addMessage(useActionMessage.execMessage_[0]);
-    data_020ed1bc.setMessageCursor(true);
+    g_TownMenuMessage.addMessage(useActionMessage.execMessage_[0]);
+    g_TownMenuMessage.setMessageCursor(true);
     openMessage_ = 1;
     for (int count = 0; useActionMessage.resultMessage_[count] != 0; count++) {
         resultMes_[count] = useActionMessage.resultMessage_[count];

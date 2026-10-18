@@ -123,7 +123,7 @@ THUMB void cmn::PartyTalk::setPartyTalkMessage()
             aliveCount++;
         }
     }
-    if (data_0210bb94.unkfunc_02058114(12) && TownStageManager::getSingleton()->isRozariStage())
+    if (g_GlobalDQ4.unkfunc_02058114(12) && TownStageManager::getSingleton()->isRozariStage())
     {
         int lastPlayer = status::g_Party.getCount() - 1;
         if (status::g_Party.getPlayerStatus(lastPlayer)->haveStatusInfo_.haveStatus_.playerIndex_ == 0x18)

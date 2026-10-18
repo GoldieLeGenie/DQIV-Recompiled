@@ -21,62 +21,62 @@ THUMB void CommonMenu_APITEST::menuSetup()
     title_ = 0;
     unk_20 = 0;
     wait_ = 0;
-    data_020f530c.face_.resetAnim();
+    g_MenuDisplays.face_.resetAnim();
 }
 
 THUMB void CommonMenu_APITEST::menuExecute()
 {
-    UnkMenuFaceDisplay* face = &data_020f530c.face_;
+    UnkMenuFaceDisplay* face = &g_MenuDisplays.face_;
     face->mode_ = 11;
     face->loadLoadingAnim();
     face->setPriority(0);
     face->setPosition(0xe0, 0x16a);
     face->setEnable(1);
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.isMessageWAITPROG() && wait_ == 0) {
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.isMessageWAITPROG() && wait_ == 0) {
             Sound::sePlay(0x132);
             wait_ = 60;
         }
         if (wait_ > 0) {
             if (--wait_ == 0) {
-                data_020ed1bc.clearMessageWAITPROG();
+                g_TownMenuMessage.clearMessageWAITPROG();
             }
         }
-        if (data_020ed1bc.stat_ != MENUBASE_STAT_ACTIVE) {
-            if (data_020ed1bc.stat_ == MENUBASE_STAT_OK) {
-                data_020ed1bc.restartMessage();
-                data_020ed1bc.addMessage(0xc3938, 0xc39e9);
+        if (g_TownMenuMessage.stat_ != MENUBASE_STAT_ACTIVE) {
+            if (g_TownMenuMessage.stat_ == MENUBASE_STAT_OK) {
+                g_TownMenuMessage.restartMessage();
+                g_TownMenuMessage.addMessage(0xc3938, 0xc39e9);
             }
-            if (data_020ed1bc.stat_ == MENUBASE_STAT_CANCEL) {
-                data_020ed1bc.close();
+            if (g_TownMenuMessage.stat_ == MENUBASE_STAT_CANCEL) {
+                g_TownMenuMessage.close();
             }
         }
     } else {
         if (dss::g_Pad.edge() & PAD_BUTTON_A) {
-            data_020ed1bc.openMessageForMENU();
+            g_TownMenuMessage.openMessageForMENU();
             TextAPI::setMACRO0(0x22, 0xa0000000, menu::MenuDataCommon::getSuretigaiSex(2) & 0x0fffffff);
             TextAPI::setMACRO0(0x23, 0xa0000000, menu::MenuDataCommon::getSurechigaiAetas(3) & 0x0fffffff);
             TextAPI::setMACRO0(0x24, 0xe0000000, menu::MenuDataCommon::getSurechigaiSkill(4) & 0x0fffffff);
-            data_020ed1bc.addMessage(0x92ac1);
+            g_TownMenuMessage.addMessage(0x92ac1);
             TextAPI::setMACRO0(1, 0x50000000, 1);
             TextAPI::setMACRO0(0x17, 0xa0000000, 1);
             TextAPI::setMACRO0(0x52, 0xf0000000, 0x7b);
-            data_020ed1bc.addMessageNOWAIT(0xc3ab9);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessageNOWAIT(0xc3ab9);
+            g_TownMenuMessage.addMessageWAITKEY();
             TextAPI::setMACRO1(0x4f, 0xf0000000, 0xc);
             TextAPI::setMACRO2(0x4f, 0xf0000000, 0x22);
-            data_020ed1bc.addMessage(0x9686, 0xc3938, 0xc39e9, 0xc39e9);
+            g_TownMenuMessage.addMessage(0x9686, 0xc3938, 0xc39e9, 0xc39e9);
             TextAPI::setMACRO0(1, 0x50000000, 2);
-            data_020ed1bc.addMessage(0xc39e9);
-            data_020ed1bc.setYesNo();
-            data_020ed1bc.setYesNoPosition(10, 30);
-            data_020ed1bc.setYesNoSuperCancel(false);
+            g_TownMenuMessage.addMessage(0xc39e9);
+            g_TownMenuMessage.setYesNo();
+            g_TownMenuMessage.setYesNoPosition(10, 30);
+            g_TownMenuMessage.setYesNoSuperCancel(false);
         }
         if (dss::g_Pad.edge() & PAD_BUTTON_X) {
-            data_020ed1bc.openMessageForMENU();
+            g_TownMenuMessage.openMessageForMENU();
             TextAPI::setMACRO0(1, 0x60000000, 3);
-            data_020ed1bc.addMessage(0xc3938, 0xc39e9, 0xc39e9, 0xc39e9);
-            data_020ed1bc.setYesNo();
+            g_TownMenuMessage.addMessage(0xc3938, 0xc39e9, 0xc39e9, 0xc39e9);
+            g_TownMenuMessage.setYesNo();
         }
         if (dss::g_Pad.edge() & PAD_KEY_LEFT) {
             if (--page_ < 0) {
@@ -686,8 +686,8 @@ THUMB void CommonMenu_APITEST::drawWidthConvertTestPage()
     char text2[0x80];
     char text3[0x80];
     dss::strcpy_s(text1, sizeof(text1), text);
-    translateText(data_020c47d4, data_020c4894, text2, sizeof(text2), text);
-    translateText(data_020c47d4, data_020c4894, text3, sizeof(text3), text);
+    translateText(g_fullWidthCharTable, g_asciiCharTable, text2, sizeof(text2), text);
+    translateText(g_fullWidthCharTable, g_asciiCharTable, text3, sizeof(text3), text);
     title_ = "@\x94\xbc\x8ap\x91S\x8ap\x95\xcf\x8a\xb7\x83" "e\x83X\x83g";  // @半角全角変換テスト
     UnkMenuParts parts[] = {
         { 0x0d, 0x04, (short)0xf100, 0, 0x40, 0x30, 0x64, 0x10 },

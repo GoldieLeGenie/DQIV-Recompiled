@@ -7,7 +7,7 @@
 #include "Input.hpp"
 #endif
 
-GlobalDQ4 data_0210bb94;
+GlobalDQ4 g_GlobalDQ4;
 static UnkGameTaskHook s_hook;
 
 ARM GlobalDQ4::GlobalDQ4()
@@ -34,7 +34,7 @@ ARM void GlobalDQ4::unkfunc_02058014(int partId)
     while (nativeStep()) OS_Wait();
 #else
     part_id_ = partId;
-    markHeapBlocks(&data_0211a60c);
+    markHeapBlocks(&g_appHeap);
     while (1) {
         int id = part_id_;
         if (id > 24) {

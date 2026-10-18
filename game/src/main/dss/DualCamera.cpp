@@ -15,28 +15,28 @@ static const dss::Fix32 s_unk4(-4L);
 
 // default angles of the two cameras
 #pragma explicit_zero_data on
-static short data_020c39ce = 0x2000;
-static short data_020c39c8 = 0;
-static short data_020c39ca = 0;
-static short data_020c39cc = 0x2000;
-static short data_020c39c6 = 0;
-static short data_020c39c4 = 0;
+static short s_camera0DefaultAngleX = 0x2000;
+static short s_camera0DefaultAngleY = 0;
+static short s_camera0DefaultAngleZ = 0;
+static short s_camera1DefaultAngleX = 0x2000;
+static short s_camera1DefaultAngleY = 0;
+static short s_camera1DefaultAngleZ = 0;
 #pragma explicit_zero_data reset
 
 ARM dss::DualCameraBase::DualCameraBase()
 {
     unk_004.m_pos.setFix32(0, 0, 1);
     unk_004.m_up.setFix32(0, 1, 0);
-    unk_004.m_angle.vx = data_020c39ce;
-    unk_004.m_angle.vy = data_020c39c8;
-    unk_004.m_angle.vz = data_020c39ca;
+    unk_004.m_angle.vx = s_camera0DefaultAngleX;
+    unk_004.m_angle.vy = s_camera0DefaultAngleY;
+    unk_004.m_angle.vz = s_camera0DefaultAngleZ;
     unk_004.m_distance = 8L;
     unk_004.m_fov2 = 5;
     unk_068.m_pos.setFix32(0, 0, 1);
     unk_068.m_up.setFix32(0, 1, 0);
-    unk_068.m_angle.vx = data_020c39cc;
-    unk_068.m_angle.vy = data_020c39c6;
-    unk_068.m_angle.vz = data_020c39c4;
+    unk_068.m_angle.vx = s_camera1DefaultAngleX;
+    unk_068.m_angle.vy = s_camera1DefaultAngleY;
+    unk_068.m_angle.vz = s_camera1DefaultAngleZ;
     unk_068.m_distance = 8L;
     unk_068.m_fov2 = 5;
     m_cameraNo = 1;

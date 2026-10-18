@@ -50,7 +50,7 @@ THUMB void UnkScreenEffect::start()
     s_texCoord.v[2] = s_texCoordRightTop;
     s_texCoord.v[3] = s_texCoordLeftTop;
     if (tiles_ == NULL) {
-        tiles_ = (UnkScreenEffectTile*)dssAlloc(&data_0211a60c, sizeof(UnkScreenEffectTile) * columns_ * rows_, 0x20);
+        tiles_ = (UnkScreenEffectTile*)dssAlloc(&g_appHeap, sizeof(UnkScreenEffectTile) * columns_ * rows_, 0x20);
     }
     counter_ = 0;
 }
@@ -99,7 +99,7 @@ THUMB int UnkScreenEffect::setupTiles()
 
 THUMB void UnkScreenEffect::terminate()
 {
-    dssFree(&data_0211a60c, tiles_);
+    dssFree(&g_appHeap, tiles_);
     tiles_ = NULL;
     UnkEffectCamera::getSingleton()->terminate();
 }

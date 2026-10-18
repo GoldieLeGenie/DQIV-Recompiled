@@ -2,7 +2,7 @@
 #include "main/dss/VramManager.hpp"
 #include "nitro/os.hpp"
 
-UnkVramTransfer data_0211e450;
+UnkVramTransfer g_VramTransfer;
 
 ARM UnkVramTransfer::UnkVramTransfer()
 {
@@ -20,8 +20,8 @@ ARM void UnkVramTransfer::initTransferQueue()
     func_02072800(tasks_, 0x80);
 }
 
-unsigned char data_0211ec68[0x800];
-unsigned char data_0211f468[0x800];
+unsigned char g_plttVramManagerWork[0x800];
+unsigned char g_texVramManagerWork[0x800];
 
 ARM void UnkVramTransfer::initVramManagers(int texSize, int plttSize)
 {
@@ -29,14 +29,14 @@ ARM void UnkVramTransfer::initVramManagers(int texSize, int plttSize)
     unk_00 = 0;
     unk_04 = 0;
     unk_08 = texSize;
-    func_02072c5c(texSize, 0, data_0211f468, func_02072c54(0x80), 1);
+    func_02072c5c(texSize, 0, g_texVramManagerWork, func_02072c54(0x80), 1);
     if (texSize_ == 0x40000) {
         int handle1 = allocTexVram(0x20000);
         int handle2 = allocTexVram(0x20000);
         freeTexVram(handle1);
         freeTexVram(handle2);
     }
-    func_02072fa8(plttSize, data_0211ec68, func_02072fa0(0x80), 1);
+    func_02072fa8(plttSize, g_plttVramManagerWork, func_02072fa0(0x80), 1);
 }
 
 ARM void UnkVramTransfer::unkfunc_02086278()

@@ -50,7 +50,7 @@ THUMB void TownMenuItemSelectTargetChara::menuExecute()
 THUMB void TownMenuItemSelectTargetChara::menuDraw()
 {
     drawItemTargetCharaScreen(activeChara_, targetChara_, giveItemID_, sound_);
-    if (!data_020ed1bc.isOpen() && sound_ == 0) {
+    if (!g_TownMenuMessage.isOpen() && sound_ == 0) {
         menuItem_.drawActive();
     }
 }

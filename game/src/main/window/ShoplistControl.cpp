@@ -11,9 +11,9 @@
 ARM void window::ShoplistControl::setup()
 {
     state_ = TOWNMAP_WAIT_OPEN;
-    if (data_0210bb94.unkfunc_02058114(0xc)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
         BillboardCharacter::setAllCharaAnim(false);
-    } else if (data_0210bb94.unkfunc_02058114(0xe)) {
+    } else if (g_GlobalDQ4.unkfunc_02058114(0xe)) {
         SpriteCharacter::setAllCharaAnim(false);
     }
     openList();
@@ -51,18 +51,18 @@ ARM void window::ShoplistControl::execute()
             break;
         case TOWMMAP_CLOSE:
             if (goNext(PHASE_NORMAL)) {
-                if (data_0210bb94.unkfunc_02058114(0xc)) {
+                if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
                     BillboardCharacter::setAllCharaAnim(true);
-                } else if (data_0210bb94.unkfunc_02058114(0xe)) {
+                } else if (g_GlobalDQ4.unkfunc_02058114(0xe)) {
                     SpriteCharacter::setAllCharaAnim(true);
                 }
                 playerLock(false);
             }
             break;
         case TOWNMAP_MESSAGE:
-            if (data_020ed1bc.isOpen()) {
-                if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK || data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-                    data_020ed1bc.close();
+            if (g_TownMenuMessage.isOpen()) {
+                if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+                    g_TownMenuMessage.close();
                     closeListMessage();
                     state_ = TOWNMAP_VIEWING;
                 }

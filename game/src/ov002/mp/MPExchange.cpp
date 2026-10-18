@@ -56,7 +56,7 @@ ARM UnkEnvoyData* UnkMPExchange::getReceivedData()
 ARM void UnkMPExchange::start()
 {
     OSOwnerInfo info;
-    unk_38 = data_020f2020;
+    unk_38 = g_debugConsolePrintEnabled;
     role_.mode_ = data_020f201c;
     unk_3c = data_020f2024;
     setWhForceError(unk_3c);

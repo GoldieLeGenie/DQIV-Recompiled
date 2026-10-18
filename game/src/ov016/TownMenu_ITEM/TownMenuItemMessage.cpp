@@ -21,21 +21,21 @@ THUMB void TownMenuItemMessage::menuSetup()
 
 THUMB void TownMenuItemMessage::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        int stat = data_020ed1bc.stat_;
+    if (g_TownMenuMessage.isOpen()) {
+        int stat = g_TownMenuMessage.stat_;
         if (stat == MENUBASE_STAT_OK || stat == MENUBASE_STAT_CANCEL) {
             messageUpdate(stat);
         }
         return;
     }
     if (!MenuSoundManager::getSingleton()->isPlaySound()) {
-        data_020ed1bc.openMessageForMENU();
+        g_TownMenuMessage.openMessageForMENU();
         TextAPI::setMACRO0(7, 0x40000000, cursedItem_);
         TextAPI::setMACRO0(10, 0x40000000, cursedItem_);
         if (messageMode_ == MESS_EQIP_NORMAL) {
-            data_020ed1bc.addMessage(0xc3a53);
+            g_TownMenuMessage.addMessage(0xc3a53);
         } else {
-            data_020ed1bc.addMessage(0xc3d8d);
+            g_TownMenuMessage.addMessage(0xc3d8d);
         }
     }
 }
@@ -70,7 +70,7 @@ THUMB void TownMenuItemMessage::setMessageMenu(TOWN_MENU_ITEM_MESSAGE_TYPE type)
 
 THUMB void TownMenuItemMessage::messageUpdate(int stat)
 {
-    data_020ed1bc.close();
+    g_TownMenuMessage.close();
     switch (messageMode_) {
     case MESS_NONE:
         break;
@@ -120,7 +120,7 @@ THUMB void TownMenuItemMessage::setItemEqipNormal()
         return;
     }
     status::PlayerStatus* playerStatus = status::g_Party.getPlayerStatus(activeChara);
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerIndex(activeChara));
     TextAPI::setMACRO0(10, 0x40000000, itemId);
     if (playerStatus->haveStatusInfo_.isDeath() == 1) {
@@ -133,10 +133,10 @@ THUMB void TownMenuItemMessage::setItemEqipNormal()
             }
         }
         TextAPI::setMACRO0(12, 0x50000000, status::g_Party.getPlayerStatus(count)->haveStatusInfo_.haveStatus_.playerIndex_);
-        data_020ed1bc.addMessage(0xc3d45);
+        g_TownMenuMessage.addMessage(0xc3d45);
         return;
     }
-    data_020ed1bc.addMessage(0xc3d43);
+    g_TownMenuMessage.addMessage(0xc3d43);
 }
 
 THUMB void TownMenuItemMessage::setItemThrowAffi()
@@ -149,16 +149,16 @@ THUMB void TownMenuItemMessage::setItemThrowAffi()
         int activeChara = TownMenuPlayerControl::getSingleton()->activeChara_;
         itemId = status::PlayerItemInfo::getItemIndex(activeChara, TownMenuPlayerControl::getSingleton()->getActiveItemIndexToAll());
     }
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     TextAPI::setMACRO0(10, 0x40000000, itemId);
-    data_020ed1bc.addMessage(0xc3d4c);
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.addMessage(0xc3d4c);
+    g_TownMenuMessage.setYesNo();
 }
 
 THUMB void TownMenuItemMessage::setItemThrowNG()
 {
-    data_020ed1bc.openMessageForMENU();
-    data_020ed1bc.addMessage(0xc3d54);
+    g_TownMenuMessage.openMessageForMENU();
+    g_TownMenuMessage.addMessage(0xc3d54);
     messageMode_ = MESS_THROW_END;
 }
 
@@ -172,10 +172,10 @@ THUMB void TownMenuItemMessage::setItemThrowDifficult()
         int activeChara = TownMenuPlayerControl::getSingleton()->activeChara_;
         itemId = status::PlayerItemInfo::getItemIndex(activeChara, TownMenuPlayerControl::getSingleton()->getActiveItemIndexToAll());
     }
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     TextAPI::setMACRO0(10, 0x40000000, itemId);
-    data_020ed1bc.addMessage(0xc3d51);
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.addMessage(0xc3d51);
+    g_TownMenuMessage.setYesNo();
     messageMode_ = MESS_THROW_OK;
 }
 
@@ -203,9 +203,9 @@ THUMB void TownMenuItemMessage::setItemThrow()
         status::PlayerItemInfo::throwCharaItem(activeChara, activeItem);
         TownMenuPlayerControl::getSingleton()->setPlayerActiveItemByChangeMax();
     }
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     TextAPI::setMACRO0(10, 0x40000000, itemId);
-    data_020ed1bc.addMessage(0xc3d4f);
+    g_TownMenuMessage.addMessage(0xc3d4f);
     throwEndToReturnMenu();
 }
 
@@ -219,7 +219,7 @@ THUMB void TownMenuItemMessage::endMessageToItemSelect()
 THUMB void TownMenuItemMessage::endMessageToCommandSelect()
 {
     close();
-    data_020ed1bc.close();
+    g_TownMenuMessage.close();
     gTownMenuItemSelectCommand.resetLock_ = 1;
 }
 

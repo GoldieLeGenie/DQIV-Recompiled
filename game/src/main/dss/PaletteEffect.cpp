@@ -3,30 +3,30 @@
 #include "main/dss/VramManager.hpp"
 #include "nitro/os.hpp"
 
-NNSG3dResTex* data_0211d430;
+NNSG3dResTex* g_paletteEffectTex;
 int data_0211d434;
-dss::Fix32Vector3 data_0211d438(1, 1, 1);
-unsigned short data_0211d444[0x800];
+dss::Fix32Vector3 g_paletteRgbRate(1, 1, 1);
+unsigned short g_paletteEffectBuffer[0x800];
 
 ARM void setPaletteEffectTexture(NNSG3dResTex* tex)
 {
-    data_0211d430 = tex;
+    g_paletteEffectTex = tex;
 }
 
 ARM void setPaletteRgbRate(int index, dss::Fix32Vector3 rate)
 {
     data_0211d434 = index;
-    data_0211d438 = rate;
+    g_paletteRgbRate = rate;
 }
 
 ARM void applyModelPaletteRgbRate(NNSG3dResTex* tex, dss::Fix32Vector3 rate)
 {
     unsigned int size = tex->plttInfo.sizePltt << 3;
     unsigned int address = (tex->plttInfo.vramKey & 0xffff) << 3;
-    MI_CpuCopyU16((unsigned char*)tex + tex->plttInfo.ofsPlttData, data_0211d444, size);
-    applyPaletteRgbRate(data_0211d444, size, rate);
+    MI_CpuCopyU16((unsigned char*)tex + tex->plttInfo.ofsPlttData, g_paletteEffectBuffer, size);
+    applyPaletteRgbRate(g_paletteEffectBuffer, size, rate);
     DC_CleanAll();
-    data_0211e450.transferToVram(1, data_0211d444, address, size, 0);
+    g_VramTransfer.transferToVram(1, g_paletteEffectBuffer, address, size, 0);
 }
 
 ARM void applyPaletteRgbRate(unsigned short* palette, int size, dss::Fix32Vector3& rate)
@@ -74,7 +74,7 @@ ARM void applyModelPaletteSepia(NNSG3dResTex* tex)
     unsigned int address = (tex->plttInfo.vramKey & 0xffff) << 3;
     applyPaletteSepia(tex);
     DC_CleanAll();
-    data_0211e450.transferToVram(1, (unsigned char*)tex + offset, address, size, 0);
+    g_VramTransfer.transferToVram(1, (unsigned char*)tex + offset, address, size, 0);
 }
 
 ARM void applyPaletteSepia(NNSG3dResTex* tex)
@@ -126,22 +126,22 @@ ARM void applyTexturePaletteRgbRate(TextureObject* texture, dss::Fix32* rgb)
     int data = texture->unkfunc_02086aac();
     int address = texture->unkfunc_02086aa4();
     int size = texture->unkfunc_02086ab4();
-    MI_CpuCopyU16((void*)data, data_0211d444, size);
-    applyPaletteRgbRate(data_0211d444, size, *(dss::Fix32Vector3*)rgb);
+    MI_CpuCopyU16((void*)data, g_paletteEffectBuffer, size);
+    applyPaletteRgbRate(g_paletteEffectBuffer, size, *(dss::Fix32Vector3*)rgb);
     DC_CleanAll();
-    data_0211e450.transferToVram(1, data_0211d444, address, size, 0);
+    g_VramTransfer.transferToVram(1, g_paletteEffectBuffer, address, size, 0);
 }
 
 ARM void blendModelPaletteToColor(NNSG3dResTex* tex, int r, int g, int b, dss::Fix32 rate)
 {
     unsigned int size = tex->plttInfo.sizePltt << 3;
     unsigned int address = (tex->plttInfo.vramKey & 0xffff) << 3;
-    MI_CpuCopyU16((unsigned char*)tex + tex->plttInfo.ofsPlttData, data_0211d444, size);
+    MI_CpuCopyU16((unsigned char*)tex + tex->plttInfo.ofsPlttData, g_paletteEffectBuffer, size);
     dss::Fix32Vector3 color;
     color.vx = (long)r;
     color.vy = dss::Fix32((long)g);
     color.vz = dss::Fix32((long)b);
-    blendPaletteToColor(data_0211d444, size, color, rate);
+    blendPaletteToColor(g_paletteEffectBuffer, size, color, rate);
     DC_CleanAll();
-    data_0211e450.transferToVram(1, data_0211d444, address, size, 0);
+    g_VramTransfer.transferToVram(1, g_paletteEffectBuffer, address, size, 0);
 }

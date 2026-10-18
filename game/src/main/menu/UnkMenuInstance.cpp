@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-CommonMenu_APITEST data_020ed068;
-CommonMenu_YESNO data_020ed094;
-TownMenu_MESSAGE data_020ed1bc;
-TownMenu_TOWN data_020ed11c;
+CommonMenu_APITEST g_CommonMenuApiTest;
+CommonMenu_YESNO g_CommonMenuYesNo;
+TownMenu_MESSAGE g_TownMenuMessage;
+TownMenu_TOWN g_TownMenuTown;

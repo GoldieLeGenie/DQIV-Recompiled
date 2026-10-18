@@ -1,3 +1,3 @@
 #include "main/dss/BuildDate.hpp"
 
-UnkConvertDate data_0210baf8;
+UnkConvertDate g_BuildDate;

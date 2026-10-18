@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 static DebugMenuPad s_pad;
-DebugMenu data_0210bc40("Debug Menu");
+DebugMenu g_DebugMenu("Debug Menu");
 static char s_buildDate[0x20] = "Build Date Time";
 
 ARM int DebugMenuPad::isRightRepeat()
@@ -75,7 +75,7 @@ ARM void DebugMenu::print(int x, int y, const char* fmt, ...)
     va_list args;
     va_start(args, fmt);
     vsnprintf(buf, 0x21, fmt, args);
-    data_02116ce0.unkfunc_0207e864(x_ + x, y_ + y, buf);
+    g_DebugConsole.unkfunc_0207e864(x_ + x, y_ + y, buf);
 }
 
 ARM void DebugMenu::setBuildDate(const char* date)

@@ -65,8 +65,8 @@ ARM void BattleMenuPart::initialize()
     cursor_ = 0;
     mode_ = 0;
     isStart_ = 0;
-    if (data_020c4fb4.isLoaded() == 0) {
-        data_020c4fb4.load("data/btlmap/_list.txt");
+    if (g_battleMapList.isLoaded() == 0) {
+        g_battleMapList.load("data/btlmap/_list.txt");
     }
     MenuAPI::setBattleBackDrop(0);
     g_Global.fadeIn(30);
@@ -86,7 +86,7 @@ ARM void BattleMenuPart::onExecutePart()
     if (dss::g_Pad.edge() & 0x80) {
         cursor_++;
     }
-    data_02116ce0.unkfunc_0207e810();
+    g_DebugConsole.unkfunc_0207e810();
     if (cursor_ == 0) {
         if (dss::g_Pad.edge() & 0x10) {
             mode_ = 1;
@@ -110,7 +110,7 @@ ARM void BattleMenuPart::onExecutePart()
         return;
     }
     isStart_ = 1;
-    dss::sprintf_s(path, sizeof(path), "data/btlmap/%s.lz", data_020c4fb4.getMapName());
+    dss::sprintf_s(path, sizeof(path), "data/btlmap/%s.lz", g_battleMapList.getMapName());
     if (!dss::g_File.isExist(path)) {
         return;
     }
@@ -126,19 +126,19 @@ ARM void BattleMenuPart::onExecutePart()
             encount::Encount::getSingleton()->setMonsterCount(i, count_[i]);
         }
     }
-    g_Stage.setBtlMapName(data_020c4fb4.getMapName());
+    g_Stage.setBtlMapName(g_battleMapList.getMapName());
     g_Global.directStartBattle();
 }
 
 ARM void BattleMenuPart::onDrawPart()
 {
-    data_02116ce0.unkfunc_0207e88c(x_, y_ + cursor_, ">");
+    g_DebugConsole.unkfunc_0207e88c(x_, y_ + cursor_, ">");
     if (mode_ == 0) {
-        data_02116ce0.unkfunc_0207e88c(x_ + 1, y_, "1.Mode : Encount");
+        g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_, "1.Mode : Encount");
         drawEncountMode();
     }
     if (mode_ == 1) {
-        data_02116ce0.unkfunc_0207e88c(x_ + 1, y_, "1.Mode : Select");
+        g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_, "1.Mode : Select");
         drawSelectMode();
     }
 }
@@ -149,7 +149,7 @@ ARM void BattleMenuPart::onWindowPart()
 
 ARM void BattleMenuPart::onDebugPart()
 {
-    data_02116ce0.unkfunc_0207e88c(0, 0, "Battle Menu Part", REG_GFX_RAM_COUNT);
+    g_DebugConsole.unkfunc_0207e88c(0, 0, "Battle Menu Part", REG_GFX_RAM_COUNT);
 }
 
 ARM void BattleMenuPart::updateEncountMode()
@@ -176,18 +176,18 @@ ARM void BattleMenuPart::updateEncountMode()
         break;
     case 3:
         if (dss::g_Pad.repeat() & 0x10) {
-            data_020c4fb4.nextGroup();
+            g_battleMapList.nextGroup();
         }
         if (dss::g_Pad.repeat() & 0x20) {
-            data_020c4fb4.prevGroup();
+            g_battleMapList.prevGroup();
         }
         break;
     case 4:
         if (dss::g_Pad.repeat() & 0x10) {
-            data_020c4fb4.nextMap();
+            g_battleMapList.nextMap();
         }
         if (dss::g_Pad.repeat() & 0x20) {
-            data_020c4fb4.prevMap();
+            g_battleMapList.prevMap();
         }
         break;
     }
@@ -236,18 +236,18 @@ ARM void BattleMenuPart::updateSelectMode()
         break;
     case 4:
         if (dss::g_Pad.repeat() & 0x10) {
-            data_020c4fb4.nextGroup();
+            g_battleMapList.nextGroup();
         }
         if (dss::g_Pad.repeat() & 0x20) {
-            data_020c4fb4.prevGroup();
+            g_battleMapList.prevGroup();
         }
         break;
     case 5:
         if (dss::g_Pad.repeat() & 0x10) {
-            data_020c4fb4.nextMap();
+            g_battleMapList.nextMap();
         }
         if (dss::g_Pad.repeat() & 0x20) {
-            data_020c4fb4.prevMap();
+            g_battleMapList.prevMap();
         }
         break;
     }
@@ -255,22 +255,22 @@ ARM void BattleMenuPart::updateSelectMode()
 
 ARM void BattleMenuPart::drawEncountMode()
 {
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 1, "2.Encount Tile : %3d", tileId_);
+    g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_ + 1, "2.Encount Tile : %3d", tileId_);
     char timeZone[3][8] = { "None", "Day", "Night" };
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 2, "3.Time Zone    : %s", timeZone[timeZone_]);
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 3, "4.Group        : %s", data_020c4fb4.getGroupName());
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 4, "5.Map          : %s", data_020c4fb4.getMapName());
+    g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_ + 2, "3.Time Zone    : %s", timeZone[timeZone_]);
+    g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_ + 3, "4.Group        : %s", g_battleMapList.getGroupName());
+    g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_ + 4, "5.Map          : %s", g_battleMapList.getMapName());
 }
 
 ARM void BattleMenuPart::drawSelectMode()
 {
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 1, "2.GROUP   : %d", group_ + 1);
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 2, "3.MONSTER : m%03d", monster_[group_]);
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 3, "4.COUNT   : %d", count_[group_]);
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 4, "5.Group   : %s", data_020c4fb4.getGroupName());
-    data_02116ce0.unkfunc_0207e88c(x_ + 1, y_ + 5, "6.Map     : %s", data_020c4fb4.getMapName());
-    data_02116ce0.unkfunc_0207e88c(x_ + 0x18, y_ + 1, "m%03d(%d)", monster_[0], count_[0]);
-    data_02116ce0.unkfunc_0207e88c(x_ + 0x18, y_ + 2, "m%03d(%d)", monster_[1], count_[1]);
-    data_02116ce0.unkfunc_0207e88c(x_ + 0x18, y_ + 3, "m%03d(%d)", monster_[2], count_[2]);
-    data_02116ce0.unkfunc_0207e88c(x_ + 0x18, y_ + 4, "m%03d(%d)", monster_[3], count_[3]);
+    g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_ + 1, "2.GROUP   : %d", group_ + 1);
+    g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_ + 2, "3.MONSTER : m%03d", monster_[group_]);
+    g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_ + 3, "4.COUNT   : %d", count_[group_]);
+    g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_ + 4, "5.Group   : %s", g_battleMapList.getGroupName());
+    g_DebugConsole.unkfunc_0207e88c(x_ + 1, y_ + 5, "6.Map     : %s", g_battleMapList.getMapName());
+    g_DebugConsole.unkfunc_0207e88c(x_ + 0x18, y_ + 1, "m%03d(%d)", monster_[0], count_[0]);
+    g_DebugConsole.unkfunc_0207e88c(x_ + 0x18, y_ + 2, "m%03d(%d)", monster_[1], count_[1]);
+    g_DebugConsole.unkfunc_0207e88c(x_ + 0x18, y_ + 3, "m%03d(%d)", monster_[2], count_[2]);
+    g_DebugConsole.unkfunc_0207e88c(x_ + 0x18, y_ + 4, "m%03d(%d)", monster_[3], count_[3]);
 }

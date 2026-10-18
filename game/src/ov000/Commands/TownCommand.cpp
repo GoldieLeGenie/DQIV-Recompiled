@@ -472,22 +472,22 @@ THUMB int cmd_chara_talk_to_player_sure(int* param)
         ui_MsgSndSet(cmn::g_talkSound.getCharacterVoice(index));
     }
     if (param[1] == 1) {
-        data_020f0078.mode_ = 1;
+        g_EnvoyManager.mode_ = 1;
     } else {
         int id = getPlacementIndex(index);
         int value = TownCharacterManager::getSingleton()->character_[index]->getSurechigaiMapNo();
-        data_020f0078.selectEnvoy(UnkImmigrantTown::getSingleton()->getResidentIndexAt(id, value));
+        g_EnvoyManager.selectEnvoy(UnkImmigrantTown::getSingleton()->getResidentIndexAt(id, value));
     }
     if (param[0] == 1) {
         TownCharacterManager::getSingleton()->setPlayerDirection(index);
     }
 
-    unsigned char* name = data_020f0078.getName();
-    unsigned char* comment = data_020f0078.getComment();
-    int sex = data_020f0078.getSex();
-    int aetas = data_020f0078.getAge();
-    int skill = data_020f0078.getSkill();
-    unsigned char* townName = data_020f0078.getTownName();
+    unsigned char* name = g_EnvoyManager.getName();
+    unsigned char* comment = g_EnvoyManager.getComment();
+    int sex = g_EnvoyManager.getSex();
+    int aetas = g_EnvoyManager.getAge();
+    int skill = g_EnvoyManager.getSkill();
+    unsigned char* townName = g_EnvoyManager.getTownName();
     char text0[0x40];
     char text1[0x40];
     char text2[0x40];
@@ -1395,9 +1395,9 @@ THUMB void __cmd_map_flash::initialize(char* scriptParam)
     PARAM_MAP_FLASH* param = (PARAM_MAP_FLASH*)scriptParam;
     count_ = 0;
     countFrame_ = param->frame;
-    data_0210bd4c.unkfunc_0205c948(0, param->se);
+    g_SoundPlayer.unkfunc_0205c948(0, param->se);
     int flash_frame = countFrame_ / 2;
-    data_020f21f8.flashWhite(flash_frame, (unsigned char)param->r, (unsigned char)param->g, (unsigned char)param->b);
+    g_SpriteFade.flashWhite(flash_frame, (unsigned char)param->r, (unsigned char)param->g, (unsigned char)param->b);
 }
 
 THUMB void __cmd_map_flash::execute()
@@ -1405,9 +1405,9 @@ THUMB void __cmd_map_flash::execute()
     count_++;
     int flash_frame = countFrame_ / 2;
     if (count_ == flash_frame) {
-        data_020f21f8.state_ = (GlobalFade::FADE_STATE)6;
-        data_020f21f8.count_ = 0;
-        data_020f21f8.frames_ = flash_frame;
+        g_SpriteFade.state_ = (GlobalFade::FADE_STATE)6;
+        g_SpriteFade.count_ = 0;
+        g_SpriteFade.frames_ = flash_frame;
     }
 }
 
@@ -1531,7 +1531,7 @@ __cmd_map_blend_init g_cmd_map_blend_init;
 
 THUMB int cmd_debug_print(int* param)
 {
-    data_02116ce0.unkfunc_0207e88c(10, 10, "%d", param[0]);
+    g_DebugConsole.unkfunc_0207e88c(10, 10, "%d", param[0]);
     return 1;
 }
 
@@ -3371,9 +3371,9 @@ __cmd_surechigai_save g_cmd_surechigai_save;
 
 THUMB int cmd_set_my_taishi(int* param)
 {
-    data_020f0078.mode_ = 1;
+    g_EnvoyManager.mode_ = 1;
     int index = getPlacementCtrlId();
-    int type = data_020f0078.getType();
+    int type = g_EnvoyManager.getType();
     int value = UnkImmigrantTown::getSingleton()->getTypePose(type);
     TownCharacterManager::getSingleton()->character_[index]->changePose(value);
     return 1;
@@ -3513,14 +3513,14 @@ THUMB int cmd_set_default_map_name(int* param)
         name[i] = 0;
     }
     getDefaultTownName(name, 42, param[0]);
-    data_020f0078.mode_ = 1;
-    data_020f0078.setTownName(name);
+    g_EnvoyManager.mode_ = 1;
+    g_EnvoyManager.setTownName(name);
     return 0;
 }
 
 THUMB int cmd_check_taishi_max(int* param)
 {
-    if (data_020f0078.getEnvoyCount() == 0x18) {
+    if (g_EnvoyManager.getEnvoyCount() == 0x18) {
         return 1;
     }
     return 0;

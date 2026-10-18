@@ -34,10 +34,10 @@ THUMB int TextHook::extractDefaultTextTest(char* text, int size, int id, int par
     const char* str;
     switch (id) {
         case 0x1a:
-            data_020f0078.mode_ = 1;
+            g_EnvoyManager.mode_ = 1;
             str = "\xe3\x82\xbd\xe3\x83\xad\xe3\x82\xbf\xe3\x82\xa6\xe3\x83\xb3";
-            if (data_020f0078.isMyEnvoyEnabled() == 1) {
-                name = data_020f0078.getTownName();
+            if (g_EnvoyManager.isMyEnvoyEnabled() == 1) {
+                name = g_EnvoyManager.getTownName();
                 if (name[0] != 0 && name[0] != 0xff) {
                     str = (char*)name;
                 }
@@ -46,9 +46,9 @@ THUMB int TextHook::extractDefaultTextTest(char* text, int size, int id, int par
             return 1;
         case 0x1c:
             str = "\xe3\x82\xbd\xe3\x83\xad";
-            if (data_020f0078.isMyEnvoyEnabled() == 1) {
-                data_020f0078.mode_ = 1;
-                name = data_020f0078.getName();
+            if (g_EnvoyManager.isMyEnvoyEnabled() == 1) {
+                g_EnvoyManager.mode_ = 1;
+                name = g_EnvoyManager.getName();
                 if (name[0] != 0 && name[0] != 0xff) {
                     str = (char*)name;
                 }
@@ -291,7 +291,7 @@ THUMB int TextHook::getMacroStat(int id, int param)
             break;
         }
         case 0x1c: {
-            int sex = data_020f0078.getSex();
+            int sex = g_EnvoyManager.getSex();
             if (sex == SEX_MALE) {
                 result = (MACRO_STAT)(result | MST_MALE);
             }

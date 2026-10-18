@@ -75,7 +75,7 @@ THUMB void MaterielMenu_EXTRA_NENE::menuExecute()
 
 THUMB void MaterielMenu_EXTRA_NENE::menuDraw()
 {
-    if (data_020ed1bc.isOpen() == false && mode_ != 0) {
+    if (g_TownMenuMessage.isOpen() == false && mode_ != 0) {
         switch (drawMode_) {
         case 0:
             drawShopWhoSellScreen();
@@ -95,19 +95,19 @@ THUMB void MaterielMenu_EXTRA_NENE::menuDraw()
 
 THUMB void MaterielMenu_EXTRA_NENE::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             selectYes();
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             selectNo();
         }
         return;
     }
     if (mode_ == 0) {
         showMessage(0x9473, -1, -1);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         return;
     }
     int count = 0;
@@ -163,7 +163,7 @@ THUMB void MaterielMenu_EXTRA_NENE::menuUpdate()
         switch (drawMode_) {
         case 0:
             showMessage(0x948b, -1, -1);
-            data_020ed1bc.setYesNo();
+            g_TownMenuMessage.setYesNo();
             mode_ = 3;
             break;
         case 1:
@@ -194,7 +194,7 @@ THUMB void MaterielMenu_EXTRA_NENE::selectYes()
         if (proceeds_ == 0) {
             if (checkHaveItem(true) == false && checkHaveItem(false) == false) {
                 showMessage(0x9488, 0x948b, -1);
-                data_020ed1bc.setYesNo();
+                g_TownMenuMessage.setYesNo();
                 mode_ = 3;
                 return;
             }
@@ -210,7 +210,7 @@ THUMB void MaterielMenu_EXTRA_NENE::selectYes()
     case 1:
         if (checkHaveItem(true) == false && checkHaveItem(false) == false) {
             showMessage(0x9488, 0x948b, -1);
-            data_020ed1bc.setYesNo();
+            g_TownMenuMessage.setYesNo();
             mode_ = 3;
             return;
         }
@@ -250,7 +250,7 @@ THUMB void MaterielMenu_EXTRA_NENE::selectYes()
         neneItemCount_ = status::g_Shop.haveItemNene_.getCount();
         TextAPI::setMACRO0(0xa, 0x40000000, item);
         showMessage(0x947b, 0x947c, -1);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         mode_ = 1;
         break;
     }
@@ -283,13 +283,13 @@ THUMB void MaterielMenu_EXTRA_NENE::selectNo()
         break;
     case 1:
         showMessage(0x948b, -1, -1);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         mode_ = 3;
         break;
     case 2:
         TextAPI::setMACRO0(0xa, 0x40000000, sellItem_);
         showMessage(0x947e, 0x947c, -1);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         mode_ = 1;
         break;
     case 3:
@@ -314,7 +314,7 @@ THUMB void MaterielMenu_EXTRA_NENE::checkSellItem()
     for (int i = 0; i < 162; i++) {
         if (itemID == status::g_Shop.haveItemNene_.getItem(i) && status::g_Shop.haveItemNene_.getItemCount(i) == 99) {
             showMessage(0x9484, 0x9485, 0x948b);
-            data_020ed1bc.setYesNo();
+            g_TownMenuMessage.setYesNo();
             mode_ = 3;
             return;
         }
@@ -335,7 +335,7 @@ THUMB void MaterielMenu_EXTRA_NENE::checkSellItem()
         showMessage(0x947a, -1, -1);
         mode_ = 2;
     }
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.setYesNo();
 }
 
 THUMB void MaterielMenu_EXTRA_NENE::calcProceeds()
@@ -381,12 +381,12 @@ THUMB bool MaterielMenu_EXTRA_NENE::checkHaveItem(bool sack)
 
 THUMB void MaterielMenu_EXTRA_NENE::showMessage(int messageID1, int messageID2, int messageID3)
 {
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(messageID1);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(messageID1);
     if (messageID2 != -1) {
-        data_020ed1bc.addMessage(messageID2);
+        g_TownMenuMessage.addMessage(messageID2);
     }
     if (messageID3 != -1) {
-        data_020ed1bc.addMessage(messageID3);
+        g_TownMenuMessage.addMessage(messageID3);
     }
 }

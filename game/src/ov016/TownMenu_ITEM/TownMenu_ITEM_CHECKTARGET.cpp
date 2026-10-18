@@ -39,9 +39,9 @@ THUMB void TownMenu_ITEM_CHECKTARGET::menuUpdate()
 {
     if (isPlaySound_) {
         if (!MenuSoundManager::getSingleton()->isPlaySound()) {
-            data_020ed1bc.openMessageForMENU();
+            g_TownMenuMessage.openMessageForMENU();
             TextAPI::setMACRO0(7, 0x40000000, changeItemID_);
-            data_020ed1bc.addMessage(0xc3d8d);
+            g_TownMenuMessage.addMessage(0xc3d8d);
             isPlaySound_ = 0;
         }
         return;
@@ -53,10 +53,10 @@ THUMB void TownMenu_ITEM_CHECKTARGET::menuUpdate()
     int fukuroIname = -1;
     int leadpc = 0;
     unsigned int flag;
-    if (data_020ed1bc.isOpen()) {
-        int stat = data_020ed1bc.stat_;
+    if (g_TownMenuMessage.isOpen()) {
+        int stat = g_TownMenuMessage.stat_;
         if (stat == MENUBASE_STAT_OK || stat == MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             close();
             returnToItemList();
         }
@@ -154,7 +154,7 @@ THUMB void TownMenu_ITEM_CHECKTARGET::menuUpdate()
 
 THUMB void TownMenu_ITEM_CHECKTARGET::openMessage(int actor, int target, int iname, int iname1, int iname2, int leadpc, int mes)
 {
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     if (actor != -1) {
         TextAPI::setMACRO0(1, 0x50000000, actor);
     }
@@ -173,7 +173,7 @@ THUMB void TownMenu_ITEM_CHECKTARGET::openMessage(int actor, int target, int ina
     if (leadpc != -1) {
         TextAPI::setMACRO0(11, 0x50000000, leadpc);
     }
-    data_020ed1bc.addMessage(mes);
+    g_TownMenuMessage.addMessage(mes);
 }
 
 THUMB unsigned int TownMenu_ITEM_CHECKTARGET::checkGiveFlag()

@@ -51,7 +51,7 @@ struct UnkDisplay {
     UnkDisplay* init();             // init
 };
 
-extern UnkDisplay data_0211a7d0;
+extern UnkDisplay g_Display;
 
 void getCaptureOffset(int* x, int* y);          // capture position
 void setCaptureOffset(int x, int y);

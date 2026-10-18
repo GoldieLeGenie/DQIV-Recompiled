@@ -27,4 +27,4 @@ struct UnkMenuDisplays {
     UnkHoppingNumber hopping_;                  // 0x565C
 };
 
-extern UnkMenuDisplays data_020f530c;
+extern UnkMenuDisplays g_MenuDisplays;

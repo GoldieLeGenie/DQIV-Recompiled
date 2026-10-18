@@ -84,7 +84,7 @@ THUMB void btl::BattleExecEncount::setup()
 
 THUMB bool btl::BattleExecEncount::isEnd()
 {
-    if (data_0210bb94.unkfunc_0205810c() == 13) {
+    if (g_GlobalDQ4.unkfunc_0205810c() == 13) {
         if (BattleAutoFeed::isEndEncountMessage()) {
             return true;
         }
@@ -108,7 +108,7 @@ THUMB void btl::BattleExecStatus::setup()
 
 THUMB bool btl::BattleExecStatus::isEnd()
 {
-    if (data_0210bb94.unkfunc_0205810c() == 13) {
+    if (g_GlobalDQ4.unkfunc_0205810c() == 13) {
         if (BattleAutoFeed::isEndEncountMessage() && !isNext()) {
             return true;
         }
@@ -333,7 +333,7 @@ THUMB void btl::BattleExecFirstAttack::setup()
 
 THUMB bool btl::BattleExecFirstAttack::isEnd()
 {
-    if (data_0210bb94.unkfunc_0205810c() == 13) {
+    if (g_GlobalDQ4.unkfunc_0205810c() == 13) {
         if (BattleAutoFeed::isEndEncountMessage()) {
             return true;
         }
@@ -372,7 +372,7 @@ THUMB void btl::BattleExecVictory01::setup()
     BattleAutoFeed::setMessageSend();
     if (status::g_Party.getLevelupPlayer() == -1 && status::g_Party.getBattleGold() == 0) {
         BattleAutoFeed::setDisableCursor(1);
-        data_020ed1bc.setMessageLastCursor(false);
+        g_TownMenuMessage.setMessageLastCursor(false);
     }
 }
 
@@ -603,12 +603,12 @@ THUMB void btl::BattleExecVictory37::cleanup() {}
 THUMB void btl::BattleExecVictory38::setup()
 {
     SoundManager::play(0x17, 0xf);
-    data_020f21f8.state_ = GlobalFade::FADE_NONE;
-    data_020f21f8.count_ = 0;
-    data_020f21f8.frames_ = 30;
-    data_020f21f8.sprite_[0].setColor(0, 0, 0);
-    data_020f21f8.sprite_[1].setColor(0, 0, 0);
-    data_0210bc18.unkfunc_02058294(&data_020f21f8);
+    g_SpriteFade.state_ = GlobalFade::FADE_NONE;
+    g_SpriteFade.count_ = 0;
+    g_SpriteFade.frames_ = 30;
+    g_SpriteFade.sprite_[0].setColor(0, 0, 0);
+    g_SpriteFade.sprite_[1].setColor(0, 0, 0);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_SpriteFade);
     MenuAPI::closeMenu();
     counter_ = 0;
 }
@@ -643,20 +643,20 @@ THUMB bool btl::BattleExecVictory40::isEnd()
         return true;
     }
     if (counter_ == 25) {
-        switch (data_020f21f8.state_) {
+        switch (g_SpriteFade.state_) {
         case GlobalFade::FADE_NONE:
-            data_020f21f8.state_ = GlobalFade::FADE_OUT_BLACK;
+            g_SpriteFade.state_ = GlobalFade::FADE_OUT_BLACK;
             break;
         case GlobalFade::FADE_IN_BLACK:
-            data_020f21f8.state_ = GlobalFade::FADE_OUT_WHITE;
+            g_SpriteFade.state_ = GlobalFade::FADE_OUT_WHITE;
             break;
         default:
-            data_020f21f8.state_ = GlobalFade::FADE_OUT_BLACK;
+            g_SpriteFade.state_ = GlobalFade::FADE_OUT_BLACK;
             break;
         }
-        data_020f21f8.count_ = 0;
-        data_020f21f8.frames_ = 5;
-        data_0210bc18.unkfunc_02058294(&data_020f21f8);
+        g_SpriteFade.count_ = 0;
+        g_SpriteFade.frames_ = 5;
+        g_GlobalGamePartManager.unkfunc_02058294(&g_SpriteFade);
     }
     counter_++;
     return false;
@@ -714,9 +714,9 @@ THUMB void btl::BattleExecEvent00::setup()
     g_monster.getMonsterStatus(nowRealVelorinmanIdx)->eventFlag_.flag_ |= 1;
     TextAPI::setMACRO0(1, 0x60000000, 0xaa);
     SoundManager::playSe(0x40b, 0);
-    data_020ed1bc.openMessageForBATTLE();
-    data_020ed1bc.addMessage(0xc3a64);
-    data_020ed1bc.setMessageLastCursor(false);
+    g_TownMenuMessage.openMessageForBATTLE();
+    g_TownMenuMessage.addMessage(0xc3a64);
+    g_TownMenuMessage.setMessageLastCursor(false);
 }
 
 THUMB void btl::BattleExecEvent00::cleanup()

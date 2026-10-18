@@ -7,7 +7,7 @@
 #include "main/object/ModelObject.hpp"
 #include "main/object/DSSAObject.hpp"
 
-unsigned long long data_0211d3e0[10];
+unsigned long long s_renderStepTimes[10];
 
 ARM Render::Render()
 {
@@ -51,25 +51,25 @@ ARM void Render::unkfunc_02084fa4()
     func_0206ae08((dss::Fix32Vector3*)&trans);
     func_0206adcc();
     dss::g_Pad.edge();
-    data_0211d3e0[0] = func_02079bf0() - start;
+    s_renderStepTimes[0] = func_02079bf0() - start;
     setupOrtho2DBackground();
     drawBackgroundGradient();
-    data_0211d3e0[1] = func_02079bf0() - start;
+    s_renderStepTimes[1] = func_02079bf0() - start;
     unkfunc_020852f0();
-    data_0211d3e0[2] = func_02079bf0() - start;
+    s_renderStepTimes[2] = func_02079bf0() - start;
     unkfunc_0208516c();
-    data_0211d3e0[3] = func_02079bf0() - start;
+    s_renderStepTimes[3] = func_02079bf0() - start;
     unkfunc_02085184();
-    data_0211d3e0[4] = func_02079bf0() - start;
+    s_renderStepTimes[4] = func_02079bf0() - start;
     func_0206adcc();
     func_0206dcf0();
     unkfunc_0208521c();
     unkfunc_02085254();
-    data_0211d3e0[5] = func_02079bf0() - start;
+    s_renderStepTimes[5] = func_02079bf0() - start;
     drawSubScreenShade();
-    data_0211d3e0[6] = func_02079bf0() - start;
+    s_renderStepTimes[6] = func_02079bf0() - start;
     unkfunc_02085298();
-    data_0211d3e0[7] = func_02079bf0() - start;
+    s_renderStepTimes[7] = func_02079bf0() - start;
     func_0206dcf0();
 }
 

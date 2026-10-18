@@ -51,7 +51,7 @@ ARM void UnkVramRequestQueue::init()
     lines_ = 0;
 }
 
-UnkVramRequestQueue data_0211c508;
+UnkVramRequestQueue g_VramRequestQueue;
 
 ARM void flushVramRequests()
 {
@@ -61,15 +61,15 @@ ARM void flushVramRequests()
     int i;
     size = 0;
     start = *VIDEO_REG(volatile unsigned short, 0x04000006);
-    request = data_0211c508.request_;
+    request = g_VramRequestQueue.request_;
     for (i = 0; i < 128; i++, request++) {
         if (request->active_ == 1) {
-            size += data_0211c508.executeRequest(request);
+            size += g_VramRequestQueue.executeRequest(request);
         }
     }
     int end = *VIDEO_REG(volatile unsigned short, 0x04000006);
-    data_0211c508.size_ = size;
-    data_0211c508.lines_ = end - start;
+    g_VramRequestQueue.size_ = size;
+    g_VramRequestQueue.lines_ = end - start;
 }
 
 ARM UnkVramRequest* requestCompressedVramCopy(int type, int offset, void* data, int size)
@@ -80,16 +80,16 @@ ARM UnkVramRequest* requestCompressedVramCopy(int type, int offset, void* data, 
         request->buffer_ = buffer;
         return request;
     }
-    dssFree(&data_0211a60c, buffer);
+    dssFree(&g_appHeap, buffer);
     return NULL;
 }
 
 ARM UnkVramRequest* requestVramCopy(int type, int offset, const void* src, int size)
 {
     for (int i = 0; i < 128; i++) {
-        UnkVramRequest* request = &data_0211c508.request_[i];
+        UnkVramRequest* request = &g_VramRequestQueue.request_[i];
         if (request->active_ == 0) {
-            void* base = data_0211c508.getDestination(type);
+            void* base = g_VramRequestQueue.getDestination(type);
             request->active_ = 1;
             request->type_ = type;
             request->offset_ = offset;
@@ -166,7 +166,7 @@ ARM int UnkVramRequestQueue::executeRequest(UnkVramRequest* request)
     MI_CpuCopyU32(request->src_, (unsigned char*)getDestination(request->type_) + request->offset_, request->size_);
 #endif
     if (request->buffer_ != NULL) {
-        dssFree(&data_0211a60c, request->buffer_);
+        dssFree(&g_appHeap, request->buffer_);
     }
     request->active_ = 0;
     return request->size_;

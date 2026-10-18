@@ -106,7 +106,7 @@ THUMB void MaterielMenuPokerChangecard::menuUpdate()
 
 THUMB bool MaterielMenuPokerChangecard::messageUpdata()
 {
-    if (data_020ed1bc.isOpen()) {
+    if (g_TownMenuMessage.isOpen()) {
         if (gameMode_ == 6) {
             SoundManager::playSe(0x15e, 0);
             if ((dss::g_Pad.edge() & 1) || (dss::g_Pad.edge() & 0x400)) {
@@ -130,13 +130,13 @@ THUMB bool MaterielMenuPokerChangecard::messageUpdata()
             }
             return true;
         }
-        int stat = data_020ed1bc.stat_;
+        int stat = g_TownMenuMessage.stat_;
         if (stat == MENUBASE_STAT_OK) {
             if (gameMode_ == 5) {
                 gameMode_ = 6;
                 return true;
             }
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             if (gameMode_ == 3) {
                 animation_ = 5;
             } else if (gameMode_ == 4) {
@@ -144,15 +144,15 @@ THUMB bool MaterielMenuPokerChangecard::messageUpdata()
                 redraw_ = 1;
             } else if (gameMode_ == 7) {
                 showMessage(0xc92f9, -1);
-                data_020ed1bc.setYesNo();
-                data_020ed1bc.setYesNoPosition(0xc0, 0x40);
+                g_TownMenuMessage.setYesNo();
+                g_TownMenuMessage.setYesNoPosition(0xc0, 0x40);
                 betCoin_ = 0;
                 getCoin_ = 0;
                 gameMode_ = 4;
                 redraw_ = 1;
             }
         } else if (stat == MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             if (gameMode_ == 3) {
                 TextAPI::setMACRO0(0x48, 0xf0000000, getCoin_);
                 showMessage(0xc92f1, -1);
@@ -176,8 +176,8 @@ THUMB bool MaterielMenuPokerChangecard::messageUpdata()
             combination_ = -1;
             blink_ = 0;
             showMessage(0xc92f5, 0xc92f5 + 4);
-            data_020ed1bc.setYesNo();
-            data_020ed1bc.setYesNoPosition(0xc0, 0x40);
+            g_TownMenuMessage.setYesNo();
+            g_TownMenuMessage.setYesNoPosition(0xc0, 0x40);
             gameMode_ = 4;
             status::g_Party.setCasinoCoin(haveCoin_);
             PokerManager::getSingleton()->setBetCoin(betCoin_, status::g_Party.casinoCoin_);
@@ -191,8 +191,8 @@ THUMB bool MaterielMenuPokerChangecard::messageUpdata()
             TextAPI::setMACRO0(0x45, 0xf0000000, getCoin_ * 2);
             TextAPI::setMACRO0(0x2e, 0xf0000000, 1);
             showMessage(0xc92d7, 0xc92d7 + 2);
-            data_020ed1bc.setYesNo();
-            data_020ed1bc.setYesNoPosition(0xc0, 0x40);
+            g_TownMenuMessage.setYesNo();
+            g_TownMenuMessage.setYesNoPosition(0xc0, 0x40);
             gameMode_ = 3;
         }
         animation_ = 0;
@@ -258,10 +258,10 @@ THUMB void MaterielMenuPokerChangecard::changeCard()
 
 THUMB void MaterielMenuPokerChangecard::showMessage(int mes1, int mes2)
 {
-    data_020ed1bc.openMessageForMENU();
-    data_020ed1bc.addMessage(mes1);
+    g_TownMenuMessage.openMessageForMENU();
+    g_TownMenuMessage.addMessage(mes1);
     if (mes2 != -1) {
-        data_020ed1bc.addMessage(mes2);
+        g_TownMenuMessage.addMessage(mes2);
     }
 }
 

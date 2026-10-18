@@ -21,4 +21,4 @@ struct UnkBattleMapList : CsvData {
     void prevMap();                        // previous map
 };
 
-extern UnkBattleMapList data_020c4fb4;
+extern UnkBattleMapList g_battleMapList;

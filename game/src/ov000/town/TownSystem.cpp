@@ -256,7 +256,7 @@ ARM void TownSystem::bookingMenu()
             BillboardCharacter::setAllCharaAnim(0);
             fadeCount_++;
         }
-        if (data_020f21f8.count_ != data_020f21f8.frames_) {
+        if (g_SpriteFade.count_ != g_SpriteFade.frames_) {
             return;
         }
         TownWindowSystem::getSingleton()->changeShopMenuPhase(1);

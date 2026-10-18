@@ -5,33 +5,33 @@
 #include <string>
 #endif
 
-int data_020c499c = 1;
-int data_02120fb4;
-UnkArrayWarning data_02120fb8[16];
+int g_arrayErrorEnabled = 1;
+int g_arrayWarningCount;
+UnkArrayWarning g_arrayWarnings[16];
 
 ARM void setArrayErrorEnabled(int enable)
 {
-    data_020c499c = enable;
+    g_arrayErrorEnabled = enable;
 }
 
 ARM void addArrayError(int index, int size, unsigned int caller)
 {
-    if (data_02120fb4 < 16) {
-        data_02120fb8[data_02120fb4].index_ = index;
-        data_02120fb8[data_02120fb4].size_ = size;
-        data_02120fb8[data_02120fb4].caller_ = caller;
+    if (g_arrayWarningCount < 16) {
+        g_arrayWarnings[g_arrayWarningCount].index_ = index;
+        g_arrayWarnings[g_arrayWarningCount].size_ = size;
+        g_arrayWarnings[g_arrayWarningCount].caller_ = caller;
     }
-    data_02120fb4++;
+    g_arrayWarningCount++;
 }
 
 ARM UnkArrayWarning* getArrayError(int index)
 {
-    return &data_02120fb8[index];
+    return &g_arrayWarnings[index];
 }
 
 ARM int getArrayErrorCount()
 {
-    return data_02120fb4;
+    return g_arrayWarningCount;
 }
 
 ARM void reportArrayError(int index, int size)
@@ -41,11 +41,11 @@ ARM void reportArrayError(int index, int size)
 #else
     register unsigned int caller = 0;
     asm { mov caller, lr }
-    if (data_020c499c != 0) {
+    if (g_arrayErrorEnabled != 0) {
         addArrayError(index, size, caller);
         char buf[0x40];
         dss::sprintf_s(buf, sizeof(buf), "ARRAY ERROR %d/%d %08x !!!!", index, size, caller);
-        if (data_020c499c == 1) {
+        if (g_arrayErrorEnabled == 1) {
             (void)buf;                          // printed in the debug build
         }
     }

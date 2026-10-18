@@ -3,7 +3,7 @@
 #include "main/menu/MenuDisplay.hpp"
 #include "main/dss/BgBuffer.hpp"
 
-// Yes/no window drawn on the sub screen, texts drawn in two 6x2 character buffers (data_020f530c.yesNo_)
+// Yes/no window drawn on the sub screen, texts drawn in two 6x2 character buffers (g_MenuDisplays.yesNo_)
 struct UnkMenuYesNoDisplay : UnkMenuDisplay {
     UnkCharBuffer yesChar_;                     // 0x030
     UnkCharBuffer noChar_;                      // 0x040

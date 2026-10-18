@@ -1,7 +1,7 @@
 #include "main/debug/DebugConsole.hpp"
 #include "main/menu/MenuManager.hpp"
 
-int data_020f2020;
+int g_debugConsolePrintEnabled;
 int data_020f201c;
 int data_020f2024;
 
@@ -21,16 +21,16 @@ ARM void unkfunc_0203d684()
 
 ARM void clearDebugConsole(const char* title)
 {
-    data_02116ce0.unkfunc_0207e824(0, 0, 0x20, 0x30);
-    if (data_020f2020 != 0) {
+    g_DebugConsole.unkfunc_0207e824(0, 0, 0x20, 0x30);
+    if (g_debugConsolePrintEnabled != 0) {
         debugConsolePrint(0, 0, title);
     }
 }
 
 ARM void debugConsolePrint(int x, int y, const char* str)
 {
-    if (data_020f2020 != 0) {
-        data_02116ce0.unkfunc_0207e88c(x, y, str);
+    if (g_debugConsolePrintEnabled != 0) {
+        g_DebugConsole.unkfunc_0207e88c(x, y, str);
     }
 }
 
@@ -39,7 +39,7 @@ ARM void debugConsolePrintfIfEnabled(int x, int y, const char* fmt, ...)
     char out[0x21];
     char buf[0x200];
     va_list args;
-    if (data_020f2020 == 0) {
+    if (g_debugConsolePrintEnabled == 0) {
         return;
     }
     va_start(args, fmt);

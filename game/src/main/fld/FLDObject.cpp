@@ -2290,7 +2290,7 @@ ARM void FLDObject::transferPltt()
     unsigned int ofs = tex->plttInfo.ofsPlttData;
     unsigned int size = tex->plttInfo.sizePltt * 8;
     DC_CleanRange((unsigned char*)tex + ofs, size);
-    data_0211e450.transferToVram(1, (unsigned char*)tex + ofs, (tex->plttInfo.vramKey & 0xffff) << 3, size, 0);
+    g_VramTransfer.transferToVram(1, (unsigned char*)tex + ofs, (tex->plttInfo.vramKey & 0xffff) << 3, size, 0);
     m_flag &= ~0x80;
 }
 

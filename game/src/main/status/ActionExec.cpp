@@ -106,7 +106,7 @@ THUMB bool status::execImpas()
 {
     int mapObj;
     int r;
-    if (data_0210bb94.unkfunc_02058114(12) == 1) {
+    if (g_GlobalDQ4.unkfunc_02058114(12) == 1) {
         mapObj = TownPlayerManager::getSingleton()->getInpasMapObj();
         r = TownFurnitureManager::getSingleton()->checkCoffer(mapObj);
         if (mapObj == 0 || r == 0) {
@@ -130,7 +130,7 @@ THUMB int status::execLanaruta()
     if (g_Stage.timestop_) {
         return 0;
     }
-    if (data_0210bb94.unkfunc_02058114(0xc) == 1 && g_Stage.lastFldSurface_ == -1) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xc) == 1 && g_Stage.lastFldSurface_ == -1) {
         return 0;
     }
     return 1;

@@ -8374,8 +8374,8 @@ ARM void fld::FieldData::setupBlock(int map)
         unk_0010.setup(path, 0, 0);
         break;
     }
-    unk_1ccc = data_0211e450.allocTexVram(getArchiveFileSize(unk_0000.getAddr(), 0));
-    unk_1cd0 = data_0211e450.allocTexVram(getArchiveFileSize(unk_0010.getAddr(), 0));
+    unk_1ccc = g_VramTransfer.allocTexVram(getArchiveFileSize(unk_0000.getAddr(), 0));
+    unk_1cd0 = g_VramTransfer.allocTexVram(getArchiveFileSize(unk_0010.getAddr(), 0));
 }
 
 ARM void fld::FieldData::setupSymbol()
@@ -8408,8 +8408,8 @@ ARM void fld::FieldData::setupSymbol()
 
 ARM void fld::FieldData::cleanup()
 {
-    data_0211e450.freeTexVram(unk_1ccc);
-    data_0211e450.freeTexVram(unk_1cd0);
+    g_VramTransfer.freeTexVram(unk_1ccc);
+    g_VramTransfer.freeTexVram(unk_1cd0);
     unk_0000.cleanup();
     unk_0010.cleanup();
     for (int i = 0; i < SYMBOL_TEXTURE_NUM; i++) {
@@ -8530,9 +8530,9 @@ ARM void fld::FieldData::drawBlock()
                 no = data->no;
             } else {
                 if (data->aflag == 8) {
-                    address = data_0211e450.getTexVramAddr(unk_1ccc);
+                    address = g_VramTransfer.getTexVramAddr(unk_1ccc);
                 } else if (data->aflag == 24) {
-                    address = data_0211e450.getTexVramAddr(unk_1cd0);
+                    address = g_VramTransfer.getTexVramAddr(unk_1cd0);
                 }
                 no = data->ano;
             }
@@ -8601,11 +8601,11 @@ ARM void fld::FieldData::nextAnimation()
 {
     void* data = getArchiveFile(unk_0000.getAddr(), unk_20d4);
     if (data != NULL) {
-        data_0211e450.transferToVram(0, data, data_0211e450.getTexVramAddr(unk_1ccc), data_0211e450.getTexVramSize(unk_1ccc), 0);
+        g_VramTransfer.transferToVram(0, data, g_VramTransfer.getTexVramAddr(unk_1ccc), g_VramTransfer.getTexVramSize(unk_1ccc), 0);
     }
     data = getArchiveFile(unk_0010.getAddr(), unk_20d8);
     if (data != NULL) {
-        data_0211e450.transferToVram(0, data, data_0211e450.getTexVramAddr(unk_1cd0), data_0211e450.getTexVramSize(unk_1cd0), 0);
+        g_VramTransfer.transferToVram(0, data, g_VramTransfer.getTexVramAddr(unk_1cd0), g_VramTransfer.getTexVramSize(unk_1cd0), 0);
     }
     unk_20d4++;
     if (unk_20d4 >= ANIM_PATTERN8) {
@@ -8785,12 +8785,12 @@ ARM void fld::FieldData::setPaletteRate(dss::Fix32Vector3& rate)
     dss::memcpy(unk_1cd4, unk_1ed4, unk_1c34->unkfunc_02086ab4());
     setPaletteRgbRate(2, rate);
     applyPaletteRgbRate(unk_1cd4, unk_1c34->unkfunc_02086ab4(), rate);
-    data_0211e450.transferToVram(1, unk_1cd4, unk_1c34->unkfunc_02086aa4(), unk_1c34->unkfunc_02086ab4(), 0);
+    g_VramTransfer.transferToVram(1, unk_1cd4, unk_1c34->unkfunc_02086aa4(), unk_1c34->unkfunc_02086ab4(), 0);
     for (int i = 0; i < SYMBOL_TEXTURE_NUM; i++) {
         MI_CpuCopyU8((void*)unk_0030[i]->unkfunc_02086aac(), unk_1974[i], unk_0030[i]->unkfunc_02086ab4());
         setPaletteRgbRate(2, rate);
         applyPaletteRgbRate(unk_1974[i], unk_0030[i]->unkfunc_02086ab4(), rate);
-        data_0211e450.transferToVram(1, unk_1974[i], unk_0030[i]->unkfunc_02086aa4(), unk_0030[i]->unkfunc_02086ab4(), 0);
+        g_VramTransfer.transferToVram(1, unk_1974[i], unk_0030[i]->unkfunc_02086aa4(), unk_0030[i]->unkfunc_02086ab4(), 0);
     }
 }
 

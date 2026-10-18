@@ -8,7 +8,7 @@
 #include "ov003/status/MonsterPartyWithDraw.hpp"
 #include "ov003/status/MonsterStatus.hpp"
 
-UnkDebugBattleInfo data_020f2008;
+UnkDebugBattleInfo g_DebugBattleInfo;
 
 THUMB void UnkDebugBattleInfo::initialize()
 {
@@ -64,7 +64,7 @@ THUMB void UnkDebugBattleInfo::draw()
         int* rect = BattleMonsterMask::getSingleton()->getMonsterTouchRect(index);
         if (blink_ > 0) {
             if (blink_ & 1) {
-                data_020f530c.arrow_.addArrow(rect[1] + (rect[3] - rect[1]) / 2, rect[2], 2, 0);
+                g_MenuDisplays.arrow_.addArrow(rect[1] + (rect[3] - rect[1]) / 2, rect[2], 2, 0);
             }
             blink_--;
         }
@@ -76,7 +76,7 @@ THUMB void UnkDebugBattleInfo::draw()
 THUMB void UnkDebugBattleInfo::drawHeap(int x, int y)
 {
     debugConsolePrintf(x, y, "HEAP");
-    debugConsolePrintf(x, y + 1, "%3dK", getAppHeapFreeSize(&data_0211a60c) >> 10);
+    debugConsolePrintf(x, y + 1, "%3dK", getAppHeapFreeSize(&g_appHeap) >> 10);
     drawDebugWindow(x, y, 4, 2);
 }
 

@@ -34,4 +34,4 @@ namespace cmn
 }
 
 
-extern char data_020c1328[8];
+extern char g_fieldMapNameText[8];

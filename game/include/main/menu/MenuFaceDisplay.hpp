@@ -2,7 +2,7 @@
 #include <globaldefs.h>
 #include "main/menu/MenuDisplay.hpp"
 
-// 48x48 face icon (face48.mpt) or loading animation (loading48.mpt) drawn as 32x32 sprites (data_020f530c.face_)
+// 48x48 face icon (face48.mpt) or loading animation (loading48.mpt) drawn as 32x32 sprites (g_MenuDisplays.face_)
 struct UnkMenuFaceDisplay : UnkMenuDisplay {
     int priority_;                              // 0x30
     int mode_;                                  // 0x34  1: whole icon, 2-10: one part, 11: loading animation

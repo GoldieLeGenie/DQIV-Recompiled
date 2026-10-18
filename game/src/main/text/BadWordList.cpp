@@ -26,8 +26,8 @@ THUMB int BadWordList::containsBadWord(char* name)
     } else {
         dss::strcpy_s(buf, 0x200, name);
     }
-    translateText(data_020c472a, data_020c4680, conv, 0x200, buf);
-    translateText(data_020c455c, data_020c4586, buf, 0x200, conv);
+    translateText(g_hiraganaCharTable, g_katakanaCharTable, conv, 0x200, buf);
+    translateText(g_normalKanaCharTable, g_smallKanaCharTable, buf, 0x200, conv);
     dss::strcpy_s(conv, 0x200, buf);
     convertUtf8ToSjisWork(conv);
     Utf8Iterator it;
@@ -54,7 +54,7 @@ THUMB int BadWordList::isBadWord(char* word)
         if (readNextWord(&it, line, 0x200) == 0) {
             break;
         }
-        translateText(data_020c455c, data_020c4586, conv, 0x200, line);
+        translateText(g_normalKanaCharTable, g_smallKanaCharTable, conv, 0x200, line);
         dss::strcpy_s(line, 0x200, conv);
         if (dss::strcmp(line, word) == 0) {
             return 1;

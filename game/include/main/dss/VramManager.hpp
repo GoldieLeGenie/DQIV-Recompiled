@@ -36,9 +36,9 @@ struct UnkVramTransfer {
     void doTransfers();                        // do the queued transfers
 };
 
-extern UnkVramTransfer data_0211e450;
-extern unsigned char data_0211ec68[0x800];      // palette VRAM manager work
-extern unsigned char data_0211f468[0x800];      // texture VRAM manager work
+extern UnkVramTransfer g_VramTransfer;
+extern unsigned char g_plttVramManagerWork[0x800];      // palette VRAM manager work
+extern unsigned char g_texVramManagerWork[0x800];      // texture VRAM manager work
 
 extern "C" {
     void func_02072800(UnkVramTransferTask* tasks, int count);             // NNS_GfdInitVramTransferManager

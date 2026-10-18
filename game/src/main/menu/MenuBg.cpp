@@ -26,9 +26,9 @@ void registerHdIcon(unsigned int key, void* src, int w, int h, int offset)
     pc::registerHdPicture(false, base + offset, std::span<const std::uint8_t>(tiles, w * h * 64), w, h,
                           std::span<const std::uint8_t>(picture, 32 * 32));
     if (picture != tiles) {
-        dssFree(&data_0211a60c, picture);
+        dssFree(&g_appHeap, picture);
     }
-    dssFree(&data_0211a60c, tiles);
+    dssFree(&g_appHeap, tiles);
 }
 }
 #endif
@@ -294,9 +294,9 @@ THUMB void UnkMenuIconBg::flush(int frame)
 
 THUMB void initMenuBg()
 {
-    data_020facb8.back_.init();
-    data_020facb8.window_.init();
-    data_020facb8.icon_.init(unkfunc_0208170c());
+    g_MenuBg.back_.init();
+    g_MenuBg.window_.init();
+    g_MenuBg.icon_.init(unkfunc_0208170c());
 }
 
 THUMB void updateMenuBg()
@@ -305,14 +305,14 @@ THUMB void updateMenuBg()
 
 THUMB void executeMenuBg()
 {
-    data_020facb8.back_.update();
+    g_MenuBg.back_.update();
 }
 
-UnkMenuBg data_020facb8;
+UnkMenuBg g_MenuBg;
 
 THUMB void transferMenuBg()
 {
-    UnkMenuBg* bg = &data_020facb8;
+    UnkMenuBg* bg = &g_MenuBg;
     if (!isDisplayTextReady() || bg->transferCount_ == 0) {
         return;
     }
@@ -346,7 +346,7 @@ THUMB void transferMenuBg()
 
 THUMB void requestMenuBgTransfer()
 {
-    data_020facb8.transferCount_ = 2;
+    g_MenuBg.transferCount_ = 2;
 }
 
 THUMB void UnkMenuBackBg::init()

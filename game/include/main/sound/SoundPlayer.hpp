@@ -90,8 +90,8 @@ struct UnkSoundSystem {
     void unkfunc_02086720(int a, int b);
 };
 
-extern UnkSoundPlayer data_0210bd4c;
-extern UnkSoundSystem data_0211fc7c;
-extern int data_020c4514;
-extern int data_020c4518;
+extern UnkSoundPlayer g_SoundPlayer;
+extern UnkSoundSystem g_SoundSystem;
+extern int g_seqStartVolume;
+extern int g_strmStartVolume;
 extern int data_0211fc68[2];

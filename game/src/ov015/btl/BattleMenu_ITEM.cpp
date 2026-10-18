@@ -61,7 +61,7 @@ THUMB void BattleMenu_ITEM::menuExecute()
 
 THUMB void BattleMenu_ITEM::menuDraw()
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(btl::BattleMenuPlayerControl::getSingleton()->activeChara_)->haveStatusInfo_;
         int count = info->haveItem_.getCount();
         int items[12];
@@ -76,9 +76,9 @@ THUMB void BattleMenu_ITEM::menuDraw()
 
 THUMB void BattleMenu_ITEM::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
         }
         return;
     }

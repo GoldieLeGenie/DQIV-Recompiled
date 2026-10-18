@@ -27,7 +27,7 @@ ARM void MenuPart::initialize()
     GX_ResetBankForSubObj();
     GX_ResetBankForSubBg();
     GX_SetBankForTex(GX_VRAM_AB);
-    data_0211e450.initVramManagers(0x40000, 0x4000);
+    g_VramTransfer.initVramManagers(0x40000, 0x4000);
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     SoundManager::stop(0);
     if (getGameRegion() == 2) {
@@ -55,7 +55,7 @@ ARM void MenuPart::terminate()
 {
     s_logo[0].unload();
     s_logo[1].unload();
-    data_0211e450.unkfunc_02086278();
+    g_VramTransfer.unkfunc_02086278();
 }
 
 ARM void MenuPart::onExecutePart()

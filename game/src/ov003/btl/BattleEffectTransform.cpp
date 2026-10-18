@@ -160,28 +160,28 @@ THUMB btl::BattleTransform* btl::BattleTransform::getSingleton()
 
 THUMB void btl::BattleTransform::setup(int index)
 {
-    if (data_020ed1bc.isOpen()) {
-        data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        g_TownMenuMessage.close();
     }
 
     switch (index) {
     case 0xae:
         transIndex_ = 0;
-        data_020ed1bc.openMessageForBATTLE();
-        data_020ed1bc.addMessage(0x1f7f4);
-        data_020ed1bc.setMessageLastCursor(false);
+        g_TownMenuMessage.openMessageForBATTLE();
+        g_TownMenuMessage.addMessage(0x1f7f4);
+        g_TownMenuMessage.setMessageLastCursor(false);
         break;
     case 0xcd:
         transIndex_ = 1;
-        data_020ed1bc.openMessageForBATTLE();
-        data_020ed1bc.addMessage(0x1f7f4);
-        data_020ed1bc.setMessageLastCursor(false);
+        g_TownMenuMessage.openMessageForBATTLE();
+        g_TownMenuMessage.addMessage(0x1f7f4);
+        g_TownMenuMessage.setMessageLastCursor(false);
         break;
     case 0xce:
         transIndex_ = 2;
-        data_020ed1bc.openMessageForBATTLE();
-        data_020ed1bc.addMessage(0x1f7f6);
-        data_020ed1bc.setMessageLastCursor(false);
+        g_TownMenuMessage.openMessageForBATTLE();
+        g_TownMenuMessage.addMessage(0x1f7f6);
+        g_TownMenuMessage.setMessageLastCursor(false);
         break;
     case 0xcf:
         transIndex_ = 4;
@@ -255,8 +255,8 @@ THUMB void btl::BattleTransform::draw()
 
 THUMB void btl::BattleTransform::cleanup()
 {
-    if (data_020ed1bc.isOpen()) {
-        data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        g_TownMenuMessage.close();
     }
     for (int i = 0; i < max_; i++) {
         trans_[i].cleanup();
@@ -294,12 +294,12 @@ THUMB int btl::BattleTransform::startNext()
         setTransform();
         return 1;
     case 2:
-        if (data_020ed1bc.isOpen()) {
-            data_020ed1bc.close();
+        if (g_TownMenuMessage.isOpen()) {
+            g_TownMenuMessage.close();
         }
-        data_020ed1bc.openMessageForBATTLE();
-        data_020ed1bc.addMessage(0x1f7f8);
-        data_020ed1bc.setMessageLastCursor(false);
+        g_TownMenuMessage.openMessageForBATTLE();
+        g_TownMenuMessage.addMessage(0x1f7f8);
+        g_TownMenuMessage.setMessageLastCursor(false);
         transIndex_++;
         setTransform();
         return 1;

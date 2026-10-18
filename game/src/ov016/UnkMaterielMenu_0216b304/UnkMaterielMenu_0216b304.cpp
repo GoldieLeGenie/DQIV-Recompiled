@@ -50,7 +50,7 @@ THUMB void UnkMaterielMenu_0216b304::menuExecute()
 
 THUMB void UnkMaterielMenu_0216b304::menuDraw()
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         if (activeChara_ == status::g_Party.getCount()) {
             drawShopSellSackScreen();
         } else {
@@ -99,9 +99,9 @@ THUMB void UnkMaterielMenu_0216b304::menuUpdate()
 
 THUMB int UnkMaterielMenu_0216b304::updateMessage()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             switch (mode_) {
                 case 2:
                     if (activeChara_ == status::g_Party.getCount()) {
@@ -120,15 +120,15 @@ THUMB int UnkMaterielMenu_0216b304::updateMessage()
                     MaterielMenu_SHOP_MANAGER::getSingleton()->sellItem(activeItem_ + activeItemPage_ * 6, activeChara_, price_);
                     resetCursor();
                     showMessages(0x6d8e, 0x6d8f);
-                    data_020ed1bc.setYesNo();
+                    g_TownMenuMessage.setYesNo();
                     mode_ = 2;
                     break;
                 case 3:
                     MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
                     break;
             }
-        } else if (data_020ed1bc.stat_ == MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.stat_ == MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             switch (mode_) {
                 case 0:
                 case 2:
@@ -137,7 +137,7 @@ THUMB int UnkMaterielMenu_0216b304::updateMessage()
                     break;
                 case 1:
                     showMessages(0x6d9c, 0x6d8f);
-                    data_020ed1bc.setYesNo();
+                    g_TownMenuMessage.setYesNo();
                     mode_ = 0;
                     break;
             }
@@ -171,7 +171,7 @@ THUMB void UnkMaterielMenu_0216b304::offerPrice(int item)
         showMessages(0x6d8d, -1);
         mode_ = 1;
     }
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.setYesNo();
 }
 
 THUMB void UnkMaterielMenu_0216b304::resetCursor()
@@ -210,9 +210,9 @@ THUMB void UnkMaterielMenu_0216b304::returnToWhoSell()
 
 THUMB void UnkMaterielMenu_0216b304::showMessages(int message, int message2)
 {
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(message);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(message);
     if (message2 != -1) {
-        data_020ed1bc.addMessage(message2);
+        g_TownMenuMessage.addMessage(message2);
     }
 }

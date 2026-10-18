@@ -26,24 +26,24 @@ ARM void MPExchangePart::initialize()
 {
     loadOverlay(DQIV_OVERLAY_ID(2));
     ov002_entry();
-    data_0211e450.initVramManagers(0x40000, 0x4000);
+    g_VramTransfer.initVramManagers(0x40000, 0x4000);
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_SINGLE3D);
     lcdCounter_ = 0;
     g_Global.fadeIn(30);
-    switch (data_020f21f8.state_) {
+    switch (g_SpriteFade.state_) {
         case GlobalFade::FADE_NONE:
-            data_020f21f8.state_ = GlobalFade::FADE_OUT_BLACK;
+            g_SpriteFade.state_ = GlobalFade::FADE_OUT_BLACK;
             break;
         case GlobalFade::FADE_IN_BLACK:
-            data_020f21f8.state_ = GlobalFade::FADE_OUT_WHITE;
+            g_SpriteFade.state_ = GlobalFade::FADE_OUT_WHITE;
             break;
         default:
-            data_020f21f8.state_ = GlobalFade::FADE_OUT_BLACK;
+            g_SpriteFade.state_ = GlobalFade::FADE_OUT_BLACK;
             break;
     }
-    data_020f21f8.count_ = 0;
-    data_020f21f8.frames_ = 30;
-    data_0210bc18.unkfunc_02058294(&data_020f21f8);
+    g_SpriteFade.count_ = 0;
+    g_SpriteFade.frames_ = 30;
+    g_GlobalGamePartManager.unkfunc_02058294(&g_SpriteFade);
     setSleepEnabled(0);
     setState(0);
 }
@@ -51,7 +51,7 @@ ARM void MPExchangePart::initialize()
 ARM void MPExchangePart::terminate()
 {
     setSleepEnabled(1);
-    data_0211e450.unkfunc_02086278();
+    g_VramTransfer.unkfunc_02086278();
     unloadOverlay(DQIV_OVERLAY_ID(2));
 }
 
@@ -65,9 +65,9 @@ ARM void MPExchangePart::onExecutePart()
             break;
         case 1:
             if (counter_ == 0) {
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(0x92a02);
-                data_020ed1bc.suspendInput_ = 1;
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(0x92a02);
+                g_TownMenuMessage.suspendInput_ = 1;
                 message_ = 0;
             }
             if (counter_ > 120) {
@@ -76,7 +76,7 @@ ARM void MPExchangePart::onExecutePart()
             break;
         case 4: {
             exchange_.start();
-            UnkEnvoyData* data = &data_020f0078.myEnvoy_;
+            UnkEnvoyData* data = &g_EnvoyManager.myEnvoy_;
             convertUtf8ToSjisWork((char*)data->name);
             convertUtf8ToSjisWork((char*)data->heroName);
             convertUtf8ToSjisWork((char*)data->townName);
@@ -96,8 +96,8 @@ ARM void MPExchangePart::onExecutePart()
         case 3:
             if (message_ == 0) {
                 if (counter_ == 0) {
-                    data_020ed1bc.openMessageForTALK();
-                    data_020ed1bc.addMessage(0x92a04);
+                    g_TownMenuMessage.openMessageForTALK();
+                    g_TownMenuMessage.addMessage(0x92a04);
                     message_ = 1;
                 }
                 if (counter_ == 30) {
@@ -122,12 +122,12 @@ ARM void MPExchangePart::onExecutePart()
             break;
         case 6:
             if (counter_ == 0) {
-                data_020ed1bc.openMessageForMENU();
-                data_020ed1bc.addMessage(0);
+                g_TownMenuMessage.openMessageForMENU();
+                g_TownMenuMessage.addMessage(0);
                 message_ = 0;
                 exchange_.abort();
             }
-            if (counter_ > 60 && data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            if (counter_ > 60 && g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
                 setState(13);
             }
             break;
@@ -137,12 +137,12 @@ ARM void MPExchangePart::onExecutePart()
         case 8:
             restoreLcdAndSleep();
             if (counter_ == 0) {
-                data_020ed1bc.openMessageForMENU();
-                data_020ed1bc.addMessage(0x92ab8);
+                g_TownMenuMessage.openMessageForMENU();
+                g_TownMenuMessage.addMessage(0x92ab8);
                 message_ = 0;
                 exchange_.abort();
             }
-            if (counter_ > 60 && data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            if (counter_ > 60 && g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
                 setState(13);
             }
             break;
@@ -155,12 +155,12 @@ ARM void MPExchangePart::onExecutePart()
             if (PAD_DetectFold() == FALSE) {
                 Sound::sePlay(0x146);
             }
-            if (data_020f0078.findEnvoyByUnique(data->unique) == -1) {
+            if (g_EnvoyManager.findEnvoyByUnique(data->unique) == -1) {
                 known_ = FALSE;
             } else {
                 known_ = TRUE;
             }
-            data_020f0078.receiveEnvoy(data, 1);
+            g_EnvoyManager.receiveEnvoy(data, 1);
             convertUtf8ToSjisWork((char*)data->name);
             convertUtf8ToSjisWork((char*)data->heroName);
             convertUtf8ToSjisWork((char*)data->townName);
@@ -169,26 +169,26 @@ ARM void MPExchangePart::onExecutePart()
             break;
         }
         case 10:
-            data_020f0078.receiveEnvoy(NULL, 0);
+            g_EnvoyManager.receiveEnvoy(NULL, 0);
             setState(11);
             break;
         case 11:
             restoreLcdAndSleep();
             if (counter_ == 0) {
-                data_020ed1bc.close();
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(0x92a08);
-                data_020ed1bc.setYesNo(1);
+                g_TownMenuMessage.close();
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(0x92a08);
+                g_TownMenuMessage.setYesNo(1);
                 message_ = 0;
                 exchange_.unk_1c = 1;
             }
             if (counter_ > 60) {
-                if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-                    data_020ed1bc.close();
+                if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+                    g_TownMenuMessage.close();
                     setState(13);
                 }
-                if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-                    data_020ed1bc.close();
+                if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+                    g_TownMenuMessage.close();
                     setSleepEnabled(0);
                     setState(4);
                 }
@@ -200,31 +200,31 @@ ARM void MPExchangePart::onExecutePart()
                 int message;
                 if (known_ != 0) {
                     message = 0x92a99;
-                } else if (data_020f0078.getEnvoyCount() == 1) {
+                } else if (g_EnvoyManager.getEnvoyCount() == 1) {
                     message = 0x92a11;
                 } else {
                     message = 0x92a9a;
                 }
-                data_020ed1bc.close();
-                data_020ed1bc.openMessageForMENU();
-                data_020ed1bc.addMessage(message);
+                g_TownMenuMessage.close();
+                g_TownMenuMessage.openMessageForMENU();
+                g_TownMenuMessage.addMessage(message);
                 message_ = 0;
             }
-            if (counter_ > 60 && data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            if (counter_ > 60 && g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
                 setState(13);
             }
             break;
         case 13:
             restoreLcdAndSleep();
             if (counter_ == 0) {
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
                 exchange_.unk_1c = 1;
                 g_Global.fadeOutBlack(30);
             }
             if (counter_ > 30 && exchange_.mode_ == SYSMODE_FINISH_WAIT) {
                 g_Global.startTown("sshout");
                 g_Stage.flagMapChange_ = 1;
-                data_0210bb94.unkfunc_020580fc(TOWN_PART);
+                g_GlobalDQ4.unkfunc_020580fc(TOWN_PART);
                 setState(14);
             }
             break;

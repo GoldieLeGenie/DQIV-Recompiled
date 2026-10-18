@@ -30,9 +30,9 @@ ARM void window::NormalControl::execute()
         return;
     }
     if (state_ == CONTROL_NPC_MESSAGE) {
-        if (data_020ed1bc.isOpen()) {
-            if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK || data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-                data_020ed1bc.close();
+        if (g_TownMenuMessage.isOpen()) {
+            if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+                g_TownMenuMessage.close();
                 openMenu();
                 state_ = CONTROL_NORMAL;
             }
@@ -74,7 +74,7 @@ ARM void window::NormalControl::execute()
 
 ARM void window::NormalControl::executePlayer()
 {
-    if (data_0210bb94.unkfunc_02058114(0xe)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xe)) {
         FieldPlayerManager::getSingleton()->inputClear();
         if (NPCPulling()) {
             return;
@@ -83,7 +83,7 @@ ARM void window::NormalControl::executePlayer()
             FieldPlayerManager::getSingleton()->inputPad(dss::g_Pad.padDir());
         }
     }
-    if (!data_0210bb94.unkfunc_02058114(0xc)) {
+    if (!g_GlobalDQ4.unkfunc_02058114(0xc)) {
         return;
     }
     TownPlayerManager::getSingleton()->inputClear();
@@ -97,7 +97,7 @@ ARM void window::NormalControl::executePlayer()
 
 ARM void window::NormalControl::checkCamera()
 {
-    if (!data_0210bb94.unkfunc_02058114(0xc)) {
+    if (!g_GlobalDQ4.unkfunc_02058114(0xc)) {
         return;
     }
     switch ((dss::g_Pad.pad() & 0x100) | (dss::g_Pad.pad() & 0x200)) {
@@ -167,18 +167,18 @@ ARM bool window::NormalControl::isDeadParty()
 ARM bool window::NormalControl::NPCPulling()
 {
     if (isDeadParty() == true) {
-        if (data_0211a5d4.touch_ != 0 || (dss::g_Pad.pad() & 0xf0)) {
-            data_020ed1bc.openMessageForMENU();
-            data_020ed1bc.addMessage(0xc3de0);
-            data_020ed1bc.addMessage(0xc3de1);
+        if (g_TouchPanel.touch_ != 0 || (dss::g_Pad.pad() & 0xf0)) {
+            g_TownMenuMessage.openMessageForMENU();
+            g_TownMenuMessage.addMessage(0xc3de0);
+            g_TownMenuMessage.addMessage(0xc3de1);
             state_ = CONTROL_NPC_MESSAGE;
             return true;
         }
     } else if (isNPCParty() == true) {
-        if (data_0211a5d4.touch_ != 0 || (dss::g_Pad.pad() & 0xf0)) {
-            data_020ed1bc.openMessageForMENU();
-            data_020ed1bc.addMessage(0xc3da0);
-            data_020ed1bc.addMessage(0xc3da1);
+        if (g_TouchPanel.touch_ != 0 || (dss::g_Pad.pad() & 0xf0)) {
+            g_TownMenuMessage.openMessageForMENU();
+            g_TownMenuMessage.addMessage(0xc3da0);
+            g_TownMenuMessage.addMessage(0xc3da1);
             state_ = CONTROL_NPC_MESSAGE;
             return true;
         }

@@ -184,7 +184,7 @@ int main() {
         threads.setIdleHandler([&] {
             running=window.poll();
             const bool shown=!fastFrame;
-            const int boost=data_0210bb94.unkfunc_0205810c()==13?pc::gameSettings().battleBoost+1:1;
+            const int boost=g_GlobalDQ4.unkfunc_0205810c()==13?pc::gameSettings().battleBoost+1:1;
             fastFrame=boost>1&&++boostFrames%unsigned(boost)!=0;
             if(shown) {
                 pc::ProfileScope timing("sound");
@@ -197,23 +197,23 @@ int main() {
         pc::setWaitCallback([&] {OS_PauseThread(&frameQueue);threads.checkErrors();});
         struct ClearWait {~ClearWait(){pc::setWaitCallback({});pc::setFrameCallback({});}} clearWait;
         std::cout << "Original application initialization\n";
-        data_020c4fe4.unkfunc_02057f8c(0);
-        data_0210bb94.nativeStart(data_020c4fe4.vf10());
+        g_GameApplication.unkfunc_02057f8c(0);
+        g_GlobalDQ4.nativeStart(g_GameApplication.vf10());
         int scene=-1;
         for(unsigned frame=0;running;++frame) {
             // The journal keeps the scene changes (battle, town, field...).
-            const auto currentScene=int(data_0210bb94.unkfunc_0205810c());
+            const auto currentScene=int(g_GlobalDQ4.unkfunc_0205810c());
             if(scene!=currentScene) {scene=currentScene;std::cout<<"Scene "<<scene<<", frame "<<frame<<'\n';}
             threads.checkErrors();
             {
                 pc::ProfileScope step("frame");
-                if(!data_0210bb94.nativeStep())break;
+                if(!g_GlobalDQ4.nativeStep())break;
             }
             pc::profileFrame();
             geometry.clearTriangles();
         }
         threads.checkErrors();
-        data_0210bb94.nativeStop();
+        g_GlobalDQ4.nativeStop();
         pc::setButtons(0);
         return 0;
     } catch (const std::exception& error) {

@@ -43,4 +43,4 @@ struct CommonMenu_APITEST : menu::MenuBase {
     void drawFourFacesTestPage();                    // 4 faces
 };
 
-extern CommonMenu_APITEST data_020ed068;        /* gCommonMenu_APITEST */
+extern CommonMenu_APITEST g_CommonMenuApiTest;        /* gCommonMenu_APITEST */

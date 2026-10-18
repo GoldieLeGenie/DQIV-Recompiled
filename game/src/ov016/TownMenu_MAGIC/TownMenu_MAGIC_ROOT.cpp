@@ -74,7 +74,7 @@ THUMB void TownMenu_MAGIC_ROOT::menuDraw()
         mp2 = status::UseAction::getUseMp(magicArray_[activeMagic_]);
     }
     drawMagicRootScreen(mp1, mp2, magicArray_[activeMagic_], activeChara_, mode_);
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         if (mode_ == 0) {
             charaItem_.drawActive();
         } else {
@@ -96,9 +96,9 @@ THUMB void TownMenu_MAGIC_ROOT::menuUpdate()
             soundCount_++;
         }
     }
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             if (isResult_ == 1 && applyFieldMagicEffect() == 1) {
                 close();
                 gTownMenu_ROOT.stat_ = MENUBASE_STAT_OK;
@@ -129,15 +129,15 @@ THUMB void TownMenu_MAGIC_ROOT::menuUpdate()
         if (result != 0) {
             if (result == 2) {
                 if (magicNumMax_ == 0) {
-                    data_020ed1bc.openMessageForMENU();
+                    g_TownMenuMessage.openMessageForMENU();
                     TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveStatus_.playerIndex_);
-                    data_020ed1bc.addMessage(0xc3cd5);
+                    g_TownMenuMessage.addMessage(0xc3cd5);
                     return;
                 }
                 if (status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.isDeath()) {
-                    data_020ed1bc.openMessageForMENU();
+                    g_TownMenuMessage.openMessageForMENU();
                     TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveStatus_.playerIndex_);
-                    data_020ed1bc.addMessage(0xc3cd7);
+                    g_TownMenuMessage.addMessage(0xc3cd7);
                     return;
                 }
                 mode_ = 1;
@@ -195,8 +195,8 @@ THUMB void TownMenu_MAGIC_ROOT::judgeMagic()
     TownMenuPlayerControl::getSingleton()->activeMagicID_ = magicID;
     status::PlayerStatus* playerStatus = status::g_Party.getPlayerStatus(activeChara_);
     if (status::UseAction::getUseMp(magicID) > playerStatus->haveStatusInfo_.getMp()) {
-        data_020ed1bc.openMessageForMENU();
-        data_020ed1bc.addMessage(0xc3c72);
+        g_TownMenuMessage.openMessageForMENU();
+        g_TownMenuMessage.addMessage(0xc3c72);
         return;
     }
     switch (status::UseAction::getUseType(magicID)) {
@@ -225,7 +225,7 @@ THUMB void TownMenu_MAGIC_ROOT::useMagicNoTarget()
     status::g_Party.setBattleMode();
     status::UseActionParam useActionParam;
     int isTaka = 0;
-    if (data_0210bb94.unkfunc_02058114(0xe)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xe)) {
         int walkX = 0;
         int walkY = 0;
         isTaka = FieldSymbolManager::getSingleton()->searchSymbol(walkX, walkY);
@@ -250,15 +250,15 @@ THUMB void TownMenu_MAGIC_ROOT::useMagicNoTarget()
     useActionParam.targetCount_ = targetCount_;
     useActionParam.actionIndex_ = magicArray_[activeMagic_];
     status::UseAction::execUse(&useActionParam);
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerIndex(activeChara_));
     status::UseActionMacro::setExecMacro(useActionParam.actorCharacterStatus_, useActionParam.targetCharacterStatus_[0], useActionParam.actionIndex_);
     isResult_ = useActionParam.result_;
     status::UseActionMessage& useActionMessage = useActionParam.message_[0];
     if (useBehomara_ == 1) {
-        data_020ed1bc.addMessageNOWAIT(useActionMessage.execMessage_[0]);
+        g_TownMenuMessage.addMessageNOWAIT(useActionMessage.execMessage_[0]);
     } else {
-        data_020ed1bc.addMessage(useActionMessage.execMessage_[0]);
+        g_TownMenuMessage.addMessage(useActionMessage.execMessage_[0]);
     }
     if (magicArray_[activeMagic_] == 0xcc && isResult_ == 1) {
         riremitoOK_ = 1;
@@ -268,20 +268,20 @@ THUMB void TownMenu_MAGIC_ROOT::useMagicNoTarget()
     for (int i = 0; i < targetCount_; i++) {
         status::UseActionMacro::setResultMacro(useActionParam.actorCharacterStatus_, useActionParam.targetCharacterStatus_[i], useActionParam.actionIndex_);
         if (magicArray_[activeMagic_] == 0xd1) {
-            if (data_0210bb94.unkfunc_02058114(0xc)) {
-                data_020ed1bc.addMessage(0xc3cde);
+            if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
+                g_TownMenuMessage.addMessage(0xc3cde);
                 break;
             }
             if (isTaka == 0) {
-                data_020ed1bc.addMessage(0xc3cde);
+                g_TownMenuMessage.addMessage(0xc3cde);
                 break;
             }
         }
         for (int messageCount = 0; useActionMessage.resultMessage_[messageCount] != 0; messageCount++) {
             if (useBehomara_ != 0) {
-                data_020ed1bc.addMessageNOWAIT(useActionMessage.resultMessage_[messageCount]);
+                g_TownMenuMessage.addMessageNOWAIT(useActionMessage.resultMessage_[messageCount]);
             } else {
-                data_020ed1bc.addMessage(useActionMessage.resultMessage_[messageCount]);
+                g_TownMenuMessage.addMessage(useActionMessage.resultMessage_[messageCount]);
             }
         }
     }
@@ -298,10 +298,10 @@ THUMB void TownMenu_MAGIC_ROOT::openWarpTownSelect()
 {
     status::g_Party.setBattleMode();
     if (cmn::CommonRuraData::getSingleton()->getRuraCount() == 0) {
-        data_020ed1bc.openMessageForMENU();
+        g_TownMenuMessage.openMessageForMENU();
         TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerIndex(activeChara_));
         TextAPI::setMACRO0(0x11, 0x70000000, status::UseAction::getWordDBIndex(0xcb));
-        data_020ed1bc.addMessage(0xc3cd2, 0xc3d6f);
+        g_TownMenuMessage.addMessage(0xc3cd2, 0xc3d6f);
         return;
     }
     close();
@@ -322,7 +322,7 @@ THUMB int TownMenu_MAGIC_ROOT::applyFieldMagicEffect()
         ret = 1;
         break;
     case 0xd5:
-        if (data_0210bb94.unkfunc_02058114(0xc) == 1) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xc) == 1) {
             TownFurnitureManager::getSingleton()->searchItem();
         }
         ret = 1;

@@ -3,7 +3,7 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/text/TextAPI.hpp"
 
-UnkEnvoyManager data_020f0078;
+UnkEnvoyManager g_EnvoyManager;
 
 THUMB UnkEnvoyManager::UnkEnvoyManager()
 {

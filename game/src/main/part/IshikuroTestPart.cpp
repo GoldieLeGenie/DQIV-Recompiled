@@ -22,10 +22,10 @@ ARM void IshikuroTestPart::terminate()
 ARM void IshikuroTestPart::onExecutePart()
 {
     if (dss::g_Pad.edge() & 1) {
-        data_0210bb94.unkfunc_020580fc(TITLE_PART);
+        g_GlobalDQ4.unkfunc_020580fc(TITLE_PART);
     }
     if (dss::g_Pad.edge() & 2) {
-        dssAlloc(&data_0211a60c, 0x400, 0x20);
+        dssAlloc(&g_appHeap, 0x400, 0x20);
     }
 }
 
@@ -39,8 +39,8 @@ ARM void IshikuroTestPart::onWindowPart()
 
 ARM void IshikuroTestPart::onDebugPart()
 {
-    data_02116ce0.unkfunc_0207e88c(0, 0, "Ishikuro Test Part");
-    data_02116ce0.unkfunc_0207e88c(30, 23, "%02d", s_counter);
+    g_DebugConsole.unkfunc_0207e88c(0, 0, "Ishikuro Test Part");
+    g_DebugConsole.unkfunc_0207e88c(30, 23, "%02d", s_counter);
     s_counter++;
     if (s_counter == 100) {
         s_counter = 0;

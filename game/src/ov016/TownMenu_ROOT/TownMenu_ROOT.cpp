@@ -35,7 +35,7 @@ THUMB void TownMenu_ROOT::menuExecute()
 THUMB void TownMenu_ROOT::menuDraw()
 {
     drawRootMenuScreen();
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         menuItem_.drawActive();
         cancelItem_.drawActive();
     }
@@ -43,9 +43,9 @@ THUMB void TownMenu_ROOT::menuDraw()
 
 THUMB void TownMenu_ROOT::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == MENUBASE_STAT_OK || data_020ed1bc.stat_ == MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             if (menuItem_.active_ == ROOT_SEARCH) {
                 close();
                 stat_ = MENUBASE_STAT_OK;
@@ -71,7 +71,7 @@ THUMB void TownMenu_ROOT::executeCommand(int active)
 {
     switch (active) {
     case ROOT_TALK:
-        if (data_0210bb94.unkfunc_02058114(0xc) == 1 && TownPlayerManager::getSingleton()->checkTalkToCharacter()) {
+        if (g_GlobalDQ4.unkfunc_02058114(0xc) == 1 && TownPlayerManager::getSingleton()->checkTalkToCharacter()) {
             stat_ = MENUBASE_STAT_CANCEL;
             redraw_ = 1;
             g_Stage.menuTalk_ = 1;
@@ -101,8 +101,8 @@ THUMB void TownMenu_ROOT::executeCommand(int active)
             g_Stage.menuSearch_ = 1;
             return;
         }
-        data_020ed1bc.openMessageForMENU();
-        data_020ed1bc.addMessage(0xc40ba, 0xc40cf);
+        g_TownMenuMessage.openMessageForMENU();
+        g_TownMenuMessage.addMessage(0xc40ba, 0xc40cf);
         break;
     }
     case ROOT_STATUS:
@@ -132,8 +132,8 @@ THUMB void TownMenu_ROOT::openMagicMenu()
         close();
         gTownMenu_MAGIC_ROOT.open();
     } else {
-        data_020ed1bc.openMessageForMENU();
+        g_TownMenuMessage.openMessageForMENU();
         TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerStatus(actor)->haveStatusInfo_.haveStatus_.playerIndex_);
-        data_020ed1bc.addMessage(0xc3cd5);
+        g_TownMenuMessage.addMessage(0xc3cd5);
     }
 }

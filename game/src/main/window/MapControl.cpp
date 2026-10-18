@@ -12,9 +12,9 @@
 ARM void window::MapControl::setup()
 {
     state_ = TOWNMAP_WAIT_OPEN;
-    if (data_0210bb94.unkfunc_02058114(0xc)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
         BillboardCharacter::setAllCharaAnim(false);
-    } else if (data_0210bb94.unkfunc_02058114(0xe)) {
+    } else if (g_GlobalDQ4.unkfunc_02058114(0xe)) {
         SpriteCharacter::setAllCharaAnim(false);
     }
     openMap();
@@ -49,7 +49,7 @@ ARM void window::MapControl::execute()
         case TOWMMAP_WAIT_CLOSE:
             if (imageMap_->isClose()) {
                 if (goNext(PHASE_NORMAL)) {
-                    if (data_0210bb94.unkfunc_02058114(0xc)) {
+                    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
                         BillboardCharacter::setAllCharaAnim(true);
                     } else {
                         SpriteCharacter::setAllCharaAnim(true);
@@ -59,9 +59,9 @@ ARM void window::MapControl::execute()
             }
             break;
         case TOWNMAP_MESSAGE:
-            if (data_020ed1bc.isOpen()) {
-                if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK || data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-                    data_020ed1bc.close();
+            if (g_TownMenuMessage.isOpen()) {
+                if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+                    g_TownMenuMessage.close();
                     closeMapMessage();
                     state_ = TOWNMAP_VIEWING;
                 }
@@ -96,8 +96,8 @@ ARM void window::MapControl::closeMap()
 ARM void window::MapControl::showMapMessage()
 {
     status::g_Party.getPlayerStatus(0);
-    data_020ed1bc.openMessageForMENU();
-    data_020ed1bc.addMessage(0xc3dd2);
+    g_TownMenuMessage.openMessageForMENU();
+    g_TownMenuMessage.addMessage(0xc3dd2);
 }
 
 ARM void window::MapControl::closeMapMessage()

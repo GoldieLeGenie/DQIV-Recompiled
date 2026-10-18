@@ -21,8 +21,8 @@ struct UnkMessageFile {
     UnkMessageEntry entries_[1];                // 0x20
 };
 
-extern int data_020c4974;                       // last found message id
-extern int data_020c4978;                       // last found message size
-extern unsigned char* data_02120544;            // last found message
+extern int g_lastFoundMsgId;                       // last found message id
+extern int g_lastFoundMsgSize;                       // last found message size
+extern unsigned char* g_lastFoundMessage;            // last found message
 
 char* findMessage(char* addr, unsigned int msg_id);    // find a message (NULL: not found)

@@ -34,7 +34,7 @@ THUMB void MaterielMenu_SHOP_WHOSE::menuExecute()
 
 THUMB void MaterielMenu_SHOP_WHOSE::menuDraw()
 {
-    if (data_020ed1bc.isOpen() && yesno_ == 0) {
+    if (g_TownMenuMessage.isOpen() && yesno_ == 0) {
         drawShopScreen();
         return;
     }
@@ -47,9 +47,9 @@ THUMB void MaterielMenu_SHOP_WHOSE::menuDraw()
 
 THUMB void MaterielMenu_SHOP_WHOSE::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
+    if (g_TownMenuMessage.isOpen()) {
         resetCaptureOffset();
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
             if (endMessage_ == 1) {
                 close();
                 gMaterielMenu_SHOP_BUYMENU.open();
@@ -57,20 +57,20 @@ THUMB void MaterielMenu_SHOP_WHOSE::menuUpdate()
                 return;
             }
             yesno_ = 0;
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             selectYes();
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
             yesno_ = 0;
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             selectNo();
         }
         return;
     }
     if (MenuUpdate_Assist::isCancel(menuItem2_)) {
         close();
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessageNOWAIT(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->cancel());
-        data_020ed1bc.addMessageWAITKEY();
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessageNOWAIT(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->cancel());
+        g_TownMenuMessage.addMessageWAITKEY();
         gMaterielMenu_SHOP_ROOT.open();
         gMaterielMenu_SHOP_ROOT.mode_ = 1;
         return;
@@ -92,7 +92,7 @@ THUMB void MaterielMenu_SHOP_WHOSE::selectYes()
 {
     if (noSort_) {
         showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->haveOther());
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         mode_ = 1;
         noSort_ = 0;
         yesno_ = 1;
@@ -104,7 +104,7 @@ THUMB void MaterielMenu_SHOP_WHOSE::selectYes()
         break;
     case 1:
         showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->haveWhose());
-        data_020ed1bc.setMessageLastCursor(true);
+        g_TownMenuMessage.setMessageLastCursor(true);
         yesno_ = 1;
         mode_ = 3;
         break;
@@ -123,7 +123,7 @@ THUMB void MaterielMenu_SHOP_WHOSE::selectNo()
 {
     if (noSort_) {
         showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->haveOther());
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         mode_ = 1;
         noSort_ = 0;
         yesno_ = 1;
@@ -133,15 +133,15 @@ THUMB void MaterielMenu_SHOP_WHOSE::selectNo()
     case 0:
         showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->haveOther());
         menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         yesno_ = 1;
         mode_ = 1;
         break;
     case 1:
         close();
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessageNOWAIT(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->cancel());
-        data_020ed1bc.addMessageWAITKEY();
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessageNOWAIT(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->cancel());
+        g_TownMenuMessage.addMessageWAITKEY();
         gMaterielMenu_SHOP_ROOT.open();
         gMaterielMenu_SHOP_ROOT.mode_ = 1;
         mode_ = -1;
@@ -164,14 +164,14 @@ THUMB void MaterielMenu_SHOP_WHOSE::yesSort()
     if (sortCount == 12) {
         TextAPI::setMACRO0(0x12, 0x50000000, status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveStatus_.playerIndex_);
         showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->haveSomething());
-        data_020ed1bc.setMessageLastCursor(true);
+        g_TownMenuMessage.setMessageLastCursor(true);
         yesno_ = 1;
         noSort_ = 1;
         return;
     }
     status::g_Party.haveItemSack_.sortOutItem(&status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveItem_);
     showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sortEnd());
-    data_020ed1bc.setMessageLastCursor(true);
+    g_TownMenuMessage.setMessageLastCursor(true);
     if (status::UseItem::getItemType(MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(activeItem_)) <= 4) {
         close();
         int activeItem = activeItem_;
@@ -190,20 +190,20 @@ THUMB void MaterielMenu_SHOP_WHOSE::haveMaxCheck()
         MaterielMenu_SHOP_MANAGER::getSingleton()->buyItem(activeItem_, activeChara_);
         int mes[2] = {0, 0};
         mode_ = -1;
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         if (status::g_Party.gold_ == 0) {
             close();
             MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->buyToSack(false, mes);
-            data_020ed1bc.addMessage(mes[0]);
-            data_020ed1bc.addMessageNOWAIT(mes[1]);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessage(mes[0]);
+            g_TownMenuMessage.addMessageNOWAIT(mes[1]);
+            g_TownMenuMessage.addMessageWAITKEY();
             gMaterielMenu_SHOP_ROOT.open();
             gMaterielMenu_SHOP_ROOT.mode_ = 1;
             return;
         }
         MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->buyToSack(true, mes);
-        data_020ed1bc.addMessage(mes[0], mes[1]);
-        data_020ed1bc.setMessageLastCursor(true);
+        g_TownMenuMessage.addMessage(mes[0], mes[1]);
+        g_TownMenuMessage.setMessageLastCursor(true);
         for (int i = 0; i < MaterielMenu_SHOP_MANAGER::getSingleton()->getSellItemCount(); i++) {
             MaterielMenu_SHOP_MANAGER::getSingleton()->setItemQuantity(i, 1);
             endMessage_ = 1;
@@ -213,7 +213,7 @@ THUMB void MaterielMenu_SHOP_WHOSE::haveMaxCheck()
     if (itemInfo.getCount() == 12) {
         TextAPI::setMACRO0(0x12, 0x50000000, target);
         showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->haveItemMax());
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
         yesno_ = 1;
         mode_ = 0;
@@ -242,24 +242,24 @@ THUMB void MaterielMenu_SHOP_WHOSE::checkMoney()
         haveNoMoney = true;
     }
     int mesCount = MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->checkMoney(overItem, haveNoMoney, mes);
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     if (haveNoMoney) {
         if (mesCount == 1) {
-            data_020ed1bc.addMessageNOWAIT(mes[0]);
+            g_TownMenuMessage.addMessageNOWAIT(mes[0]);
         } else {
-            data_020ed1bc.addMessage(mes[0]);
-            data_020ed1bc.addMessageNOWAIT(mes[1]);
+            g_TownMenuMessage.addMessage(mes[0]);
+            g_TownMenuMessage.addMessageNOWAIT(mes[1]);
         }
-        data_020ed1bc.addMessageWAITKEY();
+        g_TownMenuMessage.addMessageWAITKEY();
         close();
         gMaterielMenu_SHOP_ROOT.open();
         gMaterielMenu_SHOP_ROOT.mode_ = 1;
         return;
     }
     for (int i = 0; mes[i] != -1; i++) {
-        data_020ed1bc.addMessage(mes[i]);
+        g_TownMenuMessage.addMessage(mes[i]);
     }
-    data_020ed1bc.setMessageLastCursor(true);
+    g_TownMenuMessage.setMessageLastCursor(true);
     for (int i = 0; i < MaterielMenu_SHOP_MANAGER::getSingleton()->getSellItemCount(); i++) {
         MaterielMenu_SHOP_MANAGER::getSingleton()->setItemQuantity(i, 1);
     }
@@ -284,6 +284,6 @@ THUMB void MaterielMenu_SHOP_WHOSE::giveBuyItem()
 
 THUMB void MaterielMenu_SHOP_WHOSE::showMessage(int mes)
 {
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(mes);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(mes);
 }

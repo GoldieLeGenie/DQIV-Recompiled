@@ -10,10 +10,10 @@
 
 ARM void window::ShopMenuControl::setup()
 {
-    if (data_0210bb94.unkfunc_02058114(0xc)) {
+    if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
         BillboardCharacter::setAllCharaAnim(false);
         TownStageManager::getSingleton()->stage_.m_fld.SetPause(1);
-    } else if (data_0210bb94.unkfunc_02058114(0xe)) {
+    } else if (g_GlobalDQ4.unkfunc_02058114(0xe)) {
         fld::FieldStage::getSingleton()->fieldData.pause_ = 1;
         SpriteCharacter::setAllCharaAnim(false);
     }
@@ -54,7 +54,7 @@ ARM void window::ShopMenuControl::execute()
             }
             break;
         case RELEASE_WAIT:
-            if (data_0210bb94.unkfunc_02058114(0xc)) {
+            if (g_GlobalDQ4.unkfunc_02058114(0xc)) {
                 TownStageManager::getSingleton()->stage_.m_fld.SetPause(0);
                 BillboardCharacter::setAllCharaAnim(true);
             } else {

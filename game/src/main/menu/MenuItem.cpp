@@ -118,7 +118,7 @@ THUMB void menu::MenuItem::drawActive()
                 y += h / 2;
                 break;
             }
-            data_020f530c.arrow_.addArrow(x, y, ctype_, 0);
+            g_MenuDisplays.arrow_.addArrow(x, y, ctype_, 0);
         }
     }
 }
@@ -161,7 +161,7 @@ THUMB int menu::MenuItem::execInput()
         }
     }
     if (result_ == MENUITEM_RESULT_CHANGE || (unsigned int)(result_ - MENUITEM_RESULT_UP) <= MENUITEM_RESULT_RIGHT - MENUITEM_RESULT_UP) {
-        data_020f530c.arrow_.resetBlink();
+        g_MenuDisplays.arrow_.resetBlink();
     }
     if (result_ == MENUITEM_RESULT_OK && lastresult_ != result_ && enableSE_) {
         Sound::sePlay(300);

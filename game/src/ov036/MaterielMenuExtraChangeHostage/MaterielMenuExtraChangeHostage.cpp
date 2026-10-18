@@ -59,38 +59,38 @@ THUMB void MaterielMenuExtraChangeHostage::menuUpdate()
 
     switch (hostageStatus_) {
     case HOSTAGE_ISCHANGE:
-        if (data_020ed1bc.isOpen() != 0) {
-            if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-                data_020ed1bc.close();
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessageNOWAIT(0x1A049);
-                data_020ed1bc.addMessageWAITKEY();
+        if (g_TownMenuMessage.isOpen() != 0) {
+            if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+                g_TownMenuMessage.close();
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessageNOWAIT(0x1A049);
+                g_TownMenuMessage.addMessageWAITKEY();
                 hostageStatus_ = HOSTAGE_SELECT;
                 break;
             }
-            if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
                 hostageStatus_ = HOSTAGE_END;
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
             }
         } else {
-            data_020ed1bc.openMessageForTALK();
-            data_020ed1bc.addMessage(0x1A048);
-            data_020ed1bc.setYesNo();
+            g_TownMenuMessage.openMessageForTALK();
+            g_TownMenuMessage.addMessage(0x1A048);
+            g_TownMenuMessage.setYesNo();
         }
         break;
 
     case HOSTAGE_SELECT:
-        if (data_020ed1bc.isOpen() != 0
-         && (unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+        if (g_TownMenuMessage.isOpen() != 0
+         && (unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
         }
         memberUpdate();
         break;
 
     case HOSTAGE_CHANGING:
-        if (data_020ed1bc.isOpen() != 0) {
-            if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-                data_020ed1bc.close();
+        if (g_TownMenuMessage.isOpen() != 0) {
+            if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+                g_TownMenuMessage.close();
                 g_Global.fadeOutBlack(0x3C);
             }
         } else {
@@ -99,10 +99,10 @@ THUMB void MaterielMenuExtraChangeHostage::menuUpdate()
         break;
 
     case HOSTAGE_END:
-        if (data_020ed1bc.isOpen() != 0) {
-            if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
+        if (g_TownMenuMessage.isOpen() != 0) {
+            if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
                 close();
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
 
                 if (g_Global.bookingFlag_ == Global::BOOKING_HOSTAGE) {
                     g_Global.bookingFlag_ = Global::BOOKING_NONE;
@@ -116,8 +116,8 @@ THUMB void MaterielMenuExtraChangeHostage::menuUpdate()
                 MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
             }
         } else {
-            data_020ed1bc.openMessageForTALK();
-            data_020ed1bc.addMessage(0x19E42);
+            g_TownMenuMessage.openMessageForTALK();
+            g_TownMenuMessage.addMessage(0x19E42);
         }
         break;
     }
@@ -137,24 +137,24 @@ THUMB void MaterielMenuExtraChangeHostage::memberUpdate()
             if (isHostage() != 0) {
                 status::g_Party.setHostage(hostageID_, false);
                 status::g_Party.setHostage(newHostageID_, true);
-                data_020ed1bc.openMessageForTALK();
+                g_TownMenuMessage.openMessageForTALK();
                 TextAPI::setMACRO0(0x12, 0x50000000, newHostageID_);
-                data_020ed1bc.addMessage(0x1A051);
+                g_TownMenuMessage.addMessage(0x1A051);
                 TextAPI::setMACRO0(0x10, 0x50000000, hostageID_);
-                data_020ed1bc.addMessage(0x1A052);
+                g_TownMenuMessage.addMessage(0x1A052);
                 hostageStatus_ = HOSTAGE_CHANGING;
                 return;
             }
 
-            data_020ed1bc.openMessageForTALK();
+            g_TownMenuMessage.openMessageForTALK();
             TextAPI::setMACRO0(0x12, 0x50000000, newHostageID_);
-            data_020ed1bc.addMessage(0x1A04D);
-            data_020ed1bc.addMessage(0x1A048);
-            data_020ed1bc.setYesNo();
+            g_TownMenuMessage.addMessage(0x1A04D);
+            g_TownMenuMessage.addMessage(0x1A048);
+            g_TownMenuMessage.setYesNo();
             hostageStatus_ = HOSTAGE_ISCHANGE;
             return;
         } else if (r == 3) {
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             hostageStatus_ = HOSTAGE_END;
         }
     }

@@ -20,6 +20,6 @@ struct UnkModelMember {
     NNSG3dResMdl* unkfunc_020835d0();
 };
 
-extern NNSG3dResTex* data_0211d364;             // last loaded textures
+extern NNSG3dResTex* g_lastLoadedTex;             // last loaded textures
 
 NNSG3dResTex* getLastModelTexture();

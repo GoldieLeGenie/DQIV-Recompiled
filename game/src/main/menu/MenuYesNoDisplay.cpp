@@ -46,7 +46,7 @@ THUMB void UnkMenuYesNoDisplay::draw(UnkOamBuffer* main, UnkOamBuffer* sub)
         return;
     }
     int y = y_ % 192;
-    UnkMenuWindowFrame* frame = &data_020f530c.windowFrame2_;
+    UnkMenuWindowFrame* frame = &g_MenuDisplays.windowFrame2_;
     frame->setNameWidth(0);
     frame->setPosition(x_, y_);
     frame->setSize(w_, h_);

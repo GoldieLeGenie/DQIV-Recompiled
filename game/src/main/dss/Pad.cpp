@@ -7,7 +7,7 @@
 #endif
 
 dss::Pad dss::g_Pad;
-unsigned short data_02116d94[7200];
+unsigned short g_padRecordBuffer[7200];
 
 ARM void dss::Pad::init()
 {
@@ -44,11 +44,11 @@ ARM void dss::Pad::readKeys()
         break;
     case 1:
         if (wait_ != 0) {
-            data_02116ce0.unkfunc_0207e88c(0x18, 0x17, "REC WAIT");
+            g_DebugConsole.unkfunc_0207e88c(0x18, 0x17, "REC WAIT");
             keys = 0;
             wait_--;
         } else {
-            data_02116ce0.unkfunc_0207e88c(0x18, 0x17, "REC %4d", 7200 - recordCount_);
+            g_DebugConsole.unkfunc_0207e88c(0x18, 0x17, "REC %4d", 7200 - recordCount_);
             if (PAD_DetectFold()) {
                 stopRecord();
             }
@@ -68,12 +68,12 @@ ARM void dss::Pad::readKeys()
         break;
     case 2:
         if (wait_ != 0) {
-            data_02116ce0.unkfunc_0207e88c(0x17, 0x17, "PLAY WAIT");
+            g_DebugConsole.unkfunc_0207e88c(0x17, 0x17, "PLAY WAIT");
             keys = 0;
             wait_--;
         } else {
-            data_02116ce0.unkfunc_0207e88c(0x17, 0x17, "PLAY %4d", playCount_ + 1);
-            data_02116ce0.unkfunc_0207e88c(0x17, 0x16, "%4d/%4d", playIndex_, recordCount_);
+            g_DebugConsole.unkfunc_0207e88c(0x17, 0x17, "PLAY %4d", playCount_ + 1);
+            g_DebugConsole.unkfunc_0207e88c(0x17, 0x16, "%4d/%4d", playIndex_, recordCount_);
             if (PAD_DetectFold()) {
                 stopPlay();
             }
@@ -212,7 +212,7 @@ ARM void dss::Pad::startRecord()
 
 ARM void dss::Pad::stopRecord()
 {
-    data_02116ce0.unkfunc_0207e88c(0x18, 0x17, "        ");
+    g_DebugConsole.unkfunc_0207e88c(0x18, 0x17, "        ");
     mode_ = 0;
 }
 
@@ -233,7 +233,7 @@ ARM void dss::Pad::restartPlay()
 
 ARM unsigned short dss::Pad::getPlayKeys()
 {
-    unsigned short keys = data_02116d94[playIndex_++];
+    unsigned short keys = g_padRecordBuffer[playIndex_++];
     if (playIndex_ == recordCount_) {
         restartPlay();
     }
@@ -242,13 +242,13 @@ ARM unsigned short dss::Pad::getPlayKeys()
 
 ARM void dss::Pad::recordKeys(unsigned short keys)
 {
-    data_02116d94[recordCount_++] = keys;
+    g_padRecordBuffer[recordCount_++] = keys;
 }
 
 ARM void dss::Pad::stopPlay()
 {
-    data_02116ce0.unkfunc_0207e88c(0x17, 0x17, "         ");
-    data_02116ce0.unkfunc_0207e88c(0x17, 0x16, "         ");
+    g_DebugConsole.unkfunc_0207e88c(0x17, 0x17, "         ");
+    g_DebugConsole.unkfunc_0207e88c(0x17, 0x16, "         ");
     mode_ = 0;
 }
 
@@ -260,7 +260,7 @@ ARM void dss::Pad::clearRecord()
 ARM void dss::Pad::addRecordKeys(unsigned short keys, int count)
 {
     for (int i = 0; i < count; i++) {
-        data_02116d94[recordCount_++] = keys;
+        g_padRecordBuffer[recordCount_++] = keys;
     }
 }
 

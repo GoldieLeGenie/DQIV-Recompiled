@@ -15,7 +15,7 @@ static unsigned char s_msgSndQue[33];
 
 THUMB void ui_MsgSystemInit()
 {
-    s_draw = &data_020f530c.message_;
+    s_draw = &g_MenuDisplays.message_;
     ui_MsgSndSet(0x39);
 }
 
@@ -99,12 +99,12 @@ THUMB void ui_MsgAddWait()
 
 THUMB void ui_MsgDrawYesNo()
 {
-    data_020f530c.yesNo_.setEnable(1);
+    g_MenuDisplays.yesNo_.setEnable(1);
 }
 
 THUMB void ui_MsgSetYesNoCursor(int cursor)
 {
-    data_020f530c.yesNo_.setCursor(cursor);
+    g_MenuDisplays.yesNo_.setCursor(cursor);
 }
 
 THUMB void ui_MsgAddId(int strNo)

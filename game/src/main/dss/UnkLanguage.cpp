@@ -2,11 +2,11 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/text/TextAPI.hpp"
 
-int data_020c4a04 = 3;
+int g_gameRegion = 3;
 
 ARM int getGameRegion()
 {
-    return data_020c4a04;
+    return g_gameRegion;
 }
 
 ARM void getDefaultTownName(char* dst, int size, int id)

@@ -40,7 +40,7 @@ THUMB void UnkBattleMenu_0216cf44::menuExecute()
 
 THUMB void UnkBattleMenu_0216cf44::menuDraw()
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(btl::BattleMenuPlayerControl::getSingleton()->activeChara_)->haveStatusInfo_;
         int count = info->haveItem_.getCount();
         int items[12];
@@ -88,9 +88,9 @@ THUMB void UnkBattleMenu_0216cf44::unkfunc_0216d0ec()
 
 THUMB void UnkBattleMenu_0216cf44::unkfunc_0216d0f0()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
         }
         return;
     }
@@ -192,18 +192,18 @@ THUMB void UnkBattleMenu_0216cf44::selectEquip()
     if (info->haveEquipment_.isSpell(status::UseItem::getItemType(info->haveItem_.getItem(unk_14c)))) {
         MenuSoundManager::getSingleton()->setPlaySound(MenuSoundManager::MENU_SOUND_NOROI);
         int equipment = info->haveEquipment_.getEquipment(status::UseItem::getItemType(info->haveItem_.getItem(unk_14c)));
-        data_020ed1bc.openMessageForBATTLE();
+        g_TownMenuMessage.openMessageForBATTLE();
         TextAPI::setMACRO0(7, 0x40000000, equipment);
-        data_020ed1bc.addMessage(0xc3d8d);
+        g_TownMenuMessage.addMessage(0xc3d8d);
         unk_154 = 1;
         return;
     }
     if (!info->haveItem_.isEquipment(unk_14c)) {
         if (status::UseItem::isCurse(info->haveItem_.getItem(unk_14c)) && info->haveStatus_.playerIndex_ != 25) {
             MenuSoundManager::getSingleton()->setPlaySound(MenuSoundManager::MENU_SOUND_NOROI);
-            data_020ed1bc.openMessageForBATTLE();
+            g_TownMenuMessage.openMessageForBATTLE();
             TextAPI::setMACRO0(10, 0x40000000, info->haveItem_.getItem(unk_14c));
-            data_020ed1bc.addMessage(0xc3d8b);
+            g_TownMenuMessage.addMessage(0xc3d8b);
             gBattleMenuSub_HISTORY.update_ = 0;
             unk_154 = 1;
             if (info->haveItem_.getItem(unk_14c) == 0x5a) {

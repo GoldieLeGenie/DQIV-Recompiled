@@ -23,19 +23,19 @@ THUMB void MaterielMenu_MEDAL_KING::menuSetup()
 
 THUMB void MaterielMenu_MEDAL_KING::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
             if (systemMessage_ == 1) {
                 TextAPI::setMACRO0(0xa, 0x40000000, rewardItem_[nextRewardNo_]);
-                data_020ed1bc.restartMessage();
-                data_020ed1bc.addMessage(0xc8329);
+                g_TownMenuMessage.restartMessage();
+                g_TownMenuMessage.addMessage(0xc8329);
                 if (status::g_Party.medalCoin_ >= 60) {
                     mode_ = 1;
                 }
                 nextRewardNo_++;
                 systemMessage_ = 0;
             } else {
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
                 kingJudge();
             }
         }
@@ -54,25 +54,25 @@ THUMB void MaterielMenu_MEDAL_KING::selectMessage()
         haveAllReward();
         return;
     }
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     if (depositMedal == false && haveMedal_ == 0) {
         TextAPI::setMACRO0(0x3c, 0xf0000000, rewardCount_[nextRewardNo_]);
         TextAPI::setMACRO0(0xa, 0x40000000, rewardItem_[nextRewardNo_]);
-        data_020ed1bc.addMessage(0xc8322, 0xc8323, 0xc8336);
+        g_TownMenuMessage.addMessage(0xc8322, 0xc8323, 0xc8336);
         mode_ = 2;
     } else if (depositMedal == false && haveMedal_ != 0) {
         TextAPI::setMACRO0(0x3a, 0xf0000000, haveMedal_);
-        data_020ed1bc.addMessage(0xc8322, 0xc8323, 0xc8324, 0xc8325);
+        g_TownMenuMessage.addMessage(0xc8322, 0xc8323, 0xc8324, 0xc8325);
         mode_ = 0;
     } else if (depositMedal == true && haveMedal_ == 0) {
         TextAPI::setMACRO0(0x39, 0xf0000000, status::g_Party.medalCoin_);
         TextAPI::setMACRO0(0x3c, 0xf0000000, rewardCount_[nextRewardNo_]);
         TextAPI::setMACRO0(0xa, 0x40000000, rewardItem_[nextRewardNo_]);
-        data_020ed1bc.addMessage(0xc8338, 0xc832d, 0xc8336);
+        g_TownMenuMessage.addMessage(0xc8338, 0xc832d, 0xc8336);
         mode_ = 2;
     } else if (depositMedal == true && haveMedal_ != 0) {
         TextAPI::setMACRO0(0x39, 0xf0000000, haveMedal_ + status::g_Party.medalCoin_);
-        data_020ed1bc.addMessage(0xc8338, 0xc833a, 0xc833b);
+        g_TownMenuMessage.addMessage(0xc8338, 0xc833a, 0xc833b);
         mode_ = 0;
     }
 }
@@ -85,14 +85,14 @@ THUMB void MaterielMenu_MEDAL_KING::kingJudge()
             getReward();
             return;
         }
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         TextAPI::setMACRO0(0x39, 0xf0000000, status::g_Party.medalCoin_);
         TextAPI::setMACRO0(0x3c, 0xf0000000, rewardCount_[nextRewardNo_]);
         TextAPI::setMACRO0(0xa, 0x40000000, rewardItem_[nextRewardNo_]);
         if (getReward_) {
-            data_020ed1bc.addMessage(0xc832d);
+            g_TownMenuMessage.addMessage(0xc832d);
         }
-        data_020ed1bc.addMessage(0xc8336);
+        g_TownMenuMessage.addMessage(0xc8336);
         mode_ = 2;
         break;
     case 1:
@@ -120,18 +120,18 @@ THUMB void MaterielMenu_MEDAL_KING::getReward()
     if (havePlayer == false) {
         status::g_Party.haveItemSack_.add(itemID);
     }
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     TextAPI::setMACRO0(0x3b, 0xf0000000, nextCount);
     TextAPI::setMACRO0(0xa, 0x40000000, itemID);
-    data_020ed1bc.addMessage(0xc8328);
+    g_TownMenuMessage.addMessage(0xc8328);
     systemMessage_ = 1;
 }
 
 THUMB void MaterielMenu_MEDAL_KING::haveAllReward()
 {
     status::g_Party.addMedalCoin(haveMedal_);
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(0xc8330, 0xc8331, 0xc8332, 0xc8333);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(0xc8330, 0xc8331, 0xc8332, 0xc8333);
     mode_ = 2;
 }
 

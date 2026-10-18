@@ -1,6 +1,6 @@
 #include "main/sound/SoundPlayer.hpp"
 
-UnkSoundPlayer data_0210bd4c;
+UnkSoundPlayer g_SoundPlayer;
 
 ARM UnkSoundPlayer::UnkSoundPlayer() : enable_(0)
 {
@@ -28,14 +28,14 @@ ARM void UnkSoundPlayer::unkfunc_0205c710()
 ARM void UnkSoundPlayer::unkfunc_0205c76c(int bgm)
 {
     if (enable_) {
-        data_0211fc7c.unkfunc_020866e4(bgm);
+        g_SoundSystem.unkfunc_020866e4(bgm);
     }
 }
 
 ARM void UnkSoundPlayer::unkfunc_0205c78c(int a, int b)
 {
     if (enable_) {
-        data_0211fc7c.unkfunc_02086720(a, b);
+        g_SoundSystem.unkfunc_02086720(a, b);
     }
 }
 

@@ -93,7 +93,7 @@ THUMB void TownMenuItemSelectCommand::menuDraw()
 {
     char page = TownMenuPlayerControl::getSingleton()->activeItemPage_;
     drawItemCommandScreen(TownMenuPlayerControl::getSingleton()->activeChara_, itemID_, page, sound_);
-    if (!data_020ed1bc.isOpen() && sound_ == 0) {
+    if (!g_TownMenuMessage.isOpen() && sound_ == 0) {
         menuItem_.drawActive();
     }
 }
@@ -103,18 +103,18 @@ THUMB void TownMenuItemSelectCommand::menuUpdate()
     if (isLock_ == 1) {
         return;
     }
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == MENUBASE_STAT_OK || data_020ed1bc.stat_ == MENUBASE_STAT_CANCEL) {
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == MENUBASE_STAT_CANCEL) {
             if (isResult_ == 1 && openMessage_ == 1) {
-                data_020ed1bc.restartMessage();
+                g_TownMenuMessage.restartMessage();
                 if (itemID_ == 0x83) {
                     SoundManager::playSe(0x1f5, 0);
-                    data_020ed1bc.addMessage(0xc3d05);
+                    g_TownMenuMessage.addMessage(0xc3d05);
                     status::g_Party.setBattleMode();
                     for (int i = 0; i < status::g_Party.getCarriageOutCount(); i++) {
                         status::g_Party.getPlayerStatus(i)->haveStatusInfo_.setHp(updataHP_[i]);
                     }
-                    data_020ed1bc.setMessageLastCursor(false);
+                    g_TownMenuMessage.setMessageLastCursor(false);
                     status::g_Party.setPlayerMode();
                     openMessage_ = 0;
                     redraw_ = 1;
@@ -125,9 +125,9 @@ THUMB void TownMenuItemSelectCommand::menuUpdate()
                     int activeChara = TownMenuPlayerControl::getSingleton()->activeChara_;
                     TextAPI::setMACRO0(0x12, 0x50000000, status::g_Party.getPlayerIndex(activeChara));
                     TextAPI::setMACRO0(0x51, 0xf0000000, status::g_Party.getPlayerStatus(activeChara)->haveStatusInfo_.effectValue_);
-                    data_020ed1bc.addMessage(0xc3d73);
+                    g_TownMenuMessage.addMessage(0xc3d73);
                     if (resultMes_[2] != -1) {
-                        data_020ed1bc.addMessage(resultMes_[2]);
+                        g_TownMenuMessage.addMessage(resultMes_[2]);
                     }
                     status::g_Party.getPlayerStatus(activeChara)->haveStatusInfo_.setMp(updataMP_);
                     openMessage_ = 0;
@@ -135,7 +135,7 @@ THUMB void TownMenuItemSelectCommand::menuUpdate()
                     return;
                 }
             }
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
             if (itemID_ == 0x88) {
                 if (useItem_ == 1) {
                     MenuSoundManager::getSingleton()->setPlaySound(MenuSoundManager::MENU_SOUND_AYAKASHI);
@@ -154,12 +154,12 @@ THUMB void TownMenuItemSelectCommand::menuUpdate()
     if (!MenuSoundManager::getSingleton()->isPlaySound() && sound_ != 0) {
         int count = 0;
         sound_ = 0;
-        data_020ed1bc.openMessageForMENU();
+        g_TownMenuMessage.openMessageForMENU();
         while (resultMes_[count] != -1) {
             if (count > 4) {
                 break;
             }
-            data_020ed1bc.addMessage(resultMes_[count]);
+            g_TownMenuMessage.addMessage(resultMes_[count]);
             count++;
         }
         if (count == 0) {
@@ -219,10 +219,10 @@ THUMB void TownMenuItemSelectCommand::judgeUseItem()
 {
     int activeChara = TownMenuPlayerControl::getSingleton()->activeChara_;
     if (!TownMenuPlayerControl::getSingleton()->activeFukuro_ && status::g_Party.getPlayerStatus(activeChara)->haveStatusInfo_.isDeath()) {
-        data_020ed1bc.openMessageForMENU();
+        g_TownMenuMessage.openMessageForMENU();
         TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerIndex(activeChara));
         TextAPI::setMACRO0(10, 0x40000000, itemID_);
-        data_020ed1bc.addMessage(0xc3dd9);
+        g_TownMenuMessage.addMessage(0xc3dd9);
         return;
     }
     if (itemID_ == 0x72) {
@@ -238,10 +238,10 @@ THUMB void TownMenuItemSelectCommand::judgeUseItem()
                     }
                 }
             }
-            data_020ed1bc.openMessageForMENU();
+            g_TownMenuMessage.openMessageForMENU();
             TextAPI::setMACRO0(1, 0x50000000, status::g_Party.getPlayerIndex(activeChara));
             TextAPI::setMACRO0(10, 0x40000000, itemID_);
-            data_020ed1bc.addMessage(0xc3cf2, 0xc3d6f);
+            g_TownMenuMessage.addMessage(0xc3cf2, 0xc3d6f);
             return;
         }
         close();
@@ -330,7 +330,7 @@ THUMB void TownMenuItemSelectCommand::useItemNoTarget()
         boots_ = 1;
     }
     if (itemID_ == 0x88 || itemID_ == 0x9b) {
-        data_020ed1bc.openMessageForMENU();
+        g_TownMenuMessage.openMessageForMENU();
         TextAPI::setMACRO0(1, 0x50000000, useItemPlayer_);
         TextAPI::setMACRO0(10, 0x40000000, itemID_);
         MenuAPI::addMessageSerial(useMes[0]);
@@ -394,11 +394,11 @@ THUMB void TownMenuItemSelectCommand::setItemShowAction()
     int messageCount = status::UseItem::getJudgeMessageCount(itemID_);
     int itemValue = status::UseItem::getSellPrice(itemID_);
     int equipMemberCount = 0;
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     TextAPI::setMACRO0(10, 0x40000000, itemID_);
     TextAPI::setMACRO0(0x4b, 0xf0000000, itemValue);
     if (status::g_Party.getPlayerStatus(status::g_Party.getSortIndex(7))->haveStatusInfo_.isDeath() == 1) {
-        data_020ed1bc.addMessage(0xc4fc3);
+        g_TownMenuMessage.addMessage(0xc4fc3);
         return;
     }
     if (status::g_Story.chapter_ == 5) {
@@ -429,7 +429,7 @@ THUMB void TownMenuItemSelectCommand::setItemShowAction()
                 }
             }
         }
-        data_020ed1bc.addMessage(status::UseItem::getJudgeMessage(itemID_, i));
+        g_TownMenuMessage.addMessage(status::UseItem::getJudgeMessage(itemID_, i));
     }
 }
 
@@ -508,28 +508,28 @@ THUMB void TownMenuItemSelectCommand::useTarotCards()
         useItemNoTarget();
         return;
     }
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     if (status::g_Party.getPlayerStatus(index)->haveStatusInfo_.isDeath() || status::g_Party.isInsideCarriage(index)) {
-        data_020ed1bc.addMessage(0xc5156);
+        g_TownMenuMessage.addMessage(0xc5156);
         return;
     }
     if (status::g_Story.isTarot()) {
-        data_020ed1bc.addMessage(0xc5159, 0xc515a);
+        g_TownMenuMessage.addMessage(0xc5159, 0xc515a);
         return;
     }
     int mes[5] = { -1, -1, -1, -1, -1 };
     int messageCount = 0;
     status::g_Story.setTarot(1);
-    data_020ed1bc.addMessage(0xc505a, 0xc505b, 0xc505c, 0xc505d);
+    g_TownMenuMessage.addMessage(0xc505a, 0xc505b, 0xc505c, 0xc505d);
     TownMenuItemTarotMessage::getTarotMessage(mes, -1);
     while (mes[messageCount] != -1) {
         if (messageCount == 5) {
             break;
         }
-        data_020ed1bc.addMessage(mes[messageCount]);
+        g_TownMenuMessage.addMessage(mes[messageCount]);
         messageCount++;
     }
-    data_020ed1bc.addMessage(0xc5152, 0xc5153);
+    g_TownMenuMessage.addMessage(0xc5152, 0xc5153);
 }
 
 THUMB void TownMenuItemSelectCommand::resultItem()
@@ -554,7 +554,7 @@ THUMB void TownMenuItemSelectCommand::resultItem()
     }
     switch (itemID_) {
         case 0x9d:
-            if (data_0210bb94.unkfunc_02058114(0xe) == 1) {
+            if (g_GlobalDQ4.unkfunc_02058114(0xe) == 1) {
                 close();
                 FieldPlayerManager::getSingleton()->savePartyDrawInfo();
                 g_Global.prevPartTown_ = 0;
@@ -614,7 +614,7 @@ THUMB void TownMenuItemSelectCommand::setSpecialResultMessages()
     if (status::UseItem::getItemType(itemID_) == 7) {
         resultMes_[1] = 0xc3d21;
     }
-    if (itemID_ == 0x9d && data_0210bb94.unkfunc_02058114(0xe) == 0) {
+    if (itemID_ == 0x9d && g_GlobalDQ4.unkfunc_02058114(0xe) == 0) {
         resultMes_[1] = 0xc3dea;
     }
 }
@@ -623,7 +623,7 @@ THUMB void TownMenuItemSelectCommand::openUseItemMessage()
 {
     int count = 0;
     int active = TownMenuPlayerControl::getSingleton()->activeChara_;
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
     TextAPI::setMACRO0(1, 0x50000000, useItemPlayer_);
     TextAPI::setMACRO0(10, 0x40000000, itemID_);
     if (useInoriNoyubiwa_ == 1) {
@@ -638,10 +638,10 @@ THUMB void TownMenuItemSelectCommand::openUseItemMessage()
         if (count > 8) {
             break;
         }
-        data_020ed1bc.addMessage(resultMes_[count]);
+        g_TownMenuMessage.addMessage(resultMes_[count]);
         count++;
     }
     if ((itemID_ == 0x83 || itemID_ == 0x66) && isResult_ == 1) {
-        data_020ed1bc.setMessageCursor(true);
+        g_TownMenuMessage.setMessageCursor(true);
     }
 }

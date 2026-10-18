@@ -14,7 +14,7 @@ THUMB void UnkMaterielMenu_02189360::menuSetup()
     menuItem_.active_ = 0;
     navigator_.setupBase();
     unk_1c = 0;
-    unk_20 = data_020f0078.getEnvoyCount();
+    unk_20 = g_EnvoyManager.getEnvoyCount();
     navigator_.setup(2, 4, unk_20);
 }
 
@@ -26,7 +26,7 @@ THUMB void UnkMaterielMenu_02189360::menuExecute()
 
 THUMB void UnkMaterielMenu_02189360::menuDraw()
 {
-    if (data_020ed1bc.isOpen() != 1) {
+    if (g_TownMenuMessage.isOpen() != 1) {
         if (unk_1c <= 1) {
             int page = navigator_.getPageNo();
             int pageMax = navigator_.getPageMaxCount();
@@ -40,60 +40,60 @@ THUMB void UnkMaterielMenu_02189360::menuDraw()
 
 THUMB void UnkMaterielMenu_02189360::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             if (unk_1c == 1) {
-                data_020f0078.selectEnvoy(navigator_.getIndex(menuItem_.active_));
-                unsigned char* name = data_020f0078.getName();
-                data_020ed1bc.openMessageForTALK();
+                g_EnvoyManager.selectEnvoy(navigator_.getIndex(menuItem_.active_));
+                unsigned char* name = g_EnvoyManager.getName();
+                g_TownMenuMessage.openMessageForTALK();
                 TextAPI::setMACRO0(0x1d, 0xd0000000, 0);
                 TextAPI::setUserString(0, (char*)name);
-                data_020ed1bc.addMessage(0x92a29, 0x92a2a);
-                data_020ed1bc.setYesNo(1);
-                data_020ed1bc.setYesNoPosition(0xc0, 0x40);
+                g_TownMenuMessage.addMessage(0x92a29, 0x92a2a);
+                g_TownMenuMessage.setYesNo(1);
+                g_TownMenuMessage.setYesNoPosition(0xc0, 0x40);
                 unk_1c = 2;
-                data_020f0078.removeEnvoy(navigator_.getIndex(menuItem_.active_));
-                unk_20 = data_020f0078.getEnvoyCount();
+                g_EnvoyManager.removeEnvoy(navigator_.getIndex(menuItem_.active_));
+                unk_20 = g_EnvoyManager.getEnvoyCount();
                 navigator_.setup(2, 4, unk_20);
                 return;
             }
             if (unk_1c == 2) {
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(0x92a1e);
-                if (data_020f0078.getEnvoyCount() == 0) {
-                    data_020ed1bc.addMessage(0x92a21, 0x92a22);
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(0x92a1e);
+                if (g_EnvoyManager.getEnvoyCount() == 0) {
+                    g_TownMenuMessage.addMessage(0x92a21, 0x92a22);
                     unk_1c = 3;
                     return;
                 }
                 unk_1c = 0;
                 menuItem_.active_ = 0;
                 navigator_.setPageNo(0);
-                unk_20 = data_020f0078.getEnvoyCount();
+                unk_20 = g_EnvoyManager.getEnvoyCount();
                 return;
             }
             if (unk_1c == 3) {
                 close();
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessageNOWAIT(0x92a33);
-                data_020ed1bc.addMessageWAITKEY();
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessageNOWAIT(0x92a33);
+                g_TownMenuMessage.addMessageWAITKEY();
                 gMaterielMenu_SURECHIGAI_ROOT.open();
             }
             return;
         }
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             if ((unsigned int)(unk_1c - 1) <= 1) {
                 if (unk_1c == 1) {
-                    data_020ed1bc.openMessageForTALK();
-                    data_020ed1bc.addMessage(0x92a2c);
+                    g_TownMenuMessage.openMessageForTALK();
+                    g_TownMenuMessage.addMessage(0x92a2c);
                     unk_1c = 3;
                     return;
                 }
                 close();
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessageNOWAIT(0x92a33);
-                data_020ed1bc.addMessageWAITKEY();
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessageNOWAIT(0x92a33);
+                g_TownMenuMessage.addMessageWAITKEY();
                 gMaterielMenu_SURECHIGAI_ROOT.open();
             }
         }
@@ -104,19 +104,19 @@ THUMB void UnkMaterielMenu_02189360::menuUpdate()
         int result = MenuUpdate_Assist::menuSelect(menuItem_, navigator_);
         if (result != 0) {
             if (result == 2) {
-                data_020f0078.selectEnvoy(navigator_.getIndex(menuItem_.active_));
-                unsigned char* name = data_020f0078.getName();
+                g_EnvoyManager.selectEnvoy(navigator_.getIndex(menuItem_.active_));
+                unsigned char* name = g_EnvoyManager.getName();
                 unk_1c = 1;
-                data_020ed1bc.openMessageForTALK();
+                g_TownMenuMessage.openMessageForTALK();
                 TextAPI::setMACRO0(0x1d, 0xd0000000, 0);
                 TextAPI::setUserString(0, (char*)name);
-                data_020ed1bc.addMessage(0x92a28);
-                data_020ed1bc.setYesNo(1);
-                data_020ed1bc.setYesNoPosition(0xc0, 0x40);
+                g_TownMenuMessage.addMessage(0x92a28);
+                g_TownMenuMessage.setYesNo(1);
+                g_TownMenuMessage.setYesNoPosition(0xc0, 0x40);
             }
             if (result == 3) {
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(0x92a2f);
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(0x92a2f);
                 unk_1c = 3;
             }
             redraw_ = 1;

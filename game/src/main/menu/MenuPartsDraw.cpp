@@ -12,19 +12,19 @@ int data_021098c4;
 
 THUMB int setNamePlateText(int index, const char* text)
 {
-    return data_020f530c.texts_[index].setFramedText(10, text, 0, 0);
+    return g_MenuDisplays.texts_[index].setFramedText(10, text, 0, 0);
 }
 
 #ifdef DQIV_NATIVE
 void unkfunc_native_platePalette(int index, int palette)
 {
-    data_020f530c.texts_[index].letterPalette_ = palette;
+    g_MenuDisplays.texts_[index].letterPalette_ = palette;
 }
 #endif
 
 THUMB void showNamePlate(int index, int x, int y, int priority, int flag)
 {
-    UnkMenuTextDisplay* plate = &data_020f530c.texts_[index];
+    UnkMenuTextDisplay* plate = &g_MenuDisplays.texts_[index];
     plate->setPosition(x, y);
     plate->priority_ = priority;
     plate->frame_ = 1;
@@ -37,7 +37,7 @@ THUMB void showNamePlate(int index, int x, int y, int priority, int flag)
 
 THUMB void showHoppingNumber(int x, int y, int value, int delay)
 {
-    data_020f530c.hopping_.startNumber(x, y, value, delay);
+    g_MenuDisplays.hopping_.startNumber(x, y, value, delay);
 }
 
 THUMB void drawMenuPartsPlain(UnkMenuParts* parts, int* param)
@@ -114,8 +114,8 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
 {
     int palette = part->getPalette();
     int color = part->getTextColor();
-    int px = x + (part->x_ + data_021098a4);
-    int py = y + (part->y_ + data_021098a8);
+    int px = x + (part->x_ + g_menuPartsOriginX);
+    int py = y + (part->y_ + g_menuPartsOriginY);
     int w = part->w_;
     if (w == 0) {
         w = 256;
@@ -148,7 +148,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
         drawMenuWindowBorder(px, py, w, h, palette);
         return;
     case 5:
-        if (data_021098ac == 1) {
+        if (g_menuBgDrawEnabled == 1) {
             int sub = part->subType_;
             if (sub == 0) {
                 hflip = 0;
@@ -166,12 +166,12 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
                 hflip = 1;
                 vflip = 1;
             }
-            fillScreenBufferTilesFlipped(data_021098b0, px / 8, py / 8, w / 8, h / 8, palette, vflip, hflip, index);
+            fillScreenBufferTilesFlipped(g_menuBackScreen, px / 8, py / 8, w / 8, h / 8, palette, vflip, hflip, index);
             return;
         }
         break;
     case 6:
-        if (data_021098ac == 1) {
+        if (g_menuBgDrawEnabled == 1) {
             int sub = part->subType_;
             if (sub == 0) {
                 hflip = 0;
@@ -189,12 +189,12 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
                 hflip = 1;
                 vflip = 1;
             }
-            fillScreenBufferTilesFlipped(data_021098b4, px / 8, py / 8, w / 8, h / 8, palette, vflip, hflip, index);
+            fillScreenBufferTilesFlipped(g_menuWindowScreen, px / 8, py / 8, w / 8, h / 8, palette, vflip, hflip, index);
             return;
         }
         break;
     case 7:
-        if (data_021098ac == 1) {
+        if (g_menuBgDrawEnabled == 1) {
             int sub = part->subType_;
             if (sub == 0) {
                 hflip = 0;
@@ -212,10 +212,10 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
                 hflip = 1;
                 vflip = 1;
             }
-            mapCharBufferToScreen(data_021098b4, px / 8, py / 8, w / 8, h / 8, palette);
+            mapCharBufferToScreen(g_menuWindowScreen, px / 8, py / 8, w / 8, h / 8, palette);
             for (int j = 0; j < h / 8; j++) {
                 for (int i = 0; i < w / 8; i++) {
-                    drawCharBufferSystemTile(data_021098b8, px / 8 + i, py / 8 + j, vflip, hflip, index);
+                    drawCharBufferSystemTile(g_menuWindowChars, px / 8 + i, py / 8 + j, vflip, hflip, index);
                 }
             }
             return;
@@ -223,7 +223,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
         break;
     case 10:
     case 11: {
-        UnkMenuFaceDisplay* face = &data_020f530c.face_;
+        UnkMenuFaceDisplay* face = &g_MenuDisplays.face_;
         face->setEnable(1);
         face->loadFace(value);
         face->setPosition(px, py);
@@ -231,7 +231,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
         return;
     }
     case 9: {
-        UnkMenuIconDisplay* icon = &data_020f530c.icon_;
+        UnkMenuIconDisplay* icon = &g_MenuDisplays.icon_;
         int slot = part->getIconSlot();
         icon->setEnable(1);
         icon->loadIcon(slot, value);
@@ -240,7 +240,7 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
         return;
     }
     case 12:
-        if (data_021098ac == 1 && value != -1) {
+        if (g_menuBgDrawEnabled == 1 && value != -1) {
             int sub = part->subType_;
             int type = 0xf0000000;
             if (sub == 0xf0) {
@@ -411,12 +411,12 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
         }
         if (kind != 0) {
             py -= 192;
-            data_020f530c.arrow_.addArrow(px, py, kind, part->attr_ != 0 ? 1 : 0);
+            g_MenuDisplays.arrow_.addArrow(px, py, kind, part->attr_ != 0 ? 1 : 0);
         }
         return;
     }
     case 22:
-        if (data_021098ac == 1) {
+        if (g_menuBgDrawEnabled == 1) {
             int line = 0;
             switch (index) {
             case 0:
@@ -432,12 +432,12 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
                 line = 3;
                 break;
             }
-            drawScreenBufferHLine(data_021098b4, px / 8, py / 8, w / 8, palette, line);
+            drawScreenBufferHLine(g_menuWindowScreen, px / 8, py / 8, w / 8, palette, line);
             return;
         }
         break;
     case 23:
-        if (data_021098ac == 1) {
+        if (g_menuBgDrawEnabled == 1) {
             unsigned short left;
             unsigned short middle;
             unsigned short end;
@@ -468,22 +468,22 @@ THUMB void drawMenuPart(UnkMenuParts* part, int* param, int x, int y, int defaul
                 end = 0x17;
                 break;
             }
-            mapCharBufferToScreen(data_021098b4, px / 8, py / 8, w / 8, 1, palette);
+            mapCharBufferToScreen(g_menuWindowScreen, px / 8, py / 8, w / 8, 1, palette);
             for (int i = 1; i < w / 8 - 1; i++) {
-                drawCharBufferSystemTile(data_021098b8, px / 8 + i, py / 8, 0, 0, middle);
+                drawCharBufferSystemTile(g_menuWindowChars, px / 8 + i, py / 8, 0, 0, middle);
             }
-            drawCharBufferSystemTile(data_021098b8, px / 8, py / 8, 0, 0, left);
-            drawCharBufferSystemTile(data_021098b8, px / 8 + w / 8 - 1, py / 8, 0, 0, end);
+            drawCharBufferSystemTile(g_menuWindowChars, px / 8, py / 8, 0, 0, left);
+            drawCharBufferSystemTile(g_menuWindowChars, px / 8 + w / 8 - 1, py / 8, 0, 0, end);
             return;
         }
         break;
     case 24:
-        if (data_021098ac == 1) {
-            fillCharBufferRect(data_021098b8, px / 8, py / 8, w / 8, h / 8,
+        if (g_menuBgDrawEnabled == 1) {
+            fillCharBufferRect(g_menuWindowChars, px / 8, py / 8, w / 8, h / 8,
                           color | (color << 4) | (color << 8) | (color << 12) | (color << 16) | (color << 20) |
                               (color << 24) | (color << 28));
-            fillScreenBufferTilesFlipped(data_021098b4, px / 8, py / 8, w / 8, h / 8, 15, 0, 0, 0);
-            mapCharBufferToScreen(data_021098b4, px / 8, py / 8, w / 8, 1, 15);
+            fillScreenBufferTilesFlipped(g_menuWindowScreen, px / 8, py / 8, w / 8, h / 8, 15, 0, 0, 0);
+            mapCharBufferToScreen(g_menuWindowScreen, px / 8, py / 8, w / 8, 1, 15);
         }
         break;
     case 0xff:

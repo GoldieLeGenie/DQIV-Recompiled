@@ -29,7 +29,7 @@ THUMB void BattleMenu_ARRAYMENU::menuExecute()
 
 THUMB void BattleMenu_ARRAYMENU::menuDraw()
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawFormationMenu();
         menuItem_.drawActive();
     }
@@ -37,9 +37,9 @@ THUMB void BattleMenu_ARRAYMENU::menuDraw()
 
 THUMB void BattleMenu_ARRAYMENU::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
         }
         return;
     }
@@ -68,8 +68,8 @@ THUMB void BattleMenu_ARRAYMENU::menuUpdate()
                 gBattleMenu_ARRAY_CHANGE.open();
                 break;
             }
-            data_020ed1bc.openMessageForBATTLE();
-            data_020ed1bc.addMessage(0xc3c6d);
+            g_TownMenuMessage.openMessageForBATTLE();
+            g_TownMenuMessage.addMessage(0xc3c6d);
             break;
         }
         close();

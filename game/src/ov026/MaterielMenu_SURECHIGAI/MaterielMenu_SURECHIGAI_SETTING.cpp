@@ -13,12 +13,12 @@
 THUMB void UnkMaterielMenu_02189a80::menuSetup()
 {
     status::g_Party.setPlayerMode();
-    data_020f0078.mode_ = 1;
+    g_EnvoyManager.mode_ = 1;
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
     menuItem_.active_ = 0;
     navigator_.setupBase();
     unk_1c = 1;
-    unk_20 = data_020f0078.getType();
+    unk_20 = g_EnvoyManager.getType();
 }
 
 THUMB void UnkMaterielMenu_02189a80::menuExecute()
@@ -49,9 +49,9 @@ THUMB void UnkMaterielMenu_02189a80::menuDraw()
 
 THUMB void UnkMaterielMenu_02189a80::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             if (unk_1c == 0) {
                 close();
                 gMaterielMenu_NameEdit.open();
@@ -63,28 +63,28 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
             if (unk_1c == 4) {
                 unk_1c = 8;
                 ui_MsgSndSet(0x32);
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(0x92a79);
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(0x92a79);
                 return;
             }
             if (unk_1c == 7) {
                 unk_1c = 6;
                 ui_MsgSndSet(0x32);
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(0x92a81);
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(0x92a81);
                 return;
             }
             if (unk_1c == 6) {
-                data_020ed1bc.openMessageForTALK();
+                g_TownMenuMessage.openMessageForTALK();
                 if (MaterielMenu_WINDOW_MANAGER::getSingleton()->editMessageForScript_ == 1) {
-                    data_020ed1bc.addMessage(0x92a94);
+                    g_TownMenuMessage.addMessage(0x92a94);
                 } else {
                     ui_MsgSndSet(0x32);
-                    data_020ed1bc.addMessage(0x92a81);
+                    g_TownMenuMessage.addMessage(0x92a81);
                     if (unk_24 == 1) {
                         MaterielMenu_WINDOW_MANAGER::getSingleton()->changeTaishi_ = 1;
                     }
-                    data_020f0078.clearBackup();
+                    g_EnvoyManager.clearBackup();
                 }
                 unk_1c = 9;
                 return;
@@ -96,30 +96,30 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
             MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
             return;
         }
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             if (unk_1c == 4) {
                 unk_1c = 5;
                 ui_MsgSndSet(0x32);
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(0x92a7b);
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(0x92a7b);
                 return;
             }
             if (unk_1c == 5) {
                 unk_1c = 8;
                 ui_MsgSndSet(0x32);
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(0x92a83);
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(0x92a83);
                 return;
             }
             if (unk_1c == 6) {
                 unk_1c = 8;
-                data_020ed1bc.openMessageForTALK();
+                g_TownMenuMessage.openMessageForTALK();
                 if (MaterielMenu_WINDOW_MANAGER::getSingleton()->editMessageForScript_ == 1) {
-                    data_020ed1bc.addMessage(0x92a8e);
+                    g_TownMenuMessage.addMessage(0x92a8e);
                 } else {
                     ui_MsgSndSet(0x32);
-                    data_020ed1bc.addMessage(0x92a83, 0x92a79);
+                    g_TownMenuMessage.addMessage(0x92a83, 0x92a79);
                 }
                 proceedStep();
                 return;
@@ -151,15 +151,15 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
         if (result == 3) {
             unk_1c--;
             if (unk_1c == 1) {
-                menuItem_.active_ = data_020f0078.getSex();
+                menuItem_.active_ = g_EnvoyManager.getSex();
             }
             if (unk_1c == 2) {
-                menuItem_.active_ = data_020f0078.getAge();
+                menuItem_.active_ = g_EnvoyManager.getAge();
             }
             if (unk_1c == 0) {
                 ui_MsgSndSet(0x32);
-                data_020ed1bc.openMessageForTALK();
-                data_020ed1bc.addMessage(0x92a73);
+                g_TownMenuMessage.openMessageForTALK();
+                g_TownMenuMessage.addMessage(0x92a73);
             }
         }
         if (unk_1c == 3) {
@@ -175,27 +175,27 @@ THUMB void UnkMaterielMenu_02189a80::proceedStep()
     switch (unk_1c) {
     case 1:
         unk_1c = 2;
-        data_020f0078.setSex(menuItem_.active_);
+        g_EnvoyManager.setSex(menuItem_.active_);
         menuItem_.active_ = 0;
         break;
     case 2:
         unk_1c = 3;
-        data_020f0078.setAge(menuItem_.active_);
+        g_EnvoyManager.setAge(menuItem_.active_);
         menuItem_.active_ = 0;
         break;
     case 3: {
-        data_020f0078.setHeroName(status::g_Story.heroName);
-        data_020f0078.setUnique(status::g_Game.getUniqueID());
+        g_EnvoyManager.setHeroName(status::g_Story.heroName);
+        g_EnvoyManager.setUnique(status::g_Game.getUniqueID());
         unk_1c = 4;
-        data_020f0078.setSkill(navigator_.getIndex(menuItem_.active_));
+        g_EnvoyManager.setSkill(navigator_.getIndex(menuItem_.active_));
         int page = navigator_.getPageNo();
         MaterielMenuPlayerControl::getSingleton()->activeChiausSkillPage_ = page;
         menuItem_.active_ = 0;
         ui_MsgSndSet(0x32);
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessage(0x92a78);
-        data_020ed1bc.setYesNo();
-        data_020ed1bc.setYesNoPosition(0xc0, 0x40);
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessage(0x92a78);
+        g_TownMenuMessage.setYesNo();
+        g_TownMenuMessage.setYesNoPosition(0xc0, 0x40);
         break;
     }
     case 5:

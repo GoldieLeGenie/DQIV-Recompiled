@@ -62,7 +62,7 @@ THUMB void MaterielMenu_PICTUREBOOK_ROOT::menuDraw()
 {
     if (status::g_BattleResult.getEncountCount() != 0) {
         drawMonsterBookScreen(monsterName_, monsterFlag_);
-        if (m_state == 0 && !data_020ed1bc.isOpen()) {
+        if (m_state == 0 && !g_TownMenuMessage.isOpen()) {
             menuItem_.drawActive();
         }
     }
@@ -72,12 +72,12 @@ THUMB void MaterielMenu_PICTUREBOOK_ROOT::menuUpdate()
 {
     if (!MenuSoundManager::getSingleton()->isPlaySound() && m_state == 1) {
         m_state = 0;
-        data_020ed1bc.openMessageForMENU();
-        data_020ed1bc.addMessage(0xc3d9c, 0xc3d9d);
+        g_TownMenuMessage.openMessageForMENU();
+        g_TownMenuMessage.addMessage(0xc3d9c, 0xc3d9d);
     }
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
             close();
             cmn::g_extraMapLink.setMonstarBookLink();
             g_Stage.returnBookFlag_ = 1;

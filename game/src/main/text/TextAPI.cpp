@@ -95,7 +95,7 @@ THUMB void TextAPI::getMonsterNamePlateTextImitation(char* text, int monsterInde
         opt = 2;
     }
     var.extract_var(work, 0x200, opt);
-    translateTextPrefix(data_020c45b0, data_020c4618, upper, 0x200, work, 1);
+    translateTextPrefix(g_upperCaseCharTable, g_lowerCaseCharTable, upper, 0x200, work, 1);
     g_text_extractor.extractText(name, 0x200, 0xf0000000, flag);
     if (flag == 1) {
         dss::sprintf(text, "%s", upper);
@@ -113,7 +113,7 @@ THUMB void TextAPI::getPlayerNamePlateTextImitation(char* text, int playerIndex,
 
     var.set(1, 0, 0x50000000, playerIndex, 1, -1);
     var.extract_var(work, 0x200, 0);
-    translateTextPrefix(data_020c45b0, data_020c4618, upper, 0x200, work, 1);
+    translateTextPrefix(g_upperCaseCharTable, g_lowerCaseCharTable, upper, 0x200, work, 1);
     g_text_extractor.extractText(name, 0x200, 0xf0000000, flag);
     if (flag == 1) {
         dss::sprintf(text, "%s", upper);

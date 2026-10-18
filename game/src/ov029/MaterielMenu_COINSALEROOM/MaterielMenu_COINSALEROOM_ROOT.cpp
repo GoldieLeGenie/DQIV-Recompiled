@@ -34,7 +34,7 @@ THUMB void MaterielMenu_COINSALEROOM_ROOT::menuExecute()
 
 THUMB void MaterielMenu_COINSALEROOM_ROOT::menuDraw()
 {
-    if (data_020ed1bc.isMessageWAITPROG()) {
+    if (g_TownMenuMessage.isMessageWAITPROG()) {
         drawCoinSaleroomScreen(coin_, 1);
         if (blink_ != 0) {
             if (blinkCount_ > 15) {
@@ -62,8 +62,8 @@ THUMB void MaterielMenu_COINSALEROOM_ROOT::menuUpdate()
 
 THUMB bool MaterielMenu_COINSALEROOM_ROOT::messageUpdata()
 {
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
             closeMessage();
         }
         return false;
@@ -77,8 +77,8 @@ THUMB bool MaterielMenu_COINSALEROOM_ROOT::messageUpdata()
             TextAPI::setMACRO0(0x2a, 0xf0000000, status::g_Party.casinoCoin_);
             TextAPI::setMACRO0(0x44, 0xf0000000, coinPrice_);
             showMessage(0xc870a, 0xc8711, 0xc8712);
-            data_020ed1bc.setMessageLastCursor(true);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.setMessageLastCursor(true);
+            g_TownMenuMessage.addMessageWAITKEY();
             blink_ = 1;
             redraw_ = 1;
             mode_ = -1;
@@ -88,8 +88,8 @@ THUMB bool MaterielMenu_COINSALEROOM_ROOT::messageUpdata()
         TextAPI::setMACRO0(0x2a, 0xf0000000, status::g_Party.casinoCoin_);
         TextAPI::setMACRO0(0x44, 0xf0000000, coinPrice_);
         showMessage(0xc8711, 0xc8712, -1);
-        data_020ed1bc.setMessageLastCursor(true);
-        data_020ed1bc.addMessageWAITKEY();
+        g_TownMenuMessage.setMessageLastCursor(true);
+        g_TownMenuMessage.addMessageWAITKEY();
         blink_ = 1;
         redraw_ = 1;
         mode_ = -1;
@@ -103,7 +103,7 @@ THUMB bool MaterielMenu_COINSALEROOM_ROOT::messageUpdata()
 
 THUMB void MaterielMenu_COINSALEROOM_ROOT::buyCoinUpdata()
 {
-    if (data_020ed1bc.isOpen() && data_020ed1bc.isMessageWAITPROG()) {
+    if (g_TownMenuMessage.isOpen() && g_TownMenuMessage.isMessageWAITPROG()) {
         if (first_ == 1) {
             redraw_ = 1;
             first_ = 0;
@@ -172,7 +172,7 @@ THUMB void MaterielMenu_COINSALEROOM_ROOT::buyCoinUpdata()
 
 THUMB void MaterielMenu_COINSALEROOM_ROOT::closeMessage()
 {
-    data_020ed1bc.close();
+    g_TownMenuMessage.close();
     if (status::g_Party.casinoCoin_ == 999999) {
         MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
     }
@@ -186,12 +186,12 @@ THUMB void MaterielMenu_COINSALEROOM_ROOT::cancelBuyCoin()
 
 THUMB void MaterielMenu_COINSALEROOM_ROOT::showMessage(int messageID1, int messageID2, int messageID3)
 {
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(messageID1);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(messageID1);
     if (messageID2 != -1) {
-        data_020ed1bc.addMessage(messageID2);
+        g_TownMenuMessage.addMessage(messageID2);
     }
     if (messageID3 != -1) {
-        data_020ed1bc.addMessage(messageID3);
+        g_TownMenuMessage.addMessage(messageID3);
     }
 }

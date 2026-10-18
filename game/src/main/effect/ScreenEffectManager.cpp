@@ -114,34 +114,34 @@ THUMB bool UnkScreenEffectManager::isEffectDrawing()
 THUMB void UnkScreenEffectManager::startWhiteFlash()
 {
     step_ = 0;
-    data_020f21f8.state_ = GlobalFade::FADE_IN_BLACK;
-    data_020f21f8.count_ = 0;
-    data_020f21f8.frames_ = 30;
-    data_020f21f8.sprite_[0].setColor(0x1f, 0x1f, 0x1f);
-    data_020f21f8.sprite_[1].setColor(0x1f, 0x1f, 0x1f);
-    data_0210bc18.unkfunc_02058294(&data_020f21f8);
+    g_SpriteFade.state_ = GlobalFade::FADE_IN_BLACK;
+    g_SpriteFade.count_ = 0;
+    g_SpriteFade.frames_ = 30;
+    g_SpriteFade.sprite_[0].setColor(0x1f, 0x1f, 0x1f);
+    g_SpriteFade.sprite_[1].setColor(0x1f, 0x1f, 0x1f);
+    g_GlobalGamePartManager.unkfunc_02058294(&g_SpriteFade);
     TownPlayerManager::getSingleton()->setLock(1);
     SoundManager::playSe(0x469, 0);
 }
 
 THUMB void UnkScreenEffectManager::updateWhiteFlash()
 {
-    if (data_020f21f8.count_ == data_020f21f8.frames_) {
+    if (g_SpriteFade.count_ == g_SpriteFade.frames_) {
         if (step_ == 0) {
-            switch (data_020f21f8.state_) {
+            switch (g_SpriteFade.state_) {
                 case GlobalFade::FADE_NONE:
-                    data_020f21f8.state_ = GlobalFade::FADE_OUT_BLACK;
+                    g_SpriteFade.state_ = GlobalFade::FADE_OUT_BLACK;
                     break;
                 case GlobalFade::FADE_IN_BLACK:
-                    data_020f21f8.state_ = GlobalFade::FADE_OUT_WHITE;
+                    g_SpriteFade.state_ = GlobalFade::FADE_OUT_WHITE;
                     break;
                 default:
-                    data_020f21f8.state_ = GlobalFade::FADE_OUT_BLACK;
+                    g_SpriteFade.state_ = GlobalFade::FADE_OUT_BLACK;
                     break;
             }
-            data_020f21f8.count_ = 0;
-            data_020f21f8.frames_ = 30;
-            data_0210bc18.unkfunc_02058294(&data_020f21f8);
+            g_SpriteFade.count_ = 0;
+            g_SpriteFade.frames_ = 30;
+            g_GlobalGamePartManager.unkfunc_02058294(&g_SpriteFade);
             step_ = 1;
         } else {
             SoundManager::playSe(0x1f5, 0);

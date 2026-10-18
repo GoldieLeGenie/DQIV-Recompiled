@@ -49,10 +49,10 @@
 
 // 8-byte bss item at the start of the TU, only referenced by a function the linker strips (stand-in, not original)
 int data_020c4f70[2];
-UnkGameApplication data_020c4fe4;
+UnkGameApplication g_GameApplication;
 
-UnkAppBuildDate data_020c4f90;
-UnkBattleMapList data_020c4fb4;
+UnkAppBuildDate g_appBuildDate;
+UnkBattleMapList g_battleMapList;
 // month names of vf08 as named strings: their creation order gives the ROM .data order of the original literals (stand-in, not original)
 static char s_monthApr[] = "Apr";
 static char s_monthMay[] = "May";
@@ -76,7 +76,7 @@ inline void setGameLanguage(Language language)
 ARM void UnkGameApplication::vf00()
 {
 #ifndef DQIV_NATIVE
-    initHeap(&data_0211a60c, 0x18000, 0x1000, 0x280000, 0);
+    initHeap(&g_appHeap, 0x18000, 0x1000, 0x280000, 0);
 #endif
     dss::g_File.unkfunc_0207ea64(0);
     int region = getGameRegion();
@@ -146,14 +146,14 @@ ARM void UnkGameApplication::vf00()
     table81_.setup("DATA/G2D/BIN/81_9F.bin", 0, 0);
     tableE0_.setup("DATA/G2D/BIN/E0_EF.bin", 0, 0);
     initSjisTables((unsigned short*)table81_.getAddr(), table81_.getSize(), (unsigned short*)tableE0_.getAddr(), tableE0_.getSize());
-    data_02116ce0.unkfunc_0207e804();
+    g_DebugConsole.unkfunc_0207e804();
     loadMenuSystemFiles();
     TextAPI::unkfunc_02054690();
     g_text_env.m_text_hook = &gTextHook;
-    data_0211fc7c.unkfunc_020865f4((void*)"data/sound/sound_data.sdat", 1);
-    data_0210bd4c.unkfunc_0205c710();
-    data_0210bd4c.unkfunc_0205c78c(0, 0x6e);
-    data_0210bd4c.unkfunc_0205c78c(0, 0x6f);
+    g_SoundSystem.unkfunc_020865f4((void*)"data/sound/sound_data.sdat", 1);
+    g_SoundPlayer.unkfunc_0205c710();
+    g_SoundPlayer.unkfunc_0205c78c(0, 0x6e);
+    g_SoundPlayer.unkfunc_0205c78c(0, 0x6f);
     vf0c();
     vf08();
     unkfunc_02008768();
@@ -186,7 +186,7 @@ ARM void UnkGameApplication::vf04()
     GX_DispOn();
     GXS_DispOn();
     GX_SetDispSelect(0);
-    data_0211e450.initTransferQueue();
+    g_VramTransfer.initTransferQueue();
     GX_SetDispSelect(0);
 }
 
@@ -196,52 +196,52 @@ ARM void UnkGameApplication::vf08()
     char text[0x21];
     const char* month[12] = { s_monthJan, s_monthFeb, s_monthMar, s_monthApr, s_monthMay, s_monthJun, s_monthJul, s_monthAug, s_monthSep, s_monthOct, s_monthNov, s_monthDec };
     for (int i = 0; i < 12; i++) {
-        if (data_020c4f90.date_[0] == month[i][0] && data_020c4f90.date_[1] == month[i][1] && data_020c4f90.date_[2] == month[i][2]) {
+        if (g_appBuildDate.date_[0] == month[i][0] && g_appBuildDate.date_[1] == month[i][1] && g_appBuildDate.date_[2] == month[i][2]) {
             int m = i;
             m++;
-            data_020c4f90.dateString_[0] = data_020c4f90.date_[9];
-            data_020c4f90.dateString_[1] = data_020c4f90.date_[10];
-            data_020c4f90.dateString_[2] = '/';
-            data_020c4f90.dateString_[3] = '0' + m / 10;
-            data_020c4f90.dateString_[4] = '0' + m % 10;
-            data_020c4f90.dateString_[5] = '/';
-            data_020c4f90.dateString_[6] = data_020c4f90.date_[4] == ' ' ? '0' : data_020c4f90.date_[4];
-            data_020c4f90.dateString_[7] = data_020c4f90.date_[5];
-            data_020c4f90.dateString_[8] = 0;
+            g_appBuildDate.dateString_[0] = g_appBuildDate.date_[9];
+            g_appBuildDate.dateString_[1] = g_appBuildDate.date_[10];
+            g_appBuildDate.dateString_[2] = '/';
+            g_appBuildDate.dateString_[3] = '0' + m / 10;
+            g_appBuildDate.dateString_[4] = '0' + m % 10;
+            g_appBuildDate.dateString_[5] = '/';
+            g_appBuildDate.dateString_[6] = g_appBuildDate.date_[4] == ' ' ? '0' : g_appBuildDate.date_[4];
+            g_appBuildDate.dateString_[7] = g_appBuildDate.date_[5];
+            g_appBuildDate.dateString_[8] = 0;
         }
     }
-    data_020c4f90.time_[5] = 0;
-    dss::sprintf_s(text, sizeof(text), "%s %s", data_020c4f90.dateString_, data_020c4f90.time_);
+    g_appBuildDate.time_[5] = 0;
+    dss::sprintf_s(text, sizeof(text), "%s %s", g_appBuildDate.dateString_, g_appBuildDate.time_);
     DebugMenu::setBuildDate(text);
 }
 
 ARM void UnkGameApplication::vf0c()
 {
     data_020c1b7c = 0;
-    data_0210bb94.unkfunc_020580bc(TITLE_PART, &g_TitlePart);
-    data_0210bb94.unkfunc_020580bc(MENU_PART, &g_MenuPart);
-    data_0210bb94.unkfunc_020580bc(LOGO_PART, &g_LogoPart);
-    data_0210bb94.unkfunc_020580bc(GAME_START_PART, &g_GameStartPart);
-    data_0210bb94.unkfunc_020580bc(CARDCHECK_PART, &g_CardCheckPart);
-    data_0210bb94.unkfunc_020580bc(TOWN_PART, &g_TownPart);
-    data_0210bb94.unkfunc_020580bc(BATTLE_PART, &g_BattlePart);
-    data_0210bb94.unkfunc_020580bc(FIELD_PART, &g_FieldPart);
-    data_0210bb94.unkfunc_020580bc(CASINO_PART, &g_CasinoPart);
-    data_0210bb94.unkfunc_020580bc(BOOK_PART, &g_BookPart);
-    data_0210bb94.unkfunc_020580bc(BATTLE_MENU_PART, &g_BattleMenuPart);
-    data_0210bb94.unkfunc_020580bc(MPEXCHANGE_PART, &g_MPExchangePart);
-    data_0210bb94.unkfunc_020580bc(MESSAGEDEBUG_PART, &g_MessageDebugPart);
-    data_0210bb94.unkfunc_020580bc(GAME_END_PART, &g_GameEndPart);
-    data_0210bb94.unkfunc_020580bc(ISHIKUROTEST_PART, &g_IshikuroTestPart);
+    g_GlobalDQ4.unkfunc_020580bc(TITLE_PART, &g_TitlePart);
+    g_GlobalDQ4.unkfunc_020580bc(MENU_PART, &g_MenuPart);
+    g_GlobalDQ4.unkfunc_020580bc(LOGO_PART, &g_LogoPart);
+    g_GlobalDQ4.unkfunc_020580bc(GAME_START_PART, &g_GameStartPart);
+    g_GlobalDQ4.unkfunc_020580bc(CARDCHECK_PART, &g_CardCheckPart);
+    g_GlobalDQ4.unkfunc_020580bc(TOWN_PART, &g_TownPart);
+    g_GlobalDQ4.unkfunc_020580bc(BATTLE_PART, &g_BattlePart);
+    g_GlobalDQ4.unkfunc_020580bc(FIELD_PART, &g_FieldPart);
+    g_GlobalDQ4.unkfunc_020580bc(CASINO_PART, &g_CasinoPart);
+    g_GlobalDQ4.unkfunc_020580bc(BOOK_PART, &g_BookPart);
+    g_GlobalDQ4.unkfunc_020580bc(BATTLE_MENU_PART, &g_BattleMenuPart);
+    g_GlobalDQ4.unkfunc_020580bc(MPEXCHANGE_PART, &g_MPExchangePart);
+    g_GlobalDQ4.unkfunc_020580bc(MESSAGEDEBUG_PART, &g_MessageDebugPart);
+    g_GlobalDQ4.unkfunc_020580bc(GAME_END_PART, &g_GameEndPart);
+    g_GlobalDQ4.unkfunc_020580bc(ISHIKUROTEST_PART, &g_IshikuroTestPart);
     GlobalDQ4::unkfunc_02058128(unkfunc_020087b4);
     GlobalDQ4::unkfunc_02058138(unkfunc_020087cc);
     setPartFrameCallback(unkfunc_020087e0);
-    data_0210bb94.unk_74 = 0;
+    g_GlobalDQ4.unk_74 = 0;
 }
 
 ARM void UnkGameApplication::unkfunc_02008768()
 {
-    data_020c4fb4.load("data/btlmap/_list.txt");
+    g_battleMapList.load("data/btlmap/_list.txt");
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_SINGLE3D);
     g_Global.initialize();
     SoundManager::initialize();

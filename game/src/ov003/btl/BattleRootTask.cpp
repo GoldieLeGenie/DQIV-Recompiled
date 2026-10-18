@@ -568,37 +568,37 @@ THUMB void btl::StadiumEndTask::terminate()
 THUMB void btl::StadiumEndTask::execute()
 {
     if (messageCount_ == 0) {
-        data_020ed1bc.openMessageForBATTLE();
-        data_020ed1bc.addMessage(0xc8f00);
-        data_020ed1bc.setMessageCursor(false);
-        data_020ed1bc.setYesNo(1);
+        g_TownMenuMessage.openMessageForBATTLE();
+        g_TownMenuMessage.addMessage(0xc8f00);
+        g_TownMenuMessage.setMessageCursor(false);
+        g_TownMenuMessage.setYesNo(1);
         messageCount_++;
     } else if (messageCount_ == 1) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
-            data_020ed1bc.openMessageForBATTLE();
-            data_020ed1bc.addMessage(0xc8f03);
-            data_020ed1bc.setMessageCursor(false);
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
+            g_TownMenuMessage.openMessageForBATTLE();
+            g_TownMenuMessage.addMessage(0xc8f03);
+            g_TownMenuMessage.setMessageCursor(false);
             messageCount_++;
             messageCount_++;
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
-            data_020ed1bc.openMessageForBATTLE();
-            data_020ed1bc.addMessage(0xc8f07);
-            data_020ed1bc.setMessageCursor(false);
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
+            g_TownMenuMessage.openMessageForBATTLE();
+            g_TownMenuMessage.addMessage(0xc8f07);
+            g_TownMenuMessage.setMessageCursor(false);
             messageCount_++;
         }
     } else if (messageCount_ == 2) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK || data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             status::g_BattleResult.battleTurnCount_--;
             g_PartTaskManager.wakeup();
             messageCount_ = 0;
             return;
         }
     } else if (messageCount_ == 3) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK || data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             g_Global.fightStadiumResult_ = 4;
             g_PartTaskManager.setNextTask(7);
             return;
@@ -635,19 +635,19 @@ THUMB void btl::StadiumDrawTask::execute()
             }
         }
 
-        data_020ed1bc.openMessageForBATTLE();
+        g_TownMenuMessage.openMessageForBATTLE();
         TextAPI::setMACRO0(0xc, 0x50000000, playerIndex);
         if (draw) {
             g_Global.fightStadiumResult_ = 2;
-            data_020ed1bc.addMessage(0xc8f0b, 0xc8f0c, 0xc8f12, 0xc8f13);
+            g_TownMenuMessage.addMessage(0xc8f0b, 0xc8f0c, 0xc8f12, 0xc8f13);
         } else {
             g_Global.fightStadiumResult_ = 3;
-            data_020ed1bc.addMessage(0xc8f0b, 0xc8f0c, 0xc8f0f);
+            g_TownMenuMessage.addMessage(0xc8f0b, 0xc8f0c, 0xc8f0f);
         }
-        data_020ed1bc.setMessageLastCursor(false);
+        g_TownMenuMessage.setMessageLastCursor(false);
         messageCount_++;
-    } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK || data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-        data_020ed1bc.close();
+    } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+        g_TownMenuMessage.close();
         g_PartTaskManager.setNextTask(7);
         return;
     }
@@ -676,13 +676,13 @@ THUMB void btl::StadiumResultTask::execute()
             }
         }
 
-        data_020ed1bc.openMessageForBATTLE();
+        g_TownMenuMessage.openMessageForBATTLE();
         TextAPI::setMACRO0(3, 0x60000000, monsterID, monsterSymbol);
         if (lose) {
-            data_020ed1bc.addMessage(0xc8efb);
+            g_TownMenuMessage.addMessage(0xc8efb);
             g_Global.fightStadiumResult_ = 2;
         } else {
-            data_020ed1bc.addMessage(0xc8eec);
+            g_TownMenuMessage.addMessage(0xc8eec);
             int coin = g_Global.betCoin_ * g_Global.diameter_;
             if (coin % 10 > 4) {
                 coin += 10;
@@ -697,11 +697,11 @@ THUMB void btl::StadiumResultTask::execute()
             }
             g_Global.fightStadiumResult_ = 1;
         }
-        data_020ed1bc.setMessageLastCursor(false);
+        g_TownMenuMessage.setMessageLastCursor(false);
         messageCount_++;
     } else if (!MenuSoundManager::getSingleton()->isPlaySound()
-               && (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK || data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL)) {
-        data_020ed1bc.close();
+               && (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK || g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL)) {
+        g_TownMenuMessage.close();
         g_PartTaskManager.setNextTask(7);
         return;
     }

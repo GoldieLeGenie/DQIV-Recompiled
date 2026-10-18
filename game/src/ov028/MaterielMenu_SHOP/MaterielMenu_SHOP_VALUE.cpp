@@ -32,7 +32,7 @@ THUMB void MaterielMenu_SHOP_VALUE::menuSetup()
             TextAPI::setMACRO0(0x54, 0xf0000000, xunit);
             showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sellOK(), -1, -1);
         }
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         break;
     case 1: {
         int mes[3] = {-1, -1, -1};
@@ -40,19 +40,19 @@ THUMB void MaterielMenu_SHOP_VALUE::menuSetup()
             MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sellNG(true, mes);
             if (mes[2] == -1) {
                 showMessage(mes[0], -1, -1);
-                data_020ed1bc.addMessageNOWAIT(mes[1]);
+                g_TownMenuMessage.addMessageNOWAIT(mes[1]);
             } else {
                 showMessage(mes[0], mes[1], -1);
-                data_020ed1bc.addMessageNOWAIT(mes[2]);
+                g_TownMenuMessage.addMessageNOWAIT(mes[2]);
             }
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessageWAITKEY();
             close();
             gMaterielMenu_SHOP_ROOT.open();
             gMaterielMenu_SHOP_ROOT.mode_ = 1;
         } else {
             MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sellNG(false, mes);
             showMessage(mes[0], mes[1], mes[2]);
-            data_020ed1bc.setMessageLastCursor(true);
+            g_TownMenuMessage.setMessageLastCursor(true);
             close();
             gMaterielMenu_SHOP_WHO_SELL.open();
         }
@@ -61,19 +61,19 @@ THUMB void MaterielMenu_SHOP_VALUE::menuSetup()
     case 2:
         TextAPI::setMACRO0(0xa, 0x40000000, iname);
         showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sellDifficult(), -1, -1);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         break;
     }
 }
 
 THUMB void MaterielMenu_SHOP_VALUE::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             selectYes();
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             selectNo();
         }
         return;
@@ -90,8 +90,8 @@ THUMB void MaterielMenu_SHOP_VALUE::menuUpdate()
         if (MaterielMenu_SHOP_MANAGER::getSingleton()->sellOK(activeChara_) == false) {
             MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sellCurse(true, mes);
             showMessage(mes[0], -1, -1);
-            data_020ed1bc.addMessageNOWAIT(mes[1]);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessageNOWAIT(mes[1]);
+            g_TownMenuMessage.addMessageWAITKEY();
             close();
             gMaterielMenu_SHOP_ROOT.open();
             gMaterielMenu_SHOP_ROOT.mode_ = 1;
@@ -123,7 +123,7 @@ THUMB void MaterielMenu_SHOP_VALUE::selectYes()
         TextAPI::setMACRO0(0xa, 0x40000000, iname);
         TextAPI::setMACRO0(0x3e, 0xf0000000, price);
         showMessage(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sellOK(), -1, -1);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         sellType_ = 0;
         break;
     }
@@ -138,14 +138,14 @@ THUMB void MaterielMenu_SHOP_VALUE::selectNo()
             close();
             MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->celectNo(true, mes);
             showMessage(mes[0], -1, -1);
-            data_020ed1bc.addMessageNOWAIT(mes[1]);
+            g_TownMenuMessage.addMessageNOWAIT(mes[1]);
             gMaterielMenu_SHOP_ROOT.open();
             gMaterielMenu_SHOP_ROOT.mode_ = 1;
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessageWAITKEY();
         } else {
             MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->celectNo(false, mes);
             showMessage(mes[0], mes[1], -1);
-            data_020ed1bc.setMessageLastCursor(true);
+            g_TownMenuMessage.setMessageLastCursor(true);
             close();
             gMaterielMenu_SHOP_WHO_SELL.open();
             gMaterielMenu_SHOP_WHO_SELL.return_ = 1;
@@ -155,11 +155,11 @@ THUMB void MaterielMenu_SHOP_VALUE::selectNo()
         break;
     case 2:
         close();
-        data_020ed1bc.openMessageForTALK();
-        data_020ed1bc.addMessageNOWAIT(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->cancel());
+        g_TownMenuMessage.openMessageForTALK();
+        g_TownMenuMessage.addMessageNOWAIT(MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->cancel());
         gMaterielMenu_SHOP_ROOT.open();
         gMaterielMenu_SHOP_ROOT.mode_ = 1;
-        data_020ed1bc.addMessageWAITKEY();
+        g_TownMenuMessage.addMessageWAITKEY();
         break;
     }
 }
@@ -180,15 +180,15 @@ THUMB void MaterielMenu_SHOP_VALUE::checkHaveMoney()
         if (MaterielMenu_SHOP_MANAGER::getSingleton()->sellOK(activeChara_) == false) {
             MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sellEnd(true, mes);
             showMessage(mes[0], -1, -1);
-            data_020ed1bc.addMessageNOWAIT(mes[1]);
+            g_TownMenuMessage.addMessageNOWAIT(mes[1]);
             close();
             gMaterielMenu_SHOP_ROOT.open();
             gMaterielMenu_SHOP_ROOT.mode_ = 1;
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.addMessageWAITKEY();
         } else {
             MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->sellEnd(false, mes);
             showMessage(mes[0], mes[1], -1);
-            data_020ed1bc.setMessageLastCursor(true);
+            g_TownMenuMessage.setMessageLastCursor(true);
             close();
             gMaterielMenu_SHOP_WHO_SELL.open();
         }
@@ -212,8 +212,8 @@ THUMB void MaterielMenu_SHOP_VALUE::checkHaveMoney()
     TextAPI::setMACRO0(0x12, 0x50000000, target);
     MaterielMenu_SHOP_MESSAGE_MANAGER::getSingleton()->overMoney(mes);
     showMessage(mes[0], mes[1], -1);
-    data_020ed1bc.addMessageNOWAIT(mes[2]);
-    data_020ed1bc.addMessageWAITKEY();
+    g_TownMenuMessage.addMessageNOWAIT(mes[2]);
+    g_TownMenuMessage.addMessageWAITKEY();
     close();
     gMaterielMenu_SHOP_ROOT.open();
     gMaterielMenu_SHOP_ROOT.mode_ = 1;
@@ -237,13 +237,13 @@ THUMB bool MaterielMenu_SHOP_VALUE::checkItemMoney()
 
 THUMB void MaterielMenu_SHOP_VALUE::showMessage(int mes1, int mes2, int mes3)
 {
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(mes1);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(mes1);
     if (mes2 != -1) {
-        data_020ed1bc.addMessage(mes2);
+        g_TownMenuMessage.addMessage(mes2);
     }
     if (mes3 != -1) {
-        data_020ed1bc.addMessage(mes3);
+        g_TownMenuMessage.addMessage(mes3);
     }
 }
 

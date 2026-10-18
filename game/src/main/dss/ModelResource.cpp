@@ -4,7 +4,7 @@
 #include "nitro/os.hpp"
 #include "main/dss/PaletteEffect.hpp"
 
-NNSG3dResTex* data_0211d364;
+NNSG3dResTex* g_lastLoadedTex;
 
 ARM UnkModelMember::UnkModelMember()
 {
@@ -53,13 +53,13 @@ ARM void UnkModelMember::unkfunc_02083460()
     if (tex == NULL) {
         return;
     }
-    data_0211d364 = tex;
+    g_lastLoadedTex = tex;
     unk_08 = tex;
     int texSize = func_0206a600(tex);
     func_0206a60c(tex);
     int plttSize = func_0206a71c(tex);
-    int texKey = data_0211e450.allocTexVram(texSize);
-    int plttKey = data_0211e450.allocPlttVram(plttSize);
+    int texKey = g_VramTransfer.allocTexVram(texSize);
+    int plttKey = g_VramTransfer.allocPlttVram(plttSize);
     setPaletteEffectTexture(tex);
     if (!(tex->texInfo.flag & 1)) {
         func_0206a618(tex, texKey, 0);
@@ -84,12 +84,12 @@ ARM void UnkModelMember::unkfunc_02083530()
     int tex4x4Key;
     func_0206a6e4(tex, &texKey, &tex4x4Key);
     if (plttKey != 0) {
-        data_0211e450.freePlttVram(plttKey);
+        g_VramTransfer.freePlttVram(plttKey);
     }
     if (texKey != 0) {
-        data_0211e450.freeTexVram(texKey);
+        g_VramTransfer.freeTexVram(texKey);
     }
-    data_0211d364 = NULL;
+    g_lastLoadedTex = NULL;
     unk_08 = NULL;
 }
 
@@ -105,5 +105,5 @@ ARM NNSG3dResMdl* UnkModelMember::unkfunc_020835d0()
 
 ARM NNSG3dResTex* getLastModelTexture()
 {
-    return data_0211d364;
+    return g_lastLoadedTex;
 }

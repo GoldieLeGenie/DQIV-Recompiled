@@ -14,8 +14,8 @@ struct UnkDebugConsole {
     void unkfunc_0207e8f4(int x, int y);
 };
 
-extern UnkDebugConsole data_02116ce0;
-extern int data_02116ce4;                       // main extended arena enabled
+extern UnkDebugConsole g_DebugConsole;
+extern int g_mainExArenaEnabled;                       // main extended arena enabled
 
 void unkfunc_0207e7e0();
 void unkfunc_0207e7e4();

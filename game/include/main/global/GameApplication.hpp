@@ -49,8 +49,8 @@ struct UnkAppBuildDate {
     }
 };
 
-extern UnkGameApplication data_020c4fe4;        // run by main()
-extern UnkAppBuildDate data_020c4f90;
+extern UnkGameApplication g_GameApplication;        // run by main()
+extern UnkAppBuildDate g_appBuildDate;
 extern int data_020c4f70[2];
 
 void unkfunc_unused_14();

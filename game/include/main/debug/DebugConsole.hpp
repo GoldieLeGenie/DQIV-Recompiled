@@ -3,7 +3,7 @@
 #include <stdarg.h>
 
 extern int data_020f201c;
-extern int data_020f2020;                       // console print enable
+extern int g_debugConsolePrintEnabled;                       // console print enable
 extern int data_020f2024;
 
 void updateDebugConsole();                        // called every frame by the main loop

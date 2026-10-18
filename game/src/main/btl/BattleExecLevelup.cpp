@@ -14,7 +14,7 @@ BattleExecLevelup g_BattleExecLevelup;
 
 THUMB void setMessage(int mes0, int mes1, int mes2, int mes3)
 {
-    if (data_0210bb94.unkfunc_0205810c() == 13) {
+    if (g_GlobalDQ4.unkfunc_0205810c() == 13) {
         btl::BattleMessage::setMessage(mes0, mes1, mes2, mes3);
         return;
     }

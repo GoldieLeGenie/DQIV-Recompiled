@@ -54,6 +54,6 @@ struct MaterielMenu_NameEdit : menu::MenuBase
 
 extern MaterielMenu_NameEdit gMaterielMenu_NameEdit;
 
-extern int data_020f17bc;                                    /* name edit: max length */
-extern int data_020f17c0;                                    /* name edit: current length */
-extern int data_020f1878[];                                  /* name edit: characters */
+extern int g_nameEditMaxLength;                                    /* name edit: max length */
+extern int g_nameEditLength;                                    /* name edit: current length */
+extern int g_nameEditLabels[];                                  /* name edit: characters */

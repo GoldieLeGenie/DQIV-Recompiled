@@ -31,7 +31,7 @@ ARM void DataObject::cleanup()
 {
     s_dataCount--;
     if (m_flag & 1) {
-        dssFree(&data_0211a60c, m_addr);
+        dssFree(&g_appHeap, m_addr);
     }
     m_flag = 0;
     m_addr = 0;
@@ -58,11 +58,11 @@ ARM void LZDataObject::setup(const char* filename, int a, int b)
 #endif
         m_size = getUncompressedSize(m_addr);
         void* data = uncompressAlloc(m_addr);
-        dssFree(&data_0211a60c, m_addr);
+        dssFree(&g_appHeap, m_addr);
         m_addr = data;
 #ifdef DQIV_NATIVE
         } catch (...) {
-            dssFree(&data_0211a60c, m_addr);
+            dssFree(&g_appHeap, m_addr);
             m_addr = 0;
             m_flag = 0;
             throw;

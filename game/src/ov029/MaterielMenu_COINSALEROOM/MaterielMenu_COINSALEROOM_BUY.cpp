@@ -27,10 +27,10 @@ THUMB void MaterielMenu_COINSALEROOM_BUY::menuUpdate()
 
 THUMB bool MaterielMenu_COINSALEROOM_BUY::messageUpdata()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
             yesMessage();
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
             noMessage();
         }
         return true;
@@ -55,13 +55,13 @@ THUMB void MaterielMenu_COINSALEROOM_BUY::buyCoinMessage()
     TextAPI::setMACRO0(0x49, 0xf0000000, coin_);
     TextAPI::setMACRO0(0x46, 0xf0000000, totalGold);
     showMessage(0xc8718);
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.setYesNo();
     mode_ = 2;
 }
 
 THUMB void MaterielMenu_COINSALEROOM_BUY::yesMessage()
 {
-    data_020ed1bc.close();
+    g_TownMenuMessage.close();
     switch (mode_) {
     case 0:
         close();
@@ -74,7 +74,7 @@ THUMB void MaterielMenu_COINSALEROOM_BUY::yesMessage()
         TextAPI::setMACRO0(0x38, 0xf0000000, maxToken);
         TextAPI::setMACRO0(0x43, 0xf0000000, tokenGold);
         showMessage(0xc871c);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.setYesNo();
         mode_ = 2;
         break;
     }
@@ -89,7 +89,7 @@ THUMB void MaterielMenu_COINSALEROOM_BUY::yesMessage()
 
 THUMB void MaterielMenu_COINSALEROOM_BUY::noMessage()
 {
-    data_020ed1bc.close();
+    g_TownMenuMessage.close();
     close();
     gMaterielMenu_COINSALEROOM_ROOT.open();
     gMaterielMenu_COINSALEROOM_ROOT.mode_ = 1;
@@ -110,6 +110,6 @@ THUMB void MaterielMenu_COINSALEROOM_BUY::getCasinoCoin()
 
 THUMB void MaterielMenu_COINSALEROOM_BUY::showMessage(int messageID)
 {
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(messageID);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(messageID);
 }

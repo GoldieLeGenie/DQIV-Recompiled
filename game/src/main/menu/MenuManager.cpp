@@ -35,21 +35,21 @@ THUMB void MenuManager::setMenuDisplay(int mode)
 {
     if (mode == MENUDISPLAY_OFF) {
         setDisplayTextCounter(4);
-        data_020facb8.icon_.init(0);
+        g_MenuBg.icon_.init(0);
         requestDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     }
     if (mode == MENUDISPLAY_NORMAL) {
         setDisplayTextCounter(4);
-        data_020facb8.icon_.init(0);
+        g_MenuBg.icon_.init(0);
         requestDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     }
     if (mode == MENUDISPLAY_EXTRA) {
         setDisplayTextCounter(4);
         requestDisplayPlugin(&dss::g_DISPLAYPLUGIN_CAPTURE);
-        data_020facb8.icon_.init(1);
+        g_MenuBg.icon_.init(1);
     }
     clearMenuAll();
-    data_02116ce0.unkfunc_0207e810();
+    g_DebugConsole.unkfunc_0207e810();
     s_currentMenu->m_update = 1;
 }
 
@@ -74,7 +74,7 @@ THUMB int MenuManager::isRequesting()
 
 THUMB void MenuManager::execute()
 {
-    if (data_0210bc40.unkfunc_02058380() == 1) {
+    if (g_DebugMenu.unkfunc_02058380() == 1) {
         s_redraw = 1;
         return;
     }

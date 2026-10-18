@@ -93,23 +93,23 @@ std::vector<std::uint8_t> read(const char* name) {
     return data;
 }
 }
-UnkHeap data_0211a60c{};
+UnkHeap g_appHeap{};
 UnkTouchPanel::UnkTouchPanel() : unk_00{}, touch_(0), x_(0), y_(0), unk_24(0), unk_28(0), unk_2c(0) {}
-UnkTouchPanel data_0211a5d4;
-void* data_0211a604[2]{};
+UnkTouchPanel g_TouchPanel;
+void* g_compressedDataPtrs[2]{};
 dss::File dss::g_File{};
 
 namespace pc {
 GameServices::GameServices(const Assets& files) {
     if (mounted) throw std::runtime_error("Game services already running");
     mounted = &files;
-    try { initHeap(&data_0211a60c, 0x18000, 0x1000, 64 * 1024 * 1024, 0); dss::g_File.unkfunc_0207ea64(0); }
+    try { initHeap(&g_appHeap, 0x18000, 0x1000, 64 * 1024 * 1024, 0); dss::g_File.unkfunc_0207ea64(0); }
     catch (...) { heaps().clear(); mounted = nullptr; throw; }
 }
 GameServices::~GameServices() {
     for (const auto& [p, a] : allocations()) ::operator delete(p, std::align_val_t(a.alignment));
     drainQuarantine();
-    allocations().clear(); heaps().clear(); data_0211a60c = {}; data_0211a604[0] = data_0211a604[1] = nullptr; mounted = nullptr;
+    allocations().clear(); heaps().clear(); g_appHeap = {}; g_compressedDataPtrs[0] = g_compressedDataPtrs[1] = nullptr; mounted = nullptr;
 }
 std::size_t liveGameAllocations() { return allocations().size(); }
 bool isGameTextPointer(std::uintptr_t value) {
@@ -174,23 +174,23 @@ unsigned int getAppHeapFreeSize(UnkHeap* h) { auto& v = getHeap(h->heap2_); retu
 unsigned int getAppHeapTotalFreeSize(UnkHeap* h) { return getAppHeapFreeSize(h); }
 void** getHeap0(UnkHeap* h) { return &h->heap0_; }
 void** getSystemHeap(UnkHeap* h) { return &h->heap1_; }
-void freeSystemMemory(void* p) { freeSystemHeap(&data_0211a60c, p); }
+void freeSystemMemory(void* p) { freeSystemHeap(&g_appHeap, p); }
 
-void setCompressedData(void* src) { data_0211a604[0] = src; }
+void setCompressedData(void* src) { g_compressedDataPtrs[0] = src; }
 unsigned int getUncompressedSize(void* src) {
-    auto bytes = pc::gameAllocation(src ? src : data_0211a604[0]);
+    auto bytes = pc::gameAllocation(src ? src : g_compressedDataPtrs[0]);
     if (bytes.size() < 4) throw std::runtime_error("Compression header truncated");
     return bytes[1] | (unsigned(bytes[2]) << 8) | (unsigned(bytes[3]) << 16);
 }
 int isCompressed(void* src) { return pc::isCompressed(pc::gameAllocation(src)); }
 void uncompressData(void* dst) {
-    auto decoded = pc::decompress(pc::gameAllocation(data_0211a604[0]));
+    auto decoded = pc::decompress(pc::gameAllocation(g_compressedDataPtrs[0]));
     if (pc::gameAllocation(dst).size() < decoded.size()) throw std::runtime_error("Decompression destination too small");
-    std::memcpy(dst, decoded.data(), decoded.size()); data_0211a604[1] = dst;
+    std::memcpy(dst, decoded.data(), decoded.size()); g_compressedDataPtrs[1] = dst;
 }
 void* uncompressAlloc(void* src) {
     auto decoded = pc::decompress(pc::gameAllocation(src));
-    auto* p = dssAlloc(&data_0211a60c, static_cast<int>(decoded.size()), 4);
+    auto* p = dssAlloc(&g_appHeap, static_cast<int>(decoded.size()), 4);
     std::memcpy(p, decoded.data(), decoded.size()); return p;
 }
 namespace {
@@ -218,9 +218,9 @@ int dss::File::unkfunc_0207eb10(const char* n, void* p) { return unkfunc_0207ec0
 void* dss::File::unkfunc_0207eb28(const char* name, int tail, int mode) {
     const int n = unkfunc_0207ecb0(name);
     if (!assets().contains(name)) throw std::runtime_error(std::string("Game resource missing: ") + name);
-    void* p = dssAlloc(&data_0211a60c, n, tail ? -32 : 32);
+    void* p = dssAlloc(&g_appHeap, n, tail ? -32 : 32);
     try { unkfunc_0207eac0(name, p, mode); }
-    catch (...) { dssFree(&data_0211a60c, p); throw; }
+    catch (...) { dssFree(&g_appHeap, p); throw; }
     return p;
 }
 int dss::File::unkfunc_0207eba0(const char* n, int align) { auto size = unkfunc_0207ecb0(n); return align ? roundUp(size, 0x200) : size; }

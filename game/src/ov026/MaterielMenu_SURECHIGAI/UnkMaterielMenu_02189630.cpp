@@ -29,7 +29,7 @@ THUMB void UnkMaterielMenu_02189630::menuSetup()
             count--;
         }
     }
-    unk_1c = count + data_020f0078.getEnvoyCount();
+    unk_1c = count + g_EnvoyManager.getEnvoyCount();
     navigator_.setup(2, 4, unk_1c);
 }
 
@@ -41,10 +41,10 @@ THUMB void UnkMaterielMenu_02189630::menuExecute()
 THUMB void UnkMaterielMenu_02189630::menuDraw()
 {
     int flag = 0;
-    data_020f0078.getEnvoyCount();
+    g_EnvoyManager.getEnvoyCount();
     int index = navigator_.getIndex(menuItem_.active_);
-    if (index > data_020f0078.getEnvoyCount() - 1) {
-        index = navigator_.getIndex(menuItem_.active_) - data_020f0078.getEnvoyCount();
+    if (index > g_EnvoyManager.getEnvoyCount() - 1) {
+        index = navigator_.getIndex(menuItem_.active_) - g_EnvoyManager.getEnvoyCount();
         flag = 1;
     } else {
         index = navigator_.getIndex(menuItem_.active_);
@@ -59,16 +59,16 @@ THUMB void UnkMaterielMenu_02189630::menuDraw()
 
 THUMB void UnkMaterielMenu_02189630::menuUpdate()
 {
-    if (data_020ed1bc.isOpen() && (unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-        data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen() && (unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+        g_TownMenuMessage.close();
     }
     navigator_.setup(2, 4, unk_1c);
     int result = MenuUpdate_Assist::menuSelect(menuItem_, navigator_);
     if (result != 0) {
         if (result == 3) {
-            data_020ed1bc.openMessageForTALK();
-            data_020ed1bc.addMessageNOWAIT(0x92a33);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.openMessageForTALK();
+            g_TownMenuMessage.addMessageNOWAIT(0x92a33);
+            g_TownMenuMessage.addMessageWAITKEY();
             close();
             gMaterielMenu_SURECHIGAI_ROOT.open();
         }

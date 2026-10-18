@@ -32,7 +32,7 @@ ARM void TownPart::initialize()
     GX_ResetBankForSubObj();
     GX_ResetBankForSubBg();
     GX_SetBankForTex(GX_VRAM_AB);
-    data_0211e450.initVramManagers(0x40000, 0x4000);
+    g_VramTransfer.initVramManagers(0x40000, 0x4000);
     changeDisplayPlugin(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     getTick();
     loadOverlay(DQIV_OVERLAY_ID(0));
@@ -45,8 +45,8 @@ ARM void TownPart::initialize()
     func_0206dd70(1);
     OS_Wait();
     g_Global.fadeIn(30);
-    if (getAppHeapTotalFreeSize(&data_0211a60c) < s_minFreeSize) {
-        s_minFreeSize = getAppHeapTotalFreeSize(&data_0211a60c);
+    if (getAppHeapTotalFreeSize(&g_appHeap) < s_minFreeSize) {
+        s_minFreeSize = getAppHeapTotalFreeSize(&g_appHeap);
     }
     initDebugDisplay();
 }
@@ -58,8 +58,8 @@ ARM void TownPart::terminate()
     getTick();
     unloadOverlay(DQIV_OVERLAY_ID(0));
     unloadOverlay(DQIV_OVERLAY_ID(16));
-    data_020efc58.unkfunc_02087564();
-    data_0211e450.unkfunc_02086278();
+    g_MaterielOverlaySlot.unkfunc_02087564();
+    g_VramTransfer.unkfunc_02086278();
 }
 
 ARM void TownPart::onExecutePart()

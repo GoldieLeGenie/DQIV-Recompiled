@@ -46,4 +46,4 @@ struct UnkDebugInfo : UnkDebugDisplay {
     void setShowArrayWarning(int show);            // show the array warnings
 };
 
-extern UnkDebugInfo data_020f1d88;
+extern UnkDebugInfo g_DebugInfo;

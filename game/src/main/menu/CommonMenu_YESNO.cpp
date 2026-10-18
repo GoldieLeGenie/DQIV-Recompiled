@@ -21,7 +21,7 @@ THUMB void CommonMenu_YESNO::menuSetup()
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_NONE);
     menuItem_.active_ = 0;
     menuItem_.enableLoopEdge_ = 1;
-    UnkMenuYesNoDisplay* const window = &data_020f530c.yesNo_;
+    UnkMenuYesNoDisplay* const window = &g_MenuDisplays.yesNo_;
     window->setEnable(1);
     window->setTexts(0xa0000064, 0xa0000065);
     window->setPosition(0xc0, 0xc0);
@@ -97,7 +97,7 @@ THUMB void CommonMenu_YESNO::setYesNo(int cursor)
 
 THUMB void CommonMenu_YESNO::setPosition(int x, int y)
 {
-    data_020f530c.yesNo_.setPosition(x, y + 0xc0);
+    g_MenuDisplays.yesNo_.setPosition(x, y + 0xc0);
 }
 
 THUMB void CommonMenu_YESNO::setSuperCancel(int flag)

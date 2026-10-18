@@ -4,7 +4,7 @@
 ARM void UnkModelAnimation::unkfunc_02082b18(void* resource, void* model)
 {
     resource_ = resource;
-    func_02068a44(&allocator_, (int)*getSystemHeap(&data_0211a60c), 4);
+    func_02068a44(&allocator_, (int)*getSystemHeap(&g_appHeap), 4);
     anm_ = func_0206e910(resource_, 0);
     obj_ = func_0206e3f4(&allocator_, anm_, model);
     func_0206a2bc(obj_, anm_, model, NULL);

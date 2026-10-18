@@ -12,7 +12,7 @@
 THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuSetup()
 {
     status::g_Party.setPlayerMode();
-    data_020f0078.mode_ = 1;
+    g_EnvoyManager.mode_ = 1;
     menuItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
     menuItem_.active_ = 0;
     navigator_.setupBase();
@@ -20,19 +20,19 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuSetup()
     mode_ = 0;
     firstFlag_ = 1;
     changeTaishi_ = 0;
-    data_020f0078.backupMyEnvoy();
+    g_EnvoyManager.backupMyEnvoy();
     int level = UnkImmigrantTown::getSingleton()->getTownLevel();
     if (level == 0) {
         level = 1;
     }
     for (int i = 0; i < 48; i++) {
         if (status::excelParam.surechigai_[i].level <= level) {
-            data_020f0078.setTypeSelectable(i, 1);
+            g_EnvoyManager.setTypeSelectable(i, 1);
         }
     }
     if (level == 5) {
-        data_020f0078.setTypeSelectable(48, 1);
-        data_020f0078.setTypeSelectable(49, 1);
+        g_EnvoyManager.setTypeSelectable(48, 1);
+        g_EnvoyManager.setTypeSelectable(49, 1);
     }
 }
 
@@ -47,20 +47,20 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuExecute()
 
 THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuDraw()
 {
-    if (data_020ed1bc.isMessageWAITPROG()) {
+    if (g_TownMenuMessage.isMessageWAITPROG()) {
         int active = menuItem_.active_;
         drawTagModeAmbassadorScreen(mode_, active, navigator_.getPageNo(), navigator_.getPageMaxCount());
         menuItem_.drawActive();
     }
     if (mode_ == 1) {
-        drawTagModeAmbassadorScreen(mode_, data_020f0078.getType(), navigator_.getPageNo(), navigator_.getPageMaxCount());
+        drawTagModeAmbassadorScreen(mode_, g_EnvoyManager.getType(), navigator_.getPageNo(), navigator_.getPageMaxCount());
     }
 }
 
 THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.isMessageWAITPROG()) {
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.isMessageWAITPROG()) {
             if (firstFlag_ == 1) {
                 redraw_ = 1;
                 firstFlag_ = 0;
@@ -71,19 +71,19 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuUpdate()
             if (result != 0) {
                 if (result == 2) {
                     int index = navigator_.getIndex(menuItem_.active_);
-                    if (data_020f0078.isTypeSelectable(index) == 1) {
-                        data_020ed1bc.clearMessageWAITPROG();
-                        data_020ed1bc.close();
-                        data_020ed1bc.openMessageForTALK();
-                        data_020ed1bc.addMessage(0x92a73);
-                        data_020f0078.setType(index);
+                    if (g_EnvoyManager.isTypeSelectable(index) == 1) {
+                        g_TownMenuMessage.clearMessageWAITPROG();
+                        g_TownMenuMessage.close();
+                        g_TownMenuMessage.openMessageForTALK();
+                        g_TownMenuMessage.addMessage(0x92a73);
+                        g_EnvoyManager.setType(index);
                         mode_ = 1;
                     }
                 }
                 if (result == 3 && changeTaishi_ == 1) {
-                    data_020ed1bc.close();
-                    data_020ed1bc.openMessageForTALK();
-                    data_020ed1bc.addMessage(0x92a2f);
+                    g_TownMenuMessage.close();
+                    g_TownMenuMessage.openMessageForTALK();
+                    g_TownMenuMessage.addMessage(0x92a2f);
                     mode_ = 2;
                     return;
                 }
@@ -91,13 +91,13 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuUpdate()
             }
             return;
         }
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
             if (mode_ == 2) {
                 close();
                 gMaterielMenu_SURECHIGAI_ROOT.open();
-                data_020f0078.restoreMyEnvoy();
-                data_020f0078.clearBackup();
+                g_EnvoyManager.restoreMyEnvoy();
+                g_EnvoyManager.clearBackup();
                 return;
             }
             if (firstFlag_ == 0) {
@@ -114,13 +114,13 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuUpdate()
         return;
     }
     if (firstFlag_ == 1) {
-        data_020ed1bc.openMessageForTALK();
+        g_TownMenuMessage.openMessageForTALK();
         if (changeTaishi_ == 1) {
-            data_020ed1bc.addMessageNOWAIT(0x92abd);
+            g_TownMenuMessage.addMessageNOWAIT(0x92abd);
         } else {
-            data_020ed1bc.addMessage(0x92a6e);
-            data_020ed1bc.addMessageNOWAIT(0x92a6f);
+            g_TownMenuMessage.addMessage(0x92a6e);
+            g_TownMenuMessage.addMessageNOWAIT(0x92a6f);
         }
-        data_020ed1bc.addMessageWAITKEY();
+        g_TownMenuMessage.addMessageWAITKEY();
     }
 }

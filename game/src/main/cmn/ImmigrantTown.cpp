@@ -11,10 +11,10 @@ ARM void UnkImmigrantTown::rebuildResidents()
         y_[i] = 0xff;
     }
     count_ = 0;
-    int count = data_020f0078.getEnvoyCount();
+    int count = g_EnvoyManager.getEnvoyCount();
     for (int i = 0; i < count; i++) {
-        data_020f0078.selectEnvoy(i);
-        addResident(data_020f0078.getType());
+        g_EnvoyManager.selectEnvoy(i);
+        addResident(g_EnvoyManager.getType());
     }
 }
 

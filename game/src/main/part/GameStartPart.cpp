@@ -38,11 +38,11 @@ ARM void GameStartPart::terminate()
 ARM void GameStartPart::onExecutePart()
 {
     if (cardcheck_ == 0) {
-        if (data_020ed1bc.isOpen()) {
+        if (g_TownMenuMessage.isOpen()) {
             return;
         }
-        data_020ed1bc.openMessageForMENU();
-        data_020ed1bc.addMessage(0xcb60b);
+        g_TownMenuMessage.openMessageForMENU();
+        g_TownMenuMessage.addMessage(0xcb60b);
         return;
     }
     if (active == 0) {

@@ -48,7 +48,7 @@ ARM void TownMenu_TOWN::menuSetup()
 
 ARM void TownMenu_TOWN::menuExecute()
 {
-    if (data_020ed1bc.isOpen()) {
+    if (g_TownMenuMessage.isOpen()) {
         unk_98 = 0;
     }
     if (!unk_98) {

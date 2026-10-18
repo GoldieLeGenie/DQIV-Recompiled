@@ -18,7 +18,7 @@ THUMB void MaterielMenu_MARTIAL_COLOSSEUM::menuSetup()
     mode_ = 0;
     wins_ = MaterielMenuPlayerControl::getSingleton()->wins_;
     showMessage(0x4296, -1);
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.setYesNo();
 }
 
 THUMB void MaterielMenu_MARTIAL_COLOSSEUM::menuDraw()
@@ -28,12 +28,12 @@ THUMB void MaterielMenu_MARTIAL_COLOSSEUM::menuDraw()
 
 THUMB void MaterielMenu_MARTIAL_COLOSSEUM::menuUpdate()
 {
-    if (data_020ed1bc.isOpen()) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             selectYes();
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             selectNo();
         }
     }
@@ -94,7 +94,7 @@ THUMB void MaterielMenu_MARTIAL_COLOSSEUM::checkUseYakusou()
 THUMB void MaterielMenu_MARTIAL_COLOSSEUM::useYakusou()
 {
     int playerIndex = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveStatus_.playerIndex_;
-    data_020ed1bc.openMessageForTALK();
+    g_TownMenuMessage.openMessageForTALK();
     status::UseActionParam useActionParam;
     useActionParam.clear();
     useActionParam.actorCharacterStatus_ = status::g_Party.getPlayerStatus(activeChara_);
@@ -106,16 +106,16 @@ THUMB void MaterielMenu_MARTIAL_COLOSSEUM::useYakusou()
     TextAPI::setMACRO0(0xa, 0x40000000, 0x6f);
     TextAPI::setMACRO0(1, 0x50000000, playerIndex);
     TextAPI::setMACRO0(0x12, 0x50000000, playerIndex);
-    data_020ed1bc.addMessage(message.execMessage_[0], message.resultMessage_[0], 0x429f);
-    data_020ed1bc.setYesNo();
+    g_TownMenuMessage.addMessage(message.execMessage_[0], message.resultMessage_[0], 0x429f);
+    g_TownMenuMessage.setYesNo();
 }
 
 THUMB void MaterielMenu_MARTIAL_COLOSSEUM::showMessage(int messageID1, int messageID2)
 {
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessage(messageID1);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessage(messageID1);
     if (messageID2 != -1) {
-        data_020ed1bc.addMessage(messageID2);
+        g_TownMenuMessage.addMessage(messageID2);
     }
 }
 

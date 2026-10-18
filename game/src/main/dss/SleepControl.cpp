@@ -4,60 +4,60 @@
 #include "nitro/pad.h"
 #include "nitro/pm.h"
 
-int data_02120f90;
-int data_02120f98;
+int g_sleepEnabled;
+int g_lcdRequest;
 int data_02120f94;
-UnkPmSleepCallback data_02120f9c;
-UnkPmSleepCallback data_02120fa8;
+UnkPmSleepCallback g_preSleepCallback;
+UnkPmSleepCallback g_postSleepCallback;
 
 ARM void initSleep()
 {
-    data_02120f90 = 1;
-    data_02120f9c.func_ = onPreSleep;
-    data_02120f9c.arg_ = &data_02120f94;
-    data_02120fa8.func_ = onPostSleep;
-    data_02120fa8.arg_ = NULL;
-    func_0207c1c4(&data_02120f9c);
-    func_0207c1f4(&data_02120fa8);
+    g_sleepEnabled = 1;
+    g_preSleepCallback.func_ = onPreSleep;
+    g_preSleepCallback.arg_ = &data_02120f94;
+    g_postSleepCallback.func_ = onPostSleep;
+    g_postSleepCallback.arg_ = NULL;
+    func_0207c1c4(&g_preSleepCallback);
+    func_0207c1f4(&g_postSleepCallback);
 }
 
 ARM void updateSleep()
 {
-    if (data_02120f90 == 1 && PAD_DetectFold() == TRUE) {
-        data_02120f98 = 0;
+    if (g_sleepEnabled == 1 && PAD_DetectFold() == TRUE) {
+        g_lcdRequest = 0;
         data_02120f94 = 0;
         func_0207bdb4(PM_TRIGGER_COVER_OPEN | PM_TRIGGER_CARD, 0, 0);
     }
-    if (data_02120f98 == 0) {
+    if (g_lcdRequest == 0) {
         return;
     }
-    if (data_02120f98 == 1) {
+    if (g_lcdRequest == 1) {
         OS_Wait();
         GX_DispOff();
         REG_DISPCNT_SUB &= ~0x10000;
         OS_Wait();
         if (func_0207c0b8(FALSE) != 0) {
-            data_02120f98 = 0;
+            g_lcdRequest = 0;
         }
-    } else if (data_02120f98 == 2) {
+    } else if (g_lcdRequest == 2) {
         if (func_0207c0b8(TRUE) != 0) {
             OS_Wait();
             GX_DispOn();
             REG_DISPCNT_SUB |= 0x10000;
             OS_Wait();
-            data_02120f98 = 0;
+            g_lcdRequest = 0;
         }
     }
 }
 
 ARM void setSleepEnabled(int enable)
 {
-    data_02120f90 = enable;
+    g_sleepEnabled = enable;
 }
 
 ARM int isSleepEnabled()
 {
-    return data_02120f90;
+    return g_sleepEnabled;
 }
 
 ARM void onPreSleep(void* arg)

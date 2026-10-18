@@ -2,7 +2,7 @@
 #include <globaldefs.h>
 #include "main/menu/MenuDisplay.hpp"
 
-// Up to 5 sprites drawn on the sub screen (data_020f530c.sprite_)
+// Up to 5 sprites drawn on the sub screen (g_MenuDisplays.sprite_)
 struct UnkMenuSpriteDisplay : UnkMenuDisplay {
     int posX_[5];                               // 0x30
     int posY_[5];                               // 0x44

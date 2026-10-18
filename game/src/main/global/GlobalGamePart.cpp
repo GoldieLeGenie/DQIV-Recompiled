@@ -49,20 +49,20 @@ static unsigned int s_renderedLines;
 static int s_unk14;
 static int s_textureSize;
 static int s_polygonOverflow;
-GlobalGamePart data_020f20cc;
+GlobalGamePart g_GlobalGamePart;
 static long long s_taskTick;
 static unsigned int s_lineLog[2][16];
 static unsigned int s_tickLog[2][16];
-UnkSpriteFade data_020f21f8;
+UnkSpriteFade g_SpriteFade;
 
 ARM void GlobalGamePart::vf00()
 {
     s_taskTick = getTick();
     initMenuSystem();
     TextAPI::Init();
-    data_0211e450.unk_814 = 1;
+    g_VramTransfer.unk_814 = 1;
     initialize();
-    data_0211e450.unk_814 = 0;
+    g_VramTransfer.unk_814 = 0;
     unkfunc_0203f1a8();
     startMenuSystem();
     TextAPI::start();
@@ -76,7 +76,7 @@ ARM void GlobalGamePart::initialize()
 ARM void GlobalGamePart::vf04()
 {
     s_taskTick = getTick();
-    data_02116ce0.unkfunc_0207e810();
+    g_DebugConsole.unkfunc_0207e810();
     endMenuSystem();
     TextAPI::terminate();
     terminate();
@@ -117,14 +117,14 @@ ARM void GlobalGamePart::vf10()
     updatePolygonOverflow();
     updateRenderedLines();
     updateScreenCapture();
-    s_textureSize = data_0211e450.texSize_;
-    data_0211e450.doTransfers();
+    s_textureSize = g_VramTransfer.texSize_;
+    g_VramTransfer.doTransfers();
     s_frameEndLine = GX_GetVCount();
     if (REG_GFX_VTX_RAM_COUNT == 0) {
         updateDisplay();
         flushVramRequests();
     }
-    data_0210bc18.unkfunc_02058244();
+    g_GlobalGamePartManager.unkfunc_02058244();
     s_endLine = GX_GetVCount();
 }
 
@@ -149,36 +149,36 @@ ARM void GlobalGamePart::vf0c()
     // A chapter title composes its screen from two frames (the picture and the
     // plaque come on alternate frames): it is shown as its own panel.
     const bool chapterTitle = cmn::CommonChapterTitle::getSingleton()->sprite_.isLoaded() != 0;
-    pc::setUnifiedFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
-                        data_0210bb94.unkfunc_02058114(TOWN_PART) && !effects->isEffectDrawing() && !chapterTitle);
-    pc::setWideFieldFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
-                          data_0210bb94.unkfunc_02058114(FIELD_PART) && !effects->isEffectDrawing() && !chapterTitle);
+    pc::setUnifiedFrame(pc::dualScreen().unified && g_Display.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
+                        g_GlobalDQ4.unkfunc_02058114(TOWN_PART) && !effects->isEffectDrawing() && !chapterTitle);
+    pc::setWideFieldFrame(pc::dualScreen().unified && g_Display.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
+                          g_GlobalDQ4.unkfunc_02058114(FIELD_PART) && !effects->isEffectDrawing() && !chapterTitle);
     // Battles never draw screen effects; the player may keep their DS layout.
     pc::setWideBattleFrame(pc::dualScreen().unified && pc::gameSettings().battleLayout != pc::battleDsScreens &&
-                           data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_SINGLE3D && data_0210bb94.unkfunc_02058114(BATTLE_PART));
+                           g_Display.plugin_ == &dss::g_DISPLAYPLUGIN_SINGLE3D && g_GlobalDQ4.unkfunc_02058114(BATTLE_PART));
     // The large layout needs room beside the enlarged battle screen (16:9).
     pc::setLargeBattle(pc::gameSettings().battleLayout == pc::battleLarge && pc::dualScreen().canvasWidth >= 600);
     // Scenes without a world place their screens as panels; the monster book
     // only uses the bottom screen.
-    pc::setPanelLayout(pc::dualScreen().unified && (chapterTitle || (!data_0210bb94.unkfunc_02058114(TOWN_PART) &&
-                       !data_0210bb94.unkfunc_02058114(FIELD_PART) && !data_0210bb94.unkfunc_02058114(BATTLE_PART))));
-    pc::setPanelFocus(chapterTitle || data_0210bb94.unkfunc_02058114(BOOK_PART) ? 1 : -1);
-    pc::setStartScreen(data_0210bb94.unkfunc_02058114(GAME_START_PART));
+    pc::setPanelLayout(pc::dualScreen().unified && (chapterTitle || (!g_GlobalDQ4.unkfunc_02058114(TOWN_PART) &&
+                       !g_GlobalDQ4.unkfunc_02058114(FIELD_PART) && !g_GlobalDQ4.unkfunc_02058114(BATTLE_PART))));
+    pc::setPanelFocus(chapterTitle || g_GlobalDQ4.unkfunc_02058114(BOOK_PART) ? 1 : -1);
+    pc::setStartScreen(g_GlobalDQ4.unkfunc_02058114(GAME_START_PART));
 #endif
     onDrawPart();
     s_tickLog[index][2] = getTick();
     s_lineLog[index][2] = GX_GetVCount();
     setupOrtho2DFine();
-    data_020f21f8.sprite_[0].draw();
-    data_020f21f8.sprite_[1].draw();
+    g_SpriteFade.sprite_[0].draw();
+    g_SpriteFade.sprite_[1].draw();
     onWindowPart();
     s_tickLog[index][3] = getTick();
     s_lineLog[index][3] = GX_GetVCount();
     onDebugPart();
     s_tickLog[index][4] = getTick();
     s_lineLog[index][4] = GX_GetVCount();
-    data_0210bc18.unkfunc_020581f4();
-    data_0211fc7c.unkfunc_020866d8();
+    g_GlobalGamePartManager.unkfunc_020581f4();
+    g_SoundSystem.unkfunc_020866d8();
     s_tickLog[index][5] = getTick();
     s_lineLog[index][5] = GX_GetVCount();
     if (s_callback) {
@@ -232,7 +232,7 @@ ARM static void updateRenderedLines()
 
 ARM int GlobalGamePart::unkfunc_0203f210()
 {
-    if (data_0210bc40.unkfunc_02058378()) {
+    if (g_DebugMenu.unkfunc_02058378()) {
         return 0;
     }
     return MenuManager::isExtraMenu() == 0;

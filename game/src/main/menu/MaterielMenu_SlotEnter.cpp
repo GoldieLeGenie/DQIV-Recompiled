@@ -25,22 +25,22 @@ THUMB void MaterielMenu_SlotEnter::menuUpdate()
 
 THUMB void MaterielMenu_SlotEnter::enableUpdate()
 {
-    if (data_020ed1bc.isOpen() != 0) {
-        if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen() != 0) {
+        if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+            g_TownMenuMessage.close();
             MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
             TownPlayerManager::getSingleton()->setLock(1);
             g_cmnPartyInfo.prevLocation_ = 1;
             g_Global.setMinigame(1);
             g_Global.setGameStatus(machineSelect_);
             g_Global.startCasino();
-        } else if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+            g_TownMenuMessage.close();
             MaterielMenu_WINDOW_MANAGER::getSingleton()->closeMaterielWindow();
         }
     } else {
-        data_020ed1bc.openMessageForMENU();
-        data_020ed1bc.addMessage(0xc96aa);
-        data_020ed1bc.setYesNo();
+        g_TownMenuMessage.openMessageForMENU();
+        g_TownMenuMessage.addMessage(0xc96aa);
+        g_TownMenuMessage.setYesNo();
     }
 }

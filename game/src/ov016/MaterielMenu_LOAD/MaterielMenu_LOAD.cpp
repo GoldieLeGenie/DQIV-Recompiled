@@ -78,7 +78,7 @@ inline void MaterielMenu_LOAD::sexualityDraw()
 {
     int message;
     int sexualityMessage[2] = { 0xa0000005, 0xa0000006 };
-    drawNameEditField(country_, data_020f1878, data_020f17c0, data_020f17bc, 2, 1);
+    drawNameEditField(country_, g_nameEditLabels, g_nameEditLength, g_nameEditMaxLength, 2, 1);
     drawFrameStyleB(0x30, 0x10, 0xa0, 0x28, -1);
     message = 0x800001a1;
     drawCenteredMessage(&message, 0x30, 0x38, 0xa0, 0x50);
@@ -170,9 +170,9 @@ THUMB void MaterielMenu_LOAD::menuUpdate()
             activeDiaryNo_ = 0;
             redraw_ = 1;
         } else {
-            data_020ed1bc.openMessageForMENU();
-            data_020ed1bc.addMessageNOWAIT(0xcb60b);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.openMessageForMENU();
+            g_TownMenuMessage.addMessageNOWAIT(0xcb60b);
+            g_TownMenuMessage.addMessageWAITKEY();
             changeStatus(LOAD_BLANK);
         }
         break;
@@ -200,24 +200,24 @@ THUMB void MaterielMenu_LOAD::menuUpdate()
         if (result) {
             changeStatus(LOAD_END);
         } else {
-            data_020ed1bc.close();
-            data_020ed1bc.openMessageForMENU();
-            data_020ed1bc.addMessageNOWAIT(0xcb5fa);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.close();
+            g_TownMenuMessage.openMessageForMENU();
+            g_TownMenuMessage.addMessageNOWAIT(0xcb5fa);
+            g_TownMenuMessage.addMessageWAITKEY();
             changeStatus(LOAD_BLANK);
         }
         break;
     }
     case LOAD_DELETECHECK:
-        if (data_020ed1bc.isOpen() && data_020ed1bc.isMessageWAITPROG()) {
+        if (g_TownMenuMessage.isOpen() && g_TownMenuMessage.isMessageWAITPROG()) {
             if (deleteDiary()) {
-                data_020ed1bc.openMessageForMENU();
-                data_020ed1bc.addMessage(0xcb605);
+                g_TownMenuMessage.openMessageForMENU();
+                g_TownMenuMessage.addMessage(0xcb605);
                 messageCounter_++;
             } else {
-                data_020ed1bc.openMessageForMENU();
-                data_020ed1bc.addMessageNOWAIT(0xcb608);
-                data_020ed1bc.addMessageWAITKEY();
+                g_TownMenuMessage.openMessageForMENU();
+                g_TownMenuMessage.addMessageNOWAIT(0xcb608);
+                g_TownMenuMessage.addMessageWAITKEY();
                 changeStatus(LOAD_BLANK);
             }
         }
@@ -226,15 +226,15 @@ THUMB void MaterielMenu_LOAD::menuUpdate()
         if (profile::SaveLoad::loadbank(activeDiaryNo_)) {
             changeStatus(LOAD_END);
         } else {
-            data_020ed1bc.openMessageForMENU();
-            data_020ed1bc.addMessageNOWAIT(0xcb60b);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.openMessageForMENU();
+            g_TownMenuMessage.addMessageNOWAIT(0xcb60b);
+            g_TownMenuMessage.addMessageWAITKEY();
             changeStatus(LOAD_BLANK);
         }
         break;
     case LOAD_BLANK:
-        if (data_020ed1bc.isOpen()) {
-            data_020ed1bc.isMessageWAITPROG();
+        if (g_TownMenuMessage.isOpen()) {
+            g_TownMenuMessage.isMessageWAITPROG();
         }
         break;
     case LOAD_END:
@@ -244,9 +244,9 @@ THUMB void MaterielMenu_LOAD::menuUpdate()
         if (profile::SaveLoad::loadbank(3)) {
             changeStatus(LOAD_END);
         } else {
-            data_020ed1bc.openMessageForMENU();
-            data_020ed1bc.addMessageNOWAIT(0xcb60b);
-            data_020ed1bc.addMessageWAITKEY();
+            g_TownMenuMessage.openMessageForMENU();
+            g_TownMenuMessage.addMessageNOWAIT(0xcb60b);
+            g_TownMenuMessage.addMessageWAITKEY();
             changeStatus(LOAD_BLANK);
         }
         break;
@@ -255,40 +255,40 @@ THUMB void MaterielMenu_LOAD::menuUpdate()
 
 THUMB bool MaterielMenu_LOAD::messageUpdate()
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         return false;
     }
-    int stat = data_020ed1bc.stat_;
+    int stat = g_TownMenuMessage.stat_;
     switch (status_) {
     case LOAD_DATASELECT:
         switch (menuMode_) {
         case 0:
             if (stat == menu::MenuBase::MENUBASE_STAT_OK) {
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
                 changeStatus(LOAD_NAMEEDIT);
                 redraw_ = 1;
             } else if (stat == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
             }
             break;
         case 1:
             if (stat == menu::MenuBase::MENUBASE_STAT_OK) {
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
                 changeStatus(LOAD_NAMEEDIT);
                 redraw_ = 1;
             } else if (stat == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
             }
             break;
         case 2:
             if (stat == menu::MenuBase::MENUBASE_STAT_OK) {
-                data_020ed1bc.close();
-                data_020ed1bc.openMessageForMENU();
-                data_020ed1bc.addMessageNOWAIT(0xcb604);
-                data_020ed1bc.addMessageWAITKEY();
+                g_TownMenuMessage.close();
+                g_TownMenuMessage.openMessageForMENU();
+                g_TownMenuMessage.addMessageNOWAIT(0xcb604);
+                g_TownMenuMessage.addMessageWAITKEY();
                 changeStatus(LOAD_DELETECHECK);
             } else if (stat == menu::MenuBase::MENUBASE_STAT_CANCEL) {
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
             }
             break;
         }
@@ -297,7 +297,7 @@ THUMB bool MaterielMenu_LOAD::messageUpdate()
         if (messageCounter_ > 0) {
             if ((unsigned int)(stat - 1) <= 1) {
                 redraw_ = 1;
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
                 changeStatus(LOAD_MODESELECT);
             }
         } else {
@@ -309,17 +309,17 @@ THUMB bool MaterielMenu_LOAD::messageUpdate()
         if (messageCounter_ > 0) {
             if ((unsigned int)(stat - 1) <= 1) {
                 redraw_ = 1;
-                data_020ed1bc.close();
+                g_TownMenuMessage.close();
                 changeStatus(LOAD_MODESELECT);
             }
-        } else if (data_020ed1bc.isMessageWAITPROG()) {
-            data_020ed1bc.close();
+        } else if (g_TownMenuMessage.isMessageWAITPROG()) {
+            g_TownMenuMessage.close();
             return false;
         }
         break;
     case LOAD_BLANK:
         if ((unsigned int)(stat - 1) <= 1) {
-            data_020ed1bc.close();
+            g_TownMenuMessage.close();
         }
         return false;
     case LOAD_END:
@@ -410,34 +410,34 @@ THUMB void MaterielMenu_LOAD::dataSelectUpdate()
         switch (menuMode_) {
         case 0:
             if (diary_[active].name_ == 0) {
-                data_020ed1bc.openMessageForMENU();
-                data_020ed1bc.addMessage(0xcb5eb);
-                data_020ed1bc.setYesNo();
+                g_TownMenuMessage.openMessageForMENU();
+                g_TownMenuMessage.addMessage(0xcb5eb);
+                g_TownMenuMessage.setYesNo();
             } else {
                 changeStatus(LOAD_LOADCHECK);
             }
             break;
         case 1:
             if (diary_[active].name_ != 0) {
-                data_020ed1bc.openMessageForMENU();
-                data_020ed1bc.addMessage(0xcb5ef);
-                data_020ed1bc.setYesNo();
+                g_TownMenuMessage.openMessageForMENU();
+                g_TownMenuMessage.addMessage(0xcb5ef);
+                g_TownMenuMessage.setYesNo();
             } else {
                 changeStatus(LOAD_NAMEEDIT);
             }
             break;
         case 2:
             if (diary_[active].name_ != 0) {
-                data_020ed1bc.openMessageForMENU();
+                g_TownMenuMessage.openMessageForMENU();
                 profile::SaveLoad::setCatalogMacro(&catalogview_[activeDiaryNo_]);
                 if (diary_[activeDiaryNo_].savetype_ == 4) {
-                    data_020ed1bc.addMessage(0xcb610);
+                    g_TownMenuMessage.addMessage(0xcb610);
                 } else if (diary_[activeDiaryNo_].chapter_ >= 5) {
-                    data_020ed1bc.addMessage(0xcb601);
+                    g_TownMenuMessage.addMessage(0xcb601);
                 } else {
-                    data_020ed1bc.addMessage(0xcb5fe);
+                    g_TownMenuMessage.addMessage(0xcb5fe);
                 }
-                data_020ed1bc.setYesNo(1);
+                g_TownMenuMessage.setYesNo(1);
             }
             break;
         }
@@ -472,9 +472,9 @@ THUMB void MaterielMenu_LOAD::sexualityUpdate()
         sexualityItem_.result_ = 0;
         sexualityItem_.lastresult_ = 0;
         exitCode_ = activeDiaryNo_;
-        data_020ed1bc.openMessageForMENU();
-        data_020ed1bc.addMessageNOWAIT(0xcb5f7);
-        data_020ed1bc.addMessageWAITKEY();
+        g_TownMenuMessage.openMessageForMENU();
+        g_TownMenuMessage.addMessageNOWAIT(0xcb5f7);
+        g_TownMenuMessage.addMessageWAITKEY();
         changeStatus(LOAD_WRITECHECK);
         redraw_ = 1;
         break;
@@ -566,9 +566,9 @@ THUMB void MaterielMenu_LOAD::changeStatus(LOAD_STATUS status)
 
 THUMB void MaterielMenu_LOAD::closeMessage()
 {
-    int stat = data_020ed1bc.stat_;
+    int stat = g_TownMenuMessage.stat_;
     redraw_ = 1;
     if ((unsigned int)(stat - 1) <= 1) {
-        data_020ed1bc.close();
+        g_TownMenuMessage.close();
     }
 }

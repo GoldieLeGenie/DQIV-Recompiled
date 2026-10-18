@@ -45,4 +45,4 @@ namespace dss {
     extern Pad g_Pad;
 }
 
-extern unsigned short data_02116d94[7200];      // recorded keys
+extern unsigned short g_padRecordBuffer[7200];      // recorded keys

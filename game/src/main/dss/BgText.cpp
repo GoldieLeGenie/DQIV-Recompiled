@@ -2,26 +2,26 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Utf8Iterator.hpp"
 
-UnkBgText data_0211a664;
+UnkBgText g_BgText;
 
 ARM void initBgText()
 {
-    data_0211a664.count_ = 0;
-    data_0211a664.font_ = NULL;
-    data_0211a664.subFont_ = NULL;
-    data_0211a664.mode_ = 2;
+    g_BgText.count_ = 0;
+    g_BgText.font_ = NULL;
+    g_BgText.subFont_ = NULL;
+    g_BgText.mode_ = 2;
 }
 
 ARM void loadBgFont12(void* data, void* subData)
 {
-    data_0211a664.font12_.load(data, 12);
-    data_0211a664.subFont12_.load(subData, 12);
+    g_BgText.font12_.load(data, 12);
+    g_BgText.subFont12_.load(subData, 12);
 }
 
 ARM void loadBgFont10(void* data, void* subData)
 {
-    data_0211a664.font10_.load(data, 10);
-    data_0211a664.subFont10_.load(subData, 10);
+    g_BgText.font10_.load(data, 10);
+    g_BgText.subFont10_.load(subData, 10);
 }
 
 ARM int drawBgText(UnkCharBuffer* buffer, int x, int y, int color, const char* text)
@@ -31,7 +31,7 @@ ARM int drawBgText(UnkCharBuffer* buffer, int x, int y, int color, const char* t
 
 ARM int drawBgTextWrapped(UnkCharBuffer* buffer, int x, int y, int color, const char* text, int wrap)
 {
-    UnkBgText* work = &data_0211a664;
+    UnkBgText* work = &g_BgText;
     UnkG2dCanvas canvas;
     UnkG2dCanvas* pCanvas = NULL;
     work->count_ = 0;
@@ -138,7 +138,7 @@ ARM int drawBgTextWrapped(UnkCharBuffer* buffer, int x, int y, int color, const 
 
 ARM int drawBgChar(UnkG2dCanvas* canvas, int x, int y, int color, unsigned short c)
 {
-    UnkBgText* work = &data_0211a664;
+    UnkBgText* work = &g_BgText;
     UnkFont* font = work->font_;
     if (work->mode_ == 1) {
         switch (c) {
@@ -294,7 +294,7 @@ ARM int drawBgChar(UnkG2dCanvas* canvas, int x, int y, int color, unsigned short
 
 ARM void setBgTextFontSize(int size)
 {
-    UnkBgText* work = &data_0211a664;
+    UnkBgText* work = &g_BgText;
     if (size == 12) {
         work->font_ = &work->font12_;
         work->subFont_ = &work->subFont12_;
@@ -321,17 +321,17 @@ ARM int getBgTextLineHeight(int size)
 
 ARM int getBgTextCharWidths(unsigned char* widths, int max)
 {
-    if (max < data_0211a664.count_) {
+    if (max < g_BgText.count_) {
         return -1;
     }
-    if (max > data_0211a664.count_) {
-        max = data_0211a664.count_;
+    if (max > g_BgText.count_) {
+        max = g_BgText.count_;
     }
-    MI_CpuCopyU8(data_0211a664.charWidths_, widths, max);
+    MI_CpuCopyU8(g_BgText.charWidths_, widths, max);
     return max;
 }
 
 ARM int getBgTextWidth()
 {
-    return data_0211a664.width_;
+    return g_BgText.width_;
 }

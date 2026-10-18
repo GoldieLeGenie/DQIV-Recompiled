@@ -52,7 +52,7 @@ THUMB void BattleMenu_MAGIC::menuExecute()
 
 THUMB void BattleMenu_MAGIC::menuDraw()
 {
-    if (!data_020ed1bc.isOpen()) {
+    if (!g_TownMenuMessage.isOpen()) {
         drawMagicMenu(haveAction_, count_, navigator_.getPageNo());
         menuItem_.drawActive();
         cancelItem_.drawActive();
@@ -65,9 +65,9 @@ THUMB void BattleMenu_MAGIC::menuUpdate()
     short pos = navigator_.getIndex(menuItem_.active_);
     int action = haveAction_[pos];
     int magic = haveActionIndex_[navigator_.getIndex(menuItem_.active_)];
-    if (data_020ed1bc.isOpen()) {
-        if ((unsigned int)(data_020ed1bc.stat_ - 1) <= 1) {
-            data_020ed1bc.close();
+    if (g_TownMenuMessage.isOpen()) {
+        if ((unsigned int)(g_TownMenuMessage.stat_ - 1) <= 1) {
+            g_TownMenuMessage.close();
             return;
         }
     } else {
@@ -90,13 +90,13 @@ THUMB void BattleMenu_MAGIC::menuUpdate()
                 menuItem_.lastresult_ = 0;
                 if (!status::UseAction::isUse(action, info)) {
                     TextAPI::setMACRO0(1, 0x50000000, info->haveStatus_.playerIndex_);
-                    data_020ed1bc.openMessageForBATTLE();
-                    data_020ed1bc.addMessage(0xc3c6f);
+                    g_TownMenuMessage.openMessageForBATTLE();
+                    g_TownMenuMessage.addMessage(0xc3c6f);
                     return;
                 }
                 if (action == 0x13 && !status::g_Party.isExecMinadein()) {
-                    data_020ed1bc.openMessageForBATTLE();
-                    data_020ed1bc.addMessage(0xc394d);
+                    g_TownMenuMessage.openMessageForBATTLE();
+                    g_TownMenuMessage.addMessage(0xc394d);
                     return;
                 }
                 btl::BattleMenuPlayerControl::getSingleton()->setMagicPosition(pos);

@@ -8,9 +8,9 @@ struct UnkArrayWarning {
     unsigned int caller_;                       // 0x08 return address
 };
 
-extern int data_020c499c;                       // array warnings enabled
-extern int data_02120fb4;                       // number of array warnings
-extern UnkArrayWarning data_02120fb8[16];
+extern int g_arrayErrorEnabled;                       // array warnings enabled
+extern int g_arrayWarningCount;                       // number of array warnings
+extern UnkArrayWarning g_arrayWarnings[16];
 
 void setArrayErrorEnabled(int enable);
 void addArrayError(int index, int size, unsigned int caller);   // add a warning

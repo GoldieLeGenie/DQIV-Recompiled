@@ -55,7 +55,7 @@ THUMB void ExecTask::cleanup()
 
 THUMB bool ExecTask::isEnd()
 {
-    if (data_0210bb94.unkfunc_0205810c() == 13) {
+    if (g_GlobalDQ4.unkfunc_0205810c() == 13) {
         if (BattleAutoFeed::isEndMessageSend()) {
             return true;
         }

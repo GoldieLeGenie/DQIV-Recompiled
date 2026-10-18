@@ -41,19 +41,19 @@ THUMB void MenuAPI::openMenuByIndex()
             menu = &gMaterielMenu_LOAD;
         }
         if (dss::strcmp(name, "gCommonMenu_APITEST") == 0) {
-            menu = &data_020ed068;
+            menu = &g_CommonMenuApiTest;
         }
         if (dss::strcmp(name, "gTownMenu_ROOT") == 0) {
             menu = &gTownMenu_ROOT;
         }
         if (dss::strcmp(name, "gTownMenu_MESSAGE") == 0) {
-            menu = &data_020ed1bc;
+            menu = &g_TownMenuMessage;
         }
         if (dss::strcmp(name, "gCmmonMenu_YESNO") == 0) {
-            menu = &data_020ed094;
+            menu = &g_CommonMenuYesNo;
         }
         if (dss::strcmp(name, "gTownMenu_TOWN") == 0) {
-            menu = &data_020ed11c;
+            menu = &g_TownMenuTown;
         }
         if (dss::strcmp(name, "gTownShopMenu") == 0) {
             menu = &gTownShopMenu;
@@ -170,35 +170,35 @@ THUMB void MenuAPI::closeBattleStadiumAbort()
 
 THUMB void MenuAPI::openMessage(int message, int count)
 {
-    openMenu(&data_020ed1bc);
-    data_020ed1bc.openMessageForTALK();
-    data_020ed1bc.addMessageCount(message, count);
+    openMenu(&g_TownMenuMessage);
+    g_TownMenuMessage.openMessageForTALK();
+    g_TownMenuMessage.addMessageCount(message, count);
 }
 
 THUMB void MenuAPI::openCommonMessage()
 {
-    openMenu(&data_020ed1bc);
-    data_020ed1bc.openMessageForTALK();
+    openMenu(&g_TownMenuMessage);
+    g_TownMenuMessage.openMessageForTALK();
 }
 
 THUMB void MenuAPI::addCommonMessage(int message)
 {
-    data_020ed1bc.addMessage(message);
+    g_TownMenuMessage.addMessage(message);
 }
 
 THUMB void MenuAPI::waitCommonMessage()
 {
-    data_020ed1bc.addMessageWAITKEY();
+    g_TownMenuMessage.addMessageWAITKEY();
 }
 
 THUMB void MenuAPI::clearCommonMessage()
 {
-    data_020ed1bc.clearMessageWAITPROG();
+    g_TownMenuMessage.clearMessageWAITPROG();
 }
 
 THUMB bool MenuAPI::isWaitMessage()
 {
-    return data_020ed1bc.isMessageWAITPROG();
+    return g_TownMenuMessage.isMessageWAITPROG();
 }
 
 THUMB int MenuAPI::isMessageWaitTrigger()
@@ -218,8 +218,8 @@ THUMB void MenuAPI::clearMessageWaitTriggerNOSE()
 
 THUMB void MenuAPI::openEncountMessage()
 {
-    openMenu(&data_020ed1bc);
-    data_020ed1bc.openMessageForENCOUNT();
+    openMenu(&g_TownMenuMessage);
+    g_TownMenuMessage.openMessageForENCOUNT();
     if (g_Global.fightStadiumFlag_ == 0) {
         gBattleMenuSub_HISTORY.open();
         gBattleMenuSub_HISTORY.history_ = 0;
@@ -229,8 +229,8 @@ THUMB void MenuAPI::openEncountMessage()
 THUMB void MenuAPI::openBattleMessage()
 {
     int abort = gBattleMenu_StadiumAbort.isOpen();
-    openMenu(&data_020ed1bc);
-    data_020ed1bc.openMessageForBATTLE();
+    openMenu(&g_TownMenuMessage);
+    g_TownMenuMessage.openMessageForBATTLE();
     if (g_Global.fightStadiumFlag_ == 0) {
         gBattleMenuSub_HISTORY.open();
         gBattleMenuSub_HISTORY.history_ = 1;
@@ -242,17 +242,17 @@ THUMB void MenuAPI::openBattleMessage()
 
 THUMB void MenuAPI::addMessage(int message)
 {
-    data_020ed1bc.addMessage(message);
+    g_TownMenuMessage.addMessage(message);
 }
 
 THUMB void MenuAPI::addMessageSerial(int message)
 {
-    data_020ed1bc.addMessageSerial(message);
+    g_TownMenuMessage.addMessageSerial(message);
 }
 
 THUMB void MenuAPI::catMessage(int message)
 {
-    data_020ed1bc.addMessageNOWAIT(message);
+    g_TownMenuMessage.addMessageNOWAIT(message);
 }
 
 THUMB void MenuAPI::shakeMessage()
@@ -264,21 +264,21 @@ THUMB void MenuAPI::shakeMessage()
 
 THUMB void MenuAPI::setMessageCursor(bool flag)
 {
-    data_020ed1bc.setMessageIntervalCursor(flag);
-    data_020ed1bc.setMessageLastCursor(flag);
+    g_TownMenuMessage.setMessageIntervalCursor(flag);
+    g_TownMenuMessage.setMessageLastCursor(flag);
 }
 
 THUMB void MenuAPI::openMessageWindowMenu()
 {
-    data_020ed1bc.openMessageForMENU();
+    g_TownMenuMessage.openMessageForMENU();
 }
 
 THUMB int MenuAPI::isFinishMessageWindow()
 {
-    if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
+    if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_CANCEL) {
         return true;
     }
-    if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
+    if (g_TownMenuMessage.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
         return true;
     }
     return false;
@@ -296,5 +296,5 @@ THUMB int MenuAPI::isEndMessage()
 
 THUMB void MenuAPI::suspendMessageKeyInput(int flag)
 {
-    data_020ed1bc.suspendInput_ = flag;
+    g_TownMenuMessage.suspendInput_ = flag;
 }

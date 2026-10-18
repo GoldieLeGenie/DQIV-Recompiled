@@ -1,7 +1,7 @@
 #pragma once
 #include <globaldefs.h>
 
-extern void* data_0211fd20[5];                  // system text resources (character, font, palettes)
+extern void* g_systemTextResources[5];                  // system text resources (character, font, palettes)
 
 void initSystemText(void* res0, void* res1, void* res2, void* res3, void* res4);    // set the resources
 void* getSystemTextData(int index);              // character resource

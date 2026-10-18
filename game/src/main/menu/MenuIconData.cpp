@@ -24,9 +24,9 @@ unsigned char* itemIconReduced(int index, int tiles)
 {
     static std::map<int, unsigned char*> icons;
     static void* heap = NULL;
-    if (heap != data_0211a60c.heap2_) {
+    if (heap != g_appHeap.heap2_) {
         // A new game heap: the icons of the previous one are gone with it.
-        heap = data_0211a60c.heap2_;
+        heap = g_appHeap.heap2_;
         icons.clear();
     }
     const int key = index * 8 + tiles;
@@ -48,8 +48,8 @@ unsigned char* itemIconReduced(int index, int tiles)
             pixels[((y / 8) * tiles + x / 8) * 64 + (y % 8) * 8 + x % 8] = src[((sy / 8) * 4 + sx / 8) * 64 + (sy % 8) * 8 + sx % 8];
         }
     }
-    dssFree(&data_0211a60c, (void*)src);
-    unsigned char* icon = (unsigned char*)allocAppHeap(&data_0211a60c, 4 + size + (size + RUN - 1) / RUN, 4);
+    dssFree(&g_appHeap, (void*)src);
+    unsigned char* icon = (unsigned char*)allocAppHeap(&g_appHeap, 4 + size + (size + RUN - 1) / RUN, 4);
     unsigned char* out = icon;
     *out++ = 0x30;
     *out++ = size & 0xff;
@@ -93,7 +93,7 @@ THUMB void setItemIconType(int type)
         }
         if (path != NULL) {
             dss::g_File.unkfunc_0207eac0(path, s_item32.getAddr(), 1);
-            data_020facb8.icon_.loadPalettes();
+            g_MenuBg.icon_.loadPalettes();
         }
     }
 }

@@ -2,7 +2,7 @@
 #include <globaldefs.h>
 #include "main/menu/MenuDisplay.hpp"
 
-// Display object drawing nothing (data_020f530c.dummy_)
+// Display object drawing nothing (g_MenuDisplays.dummy_)
 struct UnkMenuDummyDisplay : UnkMenuDisplay {
     UnkMenuDummyDisplay();
     virtual void setup(int id);

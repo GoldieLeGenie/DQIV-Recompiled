@@ -21,4 +21,4 @@ struct UnkConvertDate {
     char unk_12[6];                             // 0x12
 };
 
-extern UnkConvertDate data_0210baf8;
+extern UnkConvertDate g_BuildDate;
