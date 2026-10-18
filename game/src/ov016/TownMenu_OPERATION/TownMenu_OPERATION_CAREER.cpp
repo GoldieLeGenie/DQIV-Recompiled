@@ -8,7 +8,7 @@
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
 #include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_02173d7c.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
-#include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
+#include "main/menu/MenuCommonDraw.hpp"
 #include "main/menu/UnkMenuOverlay.hpp"
 
 THUMB void TownMenu_OPERATION_CAREER::menuSetup()
@@ -55,10 +55,10 @@ THUMB void TownMenu_OPERATION_CAREER::menuDraw()
         type = 1;
     }
     SetTextPage(0, type);
-    unkfunc_0201e194(0, 0, 0x100, 0xc0, -1);
+    drawMenuFrame(0, 0, 0x100, 0xc0, -1);
     if (pageMax_ >= 1) {
         SetTextPage(1, type);
-        unkfunc_0201e194(0, 0, 0x100, 0xc0, -1);
+        drawMenuFrame(0, 0, 0x100, 0xc0, -1);
     }
 }
 

@@ -6,7 +6,7 @@
 #include "main/status/PlayerStatus.hpp"
 #include "main/status/UseItem.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_SHOP_WHOSE::menuSetup()
 {
@@ -35,11 +35,11 @@ THUMB void MaterielMenu_SHOP_WHOSE::menuExecute()
 THUMB void MaterielMenu_SHOP_WHOSE::menuDraw()
 {
     if (data_020ed1bc.isOpen() && yesno_ == 0) {
-        unkfunc_0216fc58();
+        drawShopScreen();
         return;
     }
     if (yesno_ == 0) {
-        unkfunc_0216fb6c(0);
+        drawShopWhoseScreen(0);
         menuItem_.drawActive();
         menuItem2_.drawActive();
     }

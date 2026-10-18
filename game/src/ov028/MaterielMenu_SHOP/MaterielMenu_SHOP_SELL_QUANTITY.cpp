@@ -4,7 +4,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/status/UseItem.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_SHOP_SELL_QUANTITY::menuSetup()
 {
@@ -29,10 +29,10 @@ THUMB void MaterielMenu_SHOP_SELL_QUANTITY::menuExecute()
 THUMB void MaterielMenu_SHOP_SELL_QUANTITY::menuDraw()
 {
     if (data_020ed1bc.isMessageWAITPROG()) {
-        unkfunc_0216fc2c(quantity_);
+        drawShopSellQuantityScreen(quantity_);
         menuItem_.drawActive();
     } else if (data_020ed1bc.isOpen()) {
-        unkfunc_0216fc58();
+        drawShopScreen();
     }
 }
 

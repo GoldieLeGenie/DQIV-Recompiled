@@ -4,7 +4,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/status/PlayerStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_CHANGEGIFT_SELECTCHARA::menuSetup()
 {
@@ -27,7 +27,7 @@ THUMB void MaterielMenu_CHANGEGIFT_SELECTCHARA::menuExecute()
 
 THUMB void MaterielMenu_CHANGEGIFT_SELECTCHARA::menuDraw()
 {
-    unkfunc_0216fb6c(1);
+    drawShopWhoseScreen(1);
     menuItem_.drawActive();
     menuItem2_.drawActive();
 }

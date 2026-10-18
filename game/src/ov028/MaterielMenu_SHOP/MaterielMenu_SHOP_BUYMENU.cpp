@@ -5,11 +5,11 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/status/UseItem.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 #ifdef DQIV_NATIVE
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuDraw.hpp"
-#include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
+#include "main/menu/MenuCommonDraw.hpp"
 #include "main/dss/Pad.hpp"
 #include <nitro/pad.h>
 
@@ -122,16 +122,16 @@ THUMB void MaterielMenu_SHOP_BUYMENU::menuExecute()
 THUMB void MaterielMenu_SHOP_BUYMENU::menuDraw()
 {
     if (data_020ed1bc.isOpen()) {
-        unkfunc_0216fc58();
+        drawShopScreen();
         return;
     }
 #ifdef DQIV_NATIVE
     {
-        // As unkfunc_0216fb24, with the category tabs above the list and icons in it.
+        // As drawShopBuyScreen, with the category tabs above the list and icons in it.
         unkfunc_native_shopTabs(tabs_, tabCount_, tab_);
         unkfunc_native_shopBuyList(rows_, rowCount_);
         drawShopItemKind();
-        unkfunc_0201e350(0x88, 0xa0, 0);
+        drawMoneyWindow(0x88, 0xa0, 0);
         MaterielMenuPlayerControl* ctrl = MaterielMenuPlayerControl::getSingleton();
         const int item = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(ctrl->activeItem_);
         drawShopSackCount(fukuroItemCount_);
@@ -144,7 +144,7 @@ THUMB void MaterielMenu_SHOP_BUYMENU::menuDraw()
         return;
     }
 #endif
-    unkfunc_0216fb24(fukuroItemCount_, 0);
+    drawShopBuyScreen(fukuroItemCount_, 0);
     menuItem_.drawActive();
 }
 

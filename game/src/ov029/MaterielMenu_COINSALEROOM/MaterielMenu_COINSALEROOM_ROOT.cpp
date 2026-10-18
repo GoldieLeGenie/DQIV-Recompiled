@@ -4,7 +4,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/status/StoryStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_COINSALEROOM_ROOT::menuSetup()
 {
@@ -35,7 +35,7 @@ THUMB void MaterielMenu_COINSALEROOM_ROOT::menuExecute()
 THUMB void MaterielMenu_COINSALEROOM_ROOT::menuDraw()
 {
     if (data_020ed1bc.isMessageWAITPROG()) {
-        unkfunc_0216fd34(coin_, 1);
+        drawCoinSaleroomScreen(coin_, 1);
         if (blink_ != 0) {
             if (blinkCount_ > 15) {
                 menuItem_.drawActive();

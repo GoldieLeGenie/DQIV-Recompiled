@@ -5,7 +5,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/profile/Profile.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 #include "main/cmn/UnkEnvoyManager.hpp"
 #include "main/cmn/UnkImmigrantTown.hpp"
 
@@ -49,11 +49,11 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuDraw()
 {
     if (data_020ed1bc.isMessageWAITPROG()) {
         int active = menuItem_.active_;
-        unkfunc_0216fe9c(mode_, active, navigator_.getPageNo(), navigator_.getPageMaxCount());
+        drawTagModeAmbassadorScreen(mode_, active, navigator_.getPageNo(), navigator_.getPageMaxCount());
         menuItem_.drawActive();
     }
     if (mode_ == 1) {
-        unkfunc_0216fe9c(mode_, data_020f0078.unkfunc_0203a5ec(), navigator_.getPageNo(), navigator_.getPageMaxCount());
+        drawTagModeAmbassadorScreen(mode_, data_020f0078.unkfunc_0203a5ec(), navigator_.getPageNo(), navigator_.getPageMaxCount());
     }
 }
 

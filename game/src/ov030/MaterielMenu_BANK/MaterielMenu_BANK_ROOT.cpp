@@ -5,7 +5,7 @@
 #include "main/status/PlayerStatus.hpp"
 #include "main/status/StoryStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_BANK_ROOT::menuSetup()
 {
@@ -34,7 +34,7 @@ THUMB void MaterielMenu_BANK_ROOT::menuExecute()
 THUMB void MaterielMenu_BANK_ROOT::menuDraw()
 {
     if (data_020ed1bc.isMessageWAITPROG()) {
-        unkfunc_0216fcf0();
+        drawBankRootScreen();
         menuItem_.drawActive();
     }
 }

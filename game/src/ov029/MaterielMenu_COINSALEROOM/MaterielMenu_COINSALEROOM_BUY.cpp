@@ -2,7 +2,7 @@
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/text/TextAPI.hpp"
 #include "main/status/PartyStatus.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_COINSALEROOM_BUY::menuSetup()
 {
@@ -15,7 +15,7 @@ THUMB void MaterielMenu_COINSALEROOM_BUY::menuExecute()
 
 THUMB void MaterielMenu_COINSALEROOM_BUY::menuDraw()
 {
-    unkfunc_0216fd34(coin_, 0);
+    drawCoinSaleroomScreen(coin_, 0);
 }
 
 THUMB void MaterielMenu_COINSALEROOM_BUY::menuUpdate()

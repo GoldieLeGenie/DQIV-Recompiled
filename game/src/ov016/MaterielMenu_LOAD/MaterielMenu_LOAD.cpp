@@ -4,7 +4,7 @@
 #include "main/status/Status.hpp"
 #include "main/status/GameStatus.hpp"
 #include "main/status/StoryStatus.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
 #ifdef DQIV_NATIVE
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/text/TextAPI.hpp"
@@ -78,12 +78,12 @@ inline void MaterielMenu_LOAD::sexualityDraw()
 {
     int message;
     int sexualityMessage[2] = { 0xa0000005, 0xa0000006 };
-    unkfunc_021781c4(country_, data_020f1878, data_020f17c0, data_020f17bc, 2, 1);
-    unkfunc_02177c00(0x30, 0x10, 0xa0, 0x28, -1);
+    drawNameEditField(country_, data_020f1878, data_020f17c0, data_020f17bc, 2, 1);
+    drawFrameStyleB(0x30, 0x10, 0xa0, 0x28, -1);
     message = 0x800001a1;
-    unkfunc_02177fe0(&message, 0x30, 0x38, 0xa0, 0x50);
-    unkfunc_02177c9c(sexualityMessage, 2, 0x70, 0x5a);
-    unkfunc_02177c00(0x30, 0x38, 0xa0, 0x48, 0x50);
+    drawCenteredMessage(&message, 0x30, 0x38, 0xa0, 0x50);
+    drawMessageColumn(sexualityMessage, 2, 0x70, 0x5a);
+    drawFrameStyleB(0x30, 0x38, 0xa0, 0x48, 0x50);
     sexualityItem_.drawActive();
 }
 
@@ -97,9 +97,9 @@ THUMB void MaterielMenu_LOAD::menuDraw()
         static char s_settingsEntry[48];
         copyText(s_settingsEntry, sizeof(s_settingsEntry), pc::settingsTitle(pc::gameSettings().language));
         if (resume_ == 1) {
-            unkfunc_02177ce0(rootResumeMessage, ROOT_RESUME_COUNT, 0x18, 0x10);
+            drawMessageColumnSmall(rootResumeMessage, ROOT_RESUME_COUNT, 0x18, 0x10);
         } else {
-            unkfunc_02177ce0(rootMessage, ROOT_COUNT, 0x18, 0x10);
+            drawMessageColumnSmall(rootMessage, ROOT_COUNT, 0x18, 0x10);
         }
         int param = (int)s_settingsEntry;
         UnkMenuParts entry[] = {
@@ -107,17 +107,17 @@ THUMB void MaterielMenu_LOAD::menuDraw()
             { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
         };
         drawMenuParts(entry, &param, 0, rootCount() * 14, 1);
-        unkfunc_02177bac(8, 8, 0xa0, resume_ == 1 ? 0x48 + 16 : 0x38 + 16, -1);
+        drawFrameStyleA(8, 8, 0xa0, resume_ == 1 ? 0x48 + 16 : 0x38 + 16, -1);
         rootItem_.drawActive();
         return;
 #endif
         if (resume_ == 1) {
-            unkfunc_02177ce0(rootResumeMessage, ROOT_RESUME_COUNT, 0x18, 0x10);
-            unkfunc_02177bac(8, 8, 0xa0, 0x48, -1);
+            drawMessageColumnSmall(rootResumeMessage, ROOT_RESUME_COUNT, 0x18, 0x10);
+            drawFrameStyleA(8, 8, 0xa0, 0x48, -1);
             rootItem_.drawActive();
         } else {
-            unkfunc_02177ce0(rootMessage, ROOT_COUNT, 0x18, 0x10);
-            unkfunc_02177bac(8, 8, 0xa0, 0x38, -1);
+            drawMessageColumnSmall(rootMessage, ROOT_COUNT, 0x18, 0x10);
+            drawFrameStyleA(8, 8, 0xa0, 0x38, -1);
             rootItem_.drawActive();
         }
     }
@@ -130,15 +130,15 @@ THUMB void MaterielMenu_LOAD::menuDraw()
         } else if (menuMode_ == 2) {
             message = rootMessage[2];
         }
-        unkfunc_02177fe0(&message, 8, 0x38, 0xf0, 0x50);
+        drawCenteredMessage(&message, 8, 0x38, 0xf0, 0x50);
         for (int i = 0; i < 3; i++) {
             if (diary_[i].savetype_ == 4) {
-                unkfunc_0217800c(i, diary_[i].name_, -1, -1, -1, diary_[i].time_, 0x5a, flag);
+                drawJournalSlot(i, diary_[i].name_, -1, -1, -1, diary_[i].time_, 0x5a, flag);
             } else {
-                unkfunc_0217800c(i, diary_[i].name_, diary_[i].chapter_, diary_[i].level_, diary_[i].town_, diary_[i].time_, 0x5a, flag);
+                drawJournalSlot(i, diary_[i].name_, diary_[i].chapter_, diary_[i].level_, diary_[i].town_, diary_[i].time_, 0x5a, flag);
             }
         }
-        unkfunc_02177c00(8, 0x38, 0xf0, 0x78, 0x50);
+        drawFrameStyleB(8, 0x38, 0xf0, 0x78, 0x50);
         dataItem_.drawActive();
     }
     if (status_ == LOAD_SEXUALITY) {
@@ -146,7 +146,7 @@ THUMB void MaterielMenu_LOAD::menuDraw()
     }
 #ifdef DQIV_NATIVE
     if (status_ == LOAD_SETTINGS) {
-        settings_.draw(settingsItem_, 0, 0x100, unkfunc_02177bac);
+        settings_.draw(settingsItem_, 0, 0x100, drawFrameStyleA);
     }
 #endif
 }

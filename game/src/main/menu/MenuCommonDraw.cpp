@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
+#include "main/menu/MenuCommonDraw.hpp"
 #ifdef DQIV_NATIVE
 #include "main/menu/UnkMenuIconData.hpp"
 #include "main/dss/UnkMemory.hpp"
@@ -78,7 +78,7 @@ static UnkMenuParts s_statusBigParts[] = {
     { 0xff, 0x00, 0x0000, 0, 0x00, 0x00, 0x00, 0x00 },
 };
 
-THUMB void unkfunc_0201e194(int x, int y, int w, int h, int lineY)
+THUMB void drawMenuFrame(int x, int y, int w, int h, int lineY)
 {
     s_frameParts[0].x_ = x;
     s_frameParts[0].y_ = y;
@@ -86,7 +86,7 @@ THUMB void unkfunc_0201e194(int x, int y, int w, int h, int lineY)
     s_frameParts[0].h_ = h;
     drawMenuPartsPlain(s_frameParts, NULL);
     if (lineY > 0) {
-        unkfunc_0201e1c4(x, lineY, w);
+        drawMenuFrameLine(x, lineY, w);
     }
 }
 
@@ -96,7 +96,7 @@ THUMB void unkfunc_unused_13()
     drawMenuPartsPlain(s_unusedParts, NULL);
 }
 
-THUMB void unkfunc_0201e1c4(int x, int y, int w)
+THUMB void drawMenuFrameLine(int x, int y, int w)
 {
     UnkMenuParts parts[] = {
         { 0x16, 0x00, (short)0xf000, 0, 0x00, 0x00, 0x00, 0x00 },
@@ -108,16 +108,16 @@ THUMB void unkfunc_0201e1c4(int x, int y, int w)
     drawMenuPartsPlain(parts, NULL);
 }
 
-THUMB void unkfunc_0201e1f4()
+THUMB void drawPartyStatusFrames()
 {
     unkfunc_02050698(0, 0);
     for (int i = 0; i < status::g_Party.getCarriageOutCount(); i++) {
 #ifdef DQIV_NATIVE
         // A taller name band, for the portrait.
-        unkfunc_0201e194(i * 0x40, 0, 0x40, 0x58, 0x1c);
+        drawMenuFrame(i * 0x40, 0, 0x40, 0x58, 0x1c);
         continue;
 #endif
-        unkfunc_0201e194(i * 0x40, 0, 0x40, 0x50, 0x18);
+        drawMenuFrame(i * 0x40, 0, 0x40, 0x50, 0x18);
     }
 }
 
@@ -131,7 +131,7 @@ THUMB void unkfunc_0201e234()
     drawMenuPartsPlain(parts, &param);
 }
 
-THUMB void unkfunc_0201e260()
+THUMB void drawPartyStatusWindows()
 {
     status::g_Party.setBattleMode();
     int dead[4] = { -1, -1, -1, -1 };
@@ -142,17 +142,17 @@ THUMB void unkfunc_0201e260()
             dead[deadCount] = i;
             deadCount++;
         } else {
-            unkfunc_0201e554(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, pos++);
+            drawPartyMemberWindow(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, pos++);
         }
     }
     for (int j = 0; j < deadCount; j++) {
-        unkfunc_0201e554(&status::g_Party.getPlayerStatus(dead[j])->haveStatusInfo_, j + pos);
+        drawPartyMemberWindow(&status::g_Party.getPlayerStatus(dead[j])->haveStatusInfo_, j + pos);
     }
-    unkfunc_0201e1f4();
+    drawPartyStatusFrames();
     status::g_Party.setPlayerMode();
 }
 
-THUMB int unkfunc_0201e2f4(status::HaveStatusInfo* info)
+THUMB int getHpTextColorIndex(status::HaveStatusInfo* info)
 {
     if (info->isDeath()) {
         return 2;
@@ -163,7 +163,7 @@ THUMB int unkfunc_0201e2f4(status::HaveStatusInfo* info)
     return 0;
 }
 
-THUMB int unkfunc_0201e318(status::HaveStatusInfo* info)
+THUMB int getStatusCondition(status::HaveStatusInfo* info)
 {
     if (info->isDeath()) {
         return 2;
@@ -177,7 +177,7 @@ THUMB int unkfunc_0201e318(status::HaveStatusInfo* info)
     return 0;
 }
 
-THUMB void unkfunc_0201e350(int x, int y, int coin)
+THUMB void drawMoneyWindow(int x, int y, int coin)
 {
     UnkMenuParts* parts;
     int param[2];
@@ -195,16 +195,16 @@ THUMB void unkfunc_0201e350(int x, int y, int coin)
         parts[0].w_ = 0x38;
         unkfunc_02050698(0, 0);
         drawMenuPartsColored(parts, param, g_menuTextColors[0]);
-        unkfunc_0201e194(0xb0, 0xa0, 0x50, 0x20, -1);
+        drawMenuFrame(0xb0, 0xa0, 0x50, 0x20, -1);
     } else {
         parts[0].x_ = x + 6;
         parts[0].w_ = 0x38;
         drawMenuPartsColored(parts, param, g_menuTextColors[0]);
-        unkfunc_0201e194(x, y, 0x50, 0x20, -1);
+        drawMenuFrame(x, y, 0x50, 0x20, -1);
     }
 }
 
-THUMB void unkfunc_0201e3f4(int index, int mode)
+THUMB void drawCharaStatusWindow(int index, int mode)
 {
     UnkMenuParts* parts = s_statusParts;
     int x = 0;
@@ -248,12 +248,12 @@ THUMB void unkfunc_0201e3f4(int index, int mode)
         level[2] = (int)"@?";
         parts = s_statusAltParts;
     }
-    drawMenuParts(s_statusBigParts, param, x, y, g_menuTextColors[unkfunc_0201e2f4(info)]);
-    drawMenuParts(parts, level, x, y, g_menuTextColors[unkfunc_0201e2f4(info)]);
-    unkfunc_0201e194(frameX, frameY, 0x70, 0x68, lineY);
+    drawMenuParts(s_statusBigParts, param, x, y, g_menuTextColors[getHpTextColorIndex(info)]);
+    drawMenuParts(parts, level, x, y, g_menuTextColors[getHpTextColorIndex(info)]);
+    drawMenuFrame(frameX, frameY, 0x70, 0x68, lineY);
 }
 
-THUMB void unkfunc_0201e554(status::HaveStatusInfo* info, int pos)
+THUMB void drawPartyMemberWindow(status::HaveStatusInfo* info, int pos)
 {
     unkfunc_02050698(0, 0);
     int param[8];
@@ -262,7 +262,7 @@ THUMB void unkfunc_0201e554(status::HaveStatusInfo* info, int pos)
     param[2] = info->getHp();
     param[3] = 0xa0000002;
     param[4] = info->getMp();
-    switch (unkfunc_0201e318(info)) {
+    switch (getStatusCondition(info)) {
     case 2:
         param[5] = menu::MenuDataCommon::convMessage(info, 0xa0000014);
         s_memberParts[6].type_ = 0;
@@ -316,10 +316,10 @@ THUMB void unkfunc_0201e554(status::HaveStatusInfo* info, int pos)
         unkfunc_0207f840(&data_0211a60c, picture);
     }
 #endif
-    drawMenuParts(s_memberParts, param, pos << 6, 0, g_menuTextColors[unkfunc_0201e2f4(info)]);
+    drawMenuParts(s_memberParts, param, pos << 6, 0, g_menuTextColors[getHpTextColorIndex(info)]);
 }
 
-THUMB int unkfunc_0201e674(int action)
+THUMB int getActionNameMessage(int action)
 {
     return status::UseAction::getWordDBIndex(action) + 0x70000000;
 }

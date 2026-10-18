@@ -13,7 +13,7 @@
 #include "main/text/TextAPI.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "main/dss/Pad.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
 
 THUMB void MaterielMenuPokerChangecard::menuSetup()
 {
@@ -53,7 +53,7 @@ THUMB void MaterielMenuPokerChangecard::menuDraw()
         switch (animation_) {
         case 0:
             if ((gameMode_ != 3 || gameMode_ != 4) && isPlaySound_ == 0) {
-                unkfunc_02177da0(change_, 0);
+                drawPokerHoldLabels(change_, 0);
                 menuItem_.drawActive();
                 menuItem2_.drawActive();
             }
@@ -72,10 +72,10 @@ THUMB void MaterielMenuPokerChangecard::menuDraw()
             break;
         }
     }
-    unkfunc_02177d24(haveCoin_, getCoin_, blink_, blink_);
-    unkfunc_02177bac(0x90, 0, 0x70, 0x30, -1);
-    unkfunc_02177e34(PokerManager::getSingleton()->betCoin_, combination_, blink_);
-    unkfunc_02177bac(0, 0, 0x100, 0xc0, -1);
+    drawPokerCoinsAndBet(haveCoin_, getCoin_, blink_, blink_);
+    drawFrameStyleA(0x90, 0, 0x70, 0x30, -1);
+    drawPokerPayoutTable(PokerManager::getSingleton()->betCoin_, combination_, blink_);
+    drawFrameStyleA(0, 0, 0x100, 0xc0, -1);
 }
 
 THUMB void MaterielMenuPokerChangecard::menuUpdate()

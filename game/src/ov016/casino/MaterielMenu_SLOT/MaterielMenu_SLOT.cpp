@@ -8,7 +8,7 @@
 #include "main/sound/MenuSoundManager.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "main/cmn/CommonCounterInfo.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_SLOT::menuSetup()
 {
@@ -36,7 +36,7 @@ THUMB void MaterielMenu_SLOT::menuExecute()
 
 THUMB void MaterielMenu_SLOT::menuDraw()
 {
-    unkfunc_0216fd58(haveCoin_, 0);
+    drawSlotCoins(haveCoin_, 0);
 }
 
 THUMB void MaterielMenu_SLOT::menuUpdate()

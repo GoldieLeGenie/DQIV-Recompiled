@@ -18,7 +18,7 @@
 #include "ov009/casino/PokerManager.hpp"
 #include "ov028/MaterielMenu_SHOP/MaterielMenu_SHOP.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
-#include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
+#include "main/menu/MenuCommonDraw.hpp"
 #ifdef DQIV_NATIVE
 #include "main/dss/UnkBgText.hpp"
 #endif
@@ -499,7 +499,7 @@ THUMB void drawShopRootCommands(bool bank, int type)
     for (int i = 0; i < 3; i++) {
         drawMenuParts(s_parts_021811bc, &command[i], 0xa4, i * 16 + 8 + i * 8, g_menuTextColors[mode]);
     }
-    unkfunc_0201e194(0x98, 0, 0x68, 0x50, -1);
+    drawMenuFrame(0x98, 0, 0x68, 0x50, -1);
 }
 
 ARM void drawPartsInTextColorAt(UnkMenuParts* parts, int* param, int x, int y, int mode)
@@ -532,8 +532,8 @@ THUMB void drawShopEquipCompare()
         drawMenuParts(parts, param, (i % 2) << 7, ((i / 2) << 4) + 0x28, g_menuTextColors[0]);
     }
     drawShopItemHeader(-1);
-    unkfunc_0201e194(0, 0, 0x100, 0x90, 0x20);
-    unkfunc_0201e194(0, 0x90, 0x100, 0x30, -1);
+    drawMenuFrame(0, 0, 0x100, 0x90, 0x20);
+    drawMenuFrame(0, 0x90, 0x100, 0x30, -1);
 }
 
 ARM status::HaveStatusInfo* getPlayerHaveStatusInfo(status::PlayerStatus* player)
@@ -555,8 +555,8 @@ THUMB void drawShopHeldCounts()
         drawMenuParts(parts, param, ((i % 2) << 7) - ((i % 2) << 2), ((i / 2) << 4) + 0x28, g_menuTextColors[0]);
     }
     drawShopItemHeader(-1);
-    unkfunc_0201e194(0, 0, 0x100, 0x90, 0x20);
-    unkfunc_0201e194(0, 0x90, 0x100, 0x30, -1);
+    drawMenuFrame(0, 0, 0x100, 0x90, 0x20);
+    drawMenuFrame(0, 0x90, 0x100, 0x30, -1);
 }
 
 THUMB void drawShopSackCount(int* count)
@@ -604,7 +604,7 @@ THUMB void drawShopItemKind()
         param[1] = 0x80000065;
     }
     drawMenuPartsColored(s_parts_02181328, param, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 0xa0, 0x88, 0x20, -1);
+    drawMenuFrame(0, 0xa0, 0x88, 0x20, -1);
 }
 
 #ifdef DQIV_NATIVE
@@ -656,7 +656,7 @@ void unkfunc_native_shopBuyList(const int* rows, int count)
         param[5] = itemID;
         drawMenuParts(parts, param, 0xc, unkfunc_native_shopRowY(k), g_menuTextColors[0]);
     }
-    unkfunc_0201e194(0, 0x18, 0x100, 0x88, -1);
+    drawMenuFrame(0, 0x18, 0x100, 0x88, -1);
 }
 
 int unkfunc_native_shopRowY(int row)
@@ -723,7 +723,7 @@ void unkfunc_native_shopTabs(const int* filters, int count, int active)
     for (int k = 0; k < count && k < SHOP_FILTER_COUNT; k++) {
         names[k] = unkfunc_native_shopFilterName(filters[k]);
     }
-    unkfunc_native_tabs(names, count, active, 0, 0x100, unkfunc_0201e194);
+    unkfunc_native_tabs(names, count, active, 0, 0x100, drawMenuFrame);
 }
 
 const char* unkfunc_native_shopFilterName(int filter)
@@ -785,7 +785,7 @@ THUMB void drawShopBuyList(int flag)
             drawMenuParts(partsA, param, 0xc, i * 16 + 0xc + i * 8, g_menuTextColors[0]);
         }
     }
-    unkfunc_0201e194(0, 0, 0x100, 0xa0, -1);
+    drawMenuFrame(0, 0, 0x100, 0xa0, -1);
 }
 
 // not in the ROM (dead-stripped), its local array initializer is still in .rodata
@@ -836,7 +836,7 @@ THUMB void drawCharaItemNames()
         param[1] = item + 0x40000000;
         drawMenuParts(parts, param, x, y, g_menuTextColors[0]);
     }
-    unkfunc_0201e194(0, 0x50, 0x100, 0x70, -1);
+    drawMenuFrame(0, 0x50, 0x100, 0x70, -1);
 }
 
 THUMB void drawShopGiveCompare()
@@ -915,7 +915,7 @@ THUMB void drawShopGiveCompare()
         }
     }
     drawMenuPartsColored(s_parts_02181b86, param, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 0, 0x100, 0x48, 0x28);
+    drawMenuFrame(0, 0, 0x100, 0x48, 0x28);
 }
 
 THUMB void drawPartyIcons(int y, int flag)
@@ -929,14 +929,14 @@ THUMB void drawPartyIcons(int y, int flag)
         drawMenuPartsAt(s_parts_02181352, &param, x, yy);
         if (info->isSpell()) {
             param = 0xa0000044;
-            drawMenuParts(s_parts_02181088, &param, x - 6, yy + 0x14, g_menuTextColors[unkfunc_0201e2f4(info)]);
+            drawMenuParts(s_parts_02181088, &param, x - 6, yy + 0x14, g_menuTextColors[getHpTextColorIndex(info)]);
         }
         if (info->isDeath()) {
             param = 0xa0000042;
-            drawMenuParts(s_parts_02181088, &param, x - 6, yy + 8, g_menuTextColors[unkfunc_0201e2f4(info)]);
+            drawMenuParts(s_parts_02181088, &param, x - 6, yy + 8, g_menuTextColors[getHpTextColorIndex(info)]);
         } else if (info->isPoison()) {
             param = 0xa0000043;
-            drawMenuParts(s_parts_02181088, &param, x - 6, yy + 8, g_menuTextColors[unkfunc_0201e2f4(info)]);
+            drawMenuParts(s_parts_02181088, &param, x - 6, yy + 8, g_menuTextColors[getHpTextColorIndex(info)]);
         }
     }
     if (flag == 1) {
@@ -948,7 +948,7 @@ THUMB void drawPartyIcons(int y, int flag)
             bool player = status::g_Party.getPlayerStatus(i)->haveStatusInfo_.haveStatus_.isPlayer_;
             if (player == true) {
                 param = i + 1;
-                drawMenuParts(s_parts_02180fe0, &param, x, 0x50 - y, g_menuTextColors[unkfunc_0201e2f4(info)]);
+                drawMenuParts(s_parts_02180fe0, &param, x, 0x50 - y, g_menuTextColors[getHpTextColorIndex(info)]);
                 n++;
             }
         }
@@ -958,7 +958,7 @@ THUMB void drawPartyIcons(int y, int flag)
             int m = i % 5;
             status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i)->haveStatusInfo_;
             param = i + 1;
-            drawMenuParts(s_parts_02180fe0, &param, (m << 5) + 0x10 + (m << 3), 0x50 - y, g_menuTextColors[unkfunc_0201e2f4(info)]);
+            drawMenuParts(s_parts_02180fe0, &param, (m << 5) + 0x10 + (m << 3), 0x50 - y, g_menuTextColors[getHpTextColorIndex(info)]);
         }
     }
     if (status::g_Party.fukuro_ && y == 0) {
@@ -966,7 +966,7 @@ THUMB void drawPartyIcons(int y, int flag)
         param = 0x18;
         drawMenuPartsAt(s_parts_02181352, &param, ((count % 5) << 5) + 0x14 + ((count % 5) << 3), (count / 5) * 0x28 + 0x48);
     }
-    unkfunc_0201e194(0, 0x48 - y, 0xe0, 0x58, -1);
+    drawMenuFrame(0, 0x48 - y, 0xe0, 0x58, -1);
 }
 
 THUMB void drawSellPriceList()
@@ -1011,7 +1011,7 @@ THUMB void drawSellPriceList()
             drawMenuParts(s_parts_02181ac2, param, 0, i * 14 + 0xc, g_menuTextColors[0]);
         }
     }
-    unkfunc_0201e194(0, 0, 0x100, 0xc0, -1);
+    drawMenuFrame(0, 0, 0x100, 0xc0, -1);
 }
 
 THUMB void drawItemPage(int flag)
@@ -1066,7 +1066,7 @@ THUMB void drawItemPage(int flag)
             n++;
         }
     }
-    unkfunc_0201e194(0, 0, 0x100, 0xa0, 0x70);
+    drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
 }
 
 THUMB void drawSellPrice(int flag)
@@ -1226,15 +1226,15 @@ THUMB void drawItemDetail(int item)
         }
     }
     drawMenuPartsColored(parts, param, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 0x50, 0xb0, 0x70, 0x68);
-    unkfunc_0201e1c4(0, 0x90, 0xb0);
+    drawMenuFrame(0, 0x50, 0xb0, 0x70, 0x68);
+    drawMenuFrameLine(0, 0x90, 0xb0);
 }
 
 THUMB void drawSellQuantity(int quantity)
 {
     int param[2] = { (int)"\xff\xfe\xa9\x24", quantity };
     drawMenuPartsColored(s_parts_021813d0, param, g_menuTextColors[0]);
-    unkfunc_0201e194(0x98, 0x50, 0x68, 0x28, -1);
+    drawMenuFrame(0x98, 0x50, 0x68, 0x28, -1);
 }
 
 THUMB void drawPokerCoins(int coin, int flag)
@@ -1250,7 +1250,7 @@ THUMB void drawPokerCoins(int coin, int flag)
         param[0] = 0xa0000139;
     }
     drawMenuPartsColored(s_parts_02181256, param, g_menuTextColors[mode]);
-    unkfunc_0201e194(0x78, 0, 0x88, 0x38, -1);
+    drawMenuFrame(0x78, 0, 0x88, 0x38, -1);
 }
 
 THUMB void drawHighLowCommands(int win)
@@ -1343,7 +1343,7 @@ THUMB void drawChurchCommands()
     for (int i = 0; i < count; i++) {
         drawMenuParts(s_parts_02180f8c, &command[i], (i % 2) * 0x60 + 0x44, (i / 2) * 0x18 + 0xc, g_menuTextColors[0]);
     }
-    unkfunc_0201e194(0x30, 0, 0xd0, 0x58, -1);
+    drawMenuFrame(0x30, 0, 0xd0, 0x58, -1);
 }
 
 THUMB void drawBankDigits(int money, int flag)
@@ -1365,7 +1365,7 @@ THUMB void drawBankDigits(int money, int flag)
             div /= 10;
         }
     }
-    unkfunc_0201e194(0xa8, y, 0x58, 0x20, -1);
+    drawMenuFrame(0xa8, y, 0x58, 0x20, -1);
 }
 
 THUMB void drawActiveCharaHp(int flag)
@@ -1375,7 +1375,7 @@ THUMB void drawActiveCharaHp(int flag)
     int param[2];
     if (chara == status::g_Party.getCount()) {
         param[0] = 0x5000005b;
-        unkfunc_0201e194(0x48, 0xa0, 0x40, 0x20, -1);
+        drawMenuFrame(0x48, 0xa0, 0x40, 0x20, -1);
         drawMenuPartsColored(s_parts_0218106c, param, g_menuTextColors[0]);
         return;
     }
@@ -1385,11 +1385,11 @@ THUMB void drawActiveCharaHp(int flag)
         param[1] = 1;
     }
     if (flag) {
-        unkfunc_0201e194(0, 0, 0x40, 0x20, -1);
-        drawMenuPartsColored(s_parts_021814a2, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
+        drawMenuFrame(0, 0, 0x40, 0x20, -1);
+        drawMenuPartsColored(s_parts_021814a2, param, g_menuTextColors[getHpTextColorIndex(info)]);
     } else {
-        unkfunc_0201e194(0x48, 0xa0, 0x40, 0x20, -1);
-        drawMenuPartsColored(s_parts_0218146a, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
+        drawMenuFrame(0x48, 0xa0, 0x40, 0x20, -1);
+        drawMenuPartsColored(s_parts_0218146a, param, g_menuTextColors[getHpTextColorIndex(info)]);
     }
 }
 
@@ -1423,7 +1423,7 @@ THUMB void drawCharaStatusList(int chara)
     param[0] = 0xa0000010;
     param[2] = info->getExp();
     drawPartsInTextColor(s_parts_02181512, param, 0);
-    unkfunc_0201e194(0x90, 0x10, 0x68, 0xa0, -1);
+    drawMenuFrame(0x90, 0x10, 0x68, 0xa0, -1);
 }
 #pragma dont_inline reset
 
@@ -1444,17 +1444,17 @@ THUMB void drawActiveCharaHpMp()
     param[10] = (int)"@\x81\x5c";
     param[11] = (int)"@\x81\x5c";
     param[12] = info->getMpMax();
-    drawMenuPartsColored(s_parts_02181cc8, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
-    if (unkfunc_0201e318(info) == 3) {
+    drawMenuPartsColored(s_parts_02181cc8, param, g_menuTextColors[getHpTextColorIndex(info)]);
+    if (getStatusCondition(info) == 3) {
         param[0] = menu::MenuDataCommon::convMessage(info, 0xa0000018);
-        drawMenuPartsColored(s_parts_021811d8, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
+        drawMenuPartsColored(s_parts_021811d8, param, g_menuTextColors[getHpTextColorIndex(info)]);
     } else {
         param[0] = 0xa000003f;
         param[1] = (int)":";
         param[2] = info->haveStatus_.level_;
-        drawMenuPartsColored(s_parts_0218154a, param, g_menuTextColors[unkfunc_0201e2f4(info)]);
+        drawMenuPartsColored(s_parts_0218154a, param, g_menuTextColors[getHpTextColorIndex(info)]);
     }
-    unkfunc_0201e194(0, 0, 0x40, 0x68, -1);
+    drawMenuFrame(0, 0, 0x40, 0x68, -1);
 }
 
 THUMB void drawNeneItemPage(int count, int page, int pageMax)
@@ -1476,7 +1476,7 @@ THUMB void drawNeneItemPage(int count, int page, int pageMax)
         }
         drawMenuParts(s_parts_0218175e, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 4, g_menuTextColors[0]);
     }
-    unkfunc_0201e194(0, 0, 0x100, 0xa0, 0x70);
+    drawMenuFrame(0, 0, 0x100, 0xa0, 0x70);
 }
 
 THUMB void drawChapterTitleText(int chapter, int chapterEnd)
@@ -1512,7 +1512,7 @@ THUMB void drawTagModeRootMenu()
         int param = menu::MenuDataCommon::getSuretigaiRootMenu(i);
         drawMenuParts(s_parts_021811a0, &param, 0, i * 16 + 0xc + i * 4, g_menuTextColors[0]);
     }
-    unkfunc_0201e194(0, 0, 0x88, 0x78, -1);
+    drawMenuFrame(0, 0, 0x88, 0x78, -1);
 }
 
 THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
@@ -1596,7 +1596,7 @@ THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
         param[4] = 0xf;
         drawMenuPartsColored(s_parts_02181876, param, g_menuTextColors[0]);
     }
-    unkfunc_0201e194(0, 0, 0x100, 0xc0, 0x20);
+    drawMenuFrame(0, 0, 0x100, 0xc0, 0x20);
 }
 
 THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
@@ -1638,7 +1638,7 @@ THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
             param[12] = menu::MenuDataCommon::getRuraName(status::excelParam.surechigaiTenant_[index].from);
         }
         drawMenuPartsColored(s_parts_02181c04, param, g_menuTextColors[0]);
-        unkfunc_0201e194(0, 0x50, 0xb0, 0x70, 0x70);
+        drawMenuFrame(0, 0x50, 0xb0, 0x70, 0x70);
         return;
     }
     param[13] = 0;
@@ -1657,7 +1657,7 @@ THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
     param[1] = (int)":";
     param[2] = (int)data_020f0078.unkfunc_0203a6d8();
     drawMenuPartsColored(s_parts_021813fa, param, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 0x50, 0xb0, 0x70, 0x70);
+    drawMenuFrame(0, 0x50, 0xb0, 0x70, 0x70);
 }
 
 THUMB void drawTagModeProfile(int index, int mode)
@@ -1689,7 +1689,7 @@ THUMB void drawTagModeProfile(int index, int mode)
     param[15] = (int)data_020f0078.unkfunc_0203a820();
     param[16] = data_020f0078.unkfunc_0203a5ec() + 1;
     drawMenuPartsColored(s_parts_02181d8c, param, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 8, 0xc0, 0x70, 0x28);
+    drawMenuFrame(0, 8, 0xc0, 0x70, 0x28);
 }
 
 THUMB void drawTagModeIconGrid(int page, int value)
@@ -1711,14 +1711,14 @@ THUMB void drawTagModeIconGrid(int page, int value)
     drawMenuPartsColored(s_parts_02180f70, &msg, g_menuTextColors[0]);
     int param2[5] = { 0xe, page + 1, (int)"\xff\xfe\xa7\x24", value, 0xf };
     drawMenuPartsColored(s_parts_021818ca, param2, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 0, 0x100, 0x78, 0x20);
+    drawMenuFrame(0, 0, 0x100, 0x78, 0x20);
 }
 
 THUMB void drawNameEditIcon(int active, int y)
 {
     int param = active + 1;
     drawMenuPartsAt(s_parts_021812fe, &param, 0xc, y);
-    unkfunc_0201e194(0, y, 0x38, 0x30, -1);
+    drawMenuFrame(0, y, 0x38, 0x30, -1);
 }
 
 THUMB void drawNameEditSex()
@@ -1731,7 +1731,7 @@ THUMB void drawNameEditSex()
     }
     int msg = 0xa00002bd;
     drawMenuPartsColored(s_parts_021810dc, &msg, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 0x30, 0x100, 0x40, 0x48);
+    drawMenuFrame(0, 0x30, 0x100, 0x40, 0x48);
 }
 
 THUMB void drawNameEditAge()
@@ -1740,14 +1740,14 @@ THUMB void drawNameEditAge()
     drawNameEditName(data_020f0078.unkfunc_0203a65c(), 0);
     int param = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
     drawMenuPartsColored(s_parts_02181050, &param, g_menuTextColors[0]);
-    unkfunc_0201e194(0x80, 0x10, 0x40, 0x20, -1);
+    drawMenuFrame(0x80, 0x10, 0x40, 0x20, -1);
     for (int i = 0; i < 8; i++) {
         int aetas = i + 0xa00002c1;
         drawMenuParts(s_parts_02180f38, &aetas, (i % 4) * 0x38 + 0x14, (i / 4) * 0x18 + 0x54, g_menuTextColors[0]);
     }
     param = 0xa00002be;
     drawMenuPartsColored(s_parts_02180ee4, &param, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 0x30, 0x100, 0x58, 0x48);
+    drawMenuFrame(0, 0x30, 0x100, 0x58, 0x48);
 }
 
 THUMB void drawNameEditSkill()
@@ -1757,10 +1757,10 @@ THUMB void drawNameEditSkill()
     drawNameEditName(data_020f0078.unkfunc_0203a65c(), 0);
     param[0] = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
     drawMenuParts(s_parts_02181184, param, 0x80, 0, g_menuTextColors[0]);
-    unkfunc_0201e194(0x80, 0x10, 0x40, 0x20, -1);
+    drawMenuFrame(0x80, 0x10, 0x40, 0x20, -1);
     param[0] = data_020f0078.unkfunc_0203a750() + 0xa00002c1;
     drawMenuParts(s_parts_02181184, param, 0xc0, 0, g_menuTextColors[0]);
-    unkfunc_0201e194(0xc0, 0x10, 0x40, 0x20, -1);
+    drawMenuFrame(0xc0, 0x10, 0x40, 0x20, -1);
     int page = MaterielMenuPlayerControl::getSingleton()->activeChiausSkillPage_;
     for (int i = 0; i < 8; i++) {
         int skill = page * 8 + i + 0xe0000001;
@@ -1774,7 +1774,7 @@ THUMB void drawNameEditSkill()
     drawMenuPartsColored(s_parts_0218191e, param, g_menuTextColors[0]);
     param[0] = 0xa00002bf;
     drawMenuPartsColored(s_parts_02180fc4, param, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 0x30, 0x100, 0x90, 0x50);
+    drawMenuFrame(0, 0x30, 0x100, 0x90, 0x50);
 }
 
 THUMB void drawNameEditComment()
@@ -1791,7 +1791,7 @@ THUMB void drawNameEditComment()
     drawMenuPartsColored(s_parts_021815f2, param, g_menuTextColors[0]);
     param[0] = 0xa00002d9;
     drawMenuPartsColored(s_parts_02180f00, param, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 8, 0xc0, 0x70, 0x20);
+    drawMenuFrame(0, 8, 0xc0, 0x70, 0x20);
 }
 
 THUMB void drawSideJobItems()
@@ -1807,7 +1807,7 @@ THUMB void drawSideJobItems()
             y += 0x10;
         }
     }
-    unkfunc_0201e194(0, 0, 0xb8, 0x70, -1);
+    drawMenuFrame(0, 0, 0xb8, 0x70, -1);
 }
 
 THUMB void drawShopItemHeader(int item)
@@ -2008,10 +2008,10 @@ THUMB void drawNameEditName(unsigned char* name, int flag)
     param[0] = (int)name;
     if (flag == 1) {
         drawMenuPartsColored(s_parts_021810c0, param, g_menuTextColors[0]);
-        unkfunc_0201e194(0x38, 0x10, 0xa0, 0x20, -1);
+        drawMenuFrame(0x38, 0x10, 0xa0, 0x20, -1);
     } else {
         drawMenuPartsColored(s_parts_02180f1c, param, g_menuTextColors[0]);
-        unkfunc_0201e194(0x38, 0x10, 0x48, 0x20, -1);
+        drawMenuFrame(0x38, 0x10, 0x48, 0x20, -1);
     }
 }
 

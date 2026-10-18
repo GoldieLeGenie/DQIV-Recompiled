@@ -14,7 +14,7 @@
 #include "main/cmn/TalkSoundManager.hpp"
 #include "main/cmn/NonBattleActionManager.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 static int miracleMessage[3][7] = {
     {0xc6fd0, 0xc6fd8, 0xc6fd9, 0xc6fdc, 0xc6fdf},
@@ -78,11 +78,11 @@ THUMB void MaterielMenu_CHURCH_MIRACLE::menuDraw()
 {
     if (data_020ed1bc.isMessageWAITPROG() && miracleStatus_ != MIRACLE_ISEND && miracleStatus_ != MIRACLE_SOUND && miracleStatus_ != MIRACLE_SOUNDEND) {
         status::g_Party.setBattleMode();
-        unkfunc_0216fcbc(status::g_Party.getCount());
+        drawChurchMiracleScreen(status::g_Party.getCount());
         menuItem_.drawActive();
         return;
     }
-    unkfunc_0216fc94(0, 0);
+    drawChurchScreen(0, 0);
 }
 
 THUMB void MaterielMenu_CHURCH_MIRACLE::menuUpdate()

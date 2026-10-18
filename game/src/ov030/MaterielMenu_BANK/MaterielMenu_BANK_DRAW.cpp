@@ -4,7 +4,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/status/PlayerStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_BANK_DRAW::menuSetup()
 {
@@ -34,9 +34,9 @@ THUMB void MaterielMenu_BANK_DRAW::menuDraw()
 {
     if (first_ == 0) {
         if (data_020ed1bc.isOpen()) {
-            unkfunc_0216fd00(1, 0, drawMoney_);
+            drawBankAmountScreen(1, 0, drawMoney_);
         } else {
-            unkfunc_0216fd00(0, 0, drawMoney_);
+            drawBankAmountScreen(0, 0, drawMoney_);
             menuItem_.drawActive();
         }
     }

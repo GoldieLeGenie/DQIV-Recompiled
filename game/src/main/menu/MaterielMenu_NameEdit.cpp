@@ -12,8 +12,8 @@
 #include "ov016/MaterielMenu_LOAD/MaterielMenu_LOAD.hpp"
 #include "ov026/MaterielMenu_SURECHIGAI/MaterielMenu_SURECHIGAI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 #include "main/cmn/UnkEnvoyManager.hpp"
 
 int data_020f17bc;
@@ -78,18 +78,18 @@ THUMB void MaterielMenu_NameEdit::menuDraw()
     unkfunc_0203b750(data_020f1878);
     int message = unkfunc_0203b158();
     if (inputType_ == TYPE_MESSAGE) {
-        unkfunc_02178180(data_020f19e0, 1);
-        unkfunc_02177c00(0, 0x48, 0x100, 0x78, 0x60);
+        drawNameEditCharTable(data_020f19e0, 1);
+        drawFrameStyleB(0, 0x48, 0x100, 0x78, 0x60);
         unkfunc_0203b184(message);
     } else {
-        unkfunc_02178180(data_020f19e0, 0);
-        unkfunc_02177c00(0x38, 0x10, 0xa0, 0x20, -1);
+        drawNameEditCharTable(data_020f19e0, 0);
+        drawFrameStyleB(0x38, 0x10, 0xa0, 0x20, -1);
         unkfunc_0203b1c8(message);
     }
     menuItem_.drawActive();
     switch (returnMenu_) {
     case RETURN_MENU_SURECHIGAI:
-        unkfunc_0216feb8(-1, data_020f0078.unkfunc_0203a5ec());
+        drawNameEditScreen(-1, data_020f0078.unkfunc_0203a5ec());
         break;
     case RETURN_MENU_SURECHIGAI_MESSAGE:
         break;
@@ -128,9 +128,9 @@ THUMB int MaterielMenu_NameEdit::unkfunc_0203b158()
 
 THUMB void MaterielMenu_NameEdit::unkfunc_0203b184(int message)
 {
-    unkfunc_02178278(data_020f1878, data_020f17c0);
-    unkfunc_02177c00(0, 0, 0x100, 0x48, -1);
-    unkfunc_02177fe0(&message, 8, 0x4a, 0xf0, 0x58);
+    drawNameEditCommentField(data_020f1878, data_020f17c0);
+    drawFrameStyleB(0, 0, 0x100, 0x48, -1);
+    drawCenteredMessage(&message, 8, 0x4a, 0xf0, 0x58);
 }
 
 THUMB void MaterielMenu_NameEdit::unkfunc_0203b1c8(int message)
@@ -146,9 +146,9 @@ THUMB void MaterielMenu_NameEdit::unkfunc_0203b1c8(int message)
         blink = 1;
     }
     unk_94++;
-    unkfunc_021781c4(language_, data_020f1878, data_020f17c0, data_020f17bc, blink, 0);
-    unkfunc_02177c00(0, 0x30, 0x100, 0x78, 0x48);
-    unkfunc_02177fe0(&message, 8, 0x4a, 0xf0, 0x2c);
+    drawNameEditField(language_, data_020f1878, data_020f17c0, data_020f17bc, blink, 0);
+    drawFrameStyleB(0, 0x30, 0x100, 0x78, 0x48);
+    drawCenteredMessage(&message, 8, 0x4a, 0xf0, 0x2c);
 }
 
 THUMB void MaterielMenu_NameEdit::menuUpdate()

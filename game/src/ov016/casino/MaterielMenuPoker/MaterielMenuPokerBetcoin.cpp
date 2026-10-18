@@ -8,7 +8,7 @@
 #include "main/sound/MenuSoundManager.hpp"
 #include "main/sound/SoundManager.hpp"
 #include "main/status/PartyStatus.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
 
 THUMB void MaterielMenuPokerBetcoin::menuSetup()
 {
@@ -32,13 +32,13 @@ THUMB void MaterielMenuPokerBetcoin::menuExecute()
 THUMB void MaterielMenuPokerBetcoin::menuDraw()
 {
     if (unk_28 > 15) {
-        unkfunc_02177d24(haveCoin_, 0xffff, 0, 0);
+        drawPokerCoinsAndBet(haveCoin_, 0xffff, 0, 0);
     } else {
-        unkfunc_02177d24(haveCoin_, betCoin_, 0, 0);
+        drawPokerCoinsAndBet(haveCoin_, betCoin_, 0, 0);
     }
-    unkfunc_02177bac(0x90, 0, 0x70, 0x30, -1);
-    unkfunc_02177e34(betCoin_, -1, 0);
-    unkfunc_02177bac(0, 0, 0x100, 0xc0, -1);
+    drawFrameStyleA(0x90, 0, 0x70, 0x30, -1);
+    drawPokerPayoutTable(betCoin_, -1, 0);
+    drawFrameStyleA(0, 0, 0x100, 0xc0, -1);
     menuItem_.drawActive();
 }
 

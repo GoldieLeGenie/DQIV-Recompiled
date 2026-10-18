@@ -10,7 +10,7 @@
 #include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217ad94.hpp"
 #include "ov016/UnkTownMenuDraw/UnkTownMenuDraw_0217d560.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
-#include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
+#include "main/menu/MenuCommonDraw.hpp"
 
 static UnkMenuParts s_parts[] = {
     { 0x15, 0xb5, 0, 0, 0, 0x58, 0, 0 },
@@ -58,7 +58,7 @@ THUMB void TownMenu_OPERATION_SETTING::menuExecute()
 THUMB void TownMenu_OPERATION_SETTING::menuDraw()
 {
 #ifdef DQIV_NATIVE
-    settings_.draw(bgmItem_, 0, 0x100, unkfunc_0201e194);
+    settings_.draw(bgmItem_, 0, 0x100, drawMenuFrame);
     return;
 #endif
     unkfunc_02173d7c();
@@ -67,12 +67,12 @@ THUMB void TownMenu_OPERATION_SETTING::menuDraw()
         unkfunc_02173da4(0x68, y[i]);
     }
     unkfunc_0217cc8c();
-    unkfunc_0201e194(0, 0x20, 0x100, 0x80, 0x40);
+    drawMenuFrame(0, 0x20, 0x100, 0x80, 0x40);
     unkfunc_0217ad94(5, -1);
     unkfunc_0217eb5c(0x40, 0xa0, 0);
     unkfunc_0217aa8c();
-    unkfunc_0201e260();
-    unkfunc_0201e350(-1, -1, 0);
+    drawPartyStatusWindows();
+    drawMoneyWindow(-1, -1, 0);
     bgmItem_.drawActive();
     seItem_.drawActive();
     speedItem_.drawActive();

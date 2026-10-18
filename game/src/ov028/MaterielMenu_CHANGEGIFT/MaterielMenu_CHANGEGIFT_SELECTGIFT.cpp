@@ -4,7 +4,7 @@
 #include "main/text/TextAPI.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::menuSetup()
 {
@@ -38,10 +38,10 @@ THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::menuExecute()
 THUMB void MaterielMenu_CHANGEGIFT_SELECTGIFT::menuDraw()
 {
     if (data_020ed1bc.isOpen()) {
-        unkfunc_0216fce8();
+        drawChangeGiftScreen();
         return;
     }
-    unkfunc_0216fb24(fukuroItemCount_, 1);
+    drawShopBuyScreen(fukuroItemCount_, 1);
     menuItem_.drawActive();
 }
 

@@ -8,7 +8,7 @@
 #include "main/status/StoryStatus.hpp"
 #include "main/status/StageStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_PICTUREBOOK_ROOT::menuSetup()
 {
@@ -61,7 +61,7 @@ THUMB void MaterielMenu_PICTUREBOOK_ROOT::menuExecute()
 THUMB void MaterielMenu_PICTUREBOOK_ROOT::menuDraw()
 {
     if (status::g_BattleResult.getEncountCount() != 0) {
-        unkfunc_0216fda0(monsterName_, monsterFlag_);
+        drawMonsterBookScreen(monsterName_, monsterFlag_);
         if (m_state == 0 && !data_020ed1bc.isOpen()) {
             menuItem_.drawActive();
         }

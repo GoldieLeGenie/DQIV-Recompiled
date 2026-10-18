@@ -17,7 +17,7 @@
 #include "main/cmn/TalkSoundManager.hpp"
 #include "main/cmn/ExtraMapLink.hpp"
 #include "main/cmn/NonBattleActionManager.hpp"
-#include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
+#include "main/menu/MenuCommonDraw.hpp"
 
 THUMB void MaterielMenu_INN_ROOT::menuSetup()
 {
@@ -46,7 +46,7 @@ THUMB void MaterielMenu_INN_ROOT::menuSetup()
 
 THUMB void MaterielMenu_INN_ROOT::menuDraw()
 {
-    unkfunc_0201e350(-1, -1, 0);
+    drawMoneyWindow(-1, -1, 0);
 }
 
 THUMB void MaterielMenu_INN_ROOT::menuUpdate()

@@ -7,7 +7,7 @@
 #include "main/global/Global.hpp"
 #include "main/cmn/ExtraMapLink.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenuExtraChangeHostage::menuSetup()
 {
@@ -45,7 +45,7 @@ THUMB void MaterielMenuExtraChangeHostage::menuExecute()
 THUMB void MaterielMenuExtraChangeHostage::menuDraw()
 {
     if (hostageStatus_ == HOSTAGE_SELECT) {
-        unkfunc_0216fdb8();
+        drawHostageScreen();
         menuItem_.drawActive();
     }
 }

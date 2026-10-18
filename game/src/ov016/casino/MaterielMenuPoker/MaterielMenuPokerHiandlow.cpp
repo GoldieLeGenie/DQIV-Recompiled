@@ -6,7 +6,7 @@
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/text/TextAPI.hpp"
 #include "main/status/PartyStatus.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenuPokerHiandlow::menuSetup()
 {
@@ -29,7 +29,7 @@ THUMB void MaterielMenuPokerHiandlow::menuExecute()
 
 THUMB void MaterielMenuPokerHiandlow::menuDraw()
 {
-    unkfunc_0216fd48(haveCoin_, win_);
+    drawPokerHighLowScreen(haveCoin_, win_);
     menu_command_.drawActive();
 }
 

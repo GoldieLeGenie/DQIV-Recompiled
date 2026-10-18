@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
@@ -445,7 +445,7 @@ THUMB void unkfunc_unused_1(int index)
     drawMenuPartsColored(s_parts_02183a2c, &message[index], 1);
 }
 
-THUMB void unkfunc_02177bac(int x, int y, int w, int h, int lineY)
+THUMB void drawFrameStyleA(int x, int y, int w, int h, int lineY)
 {
     s_parts_02183bd0[0].x_ = x;
     s_parts_02183bd0[0].y_ = y;
@@ -464,7 +464,7 @@ THUMB void unkfunc_02177bac(int x, int y, int w, int h, int lineY)
     }
 }
 
-THUMB void unkfunc_02177c00(int x, int y, int w, int h, int lineY)
+THUMB void drawFrameStyleB(int x, int y, int w, int h, int lineY)
 {
     s_parts_02183bb4[0].x_ = x;
     s_parts_02183bb4[0].y_ = y;
@@ -483,7 +483,7 @@ THUMB void unkfunc_02177c00(int x, int y, int w, int h, int lineY)
     }
 }
 
-THUMB void unkfunc_02177c54(int flag)
+THUMB void drawFightStadiumLayout(int flag)
 {
     if (flag) {
         drawMenuPartsPlain(s_parts_02183eda, 0);
@@ -492,7 +492,7 @@ THUMB void unkfunc_02177c54(int flag)
     }
 }
 
-THUMB void unkfunc_02177c78(bool flag)
+THUMB void drawFightStadiumPanels(bool flag)
 {
     if (flag) {
         drawMenuPartsPlain(s_parts_02183984, 0);
@@ -501,7 +501,7 @@ THUMB void unkfunc_02177c78(bool flag)
     }
 }
 
-THUMB void unkfunc_02177c9c(int* message, int count, int x, int y)
+THUMB void drawMessageColumn(int* message, int count, int x, int y)
 {
     int param = 0;
     s_parts_02183b98[0].x_ = x;
@@ -512,7 +512,7 @@ THUMB void unkfunc_02177c9c(int* message, int count, int x, int y)
     }
 }
 
-THUMB void unkfunc_02177ce0(int* message, int count, int x, int y)
+THUMB void drawMessageColumnSmall(int* message, int count, int x, int y)
 {
     int param = 0;
     s_parts_02183b0c[0].x_ = x;
@@ -530,7 +530,7 @@ THUMB void unkfunc_unused_2(int index)
     drawMenuPartsColored(s_parts_021839bc, &message[index], 1);
 }
 
-THUMB void unkfunc_02177d24(int coin, int bet, int a, int b)
+THUMB void drawPokerCoinsAndBet(int coin, int bet, int a, int b)
 {
     int param[2] = { 0xa0000138, 0 };
     param[1] = coin;
@@ -573,7 +573,7 @@ THUMB void unkfunc_unused_4(int rank, int time)
     drawMenuPartsColored(s_parts_02183f82, param, time);
 }
 
-THUMB void unkfunc_02177da0(int* cards, int a)
+THUMB void drawPokerHoldLabels(int* cards, int a)
 {
     int param = 0;
     int x[5] = { 0, 0x30, 0x60, 0x90, 0xc0 };
@@ -595,7 +595,7 @@ THUMB void unkfunc_02177da0(int* cards, int a)
     }
 }
 
-THUMB void unkfunc_02177e34(int coin, int a, int b)
+THUMB void drawPokerPayoutTable(int coin, int a, int b)
 {
     unkfunc_02050698(0, 0);
     int param[2] = { 0, 0 };
@@ -615,7 +615,7 @@ THUMB void unkfunc_02177e34(int coin, int a, int b)
     }
 }
 
-THUMB void unkfunc_02177eb8(int monsterID, int diameter, int index, int orderCount)
+THUMB void drawFightStadiumEntry(int monsterID, int diameter, int index, int orderCount)
 {
     if (monsterID < 0) {
         return;
@@ -632,12 +632,12 @@ THUMB void unkfunc_02177eb8(int monsterID, int diameter, int index, int orderCou
     drawMenuParts(s_parts_02184682, param, 0, index * 0x18 + 0x10, 1);
 }
 
-THUMB void unkfunc_02177f38(int index)
+THUMB void drawFightStadiumCursor(int index)
 {
     drawMenuPartsAt(s_parts_02183b28, 0, 0xc, index * 0x18 + 0x16);
 }
 
-THUMB void unkfunc_02177f54(int coin, int x, int y, int flag)
+THUMB void drawFightStadiumBetDigits(int coin, int x, int y, int flag)
 {
     if (flag == 1) {
         int digit = coin / 10;
@@ -654,7 +654,7 @@ THUMB void unkfunc_02177f54(int coin, int x, int y, int flag)
     }
 }
 
-THUMB void unkfunc_02177fe0(int* message, int x, int y, int w, int h)
+THUMB void drawCenteredMessage(int* message, int x, int y, int w, int h)
 {
     s_parts_02183a48[0].x_ = x;
     s_parts_02183a48[0].y_ = y + ((h - y) >> 1);
@@ -663,7 +663,7 @@ THUMB void unkfunc_02177fe0(int* message, int x, int y, int w, int h)
     drawMenuPartsColored(s_parts_02183a48, message, 1);
 }
 
-THUMB void unkfunc_0217800c(int index, char* name, int chapter, int level, int town, int time, int y, int flag)
+THUMB void drawJournalSlot(int index, char* name, int chapter, int level, int town, int time, int y, int flag)
 {
     UnkMenuParts* draw = s_parts_02184762;
     int mode;
@@ -731,7 +731,7 @@ THUMB void unkfunc_0217800c(int index, char* name, int chapter, int level, int t
     }
 }
 
-THUMB void unkfunc_02178180(int* name, int type)
+THUMB void drawNameEditCharTable(int* name, int type)
 {
     int y = 0x10;
     if (type == 1) {
@@ -746,7 +746,7 @@ THUMB void unkfunc_02178180(int* name, int type)
     }
 }
 
-THUMB void unkfunc_021781c4(int country, int* name, int count, int max, int mode, int flag)
+THUMB void drawNameEditField(int country, int* name, int count, int max, int mode, int flag)
 {
     int i;
     int x = 0x8c - (max >> 1) * 14 - (max % 2) * 7;
@@ -773,7 +773,7 @@ THUMB void unkfunc_021781c4(int country, int* name, int count, int max, int mode
     }
 }
 
-THUMB void unkfunc_02178278(int* name, int count)
+THUMB void drawNameEditCommentField(int* name, int count)
 {
     for (int i = 0; i < 45; i++) {
         int param = name[i];

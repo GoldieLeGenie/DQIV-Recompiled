@@ -11,7 +11,7 @@
 #include "main/status/StageStatus.hpp"
 #include "main/status/Status.hpp"
 #include "main/status/StoryStatus.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
 
 static short s_angleX = -8556;
 
@@ -38,10 +38,10 @@ THUMB void UnkMaterielMenu_0203d7e4::menuDraw()
 {
     int message[] = { (int)"@\x82\xda\x82\xa4\x82\xaf\x82\xf1\x82\xf0\x82\xb7\x82\xe9" };  // @ぼうけんをする
     char name[] = "@\x83\x5c\x83\x8d";  // @ソロ
-    unkfunc_02177fe0(message, 8, 0x38, 0xf0, 0x50);
-    unkfunc_0217800c(0, name, 0, 1, 0, 0, 0x5a, 1);
-    unkfunc_0217800c(1, name, 5, 15, 0, 0x1e3660, 0x5a, 1);
-    unkfunc_02177c00(8, 0x38, 0xf0, 0x60, 0x50);
+    drawCenteredMessage(message, 8, 0x38, 0xf0, 0x50);
+    drawJournalSlot(0, name, 0, 1, 0, 0, 0x5a, 1);
+    drawJournalSlot(1, name, 5, 15, 0, 0x1e3660, 0x5a, 1);
+    drawFrameStyleB(8, 0x38, 0xf0, 0x60, 0x50);
     menuItem_.drawActive();
 }
 

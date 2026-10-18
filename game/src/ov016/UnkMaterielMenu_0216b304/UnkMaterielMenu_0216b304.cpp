@@ -11,7 +11,7 @@
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Random.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 #include "main/menu/MenuTemplate_Common.hpp"
 
 THUMB void UnkMaterielMenu_0216b304::menuSetup()
@@ -22,7 +22,7 @@ THUMB void UnkMaterielMenu_0216b304::menuSetup()
     mode_ = 0;
     price_ = 0;
     activeChara_ = MaterielMenuPlayerControl::getSingleton()->activeChara_;
-    unkfunc_0216b6bc();
+    resetCursor();
 }
 
 THUMB void UnkMaterielMenu_0216b304::menuExecute()
@@ -52,9 +52,9 @@ THUMB void UnkMaterielMenu_0216b304::menuDraw()
 {
     if (!data_020ed1bc.isOpen()) {
         if (activeChara_ == status::g_Party.getCount()) {
-            unkfunc_0216fbf4();
+            drawShopSellSackScreen();
         } else {
-            unkfunc_0216fbbc();
+            drawShopSellItemScreen();
         }
         menuItem_.drawActive();
     }
@@ -62,11 +62,11 @@ THUMB void UnkMaterielMenu_0216b304::menuDraw()
 
 THUMB void UnkMaterielMenu_0216b304::menuUpdate()
 {
-    if (unkfunc_0216b4f0()) {
+    if (updateMessage()) {
         return;
     }
     if (MenuUpdate_Assist::isCancel(cancelItem_)) {
-        unkfunc_0216b760();
+        returnToWhoSell();
     }
     int count;
     if (activeChara_ == status::g_Party.getCount()) {
@@ -87,7 +87,7 @@ THUMB void UnkMaterielMenu_0216b304::menuUpdate()
             item = status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveItem_.getItem(activeItem_ + activeItemPage_ * 6);
         }
         MaterielMenu_SHOP_MANAGER::getSingleton()->setSellQuantity(1);
-        unkfunc_0216b604(item);
+        offerPrice(item);
         return;
     }
     activeItem_ = menuItem_.active_;
@@ -97,7 +97,7 @@ THUMB void UnkMaterielMenu_0216b304::menuUpdate()
     redraw_ = 1;
 }
 
-THUMB int UnkMaterielMenu_0216b304::unkfunc_0216b4f0()
+THUMB int UnkMaterielMenu_0216b304::updateMessage()
 {
     if (data_020ed1bc.isOpen()) {
         if (data_020ed1bc.stat_ == MENUBASE_STAT_OK) {
@@ -106,20 +106,20 @@ THUMB int UnkMaterielMenu_0216b304::unkfunc_0216b4f0()
                 case 2:
                     if (activeChara_ == status::g_Party.getCount()) {
                         if (status::g_Party.haveItemSack_.getCount() == 0) {
-                            unkfunc_0216b760();
+                            returnToWhoSell();
                             break;
                         }
                     } else if (status::g_Party.getPlayerStatus(activeChara_)->haveStatusInfo_.haveItem_.getCount() == 0) {
-                        unkfunc_0216b760();
+                        returnToWhoSell();
                         break;
                     }
-                    unkfunc_0216b778(0x6d8a, -1);
+                    showMessages(0x6d8a, -1);
                     mode_ = 0;
                     break;
                 case 1:
                     MaterielMenu_SHOP_MANAGER::getSingleton()->sellItem(activeItem_ + activeItemPage_ * 6, activeChara_, price_);
-                    unkfunc_0216b6bc();
-                    unkfunc_0216b778(0x6d8e, 0x6d8f);
+                    resetCursor();
+                    showMessages(0x6d8e, 0x6d8f);
                     data_020ed1bc.setYesNo();
                     mode_ = 2;
                     break;
@@ -132,11 +132,11 @@ THUMB int UnkMaterielMenu_0216b304::unkfunc_0216b4f0()
             switch (mode_) {
                 case 0:
                 case 2:
-                    unkfunc_0216b778(0x6d9a, -1);
+                    showMessages(0x6d9a, -1);
                     mode_ = 3;
                     break;
                 case 1:
-                    unkfunc_0216b778(0x6d9c, 0x6d8f);
+                    showMessages(0x6d9c, 0x6d8f);
                     data_020ed1bc.setYesNo();
                     mode_ = 0;
                     break;
@@ -147,14 +147,14 @@ THUMB int UnkMaterielMenu_0216b304::unkfunc_0216b4f0()
     return 0;
 }
 
-THUMB void UnkMaterielMenu_0216b304::unkfunc_0216b604(int item)
+THUMB void UnkMaterielMenu_0216b304::offerPrice(int item)
 {
     ItemType type = status::UseItem::getItemType(item);
     if (status::UseItem::getSellType(item) == status::UseItem::SELL_NG) {
-        unkfunc_0216b778(0x6d97, 0x6d8f);
+        showMessages(0x6d97, 0x6d8f);
         mode_ = 2;
     } else if (type == 0 || type >= 4) {
-        unkfunc_0216b778(0x6d94, 0x6d8f);
+        showMessages(0x6d94, 0x6d8f);
         mode_ = 2;
     } else {
         int price = status::UseItem::getBuyPrice(item);
@@ -168,13 +168,13 @@ THUMB void UnkMaterielMenu_0216b304::unkfunc_0216b604(int item)
         }
         TextAPI::setMACRO0(10, 0x40000000, item);
         TextAPI::setMACRO0(0x4b, 0xf0000000, price_);
-        unkfunc_0216b778(0x6d8d, -1);
+        showMessages(0x6d8d, -1);
         mode_ = 1;
     }
     data_020ed1bc.setYesNo();
 }
 
-THUMB void UnkMaterielMenu_0216b304::unkfunc_0216b6bc()
+THUMB void UnkMaterielMenu_0216b304::resetCursor()
 {
     navigator_.setupBase();
     activeItemPage_ = 0;
@@ -201,14 +201,14 @@ THUMB void UnkMaterielMenu_0216b304::unkfunc_0216b6bc()
     pageMax_ = (haveItem->getCount() - 1) / 6;
 }
 
-THUMB void UnkMaterielMenu_0216b304::unkfunc_0216b760()
+THUMB void UnkMaterielMenu_0216b304::returnToWhoSell()
 {
     close();
     gMaterielMenu_SHOP_WHO_SELL.open();
     gMaterielMenu_SHOP_WHO_SELL.extraMode_ = 1;
 }
 
-THUMB void UnkMaterielMenu_0216b304::unkfunc_0216b778(int message, int message2)
+THUMB void UnkMaterielMenu_0216b304::showMessages(int message, int message2)
 {
     data_020ed1bc.openMessageForTALK();
     data_020ed1bc.addMessage(message);

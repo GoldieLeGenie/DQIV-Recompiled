@@ -18,7 +18,7 @@
 #include "ov016/status/PlayerItemInfo.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuDraw.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
-#include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
+#include "main/menu/MenuCommonDraw.hpp"
 #include "main/cmn/UnkEnvoyManager.hpp"
 static UnkMenuParts s_parts_02184b8c[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x80, 0xa0, 0xc },
@@ -876,7 +876,7 @@ THUMB void unkfunc_0217bae0(status::HaveStatusInfo* info)
         }
     }
     for (int i = 0; i < n; i++) {
-        unkfunc_0217bb74((i % 2) << 7, (i / 2) * 16 + 0x64, unkfunc_0201e674(list[i]), 1, info);
+        unkfunc_0217bb74((i % 2) << 7, (i / 2) * 16 + 0x64, getActionNameMessage(list[i]), 1, info);
     }
 }
 
@@ -1031,7 +1031,7 @@ THUMB void unkfunc_0217c3e0(status::HaveStatusInfo* info, int battle)
         for (int i = 0; i < count; i++) {
             int action = info->haveAction_.getAction(i);
             if (status::UseAction::isBattleUse(action)) {
-                unkfunc_0217bb74((n % 2) << 7, (n / 2) * 12 + 0x34, unkfunc_0201e674(action), 1, info);
+                unkfunc_0217bb74((n % 2) << 7, (n / 2) * 12 + 0x34, getActionNameMessage(action), 1, info);
                 n++;
             }
         }
@@ -1042,7 +1042,7 @@ THUMB void unkfunc_0217c3e0(status::HaveStatusInfo* info, int battle)
         for (int i = 0; i < count; i++) {
             int action = info->haveAction_.getAction(i);
             if (status::UseAction::isUsuallyUse(action)) {
-                unkfunc_0217bb74((n % 2) << 7, (n / 2) * 12 + 0x34, unkfunc_0201e674(action), 1, info);
+                unkfunc_0217bb74((n % 2) << 7, (n / 2) * 12 + 0x34, getActionNameMessage(action), 1, info);
                 n++;
             }
         }
@@ -1275,7 +1275,7 @@ THUMB void unkfunc_0217ccac()
 {
     int msg = 0x8000008c;
     drawMenuPartsColored(s_parts_02184bc4, &msg, g_menuTextColors[0]);
-    unkfunc_0201e194(0x90, 0x48, 0x50, 0x20, -1);
+    drawMenuFrame(0x90, 0x48, 0x50, 0x20, -1);
 }
 
 THUMB void unkfunc_0217cce4(int x, int y)
@@ -1372,7 +1372,7 @@ THUMB void unkfunc_0217cea8(int mode)
         y = 0x30;
     }
     drawMenuParts(s_parts_02184d4c, param, 0, y, g_menuTextColors[0]);
-    unkfunc_0201e194(0, y - 8, 0x78, 0x20, -1);
+    drawMenuFrame(0, y - 8, 0x78, 0x20, -1);
 }
 
 THUMB void unkfunc_0217cf1c(int mode)
@@ -1383,17 +1383,17 @@ THUMB void unkfunc_0217cf1c(int mode)
         param[0] = 0x80000090;
     }
     drawMenuPartsColored(s_parts_02184e48, param, g_menuTextColors[0]);
-    unkfunc_0201e194(0, 0xa0, 0xa0, 0x20, -1);
+    drawMenuFrame(0, 0xa0, 0xa0, 0x20, -1);
 }
 
 THUMB int unkfunc_0217cf70(status::HaveStatusInfo* info)
 {
-    return unkfunc_0201e2f4(info);
+    return getHpTextColorIndex(info);
 }
 
 THUMB int unkfunc_0217cf78(status::HaveStatusInfo* info)
 {
-    return unkfunc_0201e318(info);
+    return getStatusCondition(info);
 }
 
 THUMB void unkfunc_0217cf80(int* param, int x, int y)

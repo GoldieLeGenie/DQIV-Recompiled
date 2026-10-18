@@ -15,7 +15,7 @@
 #include "main/status/PlayerStatus.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
-#include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
+#include "main/menu/MenuCommonDraw.hpp"
 
 // parts lists (their definition order sets the .data layout)
 static UnkMenuParts s_parts_02176b46[] = {
@@ -407,7 +407,7 @@ THUMB void unkfunc_0216b2c4(int x, int y, int item, int flag)
 
 THUMB void unkfunc_0216b314(int x, int y, int action)
 {
-    int param = unkfunc_0201e674(action);
+    int param = getActionNameMessage(action);
     drawMenuParts(s_parts_02176844, &param, x, y, g_menuTextColors[0]);
 }
 

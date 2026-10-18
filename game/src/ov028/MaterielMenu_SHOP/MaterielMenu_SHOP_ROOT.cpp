@@ -3,7 +3,7 @@
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_SHOP_ROOT::menuSetup()
 {
@@ -24,10 +24,10 @@ THUMB void MaterielMenu_SHOP_ROOT::menuExecute()
 THUMB void MaterielMenu_SHOP_ROOT::menuDraw()
 {
     if (data_020ed1bc.isMessageWAITPROG()) {
-        unkfunc_0216fb14();
+        drawShopRootScreen();
         menuItem_.drawActive();
     } else if (data_020ed1bc.isOpen() && mode_ != 1) {
-        unkfunc_0216fc58();
+        drawShopScreen();
     }
 }
 

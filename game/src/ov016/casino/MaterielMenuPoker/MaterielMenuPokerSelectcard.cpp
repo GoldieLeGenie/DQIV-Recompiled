@@ -11,7 +11,7 @@
 #include "main/text/TextAPI.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "main/dss/Pad.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
 
 THUMB void MaterielMenuPokerSelectcard::menuSetup()
 {
@@ -50,10 +50,10 @@ THUMB void MaterielMenuPokerSelectcard::menuDraw()
     if (isPlaySound_ != 0) {
         return;
     }
-    unkfunc_02177d24(haveCoin_, getCoin_, 1, 0);
-    unkfunc_02177bac(0x90, 0, 0x70, 0x30, -1);
+    drawPokerCoinsAndBet(haveCoin_, getCoin_, 1, 0);
+    drawFrameStyleA(0x90, 0, 0x70, 0x30, -1);
     if (animation_ == 0) {
-        unkfunc_02177da0(cardCounter_, 1);
+        drawPokerHoldLabels(cardCounter_, 1);
     }
     switch (animation_) {
     case 1:
@@ -74,8 +74,8 @@ THUMB void MaterielMenuPokerSelectcard::menuDraw()
     if (blink_ == 0) {
         combination = -1;
     }
-    unkfunc_02177e34(betCoin, combination, blink_);
-    unkfunc_02177bac(0, 0, 0x100, 0xc0, -1);
+    drawPokerPayoutTable(betCoin, combination, blink_);
+    drawFrameStyleA(0, 0, 0x100, 0xc0, -1);
 }
 
 THUMB void MaterielMenuPokerSelectcard::menuUpdate()

@@ -4,7 +4,7 @@
 #include "main/status/ExcelParam.hpp"
 #include "main/status/BattleResult.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_PICTUREBOOK_DETAIL::menuSetup()
 {
@@ -27,7 +27,7 @@ THUMB void MaterielMenu_PICTUREBOOK_DETAIL::menuExecute()
 
 THUMB void MaterielMenu_PICTUREBOOK_DETAIL::menuDraw()
 {
-    unkfunc_0216fda8(activeMonster_, bookData_[activeMonster_].name);
+    drawMonsterBookDetailScreen(activeMonster_, bookData_[activeMonster_].name);
     menuItem_.drawActive();
 }
 

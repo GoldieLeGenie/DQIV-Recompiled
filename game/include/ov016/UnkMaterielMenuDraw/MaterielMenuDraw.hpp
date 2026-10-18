@@ -66,7 +66,7 @@ bool unkfunc_native_shopFilterMatch(int filter, int itemID);
 const char* unkfunc_native_shopFilterName(int filter);
 // A row of tabs above a menu window (x, w; 0x18 high at the top of the
 // screen), the `active` one highlighted, with L and R at the ends. `frame`
-// draws a window: unkfunc_0201e194 or the like.
+// draws a window: drawMenuFrame or the like.
 void unkfunc_native_tabs(const char* const* names, int count, int active, int x, int w, void (*frame)(int, int, int, int, int));
 // The shop's category tabs.
 void unkfunc_native_shopTabs(const int* filters, int count, int active);

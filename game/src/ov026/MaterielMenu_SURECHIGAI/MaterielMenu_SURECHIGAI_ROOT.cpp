@@ -4,7 +4,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/profile/Profile.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 #include "main/cmn/UnkEnvoyManager.hpp"
 
 THUMB void MaterielMenu_SURECHIGAI_ROOT::menuSetup()
@@ -26,7 +26,7 @@ THUMB void MaterielMenu_SURECHIGAI_ROOT::menuExecute()
 THUMB void MaterielMenu_SURECHIGAI_ROOT::menuDraw()
 {
     if (data_020ed1bc.isMessageWAITPROG()) {
-        unkfunc_0216fe58();
+        drawTagModeRootScreen();
         menuItem_.drawActive();
     }
 }

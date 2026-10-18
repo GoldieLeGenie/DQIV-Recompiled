@@ -4,7 +4,7 @@
 #include "main/profile/Profile.hpp"
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 #include "main/cmn/UnkEnvoyManager.hpp"
 
 THUMB void UnkMaterielMenu_02189360::menuSetup()
@@ -30,7 +30,7 @@ THUMB void UnkMaterielMenu_02189360::menuDraw()
         if (unk_1c <= 1) {
             int page = navigator_.getPageNo();
             int pageMax = navigator_.getPageMaxCount();
-            unkfunc_0216fe7c(unk_1c, unk_20, page, pageMax, navigator_.getIndex(menuItem_.active_));
+            drawTagModeTenantListScreen(unk_1c, unk_20, page, pageMax, navigator_.getIndex(menuItem_.active_));
         }
         if (unk_1c == 0) {
             menuItem_.drawActive();

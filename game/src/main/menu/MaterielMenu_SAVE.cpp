@@ -18,8 +18,8 @@
 #include "ov026/MaterielMenu_SURECHIGAI/MaterielMenu_SURECHIGAI.hpp"
 #include "main/menu/UiMsg.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_SAVE::menuSetup()
 {
@@ -42,7 +42,7 @@ THUMB void MaterielMenu_SAVE::menuDraw()
 {
     if (status_ != MENU_SELECT || messageCounter_ == 0) {
         if (saveType_ == TYPE_CHURCH) {
-            unkfunc_0216ff18();
+            drawMoneyAndPartyWindows();
         }
         return;
     }
@@ -50,14 +50,14 @@ THUMB void MaterielMenu_SAVE::menuDraw()
         int savetype = diary_[i].savetype_;
         char* name = diary_[i].name_;
         if (savetype == 4) {
-            unkfunc_0217800c(i, name, -1, -1, -1, diary_[i].time_, 0x5a, name != 0);
+            drawJournalSlot(i, name, -1, -1, -1, diary_[i].time_, 0x5a, name != 0);
         } else {
-            unkfunc_0217800c(i, name, diary_[i].chapter_, diary_[i].level_, diary_[i].town_, diary_[i].time_, 0x22, name != 0);
+            drawJournalSlot(i, name, diary_[i].chapter_, diary_[i].level_, diary_[i].town_, diary_[i].time_, 0x22, name != 0);
         }
     }
-    unkfunc_02177c00(0, 0x10, 0x100, 0x68, 0);
+    drawFrameStyleB(0, 0x10, 0x100, 0x68, 0);
     if (saveType_ == TYPE_CHURCH) {
-        unkfunc_0216ff18();
+        drawMoneyAndPartyWindows();
     }
     menuItem_.drawActive();
 }

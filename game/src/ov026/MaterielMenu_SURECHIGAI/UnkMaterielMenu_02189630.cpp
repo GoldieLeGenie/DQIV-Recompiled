@@ -6,7 +6,7 @@
 #include "main/status/PartyStatus.hpp"
 #include "main/profile/Profile.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 #include "main/cmn/UnkEnvoyManager.hpp"
 #include "main/cmn/UnkImmigrantTown.hpp"
 
@@ -51,7 +51,7 @@ THUMB void UnkMaterielMenu_02189630::menuDraw()
     }
     int page = navigator_.getPageNo();
     int pageMax = navigator_.getPageMaxCount();
-    unkfunc_0216fe60(unk_1c, page, pageMax, index, 1, flag);
+    drawTagModeTenantScreen(unk_1c, page, pageMax, index, 1, flag);
     if (unk_1c != 0) {
         menuItem_.drawActive();
     }

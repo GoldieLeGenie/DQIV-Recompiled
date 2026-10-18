@@ -6,7 +6,7 @@
 #include "main/sound/MenuSoundManager.hpp"
 #include "main/task/ExecTask.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_EXTRA_PRESENT_EXP::menuSetup()
 {
@@ -30,7 +30,7 @@ THUMB void MaterielMenu_EXTRA_PRESENT_EXP::menuExecute()
 THUMB void MaterielMenu_EXTRA_PRESENT_EXP::menuDraw()
 {
     if (extraExp_ > 0) {
-        unkfunc_0216fdb0(activeChara_, extraExp_);
+        drawPresentExpScreen(activeChara_, extraExp_);
     }
 }
 

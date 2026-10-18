@@ -5,7 +5,7 @@
 #include "main/status/PlayerStatus.hpp"
 #include "main/status/UseItem.hpp"
 #include "main/sound/MenuSoundManager.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::menuSetup()
 {
@@ -25,7 +25,7 @@ THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::menuSetup()
 
 THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::menuDraw()
 {
-    unkfunc_0216fce8();
+    drawChangeGiftScreen();
 }
 
 THUMB void MaterielMenu_CHANGEGIFT_EQUIPCHECK::menuUpdate()

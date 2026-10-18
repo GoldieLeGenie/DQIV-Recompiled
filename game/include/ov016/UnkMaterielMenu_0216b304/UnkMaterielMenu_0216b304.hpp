@@ -20,11 +20,11 @@ struct UnkMaterielMenu_0216b304 : menu::MenuBase
     virtual void menuExecute();
     virtual void menuDraw();
     virtual void menuUpdate();
-    int unkfunc_0216b4f0();
-    void unkfunc_0216b604(int item);
-    void unkfunc_0216b6bc();
-    void unkfunc_0216b760();
-    void unkfunc_0216b778(int message, int message2);
+    int updateMessage();
+    void offerPrice(int item);
+    void resetCursor();
+    void returnToWhoSell();
+    void showMessages(int message, int message2);
 };
 
 extern UnkMaterielMenu_0216b304 gUnkMaterielMenu_0216b304;

@@ -10,7 +10,7 @@
 #include "main/dss/Random.hpp"
 #include "main/cmn/CommonCounterInfo.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 #include "main/menu/MenuTemplate_Common.hpp"
 
 THUMB void MaterielMenu_EXTRA_NENE::menuSetup()
@@ -78,14 +78,14 @@ THUMB void MaterielMenu_EXTRA_NENE::menuDraw()
     if (data_020ed1bc.isOpen() == false && mode_ != 0) {
         switch (drawMode_) {
         case 0:
-            unkfunc_0216fb98();
+            drawShopWhoSellScreen();
             break;
         case 1:
-            unkfunc_0216fdcc();
+            drawNeneSellScreen();
             break;
         case 2: {
             int lastPage = navigator_.getPageMaxCount() - 1;
-            unkfunc_0216fe10(neneItemCount_, navigator_.getPageNo(), lastPage);
+            drawNeneStorageScreen(neneItemCount_, navigator_.getPageNo(), lastPage);
             break;
         }
         }

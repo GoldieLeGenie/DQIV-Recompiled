@@ -3,7 +3,7 @@
 #include "main/text/TextAPI.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "main/status/PlayerStatus.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_CHANGEGIFT_ROOT::menuSetup()
 {
@@ -23,7 +23,7 @@ THUMB void MaterielMenu_CHANGEGIFT_ROOT::menuSetup()
 
 THUMB void MaterielMenu_CHANGEGIFT_ROOT::menuDraw()
 {
-    unkfunc_0216fce8();
+    drawChangeGiftScreen();
 }
 
 THUMB void MaterielMenu_CHANGEGIFT_ROOT::menuUpdate()

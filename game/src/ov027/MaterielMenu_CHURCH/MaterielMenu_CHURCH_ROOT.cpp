@@ -13,7 +13,7 @@
 #include "main/cmn/TalkSoundManager.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_town.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_CHURCH_ROOT::menuSetup()
 {
@@ -78,7 +78,7 @@ THUMB void MaterielMenu_CHURCH_ROOT::menuExecute()
 THUMB void MaterielMenu_CHURCH_ROOT::menuDraw()
 {
     if (activeCommand_ != 7) {
-        unkfunc_0216fc94(activeCommand_, firstFlag_);
+        drawChurchScreen(activeCommand_, firstFlag_);
         if (activeCommand_ == -1 && firstFlag_ == 0 && data_020ed1bc.isMessageWAITPROG()) {
             menuItem_.drawActive();
         }

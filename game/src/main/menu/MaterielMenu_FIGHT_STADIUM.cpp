@@ -7,7 +7,7 @@
 #include "main/sound/SoundManager.hpp"
 #include "main/status/PartyStatus.hpp"
 #include "main/cmn/CommonCounterInfo.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_02177bac.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
 
 const int MaterielMenu_FIGHT_STADIUM::DOUBLEUP_COIN_MAX = 10000;
 const int MaterielMenu_FIGHT_STADIUM::BET_COIN_MAX = 50;
@@ -41,11 +41,11 @@ THUMB void MaterielMenu_FIGHT_STADIUM::menuExecute()
 THUMB void MaterielMenu_FIGHT_STADIUM::menuDraw()
 {
     int flag = 0;
-    unkfunc_02177f54(haveCoin_, 0, 0, 0);
+    drawFightStadiumBetDigits(haveCoin_, 0, 0, 0);
     if (status_ == FIGHT_STADIUM_BET || status_ == FIGHT_STADIUM_RESULT || (status_ == FIGHT_STADIUM_RETRY && messageCount_ != 0)) {
         flag = 1;
-        unkfunc_02177f54(g_Global.betCoin_, 0, 0x20, flag);
-        unkfunc_02177c78(status_ == FIGHT_STADIUM_BET);
+        drawFightStadiumBetDigits(g_Global.betCoin_, 0, 0x20, flag);
+        drawFightStadiumPanels(status_ == FIGHT_STADIUM_BET);
         if (status_ == FIGHT_STADIUM_BET) {
             if (blink_ != 0) {
                 if (blinkCount_ > 15) {
@@ -63,12 +63,12 @@ THUMB void MaterielMenu_FIGHT_STADIUM::menuDraw()
             }
         }
         if (status_ == FIGHT_STADIUM_BET) {
-            unkfunc_02177bac(0xb8, 0, 0x48, 0x40, -1);
+            drawFrameStyleA(0xb8, 0, 0x48, 0x40, -1);
         } else {
-            unkfunc_02177bac(0xb0, 0, 0x50, 0x40, -1);
+            drawFrameStyleA(0xb0, 0, 0x50, 0x40, -1);
         }
     } else {
-        unkfunc_02177bac(0xb8, 0, 0x48, 0x20, -1);
+        drawFrameStyleA(0xb8, 0, 0x48, 0x20, -1);
     }
     if (status_ == FIGHT_STADIUM_CHOICE || status_ == FIGHT_STADIUM_BET) {
         int count = FightStadiumManager::getSingleton()->cardCount_;
@@ -76,13 +76,13 @@ THUMB void MaterielMenu_FIGHT_STADIUM::menuDraw()
         for (int i = 0; i < count; i++) {
             int monsterID = FightStadiumManager::getSingleton()->getMonsterID(i);
             int diameter = FightStadiumManager::getSingleton()->getDiameter(i);
-            unkfunc_02177eb8(monsterID, diameter, i, FightStadiumManager::getSingleton()->getOrderCount(i));
+            drawFightStadiumEntry(monsterID, diameter, i, FightStadiumManager::getSingleton()->getOrderCount(i));
         }
-        unkfunc_02177bac(0, 0, 0xb8, count * 16 + 0x30, -1);
-        unkfunc_02177c54(flag);
+        drawFrameStyleA(0, 0, 0xb8, count * 16 + 0x30, -1);
+        drawFightStadiumLayout(flag);
     }
     if (status_ == FIGHT_STADIUM_BET) {
-        unkfunc_02177f38(g_Global.betOnIndex_);
+        drawFightStadiumCursor(g_Global.betOnIndex_);
     }
 }
 

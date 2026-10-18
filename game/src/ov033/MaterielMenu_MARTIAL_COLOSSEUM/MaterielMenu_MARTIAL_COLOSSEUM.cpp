@@ -6,7 +6,7 @@
 #include "main/status/PlayerStatus.hpp"
 #include "main/status/UseActionParam.hpp"
 #include "main/status/UseItem.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
 
 THUMB void MaterielMenu_MARTIAL_COLOSSEUM::menuSetup()
 {
@@ -23,7 +23,7 @@ THUMB void MaterielMenu_MARTIAL_COLOSSEUM::menuSetup()
 
 THUMB void MaterielMenu_MARTIAL_COLOSSEUM::menuDraw()
 {
-    unkfunc_0216fdc4();
+    drawColosseumScreen();
 }
 
 THUMB void MaterielMenu_MARTIAL_COLOSSEUM::menuUpdate()
