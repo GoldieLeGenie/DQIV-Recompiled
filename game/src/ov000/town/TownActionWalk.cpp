@@ -197,7 +197,7 @@ ARM void TownActionWalk::townCharColl(dss::Fix32Vector3& nowPos, dss::Fix32Vecto
     TownActionCalculate::townCharaColl(nowPos, nextPos, TownPlayerAction::townCharaR, ctrSurfaceId_, searchObjectId_, searchPolyNo_, TownPlayerAction::walkCtrLen, flag);
 }
 
-ARM int TownActionWalk::unkfunc_02125dcc(int mapUid)
+ARM int TownActionWalk::checkMonsterEncount(int mapUid)
 {
     int monster = TownFurnitureManager::getSingleton()->monsterEncount(mapUid);
     if (monster == 0) {
@@ -237,7 +237,7 @@ ARM int TownActionWalk::searchObject(int flag)
         }
     }
     int mapUid = TownStageManager::getSingleton()->getMapObjUid(searchObjectId_);
-    if (unkfunc_02125dcc(mapUid) == 1) {
+    if (checkMonsterEncount(mapUid) == 1) {
         TownPlayerManager::getSingleton()->setLock(1);
         g_Stage.encountMapUid_ = mapUid;
         return 3;

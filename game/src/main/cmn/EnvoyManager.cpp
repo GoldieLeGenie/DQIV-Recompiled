@@ -1,5 +1,5 @@
-#include "main/cmn/UnkEnvoyManager.hpp"
-#include "main/cmn/UnkImmigrantTown.hpp"
+#include "main/cmn/EnvoyManager.hpp"
+#include "main/cmn/ImmigrantTown.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/text/TextAPI.hpp"
 
@@ -13,99 +13,99 @@ THUMB UnkEnvoyManager::~UnkEnvoyManager()
 {
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a34c(int index)
+THUMB void UnkEnvoyManager::selectEnvoy(int index)
 {
     mode_ = 0;
     index_ = index;
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203a354()
+THUMB int UnkEnvoyManager::isMyEnvoyEnabled()
 {
     return myEnvoy_.enable;
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203a358(int index)
+THUMB int UnkEnvoyManager::isEnvoyEnabled(int index)
 {
     return envoy_[index].enable;
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203a364()
+THUMB int UnkEnvoyManager::findFreeEnvoy()
 {
     for (int i = 0; i < 24; i++) {
-        if (unkfunc_0203a358(i) == 0) {
+        if (isEnvoyEnabled(i) == 0) {
             return i;
         }
     }
     return -1;
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203a388()
+THUMB int UnkEnvoyManager::getEnvoyCount()
 {
     int count = 0;
     for (int i = 0; i < 24; i++) {
-        if (unkfunc_0203a358(i) == 1) {
+        if (isEnvoyEnabled(i) == 1) {
             count++;
         }
     }
     return count;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a3a8(int index)
+THUMB void UnkEnvoyManager::removeEnvoy(int index)
 {
     mode_ = 0;
-    unkfunc_0203a954(index);
+    clearEnvoy(index);
     for (; index + 1 < 24; index++) {
         if (envoy_[index + 1].enable == 0) {
             break;
         }
         index_ = index;
-        unkfunc_0203a574(envoy_[index + 1].enable);
-        unkfunc_0203a58c(envoy_[index + 1].unique);
-        unkfunc_0203a5bc(envoy_[index + 1].type);
-        unkfunc_0203a604((char*)envoy_[index + 1].name);
-        unkfunc_0203a674((char*)envoy_[index + 1].heroName);
-        unkfunc_0203a6f4(envoy_[index + 1].sex);
-        unkfunc_0203a730(envoy_[index + 1].age);
-        unkfunc_0203a76c(envoy_[index + 1].skill);
-        unkfunc_0203a7a8((char*)envoy_[index + 1].townName);
-        unkfunc_0203a83c((char*)envoy_[index + 1].comment);
+        setEnable(envoy_[index + 1].enable);
+        setUnique(envoy_[index + 1].unique);
+        setType(envoy_[index + 1].type);
+        setName((char*)envoy_[index + 1].name);
+        setHeroName((char*)envoy_[index + 1].heroName);
+        setSex(envoy_[index + 1].sex);
+        setAge(envoy_[index + 1].age);
+        setSkill(envoy_[index + 1].skill);
+        setTownName((char*)envoy_[index + 1].townName);
+        setComment((char*)envoy_[index + 1].comment);
     }
     if (index < 24) {
-        unkfunc_0203a954(index);
+        clearEnvoy(index);
     }
-    UnkImmigrantTown::getSingleton()->unkfunc_02037ca4();
+    UnkImmigrantTown::getSingleton()->rebuildResidents();
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a48c(UnkEnvoyData* data, int arg)
+THUMB void UnkEnvoyManager::receiveEnvoy(UnkEnvoyData* data, int arg)
 {
     mode_ = 0;
     unk_1664 = arg;
     if (data != NULL) {
         dss::memcpy(&received_, data, sizeof(UnkEnvoyData));
-        int index = unkfunc_0203a9cc(received_.unique);
+        int index = findEnvoyByUnique(received_.unique);
         if (index == -1) {
-            index = unkfunc_0203a364();
+            index = findFreeEnvoy();
             if (index == -1) {
                 return;
             }
         }
         index_ = index;
-        unkfunc_0203a574(1);
-        unkfunc_0203a58c(received_.unique);
-        unkfunc_0203a5bc(received_.type);
-        unkfunc_0203a604((char*)received_.name);
-        unkfunc_0203a674((char*)received_.heroName);
-        unkfunc_0203a6f4(received_.sex);
-        unkfunc_0203a730(received_.age);
-        unkfunc_0203a76c(received_.skill);
-        unkfunc_0203a7a8((char*)received_.townName);
-        unkfunc_0203a83c((char*)received_.comment);
+        setEnable(1);
+        setUnique(received_.unique);
+        setType(received_.type);
+        setName((char*)received_.name);
+        setHeroName((char*)received_.heroName);
+        setSex(received_.sex);
+        setAge(received_.age);
+        setSkill(received_.skill);
+        setTownName((char*)received_.townName);
+        setComment((char*)received_.comment);
         flags_[received_.type] = 1;
     }
-    UnkImmigrantTown::getSingleton()->unkfunc_02037ca4();
+    UnkImmigrantTown::getSingleton()->rebuildResidents();
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a574(int enable)
+THUMB void UnkEnvoyManager::setEnable(int enable)
 {
     if (mode_ == 1) {
         myEnvoy_.enable = enable;
@@ -114,7 +114,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a574(int enable)
     }
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a58c(unsigned int unique)
+THUMB void UnkEnvoyManager::setUnique(unsigned int unique)
 {
     if (mode_ == 1) {
         myEnvoy_.unique = unique;
@@ -123,7 +123,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a58c(unsigned int unique)
     }
 }
 
-THUMB unsigned int UnkEnvoyManager::unkfunc_0203a5a4()
+THUMB unsigned int UnkEnvoyManager::getUnique()
 {
     if (mode_ == 1) {
         return myEnvoy_.unique;
@@ -131,7 +131,7 @@ THUMB unsigned int UnkEnvoyManager::unkfunc_0203a5a4()
     return envoy_[index_].unique;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a5bc(int type)
+THUMB void UnkEnvoyManager::setType(int type)
 {
     if (mode_ == 1) {
         myEnvoy_.enable = 1;
@@ -142,7 +142,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a5bc(int type)
     }
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203a5ec()
+THUMB int UnkEnvoyManager::getType()
 {
     if (mode_ == 1) {
         return myEnvoy_.type;
@@ -150,7 +150,7 @@ THUMB int UnkEnvoyManager::unkfunc_0203a5ec()
     return envoy_[index_].type;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a604(const char* name)
+THUMB void UnkEnvoyManager::setName(const char* name)
 {
     if (mode_ == 1) {
         for (int i = 0; i < 26; i++) {
@@ -169,7 +169,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a604(const char* name)
     }
 }
 
-THUMB unsigned char* UnkEnvoyManager::unkfunc_0203a65c()
+THUMB unsigned char* UnkEnvoyManager::getName()
 {
     if (mode_ == 1) {
         return myEnvoy_.name;
@@ -177,7 +177,7 @@ THUMB unsigned char* UnkEnvoyManager::unkfunc_0203a65c()
     return envoy_[index_].name;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a674(const char* name)
+THUMB void UnkEnvoyManager::setHeroName(const char* name)
 {
     if (mode_ == 1) {
         for (int i = 0; i < 26; i++) {
@@ -196,7 +196,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a674(const char* name)
     }
 }
 
-THUMB unsigned char* UnkEnvoyManager::unkfunc_0203a6d8()
+THUMB unsigned char* UnkEnvoyManager::getHeroName()
 {
     if (mode_ == 1) {
         return myEnvoy_.heroName;
@@ -204,7 +204,7 @@ THUMB unsigned char* UnkEnvoyManager::unkfunc_0203a6d8()
     return envoy_[index_].heroName;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a6f4(int sex)
+THUMB void UnkEnvoyManager::setSex(int sex)
 {
     if (mode_ == 1) {
         myEnvoy_.sex = sex;
@@ -213,7 +213,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a6f4(int sex)
     }
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203a714()
+THUMB int UnkEnvoyManager::getSex()
 {
     if (mode_ == 1) {
         return myEnvoy_.sex;
@@ -221,7 +221,7 @@ THUMB int UnkEnvoyManager::unkfunc_0203a714()
     return envoy_[index_].sex;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a730(int age)
+THUMB void UnkEnvoyManager::setAge(int age)
 {
     if (mode_ == 1) {
         myEnvoy_.age = age;
@@ -230,7 +230,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a730(int age)
     }
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203a750()
+THUMB int UnkEnvoyManager::getAge()
 {
     if (mode_ == 1) {
         return myEnvoy_.age;
@@ -238,7 +238,7 @@ THUMB int UnkEnvoyManager::unkfunc_0203a750()
     return envoy_[index_].age;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a76c(int skill)
+THUMB void UnkEnvoyManager::setSkill(int skill)
 {
     if (mode_ == 1) {
         myEnvoy_.skill = skill;
@@ -247,7 +247,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a76c(int skill)
     }
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203a78c()
+THUMB int UnkEnvoyManager::getSkill()
 {
     if (mode_ == 1) {
         return myEnvoy_.skill;
@@ -255,7 +255,7 @@ THUMB int UnkEnvoyManager::unkfunc_0203a78c()
     return envoy_[index_].skill;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a7a8(const char* name)
+THUMB void UnkEnvoyManager::setTownName(const char* name)
 {
     if (mode_ == 1) {
         myEnvoy_.enable = 1;
@@ -276,7 +276,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a7a8(const char* name)
     }
 }
 
-THUMB unsigned char* UnkEnvoyManager::unkfunc_0203a820()
+THUMB unsigned char* UnkEnvoyManager::getTownName()
 {
     if (mode_ == 1) {
         return myEnvoy_.townName;
@@ -284,7 +284,7 @@ THUMB unsigned char* UnkEnvoyManager::unkfunc_0203a820()
     return envoy_[index_].townName;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a83c(const char* comment)
+THUMB void UnkEnvoyManager::setComment(const char* comment)
 {
     Utf8Iterator src;
     src.unkfunc_020875ec((char*)comment);
@@ -325,7 +325,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203a83c(const char* comment)
     }
 }
 
-THUMB unsigned char* UnkEnvoyManager::unkfunc_0203a938()
+THUMB unsigned char* UnkEnvoyManager::getComment()
 {
     if (mode_ == 1) {
         return myEnvoy_.comment;
@@ -333,7 +333,7 @@ THUMB unsigned char* UnkEnvoyManager::unkfunc_0203a938()
     return envoy_[index_].comment;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203a954(int index)
+THUMB void UnkEnvoyManager::clearEnvoy(int index)
 {
     index_ = index;
     envoy_[index].type = 0;
@@ -355,17 +355,17 @@ THUMB void UnkEnvoyManager::unkfunc_0203a954(int index)
     envoy_[index].enable = 0;
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203a9cc(unsigned int unique)
+THUMB int UnkEnvoyManager::findEnvoyByUnique(unsigned int unique)
 {
     for (int i = 0; i < 24; i++) {
-        if (unkfunc_0203a358(i) == 1 && unique == envoy_[i].unique) {
+        if (isEnvoyEnabled(i) == 1 && unique == envoy_[i].unique) {
             return i;
         }
     }
     return -1;
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203aa00()
+THUMB void UnkEnvoyManager::backupMyEnvoy()
 {
     if (backup_.enable == 1) {
         return;
@@ -380,7 +380,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203aa00()
     dss::strcpy_s((char*)backup_.comment, 92, (char*)myEnvoy_.comment);
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203aa58()
+THUMB void UnkEnvoyManager::restoreMyEnvoy()
 {
     backup_.enable = 0;
     myEnvoy_.type = backup_.type;
@@ -392,7 +392,7 @@ THUMB void UnkEnvoyManager::unkfunc_0203aa58()
     dss::strcpy_s((char*)myEnvoy_.comment, 92, (char*)backup_.comment);
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203aaac()
+THUMB void UnkEnvoyManager::clearBackup()
 {
     backup_.enable = 0;
     backup_.type = 0;
@@ -414,12 +414,12 @@ THUMB void UnkEnvoyManager::unkfunc_0203aaac()
     }
 }
 
-THUMB void UnkEnvoyManager::unkfunc_0203ab20(int type, int flag)
+THUMB void UnkEnvoyManager::setTypeSelectable(int type, int flag)
 {
     flags_[type] = flag;
 }
 
-THUMB int UnkEnvoyManager::unkfunc_0203ab30(int type)
+THUMB int UnkEnvoyManager::isTypeSelectable(int type)
 {
     return flags_[type];
 }

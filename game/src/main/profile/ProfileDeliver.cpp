@@ -14,8 +14,8 @@
 #include "main/cmn/HengeNoTsueManager.hpp"
 #include "main/cmn/PartyTalk.hpp"
 #include "main/sound/Sound.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
-#include "main/cmn/UnkImmigrantTown.hpp"
+#include "main/cmn/EnvoyManager.hpp"
+#include "main/cmn/ImmigrantTown.hpp"
 
 THUMB int profile::Profile::deliverDATA(int)
 {
@@ -160,7 +160,7 @@ THUMB void profile::Profile::deliverDATA_PARTY()
     status::g_Game.setUniqueID(pPARTY->UNIQUEID);
 
     for (int i = 0; i < 50; i++)
-        data_020f0078.unkfunc_0203ab20(i, pPARTY->SELECTTAISHI_FLAG[i]);
+        data_020f0078.setTypeSelectable(i, pPARTY->SELECTTAISHI_FLAG[i]);
 }
 
 THUMB void profile::Profile::deliverDATA_CHAPTER()
@@ -211,38 +211,38 @@ THUMB void profile::Profile::deliverDATA_MONSTER()
 THUMB void profile::Profile::deliverDATA_ENVOY()
 {
     for (int i = 0; i < 0x18; i++) {
-        data_020f0078.unkfunc_0203a34c(i);
+        data_020f0078.selectEnvoy(i);
         if (this->pENVOY->TYPE != 0xFF) {
-            data_020f0078.unkfunc_0203a574(1);
-            data_020f0078.unkfunc_0203a58c(this->pENVOY->UNIQUE);
-            data_020f0078.unkfunc_0203a5bc(this->pENVOY->TYPE);
-            data_020f0078.unkfunc_0203a6f4(this->pENVOY->SEX);
-            data_020f0078.unkfunc_0203a730(this->pENVOY->AGE);
-            data_020f0078.unkfunc_0203a76c(this->pENVOY->SKILL);
-            dss::memcpy(data_020f0078.unkfunc_0203a65c(), this->pENVOY->NAME, 0x1A);
-            dss::memcpy(data_020f0078.unkfunc_0203a6d8(), this->pENVOY->HERONAME, 0x1A);
-            dss::memcpy(data_020f0078.unkfunc_0203a820(), this->pENVOY->TOWNNAME, 0x2A);
-            dss::memcpy(data_020f0078.unkfunc_0203a938(), this->pENVOY->COMMENT, 0x5C);
+            data_020f0078.setEnable(1);
+            data_020f0078.setUnique(this->pENVOY->UNIQUE);
+            data_020f0078.setType(this->pENVOY->TYPE);
+            data_020f0078.setSex(this->pENVOY->SEX);
+            data_020f0078.setAge(this->pENVOY->AGE);
+            data_020f0078.setSkill(this->pENVOY->SKILL);
+            dss::memcpy(data_020f0078.getName(), this->pENVOY->NAME, 0x1A);
+            dss::memcpy(data_020f0078.getHeroName(), this->pENVOY->HERONAME, 0x1A);
+            dss::memcpy(data_020f0078.getTownName(), this->pENVOY->TOWNNAME, 0x2A);
+            dss::memcpy(data_020f0078.getComment(), this->pENVOY->COMMENT, 0x5C);
         } else {
-            data_020f0078.unkfunc_0203a574(0);
+            data_020f0078.setEnable(0);
         }
         this->pENVOY++;
     }
-    UnkImmigrantTown::getSingleton()->unkfunc_02037ca4();
+    UnkImmigrantTown::getSingleton()->rebuildResidents();
     data_020f0078.mode_ = 1;
     if (this->pENVOY->TYPE != 0xFF) {
-        data_020f0078.unkfunc_0203a574(1);
-        data_020f0078.unkfunc_0203a58c(this->pENVOY->UNIQUE);
-        data_020f0078.unkfunc_0203a5bc(this->pENVOY->TYPE);
-        data_020f0078.unkfunc_0203a6f4(this->pENVOY->SEX);
-        data_020f0078.unkfunc_0203a730(this->pENVOY->AGE);
-        data_020f0078.unkfunc_0203a76c(this->pENVOY->SKILL);
-        dss::memcpy(data_020f0078.unkfunc_0203a65c(), this->pENVOY->NAME, 0x1A);
-        dss::memcpy(data_020f0078.unkfunc_0203a6d8(), this->pENVOY->HERONAME, 0x1A);
-        dss::memcpy(data_020f0078.unkfunc_0203a820(), this->pENVOY->TOWNNAME, 0x2A);
-        dss::memcpy(data_020f0078.unkfunc_0203a938(), this->pENVOY->COMMENT, 0x5C);
+        data_020f0078.setEnable(1);
+        data_020f0078.setUnique(this->pENVOY->UNIQUE);
+        data_020f0078.setType(this->pENVOY->TYPE);
+        data_020f0078.setSex(this->pENVOY->SEX);
+        data_020f0078.setAge(this->pENVOY->AGE);
+        data_020f0078.setSkill(this->pENVOY->SKILL);
+        dss::memcpy(data_020f0078.getName(), this->pENVOY->NAME, 0x1A);
+        dss::memcpy(data_020f0078.getHeroName(), this->pENVOY->HERONAME, 0x1A);
+        dss::memcpy(data_020f0078.getTownName(), this->pENVOY->TOWNNAME, 0x2A);
+        dss::memcpy(data_020f0078.getComment(), this->pENVOY->COMMENT, 0x5C);
     } else {
-        data_020f0078.unkfunc_0203a574(0);
+        data_020f0078.setEnable(0);
     }
 }
 

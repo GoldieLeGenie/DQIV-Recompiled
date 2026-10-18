@@ -35,7 +35,7 @@
 #include "ov000/town/riseup/TownRiseup.hpp"
 #include "ov000/town/TownExtraMapObjManager.hpp"
 
-ARM void TownSystem::unkfunc_02132210()
+ARM void TownSystem::overlayEntry()
 {
 }
 

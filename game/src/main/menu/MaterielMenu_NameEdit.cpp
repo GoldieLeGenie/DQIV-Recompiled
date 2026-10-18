@@ -14,7 +14,7 @@
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuDrawExtra.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
+#include "main/cmn/EnvoyManager.hpp"
 
 int data_020f17bc;
 int data_020f17c0;
@@ -89,7 +89,7 @@ THUMB void MaterielMenu_NameEdit::menuDraw()
     menuItem_.drawActive();
     switch (returnMenu_) {
     case RETURN_MENU_SURECHIGAI:
-        drawNameEditScreen(-1, data_020f0078.unkfunc_0203a5ec());
+        drawNameEditScreen(-1, data_020f0078.getType());
         break;
     case RETURN_MENU_SURECHIGAI_MESSAGE:
         break;
@@ -322,14 +322,14 @@ THUMB void MaterielMenu_NameEdit::finishNameEdit(bool ok)
             gMaterielMenu_LOAD.changeStatus(MaterielMenu_LOAD::LOAD_SEXUALITY);
             break;
         case RETURN_MENU_SURECHIGAI:
-            data_020f0078.unkfunc_0203a604(getNameUTF8());
+            data_020f0078.setName(getNameUTF8());
             gUnkMaterielMenu_02189a80.open();
             if (unk_98 == 1) {
                 gUnkMaterielMenu_02189a80.unk_24 = 1;
             }
             break;
         case RETURN_MENU_SURECHIGAI_MESSAGE:
-            data_020f0078.unkfunc_0203a83c(getNameUTF8());
+            data_020f0078.setComment(getNameUTF8());
             data_020ed1bc.openMessageForMENU();
             if (MaterielMenu_WINDOW_MANAGER::getSingleton()->editMessageForScript_ == 1) {
                 data_020ed1bc.addMessage(0x92a93);
@@ -347,7 +347,7 @@ THUMB void MaterielMenu_NameEdit::finishNameEdit(bool ok)
             }
             break;
         case RETURN_MENU_SURECHIGAI_TOWNNAME:
-            data_020f0078.unkfunc_0203a7a8(getNameUTF8());
+            data_020f0078.setTownName(getNameUTF8());
             bCloseEditTownName_ = 1;
             data_020ed1bc.openMessageForMENU();
             if (isDefaultTownName() == 1) {
@@ -455,7 +455,7 @@ THUMB int MaterielMenu_NameEdit::isDefaultTownName()
     unkfunc_02087e08(landSuffix, 0x2a, land);
     dss::strcat_s(townName, 0x2a, townSuffix);
     dss::strcat_s(landName, 0x2a, landSuffix);
-    if (dss::strcmp((char*)data_020f0078.unkfunc_0203a820(), townName) == 0 || dss::strcmp((char*)data_020f0078.unkfunc_0203a820(), landName) == 0) {
+    if (dss::strcmp((char*)data_020f0078.getTownName(), townName) == 0 || dss::strcmp((char*)data_020f0078.getTownName(), landName) == 0) {
         return 1;
     }
     return 0;

@@ -5,7 +5,7 @@
 #include "main/profile/Profile.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
+#include "main/cmn/EnvoyManager.hpp"
 
 THUMB void MaterielMenu_SURECHIGAI_ROOT::menuSetup()
 {
@@ -73,7 +73,7 @@ THUMB void MaterielMenu_SURECHIGAI_ROOT::menuUpdate()
                 return;
             }
             if (mode_ == 3) {
-                if (data_020f0078.unkfunc_0203a388() == 0) {
+                if (data_020f0078.getEnvoyCount() == 0) {
                     data_020ed1bc.openMessageForTALK();
                     data_020ed1bc.addMessage(0x92a21, 0x92a22);
                     firstFlag_ = 1;
@@ -117,7 +117,7 @@ THUMB void MaterielMenu_SURECHIGAI_ROOT::selectCommand()
     switch (menuItem_.active_) {
     case 0:
         mode_ = 0;
-        if (data_020f0078.unkfunc_0203a364() == -1) {
+        if (data_020f0078.findFreeEnvoy() == -1) {
             data_020ed1bc.openMessageForTALK();
             data_020ed1bc.addMessage(0x92a16, 0x92a17);
             mode_ = 5;

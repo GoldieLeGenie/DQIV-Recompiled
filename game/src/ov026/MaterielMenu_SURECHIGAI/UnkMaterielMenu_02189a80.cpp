@@ -8,7 +8,7 @@
 #include "main/profile/Profile.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
+#include "main/cmn/EnvoyManager.hpp"
 
 THUMB void UnkMaterielMenu_02189a80::menuSetup()
 {
@@ -18,7 +18,7 @@ THUMB void UnkMaterielMenu_02189a80::menuSetup()
     menuItem_.active_ = 0;
     navigator_.setupBase();
     unk_1c = 1;
-    unk_20 = data_020f0078.unkfunc_0203a5ec();
+    unk_20 = data_020f0078.getType();
 }
 
 THUMB void UnkMaterielMenu_02189a80::menuExecute()
@@ -84,7 +84,7 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
                     if (unk_24 == 1) {
                         MaterielMenu_WINDOW_MANAGER::getSingleton()->changeTaishi_ = 1;
                     }
-                    data_020f0078.unkfunc_0203aaac();
+                    data_020f0078.clearBackup();
                 }
                 unk_1c = 9;
                 return;
@@ -151,10 +151,10 @@ THUMB void UnkMaterielMenu_02189a80::menuUpdate()
         if (result == 3) {
             unk_1c--;
             if (unk_1c == 1) {
-                menuItem_.active_ = data_020f0078.unkfunc_0203a714();
+                menuItem_.active_ = data_020f0078.getSex();
             }
             if (unk_1c == 2) {
-                menuItem_.active_ = data_020f0078.unkfunc_0203a750();
+                menuItem_.active_ = data_020f0078.getAge();
             }
             if (unk_1c == 0) {
                 ui_MsgSndSet(0x32);
@@ -175,19 +175,19 @@ THUMB void UnkMaterielMenu_02189a80::unkfunc_02189d70()
     switch (unk_1c) {
     case 1:
         unk_1c = 2;
-        data_020f0078.unkfunc_0203a6f4(menuItem_.active_);
+        data_020f0078.setSex(menuItem_.active_);
         menuItem_.active_ = 0;
         break;
     case 2:
         unk_1c = 3;
-        data_020f0078.unkfunc_0203a730(menuItem_.active_);
+        data_020f0078.setAge(menuItem_.active_);
         menuItem_.active_ = 0;
         break;
     case 3: {
-        data_020f0078.unkfunc_0203a674(status::g_Story.heroName);
-        data_020f0078.unkfunc_0203a58c(status::g_Game.getUniqueID());
+        data_020f0078.setHeroName(status::g_Story.heroName);
+        data_020f0078.setUnique(status::g_Game.getUniqueID());
         unk_1c = 4;
-        data_020f0078.unkfunc_0203a76c(navigator_.getIndex(menuItem_.active_));
+        data_020f0078.setSkill(navigator_.getIndex(menuItem_.active_));
         int page = navigator_.getPageNo();
         MaterielMenuPlayerControl::getSingleton()->activeChiausSkillPage_ = page;
         menuItem_.active_ = 0;

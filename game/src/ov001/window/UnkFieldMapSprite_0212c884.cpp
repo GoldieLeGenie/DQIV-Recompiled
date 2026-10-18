@@ -4178,7 +4178,7 @@ static const dss::Vector2<int> s_treeBlock[4] = {
     dss::Vector2<int>(28, 17), dss::Vector2<int>(29, 17), dss::Vector2<int>(28, 18), dss::Vector2<int>(29, 18)
 };
 
-static void* unkfunc_0212c878()
+static void* getLargeMapTextureData()
 {
     return (void*)s_texture_0214e0a8;
 }
@@ -4191,20 +4191,20 @@ ARM UnkFieldMapSprite_0212c884::~UnkFieldMapSprite_0212c884()
 {
 }
 
-ARM void UnkFieldMapSprite_0212c884::unkfunc_0212c8c4(FieldSystem* system)
+ARM void UnkFieldMapSprite_0212c884::setup(FieldSystem* system)
 {
     system_ = system;
-    unkfunc_0212c8f8();
+    initSprites();
 }
 
-ARM void UnkFieldMapSprite_0212c884::unkfunc_0212c8d4()
+ARM void UnkFieldMapSprite_0212c884::cleanup()
 {
     unk_54.unkfunc_02057e34();
     unk_04.unkfunc_02057e34();
     system_ = NULL;
 }
 
-ARM void UnkFieldMapSprite_0212c884::unkfunc_0212c8f8()
+ARM void UnkFieldMapSprite_0212c884::initSprites()
 {
     char path[0x80];
     unk_04.unkfunc_02057ea8(0, 0, 0x20, 0x20);
@@ -4219,7 +4219,7 @@ ARM void UnkFieldMapSprite_0212c884::unkfunc_0212c8f8()
     unk_54.data_.m_size = sizeof(s_texture_0214e0a8);
     unk_54.unkfunc_02057dac();
 #else
-    unk_54.unkfunc_02057d88(unkfunc_0212c878());
+    unk_54.unkfunc_02057d88(getLargeMapTextureData());
 #endif
     unk_54.unkfunc_02057e58(&system_->render_);
     unk_54.unkfunc_02057ee8();
@@ -4238,7 +4238,7 @@ ARM void UnkFieldMapSprite_0212c884::unkfunc_0212c8f8()
     unk_54.unkfunc_02057d1c();
 }
 
-ARM int UnkFieldMapSprite_0212c884::unkfunc_0212c9e4(int x, int y, void* buffer)
+ARM int UnkFieldMapSprite_0212c884::loadSpecialBlock(int x, int y, void* buffer)
 {
     if (status::g_Story.chapter_ >= 5) {
         if (g_AreaFlag.check(0x1e5)) {
@@ -4312,7 +4312,7 @@ ARM int UnkFieldMapSprite_0212c884::unkfunc_0212c9e4(int x, int y, void* buffer)
     return 0;
 }
 
-ARM void UnkFieldMapSprite_0212c884::unkfunc_0212cd58(int x, int y)
+ARM void UnkFieldMapSprite_0212c884::loadMapBlocks(int x, int y)
 {
     char* src[8];
     void* buffer[8];
@@ -4339,7 +4339,7 @@ ARM void UnkFieldMapSprite_0212c884::unkfunc_0212cd58(int x, int y)
             }
             dss::g_File.unk_50 = 0x400;
             void* buf = buffer[i];
-            if (unkfunc_0212c9e4(bx, by, buf) == 0) {
+            if (loadSpecialBlock(bx, by, buf) == 0) {
                 dss::g_File.unk_4c = (bx << 10) + (by << 15);
                 dss::g_File.unkfunc_0207eac0("data/field/large/largemap.bin", buf, 0);
             }
@@ -4359,12 +4359,12 @@ ARM void UnkFieldMapSprite_0212c884::unkfunc_0212cd58(int x, int y)
     }
 }
 
-ARM void UnkFieldMapSprite_0212c884::unkfunc_0212cee0()
+ARM void UnkFieldMapSprite_0212c884::load()
 {
     dss::Fix32Vector3 pos = FieldPlayerManager::getSingleton()->getPosition();
     int x = (pos.vx.value + 0x40000) / 0x80000 - 4;
     int y = (pos.vy.value + 0x40000) / 0x80000 - 3;
-    unkfunc_0212cd58(x, y);
+    loadMapBlocks(x, y);
     OS_Wait();
     unk_54.unkfunc_02057d40();
     unk_54.unkfunc_02057d2c();
@@ -4376,13 +4376,13 @@ ARM void UnkFieldMapSprite_0212c884::unkfunc_0212cee0()
     unk_04.unkfunc_02057e88(px, py - 0x20);
 }
 
-ARM void UnkFieldMapSprite_0212c884::unkfunc_0212cfb8()
+ARM void UnkFieldMapSprite_0212c884::clear()
 {
     unk_04.unkfunc_02057d1c();
     unk_54.unkfunc_02057d1c();
 }
 
-ARM void UnkFieldMapSprite_0212c884::unkfunc_0212cfd4(unsigned char alpha)
+ARM void UnkFieldMapSprite_0212c884::setAlpha(unsigned char alpha)
 {
     unk_54.unkfunc_02057f00(alpha);
     unk_04.unkfunc_02057f00(alpha);

@@ -549,7 +549,7 @@ ARM short TownPlayerManager::getDirection()
     return g_cmnPartyInfo.dirIdx_;
 }
 
-ARM void TownPlayerManager::unkfunc_02133f60()
+ARM void TownPlayerManager::execMenuTalk()
 {
     short dirIdx = getDirection();
     dss::Fix32Vector3 pos = getPosition();
@@ -568,7 +568,7 @@ ARM void TownPlayerManager::unkfunc_02133f60()
     }
 }
 
-ARM void TownPlayerManager::unkfunc_02134058()
+ARM void TownPlayerManager::execMenuSearch()
 {
     searchAction_ = TownActionWalk::getSingleton()->searchObject(1);
 }
@@ -908,7 +908,7 @@ ARM void TownPlayerManager::checkMenuAction()
         TownCharacterManager::getSingleton()->search_ = 1;
         switch (player_.actionType_) {
         case ACTION_TYPE_WALK:
-            unkfunc_02133f60();
+            execMenuTalk();
             break;
         case ACTION_TYPE_IKADA:
             TownIkadaAction2::getSingleton()->checkIkadaTalk(1);
@@ -917,7 +917,7 @@ ARM void TownPlayerManager::checkMenuAction()
         setLock(1);
     }
     if (g_Stage.menuSearch_ == 1) {
-        unkfunc_02134058();
+        execMenuSearch();
         menuSearch_ = 1;
         setLock(1);
     }

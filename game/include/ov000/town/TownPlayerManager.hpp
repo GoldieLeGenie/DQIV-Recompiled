@@ -121,8 +121,8 @@ struct TownPlayerManager : cmn::PlayerManager {
     void resetMapLink(RESET_EXIT_LOCK_TYPE type);
     void setPartyToFirst(dss::Fix32Vector3& pos);
     void setDirection(short dirIdx);
-    void unkfunc_02133f60();
-    void unkfunc_02134058();
+    void execMenuTalk();
+    void execMenuSearch();
     void setFormation(int frmDir, int charaDir, dss::Fix32 speed);
     void setRemote(int flag);
     bool isLock();

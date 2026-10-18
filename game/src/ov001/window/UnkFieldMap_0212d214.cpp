@@ -27,7 +27,7 @@ ARM void UnkFieldMap_0212d214::draw()
 {
     unkfunc_020847e8();
     unk_08.unkfunc_02057ec0();
-    unkfunc_0203822c(unk_150);
+    drawSymbols(unk_150);
 }
 
 ARM void UnkFieldMap_0212d214::load()

@@ -30,7 +30,7 @@ ARM void window::ShoplistControl::execute()
             break;
         case TOWNMAP_VIEWING:
             if (dss::g_Pad.edge() & 0x800) {
-                if (unkfunc_0202a2d8()) {
+                if (selectNextShop()) {
                     state_ = TOWNMAP_WAIT_CLOSE_TO_MAP;
                     return;
                 }
@@ -97,7 +97,7 @@ ARM void window::ShoplistControl::closeList()
     setupIcon();
 }
 
-ARM int window::ShoplistControl::unkfunc_0202a2d8()
+ARM int window::ShoplistControl::selectNextShop()
 {
     return gTownShopMenu.selectNextShop();
 }

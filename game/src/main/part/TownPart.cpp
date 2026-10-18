@@ -36,7 +36,7 @@ ARM void TownPart::initialize()
     unkfunc_02080e90(&dss::g_DISPLAYPLUGIN_DOUBLE3D);
     unkfunc_0207e7e8();
     unkfunc_02087590(DQIV_OVERLAY_ID(0));
-    TownSystem::unkfunc_02132210();
+    TownSystem::overlayEntry();
     unkfunc_02087590(DQIV_OVERLAY_ID(16));
     ov016_entry();
     unkfunc_0207e7e8();

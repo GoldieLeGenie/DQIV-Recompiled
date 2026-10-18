@@ -101,11 +101,11 @@ ARM void FldStage::draw()
 {
     drawTick = unkfunc_0207e7e8();
     resetGlbMatrix();
-    m_fld.unkfunc_02045004();
+    m_fld.calc();
     resetGlbMatrix();
     if (collisionDrawFlag_ == 0) {
         func_0206ae30((VecFx32*)&scale_);
-        m_fld.unkfunc_0204545c();
+        m_fld.draw();
     }
     resetGlbMatrix();
     drawTick = unkfunc_0207e7e8() - drawTick;
@@ -153,13 +153,13 @@ ARM void FldStage::setMapUidOnOff(int uid, int flag)
 ARM int FldStage::eventAnim(int anim, int frame)
 {
     if (frame == 0) {
-        m_fld.unkfunc_020465b4(anim);
+        m_fld.setEventAnimation(anim);
         return 1;
     }
-    if (m_fld.unkfunc_02046e40(frame) != m_fld.unkfunc_02046eac(frame)) {
+    if (m_fld.getMapObjAnimFrame(frame) != m_fld.getMapObjAnimFrameMax(frame)) {
         return 0;
     }
-    m_fld.unkfunc_020465b4(anim);
+    m_fld.setEventAnimation(anim);
     return 1;
 }
 
@@ -302,7 +302,7 @@ ARM int FldStage::collCrossCheckOtherNo(dss::Fix32Vector3& start, dss::Fix32Vect
 ARM void FldStage::setRotObjectUid(int uid, dss::Fix32Vector3& rot)
 {
     VecFx32 v = getVecFx32(rot);
-    m_fld.unkfunc_0204627c(uid, &v);
+    m_fld.setMapUidRotFX32(uid, &v);
 }
 
 ARM int FldStage::collGetPoly(int poly, COLL_POLY* out)
@@ -444,7 +444,7 @@ ARM bool FldStage::IsCommonAnimationEnd(int uid)
     return true;
 }
 
-ARM int unkfunc_020484ec(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecFx32* box, dss::Fix32* rate)
+ARM int fldBoxTest(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecFx32* box, dss::Fix32* rate)
 {
     int result;
     G3_PushMtx();

@@ -14,14 +14,14 @@ struct UnkFieldMapSprite_0212c884 {
 
     UnkFieldMapSprite_0212c884();
     ~UnkFieldMapSprite_0212c884();
-    void unkfunc_0212c8c4(FieldSystem* system);
-    void unkfunc_0212c8d4();
-    void unkfunc_0212c8f8();
-    int unkfunc_0212c9e4(int x, int y, void* buffer);
-    void unkfunc_0212cd58(int x, int y);
-    void unkfunc_0212cee0();
-    void unkfunc_0212cfb8();
-    void unkfunc_0212cfd4(unsigned char alpha);
+    void setup(FieldSystem* system);
+    void cleanup();
+    void initSprites();
+    int loadSpecialBlock(int x, int y, void* buffer);
+    void loadMapBlocks(int x, int y);
+    void load();
+    void clear();
+    void setAlpha(unsigned char alpha);
 };
 
 // world map of the normal field
@@ -43,7 +43,7 @@ struct UnkFieldMap_0212cff8 : window::GlobalMap {
 // base of the maps of the other field types
 struct UnkFieldMap_0212d214 : window::UnkMapBase_020381d0 {
     UnkMenuSprite unk_100;                      // 0x100 player marker
-    int unk_150;                                // 0x150 world passed to unkfunc_0203822c
+    int unk_150;                                // 0x150 world passed to drawSymbols
 
     UnkFieldMap_0212d214();
     ~UnkFieldMap_0212d214();

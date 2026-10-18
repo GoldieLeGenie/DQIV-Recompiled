@@ -33,7 +33,7 @@ ARM TownModelDraw::~TownModelDraw()
 ARM void TownModelDraw::setup(TOWN_CHARACTER& data)
 {
     TownCharacterBase::setup(data);
-    unkfunc_0212f19c(data.charaIndex);
+    loadModel(data.charaIndex);
     model_.start(1);
     model_.setPosition(data_.position);
     dirIdx_ = 0;
@@ -52,7 +52,7 @@ ARM void TownModelDraw::cleanup()
     }
 }
 
-ARM void TownModelDraw::unkfunc_0212f19c(int index)
+ARM void TownModelDraw::loadModel(int index)
 {
     int anim = 0;
     OS_Wait();
@@ -111,7 +111,7 @@ ARM void TownModelDraw::changePose(int pose)
 {
     model_.cleanup(1);
     data_.charaIndex = pose;
-    unkfunc_0212f19c(pose);
+    loadModel(pose);
     model_.start(1);
     model_.setPosition(data_.position);
     dirIdx_ = 0;
@@ -123,7 +123,7 @@ ARM void TownModelDraw::restorePose()
 {
     model_.cleanup(1);
     data_.charaIndex = defaultIndex_;
-    unkfunc_0212f19c(data_.charaIndex);
+    loadModel(data_.charaIndex);
     model_.start(1);
     model_.setPosition(data_.position);
     dirIdx_ = 0;
@@ -135,7 +135,7 @@ ARM void TownModelDraw::requestReload()
 {
     int anim = model_.m_animation_index;
     model_.cleanup(1);
-    unkfunc_0212f19c(data_.charaIndex);
+    loadModel(data_.charaIndex);
     model_.start(1);
     model_.setPosition(data_.position);
     dirIdx_ = 0;

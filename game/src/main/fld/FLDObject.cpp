@@ -98,21 +98,21 @@ static VecFx32 s_cameraPos;
 static VecFx32 s_plane0;
 static VecFx32 s_plane1;
 
-static int unkfunc_02042d7c(void* a, void* b);
-static void unkfunc_02042ec8(FLD_MAP_OBJ* obj, VecFx32* ofs);
-static int unkfunc_0204322c(FLD_ANIM* anim, FLD_ANIM_FUNC func, void* work);
-static int unkfunc_020433e4(void* key0, void* key1, fx32 rate, void* work);
-static int unkfunc_02043628(void* key0, void* key1, fx32 rate, void* work);
-static int unkfunc_02043954(void* key0, void* key1, fx32 rate, void* work);
-static int unkfunc_02043dac(void* key0, void* key1, fx32 rate, void* work);
-static int unkfunc_02043dcc(void* key0, void* key1, fx32 rate, void* work);
-static int unkfunc_02044110(void* key0, void* key1, fx32 rate, void* work);
-static int unkfunc_02044b54(void* key0, void* key1, fx32 rate, void* work);
-static int unkfunc_02045104(FLD_RENDER* render, fx32 far);
-static int unkfunc_02045204(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecFx32* box, fx32 rate);
-static void unkfunc_0204533c(NNSG3dRS* rs, unsigned int opt);
-static int unkfunc_02045360(FLD_MAP_OBJ* obj, FLD_MODEL* model);
-static void unkfunc_020453fc(NNSG3dResMdl* mdl, int alpha, unsigned char* base);
+static int compareObjPriority(void* a, void* b);
+static void calcMapObjRender(FLD_MAP_OBJ* obj, VecFx32* ofs);
+static int updateFldAnim(FLD_ANIM* anim, FLD_ANIM_FUNC func, void* work);
+static int applyCameraKey(void* key0, void* key1, fx32 rate, void* work);
+static int applyObjKey(void* key0, void* key1, fx32 rate, void* work);
+static int applyObjKeyRotOffset(void* key0, void* key1, fx32 rate, void* work);
+static int storeSeqKeys(void* key0, void* key1, fx32 rate, void* work);
+static int applySeqKey(void* key0, void* key1, fx32 rate, void* work);
+static int applyShapeMorph(void* key0, void* key1, fx32 rate, void* work);
+static int applyLightKey(void* key0, void* key1, fx32 rate, void* work);
+static int isMapObjInView(FLD_RENDER* render, fx32 far);
+static int boxTestMapObj(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecFx32* box, fx32 rate);
+static void skipSbcBillboard(NNSG3dRS* rs, unsigned int opt);
+static int calcMapObjFadeAlpha(FLD_MAP_OBJ* obj, FLD_MODEL* model);
+static void setMdlMatAlpha(NNSG3dResMdl* mdl, int alpha, unsigned char* base);
 
 ARM FLDObject::FLDObject()
 {
@@ -177,7 +177,7 @@ ARM int FLDObject::SetCameraNo(int no, int screen)
         anim->wait = anim->wait_start;
         anim->frame = 0;
         s_cameraNo = screen;
-        unkfunc_020433e4(anim->key, anim->key, 0, this);
+        applyCameraKey(anim->key, anim->key, 0, this);
     } else {
         SetCameraPos(0, 0, 0, screen);
         SetCameraCent(0, 0, FX32_ONE, screen);
@@ -341,11 +341,11 @@ ARM int FLDObject::Setup(void* mdl, void* data, void* coll, int heap)
         }
         obj->priority <<= 4;
         obj->render->flag = 7;
-        unkfunc_02042ec8(obj, NULL);
+        calcMapObjRender(obj, NULL);
     }
 
-    unkfunc_02042d8c();
-    m_tex = unkfunc_02046fe0();
+    sortMapObjOrder();
+    m_tex = createPlttTexCopy();
 
     unsigned int mdlNum;
     FLD_RES_TBL* light = m_light;
@@ -405,12 +405,12 @@ ARM int FLDObject::Setup(void* mdl, void* data, void* coll, int heap)
     return 1;
 }
 
-ARM static int unkfunc_02042d7c(void* a, void* b)
+ARM static int compareObjPriority(void* a, void* b)
 {
     return ((FLD_OBJ_UID*)a)->uid - ((FLD_OBJ_UID*)b)->uid;
 }
 
-ARM void FLDObject::unkfunc_02042d8c()
+ARM void FLDObject::sortMapObjOrder()
 {
     int i;
     FLD_OBJ_UID* uid = (FLD_OBJ_UID*)m_map->order;
@@ -427,14 +427,14 @@ ARM void FLDObject::unkfunc_02042d8c()
         }
         return;
     }
-    func_02066e34(uid, m_map->obj_num, sizeof(FLD_OBJ_UID), unkfunc_02042d7c, stack);
+    func_02066e34(uid, m_map->obj_num, sizeof(FLD_OBJ_UID), compareObjPriority, stack);
     func_02068a30(&m_allocator, stack);
     for (i = 0; i < m_map->obj_num; i++) {
         m_map->order[i] = &m_map->index[uid[i].obj_id];
     }
 }
 
-ARM static void unkfunc_02042ec8(FLD_MAP_OBJ* obj, VecFx32* ofs)
+ARM static void calcMapObjRender(FLD_MAP_OBJ* obj, VecFx32* ofs)
 {
     FLD_RENDER* render = obj->render;
     if (render->flag & 8) {
@@ -499,7 +499,7 @@ ARM static void unkfunc_02042ec8(FLD_MAP_OBJ* obj, VecFx32* ofs)
     render->flag = 0;
 }
 
-ARM static int unkfunc_0204322c(FLD_ANIM* anim, FLD_ANIM_FUNC func, void* work)
+ARM static int updateFldAnim(FLD_ANIM* anim, FLD_ANIM_FUNC func, void* work)
 {
     unsigned char* keys = (unsigned char*)anim->key;
     if (anim->flag & 4) {
@@ -568,7 +568,7 @@ ARM static int unkfunc_0204322c(FLD_ANIM* anim, FLD_ANIM_FUNC func, void* work)
     return ret;
 }
 
-ARM static int unkfunc_020433e4(void* key0, void* key1, fx32 rate, void* work)
+ARM static int applyCameraKey(void* key0, void* key1, fx32 rate, void* work)
 {
     FLD_CAMERA_KEY* k0 = (FLD_CAMERA_KEY*)key0;
     FLD_CAMERA_KEY* k1 = (FLD_CAMERA_KEY*)key1;
@@ -601,7 +601,7 @@ ARM void FLDObject::SetCameraUp(fx32 x, fx32 y, fx32 z, int screen)
     m_x32_camera_vec[screen].z = z;
 }
 
-ARM void FLDObject::unkfunc_020435d4(int screen)
+ARM void FLDObject::updateCameraAnim(int screen)
 {
     FLD_RES_TBL* camera = m_camera_anim;
     int no = m_camera_no[screen];
@@ -613,10 +613,10 @@ ARM void FLDObject::unkfunc_020435d4(int screen)
     }
     FLD_ANIM* anim = (FLD_ANIM*)camera->res[no - 1];
     s_cameraNo = screen;
-    unkfunc_0204322c(anim, unkfunc_020433e4, this);
+    updateFldAnim(anim, applyCameraKey, this);
 }
 
-ARM static int unkfunc_02043628(void* key0, void* key1, fx32 rate, void* work)
+ARM static int applyObjKey(void* key0, void* key1, fx32 rate, void* work)
 {
     FLD_OBJ_KEY* k0 = (FLD_OBJ_KEY*)key0;
     FLD_OBJ_KEY* k1 = (FLD_OBJ_KEY*)key1;
@@ -643,11 +643,11 @@ ARM static int unkfunc_02043628(void* key0, void* key1, fx32 rate, void* work)
         obj->render->scale.z = FX_Mul(obj->scale.z, FLD_LERP(k0->scale.z, k1->scale.z, rate));
     }
     obj->render->flag = 0;
-    unkfunc_02042ec8(obj, NULL);
+    calcMapObjRender(obj, NULL);
     return 0;
 }
 
-ARM static int unkfunc_02043954(void* key0, void* key1, fx32 rate, void* work)
+ARM static int applyObjKeyRotOffset(void* key0, void* key1, fx32 rate, void* work)
 {
     FLD_OBJ_KEY* k0 = (FLD_OBJ_KEY*)key0;
     FLD_OBJ_KEY* k1 = (FLD_OBJ_KEY*)key1;
@@ -681,11 +681,11 @@ ARM static int unkfunc_02043954(void* key0, void* key1, fx32 rate, void* work)
         obj->render->scale.z = FX_Mul(obj->scale.z, FLD_LERP(k0->scale.z, k1->scale.z, rate));
     }
     obj->render->flag = 0;
-    unkfunc_02042ec8(obj, &ofs);
+    calcMapObjRender(obj, &ofs);
     return 0;
 }
 
-ARM void FLDObject::unkfunc_02043c8c(int no)
+ARM void FLDObject::updateMapObjAnim(int no)
 {
     short index = m_map->index[no];
     FLD_MAP_OBJ* obj = &m_map->obj[index];
@@ -705,30 +705,30 @@ ARM void FLDObject::unkfunc_02043c8c(int no)
     if (obj->flag & 0x400000) {
         anim->flag |= 2;
         if (anim->flag & 4) {
-            unkfunc_0204322c(anim, unkfunc_02043954, obj);
+            updateFldAnim(anim, applyObjKeyRotOffset, obj);
         } else {
-            unkfunc_0204322c(anim, unkfunc_02043628, obj);
+            updateFldAnim(anim, applyObjKey, obj);
         }
         anim->flag &= ~2;
     } else if (anim->flag & 4) {
-        unkfunc_0204322c(anim, unkfunc_02043954, obj);
+        updateFldAnim(anim, applyObjKeyRotOffset, obj);
     } else {
-        unkfunc_0204322c(anim, unkfunc_02043628, obj);
+        updateFldAnim(anim, applyObjKey, obj);
     }
 }
 
-ARM void FLDObject::unkfunc_02043d64()
+ARM void FLDObject::updateMapObjAnims()
 {
     FLD_MAP* map = m_map;
     if (m_anim == NULL) {
         return;
     }
     for (int i = 0; i < map->obj_num; i++) {
-        unkfunc_02043c8c(i);
+        updateMapObjAnim(i);
     }
 }
 
-ARM static int unkfunc_02043dac(void* key0, void* key1, fx32 rate, void* work)
+ARM static int storeSeqKeys(void* key0, void* key1, fx32 rate, void* work)
 {
     FLD_MAP_OBJ* obj = (FLD_MAP_OBJ*)work;
     obj->render->key0 = key0;
@@ -737,7 +737,7 @@ ARM static int unkfunc_02043dac(void* key0, void* key1, fx32 rate, void* work)
     return 0;
 }
 
-ARM static int unkfunc_02043dcc(void* key0, void* key1, fx32 rate, void* work)
+ARM static int applySeqKey(void* key0, void* key1, fx32 rate, void* work)
 {
     FLD_SEQ_KEY* k0 = (FLD_SEQ_KEY*)key0;
     FLD_SEQ_KEY* k1 = (FLD_SEQ_KEY*)key1;
@@ -767,11 +767,11 @@ ARM static int unkfunc_02043dcc(void* key0, void* key1, fx32 rate, void* work)
         obj->render->scale.z = FX_Mul(obj->scale.z, FLD_LERP(k0->scale.z, k1->scale.z, rate));
     }
     obj->render->flag = 0;
-    unkfunc_02042ec8(obj, NULL);
+    calcMapObjRender(obj, NULL);
     return 0;
 }
 
-ARM static int unkfunc_02044110(void* key0, void* key1, fx32 rate, void* work)
+ARM static int applyShapeMorph(void* key0, void* key1, fx32 rate, void* work)
 {
     FLD_SEQ_KEY* k0;
     FLD_SEQ_KEY* k1;
@@ -855,7 +855,7 @@ ARM static int unkfunc_02044110(void* key0, void* key1, fx32 rate, void* work)
     return 0;
 }
 
-ARM void FLDObject::unkfunc_020445f4(FLD_MAP_OBJ* obj)
+ARM void FLDObject::updateMapObjSeq(FLD_MAP_OBJ* obj)
 {
     FLD_SEQ* seq;
     FLD_ANIM* anim;
@@ -904,13 +904,13 @@ ARM void FLDObject::unkfunc_020445f4(FLD_MAP_OBJ* obj)
     } else {
         anim->key_num = num - 1;
     }
-    FLD_ANIM_FUNC func = (anim->flag & 8) ? unkfunc_02043dcc : unkfunc_02043dac;
+    FLD_ANIM_FUNC func = (anim->flag & 8) ? applySeqKey : storeSeqKeys;
     if (obj->flag & 0x400000) {
         anim->flag |= 2;
-        unkfunc_0204322c(anim, func, obj);
+        updateFldAnim(anim, func, obj);
         anim->flag &= ~2;
     } else {
-        unkfunc_0204322c(anim, func, obj);
+        updateFldAnim(anim, func, obj);
     }
     seq->wait = anim->wait;
     seq->wait_init = anim->wait_init;
@@ -920,7 +920,7 @@ ARM void FLDObject::unkfunc_020445f4(FLD_MAP_OBJ* obj)
     anim->key_num = num;
 }
 
-ARM void FLDObject::unkfunc_020447fc(FLD_MAP_OBJ* obj)
+ARM void FLDObject::applyMapObjShapeMorph(FLD_MAP_OBJ* obj)
 {
     if (m_seq == NULL) {
         return;
@@ -931,10 +931,10 @@ ARM void FLDObject::unkfunc_020447fc(FLD_MAP_OBJ* obj)
     if (m_seq->seq[obj->seq].data < 0) {
         return;
     }
-    unkfunc_02044110(obj->render->key0, obj->render->key1, obj->render->rate, obj);
+    applyShapeMorph(obj->render->key0, obj->render->key1, obj->render->rate, obj);
 }
 
-ARM void FLDObject::unkfunc_02044848()
+ARM void FLDObject::updatePlttAnims()
 {
     int i;
     FLD_PLTT_TBL* pltt = m_pltt;
@@ -956,14 +956,14 @@ ARM void FLDObject::unkfunc_02044848()
             }
             index = 0;
         }
-        unkfunc_020449d4(entry, set, index);
+        copyPlttAnimFrame(entry, set, index);
     }
     if (m_event_anim_id > 0) {
         for (i = 0; i < pltt->num; i++) {
             entry = &pltt->entry[i];
             if (entry->event == m_event_anim_id) {
                 set = (FLD_PLTT_SET*)anim->res[entry->anim];
-                unkfunc_020449d4(entry, set, set->index);
+                copyPlttAnimFrame(entry, set, set->index);
             }
         }
     }
@@ -986,7 +986,7 @@ ARM void FLDObject::unkfunc_02044848()
     m_flag |= 0x80;
 }
 
-ARM void FLDObject::unkfunc_020449d4(FLD_PLTT_ENTRY* entry, FLD_PLTT_SET* set, int index)
+ARM void FLDObject::copyPlttAnimFrame(FLD_PLTT_ENTRY* entry, FLD_PLTT_SET* set, int index)
 {
     int ofs = m_tex->plttInfo.sizePltt;
     unsigned short* src;
@@ -1005,7 +1005,7 @@ ARM void FLDObject::unkfunc_020449d4(FLD_PLTT_ENTRY* entry, FLD_PLTT_SET* set, i
     }
 }
 
-ARM void FLDObject::unkfunc_02044a48()
+ARM void FLDObject::applyRgbRateToPlttAnims()
 {
     int i;
     FLD_PLTT_ENTRY* entry;
@@ -1023,18 +1023,18 @@ ARM void FLDObject::unkfunc_02044a48()
         }
         if (set->flag & 1) {
             for (j = 0, data = (unsigned short*)set->data; j < set->count; j++, data += sizeof(FLD_PLTT256) / 2) {
-                unkfunc_0204718c(((FLD_PLTT256*)data)->col, ((FLD_PLTT256*)data)->col, 0x100);
+                applyRgbRate(((FLD_PLTT256*)data)->col, ((FLD_PLTT256*)data)->col, 0x100);
             }
         } else {
             for (j = 0, data = (unsigned short*)set->data; j < set->count; j++, data += sizeof(FLD_PLTT16) / 2) {
-                unkfunc_0204718c(((FLD_PLTT16*)data)->col, ((FLD_PLTT16*)data)->col, 0x10);
+                applyRgbRate(((FLD_PLTT16*)data)->col, ((FLD_PLTT16*)data)->col, 0x10);
             }
         }
         set->flag |= 2;
     }
 }
 
-ARM static int unkfunc_02044b54(void* key0, void* key1, fx32 rate, void* work)
+ARM static int applyLightKey(void* key0, void* key1, fx32 rate, void* work)
 {
     FLD_LIGHT_KEY* k0 = (FLD_LIGHT_KEY*)key0;
     FLD_LIGHT_KEY* k1 = (FLD_LIGHT_KEY*)key1;
@@ -1083,7 +1083,7 @@ ARM static int unkfunc_02044b54(void* key0, void* key1, fx32 rate, void* work)
     return 0;
 }
 
-ARM void FLDObject::unkfunc_02044fb4()
+ARM void FLDObject::updateLightAnims()
 {
     FLD_RES_TBL* light = m_light;
     if (light == NULL) {
@@ -1091,11 +1091,11 @@ ARM void FLDObject::unkfunc_02044fb4()
     }
     for (int i = 0; i < light->num; i++) {
         FLD_LIGHT* l = (FLD_LIGHT*)light->res[i];
-        unkfunc_0204322c(&l->anim, unkfunc_02044b54, l);
+        updateFldAnim(&l->anim, applyLightKey, l);
     }
 }
 
-ARM void FLDObject::unkfunc_02045004()
+ARM void FLDObject::calc()
 {
     if (!(m_flag & 1)) {
         return;
@@ -1109,9 +1109,9 @@ ARM void FLDObject::unkfunc_02045004()
     } else {
         s_frameStep = 0;
     }
-    unkfunc_020435d4(0);
+    updateCameraAnim(0);
     if (m_camera_no[0] != m_camera_no[1]) {
-        unkfunc_020435d4(1);
+        updateCameraAnim(1);
     } else {
         m_x32_camera_pos[1].x = m_x32_camera_pos[0].x;
         m_x32_camera_pos[1].y = m_x32_camera_pos[0].y;
@@ -1123,21 +1123,21 @@ ARM void FLDObject::unkfunc_02045004()
         m_x32_camera_vec[1].y = m_x32_camera_vec[0].y;
         m_x32_camera_vec[1].z = m_x32_camera_vec[0].z;
     }
-    unkfunc_02043d64();
-    unkfunc_02044848();
-    unkfunc_02044fb4();
+    updateMapObjAnims();
+    updatePlttAnims();
+    updateLightAnims();
     if (m_flag & 0x100) {
         return;
     }
     if (m_flag & 0x40) {
-        unkfunc_0204722c();
+        applyRgbRateToPltt();
     }
     if (m_flag & 0xc0) {
-        unkfunc_020472e8();
+        transferPltt();
     }
 }
 
-ARM static int unkfunc_02045104(FLD_RENDER* render, fx32 far)
+ARM static int isMapObjInView(FLD_RENDER* render, fx32 far)
 {
     fx32 dx = render->center.x - s_cameraPos.x;
     fx32 dz = render->center.z - s_cameraPos.z;
@@ -1156,7 +1156,7 @@ ARM static int unkfunc_02045104(FLD_RENDER* render, fx32 far)
     return func_02062fcc(&dir, &s_plane1) >= 0;
 }
 
-ARM static int unkfunc_02045204(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecFx32* box, fx32 rate)
+ARM static int boxTestMapObj(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecFx32* box, fx32 rate)
 {
     int result;
     G3_PushMtx();
@@ -1175,7 +1175,7 @@ ARM static int unkfunc_02045204(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecF
     return result;
 }
 
-ARM static void unkfunc_0204533c(NNSG3dRS* rs, unsigned int opt)
+ARM static void skipSbcBillboard(NNSG3dRS* rs, unsigned int opt)
 {
     int len = 2;
     if (opt & 0x40) {
@@ -1187,7 +1187,7 @@ ARM static void unkfunc_0204533c(NNSG3dRS* rs, unsigned int opt)
     rs->c += len;
 }
 
-ARM static int unkfunc_02045360(FLD_MAP_OBJ* obj, FLD_MODEL* model)
+ARM static int calcMapObjFadeAlpha(FLD_MAP_OBJ* obj, FLD_MODEL* model)
 {
     FLD_FADE* fade = model->fade;
     int alpha = 0x1f;
@@ -1212,7 +1212,7 @@ ARM static int unkfunc_02045360(FLD_MAP_OBJ* obj, FLD_MODEL* model)
     return alpha;
 }
 
-ARM static void unkfunc_020453fc(NNSG3dResMdl* mdl, int alpha, unsigned char* base)
+ARM static void setMdlMatAlpha(NNSG3dResMdl* mdl, int alpha, unsigned char* base)
 {
     for (unsigned int i = 0; i < mdl->info.numMat; i++) {
         func_0206e5f4(mdl, i, alpha * base[i] / 31);
@@ -1222,17 +1222,17 @@ ARM static void unkfunc_020453fc(NNSG3dResMdl* mdl, int alpha, unsigned char* ba
 #define FLD_DRAW_OBJ()                                                                                       \
     if ((model->flag & 0x1f) != obj->render->alpha) {                                                        \
         model->flag = (model->flag & ~0x1f) | obj->render->alpha;                                            \
-        unkfunc_020453fc(obj->render->render_obj->resMdl, obj->render->alpha, m_mat_alpha[obj->model]);      \
+        setMdlMatAlpha(obj->render->render_obj->resMdl, obj->render->alpha, m_mat_alpha[obj->model]);      \
     }                                                                                                        \
     if (!(flag & 0x24) && state != 0) {                                                                      \
         state = 0;                                                                                           \
-        data_020c3f5c[7] = unkfunc_0204533c;                                                                 \
-        data_020c3f5c[8] = unkfunc_0204533c;                                                                 \
+        data_020c3f5c[7] = skipSbcBillboard;                                                                 \
+        data_020c3f5c[8] = skipSbcBillboard;                                                                 \
     } else if ((flag & 4) && state != 4) {                                                                   \
         if (m_simple_bby) {                                                                                  \
             state = 0;                                                                                       \
-            data_020c3f5c[7] = unkfunc_0204533c;                                                             \
-            data_020c3f5c[8] = unkfunc_0204533c;                                                             \
+            data_020c3f5c[7] = skipSbcBillboard;                                                             \
+            data_020c3f5c[8] = skipSbcBillboard;                                                             \
         } else {                                                                                             \
             state = 4;                                                                                       \
             data_020c3f5c[7] = G3d_SBCRender_008;                                                            \
@@ -1244,7 +1244,7 @@ ARM static void unkfunc_020453fc(NNSG3dResMdl* mdl, int alpha, unsigned char* ba
         data_020c3f5c[8] = G3d_SBCRender_007;                                                                \
     }                                                                                                        \
     if (!(m_flag & 4)) {                                                                                     \
-        unkfunc_020447fc(obj);                                                                               \
+        applyMapObjShapeMorph(obj);                                                                               \
     }                                                                                                        \
     func_0206de34(0x17, &data_0210cf28.cameraMtx, 12);                                                                 \
     func_0206de34(0x1c, &obj->render->trans, 3);                                                             \
@@ -1259,17 +1259,17 @@ ARM static void unkfunc_020453fc(NNSG3dResMdl* mdl, int alpha, unsigned char* ba
 #define FLD_DRAW_OBJ2(obj)                                                                                       \
     if ((model->flag & 0x1f) != obj->render->alpha) {                                                        \
         model->flag = (model->flag & ~0x1f) | obj->render->alpha;                                            \
-        unkfunc_020453fc(obj->render->render_obj->resMdl, obj->render->alpha, m_mat_alpha[obj->model]);      \
+        setMdlMatAlpha(obj->render->render_obj->resMdl, obj->render->alpha, m_mat_alpha[obj->model]);      \
     }                                                                                                        \
     if (!(flag & 0x24) && state != 0) {                                                                      \
         state = 0;                                                                                           \
-        data_020c3f5c[7] = unkfunc_0204533c;                                                                 \
-        data_020c3f5c[8] = unkfunc_0204533c;                                                                 \
+        data_020c3f5c[7] = skipSbcBillboard;                                                                 \
+        data_020c3f5c[8] = skipSbcBillboard;                                                                 \
     } else if ((flag & 4) && state != 4) {                                                                   \
         if (m_simple_bby) {                                                                                  \
             state = 0;                                                                                       \
-            data_020c3f5c[7] = unkfunc_0204533c;                                                             \
-            data_020c3f5c[8] = unkfunc_0204533c;                                                             \
+            data_020c3f5c[7] = skipSbcBillboard;                                                             \
+            data_020c3f5c[8] = skipSbcBillboard;                                                             \
         } else {                                                                                             \
             state = 4;                                                                                       \
             data_020c3f5c[7] = G3d_SBCRender_008;                                                            \
@@ -1281,7 +1281,7 @@ ARM static void unkfunc_020453fc(NNSG3dResMdl* mdl, int alpha, unsigned char* ba
         data_020c3f5c[8] = G3d_SBCRender_007;                                                                \
     }                                                                                                        \
     if (!(m_flag & 4)) {                                                                                     \
-        unkfunc_020447fc(obj);                                                                               \
+        applyMapObjShapeMorph(obj);                                                                               \
     }                                                                                                        \
     func_0206de34(0x17, &data_0210cf28.cameraMtx, 12);                                                                 \
     func_0206de34(0x1c, &obj->render->trans, 3);                                                             \
@@ -1293,7 +1293,7 @@ ARM static void unkfunc_020453fc(NNSG3dResMdl* mdl, int alpha, unsigned char* ba
     func_0206de34(0x1b, &obj->render->scale, 3);                                                             \
     G3d_Render(obj->render->render_obj);
 
-ARM void FLDObject::unkfunc_0204545c()
+ARM void FLDObject::draw()
 {
     MtxFx33 rot;
     MtxFx43 saved;
@@ -1392,15 +1392,15 @@ ARM void FLDObject::unkfunc_0204545c()
                 continue;
             }
             if (obj->render->flag != 0) {
-                unkfunc_02042ec8(obj, NULL);
+                calcMapObjRender(obj, NULL);
             }
             if (!(m_flag & 4)) {
-                unkfunc_020445f4(obj);
+                updateMapObjSeq(obj);
             }
             if (flag & 0x2000000) {
                 continue;
             }
-            if (unkfunc_02045104(obj->render, far2)) {
+            if (isMapObjInView(obj->render, far2)) {
                 obj->flag &= ~0x20000;
             } else {
                 obj->flag |= 0x20000;
@@ -1423,15 +1423,15 @@ ARM void FLDObject::unkfunc_0204545c()
                 continue;
             }
             if (obj->render->flag != 0) {
-                unkfunc_02042ec8(obj, NULL);
+                calcMapObjRender(obj, NULL);
             }
             if (!(m_flag & 4)) {
-                unkfunc_020445f4(obj);
+                updateMapObjSeq(obj);
             }
             if (flag & 0x2000000) {
                 continue;
             }
-            if (unkfunc_02045204(&obj->render->trans, &obj->render->rot, &obj->render->scale, (VecFx32*)&obj->render->box_x, obj->render->box_scale)) {
+            if (boxTestMapObj(&obj->render->trans, &obj->render->rot, &obj->render->scale, (VecFx32*)&obj->render->box_x, obj->render->box_scale)) {
                 obj->flag &= ~0x20000;
             } else {
                 obj->flag |= 0x20000;
@@ -1454,19 +1454,19 @@ ARM void FLDObject::unkfunc_0204545c()
                 continue;
             }
             if (obj->render->flag != 0) {
-                unkfunc_02042ec8(obj, NULL);
+                calcMapObjRender(obj, NULL);
             }
             if (!(m_flag & 4)) {
-                unkfunc_020445f4(obj);
+                updateMapObjSeq(obj);
             }
             if (flag & 0x2000000) {
                 continue;
             }
 #ifdef DQIV_NATIVE
             // The distance cull is tuned for one screen; the unified picture shows both.
-            if (pc::unifiedFrame() || unkfunc_02047360(obj->render)) {
+            if (pc::unifiedFrame() || isMapObjInTownView(obj->render)) {
 #else
-            if (unkfunc_02047360(obj->render)) {
+            if (isMapObjInTownView(obj->render)) {
 #endif
                 obj->flag &= ~0x20000;
             } else {
@@ -1492,7 +1492,7 @@ ARM void FLDObject::unkfunc_0204545c()
             if (m_vanish_flag == 0) {
                 robj->render->alpha = 0x1f;
             } else {
-                robj->render->alpha = unkfunc_02045360(robj, model);
+                robj->render->alpha = calcMapObjFadeAlpha(robj, model);
             }
         }
         if (robj->render->alpha != 0x1f && !(flag & 0x4000000)) {
@@ -1624,7 +1624,7 @@ ARM void FLDObject::SetMapObjPosFX32(int obj, VecFx32* pos)
     o->render->flag |= 1;
 }
 
-ARM void FLDObject::unkfunc_02046074(int obj, VecFx32* rot)
+ARM void FLDObject::setMapObjRotFX32(int obj, VecFx32* rot)
 {
     FLD_MAP_OBJ* o = GetMapObjPtr(obj);
     if (o == NULL) {
@@ -1679,12 +1679,12 @@ ARM void FLDObject::SetMapUidPosFX32(int uid, VecFx32* pos)
     }
 }
 
-ARM void FLDObject::unkfunc_0204627c(int uid, VecFx32* rot)
+ARM void FLDObject::setMapUidRotFX32(int uid, VecFx32* rot)
 {
     for (int i = 0; i < m_map->obj_num; i++) {
         short index = m_map->index[i];
         if (index >= 0 && uid == m_map->obj[index].uid) {
-            unkfunc_02046074(i, rot);
+            setMapObjRotFX32(i, rot);
         }
     }
 }
@@ -1794,7 +1794,7 @@ ARM void FLDObject::CollAddPolyPosByMapObj(int obj, VecFx32* pos)
     } while (i >= 0);
 }
 
-ARM int FLDObject::unkfunc_020465b4(int id)
+ARM int FLDObject::setEventAnimation(int id)
 {
     int i;
     int j;
@@ -1814,16 +1814,16 @@ ARM int FLDObject::unkfunc_020465b4(int id)
     if (id == 0) {
         end = m_map->uid_num;
         for (i = 0; i < end; i++) {
-            unkfunc_0204687c(i, i);
+            setMapObjIndex(i, i);
         }
         if (m_map->extra != 0) {
-            unkfunc_0204687c(i - 1, -1);
+            setMapObjIndex(i - 1, -1);
         }
         for (; i < m_map->obj_num; i++) {
-            unkfunc_0204687c(i, -1);
+            setMapObjIndex(i, -1);
         }
         if (m_map->extra != 0) {
-            unkfunc_0204687c(i - 1, m_map->obj_num - 1);
+            setMapObjIndex(i - 1, m_map->obj_num - 1);
         }
     } else {
         start = m_event->event[id - 1].start;
@@ -1833,14 +1833,14 @@ ARM int FLDObject::unkfunc_020465b4(int id)
             num--;
         }
         for (i = start; i < end; i++) {
-            unkfunc_0204687c(i, i);
-            unkfunc_02046cf4(i);
+            setMapObjIndex(i, i);
+            resetMapObjAnim(i);
             if (m_anim != NULL) {
-                unkfunc_02043c8c(i);
+                updateMapObjAnim(i);
             }
             for (j = 0; j < num; j++) {
                 if (m_map->obj[i].uid != 0 && m_map->obj[i].uid == m_map->obj[j].uid) {
-                    unkfunc_0204687c(j, -1);
+                    setMapObjIndex(j, -1);
                 }
             }
         }
@@ -1852,7 +1852,7 @@ ARM int FLDObject::unkfunc_020465b4(int id)
                     l->anim.loop = l->anim.loop_start;
                     l->anim.wait = l->anim.wait_start;
                     l->anim.frame = 0;
-                    unkfunc_0204322c(&l->anim, unkfunc_02044b54, l);
+                    updateFldAnim(&l->anim, applyLightKey, l);
                 }
             }
         }
@@ -1876,7 +1876,7 @@ ARM int FLDObject::unkfunc_020465b4(int id)
     return 1;
 }
 
-ARM void FLDObject::unkfunc_0204687c(short obj, short index)
+ARM void FLDObject::setMapObjIndex(short obj, short index)
 {
     if (obj < 0) {
         return;
@@ -1924,7 +1924,7 @@ ARM int FLDObject::SetCommonAnimation(int obj_id, int no)
         obj->model = obj->def_model;
         obj->anim = obj->def_anim;
         obj->render->flag = 7;
-        unkfunc_02042ec8(obj, NULL);
+        calcMapObjRender(obj, NULL);
         m_seq->seq[obj->seq].data = obj->def_seq_data;
     } else {
         if (no > m_common->anim[obj->common_anim].num) {
@@ -1937,7 +1937,7 @@ ARM int FLDObject::SetCommonAnimation(int obj_id, int no)
             obj->render->render_obj = func_0206e3d8(&m_allocator);
             func_0206a34c(obj->render->render_obj, obj->model_info->mdl);
             obj->render->flag = 7;
-            unkfunc_02042ec8(obj, NULL);
+            calcMapObjRender(obj, NULL);
         }
         obj->model = key->model;
         obj->anim = key->anim;
@@ -2024,7 +2024,7 @@ ARM int FLDObject::IsCommonAnimationEnd(int obj)
     return 1;
 }
 
-ARM void FLDObject::unkfunc_02046cf4(int obj)
+ARM void FLDObject::resetMapObjAnim(int obj)
 {
     if (obj <= -1) {
         return;
@@ -2090,7 +2090,7 @@ ARM VecFx32* FLDObject::GetMapObjRotFX32(int obj)
     return NULL;
 }
 
-ARM int FLDObject::unkfunc_02046e40(int obj)
+ARM int FLDObject::getMapObjAnimFrame(int obj)
 {
     FLD_MAP_OBJ* o = GetMapObjPtr(obj);
     int frame = 0;
@@ -2104,7 +2104,7 @@ ARM int FLDObject::unkfunc_02046e40(int obj)
     return frame;
 }
 
-ARM int FLDObject::unkfunc_02046eac(int obj)
+ARM int FLDObject::getMapObjAnimFrameMax(int obj)
 {
     FLD_MAP_OBJ* o = GetMapObjPtr(obj);
     int frame = 0;
@@ -2155,12 +2155,12 @@ ARM void FLDObject::SetRGBRate(VecFx32* rate, int real_time)
     m_flag &= ~0x40;
 
     if (m_pltt != NULL)
-        unkfunc_02044a48();
+        applyRgbRateToPlttAnims();
 
-    unkfunc_0204722c();
+    applyRgbRateToPltt();
 }
 
-ARM NNSG3dResTex* FLDObject::unkfunc_02046fe0()
+ARM NNSG3dResTex* FLDObject::createPlttTexCopy()
 {
     NNSG3dResTex* tex;
     int plttNum;
@@ -2224,7 +2224,7 @@ ARM NNSG3dResTex* FLDObject::unkfunc_02046fe0()
     return buf;
 }
 
-ARM void FLDObject::unkfunc_0204718c(unsigned short* src, unsigned short* dst, int num)
+ARM void FLDObject::applyRgbRate(unsigned short* src, unsigned short* dst, int num)
 {
     fx32 rateR;
     fx32 rateG;
@@ -2249,7 +2249,7 @@ ARM void FLDObject::unkfunc_0204718c(unsigned short* src, unsigned short* dst, i
     }
 }
 
-ARM void FLDObject::unkfunc_0204722c()
+ARM void FLDObject::applyRgbRateToPltt()
 {
     unsigned char* pltt;
     int size;
@@ -2279,12 +2279,12 @@ ARM void FLDObject::unkfunc_0204722c()
             len = size * 8 - ofs;
         }
         if ((unsigned int)len <= 0x200) {
-            unkfunc_0204718c((unsigned short*)(src + ofs), (unsigned short*)(pltt + ofs), len / 2);
+            applyRgbRate((unsigned short*)(src + ofs), (unsigned short*)(pltt + ofs), len / 2);
         }
     }
 }
 
-ARM void FLDObject::unkfunc_020472e8()
+ARM void FLDObject::transferPltt()
 {
     NNSG3dResTex* tex = m_tex;
     unsigned int ofs = tex->plttInfo.ofsPlttData;
@@ -2294,14 +2294,14 @@ ARM void FLDObject::unkfunc_020472e8()
     m_flag &= ~0x80;
 }
 
-ARM void FLDObject::unkfunc_02047350(fx32 x, fx32 y, fx32 z)
+ARM void FLDObject::setScale(fx32 x, fx32 y, fx32 z)
 {
     m_scale.x = x;
     m_scale.y = y;
     m_scale.z = z;
 }
 
-ARM int FLDObject::unkfunc_02047360(FLD_RENDER* render)
+ARM int FLDObject::isMapObjInTownView(FLD_RENDER* render)
 {
     fx32 dx = render->center.x - m_target.x;
     fx32 dz = render->center.z - m_target.z;

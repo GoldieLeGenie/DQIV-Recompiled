@@ -304,7 +304,7 @@ struct TownModelDraw : TownCharacterBase
     virtual void setPalletRate(dss::Fix32 rate);
     virtual int getDir();
 
-    void unkfunc_0212f19c(int index);           //  loads data/chr/<name>.nsbmd + animations
+    void loadModel(int index);           //  loads data/chr/<name>.nsbmd + animations
     dss::Fix32Vector3 getPosition();
     void setRoot(int root, dss::Fix32Vector3& target, dss::Fix32Vector3& pos);
 };
@@ -336,5 +336,5 @@ struct TownMonsterDraw : TownCharacterBase
     virtual void requestReload();
     virtual void setAlpha(unsigned char alpha);
 
-    static void unkfunc_0212ed58(dss::Camera* camera);   
+    static void setCamera(dss::Camera* camera);   
 };

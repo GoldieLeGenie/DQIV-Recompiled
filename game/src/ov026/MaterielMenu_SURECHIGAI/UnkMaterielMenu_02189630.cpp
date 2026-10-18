@@ -7,8 +7,8 @@
 #include "main/profile/Profile.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
-#include "main/cmn/UnkImmigrantTown.hpp"
+#include "main/cmn/EnvoyManager.hpp"
+#include "main/cmn/ImmigrantTown.hpp"
 
 THUMB void UnkMaterielMenu_02189630::menuSetup()
 {
@@ -17,7 +17,7 @@ THUMB void UnkMaterielMenu_02189630::menuSetup()
     menuItem_.active_ = 0;
     navigator_.setupBase();
     int count = 0;
-    int level = UnkImmigrantTown::getSingleton()->unkfunc_02038140();
+    int level = UnkImmigrantTown::getSingleton()->getTownLevel();
     for (int i = 0; i < 23; i++) {
         if (status::excelParam.surechigaiTenant_[i].getLevel() <= level) {
             count++;
@@ -29,7 +29,7 @@ THUMB void UnkMaterielMenu_02189630::menuSetup()
             count--;
         }
     }
-    unk_1c = count + data_020f0078.unkfunc_0203a388();
+    unk_1c = count + data_020f0078.getEnvoyCount();
     navigator_.setup(2, 4, unk_1c);
 }
 
@@ -41,10 +41,10 @@ THUMB void UnkMaterielMenu_02189630::menuExecute()
 THUMB void UnkMaterielMenu_02189630::menuDraw()
 {
     int flag = 0;
-    data_020f0078.unkfunc_0203a388();
+    data_020f0078.getEnvoyCount();
     int index = navigator_.getIndex(menuItem_.active_);
-    if (index > data_020f0078.unkfunc_0203a388() - 1) {
-        index = navigator_.getIndex(menuItem_.active_) - data_020f0078.unkfunc_0203a388();
+    if (index > data_020f0078.getEnvoyCount() - 1) {
+        index = navigator_.getIndex(menuItem_.active_) - data_020f0078.getEnvoyCount();
         flag = 1;
     } else {
         index = navigator_.getIndex(menuItem_.active_);

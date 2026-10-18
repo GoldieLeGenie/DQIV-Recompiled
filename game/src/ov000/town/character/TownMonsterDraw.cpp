@@ -45,13 +45,13 @@ ARM void TownMonsterDraw::draw()
     DSSAObject::calcType_ = 0;
     bool even = (unkfunc_02081254() & 1) == 0;
     TownCamera* camera = TownCamera::getSingleton();
-    unkfunc_0212ed58(!even || pc::unifiedFrame() ? &camera->camera_.unk_004 : &camera->camera_.unk_068);
+    setCamera(!even || pc::unifiedFrame() ? &camera->camera_.unk_004 : &camera->camera_.unk_068);
     monster_.draw();
     dss::Fix32Vector3 pos = *monster_.getPosition();
     DSSAObject::calcType_ = 1;
 }
 
-ARM void TownMonsterDraw::unkfunc_0212ed58(dss::Camera* camera)
+ARM void TownMonsterDraw::setCamera(dss::Camera* camera)
 {
     DSSAObjectWithCamera::camera_ = camera;
 }

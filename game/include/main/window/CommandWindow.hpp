@@ -52,7 +52,7 @@ namespace window {
         void menuRefresh();
         bool isShopMenu();
         bool isMessage();
-        bool unkfunc_0202a8fc();
+        bool updateTouchScreenCapture();
         void execute();
         void registImageMap(ImageMap* imageMap);
         void registShopList(ImageMap* shoplist);

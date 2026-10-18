@@ -23,6 +23,6 @@ namespace window {
         virtual void clear() = 0;
         virtual void playerMapPosition() = 0;
         virtual void setAlpha(unsigned char alpha) = 0;
-        void unkfunc_0203822c(int world);
+        void drawSymbols(int world);
     };
 }

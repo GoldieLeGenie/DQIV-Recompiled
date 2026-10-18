@@ -5,7 +5,7 @@
 #include "main/text/TextAPI.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
+#include "main/cmn/EnvoyManager.hpp"
 
 THUMB void UnkMaterielMenu_02189360::menuSetup()
 {
@@ -14,7 +14,7 @@ THUMB void UnkMaterielMenu_02189360::menuSetup()
     menuItem_.active_ = 0;
     navigator_.setupBase();
     unk_1c = 0;
-    unk_20 = data_020f0078.unkfunc_0203a388();
+    unk_20 = data_020f0078.getEnvoyCount();
     navigator_.setup(2, 4, unk_20);
 }
 
@@ -44,8 +44,8 @@ THUMB void UnkMaterielMenu_02189360::menuUpdate()
         if (data_020ed1bc.stat_ == menu::MenuBase::MENUBASE_STAT_OK) {
             data_020ed1bc.close();
             if (unk_1c == 1) {
-                data_020f0078.unkfunc_0203a34c(navigator_.getIndex(menuItem_.active_));
-                unsigned char* name = data_020f0078.unkfunc_0203a65c();
+                data_020f0078.selectEnvoy(navigator_.getIndex(menuItem_.active_));
+                unsigned char* name = data_020f0078.getName();
                 data_020ed1bc.openMessageForTALK();
                 TextAPI::setMACRO0(0x1d, 0xd0000000, 0);
                 TextAPI::setUserString(0, (char*)name);
@@ -53,15 +53,15 @@ THUMB void UnkMaterielMenu_02189360::menuUpdate()
                 data_020ed1bc.setYesNo(1);
                 data_020ed1bc.setYesNoPosition(0xc0, 0x40);
                 unk_1c = 2;
-                data_020f0078.unkfunc_0203a3a8(navigator_.getIndex(menuItem_.active_));
-                unk_20 = data_020f0078.unkfunc_0203a388();
+                data_020f0078.removeEnvoy(navigator_.getIndex(menuItem_.active_));
+                unk_20 = data_020f0078.getEnvoyCount();
                 navigator_.setup(2, 4, unk_20);
                 return;
             }
             if (unk_1c == 2) {
                 data_020ed1bc.openMessageForTALK();
                 data_020ed1bc.addMessage(0x92a1e);
-                if (data_020f0078.unkfunc_0203a388() == 0) {
+                if (data_020f0078.getEnvoyCount() == 0) {
                     data_020ed1bc.addMessage(0x92a21, 0x92a22);
                     unk_1c = 3;
                     return;
@@ -69,7 +69,7 @@ THUMB void UnkMaterielMenu_02189360::menuUpdate()
                 unk_1c = 0;
                 menuItem_.active_ = 0;
                 navigator_.setPageNo(0);
-                unk_20 = data_020f0078.unkfunc_0203a388();
+                unk_20 = data_020f0078.getEnvoyCount();
                 return;
             }
             if (unk_1c == 3) {
@@ -104,8 +104,8 @@ THUMB void UnkMaterielMenu_02189360::menuUpdate()
         int result = MenuUpdate_Assist::menuSelect(menuItem_, navigator_);
         if (result != 0) {
             if (result == 2) {
-                data_020f0078.unkfunc_0203a34c(navigator_.getIndex(menuItem_.active_));
-                unsigned char* name = data_020f0078.unkfunc_0203a65c();
+                data_020f0078.selectEnvoy(navigator_.getIndex(menuItem_.active_));
+                unsigned char* name = data_020f0078.getName();
                 unk_1c = 1;
                 data_020ed1bc.openMessageForTALK();
                 TextAPI::setMACRO0(0x1d, 0xd0000000, 0);

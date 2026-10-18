@@ -42,8 +42,8 @@
 #include "main/sound/Sound.hpp"
 #include "ov000/town/TownEndrollManager.hpp"
 #include "main/dss/DssUtils.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
-#include "main/cmn/UnkImmigrantTown.hpp"
+#include "main/cmn/EnvoyManager.hpp"
+#include "main/cmn/ImmigrantTown.hpp"
 
 void searchItem(int index, int* found, int* items);
 
@@ -438,7 +438,7 @@ THUMB int cmd_chara_set_priority_sure_appointment(int* param)
         }
     }
     if (g_Global.isAreaChange() == 1) {
-        UnkImmigrantTown::getSingleton()->unkfunc_02037e20(param[0], param[1], param[2], values);
+        UnkImmigrantTown::getSingleton()->placePriorityResident(param[0], param[1], param[2], values);
     }
     return 1;
 }
@@ -446,7 +446,7 @@ THUMB int cmd_chara_set_priority_sure_appointment(int* param)
 THUMB int cmd_chara_set_normal_sure_appointment(int* param)
 {
     if (g_Global.isAreaChange() == 1) {
-        UnkImmigrantTown::getSingleton()->unkfunc_02037db0(param[0], param[1]);
+        UnkImmigrantTown::getSingleton()->placeNextResident(param[0], param[1]);
     }
     return 1;
 }
@@ -455,7 +455,7 @@ THUMB int cmd_chara_set_normal_sure(int* param)
 {
     int index = getPlacementCtrlId();
     int id = getPlacementIndex(index);
-    int result = UnkImmigrantTown::getSingleton()->unkfunc_02037ef4(id, param[0]);
+    int result = UnkImmigrantTown::getSingleton()->getResidentPoseAt(id, param[0]);
     if (result != 0xff) {
         TownCharacterManager::getSingleton()->setSureId(index, param[0]);
         TownCharacterManager::getSingleton()->character_[index]->changePose(result);
@@ -476,18 +476,18 @@ THUMB int cmd_chara_talk_to_player_sure(int* param)
     } else {
         int id = getPlacementIndex(index);
         int value = TownCharacterManager::getSingleton()->character_[index]->getSurechigaiMapNo();
-        data_020f0078.unkfunc_0203a34c(UnkImmigrantTown::getSingleton()->unkfunc_02037f40(id, value));
+        data_020f0078.selectEnvoy(UnkImmigrantTown::getSingleton()->getResidentIndexAt(id, value));
     }
     if (param[0] == 1) {
         TownCharacterManager::getSingleton()->setPlayerDirection(index);
     }
 
-    unsigned char* name = data_020f0078.unkfunc_0203a65c();
-    unsigned char* comment = data_020f0078.unkfunc_0203a938();
-    int sex = data_020f0078.unkfunc_0203a714();
-    int aetas = data_020f0078.unkfunc_0203a750();
-    int skill = data_020f0078.unkfunc_0203a78c();
-    unsigned char* townName = data_020f0078.unkfunc_0203a820();
+    unsigned char* name = data_020f0078.getName();
+    unsigned char* comment = data_020f0078.getComment();
+    int sex = data_020f0078.getSex();
+    int aetas = data_020f0078.getAge();
+    int skill = data_020f0078.getSkill();
+    unsigned char* townName = data_020f0078.getTownName();
     char text0[0x40];
     char text1[0x40];
     char text2[0x40];
@@ -3373,8 +3373,8 @@ THUMB int cmd_set_my_taishi(int* param)
 {
     data_020f0078.mode_ = 1;
     int index = getPlacementCtrlId();
-    int type = data_020f0078.unkfunc_0203a5ec();
-    int value = UnkImmigrantTown::getSingleton()->unkfunc_02037f84(type);
+    int type = data_020f0078.getType();
+    int value = UnkImmigrantTown::getSingleton()->getTypePose(type);
     TownCharacterManager::getSingleton()->character_[index]->changePose(value);
     return 1;
 }
@@ -3514,13 +3514,13 @@ THUMB int cmd_set_default_map_name(int* param)
     }
     unkfunc_0208a114(name, 42, param[0]);
     data_020f0078.mode_ = 1;
-    data_020f0078.unkfunc_0203a7a8(name);
+    data_020f0078.setTownName(name);
     return 0;
 }
 
 THUMB int cmd_check_taishi_max(int* param)
 {
-    if (data_020f0078.unkfunc_0203a388() == 0x18) {
+    if (data_020f0078.getEnvoyCount() == 0x18) {
         return 1;
     }
     return 0;
@@ -3881,7 +3881,7 @@ __cmd_party_move_to_first2 g_cmd_party_move_to_first2;
 
 THUMB int cmd_set_unused_extra_chara(int* param)
 {
-    UnkImmigrantTown::getSingleton()->unkfunc_02037f98();
+    UnkImmigrantTown::getSingleton()->placeQueuedResidents();
     return 1;
 }
 

@@ -6,8 +6,8 @@
 #include "main/profile/Profile.hpp"
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuScreens.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
-#include "main/cmn/UnkImmigrantTown.hpp"
+#include "main/cmn/EnvoyManager.hpp"
+#include "main/cmn/ImmigrantTown.hpp"
 
 THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuSetup()
 {
@@ -20,19 +20,19 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuSetup()
     mode_ = 0;
     firstFlag_ = 1;
     changeTaishi_ = 0;
-    data_020f0078.unkfunc_0203aa00();
-    int level = UnkImmigrantTown::getSingleton()->unkfunc_02038140();
+    data_020f0078.backupMyEnvoy();
+    int level = UnkImmigrantTown::getSingleton()->getTownLevel();
     if (level == 0) {
         level = 1;
     }
     for (int i = 0; i < 48; i++) {
         if (status::excelParam.surechigai_[i].level <= level) {
-            data_020f0078.unkfunc_0203ab20(i, 1);
+            data_020f0078.setTypeSelectable(i, 1);
         }
     }
     if (level == 5) {
-        data_020f0078.unkfunc_0203ab20(48, 1);
-        data_020f0078.unkfunc_0203ab20(49, 1);
+        data_020f0078.setTypeSelectable(48, 1);
+        data_020f0078.setTypeSelectable(49, 1);
     }
 }
 
@@ -53,7 +53,7 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuDraw()
         menuItem_.drawActive();
     }
     if (mode_ == 1) {
-        drawTagModeAmbassadorScreen(mode_, data_020f0078.unkfunc_0203a5ec(), navigator_.getPageNo(), navigator_.getPageMaxCount());
+        drawTagModeAmbassadorScreen(mode_, data_020f0078.getType(), navigator_.getPageNo(), navigator_.getPageMaxCount());
     }
 }
 
@@ -71,12 +71,12 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuUpdate()
             if (result != 0) {
                 if (result == 2) {
                     int index = navigator_.getIndex(menuItem_.active_);
-                    if (data_020f0078.unkfunc_0203ab30(index) == 1) {
+                    if (data_020f0078.isTypeSelectable(index) == 1) {
                         data_020ed1bc.clearMessageWAITPROG();
                         data_020ed1bc.close();
                         data_020ed1bc.openMessageForTALK();
                         data_020ed1bc.addMessage(0x92a73);
-                        data_020f0078.unkfunc_0203a5bc(index);
+                        data_020f0078.setType(index);
                         mode_ = 1;
                     }
                 }
@@ -96,8 +96,8 @@ THUMB void MaterielMenu_SURECHIGAI_MAKE_TAISHI::menuUpdate()
             if (mode_ == 2) {
                 close();
                 gMaterielMenu_SURECHIGAI_ROOT.open();
-                data_020f0078.unkfunc_0203aa58();
-                data_020f0078.unkfunc_0203aaac();
+                data_020f0078.restoreMyEnvoy();
+                data_020f0078.clearBackup();
                 return;
             }
             if (firstFlag_ == 0) {

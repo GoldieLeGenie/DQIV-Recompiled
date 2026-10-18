@@ -283,8 +283,8 @@ ARM void TownStageManager::SetRGBRate(dss::Fix32Vector3& rate, int flag)
 
 ARM void TownStageManager::setTextureScaling(fx32 scaleX, fx32 scaleY)
 {
-    mapEffect_.unkfunc_02142850(scaleX);
-    mapEffect_.unkfunc_02142854(scaleY);
+    mapEffect_.setScaleX(scaleX);
+    mapEffect_.setScaleY(scaleY);
 }
 
 ARM void TownStageManager::getTextureScaling(fx32& scaleX, fx32& scaleY)

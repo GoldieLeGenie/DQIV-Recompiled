@@ -11,7 +11,7 @@
 struct FldStage;
 struct FldCollision;
 
-int unkfunc_020484ec(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecFx32* box, dss::Fix32* rate);
+int fldBoxTest(VecFx32* pos, VecFx32* rot, VecFx32* scale, VecFx32* box, dss::Fix32* rate);
 
 struct FldStage : UnkRenderModel {
     Render* m_render;                           // 0x008

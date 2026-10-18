@@ -7,7 +7,7 @@
 #include "main/cmn/CommonRuraData.hpp"
 #include "main/status/ExcelParam.hpp"
 #include "ov000/town/TownPlayerManager.hpp"
-#include "main/cmn/UnkImmigrantTown.hpp"
+#include "main/cmn/ImmigrantTown.hpp"
 
 extern char map_caf1[8];
 extern char map_btl_pl_d[12];
@@ -133,7 +133,7 @@ THUMB void status::StageStatus::setup(char *mapname)
         dss::strcmp(g_Global.getMapName(), map_casino) != 0 &&
         dss::strcmp(g_Global.getPrevMapName(), map_casino) != 0)
     {
-        UnkImmigrantTown::getSingleton()->unkfunc_02037d28();
+        UnkImmigrantTown::getSingleton()->resetPositions();
     }
 
     g_Stage.setTimeZoneEnable((entry->byte_1 & 0x1E) << 0x17 >> 0x18);

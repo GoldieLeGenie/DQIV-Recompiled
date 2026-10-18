@@ -154,7 +154,7 @@ ARM bool window::CommandWindow::isMessage()
     return phase_->getPhase() == PHASE_MESSAGE;
 }
 
-ARM bool window::CommandWindow::unkfunc_0202a8fc()
+ARM bool window::CommandWindow::updateTouchScreenCapture()
 {
     if (data_0211a5d4.touch_ != 0) {
         int x = data_0211a5d4.x_;
@@ -232,7 +232,7 @@ ARM bool window::CommandWindow::unkfunc_0202a8fc()
 
 ARM void window::CommandWindow::execute()
 {
-    if (unkfunc_0202a8fc()) {
+    if (updateTouchScreenCapture()) {
         return;
     }
     if (phase_->isNext()) {

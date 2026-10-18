@@ -28,7 +28,7 @@ struct TownImageMap : window::ImageMap {
     virtual int isOpen();
     virtual int isClose();
     void calcTargetPos();
-    void unkfunc_02137c00();
+    void updatePointScreenPos();
     void initialize();
     virtual int isEnable() { return isEnable_; }
 };

@@ -33,7 +33,7 @@
 #include "ov000/town/TownSystem.hpp"
 #include "ov000/town/TownWindowSystem.hpp"
 #include "main/sound/Sound.hpp"
-#include "main/cmn/UnkImmigrantTown.hpp"
+#include "main/cmn/ImmigrantTown.hpp"
 
 THUMB int cmd_get_flag(int* param)
 {
@@ -787,7 +787,7 @@ THUMB int cmd_not_play_normal_sound(int* param)
 
 THUMB int cmd_check_member_type(int* param)
 {
-    return UnkImmigrantTown::getSingleton()->unkfunc_02037d6c(param[0]);
+    return UnkImmigrantTown::getSingleton()->hasResidentType(param[0]);
 }
 
 THUMB int cmd_check_member_num(int* param)

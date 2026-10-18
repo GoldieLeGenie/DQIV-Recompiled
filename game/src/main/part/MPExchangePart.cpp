@@ -1,7 +1,7 @@
 #pragma ipa file
 #include "main/part/MPExchangePart.hpp"
 #include "main/dss/UnkDisplay.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
+#include "main/cmn/EnvoyManager.hpp"
 #include "main/global/Global.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Pad.hpp"
@@ -155,12 +155,12 @@ ARM void MPExchangePart::onExecutePart()
             if (PAD_DetectFold() == FALSE) {
                 Sound::sePlay(0x146);
             }
-            if (data_020f0078.unkfunc_0203a9cc(data->unique) == -1) {
+            if (data_020f0078.findEnvoyByUnique(data->unique) == -1) {
                 known_ = FALSE;
             } else {
                 known_ = TRUE;
             }
-            data_020f0078.unkfunc_0203a48c(data, 1);
+            data_020f0078.receiveEnvoy(data, 1);
             unkfunc_02088078((char*)data->name);
             unkfunc_02088078((char*)data->heroName);
             unkfunc_02088078((char*)data->townName);
@@ -169,7 +169,7 @@ ARM void MPExchangePart::onExecutePart()
             break;
         }
         case 10:
-            data_020f0078.unkfunc_0203a48c(NULL, 0);
+            data_020f0078.receiveEnvoy(NULL, 0);
             unkfunc_0203a228(11);
             break;
         case 11:
@@ -200,7 +200,7 @@ ARM void MPExchangePart::onExecutePart()
                 int message;
                 if (known_ != 0) {
                     message = 0x92a99;
-                } else if (data_020f0078.unkfunc_0203a388() == 1) {
+                } else if (data_020f0078.getEnvoyCount() == 1) {
                     message = 0x92a11;
                 } else {
                     message = 0x92a9a;

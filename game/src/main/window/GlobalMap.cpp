@@ -67,7 +67,7 @@ ARM void window::GlobalMap::draw()
         unk_a8.unkfunc_02057ec0();
     }
     drawVeilMap();
-    unkfunc_0203822c(0);
+    drawSymbols(0);
 }
 
 ARM void window::GlobalMap::drawVeilMap()

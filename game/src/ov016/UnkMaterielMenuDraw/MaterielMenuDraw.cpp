@@ -22,7 +22,7 @@
 #ifdef DQIV_NATIVE
 #include "main/dss/UnkBgText.hpp"
 #endif
-#include "main/cmn/UnkEnvoyManager.hpp"
+#include "main/cmn/EnvoyManager.hpp"
 
 static UnkMenuParts s_parts_02181b86[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0xa, 0x80, 0x10 },
@@ -1518,17 +1518,17 @@ THUMB void drawTagModeRootMenu()
 THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
 {
     int param[5] = { 0, 0, 0, 0, 0 };
-    data_020f0078.unkfunc_0203a388();
-    int num = data_020f0078.unkfunc_0203a388() - page * 8;
+    data_020f0078.getEnvoyCount();
+    int num = data_020f0078.getEnvoyCount() - page * 8;
     if (num <= 0) {
-        int offset = 8 - data_020f0078.unkfunc_0203a388() % 8;
+        int offset = 8 - data_020f0078.getEnvoyCount() % 8;
         if (offset == 8) {
             offset = 0;
         }
         num = dss::max(dss::min(count - page * 8, 8), 0);
         for (int i = 0; i < num; i++) {
-            int pages = (data_020f0078.unkfunc_0203a388() - 1) / 8 + 1;
-            if (data_020f0078.unkfunc_0203a388() == 0) {
+            int pages = (data_020f0078.getEnvoyCount() - 1) / 8 + 1;
+            if (data_020f0078.getEnvoyCount() == 0) {
                 pages = 0;
             }
             int index = offset + (i + (page - pages) * 8);
@@ -1551,9 +1551,9 @@ THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
         num = dss::max(dss::min(num, 8), 0);
         int i;
         for (i = 0; i < num; i++) {
-            data_020f0078.unkfunc_0203a34c(page * 8 + i);
-            param[0] = (int)data_020f0078.unkfunc_0203a65c();
-            param[1] = data_020f0078.unkfunc_0203a5ec() + 1;
+            data_020f0078.selectEnvoy(page * 8 + i);
+            param[0] = (int)data_020f0078.getName();
+            param[1] = data_020f0078.getType() + 1;
             drawMenuParts(s_parts_0218162a, param, (i % 2) * 0x78 + 0x14, (i / 2) * 32 + 0x20, g_menuTextColors[0]);
         }
         if (num < 8 && flag == 1) {
@@ -1602,7 +1602,7 @@ THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
 THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
 {
     setMenuDrawOffset(0, 0);
-    if (mode == 0 && data_020f0078.unkfunc_0203a388() == 0 && flag == 0) {
+    if (mode == 0 && data_020f0078.getEnvoyCount() == 0 && flag == 0) {
         return;
     }
     int param[14] = { 0 };
@@ -1633,7 +1633,7 @@ THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
         param[9] = status::excelParam.surechigaiTenant_[index].tokugi + 0xe0000001;
         if (status::excelParam.surechigaiTenant_[index].from == 0x1d) {
             data_020f0078.mode_ = 1;
-            param[12] = (int)data_020f0078.unkfunc_0203a820();
+            param[12] = (int)data_020f0078.getTownName();
         } else {
             param[12] = menu::MenuDataCommon::getRuraName(status::excelParam.surechigaiTenant_[index].from);
         }
@@ -1645,17 +1645,17 @@ THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
     if (mode == 1) {
         data_020f0078.mode_ = 1;
     } else {
-        data_020f0078.unkfunc_0203a34c(index);
+        data_020f0078.selectEnvoy(index);
     }
-    param[0] = (int)data_020f0078.unkfunc_0203a65c();
-    param[3] = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
-    param[6] = data_020f0078.unkfunc_0203a750() + 0xa00002c1;
-    param[9] = data_020f0078.unkfunc_0203a78c() + 0xe0000001;
-    param[12] = (int)data_020f0078.unkfunc_0203a820();
+    param[0] = (int)data_020f0078.getName();
+    param[3] = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.getSex());
+    param[6] = data_020f0078.getAge() + 0xa00002c1;
+    param[9] = data_020f0078.getSkill() + 0xe0000001;
+    param[12] = (int)data_020f0078.getTownName();
     drawMenuPartsColored(s_parts_02181c04, param, g_menuTextColors[0]);
     param[0] = 0xa00002cb;
     param[1] = (int)":";
-    param[2] = (int)data_020f0078.unkfunc_0203a6d8();
+    param[2] = (int)data_020f0078.getHeroName();
     drawMenuPartsColored(s_parts_021813fa, param, g_menuTextColors[0]);
     drawMenuFrame(0, 0x50, 0xb0, 0x70, 0x70);
 }
@@ -1679,15 +1679,15 @@ THUMB void drawTagModeProfile(int index, int mode)
     if (mode == 1) {
         data_020f0078.mode_ = 1;
     } else {
-        data_020f0078.unkfunc_0203a34c(index);
+        data_020f0078.selectEnvoy(index);
     }
-    param[0] = (int)data_020f0078.unkfunc_0203a65c();
-    param[3] = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
-    param[6] = data_020f0078.unkfunc_0203a750() + 0xa00002c1;
-    param[9] = data_020f0078.unkfunc_0203a78c() + 0xe0000001;
-    param[12] = (int)data_020f0078.unkfunc_0203a6d8();
-    param[15] = (int)data_020f0078.unkfunc_0203a820();
-    param[16] = data_020f0078.unkfunc_0203a5ec() + 1;
+    param[0] = (int)data_020f0078.getName();
+    param[3] = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.getSex());
+    param[6] = data_020f0078.getAge() + 0xa00002c1;
+    param[9] = data_020f0078.getSkill() + 0xe0000001;
+    param[12] = (int)data_020f0078.getHeroName();
+    param[15] = (int)data_020f0078.getTownName();
+    param[16] = data_020f0078.getType() + 1;
     drawMenuPartsColored(s_parts_02181d8c, param, g_menuTextColors[0]);
     drawMenuFrame(0, 8, 0xc0, 0x70, 0x28);
 }
@@ -1702,7 +1702,7 @@ THUMB void drawTagModeIconGrid(int page, int value)
         int param = page * 12 + i + 1;
         int x = (i % 6) * 0x28 + 0xc;
         int y = (i / 6) * 0x28 + 0x20;
-        if (data_020f0078.unkfunc_0203ab30(page * 12 + i) == 1) {
+        if (data_020f0078.isTypeSelectable(page * 12 + i) == 1) {
             drawMenuParts(s_parts_02181034, &param, x, y, g_menuTextColors[0]);
         }
         drawMenuParts(s_parts_021810a4, 0, x, y, g_menuTextColors[0]);
@@ -1724,7 +1724,7 @@ THUMB void drawNameEditIcon(int active, int y)
 THUMB void drawNameEditSex()
 {
     data_020f0078.mode_ = 1;
-    drawNameEditName(data_020f0078.unkfunc_0203a65c(), 1);
+    drawNameEditName(data_020f0078.getName(), 1);
     for (int i = 0; i < 3; i++) {
         int param = menu::MenuDataCommon::getSuretigaiSex(i);
         drawMenuParts(s_parts_021810f8, &param, i * 0x48 + 0x18, 0x54, g_menuTextColors[0]);
@@ -1737,8 +1737,8 @@ THUMB void drawNameEditSex()
 THUMB void drawNameEditAge()
 {
     data_020f0078.mode_ = 1;
-    drawNameEditName(data_020f0078.unkfunc_0203a65c(), 0);
-    int param = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
+    drawNameEditName(data_020f0078.getName(), 0);
+    int param = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.getSex());
     drawMenuPartsColored(s_parts_02181050, &param, g_menuTextColors[0]);
     drawMenuFrame(0x80, 0x10, 0x40, 0x20, -1);
     for (int i = 0; i < 8; i++) {
@@ -1754,11 +1754,11 @@ THUMB void drawNameEditSkill()
 {
     data_020f0078.mode_ = 1;
     int param[5] = { 0 };
-    drawNameEditName(data_020f0078.unkfunc_0203a65c(), 0);
-    param[0] = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
+    drawNameEditName(data_020f0078.getName(), 0);
+    param[0] = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.getSex());
     drawMenuParts(s_parts_02181184, param, 0x80, 0, g_menuTextColors[0]);
     drawMenuFrame(0x80, 0x10, 0x40, 0x20, -1);
-    param[0] = data_020f0078.unkfunc_0203a750() + 0xa00002c1;
+    param[0] = data_020f0078.getAge() + 0xa00002c1;
     drawMenuParts(s_parts_02181184, param, 0xc0, 0, g_menuTextColors[0]);
     drawMenuFrame(0xc0, 0x10, 0x40, 0x20, -1);
     int page = MaterielMenuPlayerControl::getSingleton()->activeChiausSkillPage_;
@@ -1784,7 +1784,7 @@ THUMB void drawNameEditComment()
     char line2[0x40];
     char line3[0x40];
     data_020f0078.mode_ = 1;
-    splitCommentLines(line1, line2, line3, (char*)data_020f0078.unkfunc_0203a938());
+    splitCommentLines(line1, line2, line3, (char*)data_020f0078.getComment());
     param[0] = (int)line1;
     param[1] = (int)line2;
     param[2] = (int)line3;

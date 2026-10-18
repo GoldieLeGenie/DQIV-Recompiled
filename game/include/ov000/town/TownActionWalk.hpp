@@ -26,7 +26,7 @@ struct TownActionWalk : cmn::ActionBase
     void checkCureFloor();
     static TownActionWalk* getSingleton();
     void townCharColl(dss::Fix32Vector3& nowPos, dss::Fix32Vector3& nextPos, int flag);
-    int unkfunc_02125dcc(int mapUid);
+    int checkMonsterEncount(int mapUid);
     int searchObject(int flag);
     int getSekaijyuUid();
 };

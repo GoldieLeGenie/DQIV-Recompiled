@@ -71,7 +71,7 @@ ARM void TownImageMap::execute()
         mapSprite_.unkfunc_02057ed4(1);
         if (frame_ >= 2) {
             pointSprite_.unkfunc_02057ed4(1);
-            unkfunc_02137c00();
+            updatePointScreenPos();
         }
         if (++frame_ == 0x1f) {
             phase_ = 2;
@@ -210,7 +210,7 @@ ARM void TownImageMap::calcTargetPos()
     unkfunc_0205710c(0, &pos);
 }
 
-ARM void TownImageMap::unkfunc_02137c00()
+ARM void TownImageMap::updatePointScreenPos()
 {
     unk_04 = *unkfunc_02057128(0);
 }

@@ -1,4 +1,4 @@
-#include "main/window/UnkMapBase_020381d0.hpp"
+#include "main/window/WorldMapBase.hpp"
 #include "main/status/ExcelParam.hpp"
 #include "main/status/StageStatus.hpp"
 #include "main/status/HaveEquipment.hpp"
@@ -11,7 +11,7 @@ ARM window::UnkMapBase_020381d0::~UnkMapBase_020381d0()
 {
 }
 
-ARM void window::UnkMapBase_020381d0::unkfunc_0203822c(int world)
+ARM void window::UnkMapBase_020381d0::drawSymbols(int world)
 {
     int i;
     param::FieldSymbol* symbol = status::excelParam.fieldSymbol_;

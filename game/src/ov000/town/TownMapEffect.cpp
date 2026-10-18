@@ -7,7 +7,7 @@ ARM void TownMapEffect::setup(EFFECT_TYPE type)
 {
     char path[128];
     type_ = type;
-    unkfunc_02142790();
+    checkTextureExist();
     m_enable = 0;
     if (loaded_) {
         sprite0_.unkfunc_02057e34();
@@ -131,7 +131,7 @@ ARM void TownMapEffect::cleanup()
     loaded_ = 0;
 }
 
-ARM void TownMapEffect::unkfunc_02142790()
+ARM void TownMapEffect::checkTextureExist()
 {
     char path[128];
     exist_ = 0;
@@ -151,10 +151,10 @@ ARM void TownMapEffect::unkfunc_02142790()
     }
 }
 
-ARM void TownMapEffect::unkfunc_02142850(fx32 scaleX)
+ARM void TownMapEffect::setScaleX(fx32 scaleX)
 {
 }
 
-ARM void TownMapEffect::unkfunc_02142854(fx32 scaleY)
+ARM void TownMapEffect::setScaleY(fx32 scaleY)
 {
 }

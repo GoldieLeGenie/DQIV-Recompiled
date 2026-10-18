@@ -324,58 +324,58 @@ struct FLDObject
     void init();
     int SetCameraNo(int no, int screen);
     int Setup(void* mdl, void* data, void* coll, int heap);
-    void unkfunc_02042d8c();
+    void sortMapObjOrder();
     void SetCameraPos(fx32 x, fx32 y, fx32 z, int screen);
     void SetCameraCent(fx32 x, fx32 y, fx32 z, int screen);
     void SetCameraUp(fx32 x, fx32 y, fx32 z, int screen);
-    void unkfunc_020435d4(int screen);
-    void unkfunc_02043c8c(int obj);
-    void unkfunc_02043d64();
-    void unkfunc_020445f4(FLD_MAP_OBJ* obj);
-    void unkfunc_020447fc(FLD_MAP_OBJ* obj);
-    void unkfunc_02044848();
-    void unkfunc_020449d4(FLD_PLTT_ENTRY* entry, FLD_PLTT_SET* set, int index);
-    void unkfunc_02044a48();
-    void unkfunc_02044fb4();
-    void unkfunc_02045004();                                    // calc
-    void unkfunc_0204545c();                                    // draw
+    void updateCameraAnim(int screen);
+    void updateMapObjAnim(int obj);
+    void updateMapObjAnims();
+    void updateMapObjSeq(FLD_MAP_OBJ* obj);
+    void applyMapObjShapeMorph(FLD_MAP_OBJ* obj);
+    void updatePlttAnims();
+    void copyPlttAnimFrame(FLD_PLTT_ENTRY* entry, FLD_PLTT_SET* set, int index);
+    void applyRgbRateToPlttAnims();
+    void updateLightAnims();
+    void calc();                                    // calc
+    void draw();                                    // draw
     void Final();
     void SetMapObjAlpha(int obj, int alpha, int flag);
     void SetMapObjOnOff(int obj, int flag);
     void SetMapObjPosFX32(int obj, VecFx32* pos);
-    void unkfunc_02046074(int obj, VecFx32* rot);
+    void setMapObjRotFX32(int obj, VecFx32* rot);
     void AddMapObjPosFX32(int obj, VecFx32* pos);
     void SetMapUidAlpha(int uid, int alpha, int flag);
     void SetMapUidOnOff(int uid, int flag);
     void SetMapUidPosFX32(int uid, VecFx32* pos);
-    void unkfunc_0204627c(int uid, VecFx32* rot);
+    void setMapUidRotFX32(int uid, VecFx32* rot);
     void AddMapUidPosFX32(int uid, VecFx32* pos);
     int CollGetPolyNoByMapUid(int uid, int start);
     void CollEraseMapUid(int uid);
     void CollResetMapUid(int uid);
     void CollAddPolyPosByMapUid(int uid, VecFx32* pos);
     void CollAddPolyPosByMapObj(int obj, VecFx32* pos);
-    int unkfunc_020465b4(int id);                               // event animation
-    void unkfunc_0204687c(short obj, short index);
+    int setEventAnimation(int id);                               // event animation
+    void setMapObjIndex(short obj, short index);
     int SetCommonAnimation(int obj, int no);
     int GetCommonAnimationNum(int obj);
     int IsCommonAnimationEnd(int obj);
-    void unkfunc_02046cf4(int obj);
+    void resetMapObjAnim(int obj);
     FLD_MAP_OBJ* GetMapObjPtr(int obj);
     int GetMapObjUid(int obj);
     VecFx32* GetMapObjRotFX32(int obj);
-    int unkfunc_02046e40(int obj);                              // animation frame
-    int unkfunc_02046eac(int obj);                              // animation frame max
+    int getMapObjAnimFrame(int obj);                              // animation frame
+    int getMapObjAnimFrameMax(int obj);                              // animation frame max
     int GetCommonAnimationNo(int obj);
     int GetMapObjCommonId(int obj);
     void SetSepia();
     void SetRGBRate(VecFx32* rate, int real_time);
-    NNSG3dResTex* unkfunc_02046fe0();
-    void unkfunc_0204718c(unsigned short* src, unsigned short* dst, int num);
-    void unkfunc_0204722c();
-    void unkfunc_020472e8();
-    void unkfunc_02047350(fx32 x, fx32 y, fx32 z);              // scale
-    int unkfunc_02047360(FLD_RENDER* render);
+    NNSG3dResTex* createPlttTexCopy();
+    void applyRgbRate(unsigned short* src, unsigned short* dst, int num);
+    void applyRgbRateToPltt();
+    void transferPltt();
+    void setScale(fx32 x, fx32 y, fx32 z);              // scale
+    int isMapObjInTownView(FLD_RENDER* render);
     int GetMapObjAlpha(int obj);
     void SetPause(int pause) { if (pause) { m_flag |= 4; } else { m_flag &= ~4; } }
     int CollCrossCheck(VecFx32* start, VecFx32* end, int poly, fx32* dist) {

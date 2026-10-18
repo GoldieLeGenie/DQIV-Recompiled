@@ -19,7 +19,7 @@
 #include "ov016/UnkMaterielMenuDraw/MaterielMenuDraw.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/MenuCommonDraw.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
+#include "main/cmn/EnvoyManager.hpp"
 static UnkMenuParts s_parts_02184b8c[] = {
     { 0x0d, 0x08, (short)0xf000, 0, 8, 0x80, 0xa0, 0xc },
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
@@ -900,9 +900,9 @@ THUMB void drawRuraTownList(int page, unsigned char* rura)
         int y = (i / 2) * 16 + 0xc;
         y2 = (i / 2) * 8;
         int param = menu::MenuDataCommon::getRuraName(rura[index]);
-        if (rura[index] == 0xd && data_020f0078.unkfunc_0203a354() == 1) {
+        if (rura[index] == 0xd && data_020f0078.isMyEnvoyEnabled() == 1) {
             data_020f0078.mode_ = 1;
-            param = (int)data_020f0078.unkfunc_0203a820();
+            param = (int)data_020f0078.getTownName();
         }
         drawMenuParts(s_parts_02184be0, &param, x, y + y2, g_menuTextColors[0]);
         i++;

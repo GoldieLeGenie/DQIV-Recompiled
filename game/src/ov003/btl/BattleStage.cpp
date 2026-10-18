@@ -104,5 +104,5 @@ THUMB int BattleStage::isFade()
 
 THUMB void BattleStage::setRGBRate(dss::Fix32 r, dss::Fix32 g, dss::Fix32 b)
 {
-    stage_.m_fld.unkfunc_02047350(r.value, g.value, b.value);
+    stage_.m_fld.setScale(r.value, g.value, b.value);
 }

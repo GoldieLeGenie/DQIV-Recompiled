@@ -21,8 +21,8 @@ struct FieldImageMap : window::ImageMap {
     virtual void cleanup();
     void execute();
     void draw();
-    void unkfunc_0212aa14();
-    void unkfunc_0212aa20();
+    void startClose();
+    void startOpen();
     virtual void open();
     virtual void close();
     virtual int isOpen();

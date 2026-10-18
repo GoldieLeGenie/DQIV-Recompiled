@@ -29,14 +29,14 @@ ARM void FieldImageMap::setup(FieldSystem* system)
         break;
     }
     map_->setup(&system_->render_);
-    unk_008.unkfunc_0212c8c4(system_);
+    unk_008.setup(system_);
     phase_ = 0;
 }
 
 ARM void FieldImageMap::cleanup()
 {
     map_->cleanup();
-    unk_008.unkfunc_0212c8d4();
+    unk_008.cleanup();
     system_ = NULL;
 }
 
@@ -62,28 +62,28 @@ ARM void FieldImageMap::execute()
             return;
         }
         phase_ = 5;
-        unk_008.unkfunc_0212cee0();
+        unk_008.load();
         break;
     case 5:
         if (++alpha_ >= 0x1f) {
             phase_ = 7;
             alpha_ = 0x1f;
         }
-        unk_008.unkfunc_0212cfd4(alpha_);
+        unk_008.setAlpha(alpha_);
         break;
     case 6:
         break;
     case 7:
         alpha_ = 0x1f;
-        unk_008.unkfunc_0212cfd4(alpha_);
+        unk_008.setAlpha(alpha_);
         break;
     case 8:
         if (--alpha_ < 0) {
-            unk_008.unkfunc_0212cfb8();
+            unk_008.clear();
             phase_ = 0;
             alpha_ = 0;
         }
-        unk_008.unkfunc_0212cfd4(alpha_);
+        unk_008.setAlpha(alpha_);
         break;
     case 0:
         if (unkfunc_02081254() & 1) {
@@ -110,24 +110,24 @@ ARM void FieldImageMap::draw()
     map_->draw();
 }
 
-ARM void FieldImageMap::unkfunc_0212aa14()
+ARM void FieldImageMap::startClose()
 {
     phase_ = 8;
 }
 
-ARM void FieldImageMap::unkfunc_0212aa20()
+ARM void FieldImageMap::startOpen()
 {
     phase_ = 3;
 }
 
 ARM void FieldImageMap::open()
 {
-    unkfunc_0212aa20();
+    startOpen();
 }
 
 ARM void FieldImageMap::close()
 {
-    unkfunc_0212aa14();
+    startClose();
 }
 
 ARM int FieldImageMap::isOpen()
@@ -143,6 +143,6 @@ ARM int FieldImageMap::isClose()
 ARM void FieldImageMap::clearAllMap()
 {
     map_->clear();
-    unk_008.unkfunc_0212cfb8();
+    unk_008.clear();
     phase_ = 9;
 }

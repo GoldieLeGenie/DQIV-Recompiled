@@ -1,9 +1,9 @@
-#include "main/cmn/UnkImmigrantTown.hpp"
-#include "main/cmn/UnkEnvoyManager.hpp"
+#include "main/cmn/ImmigrantTown.hpp"
+#include "main/cmn/EnvoyManager.hpp"
 #include "main/status/ExcelParam.hpp"
 #include "main/status/GameFlag.hpp"
 
-ARM void UnkImmigrantTown::unkfunc_02037ca4()
+ARM void UnkImmigrantTown::rebuildResidents()
 {
     for (int i = 0; i < 42; i++) {
         type_[i] = 0xff;
@@ -11,14 +11,14 @@ ARM void UnkImmigrantTown::unkfunc_02037ca4()
         y_[i] = 0xff;
     }
     count_ = 0;
-    int count = data_020f0078.unkfunc_0203a388();
+    int count = data_020f0078.getEnvoyCount();
     for (int i = 0; i < count; i++) {
-        data_020f0078.unkfunc_0203a34c(i);
-        unkfunc_02037d50(data_020f0078.unkfunc_0203a5ec());
+        data_020f0078.selectEnvoy(i);
+        addResident(data_020f0078.getType());
     }
 }
 
-ARM void UnkImmigrantTown::unkfunc_02037d28()
+ARM void UnkImmigrantTown::resetPositions()
 {
     queueFlag_ = 0;
     queueCount_ = 0;
@@ -27,13 +27,13 @@ ARM void UnkImmigrantTown::unkfunc_02037d28()
     }
 }
 
-ARM void UnkImmigrantTown::unkfunc_02037d50(int type)
+ARM void UnkImmigrantTown::addResident(int type)
 {
     type_[count_] = type;
     count_++;
 }
 
-ARM int UnkImmigrantTown::unkfunc_02037d6c(int type)
+ARM int UnkImmigrantTown::hasResidentType(int type)
 {
     for (int i = 0; i < count_; i++) {
         if (type == type_[i]) {
@@ -49,7 +49,7 @@ ARM UnkImmigrantTown* UnkImmigrantTown::getSingleton()
     return &instance;
 }
 
-ARM void UnkImmigrantTown::unkfunc_02037db0(int x, int y)
+ARM void UnkImmigrantTown::placeNextResident(int x, int y)
 {
     for (int i = 0; i < queueCount_; i++) {
         if (x == queueX_[i] && y == queueY_[i]) {
@@ -65,11 +65,11 @@ ARM void UnkImmigrantTown::unkfunc_02037db0(int x, int y)
     }
 }
 
-ARM void UnkImmigrantTown::unkfunc_02037e20(int x, int y, int count, int* types)
+ARM void UnkImmigrantTown::placePriorityResident(int x, int y, int count, int* types)
 {
     for (int i = 0; i < count_; i++) {
         for (int j = 0; j < count; j++) {
-            if (unkfunc_02038034(i, types[j]) == 1) {
+            if (matchesResidentCategory(i, types[j]) == 1) {
                 x_[i] = x;
                 y_[i] = y;
                 return;
@@ -87,17 +87,17 @@ ARM void UnkImmigrantTown::unkfunc_02037e20(int x, int y, int count, int* types)
     queueCount_++;
 }
 
-ARM int UnkImmigrantTown::unkfunc_02037ef4(int x, int y)
+ARM int UnkImmigrantTown::getResidentPoseAt(int x, int y)
 {
     for (int i = 0; i < count_; i++) {
         if (x == x_[i] && y == y_[i]) {
-            return unkfunc_02037f84(type_[i]);
+            return getTypePose(type_[i]);
         }
     }
     return 0xff;
 }
 
-ARM int UnkImmigrantTown::unkfunc_02037f40(int x, int y)
+ARM int UnkImmigrantTown::getResidentIndexAt(int x, int y)
 {
     for (int i = 0; i < count_; i++) {
         if (x == x_[i] && y == y_[i]) {
@@ -107,12 +107,12 @@ ARM int UnkImmigrantTown::unkfunc_02037f40(int x, int y)
     return 0;
 }
 
-ARM int UnkImmigrantTown::unkfunc_02037f84(int type)
+ARM int UnkImmigrantTown::getTypePose(int type)
 {
     return status::excelParam.surechigai_[type].index;
 }
 
-ARM void UnkImmigrantTown::unkfunc_02037f98()
+ARM void UnkImmigrantTown::placeQueuedResidents()
 {
     if (queueFlag_ != 1) {
         return;
@@ -129,7 +129,7 @@ ARM void UnkImmigrantTown::unkfunc_02037f98()
     queueFlag_ = 0;
 }
 
-ARM int UnkImmigrantTown::unkfunc_02038034(int index, int type)
+ARM int UnkImmigrantTown::matchesResidentCategory(int index, int type)
 {
     if (x_[index] != 0xff) {
         return 0;
@@ -159,7 +159,7 @@ ARM int UnkImmigrantTown::unkfunc_02038034(int index, int type)
     return 0;
 }
 
-ARM int UnkImmigrantTown::unkfunc_02038140()
+ARM int UnkImmigrantTown::getTownLevel()
 {
     if (g_AreaFlag.check(0x1f8) == 1) {
         return 5;

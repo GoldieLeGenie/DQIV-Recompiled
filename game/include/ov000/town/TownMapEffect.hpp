@@ -33,7 +33,7 @@ struct TownMapEffect {
     void draw();
     void setPisaroEvent(int count);
     void cleanup();
-    void unkfunc_02142790();
-    void unkfunc_02142850(fx32 scaleX);
-    void unkfunc_02142854(fx32 scaleY);
+    void checkTextureExist();
+    void setScaleX(fx32 scaleX);
+    void setScaleY(fx32 scaleY);
 };

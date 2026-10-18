@@ -22,7 +22,7 @@ struct TownSystem {
 
     TownSystem();
     static TownSystem* getSingleton();
-    static void unkfunc_02132210();
+    static void overlayEntry();
     void initialize();
     void terminate();
     void execute();

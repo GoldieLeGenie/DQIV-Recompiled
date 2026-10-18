@@ -121,7 +121,7 @@ ARM int DisplayCharacter::box_testx1()
     }
     dss::Fix32Vector3 position = *getPosition();
     position.vx.value -= 0x800;
-    unkfunc_020484ec((VecFx32*)&position, (VecFx32*)&boxTestRotate_, (VecFx32*)&boxTestScale_, (VecFx32*)&boxTestParam_, &boxTestRate_);
+    fldBoxTest((VecFx32*)&position, (VecFx32*)&boxTestRotate_, (VecFx32*)&boxTestScale_, (VecFx32*)&boxTestParam_, &boxTestRate_);
     int result;
     while (func_02065544(&result)) {
     }

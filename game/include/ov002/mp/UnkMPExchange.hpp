@@ -1,6 +1,6 @@
 #pragma once
 #include "globaldefs.h"
-#include "main/cmn/UnkEnvoyManager.hpp"
+#include "main/cmn/EnvoyManager.hpp"
 #include "ov002/mp/UnkWH.hpp"
 
 // SYSMODE_* names printed by UnkMPExchange::unkfunc_021237e8

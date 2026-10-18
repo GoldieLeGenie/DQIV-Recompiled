@@ -21,7 +21,7 @@ namespace window {
         virtual void setup();
         void openList();
         void closeList();
-        int unkfunc_0202a2d8();
+        int selectNextShop();
         void closeListMessage();
         void registShopList(ImageMap* shoplist);
     };
