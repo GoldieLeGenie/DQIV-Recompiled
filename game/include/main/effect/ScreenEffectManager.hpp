@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/effect/UnkScreenEffect.hpp"
+#include "main/effect/ScreenEffect.hpp"
 #include "main/effect/UnkScreenEffect_0202c678.hpp"
 #include "main/effect/UnkScreenEffect_0202ff7c.hpp"
 
@@ -20,13 +20,13 @@ struct UnkScreenEffectManager {
     static int unk_020edc40;
 
     static UnkScreenEffectManager* getSingleton();
-    void unkfunc_0202ace4();
-    void unkfunc_0202ad28();
-    void unkfunc_0202ad98();
-    void unkfunc_0202adb4();
-    void unkfunc_0202aea4();
-    void unkfunc_0202aec4(int type);
-    bool unkfunc_0202af54();
-    void unkfunc_0202af70();
-    void unkfunc_0202afcc();
+    void initialize();
+    void execute();
+    void draw();
+    void terminate();
+    void stopEffect();
+    void startEffect(int type);
+    bool isEffectDrawing();
+    void startWhiteFlash();
+    void updateWhiteFlash();
 };

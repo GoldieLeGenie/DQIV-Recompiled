@@ -4,7 +4,7 @@
 #include "main/data/FileLoader.hpp"
 #include "main/dss/DssUtils.hpp"
 #include "main/dss/Pad.hpp"
-#include "main/btl/UnkBattleMapList.hpp"
+#include "main/btl/BattleMapList.hpp"
 #include "main/encount/Encount.hpp"
 #include "main/menu/MenuAPI.hpp"
 #include "main/menu/MenuManager.hpp"

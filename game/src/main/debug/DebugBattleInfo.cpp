@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "main/debug/UnkDebugBattleInfo.hpp"
+#include "main/debug/DebugBattleInfo.hpp"
 #include "main/data/DataObject.hpp"
 #include "main/menu/UnkMenuDisplays.hpp"
 #include "main/status/PartyStatus.hpp"

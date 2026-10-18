@@ -705,7 +705,7 @@ ARM bool FieldPlayerManager::moveToTarget()
     bool ret = false;
     dss::Fix32Vector3 vec;
     vec = targetPos_ - position_;
-    if (vec.length().value > unkfunc_02031e84(speedToTarget_.value)) {
+    if (vec.length().value > absInt(speedToTarget_.value)) {
         vec.normalize();
         vec *= speedToTarget_;
         position_.vx += vec.vx;

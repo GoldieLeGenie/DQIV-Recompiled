@@ -240,7 +240,7 @@ ARM void TownShipAction2::setShipNamiAlpha()
     vec = shipPosition_ - prevShipPosition_;
     short dir = shipDirection_ - prevShipDirection_;
     int add;
-    if (unkfunc_02031e84(vec.lengthsq().value) > 10 || status::BaseActionStatus::abs(dir) > 200) {
+    if (absInt(vec.lengthsq().value) > 10 || status::BaseActionStatus::abs(dir) > 200) {
         add = 2;
     } else {
         add = -2;

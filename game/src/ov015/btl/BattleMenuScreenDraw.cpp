@@ -1,6 +1,6 @@
 #pragma ipa file
-#include "ov015/btl/UnkBattleMenuDraw_0216ba54.hpp"
-#include "ov015/btl/UnkBattleMenuDraw_0216afc0.hpp"
+#include "ov015/btl/BattleMenuScreenDraw.hpp"
+#include "ov015/btl/BattleMenuDrawCommon.hpp"
 #include "ov015/btl/BattleMenuPlayerControl.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/MenuManager.hpp"
@@ -129,16 +129,16 @@ static UnkMenuParts s_parts_02177184[] = {
 };
 static int s_param[2];
 
-THUMB void unkfunc_0216ba54(int group)
+THUMB void drawAttackTargetMenu(int group)
 {
-    unkfunc_0216c08c(group);
-    unkfunc_0216c1d4();
+    drawEnemyTargetSelect(group);
+    drawAttackCommandButton();
 }
 
-THUMB void unkfunc_0216ba60(int* items, int count, int page)
+THUMB void drawItemMenu(int* items, int count, int page)
 {
-    unkfunc_0216c264();
-    unkfunc_0216c10c(items, count, page);
+    drawItemCommandHeader();
+    drawItemList(items, count, page);
 }
 
 THUMB void unkfunc_0216ba78(int* items, int count, int page)
@@ -146,30 +146,30 @@ THUMB void unkfunc_0216ba78(int* items, int count, int page)
     drawMenuPartsPlain(s_parts_02176f54, 0);
     int chara = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     status::PlayerStatus* player = status::g_Party.getPlayerStatus(chara);
-    unkfunc_0216b07c(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
+    drawBattleActiveMember(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
     s_param[0] = 0x80000069;
     s_param[1] = 0x8000006b;
     drawMenuPartsColored(s_parts_0217715a, s_param, 1);
-    unkfunc_0216c10c(items, count, page);
+    drawItemList(items, count, page);
 }
 
-THUMB void unkfunc_0216bae8()
+THUMB void drawItemUseOnPartyMenu()
 {
-    unkfunc_0216c264();
-    unkfunc_0216c0c8();
+    drawItemCommandHeader();
+    drawPartyTargetSelect();
 }
 
-THUMB void unkfunc_0216baf4(int group)
+THUMB void drawItemUseOnEnemyMenu(int group)
 {
-    unkfunc_0216c08c(group);
-    unkfunc_0216c264();
+    drawEnemyTargetSelect(group);
+    drawItemCommandHeader();
 }
 
-THUMB void unkfunc_0216bb00(int* actions, int count, int page)
+THUMB void drawMagicMenu(int* actions, int count, int page)
 {
     int pageMax;
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(btl::BattleMenuPlayerControl::getSingleton()->activeChara_)->haveStatusInfo_;
-    unkfunc_0216c1e4();
+    drawMagicCommandHeader();
     drawMenuPartsPlain(s_parts_0217700a, 0);
     pageMax = (count - 1) / 6;
     int num = (count - 1) % 6 + 1;
@@ -182,29 +182,29 @@ THUMB void unkfunc_0216bb00(int* actions, int count, int page)
         int y = i / 2;
         x = x * 120 + 20;
         y = y * 32 + 12;
-        unkfunc_0216b314(x, y, actions[top + i]);
+        drawBattleActionName(x, y, actions[top + i]);
     }
-    unkfunc_0216b254(8, 0x74, status::UseAction::getMenuMessage(info->haveAction_.getAction(btl::BattleMenuPlayerControl::getSingleton()->activeMagic_)));
-    unkfunc_0216b27c(0xd8, 0x78, pageMax, page);
+    drawBattleHelpMessage(8, 0x74, status::UseAction::getMenuMessage(info->haveAction_.getAction(btl::BattleMenuPlayerControl::getSingleton()->activeMagic_)));
+    drawBattlePageNumber(0xd8, 0x78, pageMax, page);
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216bbc0(int group)
+THUMB void drawMagicOnEnemyMenu(int group)
 {
-    unkfunc_0216c1e4();
-    unkfunc_0216c08c(group);
+    drawMagicCommandHeader();
+    drawEnemyTargetSelect(group);
 }
 
-THUMB void unkfunc_0216bbd0()
+THUMB void drawMagicOnPartyMenu()
 {
-    unkfunc_0216c1e4();
-    unkfunc_0216c0c8();
+    drawMagicCommandHeader();
+    drawPartyTargetSelect();
 }
 
-THUMB void unkfunc_0216bbdc()
+THUMB void drawTacticsMemberMenu()
 {
     drawMenuPartsPlain(s_parts_02176ee4, 0);
-    unkfunc_0216c2a0();
+    drawTacticsCommandButton();
     int list[4];
     dss::memset(list, 0, sizeof(list));
     int n = 0;
@@ -213,22 +213,22 @@ THUMB void unkfunc_0216bbdc()
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i)->haveStatusInfo_;
         if (status::g_Party.getPlayerStatus(i)->haveStatusInfo_.haveStatus_.isPlayer_ && index != 1 && index != 2) {
             int x = n * 0x28 + 0x48;
-            unkfunc_0216c3a4(x, 0x70, index);
-            unkfunc_0216b638(info, x, 0x70);
+            drawMemberIcon(x, 0x70, index);
+            drawBattleMemberConditionMarks(info, x, 0x70);
             n++;
         }
     }
     int param = 0x17;
     drawMenuPartsAt(s_parts_0217705e, &param, 0x20, 0x70);
-    unkfunc_0216c350(btl::BattleMenuPlayerControl::getSingleton()->activeChara_);
+    drawSelectedCharaHp(btl::BattleMenuPlayerControl::getSingleton()->activeChara_);
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216bc84()
+THUMB void drawTacticsSelectMenu()
 {
     static const int tactics[6] = { 0x90000001, 0x90000002, 0x90000005, 0x90000003, 0x90000004, 0x90000006 };
     drawMenuPartsPlain(s_parts_02176f70, 0);
-    unkfunc_0216c2a0();
+    drawTacticsCommandButton();
     const int* p = tactics;
     for (int j = 0; j < 2; j++) {
         for (int i = 0; i < 3; i++) {
@@ -255,23 +255,23 @@ THUMB void unkfunc_0216bc84()
         for (k = 0; k < count; k++) {
             status::PlayerStatus* player = status::g_Party.getPlayerStatus(list[k]);
             member = list[k];
-            unkfunc_0216aff8(k * 0x40, 0x38, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[member], &player->haveStatusInfo_);
+            drawBattleMemberHpPercent(k * 0x40, 0x38, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[member], &player->haveStatusInfo_);
         }
     }
-    unkfunc_0216c350(chara);
+    drawSelectedCharaHp(chara);
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216bd94()
+THUMB void drawFormationMenu()
 {
     drawMenuPartsPlain(s_parts_02176e90, 0);
     int param[2] = { (int)0x80000008, (int)0x80000009 };
     drawMenuParts(s_parts_02177088, param, 0x18, 0x78, 1);
-    unkfunc_0216c2b0();
+    drawFormationCommandButton();
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216bdd4()
+THUMB void drawFormationChangeMemberMenu()
 {
     UnkMenuParts window[] = {
         { 0x01, 0x00, (short)0xf000, 0, 0x20, 0x70, 0xc0, 0x30 },
@@ -282,29 +282,29 @@ THUMB void unkfunc_0216bdd4()
         int x = i * 0x28 + 0x30;
         int index = status::g_Party.getPlayerIndex(i);
         status::PlayerStatus* player = status::g_Party.getPlayerStatus(i);
-        unkfunc_0216c3a4(x, 0x70, index);
-        unkfunc_0216b638(&player->haveStatusInfo_, x, 0x70);
+        drawMemberIcon(x, 0x70, index);
+        drawBattleMemberConditionMarks(&player->haveStatusInfo_, x, 0x70);
     }
-    unkfunc_0216c2b0();
-    unkfunc_0216c350(btl::BattleMenuPlayerControl::getSingleton()->activeChara_);
+    drawFormationCommandButton();
+    drawSelectedCharaHp(btl::BattleMenuPlayerControl::getSingleton()->activeChara_);
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216be58(int* list, int count, int page)
+THUMB void drawFormationChangeTargetMenu(int* list, int count, int page)
 {
     status::g_Party.setMemberShiftMode();
-    unkfunc_0216b590(list, count, page);
-    unkfunc_0216c2b0();
+    drawBattleMemberSelectList(list, count, page);
+    drawFormationCommandButton();
     int chara = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     status::PlayerStatus* player = status::g_Party.getPlayerStatus(chara);
-    unkfunc_0216b07c(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
+    drawBattleActiveMember(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
     int target = btl::BattleMenuPlayerControl::getSingleton()->targetChara_;
-    unkfunc_0216c350(target);
-    unkfunc_0216b460(0x78, 8, &status::g_Party.getPlayerStatus(target)->haveStatusInfo_);
+    drawSelectedCharaHp(target);
+    drawBattleCharaStatus(0x78, 8, &status::g_Party.getPlayerStatus(target)->haveStatusInfo_);
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216bec8(int* list, int count, int* order, int orderCount)
+THUMB void drawFormationAllMenu(int* list, int count, int* order, int orderCount)
 {
     status::g_Party.setMemberShiftMode();
     drawMenuPartsPlain(s_parts_02176eac, 0);
@@ -318,7 +318,7 @@ THUMB void unkfunc_0216bec8(int* list, int count, int* order, int orderCount)
         int color = 0;
         if (orderCount > i) {
             status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(*order)->haveStatusInfo_;
-            color = unkfunc_0216b980(info);
+            color = getBattleHpColorIndex(info);
             int param[4] = { 0, (int)0xa0000013, (int)":", 0 };
             param[0] = info->haveStatus_.playerIndex_ + 0x50000000;
             param[3] = status::g_Party.getPlayerStatus(*order)->haveStatusInfo_.haveStatus_.level_;
@@ -336,39 +336,39 @@ THUMB void unkfunc_0216bec8(int* list, int count, int* order, int orderCount)
     int target = btl::BattleMenuPlayerControl::getSingleton()->targetChara_;
     status::g_Party.setBattleMode();
     if (target < status::g_Party.getCount()) {
-        unkfunc_0216b460(0x98, 0, &status::g_Party.getPlayerStatus(target)->haveStatusInfo_);
+        drawBattleCharaStatus(0x98, 0, &status::g_Party.getPlayerStatus(target)->haveStatusInfo_);
     }
-    unkfunc_0216c2c0(list, count);
+    drawFormationMemberIcons(list, count);
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216c040()
+THUMB void drawPartyHpPercents()
 {
     for (int i = 0; i < status::g_Party.getCarriageOutCount(); i++) {
         status::PlayerStatus* player = status::g_Party.getPlayerStatus(i);
-        unkfunc_0216aff8(i * 0x40, 0xa0, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[i], &player->haveStatusInfo_);
+        drawBattleMemberHpPercent(i * 0x40, 0xa0, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[i], &player->haveStatusInfo_);
     }
 }
 
-THUMB void unkfunc_0216c08c(int group)
+THUMB void drawEnemyTargetSelect(int group)
 {
     int chara = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     status::PlayerStatus* player = status::g_Party.getPlayerStatus(chara);
-    unkfunc_0216b07c(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
-    unkfunc_0216b0a0(group);
+    drawBattleActiveMember(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
+    drawMonsterNamePlates(group);
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216c0c8()
+THUMB void drawPartyTargetSelect()
 {
     drawMenuPartsPlain(s_parts_021771bc, 0);
     for (int i = 0; i < status::g_Party.getCarriageOutCount(); i++) {
-        unkfunc_0216b344(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, i);
+        drawBattleMemberStatusPanel(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, i);
     }
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216c10c(int* items, int count, int page)
+THUMB void drawItemList(int* items, int count, int page)
 {
     int pageMax;
     int top;
@@ -385,25 +385,25 @@ THUMB void unkfunc_0216c10c(int* items, int count, int page)
         int y = i / 2;
         x = x * 120 + 20;
         y = y * 32;
-        unkfunc_0216b2c4(x, y, items[top + i], info->haveItem_.isEquipment(i + top));
+        drawBattleItemEntry(x, y, items[top + i], info->haveItem_.isEquipment(i + top));
     }
-    unkfunc_0216b27c(0xd8, 0x78, pageMax, page);
-    unkfunc_0216b254(8, 0x74, status::UseItem::getMenuMessage(btl::BattleMenuPlayerControl::getSingleton()->getPlayerItemId()));
+    drawBattlePageNumber(0xd8, 0x78, pageMax, page);
+    drawBattleHelpMessage(8, 0x74, status::UseItem::getMenuMessage(btl::BattleMenuPlayerControl::getSingleton()->getPlayerItemId()));
     unkfunc_0216b6cc();
 }
 
-THUMB void unkfunc_0216c1d4()
+THUMB void drawAttackCommandButton()
 {
-    unkfunc_0216b134(0x10, 0x40, 0xa0, 0);
+    drawBattleCommandIcon(0x10, 0x40, 0xa0, 0);
 }
 
-THUMB void unkfunc_0216c1e4()
+THUMB void drawMagicCommandHeader()
 {
     int useMp;
     int chara = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_;
-    unkfunc_0216b07c(info, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
-    unkfunc_0216b134(0x20, 0x40, 0xa0, 0);
+    drawBattleActiveMember(info, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
+    drawBattleCommandIcon(0x20, 0x40, 0xa0, 0);
     useMp = status::UseAction::getUseMp(info->haveAction_.getAction(btl::BattleMenuPlayerControl::getSingleton()->activeMagic_));
     if (useMp == 0xff) {
         useMp = info->getMp();
@@ -413,28 +413,28 @@ THUMB void unkfunc_0216c1e4()
     } else if (useMp == 1000) {
         useMp = info->getMp();
     }
-    unkfunc_0216b8d0(info->getMp(), useMp);
+    drawBattleMpCost(info->getMp(), useMp);
 }
 
-THUMB void unkfunc_0216c264()
+THUMB void drawItemCommandHeader()
 {
     int chara = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     status::PlayerStatus* player = status::g_Party.getPlayerStatus(chara);
-    unkfunc_0216b07c(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
-    unkfunc_0216b134(0x40, 0x40, 0xa0, 0);
+    drawBattleActiveMember(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 0);
+    drawBattleCommandIcon(0x40, 0x40, 0xa0, 0);
 }
 
-THUMB void unkfunc_0216c2a0()
+THUMB void drawTacticsCommandButton()
 {
-    unkfunc_0216b134(4, 0x40, 0xa0, 0);
+    drawBattleCommandIcon(4, 0x40, 0xa0, 0);
 }
 
-THUMB void unkfunc_0216c2b0()
+THUMB void drawFormationCommandButton()
 {
-    unkfunc_0216b134(2, 0x40, 0xa0, 0);
+    drawBattleCommandIcon(2, 0x40, 0xa0, 0);
 }
 
-THUMB void unkfunc_0216c2c0(int* list, int count)
+THUMB void drawFormationMemberIcons(int* list, int count)
 {
     drawMenuPartsPlain(s_parts_02176f38, 0);
     for (int i = 0; i < count; i++) {
@@ -442,15 +442,15 @@ THUMB void unkfunc_0216c2c0(int* list, int count)
         int y = (i / 5) * 0x28 + 0x68;
         if (list[i] != -1) {
             status::PlayerStatus* player = status::g_Party.getPlayerStatus(list[i]);
-            unkfunc_0216c3a4(x, y, status::g_Party.getPlayerIndex(list[i]));
-            unkfunc_0216b638(&player->haveStatusInfo_, x, y);
+            drawMemberIcon(x, y, status::g_Party.getPlayerIndex(list[i]));
+            drawBattleMemberConditionMarks(&player->haveStatusInfo_, x, y);
         } else {
-            unkfunc_0216c3a4(x, y, -1);
+            drawMemberIcon(x, y, -1);
         }
     }
 }
 
-THUMB void unkfunc_0216c350(int chara)
+THUMB void drawSelectedCharaHp(int chara)
 {
     if (chara == -1) {
         int param = 0x8000006e;
@@ -458,10 +458,10 @@ THUMB void unkfunc_0216c350(int chara)
         return;
     }
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_;
-    unkfunc_0216aff8(0x88, 0xa0, info->getHp(), info);
+    drawBattleMemberHpPercent(0x88, 0xa0, info->getHp(), info);
 }
 
-THUMB void unkfunc_0216c3a4(int x, int y, int index)
+THUMB void drawMemberIcon(int x, int y, int index)
 {
     int inParty = 0;
     int found = 0;
@@ -484,22 +484,22 @@ THUMB void unkfunc_0216c3a4(int x, int y, int index)
         return;
     }
     if (inParty) {
-        drawMenuParts(s_parts_02177184, param, x, y, g_menuTextColors[unkfunc_0216b980(info)]);
+        drawMenuParts(s_parts_02177184, param, x, y, g_menuTextColors[getBattleHpColorIndex(info)]);
         return;
     }
     drawMenuPartsAt(s_parts_021770b2, param, x, y);
 }
 
-THUMB void unkfunc_0216c468(int chara)
+THUMB void drawBattleHistory(int chara)
 {
     int count = status::g_Party.getCarriageOutCount();
     for (int i = 0; i < count; i++) {
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(i)->haveStatusInfo_;
         int hp = btl::BattleMenuPlayerControl::getSingleton()->memberHP_[i];
-        unkfunc_0216b6e0(info, hp, btl::BattleMenuPlayerControl::getSingleton()->memberMP_[i], info->haveStatus_.level_, i);
+        drawBattleTopStatusWindow(info, hp, btl::BattleMenuPlayerControl::getSingleton()->memberMP_[i], info->haveStatus_.level_, i);
         int first = btl::BattleMenuPlayerControl::getSingleton()->firstHistory_[i];
         int second = btl::BattleMenuPlayerControl::getSingleton()->secondHistory_[i];
-        unkfunc_0216b7d4(i, first, second, btl::BattleMenuPlayerControl::getSingleton()->getHPColor(i));
+        drawBattleActionHistory(i, first, second, btl::BattleMenuPlayerControl::getSingleton()->getHPColor(i));
         if (i != chara) {
             unkfunc_0216b858(i * 0x40 + 8, 0x4a, info->haveStatus_.iconIndex_, i);
         }
@@ -507,7 +507,7 @@ THUMB void unkfunc_0216c468(int chara)
     drawMenuPartsPlain(s_parts_02176f1c, 0);
 }
 
-THUMB void unkfunc_0216c524(int* actions, int count, int chara)
+THUMB void drawCharaBattleSpellList(int* actions, int count, int chara)
 {
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_;
     setMenuDrawOffset(0, 0);
@@ -516,6 +516,6 @@ THUMB void unkfunc_0216c524(int* actions, int count, int chara)
     drawMenuPartsColored(s_parts_021771f4, &message, g_menuTextColors[0]);
     for (int i = 0; i < count; i++) {
         int param = actions[i] + 0x70000000;
-        drawMenuParts(s_parts_02176ec8, &param, (i % 2) * 120 + 16, (i / 2) * 16 + 36, g_menuTextColors[unkfunc_0216b980(info)]);
+        drawMenuParts(s_parts_02176ec8, &param, (i % 2) * 120 + 16, (i / 2) * 16 + 36, g_menuTextColors[getBattleHpColorIndex(info)]);
     }
 }

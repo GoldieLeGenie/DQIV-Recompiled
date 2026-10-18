@@ -8,7 +8,7 @@ template<typename T> inline Vector2<T>::Vector2() : vy(bcLiteral_Ey), vx(bcLiter
 }
 #include "main/dss/UnkMatrix43.hpp"
 #include "main/dss/UnkMemory.hpp"
-#include "main/dss/UnkPaletteEffect.hpp"
+#include "main/dss/PaletteEffect.hpp"
 #include "main/formation/FormationId.hpp"
 #include "nitro/fx/fx_atan.h"
 #include "nitro/os.hpp"
@@ -176,7 +176,7 @@ ARM void BillboardCharacter::draw()
     unkfunc_020498e8(s_scale);
     setCameraDirection(&camera_->getDirection());
     if (flag_ & FLAG_ANIM_PALLET) {
-        unkfunc_02086034((TextureObject*)texture_, &unk_fc.vx);
+        applyTexturePaletteRgbRate((TextureObject*)texture_, &unk_fc.vx);
     }
     execute();
     Billboard::draw();

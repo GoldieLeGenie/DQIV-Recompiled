@@ -131,8 +131,8 @@ ARM void cmn::NonBattleActionManager::execute()
                 }
                 if (UnkScreenEffectManager::getSingleton()->effect3_.unk_20 != 0) {
                     TownPlayerManager::getSingleton()->flagMapLink_ = 1;
-                    UnkScreenEffectManager::getSingleton()->unkfunc_0202aea4();
-                    UnkScreenEffectManager::getSingleton()->effect3_.unkfunc_02030278(0);
+                    UnkScreenEffectManager::getSingleton()->stopEffect();
+                    UnkScreenEffectManager::getSingleton()->effect3_.setReverse(0);
                     TownPlayerManager::getSingleton()->partyDraw_.requestCharacterReload();
                     TownCharacterManager::getSingleton()->requestCharacterReload();
                     CharacterShadow::unkfunc_02049b94();
@@ -168,7 +168,7 @@ ARM void cmn::NonBattleActionManager::execute()
                 break;
             case ACTION_RANARUTA:
                 SoundManager::playSe(0x23d, 0);
-                UnkScreenEffectManager::getSingleton()->unkfunc_0202aec4(5);
+                UnkScreenEffectManager::getSingleton()->startEffect(5);
                 if (data_0210bb94.unkfunc_02058114(12)) {
                     if (g_Stage.getTimeZone() == TIME_ZONE_DAYTIME || g_Stage.getTimeZone() == TIME_ZONE_EVENING) {
                         UnkScreenEffectManager::getSingleton()->effect5_.unk_68 = 0;
@@ -185,14 +185,14 @@ ARM void cmn::NonBattleActionManager::execute()
                 }
                 break;
             case ACTION_RIREMITO:
-                UnkScreenEffectManager::getSingleton()->unkfunc_0202aec4(6);
+                UnkScreenEffectManager::getSingleton()->startEffect(6);
                 break;
             case ACTION_BATTLE:
-                UnkScreenEffectManager::getSingleton()->unkfunc_0202aec4(4);
+                UnkScreenEffectManager::getSingleton()->startEffect(4);
                 break;
             case ACTION_TRAVELDOOR:
                 SoundManager::playSe(0x464, 0);
-                UnkScreenEffectManager::getSingleton()->unkfunc_0202aec4(3);
+                UnkScreenEffectManager::getSingleton()->startEffect(3);
                 TownSystem::getSingleton()->defaultSELock_ = 1;
                 break;
         }

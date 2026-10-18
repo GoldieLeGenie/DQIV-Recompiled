@@ -42,7 +42,7 @@ THUMB void BattleMenu_ITEMUSE2ENEMY::menuExecute()
 
 THUMB void BattleMenu_ITEMUSE2ENEMY::menuDraw()
 {
-    unkfunc_0216baf4(unk_160[menuItem_.active_].group);
+    drawItemUseOnEnemyMenu(unk_160[menuItem_.active_].group);
 }
 
 THUMB void BattleMenu_ITEMUSE2ENEMY::menuUpdate()

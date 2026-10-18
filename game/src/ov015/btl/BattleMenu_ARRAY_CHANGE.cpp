@@ -50,7 +50,7 @@ THUMB void BattleMenu_ARRAY_CHANGE::menuDraw()
 {
     status::g_Party.setMemberShiftMode();
     if (unk_1c == 0) {
-        unkfunc_0216bdd4();
+        drawFormationChangeMemberMenu();
     } else {
         int list[10];
         dss::memset(list, -1, sizeof(list));
@@ -62,7 +62,7 @@ THUMB void BattleMenu_ARRAY_CHANGE::menuDraw()
         }
         int target = out + unk_1c4.getIndex(unk_24);
         btl::BattleMenuPlayerControl::getSingleton()->targetChara_ = target;
-        unkfunc_0216be58(list, num, unk_1c4.getPageNo());
+        drawFormationChangeTargetMenu(list, num, unk_1c4.getPageNo());
     }
     int chara = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     if (unk_1c != 0) {
@@ -79,7 +79,7 @@ THUMB void BattleMenu_ARRAY_CHANGE::menuDraw()
             num++;
         }
     }
-    unkfunc_0216c524(actions, num, chara);
+    drawCharaBattleSpellList(actions, num, chara);
     menuItem_.drawActive();
     unk_8c.drawActive();
 }

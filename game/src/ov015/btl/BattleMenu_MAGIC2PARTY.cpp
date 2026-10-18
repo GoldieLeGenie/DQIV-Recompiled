@@ -21,7 +21,7 @@ THUMB void BattleMenu_MAGIC2PARTY::menuExecute()
 
 THUMB void BattleMenu_MAGIC2PARTY::menuDraw()
 {
-    unkfunc_0216bbd0();
+    drawMagicOnPartyMenu();
     menuItem_.drawActive();
 }
 

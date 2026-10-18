@@ -1,7 +1,7 @@
 #include <stdarg.h>
 #include "main/debug/UnkDebugDisplay.hpp"
 #include "main/debug/UnkDebugInfo.hpp"
-#include "main/debug/UnkDebugBattleInfo.hpp"
+#include "main/debug/DebugBattleInfo.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/MenuBg.hpp"
 #include "main/global/GlobalDQ4.hpp"

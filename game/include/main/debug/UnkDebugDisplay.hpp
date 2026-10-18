@@ -1,6 +1,6 @@
 #pragma once
 #include <globaldefs.h>
-#include "main/debug/UnkBattleTest.hpp"
+#include "main/debug/AutoBattleTest.hpp"
 #include "main/dss/UnkArrayWarning.hpp"
 
 // Base of the debug info pages drawn on the debug console (one page per part slot)

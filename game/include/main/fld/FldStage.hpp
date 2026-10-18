@@ -6,7 +6,7 @@
 #include "main/fld/Coll.hpp"
 #include "main/object/ModelObject.hpp"
 #include "main/dss/Render.hpp"
-#include "main/dss/UnkPaletteEffect.hpp"
+#include "main/dss/PaletteEffect.hpp"
 
 struct FldStage;
 struct FldCollision;

@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "ov015/btl/UnkBattleMenuDraw_0216afc0.hpp"
+#include "ov015/btl/BattleMenuDrawCommon.hpp"
 #ifdef DQIV_NATIVE
 #include "ov003/status/MonsterPartyWithDraw.hpp"
 #include "main/dss/UnkDisplay.hpp"
@@ -213,15 +213,15 @@ static UnkMenuParts s_parts_02176dbc[] = {
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 
-THUMB void unkfunc_0216afc0(int command0, int command1, int command2, int command3)
+THUMB void drawBattleCommandIcons(int command0, int command1, int command2, int command3)
 {
-    unkfunc_0216b134(command0, 0x40, 0x80, 1);
-    unkfunc_0216b134(command1, 0x88, 0x80, 1);
-    unkfunc_0216b134(command2, 0x40, 0xa0, 1);
-    unkfunc_0216b134(command3, 0x88, 0xa0, 1);
+    drawBattleCommandIcon(command0, 0x40, 0x80, 1);
+    drawBattleCommandIcon(command1, 0x88, 0x80, 1);
+    drawBattleCommandIcon(command2, 0x40, 0xa0, 1);
+    drawBattleCommandIcon(command3, 0x88, 0xa0, 1);
 }
 
-THUMB void unkfunc_0216aff8(int x, int y, int hp, status::HaveStatusInfo* info)
+THUMB void drawBattleMemberHpPercent(int x, int y, int hp, status::HaveStatusInfo* info)
 {
     int index = info->haveStatus_.playerIndex_;
     status::g_Party.getSortIndex(index);
@@ -235,13 +235,13 @@ THUMB void unkfunc_0216aff8(int x, int y, int hp, status::HaveStatusInfo* info)
     if (hp > hpMax / 4 - 1 && param[1] < 26) {
         param[1] = 26;
     }
-    drawMenuParts(s_parts_02176b46, param, x, y, g_menuTextColors[unkfunc_0216b9a8(info, hp)]);
+    drawMenuParts(s_parts_02176b46, param, x, y, g_menuTextColors[getBattleHpColorIndexByHp(info, hp)]);
 }
 
-THUMB void unkfunc_0216b07c(status::HaveStatusInfo* info, int hp, int flag)
+THUMB void drawBattleActiveMember(status::HaveStatusInfo* info, int hp, int flag)
 {
-    unkfunc_0216aff8(0, 0xa0, hp, info);
-    unkfunc_0216b938(8, 0x72, info, flag);
+    drawBattleMemberHpPercent(0, 0xa0, hp, info);
+    drawBattleMemberFace(8, 0x72, info, flag);
 }
 
 #ifdef DQIV_NATIVE
@@ -299,7 +299,7 @@ static void unkfunc_native_platePalettes()
 }
 #endif
 
-THUMB void unkfunc_0216b0a0(int group)
+THUMB void drawMonsterNamePlates(int group)
 {
     int plateGroup;
     int count = BattleMonsterNamePlate::getSingleton().addCount_;
@@ -332,7 +332,7 @@ THUMB void unkfunc_0216b0a0(int group)
     }
 }
 
-THUMB void unkfunc_0216b134(int command, int x, int y, int flag)
+THUMB void drawBattleCommandIcon(int command, int x, int y, int flag)
 {
     int param[2] = { -1, 0 };
     switch (command) {
@@ -379,12 +379,12 @@ THUMB void unkfunc_0216b134(int command, int x, int y, int flag)
     }
 }
 
-THUMB void unkfunc_0216b254(int x, int y, int message)
+THUMB void drawBattleHelpMessage(int x, int y, int message)
 {
     drawMenuParts(s_parts_021767f0, &message, x, y, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0216b27c(int x, int y, int max, int page)
+THUMB void drawBattlePageNumber(int x, int y, int max, int page)
 {
     if (max != 0) {
         int param[4] = { 0, (int)"\xff\xfe\xa7\x24", 0, 0xd };
@@ -394,7 +394,7 @@ THUMB void unkfunc_0216b27c(int x, int y, int max, int page)
     }
 }
 
-THUMB void unkfunc_0216b2c4(int x, int y, int item, int flag)
+THUMB void drawBattleItemEntry(int x, int y, int item, int flag)
 {
     int param[3] = { 0, 0, (int)"\xff\xfe\xa6\x24" };
     param[0] = item + 0x40000000;
@@ -405,13 +405,13 @@ THUMB void unkfunc_0216b2c4(int x, int y, int item, int flag)
     drawMenuParts(s_parts_02176bd2, param, x, y, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0216b314(int x, int y, int action)
+THUMB void drawBattleActionName(int x, int y, int action)
 {
     int param = getActionNameMessage(action);
     drawMenuParts(s_parts_02176844, &param, x, y, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0216b344(status::HaveStatusInfo* info, int index)
+THUMB void drawBattleMemberStatusPanel(status::HaveStatusInfo* info, int index)
 {
     int playerIndex = info->haveStatus_.playerIndex_;
     int param[14];
@@ -444,10 +444,10 @@ THUMB void unkfunc_0216b344(status::HaveStatusInfo* info, int index)
     }
 }
 
-THUMB void unkfunc_0216b460(int x, int y, status::HaveStatusInfo* info)
+THUMB void drawBattleCharaStatus(int x, int y, status::HaveStatusInfo* info)
 {
     status::g_Party.getSortIndex(info->haveStatus_.playerIndex_);
-    int color = unkfunc_0216b980(info);
+    int color = getBattleHpColorIndex(info);
     drawMenuPartsAt(s_parts_02176a82, 0, x, y);
     int level[2] = { (int)":", 0 };
     level[1] = info->haveStatus_.level_;
@@ -470,7 +470,7 @@ THUMB void unkfunc_0216b460(int x, int y, status::HaveStatusInfo* info)
     drawMenuParts(s_parts_02176c5e, power, x, y, g_menuTextColors[color]);
 }
 
-THUMB void unkfunc_0216b590(int* list, int count, int page)
+THUMB void drawBattleMemberSelectList(int* list, int count, int page)
 {
     drawMenuPartsPlain(s_parts_021768d0, 0);
     int pageMax = (count - 1) / 4;
@@ -481,8 +481,8 @@ THUMB void unkfunc_0216b590(int* list, int count, int page)
     for (int i = 0; i < num; i++) {
         int x = i * 40 + 16;
         status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(list[page * 4 + i])->haveStatusInfo_;
-        unkfunc_0216b91c(x, 0x70, info->haveStatus_.iconIndex_);
-        unkfunc_0216b638(info, x, 0x70);
+        drawBattleMemberIcon(x, 0x70, info->haveStatus_.iconIndex_);
+        drawBattleMemberConditionMarks(info, x, 0x70);
     }
     int param = 0xd;
     if (pageMax > 0) {
@@ -490,7 +490,7 @@ THUMB void unkfunc_0216b590(int* list, int count, int page)
     }
 }
 
-THUMB void unkfunc_0216b638(status::HaveStatusInfo* info, int x, int y)
+THUMB void drawBattleMemberConditionMarks(status::HaveStatusInfo* info, int x, int y)
 {
     int param[3] = { (int)" ", (int)" ", (int)" " };
     int i = 0;
@@ -503,7 +503,7 @@ THUMB void unkfunc_0216b638(status::HaveStatusInfo* info, int x, int y)
     if (info->isSpell()) {
         param[i] = 0xa0000044;
     }
-    drawMenuParts(s_parts_021769da, param, x, y, g_menuTextColors[unkfunc_0216b980(info)]);
+    drawMenuParts(s_parts_021769da, param, x, y, g_menuTextColors[getBattleHpColorIndex(info)]);
 }
 
 THUMB void unkfunc_0216b6cc()
@@ -512,7 +512,7 @@ THUMB void unkfunc_0216b6cc()
     drawMenuPartsPlain(s_parts_02176828, &param);
 }
 
-THUMB void unkfunc_0216b6e0(status::HaveStatusInfo* info, int a, int b, int c, int index)
+THUMB void drawBattleTopStatusWindow(status::HaveStatusInfo* info, int a, int b, int c, int index)
 {
     setMenuDrawOffset(0, 0);
     int x = index * 64;
@@ -540,7 +540,7 @@ THUMB void unkfunc_0216b6e0(status::HaveStatusInfo* info, int a, int b, int c, i
     drawMenuParts(s_parts_02176cc0, param, x, 0x78, g_menuTextColors[color]);
 }
 
-THUMB void unkfunc_0216b7d4(int index, int value, int message, int color)
+THUMB void drawBattleActionHistory(int index, int value, int message, int color)
 {
     setMenuDrawOffset(0, 0);
     int x = index * 64;
@@ -572,7 +572,7 @@ THUMB void unkfunc_0216b858(int x, int y, int value, int type)
     }
 }
 
-THUMB void unkfunc_0216b8d0(int mp, int useMp)
+THUMB void drawBattleMpCost(int mp, int useMp)
 {
     drawMenuPartsAt(s_parts_021769b0, 0, 0x88, 0xa0);
     int param[4] = { 0xa000003e, 0, (int)"\xff\xfe\xa7\x24", 0 };
@@ -581,12 +581,12 @@ THUMB void unkfunc_0216b8d0(int mp, int useMp)
     drawMenuParts(s_parts_02176c18, param, 0x88, 0xa0, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0216b91c(int x, int y, int icon)
+THUMB void drawBattleMemberIcon(int x, int y, int icon)
 {
     drawMenuPartsAt(s_parts_02176986, &icon, x, y);
 }
 
-THUMB void unkfunc_0216b938(int x, int y, status::HaveStatusInfo* info, int flag)
+THUMB void drawBattleMemberFace(int x, int y, status::HaveStatusInfo* info, int flag)
 {
     int index = info->haveStatus_.playerIndex_;
     if (flag == 1) {
@@ -598,7 +598,7 @@ THUMB void unkfunc_0216b938(int x, int y, status::HaveStatusInfo* info, int flag
     }
 }
 
-THUMB int unkfunc_0216b980(status::HaveStatusInfo* info)
+THUMB int getBattleHpColorIndex(status::HaveStatusInfo* info)
 {
     info->getHp();
     if (info->isDeath()) {
@@ -610,7 +610,7 @@ THUMB int unkfunc_0216b980(status::HaveStatusInfo* info)
     return 0;
 }
 
-THUMB int unkfunc_0216b9a8(status::HaveStatusInfo* info, int hp)
+THUMB int getBattleHpColorIndexByHp(status::HaveStatusInfo* info, int hp)
 {
     if (hp == 0) {
         return 2;
@@ -621,7 +621,7 @@ THUMB int unkfunc_0216b9a8(status::HaveStatusInfo* info, int hp)
     return 0;
 }
 
-THUMB void unkfunc_0216b9c8(int flag)
+THUMB void drawBattleRootMenu(int flag)
 {
     int command0;
     int command1;
@@ -638,20 +638,20 @@ THUMB void unkfunc_0216b9c8(int flag)
         command2 = 0;
         command3 = 0;
     }
-    unkfunc_0216afc0(command0, command1, command2, command3);
+    drawBattleCommandIcons(command0, command1, command2, command3);
 }
 
-THUMB void unkfunc_0216b9e8(int flag)
+THUMB void drawBattleActionMenu(int flag)
 {
     int chara = btl::BattleMenuPlayerControl::getSingleton()->activeChara_;
     status::PlayerStatus* player = status::g_Party.getPlayerStatus(chara);
-    unkfunc_0216b07c(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 1);
+    drawBattleActiveMember(&player->haveStatusInfo_, btl::BattleMenuPlayerControl::getSingleton()->memberHP_[chara], 1);
     int command0 = (flag & 0x10) ? 0x10 : 0;
     int command1 = (flag & 0x20) ? 0x20 : 0;
     int command2 = (flag & 0x40) ? 0x40 : 0;
     int command3 = (flag & 0x80) ? 0x80 : 0;
-    unkfunc_0216afc0(command0, command1, command2, command3);
-    unkfunc_0216b0a0(-1);
+    drawBattleCommandIcons(command0, command1, command2, command3);
+    drawMonsterNamePlates(-1);
     unkfunc_0216b6cc();
 }
 

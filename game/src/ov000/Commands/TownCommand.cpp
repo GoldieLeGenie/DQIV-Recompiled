@@ -2157,7 +2157,7 @@ THUMB int cmd_map_change_timezone(int* param)
 
 THUMB int cmd_map_effect_sepia()
 {
-    unkfunc_02085d88(unkfunc_020835d8());
+    applyModelPaletteSepia(unkfunc_020835d8());
     TownStageManager::getSingleton()->stage_.m_fld.SetSepia();
     return 1;
 }
@@ -3925,7 +3925,7 @@ THUMB int cmd_map_black(int* param)
 {
     NNSG3dResTex* obj = unkfunc_020835d8();
     dss::Fix32Vector3 pos(0, 0, 0);
-    unkfunc_020857c8(obj, pos);
+    applyModelPaletteRgbRate(obj, pos);
     return 1;
 }
 

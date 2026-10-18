@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "main/dss/UnkDisplay.hpp"
-#include "main/effect/UnkScreenEffect.hpp"
+#include "main/effect/ScreenEffect.hpp"
 #include "main/effect/UnkEffectCamera.hpp"
 #include "main/object/DisplayCharacter.hpp"
 #include "main/dss/UnkBgBuffer.hpp"
@@ -55,7 +55,7 @@ THUMB void UnkScreenEffect::start()
     counter_ = 0;
 }
 
-THUMB int UnkScreenEffect::unkfunc_0202b244()
+THUMB int UnkScreenEffect::setupTiles()
 {
     if (wait_ < 2) {
         wait_++;
@@ -97,17 +97,17 @@ THUMB int UnkScreenEffect::unkfunc_0202b244()
     return 1;
 }
 
-THUMB void UnkScreenEffect::unkfunc_0202b474()
+THUMB void UnkScreenEffect::terminate()
 {
     unkfunc_0207f840(&data_0211a60c, tiles_);
     tiles_ = NULL;
     UnkEffectCamera::getSingleton()->terminate();
 }
 
-THUMB void UnkScreenEffect::unkfunc_0202b498()
+THUMB void UnkScreenEffect::update()
 {
     if (flag_.check(1) == false && flag_.check(2) == false) {
-        if (!unkfunc_0202b244()) {
+        if (!setupTiles()) {
             return;
         }
         flag_.flag_ |= 1;
@@ -126,7 +126,7 @@ THUMB void UnkScreenEffect::unkfunc_0202b498()
     }
 }
 
-THUMB void UnkScreenEffect::unkfunc_0202b510(int polygonID)
+THUMB void UnkScreenEffect::setPolygonParams(int polygonID)
 {
     if (unkfunc_02081254() & 1) {
         G3_TexImageParam(7, 1, 5, 5, 0, 0, 1, 0x20000);
@@ -148,7 +148,7 @@ THUMB void UnkScreenEffect::draw()
                 int index = j + i * rows_;
                 G3_Scale(scale_.value, scale_.value, scale_.value);
                 G3_Translate(tiles_[index].x, tiles_[index].y, tiles_[index].z);
-                unkfunc_0202b510(0x18);
+                setPolygonParams(0x18);
                 G3_Begin(1);
                 for (int k = 0; k < 4; k++) {
                     G3_Color(0x7fff);

@@ -31,7 +31,7 @@ THUMB void BattleMenu_ACTIONMENU::menuExecute()
 
 THUMB void BattleMenu_ACTIONMENU::menuDraw()
 {
-    unkfunc_0216b9e8(0xf0);
+    drawBattleActionMenu(0xf0);
     pageItem_.drawActive();
 }
 

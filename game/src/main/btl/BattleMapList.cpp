@@ -1,4 +1,4 @@
-#include "main/btl/UnkBattleMapList.hpp"
+#include "main/btl/BattleMapList.hpp"
 #include "main/dss/DssUtils.hpp"
 
 THUMB UnkBattleMapList::UnkBattleMapList()

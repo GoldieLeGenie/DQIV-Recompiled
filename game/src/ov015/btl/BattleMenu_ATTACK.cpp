@@ -36,7 +36,7 @@ THUMB void BattleMenu_ATTACK::menuExecute()
 
 THUMB void BattleMenu_ATTACK::menuDraw()
 {
-    unkfunc_0216ba54(touchRect_[menuItem_.active_].group);
+    drawAttackTargetMenu(touchRect_[menuItem_.active_].group);
 }
 
 THUMB void BattleMenu_ATTACK::menuUpdate()

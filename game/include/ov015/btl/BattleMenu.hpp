@@ -4,8 +4,8 @@
 #include "ov015/btl/BattleMenuPlayerControl.hpp"
 #include "ov015/btl/BattleMonsterNamePlate.hpp"
 #include "ov015/btl/MenuTemplate_battle.hpp"
-#include "ov015/btl/UnkBattleMenuDraw_0216afc0.hpp"
-#include "ov015/btl/UnkBattleMenuDraw_0216ba54.hpp"
+#include "ov015/btl/BattleMenuDrawCommon.hpp"
+#include "ov015/btl/BattleMenuScreenDraw.hpp"
 
 struct BattleMenu_NGMESSAGE : menu::MenuBase
 {

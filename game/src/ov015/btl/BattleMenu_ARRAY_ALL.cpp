@@ -65,7 +65,7 @@ THUMB void BattleMenu_ARRAY_ALL::menuDraw()
         list[num] = -1;
         num++;
     }
-    unkfunc_0216bec8(list, num, unk_1c, unk_2c);
+    drawFormationAllMenu(list, num, unk_1c, unk_2c);
     menuItem_.drawActive();
     cancelItem_.drawActive();
     int actionCount;
@@ -82,7 +82,7 @@ THUMB void BattleMenu_ARRAY_ALL::menuDraw()
                 actionNum++;
             }
         }
-        unkfunc_0216c524(actions, actionNum, chara);
+        drawCharaBattleSpellList(actions, actionNum, chara);
     }
 }
 

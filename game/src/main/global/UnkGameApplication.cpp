@@ -4,7 +4,7 @@
 #include "main/global/GlobalGamePart.hpp"
 #include "main/global/StageLink.hpp"
 #include "main/status/BaseActionMessage.hpp"
-#include "main/btl/UnkBattleMapList.hpp"
+#include "main/btl/BattleMapList.hpp"
 #include "main/data/FileLoader.hpp"
 #include "main/debug/UnkDebugPrint.hpp"
 #include "main/dss/DisplayPlugin.hpp"

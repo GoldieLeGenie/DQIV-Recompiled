@@ -3,7 +3,7 @@
 #include "ov000/town/TownCamera.hpp"
 #include "DualScreen.hpp"
 #include "main/object/DSSAObject.hpp"
-#include "main/dss/UnkPaletteEffect.hpp"
+#include "main/dss/PaletteEffect.hpp"
 
 ARM TownMonsterDraw::TownMonsterDraw()
 {
@@ -94,7 +94,7 @@ ARM void TownMonsterDraw::setPaletteRate(dss::Fix32 r, dss::Fix32 g, dss::Fix32 
     rate[0] = r;
     rate[1] = g;
     rate[2] = b;
-    unkfunc_02086034((TextureObject*)palette, rate);
+    applyTexturePaletteRgbRate((TextureObject*)palette, rate);
 }
 
 ARM void TownMonsterDraw::setMotion(int motion, int loop)

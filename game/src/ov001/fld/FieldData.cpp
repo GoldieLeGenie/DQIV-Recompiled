@@ -8783,13 +8783,13 @@ ARM void fld::FieldData::setKekaiSymbol(int index, int x, int y, int w, int h)
 ARM void fld::FieldData::setPaletteRate(dss::Fix32Vector3& rate)
 {
     dss::memcpy(unk_1cd4, unk_1ed4, unk_1c34->unkfunc_02086ab4());
-    unkfunc_020857a8(2, rate);
-    unkfunc_02085840(unk_1cd4, unk_1c34->unkfunc_02086ab4(), rate);
+    setPaletteRgbRate(2, rate);
+    applyPaletteRgbRate(unk_1cd4, unk_1c34->unkfunc_02086ab4(), rate);
     data_0211e450.unkfunc_02086378(1, unk_1cd4, unk_1c34->unkfunc_02086aa4(), unk_1c34->unkfunc_02086ab4(), 0);
     for (int i = 0; i < SYMBOL_TEXTURE_NUM; i++) {
         MI_CpuCopyU8((void*)unk_0030[i]->unkfunc_02086aac(), unk_1974[i], unk_0030[i]->unkfunc_02086ab4());
-        unkfunc_020857a8(2, rate);
-        unkfunc_02085840(unk_1974[i], unk_0030[i]->unkfunc_02086ab4(), rate);
+        setPaletteRgbRate(2, rate);
+        applyPaletteRgbRate(unk_1974[i], unk_0030[i]->unkfunc_02086ab4(), rate);
         data_0211e450.unkfunc_02086378(1, unk_1974[i], unk_0030[i]->unkfunc_02086aa4(), unk_0030[i]->unkfunc_02086ab4(), 0);
     }
 }

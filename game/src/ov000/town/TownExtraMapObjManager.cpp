@@ -37,7 +37,7 @@ ARM int TownExtraMapObjManager::checkFloorMapUid(dss::Fix32Vector3& pos)
     dss::Fix32 height;
     for (int i = 0; i < floorMapObjCount_; i++) {
         vec = (pos - floorMapObj_[i].position);
-        height.value = unkfunc_02031e84(vec.vy.value);
+        height.value = absInt(vec.vy.value);
         vec.vy = 0L;
         if ((tempRR = vec.lengthsq()) < RR && height < R2) {
             retUid = floorMapObj_[i].mapUid;

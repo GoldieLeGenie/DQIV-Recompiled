@@ -18,7 +18,7 @@
 #include "main/cmn/CommonEffectLocation.hpp"
 #include "ov016/casino/MaterielMenu_SLOT/MaterielMenu_SLOT.hpp"
 #include "main/profile/Profile.hpp"
-#include "main/dss/UnkPaletteEffect.hpp"
+#include "main/dss/PaletteEffect.hpp"
 
 struct TownPartyDraw;
 struct TownFurnitureManager;

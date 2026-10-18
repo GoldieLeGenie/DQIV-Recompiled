@@ -94,7 +94,7 @@ THUMB void UnkScreenEffect_0202c678::unkfunc_0202c6e8()
                     alpha = 0;
                 }
                 alpha_ = alpha;
-                unkfunc_0202b510(polygonID);
+                setPolygonParams(polygonID);
                 polygonID++;
                 G3_Begin(1);
                 int v = 3;
@@ -152,7 +152,7 @@ THUMB void UnkScreenEffect_0202c9b8::draw()
                     short average = (tiles_[index - 1].vertex[k].vz + tiles_[index + 1].vertex[k].vz +
                                      tiles_[index - 24].vertex[k].vz + tiles_[index + 24].vertex[k].vz) >> 2;
                     z += (short)(average - z) >> 2;
-                    unkfunc_0202cd34(index, k, z);
+                    setSharedVertexZ(index, k, z);
                 }
             }
         }
@@ -167,7 +167,7 @@ THUMB void UnkScreenEffect_0202c9b8::draw()
                 } else {
                     G3_Translate(tiles_[index].x, tiles_[index].y - unk_24, tiles_[index].z);
                 }
-                unkfunc_0202b510(0x18);
+                setPolygonParams(0x18);
                 G3_Begin(1);
                 for (int k = 0; k < 4; k++) {
                     tiles_[index].vertex[k].vz -= 40;
@@ -186,10 +186,10 @@ THUMB void UnkScreenEffect_0202c9b8::draw()
         unk_20++;
         unk_24++;
         for (int i = 0; i < 10; i++) {
-            unkfunc_0202cd34(unk_54[i], 0, unk_2c);
-            unkfunc_0202cd34(unk_54[i], 1, unk_2c);
-            unkfunc_0202cd34(unk_54[i], 2, unk_2c);
-            unkfunc_0202cd34(unk_54[i], 3, unk_2c);
+            setSharedVertexZ(unk_54[i], 0, unk_2c);
+            setSharedVertexZ(unk_54[i], 1, unk_2c);
+            setSharedVertexZ(unk_54[i], 2, unk_2c);
+            setSharedVertexZ(unk_54[i], 3, unk_2c);
         }
         unk_2c += unk_28;
         if (unk_2c < -10000 || (unk_2c >= -2000 && unk_28 > 0)) {
@@ -203,7 +203,7 @@ THUMB bool UnkScreenEffect_0202c9b8::isEnd()
     return unk_24 > 60;
 }
 
-THUMB void UnkScreenEffect_0202c9b8::unkfunc_0202cd34(int index, int vertex, short z)
+THUMB void UnkScreenEffect_0202c9b8::setSharedVertexZ(int index, int vertex, short z)
 {
     int up = index - 24;
     int down = index + 24;
@@ -270,7 +270,7 @@ THUMB void UnkScreenEffect_0202ce0c::draw()
             const s16* sinCos = &FX_SinCosTable_[(unk_28 >> 4) * 2];
             func_02065c24(sinCos[0], sinCos[1]);
             G3_Scale(unk_2c, unk_2c, unk_2c);
-            unkfunc_0202b510(0x18);
+            setPolygonParams(0x18);
             G3_Begin(1);
             for (int k = 0; k < 4; k++) {
                 G3_Color(0x7fff);

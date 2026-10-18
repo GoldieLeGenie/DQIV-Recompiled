@@ -40,7 +40,7 @@ THUMB void BattleMenu_MAGIC2ENEMY::menuExecute()
 
 THUMB void BattleMenu_MAGIC2ENEMY::menuDraw()
 {
-    unkfunc_0216bbc0(touchRect_[menuItem_.active_].group);
+    drawMagicOnEnemyMenu(touchRect_[menuItem_.active_].group);
 }
 
 THUMB void BattleMenu_MAGIC2ENEMY::menuUpdate()

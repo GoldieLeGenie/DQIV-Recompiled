@@ -1,5 +1,5 @@
 #pragma once
-#include "main/effect/UnkScreenEffect.hpp"
+#include "main/effect/ScreenEffect.hpp"
 
 // UnkScreenEffectManager type 4 (battle)
 struct UnkScreenEffect_020302a0 : UnkScreenEffect {
@@ -26,5 +26,5 @@ struct UnkScreenEffect_0202ff7c : UnkScreenEffect {
     virtual void start();
     virtual void draw();
     virtual bool isEnd();
-    void unkfunc_02030278(int flag);
+    void setReverse(int flag);
 };

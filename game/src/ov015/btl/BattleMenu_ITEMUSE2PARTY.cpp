@@ -21,7 +21,7 @@ THUMB void BattleMenu_ITEMUSE2PARTY::menuExecute()
 
 THUMB void BattleMenu_ITEMUSE2PARTY::menuDraw()
 {
-    unkfunc_0216bae8();
+    drawItemUseOnPartyMenu();
     menuItem_.drawActive();
 }
 

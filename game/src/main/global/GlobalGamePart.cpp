@@ -24,7 +24,7 @@
 #include "DualScreen.hpp"
 #include "Settings.hpp"
 #include "main/dss/DisplayPlugin.hpp"
-#include "main/effect/UnkScreenEffectManager.hpp"
+#include "main/effect/ScreenEffectManager.hpp"
 #include "main/global/GlobalDQ4.hpp"
 #include "main/cmn/CommonChapterTitle.hpp"
 #endif
@@ -150,9 +150,9 @@ ARM void GlobalGamePart::vf0c()
     // plaque come on alternate frames): it is shown as its own panel.
     const bool chapterTitle = cmn::CommonChapterTitle::getSingleton()->sprite_.unkfunc_02057e74() != 0;
     pc::setUnifiedFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
-                        data_0210bb94.unkfunc_02058114(TOWN_PART) && !effects->unkfunc_0202af54() && !chapterTitle);
+                        data_0210bb94.unkfunc_02058114(TOWN_PART) && !effects->isEffectDrawing() && !chapterTitle);
     pc::setWideFieldFrame(pc::dualScreen().unified && data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_DOUBLE3D &&
-                          data_0210bb94.unkfunc_02058114(FIELD_PART) && !effects->unkfunc_0202af54() && !chapterTitle);
+                          data_0210bb94.unkfunc_02058114(FIELD_PART) && !effects->isEffectDrawing() && !chapterTitle);
     // Battles never draw screen effects; the player may keep their DS layout.
     pc::setWideBattleFrame(pc::dualScreen().unified && pc::gameSettings().battleLayout != pc::battleDsScreens &&
                            data_0211a7d0.plugin_ == &dss::g_DISPLAYPLUGIN_SINGLE3D && data_0210bb94.unkfunc_02058114(BATTLE_PART));

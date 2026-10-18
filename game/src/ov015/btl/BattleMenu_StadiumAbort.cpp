@@ -13,7 +13,7 @@ ARM void BattleMenu_StadiumAbort::menuExecute()
 ARM void BattleMenu_StadiumAbort::menuDraw()
 {
     status::g_Party.setBattleMode();
-    unkfunc_0216c040();
+    drawPartyHpPercents();
 }
 
 ARM void BattleMenu_StadiumAbort::menuUpdate()

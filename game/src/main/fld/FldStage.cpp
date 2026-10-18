@@ -50,7 +50,7 @@ ARM void FldStage::setup()
     void* coll = m_coll.getAddr();
     m_fld.Setup(model, texture, coll, (int)*unkfunc_0207f88c(&data_0211a60c));
     dss::Fix32Vector3 scale(1, 1, 1);
-    unkfunc_020857a8(0, scale);
+    setPaletteRgbRate(0, scale);
     int color = m_fld.m_scene->backColor;
     unkfunc_02084c78((color & 0xff) >> 3, ((color >> 8) & 0xff) >> 3, ((color >> 16) & 0xff) >> 3);
     extraObjectNum_ = 0;
@@ -267,7 +267,7 @@ ARM int FldStage::collCrossCheckPoly(dss::Fix32Vector3& start, dss::Fix32Vector3
             poly++;
             continue;
         }
-        d = unkfunc_02031e84(d);
+        d = absInt(d);
         if (d < min) {
             ret = poly;
             min = d;
@@ -603,7 +603,7 @@ ARM int FldStage::getCrossPolygonOtherSurface(dss::Fix32Vector3& start, dss::Fix
             poly++;
             continue;
         }
-        d = unkfunc_02031e84(d);
+        d = absInt(d);
         if (d < min) {
             ret = poly;
             min = d;

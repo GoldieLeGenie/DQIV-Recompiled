@@ -1,4 +1,4 @@
-#include "main/effect/UnkScreenEffectManager.hpp"
+#include "main/effect/ScreenEffectManager.hpp"
 #include "main/dss/UnkDisplay.hpp"
 #include "main/cmn/NonBattleActionManager.hpp"
 #include "main/global/Global.hpp"
@@ -8,7 +8,7 @@
 
 int UnkScreenEffectManager::unk_020edc40;
 
-THUMB void UnkScreenEffectManager::unkfunc_0202ace4()
+THUMB void UnkScreenEffectManager::initialize()
 {
     type_ = 0;
     current_ = NULL;
@@ -20,7 +20,7 @@ THUMB void UnkScreenEffectManager::unkfunc_0202ace4()
     }
 }
 
-THUMB void UnkScreenEffectManager::unkfunc_0202ad28()
+THUMB void UnkScreenEffectManager::execute()
 {
     if (current_ != NULL) {
         if (effect3_.unk_20 != 0) {
@@ -31,24 +31,24 @@ THUMB void UnkScreenEffectManager::unkfunc_0202ad28()
             }
             fadeIn_ = current_->flag_.check(2);
         }
-        current_->unkfunc_0202b498();
+        current_->update();
         current_->isEnd();
     }
 }
 
-THUMB void UnkScreenEffectManager::unkfunc_0202ad98()
+THUMB void UnkScreenEffectManager::draw()
 {
     if (type_ == 1) {
-        unkfunc_0202afcc();
+        updateWhiteFlash();
     } else if (current_ != NULL) {
         current_->draw();
     }
 }
 
-THUMB void UnkScreenEffectManager::unkfunc_0202adb4()
+THUMB void UnkScreenEffectManager::terminate()
 {
     if (current_ != NULL) {
-        current_->unkfunc_0202b474();
+        current_->terminate();
     }
 }
 
@@ -58,27 +58,27 @@ THUMB UnkScreenEffectManager* UnkScreenEffectManager::getSingleton()
     return &m_singleton;
 }
 
-THUMB void UnkScreenEffectManager::unkfunc_0202aea4()
+THUMB void UnkScreenEffectManager::stopEffect()
 {
     if (current_ != NULL) {
-        current_->unkfunc_0202b474();
+        current_->terminate();
         current_ = NULL;
         dss::g_DISPLAYPLUGIN_DOUBLE3D.ReqBlurMode(0);
     }
 }
 
-THUMB void UnkScreenEffectManager::unkfunc_0202aec4(int type)
+THUMB void UnkScreenEffectManager::startEffect(int type)
 {
     type_ = type;
     switch (type) {
         case 1:
-            unkfunc_0202af70();
+            startWhiteFlash();
             break;
         case 3:
             current_ = &effect3_;
             current_->start();
             if (unk_020edc40 != 0) {
-                effect3_.unkfunc_02030278(1);
+                effect3_.setReverse(1);
                 unk_020edc40 = 0;
             }
             break;
@@ -103,7 +103,7 @@ THUMB void UnkScreenEffectManager::unkfunc_0202aec4(int type)
     }
 }
 
-THUMB bool UnkScreenEffectManager::unkfunc_0202af54()
+THUMB bool UnkScreenEffectManager::isEffectDrawing()
 {
     if (current_ != NULL) {
         return current_->flag_.check(2);
@@ -111,7 +111,7 @@ THUMB bool UnkScreenEffectManager::unkfunc_0202af54()
     return false;
 }
 
-THUMB void UnkScreenEffectManager::unkfunc_0202af70()
+THUMB void UnkScreenEffectManager::startWhiteFlash()
 {
     step_ = 0;
     data_020f21f8.state_ = GlobalFade::FADE_IN_BLACK;
@@ -124,7 +124,7 @@ THUMB void UnkScreenEffectManager::unkfunc_0202af70()
     SoundManager::playSe(0x469, 0);
 }
 
-THUMB void UnkScreenEffectManager::unkfunc_0202afcc()
+THUMB void UnkScreenEffectManager::updateWhiteFlash()
 {
     if (data_020f21f8.count_ == data_020f21f8.frames_) {
         if (step_ == 0) {

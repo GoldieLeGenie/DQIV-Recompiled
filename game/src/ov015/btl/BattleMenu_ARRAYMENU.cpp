@@ -30,7 +30,7 @@ THUMB void BattleMenu_ARRAYMENU::menuExecute()
 THUMB void BattleMenu_ARRAYMENU::menuDraw()
 {
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0216bd94();
+        drawFormationMenu();
         menuItem_.drawActive();
     }
 }

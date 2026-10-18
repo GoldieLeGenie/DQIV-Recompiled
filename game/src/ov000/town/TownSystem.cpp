@@ -72,7 +72,7 @@ ARM void TownSystem::initialize()
     btl::BattleScriptManager::getSingleton()->checkScriptBattleResult();
     TownRiseupManager::getSingleton()->initialize();
     ScriptSystem::getSingleton()->initialize(status::g_Story.chapter_);
-    UnkScreenEffectManager::getSingleton()->unkfunc_0202ace4();
+    UnkScreenEffectManager::getSingleton()->initialize();
     playExitSE_ = 0;
     defaultSELock_ = 0;
     scriptLock_ = 0;
@@ -145,7 +145,7 @@ ARM void TownSystem::terminate()
     TownCamera::getSingleton()->terminate();
     render_.unkfunc_02084f50();
     CharacterShadow::unkfunc_02049eb4();
-    UnkScreenEffectManager::getSingleton()->unkfunc_0202adb4();
+    UnkScreenEffectManager::getSingleton()->terminate();
     status::Status::setFlagShopExec();
     status::excelParam.cleanupTown();
     g_Global.partChangeFlag_ = 0;
@@ -156,7 +156,7 @@ ARM void TownSystem::execute()
     TownOpeningManager::getSingleton()->execute();
     TownEndrollManager::getSingleton()->execute();
     if (g_Global.getRanarutaFlag()) {
-        UnkScreenEffectManager::getSingleton()->unkfunc_0202ad28();
+        UnkScreenEffectManager::getSingleton()->execute();
         cmn::NonBattleActionManager::getSingleton()->execute();
     }
     TownFurnitureManager::getSingleton()->execute();
@@ -188,8 +188,8 @@ ARM void TownSystem::execute()
 ARM void TownSystem::draw()
 {
     cmn::CommonChapterTitle::getSingleton()->draw();
-    UnkScreenEffectManager::getSingleton()->unkfunc_0202ad98();
-    if (UnkScreenEffectManager::getSingleton()->unkfunc_0202af54()) {
+    UnkScreenEffectManager::getSingleton()->draw();
+    if (UnkScreenEffectManager::getSingleton()->isEffectDrawing()) {
         return;
     }
     TownCamera::getSingleton()->draw();

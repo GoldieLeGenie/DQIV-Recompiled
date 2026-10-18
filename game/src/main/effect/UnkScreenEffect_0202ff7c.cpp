@@ -51,7 +51,7 @@ THUMB void UnkScreenEffect_0202ff7c::draw()
                 func_02065c9c(FX_SinIdx(unk_28), FX_CosIdx(unk_28));
                 int index = j + i * 24;
                 G3_Translate(tiles_[index].x, tiles_[index].y, tiles_[index].z);
-                unkfunc_0202b510(0x18);
+                setPolygonParams(0x18);
                 G3_Begin(1);
                 for (int k = 0; k < 4; k++) {
                     VecFx16 dir;
@@ -94,7 +94,7 @@ THUMB bool UnkScreenEffect_0202ff7c::isEnd()
     return unk_24 > 50;
 }
 
-THUMB void UnkScreenEffect_0202ff7c::unkfunc_02030278(int flag)
+THUMB void UnkScreenEffect_0202ff7c::setReverse(int flag)
 {
     unk_20 = flag;
     if (flag) {
@@ -164,7 +164,7 @@ THUMB void UnkScreenEffect_020302a0::draw()
                 short cosValue = FX_CosIdx(0);
                 unkfunc_020302e0(j, i, index, &sinValue, &cosValue);
                 func_02065c60(sinValue, cosValue);
-                unkfunc_0202b510(0x18);
+                setPolygonParams(0x18);
                 G3_Begin(1);
                 for (int k = 0; k < 4; k++) {
                     G3_Color(0x7fff);

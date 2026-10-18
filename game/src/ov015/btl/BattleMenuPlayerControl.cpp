@@ -419,7 +419,7 @@ THUMB bool btl::BattleMenuPlayerControl::flashHPColor(int index)
     } else if (player->isMenuStatusFlag(status::HaveStatusInfo::SpecialAction) != 0) {
         memberHPColor_[index] = isFlashHPColor(index, status::HaveStatusInfo::SpecialAction);
     } else {
-        memberHPColor_[index] = unkfunc_0216b980(info);
+        memberHPColor_[index] = getBattleHpColorIndex(info);
     }
 
     return old != memberHPColor_[index];

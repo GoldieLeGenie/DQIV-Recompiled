@@ -1,4 +1,4 @@
-#include "main/debug/UnkBattleTest.hpp"
+#include "main/debug/AutoBattleTest.hpp"
 #include "main/dss/Pad.hpp"
 #include "main/encount/Encount.hpp"
 #include "main/global/Global.hpp"

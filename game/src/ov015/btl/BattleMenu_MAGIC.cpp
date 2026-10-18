@@ -53,7 +53,7 @@ THUMB void BattleMenu_MAGIC::menuExecute()
 THUMB void BattleMenu_MAGIC::menuDraw()
 {
     if (!data_020ed1bc.isOpen()) {
-        unkfunc_0216bb00(haveAction_, count_, navigator_.getPageNo());
+        drawMagicMenu(haveAction_, count_, navigator_.getPageNo());
         menuItem_.drawActive();
         cancelItem_.drawActive();
     }

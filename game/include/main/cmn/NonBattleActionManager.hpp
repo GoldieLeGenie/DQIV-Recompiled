@@ -5,7 +5,7 @@
 #include "main/global/Global.hpp"
 #include "ov000/town/TownCharacterManager.hpp"
 #include "main/dss/UnkBgBuffer.hpp"
-#include "main/effect/UnkScreenEffectManager.hpp"
+#include "main/effect/ScreenEffectManager.hpp"
 
 struct TownStageManager;
 struct TownPlayerManager;

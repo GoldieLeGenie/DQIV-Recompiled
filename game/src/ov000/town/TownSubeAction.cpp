@@ -39,7 +39,7 @@ ARM void TownSubeAction::execute()
         if (subeDir4_ == 0 || subeDir4_ == 2) {
             if (subePos.vx != position_.vx) {
                 dss::Fix32 len = subePos.vx - position_.vx;
-                if (unkfunc_02031e84(len.value) < subeSpeed.value) {
+                if (absInt(len.value) < subeSpeed.value) {
                     position_.vx += len;
                 } else {
                     position_.vx += len.value >= 0 ? subeSpeed : subeSpeed * -1;
@@ -50,7 +50,7 @@ ARM void TownSubeAction::execute()
         } else {
             if (subePos.vz != position_.vz) {
                 dss::Fix32 len = subePos.vz - position_.vz;
-                if (unkfunc_02031e84(len.value) < subeSpeed.value) {
+                if (absInt(len.value) < subeSpeed.value) {
                     position_.vz += len;
                 } else {
                     position_.vz += len.value >= 0 ? subeSpeed : subeSpeed * -1;

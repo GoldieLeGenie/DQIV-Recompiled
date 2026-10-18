@@ -370,7 +370,7 @@ ARM bool TownActionCalculate::checkGetDownShipAndIkada(dss::Fix32Vector3& nextPo
         vec = nextPos - surfacePos;
         vec.vy = 0L;
         length = vec * surfaceDir;
-        length.value = unkfunc_02031e84(length.value);
+        length.value = absInt(length.value);
         length += downL;
         checkPos = nextPos + (surfaceDir * -1) * length;
         dss::Fix32 fy;
@@ -491,7 +491,7 @@ ARM bool TownActionCalculate::checkGetDownIkada(dss::Fix32Vector3& nextPos, shor
         vec = nextPos - surfacePos;
         vec.vy = 0L;
         length = vec * surfaceDir;
-        length.value = unkfunc_02031e84(length.value);
+        length.value = absInt(length.value);
         length += downL;
         checkPos = nextPos + (surfaceDir * -1) * length;
         dss::Fix32 fy;

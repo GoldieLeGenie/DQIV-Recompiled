@@ -2,7 +2,7 @@
 #include "main/dss/UnkVramTransfer.hpp"
 #include "main/object/ModelObject.hpp"
 #include "nitro/os.hpp"
-#include "main/dss/UnkPaletteEffect.hpp"
+#include "main/dss/PaletteEffect.hpp"
 
 NNSG3dResTex* data_0211d364;
 
@@ -60,7 +60,7 @@ ARM void UnkModelMember::unkfunc_02083460()
     int plttSize = func_0206a71c(tex);
     int texKey = data_0211e450.unkfunc_0208627c(texSize);
     int plttKey = data_0211e450.unkfunc_020862e0(plttSize);
-    unkfunc_02085798(tex);
+    setPaletteEffectTexture(tex);
     if (!(tex->texInfo.flag & 1)) {
         func_0206a618(tex, texKey, 0);
         func_0206a728(tex, plttKey);

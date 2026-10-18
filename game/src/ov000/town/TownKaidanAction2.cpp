@@ -322,7 +322,7 @@ ARM void TownKaidanAction2::checkKaidanSide(dss::Fix32Vector3& mVec, dss::Fix32V
             target = upKaidan_.pos1;
         }
     }
-    length.value = unkfunc_02031e84(length.value) + kaidanF.value;
+    length.value = absInt(length.value) + kaidanF.value;
 }
 
 ARM void TownKaidanAction2::setPlayerFixPosition(dss::Fix32Vector3& oldPos, dss::Fix32Vector3& newPos)

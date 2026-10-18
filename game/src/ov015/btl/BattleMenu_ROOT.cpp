@@ -52,7 +52,7 @@ THUMB void BattleMenu_ROOT::menuExecute()
 THUMB void BattleMenu_ROOT::menuDraw()
 {
     if (unk_f4 == 0) {
-        unkfunc_0216b9c8(unk_f8);
+        drawBattleRootMenu(unk_f8);
         menuItem_.drawActive();
     }
 }

@@ -44,9 +44,9 @@ THUMB void BattleMenu_TACTICSMENU::menuExecute()
 THUMB void BattleMenu_TACTICSMENU::menuDraw()
 {
     if (unk_1c == 0) {
-        unkfunc_0216bbdc();
+        drawTacticsMemberMenu();
     } else {
-        unkfunc_0216bc84();
+        drawTacticsSelectMenu();
     }
     menuItem_.drawActive();
     unk_120.drawActive();

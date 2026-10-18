@@ -705,7 +705,7 @@ ARM void TownCharacterBase::execMovePassive()
     dss::Fix32Vector3 playerPos = g_cmnPartyInfo.position_;
     dss::Fix32Vector3 vec = nowPos - playerPos;
     vec.vy = 0L;
-    if (unkfunc_02031e84(vec.vy.value) > TownPlayerAction::townCharaR.value) {
+    if (absInt(vec.vy.value) > TownPlayerAction::townCharaR.value) {
         return;
     }
     if (!(vec.lengthsq() <= (TownPlayerAction::townCharaR * TownPlayerAction::townCharaR) * 4)) {

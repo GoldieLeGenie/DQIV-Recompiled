@@ -61,4 +61,4 @@ namespace cmn {
     };
 }
 
-int unkfunc_02031e84(int value);   // abs
+int absInt(int value);   // abs

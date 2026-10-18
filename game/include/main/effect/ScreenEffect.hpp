@@ -29,8 +29,8 @@ struct UnkScreenEffect {
     virtual void start();
     virtual void draw();
     virtual bool isEnd() { return counter_ > 60; }
-    int unkfunc_0202b244();
-    void unkfunc_0202b474();
-    void unkfunc_0202b498();
-    void unkfunc_0202b510(int polygonID);
+    int setupTiles();
+    void terminate();
+    void update();
+    void setPolygonParams(int polygonID);
 };

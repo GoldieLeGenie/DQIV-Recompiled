@@ -345,7 +345,7 @@ ARM void TownCharacterManager::characterColl(dss::Fix32Vector3& nowPos, dss::Fix
         if (character_[i] && character_[i]->isDisplay()) {
             dss::Fix32Vector3& target = character_[i]->data_.position;
             vec = target - pos;
-            if (unkfunc_02031e84(vec.vy.value) < 0x1000) {
+            if (absInt(vec.vy.value) < 0x1000) {
                 vec.vy = 0L;
                 if (vec.length() <= TownPlayerAction::talkR) {
                     character_[i]->setSpeak(1);

@@ -426,12 +426,12 @@ ARM void cmn::MoveBase::dirMoveExec(dss::Fix32Vector3& pos)
         dist = targetPos_.vy - pos.vy;
         speed = moveVec_.vy;
     }
-    if (unkfunc_02031e84(dist.value) < unkfunc_02031e84(speed.value)) {
+    if (absInt(dist.value) < absInt(speed.value)) {
         moveCounter_ = 0;
     }
 }
 
-ARM int unkfunc_02031e84(int value)
+ARM int absInt(int value)
 {
     if (value < 0) {
         value = -value;

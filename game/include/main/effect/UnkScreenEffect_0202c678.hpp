@@ -1,5 +1,5 @@
 #pragma once
-#include "main/effect/UnkScreenEffect.hpp"
+#include "main/effect/ScreenEffect.hpp"
 
 // one big quad that falls back while turning (UnkScreenEffectManager type 2)
 struct UnkScreenEffect_0202ce0c : UnkScreenEffect {
@@ -27,7 +27,7 @@ struct UnkScreenEffect_0202c9b8 : UnkScreenEffect {
     virtual void start();
     virtual void draw();
     virtual bool isEnd();
-    void unkfunc_0202cd34(int index, int vertex, short z);
+    void setSharedVertexZ(int index, int vertex, short z);
 };
 
 // UnkScreenEffectManager type 6 (Riremito)
