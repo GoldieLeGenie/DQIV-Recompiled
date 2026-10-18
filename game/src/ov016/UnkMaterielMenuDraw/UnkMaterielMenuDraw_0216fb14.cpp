@@ -1,6 +1,6 @@
 #pragma ipa file
 #include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216ce4c.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDraw.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/MaterielMenuPlayerControl.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
@@ -27,72 +27,72 @@ THUMB void unkfunc_unused_9()
 
 THUMB void unkfunc_0216fb14()
 {
-    unkfunc_0216ce4c(false, 0);
+    drawShopRootCommands(false, 0);
     unkfunc_0216ff18();
 }
 
 THUMB void unkfunc_0216fb24(int* fukuroItemCount, int flag)
 {
-    unkfunc_0216d154(flag);
-    unkfunc_0216d0d4();
+    drawShopBuyList(flag);
+    drawShopItemKind();
     unkfunc_0201e350(0x88, 0xa0, flag);
     MaterielMenuPlayerControl* ctrl = MaterielMenuPlayerControl::getSingleton();
     int item = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(ctrl->activeItem_);
-    unkfunc_0216d058(fukuroItemCount);
+    drawShopSackCount(fukuroItemCount);
     if (status::UseItem::getItemType(item) <= 4) {
         drawShopEquipCompare();
     } else {
-        unkfunc_0216cfac();
+        drawShopHeldCounts();
     }
 }
 
 THUMB void unkfunc_0216fb6c(int flag)
 {
-    unkfunc_0216d398();
-    unkfunc_0216d554(0, 1);
-    unkfunc_0216e1c4(0);
+    drawShopGiveCompare();
+    drawPartyIcons(0, 1);
+    drawActiveCharaHp(0);
     unkfunc_0201e350(0x88, 0xa0, flag);
     unkfunc_0201e234();
-    unkfunc_0216d26c();
+    drawCharaItemNames();
 }
 
 THUMB void unkfunc_0216fb98()
 {
-    unkfunc_0216d554(0, 1);
-    unkfunc_0216e1c4(0);
+    drawPartyIcons(0, 1);
+    drawActiveCharaHp(0);
     unkfunc_0201e350(0x88, 0xa0, 0);
     unkfunc_0201e234();
-    unkfunc_0216d798();
+    drawSellPriceList();
 }
 
 THUMB void unkfunc_0216fbbc()
 {
-    unkfunc_0216e1c4(0);
+    drawActiveCharaHp(0);
     unkfunc_0201e350(0x88, 0xa0, 0);
     unkfunc_0201e234();
-    unkfunc_0216da80(0);
-    unkfunc_0216db94(0, -1, 0, 0);
-    unkfunc_0216d8e4(0);
-    unkfunc_0216dc54(-1);
+    drawSellPrice(0);
+    drawItemPageNumber(0, -1, 0, 0);
+    drawItemPage(0);
+    drawItemDetail(-1);
 }
 
 THUMB void unkfunc_0216fbf4()
 {
-    unkfunc_0216e1c4(0);
+    drawActiveCharaHp(0);
     unkfunc_0201e350(0x88, 0xa0, 0);
     unkfunc_0201e234();
-    unkfunc_0216da80(1);
-    unkfunc_0216db94(1, -1, 0, 0);
-    unkfunc_0216d8e4(1);
-    unkfunc_0216dc54(-1);
+    drawSellPrice(1);
+    drawItemPageNumber(1, -1, 0, 0);
+    drawItemPage(1);
+    drawItemDetail(-1);
 }
 
 THUMB void unkfunc_0216fc2c(int quantity)
 {
-    unkfunc_0216ddf4(quantity);
-    unkfunc_0216ce4c(false, 0);
-    unkfunc_0216e2bc(0xa4, 0x28);
-    unkfunc_0216dc54(-1);
+    drawSellQuantity(quantity);
+    drawShopRootCommands(false, 0);
+    drawCommandCursor(0xa4, 0x28);
+    drawItemDetail(-1);
     unkfunc_0201e350(-1, -1, 0);
 }
 
@@ -100,13 +100,13 @@ THUMB void unkfunc_0216fc58()
 {
     switch (MaterielMenu_SHOP_MANAGER::getSingleton()->getShopAction()) {
     case 0:
-        unkfunc_0216e2bc(0xa4, 0x10);
+        drawCommandCursor(0xa4, 0x10);
         break;
     case 1:
-        unkfunc_0216e2bc(0xa4, 0x28);
+        drawCommandCursor(0xa4, 0x28);
         break;
     case 2:
-        unkfunc_0216e2bc(0xa4, 0x40);
+        drawCommandCursor(0xa4, 0x40);
         break;
     }
     unkfunc_0216fb14();
@@ -115,7 +115,7 @@ THUMB void unkfunc_0216fc58()
 THUMB void unkfunc_0216fc94(int activeCommand, int firstFlag)
 {
     if (activeCommand == -1 && data_020ed1bc.isMessageWAITPROG() && firstFlag == 0) {
-        unkfunc_0216e0bc();
+        drawChurchCommands();
     }
     unkfunc_0216ff18();
 }
@@ -123,8 +123,8 @@ THUMB void unkfunc_0216fc94(int activeCommand, int firstFlag)
 THUMB void unkfunc_0216fcbc(int count)
 {
     int chara = MaterielMenuPlayerControl::getSingleton()->activeChara_;
-    unkfunc_0216d554(0x28, 0);
-    unkfunc_0216e1c4(1);
+    drawPartyIcons(0x28, 0);
+    drawActiveCharaHp(1);
     unkfunc_0201e3f4(chara, 1);
     unkfunc_0201e350(-1, -1, 0);
 }
@@ -136,7 +136,7 @@ THUMB void unkfunc_0216fce8()
 
 THUMB void unkfunc_0216fcf0()
 {
-    unkfunc_0216ce4c(true, 0);
+    drawShopRootCommands(true, 0);
     unkfunc_0216ff18();
 }
 
@@ -144,12 +144,12 @@ THUMB void unkfunc_0216fd00(int a, int b, int money)
 {
     if (a == 0) {
         if (b) {
-            unkfunc_0216e2bc(0xa4, 0x10);
+            drawCommandCursor(0xa4, 0x10);
         } else {
-            unkfunc_0216e2bc(0xa4, 0x28);
+            drawCommandCursor(0xa4, 0x28);
         }
-        unkfunc_0216ce4c(true, 1);
-        unkfunc_0216e12c(money, 1);
+        drawShopRootCommands(true, 1);
+        drawBankDigits(money, 1);
     }
     unkfunc_0216ff18();
 }
@@ -157,15 +157,15 @@ THUMB void unkfunc_0216fd00(int a, int b, int money)
 THUMB void unkfunc_0216fd34(int coin, int flag)
 {
     if (flag) {
-        unkfunc_0216e12c(coin, 0);
+        drawBankDigits(coin, 0);
     }
     unkfunc_0216ff18();
 }
 
 THUMB void unkfunc_0216fd48(int coin, int flag)
 {
-    unkfunc_0216de34(coin, flag);
-    unkfunc_0216dea8(flag);
+    drawPokerCoins(coin, flag);
+    drawHighLowCommands(flag);
 }
 
 THUMB void unkfunc_0216fd58(int coin, int flag)
@@ -185,27 +185,27 @@ THUMB void unkfunc_0216fd58(int coin, int flag)
 
 THUMB void unkfunc_0216fda0(int* monsterName, int* monsterFlag)
 {
-    unkfunc_0216decc(monsterName, monsterFlag);
+    drawMonsterBookPage(monsterName, monsterFlag);
 }
 
 THUMB void unkfunc_0216fda8(int monsterNo, int monsterName)
 {
-    unkfunc_0216df9c(monsterNo, monsterName);
+    drawMonsterBookDetail(monsterNo, monsterName);
 }
 
 THUMB void unkfunc_0216fdb0(int activeChara, int extraExp)
 {
-    unkfunc_0216e2d0(activeChara);
+    drawCharaStatusList(activeChara);
 }
 
 THUMB void unkfunc_0216fdb8()
 {
-    unkfunc_0216d554(0x28, 0);
+    drawPartyIcons(0x28, 0);
 }
 
 THUMB void unkfunc_0216fdc4()
 {
-    unkfunc_0216e844();
+    drawActiveCharaHpMp();
 }
 
 THUMB void unkfunc_0216fdcc()
@@ -214,78 +214,78 @@ THUMB void unkfunc_0216fdcc()
     if (MaterielMenuPlayerControl::getSingleton()->activeChara_ == 1) {
         flag = 1;
     }
-    unkfunc_0216e1c4(0);
+    drawActiveCharaHp(0);
     unkfunc_0201e350(0x88, 0xa0, 0);
-    unkfunc_0216da80(flag);
-    unkfunc_0216db94(0, -1, 0, 0);
-    unkfunc_0216d8e4(flag);
-    unkfunc_0216dc54(-1);
+    drawSellPrice(flag);
+    drawItemPageNumber(0, -1, 0, 0);
+    drawItemPage(flag);
+    drawItemDetail(-1);
 }
 
 THUMB void unkfunc_0216fe10(int count, int page, int pageMax)
 {
     MaterielMenuPlayerControl* ctrl = MaterielMenuPlayerControl::getSingleton();
     int item = status::g_Shop.haveItemNene_.getItem(ctrl->activeItem_ + page * 6);
-    unkfunc_0216e944(count, page, pageMax);
-    unkfunc_0216db94(1, count, page, pageMax);
-    unkfunc_0216dc54(item);
+    drawNeneItemPage(count, page, pageMax);
+    drawItemPageNumber(1, count, page, pageMax);
+    drawItemDetail(item);
 }
 
 THUMB void unkfunc_0216fe50(int chapter, int chapterEnd)
 {
-    unkfunc_0216e9fc(chapter, chapterEnd);
+    drawChapterTitleText(chapter, chapterEnd);
 }
 
 THUMB void unkfunc_0216fe58()
 {
-    unkfunc_0216eac0();
+    drawTagModeRootMenu();
 }
 
 THUMB void unkfunc_0216fe60(int count, int page, int pageMax, int index, int flag, int select)
 {
-    unkfunc_0216eb18(count, page, pageMax, flag);
+    drawTagModeTenantList(count, page, pageMax, flag);
     if (count > 0) {
-        unkfunc_0216edf8(index, 0, select);
+        drawTagModeTenantDetail(index, 0, select);
     }
 }
 
 THUMB void unkfunc_0216fe7c(int mode, int count, int page, int pageMax, int index)
 {
     if (mode == 0) {
-        unkfunc_0216eb18(count, page, pageMax, 0);
-        unkfunc_0216edf8(index, 0, 0);
+        drawTagModeTenantList(count, page, pageMax, 0);
+        drawTagModeTenantDetail(index, 0, 0);
     }
 }
 
 THUMB void unkfunc_0216fe9c(int mode, int active, int page, int value)
 {
     if (mode == 0) {
-        unkfunc_0216f0c0(page, value);
+        drawTagModeIconGrid(page, value);
     } else {
-        unkfunc_0216f1b0(active, 0x48);
+        drawNameEditIcon(active, 0x48);
     }
 }
 
 THUMB void unkfunc_0216feb8(int mode, int active)
 {
     if (mode < 4) {
-        unkfunc_0216f1b0(active, 0);
+        drawNameEditIcon(active, 0);
     }
     switch (mode) {
     case 1:
-        unkfunc_0216f1e0();
+        drawNameEditSex();
         break;
     case 2:
-        unkfunc_0216f258();
+        drawNameEditAge();
         break;
     case 3:
-        unkfunc_0216f318();
+        drawNameEditSkill();
         break;
     case 4:
-        unkfunc_0216efdc(active, 1);
+        drawTagModeProfile(active, 1);
         break;
     case 6:
-        unkfunc_0216f450();
+        drawNameEditComment();
         break;
     case 8:
         break;
@@ -294,7 +294,7 @@ THUMB void unkfunc_0216feb8(int mode, int active)
 
 THUMB void unkfunc_0216ff10()
 {
-    unkfunc_0216f4bc();
+    drawSideJobItems();
 }
 
 THUMB void unkfunc_0216ff18()

@@ -23,7 +23,7 @@
 #include "ov000/town/TownCharacterManager.hpp"
 #include "ov000/town/TownFurnitureControl.hpp"
 #include "ov000/town/riseup/TownRiseup.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216ce4c.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDraw.hpp"
 #include "main/status/StoryStatus.hpp"
 #include "main/status/ShopList.hpp"
 #include "main/status/GameFlag.hpp"
@@ -491,7 +491,7 @@ THUMB int cmd_chara_talk_to_player_sure(int* param)
     char text0[0x40];
     char text1[0x40];
     char text2[0x40];
-    unkfunc_0216fa48(text0, text1, text2, (char*)comment);
+    splitCommentLines(text0, text1, text2, (char*)comment);
     TextAPI::setUserString(0, (char*)name);
     TextAPI::setUserString(1, (char*)text0);
     TextAPI::setUserString(2, (char*)text1);

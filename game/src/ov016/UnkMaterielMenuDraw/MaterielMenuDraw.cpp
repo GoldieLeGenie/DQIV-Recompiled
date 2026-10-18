@@ -1,5 +1,5 @@
 #pragma ipa file
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216ce4c.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDraw.hpp"
 #include "main/menu/MenuBase.hpp"
 #include "main/menu/MenuManager.hpp"
 #include "main/menu/MenuDataCommon.hpp"
@@ -488,7 +488,7 @@ static UnkMenuParts s_parts_021818ca[] = {
     { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
 };
 
-THUMB void unkfunc_0216ce4c(bool bank, int type)
+THUMB void drawShopRootCommands(bool bank, int type)
 {
     int command[3];
     int mode = 0;
@@ -502,7 +502,7 @@ THUMB void unkfunc_0216ce4c(bool bank, int type)
     unkfunc_0201e194(0x98, 0, 0x68, 0x50, -1);
 }
 
-ARM void unkfunc_0216ceb4(UnkMenuParts* parts, int* param, int x, int y, int mode)
+ARM void drawPartsInTextColorAt(UnkMenuParts* parts, int* param, int x, int y, int mode)
 {
     drawMenuParts(parts, param, x, y, g_menuTextColors[mode]);
 }
@@ -531,35 +531,35 @@ THUMB void drawShopEquipCompare()
         }
         drawMenuParts(parts, param, (i % 2) << 7, ((i / 2) << 4) + 0x28, g_menuTextColors[0]);
     }
-    unkfunc_0216f52c(-1);
+    drawShopItemHeader(-1);
     unkfunc_0201e194(0, 0, 0x100, 0x90, 0x20);
     unkfunc_0201e194(0, 0x90, 0x100, 0x30, -1);
 }
 
-ARM status::HaveStatusInfo* unkfunc_0216cfa4(status::PlayerStatus* player)
+ARM status::HaveStatusInfo* getPlayerHaveStatusInfo(status::PlayerStatus* player)
 {
     return &player->haveStatusInfo_;
 }
 
-THUMB void unkfunc_0216cfac()
+THUMB void drawShopHeldCounts()
 {
     unkfunc_02050698(0, 0);
     for (int i = 0; i < status::g_Party.getCount(); i++) {
         int param[3];
         UnkMenuParts* parts;
-        if (unkfunc_0216f7d0(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, param, -1)) {
+        if (getShopHeldCount(&status::g_Party.getPlayerStatus(i)->haveStatusInfo_, param, -1)) {
             parts = s_parts_021815ba;
         } else {
             parts = s_parts_021813a6;
         }
         drawMenuParts(parts, param, ((i % 2) << 7) - ((i % 2) << 2), ((i / 2) << 4) + 0x28, g_menuTextColors[0]);
     }
-    unkfunc_0216f52c(-1);
+    drawShopItemHeader(-1);
     unkfunc_0201e194(0, 0, 0x100, 0x90, 0x20);
     unkfunc_0201e194(0, 0x90, 0x100, 0x30, -1);
 }
 
-THUMB void unkfunc_0216d058(int* count)
+THUMB void drawShopSackCount(int* count)
 {
     unkfunc_02050698(0, 0);
     int item = MaterielMenuPlayerControl::getSingleton()->activeItem_;
@@ -579,12 +579,12 @@ THUMB void unkfunc_0216d058(int* count)
     }
 }
 
-ARM void unkfunc_0216d0bc(UnkMenuParts* parts, int* param, int mode)
+ARM void drawPartsInTextColor(UnkMenuParts* parts, int* param, int mode)
 {
     drawMenuPartsColored(parts, param, g_menuTextColors[mode]);
 }
 
-THUMB void unkfunc_0216d0d4()
+THUMB void drawShopItemKind()
 {
     int item = MaterielMenuPlayerControl::getSingleton()->activeItem_;
     int itemID = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(item);
@@ -630,7 +630,7 @@ bool unkfunc_native_shopFilterMatch(int filter, int itemID)
 
 void unkfunc_native_shopBuyList(const int* rows, int count)
 {
-    // As unkfunc_0216d154, below the category tabs, with each item's icon left of its name.
+    // As drawShopBuyList, below the category tabs, with each item's icon left of its name.
     UnkMenuParts parts[] = {
         { 0x0c, 0xfb, 0, 5, 0x0c, 0, 0x10, 0x10 },
         { 0x0d, 0x08, (short)0xf000, 0, 0x20, 2, 0x78, 0xc },
@@ -746,7 +746,7 @@ const char* unkfunc_native_shopFilterName(int filter)
 
 #endif
 
-THUMB void unkfunc_0216d154(int flag)
+THUMB void drawShopBuyList(int flag)
 {
     UnkMenuParts partsA[] = {
         { 0x0d, 0x08, (short)0xf000, 0, 0xa, 2, 0x80, 0xc },
@@ -795,7 +795,7 @@ THUMB void unkfunc_unused_6(int index)
     drawMenuPartsColored(s_parts_02181168, &message[index], 1);
 }
 
-THUMB void unkfunc_0216d26c()
+THUMB void drawCharaItemNames()
 {
     unkfunc_02050698(0, 0);
     UnkMenuParts parts[] = {
@@ -839,7 +839,7 @@ THUMB void unkfunc_0216d26c()
     unkfunc_0201e194(0, 0x50, 0x100, 0x70, -1);
 }
 
-THUMB void unkfunc_0216d398()
+THUMB void drawShopGiveCompare()
 {
     int itemID;
     int chara;
@@ -903,12 +903,12 @@ THUMB void unkfunc_0216d398()
         param[4] = param[5] = param[6] = 0;
         s_parts_02181b86[4].type_ = s_parts_02181b86[5].type_ = s_parts_02181b86[6].type_ = 0;
         if (status::g_Party.fukuro_ && chara == status::g_Party.getCount()) {
-            if (unkfunc_0216f864(itemID)) {
+            if (activeCharaHasItem(itemID)) {
                 param[3] = 0xa0000078;
             } else {
                 param[3] = 0xa0000079;
             }
-        } else if (unkfunc_0216f864(itemID)) {
+        } else if (activeCharaHasItem(itemID)) {
             param[3] = 0xa0000076;
         } else {
             param[3] = 0xa0000077;
@@ -918,7 +918,7 @@ THUMB void unkfunc_0216d398()
     unkfunc_0201e194(0, 0, 0x100, 0x48, 0x28);
 }
 
-THUMB void unkfunc_0216d554(int y, int flag)
+THUMB void drawPartyIcons(int y, int flag)
 {
     int param = 0;
     for (int i = 0; i < status::g_Party.getCount(); i++) {
@@ -969,7 +969,7 @@ THUMB void unkfunc_0216d554(int y, int flag)
     unkfunc_0201e194(0, 0x48 - y, 0xe0, 0x58, -1);
 }
 
-THUMB void unkfunc_0216d798()
+THUMB void drawSellPriceList()
 {
     unkfunc_02050698(0, 0);
     int chara = MaterielMenuPlayerControl::getSingleton()->activeChara_;
@@ -989,7 +989,7 @@ THUMB void unkfunc_0216d798()
                 s_parts_02181ac2[2].type_ = s_parts_02181ac2[5].type_ = 0xf;
                 s_parts_02181ac2[4].type_ = 0xd;
             }
-            unkfunc_0216f8f8(param, chara, i);
+            getSellListRow(param, chara, i);
             drawMenuParts(s_parts_02181ac2, param, 0, i * 14 + 0xc, g_menuTextColors[0]);
         }
     } else {
@@ -1007,14 +1007,14 @@ THUMB void unkfunc_0216d798()
             } else {
                 s_parts_02181ac2[2].type_ = 0xf;
             }
-            unkfunc_0216f8f8(param, chara, i);
+            getSellListRow(param, chara, i);
             drawMenuParts(s_parts_02181ac2, param, 0, i * 14 + 0xc, g_menuTextColors[0]);
         }
     }
     unkfunc_0201e194(0, 0, 0x100, 0xc0, -1);
 }
 
-THUMB void unkfunc_0216d8e4(int flag)
+THUMB void drawItemPage(int flag)
 {
     int page = MaterielMenuPlayerControl::getSingleton()->activeItemPage_;
     int end = (page + 1) * 6;
@@ -1069,7 +1069,7 @@ THUMB void unkfunc_0216d8e4(int flag)
     unkfunc_0201e194(0, 0, 0x100, 0xa0, 0x70);
 }
 
-THUMB void unkfunc_0216da80(int flag)
+THUMB void drawSellPrice(int flag)
 {
     MaterielMenuPlayerControl* control = MaterielMenuPlayerControl::getSingleton();
     int start;
@@ -1112,7 +1112,7 @@ THUMB void unkfunc_0216da80(int flag)
     }
 }
 
-THUMB void unkfunc_0216db94(int mode, int a, int b, int c)
+THUMB void drawItemPageNumber(int mode, int a, int b, int c)
 {
     int param[5];
     param[1] = (int)"\xff\xfe\xa7\x24";
@@ -1153,7 +1153,7 @@ THUMB void unkfunc_0216db94(int mode, int a, int b, int c)
     drawMenuPartsColored(parts, param, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0216dc54(int item)
+THUMB void drawItemDetail(int item)
 {
     UnkMenuParts* parts = s_parts_02181662;
     int param[6];
@@ -1230,14 +1230,14 @@ THUMB void unkfunc_0216dc54(int item)
     unkfunc_0201e1c4(0, 0x90, 0xb0);
 }
 
-THUMB void unkfunc_0216ddf4(int quantity)
+THUMB void drawSellQuantity(int quantity)
 {
     int param[2] = { (int)"\xff\xfe\xa9\x24", quantity };
     drawMenuPartsColored(s_parts_021813d0, param, g_menuTextColors[0]);
     unkfunc_0201e194(0x98, 0x50, 0x68, 0x28, -1);
 }
 
-THUMB void unkfunc_0216de34(int coin, int flag)
+THUMB void drawPokerCoins(int coin, int flag)
 {
     int param[2] = { (int)0xa0000029, coin };
     int mode = 0;
@@ -1253,14 +1253,14 @@ THUMB void unkfunc_0216de34(int coin, int flag)
     unkfunc_0201e194(0x78, 0, 0x88, 0x38, -1);
 }
 
-THUMB void unkfunc_0216dea8(int win)
+THUMB void drawHighLowCommands(int win)
 {
     int command[2];
     menu::MenuDataCommon::getHighAndLowCommand(command, win);
     drawMenuPartsColored(s_parts_021816d2, command, g_menuTextColors[0]);
 }
 
-THUMB void unkfunc_0216decc(int* monsterName, int* monsterFlag)
+THUMB void drawMonsterBookPage(int* monsterName, int* monsterFlag)
 {
     int param[4];
     int count;
@@ -1290,7 +1290,7 @@ THUMB void unkfunc_0216decc(int* monsterName, int* monsterFlag)
     drawMenuPartsColored(s_parts_02181432, param, g_menuTextColors[4]);
 }
 
-THUMB void unkfunc_0216df9c(int monsterNo, int monsterName)
+THUMB void drawMonsterBookDetail(int monsterNo, int monsterName)
 {
     int count = status::g_BattleResult.getMonsterCount(monsterNo);
     int item = status::g_BattleResult.getItemIndex(monsterNo, 0);
@@ -1331,7 +1331,7 @@ THUMB void unkfunc_0216df9c(int monsterNo, int monsterName)
     drawMenuPartsColored(s_parts_02181e96, param, g_menuTextColors[4]);
 }
 
-THUMB void unkfunc_0216e0bc()
+THUMB void drawChurchCommands()
 {
     int command[6];
     int count = MaterielMenuPlayerControl::getSingleton()->churchCommandNum_;
@@ -1346,7 +1346,7 @@ THUMB void unkfunc_0216e0bc()
     unkfunc_0201e194(0x30, 0, 0xd0, 0x58, -1);
 }
 
-THUMB void unkfunc_0216e12c(int money, int flag)
+THUMB void drawBankDigits(int money, int flag)
 {
     int div = 100000;
     int y = 0;
@@ -1368,7 +1368,7 @@ THUMB void unkfunc_0216e12c(int money, int flag)
     unkfunc_0201e194(0xa8, y, 0x58, 0x20, -1);
 }
 
-THUMB void unkfunc_0216e1c4(int flag)
+THUMB void drawActiveCharaHp(int flag)
 {
     int chara = MaterielMenuPlayerControl::getSingleton()->activeChara_;
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(chara)->haveStatusInfo_;
@@ -1393,15 +1393,15 @@ THUMB void unkfunc_0216e1c4(int flag)
     }
 }
 
-THUMB void unkfunc_0216e2bc(int x, int y)
+THUMB void drawCommandCursor(int x, int y)
 {
     drawMenuPartsAt(s_parts_02180f54, 0, x, y);
 }
 
 #pragma dont_inline on
-THUMB void unkfunc_0216e2d0(int chara)
+THUMB void drawCharaStatusList(int chara)
 {
-    status::HaveStatusInfo* info = unkfunc_0216cfa4(status::g_Party.getPlayerStatus(chara));
+    status::HaveStatusInfo* info = getPlayerHaveStatusInfo(status::g_Party.getPlayerStatus(chara));
     int param[3];
     param[1] = (int)":";
     if (status::g_Game.unkfunc_0216e3f0() == 2) {
@@ -1418,16 +1418,16 @@ THUMB void unkfunc_0216e2d0(int chara)
             param[0] = menu::MenuDataCommon::getAbilityKind(i + 2);
             param[2] = menu::MenuDataCommon::getStatus(i + 2, *info);
         }
-        unkfunc_0216ceb4(s_parts_021814da, param, 0, i * 14 + 0x18, 0);
+        drawPartsInTextColorAt(s_parts_021814da, param, 0, i * 14 + 0x18, 0);
     }
     param[0] = 0xa0000010;
     param[2] = info->getExp();
-    unkfunc_0216d0bc(s_parts_02181512, param, 0);
+    drawPartsInTextColor(s_parts_02181512, param, 0);
     unkfunc_0201e194(0x90, 0x10, 0x68, 0xa0, -1);
 }
 #pragma dont_inline reset
 
-THUMB void unkfunc_0216e844()
+THUMB void drawActiveCharaHpMp()
 {
     status::HaveStatusInfo* info = &status::g_Party.getPlayerStatus(MaterielMenuPlayerControl::getSingleton()->activeChara_)->haveStatusInfo_;
     int param[13];
@@ -1457,7 +1457,7 @@ THUMB void unkfunc_0216e844()
     unkfunc_0201e194(0, 0, 0x40, 0x68, -1);
 }
 
-THUMB void unkfunc_0216e944(int count, int page, int pageMax)
+THUMB void drawNeneItemPage(int count, int page, int pageMax)
 {
     int num = 6;
     if (page == pageMax) {
@@ -1479,7 +1479,7 @@ THUMB void unkfunc_0216e944(int count, int page, int pageMax)
     unkfunc_0201e194(0, 0, 0x100, 0xa0, 0x70);
 }
 
-THUMB void unkfunc_0216e9fc(int chapter, int chapterEnd)
+THUMB void drawChapterTitleText(int chapter, int chapterEnd)
 {
     int param = 0xa000032a;
     if (chapter == 0 && chapterEnd == 1) {
@@ -1505,7 +1505,7 @@ THUMB void unkfunc_0216e9fc(int chapter, int chapterEnd)
     }
 }
 
-THUMB void unkfunc_0216eac0()
+THUMB void drawTagModeRootMenu()
 {
     drawMenuPartsPlain(s_parts_02181018, 0);
     for (int i = 0; i < 5; i++) {
@@ -1515,7 +1515,7 @@ THUMB void unkfunc_0216eac0()
     unkfunc_0201e194(0, 0, 0x88, 0x78, -1);
 }
 
-THUMB void unkfunc_0216eb18(int count, int page, int pageMax, int flag)
+THUMB void drawTagModeTenantList(int count, int page, int pageMax, int flag)
 {
     int param[5] = { 0, 0, 0, 0, 0 };
     data_020f0078.unkfunc_0203a388();
@@ -1599,7 +1599,7 @@ THUMB void unkfunc_0216eb18(int count, int page, int pageMax, int flag)
     unkfunc_0201e194(0, 0, 0x100, 0xc0, 0x20);
 }
 
-THUMB void unkfunc_0216edf8(int index, int mode, int flag)
+THUMB void drawTagModeTenantDetail(int index, int mode, int flag)
 {
     unkfunc_02050698(0, 0);
     if (mode == 0 && data_020f0078.unkfunc_0203a388() == 0 && flag == 0) {
@@ -1660,7 +1660,7 @@ THUMB void unkfunc_0216edf8(int index, int mode, int flag)
     unkfunc_0201e194(0, 0x50, 0xb0, 0x70, 0x70);
 }
 
-THUMB void unkfunc_0216efdc(int index, int mode)
+THUMB void drawTagModeProfile(int index, int mode)
 {
     int param[17] = { 0 };
     for (int i = 0; i < 17; i++) {
@@ -1692,7 +1692,7 @@ THUMB void unkfunc_0216efdc(int index, int mode)
     unkfunc_0201e194(0, 8, 0xc0, 0x70, 0x28);
 }
 
-THUMB void unkfunc_0216f0c0(int page, int value)
+THUMB void drawTagModeIconGrid(int page, int value)
 {
     int num = 0xc;
     if (page == 4) {
@@ -1714,17 +1714,17 @@ THUMB void unkfunc_0216f0c0(int page, int value)
     unkfunc_0201e194(0, 0, 0x100, 0x78, 0x20);
 }
 
-THUMB void unkfunc_0216f1b0(int active, int y)
+THUMB void drawNameEditIcon(int active, int y)
 {
     int param = active + 1;
     drawMenuPartsAt(s_parts_021812fe, &param, 0xc, y);
     unkfunc_0201e194(0, y, 0x38, 0x30, -1);
 }
 
-THUMB void unkfunc_0216f1e0()
+THUMB void drawNameEditSex()
 {
     data_020f0078.mode_ = 1;
-    unkfunc_0216f9e8(data_020f0078.unkfunc_0203a65c(), 1);
+    drawNameEditName(data_020f0078.unkfunc_0203a65c(), 1);
     for (int i = 0; i < 3; i++) {
         int param = menu::MenuDataCommon::getSuretigaiSex(i);
         drawMenuParts(s_parts_021810f8, &param, i * 0x48 + 0x18, 0x54, g_menuTextColors[0]);
@@ -1734,10 +1734,10 @@ THUMB void unkfunc_0216f1e0()
     unkfunc_0201e194(0, 0x30, 0x100, 0x40, 0x48);
 }
 
-THUMB void unkfunc_0216f258()
+THUMB void drawNameEditAge()
 {
     data_020f0078.mode_ = 1;
-    unkfunc_0216f9e8(data_020f0078.unkfunc_0203a65c(), 0);
+    drawNameEditName(data_020f0078.unkfunc_0203a65c(), 0);
     int param = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
     drawMenuPartsColored(s_parts_02181050, &param, g_menuTextColors[0]);
     unkfunc_0201e194(0x80, 0x10, 0x40, 0x20, -1);
@@ -1750,11 +1750,11 @@ THUMB void unkfunc_0216f258()
     unkfunc_0201e194(0, 0x30, 0x100, 0x58, 0x48);
 }
 
-THUMB void unkfunc_0216f318()
+THUMB void drawNameEditSkill()
 {
     data_020f0078.mode_ = 1;
     int param[5] = { 0 };
-    unkfunc_0216f9e8(data_020f0078.unkfunc_0203a65c(), 0);
+    drawNameEditName(data_020f0078.unkfunc_0203a65c(), 0);
     param[0] = menu::MenuDataCommon::getSuretigaiSex(data_020f0078.unkfunc_0203a714());
     drawMenuParts(s_parts_02181184, param, 0x80, 0, g_menuTextColors[0]);
     unkfunc_0201e194(0x80, 0x10, 0x40, 0x20, -1);
@@ -1777,14 +1777,14 @@ THUMB void unkfunc_0216f318()
     unkfunc_0201e194(0, 0x30, 0x100, 0x90, 0x50);
 }
 
-THUMB void unkfunc_0216f450()
+THUMB void drawNameEditComment()
 {
     int param[3];
     char line1[0x40];
     char line2[0x40];
     char line3[0x40];
     data_020f0078.mode_ = 1;
-    unkfunc_0216fa48(line1, line2, line3, (char*)data_020f0078.unkfunc_0203a938());
+    splitCommentLines(line1, line2, line3, (char*)data_020f0078.unkfunc_0203a938());
     param[0] = (int)line1;
     param[1] = (int)line2;
     param[2] = (int)line3;
@@ -1794,7 +1794,7 @@ THUMB void unkfunc_0216f450()
     unkfunc_0201e194(0, 8, 0xc0, 0x70, 0x20);
 }
 
-THUMB void unkfunc_0216f4bc()
+THUMB void drawSideJobItems()
 {
     int i = 0;
     int y = 8;
@@ -1810,7 +1810,7 @@ THUMB void unkfunc_0216f4bc()
     unkfunc_0201e194(0, 0, 0xb8, 0x70, -1);
 }
 
-THUMB void unkfunc_0216f52c(int item)
+THUMB void drawShopItemHeader(int item)
 {
     unkfunc_02050698(0, 0);
     int active = MaterielMenuPlayerControl::getSingleton()->activeItem_;
@@ -1920,7 +1920,7 @@ THUMB int getShopEquipCompare(status::HaveStatusInfo* status, int* param, int it
     return 1;
 }
 
-THUMB int unkfunc_0216f7d0(status::HaveStatusInfo* status, int* param, int item)
+THUMB int getShopHeldCount(status::HaveStatusInfo* status, int* param, int item)
 {
     param[0] = status->haveStatus_.playerIndex_ + 0x50000000;
     int active = MaterielMenuPlayerControl::getSingleton()->activeItem_;
@@ -1949,7 +1949,7 @@ THUMB int unkfunc_0216f7d0(status::HaveStatusInfo* status, int* param, int item)
     return 0;
 }
 
-THUMB int unkfunc_0216f864(int itemID)
+THUMB int activeCharaHasItem(int itemID)
 {
     int j;
     int chara = MaterielMenuPlayerControl::getSingleton()->activeChara_;
@@ -1969,7 +1969,7 @@ THUMB int unkfunc_0216f864(int itemID)
     return 0;
 }
 
-THUMB void unkfunc_0216f8f8(int* param, int chara, int index)
+THUMB void getSellListRow(int* param, int chara, int index)
 {
     if (chara == status::g_Party.getCount()) {
         status::HaveItemSack* sack = &status::g_Party.haveItemSack_;
@@ -2002,7 +2002,7 @@ THUMB void unkfunc_0216f8f8(int* param, int chara, int index)
     param[1] = items->getItem(index) + 0x40000000;
 }
 
-THUMB void unkfunc_0216f9e8(unsigned char* name, int flag)
+THUMB void drawNameEditName(unsigned char* name, int flag)
 {
     int param[1] = { 0 };
     param[0] = (int)name;
@@ -2015,7 +2015,7 @@ THUMB void unkfunc_0216f9e8(unsigned char* name, int flag)
     }
 }
 
-THUMB void unkfunc_0216fa48(char* line1, char* line2, char* line3, char* comment)
+THUMB void splitCommentLines(char* line1, char* line2, char* line3, char* comment)
 {
     Utf8Iterator src;
     src.unkfunc_020875ec(comment);

@@ -8,7 +8,7 @@
 #include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216fb14.hpp"
 
 #ifdef DQIV_NATIVE
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216ce4c.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDraw.hpp"
 #include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
 #include "main/dss/Pad.hpp"
 #include <nitro/pad.h>
@@ -130,15 +130,15 @@ THUMB void MaterielMenu_SHOP_BUYMENU::menuDraw()
         // As unkfunc_0216fb24, with the category tabs above the list and icons in it.
         unkfunc_native_shopTabs(tabs_, tabCount_, tab_);
         unkfunc_native_shopBuyList(rows_, rowCount_);
-        unkfunc_0216d0d4();
+        drawShopItemKind();
         unkfunc_0201e350(0x88, 0xa0, 0);
         MaterielMenuPlayerControl* ctrl = MaterielMenuPlayerControl::getSingleton();
         const int item = MaterielMenu_SHOP_MANAGER::getSingleton()->getItem(ctrl->activeItem_);
-        unkfunc_0216d058(fukuroItemCount_);
+        drawShopSackCount(fukuroItemCount_);
         if (status::UseItem::getItemType(item) <= 4) {
             drawShopEquipCompare();
         } else {
-            unkfunc_0216cfac();
+            drawShopHeldCounts();
         }
         menuItem_.drawActive();
         return;

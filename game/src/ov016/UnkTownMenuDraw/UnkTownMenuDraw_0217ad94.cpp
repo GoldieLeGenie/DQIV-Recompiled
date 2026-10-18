@@ -16,7 +16,7 @@
 #include "ov016/TownMenuPlayerControl/TownMenuPlayerControl.hpp"
 #include "ov016/status/FukuroItemInfo.hpp"
 #include "ov016/status/PlayerItemInfo.hpp"
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216ce4c.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDraw.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/UnkMenuCommonDraw_0201e194.hpp"
 #include "main/cmn/UnkEnvoyManager.hpp"

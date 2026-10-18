@@ -1,7 +1,7 @@
 #pragma ipa file
 #include "ov016/MenuTemplate/MenuTemplate_materiel.hpp"
 #ifdef DQIV_NATIVE
-#include "ov016/UnkMaterielMenuDraw/UnkMaterielMenuDraw_0216ce4c.hpp"
+#include "ov016/UnkMaterielMenuDraw/MaterielMenuDraw.hpp"
 #endif
 
 THUMB void MenuTemplate_materiel::MATERIEL_SHOP_ROOT(menu::MenuItem* menuitem, int active)

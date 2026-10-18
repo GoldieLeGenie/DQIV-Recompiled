@@ -1,7 +1,7 @@
 #pragma once
 #include "globaldefs.h"
 
-// materiel menu screen drawing (each one combines the window drawings of UnkMaterielMenuDraw_0216ce4c)
+// materiel menu screen drawing (each one combines the window drawings of MaterielMenuDraw)
 void unkfunc_0216fb14();
 void unkfunc_0216fb24(int* fukuroItemCount, int flag);
 void unkfunc_0216fb6c(int flag);
