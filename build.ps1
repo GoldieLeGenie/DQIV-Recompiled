@@ -70,6 +70,8 @@ try {
             Write-Host "build32 was made with $previous`: configuring it again for $($visualStudio.Generator)"
             Remove-Item $cache
             Remove-Item -Recurse -Force 'build32\CMakeFiles' -ErrorAction SilentlyContinue
+            # (the downloaded dependencies' own sub-builds too: they keep their generator)
+            Get-ChildItem 'build32\_deps' -Directory -Filter '*-subbuild' -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force
         }
     }
     & $cmake --preset windows-game -G $visualStudio.Generator

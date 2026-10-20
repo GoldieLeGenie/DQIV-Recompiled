@@ -1004,19 +1004,21 @@ THUMB void btl::BattleSelectTarget::setTargetSpecialToPlayer(status::UseActionPa
     case 1:
         target = 0;
         break;
-    case 2: 
+    case 2: {
         SpecialPlayerRate2 table = specialPlayerRate2;
         target = dss::arrayToIndex(table.rate_, dssrand::rand(256), 2);
         break;
-    
-    case 3: 
+    }
+    case 3: {
         SpecialPlayerRate3 table2 = specialPlayerRate3;
         target = dss::arrayToIndex(table2.rate_, dssrand::rand(256), 3);
         break;
-    default: 
+    }
+    default: {
         SpecialPlayerRate4 table3 = specialPlayerRate4;
         target = dss::arrayToIndex(table3.rate_, dssrand::rand(256), 4);
         break;
+    }
     }
     aliveIndex = 0;
     for (i = 0; i < count; i++) {
