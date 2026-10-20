@@ -6,22 +6,34 @@
 # The game keeps its save, settings and journal in dist\saves.
 $ErrorActionPreference = 'Stop'
 
-# Visual Studio 2022 with its C++ tools, found by the Visual Studio installer's own tool.
+# Visual Studio 2026 or 2022 with its C++ tools (the newest one), found by the Visual Studio
+# installer's own tool: its folder, its major version (18 or 17) and CMake's generator for it.
 function Find-VisualStudio {
     $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
     if (-not (Test-Path $vswhere)) { return $null }
-    $path = & $vswhere -latest -products * -version '[17.0,18.0)' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-    if ($path) { return ($path | Select-Object -First 1) }
-    return $null
+    $found = & $vswhere -latest -products * -version '[17.0,19.0)' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -format json | ConvertFrom-Json
+    $found = @($found) | Select-Object -First 1
+    if (-not $found) { return $null }
+    $major = [int]($found.installationVersion -split '\.')[0]
+    $generator = if ($major -ge 18) { 'Visual Studio 18 2026' } else { 'Visual Studio 17 2022' }
+    return [pscustomobject]@{ Path = $found.installationPath; Major = $major; Generator = $generator }
 }
 
-# CMake: on the PATH, installed on its own, or the one Visual Studio comes with.
+# CMake: on the PATH, installed on its own, or the one Visual Studio comes with; Visual
+# Studio 2026 needs CMake 4.2 or later (its generator), so an older one is passed over then.
 function Find-CMake($visualStudio) {
+    $minimum = if ($visualStudio.Major -ge 18) { [version]'4.2' } else { [version]'3.24' }
+    $candidates = @()
     $found = Get-Command cmake -ErrorAction SilentlyContinue
-    if ($found) { return $found.Source }
-    $candidates = @((Join-Path $env:ProgramFiles 'CMake\bin\cmake.exe'))
-    if ($visualStudio) { $candidates += Join-Path $visualStudio 'Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe' }
-    foreach ($candidate in $candidates) { if (Test-Path $candidate) { return $candidate } }
+    if ($found) { $candidates += $found.Source }
+    $candidates += Join-Path $env:ProgramFiles 'CMake\bin\cmake.exe'
+    $candidates += Join-Path $visualStudio.Path 'Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe'
+    foreach ($candidate in $candidates) {
+        if (-not (Test-Path $candidate)) { continue }
+        $text = (& $candidate --version | Select-Object -First 1) -replace '^cmake version\s+', ''
+        $version = [version](($text -split '-')[0])
+        if ($version -ge $minimum) { return $candidate }
+    }
     return $null
 }
 
@@ -40,14 +52,27 @@ Push-Location $PSScriptRoot
 try {
     $visualStudio = Find-VisualStudio
     if (-not $visualStudio) {
-        throw 'Visual Studio 2022 with "Desktop development with C++" was not found. Install it (or add that workload in the Visual Studio Installer), then build again.'
+        throw 'Visual Studio 2026 or 2022 with "Desktop development with C++" was not found. Install it (or add that workload in the Visual Studio Installer), then build again.'
     }
     $cmake = Find-CMake $visualStudio
-    if (-not $cmake) { throw 'CMake was not found. Install CMake 3.24 or later (cmake.org), or the "C++ CMake tools for Windows" component of Visual Studio.' }
-    Write-Host "Visual Studio: $visualStudio"
+    if (-not $cmake) {
+        if ($visualStudio.Major -ge 18) { throw 'CMake 4.2 or later was not found (Visual Studio 2026 needs it). Install it (cmake.org), or the "C++ CMake tools for Windows" component of Visual Studio.' }
+        throw 'CMake was not found. Install CMake 3.24 or later (cmake.org), or the "C++ CMake tools for Windows" component of Visual Studio.'
+    }
+    Write-Host "Visual Studio: $($visualStudio.Path) ($($visualStudio.Generator))"
     Write-Host "CMake: $cmake"
 
-    & $cmake --preset windows-game
+    # A build folder made with another Visual Studio is configured again from scratch.
+    $cache = 'build32\CMakeCache.txt'
+    if (Test-Path $cache) {
+        $previous = (Select-String -Path $cache -Pattern '^CMAKE_GENERATOR:INTERNAL=(.*)$').Matches | ForEach-Object { $_.Groups[1].Value }
+        if ($previous -and $previous -ne $visualStudio.Generator) {
+            Write-Host "build32 was made with $previous`: configuring it again for $($visualStudio.Generator)"
+            Remove-Item $cache
+            Remove-Item -Recurse -Force 'build32\CMakeFiles' -ErrorAction SilentlyContinue
+        }
+    }
+    & $cmake --preset windows-game -G $visualStudio.Generator
     if ($LASTEXITCODE -ne 0) { throw 'Configuration failed (see the messages above)' }
     & $cmake --build --preset windows-game --parallel 8
     if ($LASTEXITCODE -ne 0) { throw 'Build failed (see the messages above)' }

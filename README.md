@@ -158,7 +158,7 @@ The project contains no game data: it comes from your own copies of the game. Pu
 | The **Android version's data file** (`main.xxxxx.com.square_enix.android_googleplay.dq4.obb`) | optional: HD music and sound effects; without it, the game uses the DS sound |
 
 You also need:
-- Visual Studio 2022 (the free Community edition is enough) with the **Desktop development with C++** workload, which brings the Windows SDK and CMake;
+- Visual Studio 2026 or 2022 (the free Community edition is enough) with the **Desktop development with C++** workload, which brings the Windows SDK and CMake (with Visual Studio 2026, CMake 4.2 or later: the one it comes with is);
 - Internet access on the first build: SDL3 and stb_vorbis are downloaded and checked.
 
 Then double-click **`build.bat`**, or run in a terminal:
