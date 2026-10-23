@@ -2,7 +2,6 @@
 #include <span>
 #include <cstdint>
 namespace pc {
-// MapPackData / dss archive format used by UnkMemory's archive helpers.
 class Archive {
 public:
     explicit Archive(std::span<const std::uint8_t> data);

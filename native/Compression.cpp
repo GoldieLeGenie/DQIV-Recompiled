@@ -7,7 +7,6 @@ bool isCompressed(std::span<const std::uint8_t> data) {
     const auto type = data[0] & 0xf0;
     return type == 0x10 || type == 0x20 || type == 0x30 || type == 0x80;
 }
-// Format definitions: NitroSDK MI/uncompress.h and mi_uncompress.c.
 std::vector<std::uint8_t> decompress(std::span<const std::uint8_t> data) {
     if (!isCompressed(data)) throw std::runtime_error("Unsupported compression header");
     const auto size = std::size_t(data[1]) | (std::size_t(data[2]) << 8) | (std::size_t(data[3]) << 16);
