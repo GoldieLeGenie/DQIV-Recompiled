@@ -1,6 +1,9 @@
 #include "main/text/TextAPI.hpp"
 #include "main/data/FileLoader.hpp"
 #include "main/dss/DssUtils.hpp"
+#ifdef DQIV_NATIVE
+#include "main/achievement/AchievementTriggers.hpp"
+#endif
 
 THUMB MsgData::MsgData()
 {
@@ -260,6 +263,11 @@ THUMB int MsgFile::loadMessage(unsigned int msg_id, int lang)
         return m_is_loaded;
     }
     m_is_loaded = m_meta.parse(m_addr, msg_id, lang);
+#ifdef DQIV_NATIVE
+    if (m_is_loaded != 0) {
+        achievement::onMessage(msg_id);
+    }
+#endif
     return m_is_loaded;
 }
 

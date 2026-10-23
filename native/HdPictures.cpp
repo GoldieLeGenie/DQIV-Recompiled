@@ -56,6 +56,22 @@ int cellFor(const std::array<std::uint8_t,hdSourceSize*hdSourceSize>& indices,st
     s.cellUse[cell]=s.frame;
     return cell;
 }
+// The atlas cell of a full-colour picture (hdCellSize x hdCellSize), or -1.
+int cellFor(std::uint64_t key,const std::vector<std::uint32_t>& pixels) {
+    auto& s=state();
+    key^=0x9e3779b97f4a7c15ull; // apart from the palette pictures' keys
+    int cell;
+    if(auto found=s.cells.find(key);found!=s.cells.end())cell=found->second;
+    else {
+        cell=int(std::min_element(s.cellUse.begin(),s.cellUse.end())-s.cellUse.begin());
+        if(s.cellUse[cell]==s.frame)return -1;
+        if(s.cellUse[cell])s.cells.erase(s.cellKeys[cell]);
+        s.cells[key]=cell;s.cellKeys[cell]=key;
+        s.uploads.push_back({cell,pixels});
+    }
+    s.cellUse[cell]=s.frame;
+    return cell;
+}
 std::array<std::uint8_t,hdSourceSize*hdSourceSize> linear(std::span<const std::uint8_t> source) {
     std::array<std::uint8_t,hdSourceSize*hdSourceSize> indices{};
     for(int y=0;y<hdSourceSize;++y)for(int x=0;x<hdSourceSize;++x)
@@ -107,6 +123,8 @@ namespace {
 struct Placed {
     int x=0,y=0,width=0,height=0;
     std::array<std::uint8_t,hdSourceSize*hdSourceSize> indices{};
+    std::uint64_t key=0;
+    std::shared_ptr<const std::vector<std::uint32_t>> argb; // full colour instead of indices
 };
 std::array<std::vector<Placed>,2>& placed() {static std::array<std::vector<Placed>,2> p;return p;}
 }
@@ -116,12 +134,21 @@ void placeHdPicture(int screen,int x,int y,int width,int height,std::span<const 
     std::erase_if(list,[&](const Placed& p){return p.x==x&&p.y==y;});
     list.push_back({x,y,width,height,linear(source)});
 }
+void placeHdPicture(int screen,int x,int y,int width,int height,std::uint64_t key,
+    std::shared_ptr<const std::vector<std::uint32_t>> argb) {
+    if(screen<0||screen>1||width<=0||height<=0||width>64||height>64||!argb||argb->size()!=std::size_t(hdCellSize*hdCellSize))return;
+    auto& list=placed()[screen];
+    std::erase_if(list,[&](const Placed& p){return p.x==x&&p.y==y;});
+    Placed picture;
+    picture.x=x;picture.y=y;picture.width=width;picture.height=height;picture.key=key;picture.argb=std::move(argb);
+    list.push_back(std::move(picture));
+}
 void clearHdPictures(int screen) {
     if(screen>=0&&screen<=1)placed()[screen].clear();
 }
 void hdScreenTags(int screen,std::span<const std::uint8_t> palette,std::span<std::uint32_t> tags) {
     for(const auto& picture:placed()[screen]) {
-        const int cell=cellFor(picture.indices,palette);
+        const int cell=picture.argb?cellFor(picture.key,*picture.argb):cellFor(picture.indices,palette);
         if(cell<0)continue;
         const std::uint32_t base=std::uint32_t(cell+1)<<24|std::uint32_t(picture.width-1)<<18|std::uint32_t(picture.height-1)<<12;
         for(int y=std::max(0,picture.y);y<std::min(192,picture.y+picture.height);++y)

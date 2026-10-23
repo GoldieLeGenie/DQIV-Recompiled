@@ -52,6 +52,8 @@ constexpr int fieldExtendY=96;
 // (DS pixels) scaled about its centre, and the extra DS pixels it then shows
 // beyond fieldExtendX / fieldExtendY on each side.
 void zoomFieldRect(int& left,int& top,int& right,int& bottom);
+// The same in fixed point (1/4096 pixel).
+void zoomFieldRectFx(int& left,int& top,int& right,int& bottom);
 int fieldZoomExtraX();
 int fieldZoomExtraY();
 // Scenes without a world (logos, casino, book, file menus) present their two
@@ -91,6 +93,9 @@ private:
 // Continues a DS projection (row-vector MtxFx44, clip = v * m) built for the
 // bottom screen over both screens and the canvas width.
 void extendProjection(std::int32_t (&m)[4][4]);
+// Towns and dungeons: how far (0..1) the bottom camera's view is moved from the
+// picture's lower half to its middle, which centres the party it follows.
+void setUnifiedCentre(double centre);
 // A point of the 16:9 battle scene (normalized device coordinates) moved to
 // the DS screen pixel it falls on, as the DS rasterizer snaps its vertices:
 // the parts of a monster then meet without gaps, even zoomed.

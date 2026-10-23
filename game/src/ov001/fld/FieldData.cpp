@@ -8427,10 +8427,13 @@ ARM void fld::FieldData::setPlayerCamera()
     int y = position_.vy.value / FX32_ONE;
 #ifdef DQIV_NATIVE
     if (pc::wideFieldFrame()) {
+        // The view follows the position to the sub-pixel (fixed point): the
+        // party walks 1.5 pixels a frame, and whole pixels make it judder.
         const int ex = pc::fieldExtendX(), ey = pc::fieldExtendY;
-        int left = x - ex, top = y - ey, right = x + 256 + ex, bottom = y + 192 + ey;
-        pc::zoomFieldRect(left, top, right, bottom);
-        func_020657d4(top << 12, bottom << 12, left << 12, right << 12, -(1024 << 12), 1024 << 12, 1024 << 12, 1, NULL);
+        int left = position_.vx.value - (ex << 12), top = position_.vy.value - (ey << 12);
+        int right = position_.vx.value + ((256 + ex) << 12), bottom = position_.vy.value + ((192 + ey) << 12);
+        pc::zoomFieldRectFx(left, top, right, bottom);
+        func_020657d4(top, bottom, left, right, -(1024 << 12), 1024 << 12, 1024 << 12, 1, NULL);
     } else
 #endif
     func_020657d4(y << 12, (y << 12) + (192 << 12), x << 12, (x << 12) + (256 << 12), -(1024 << 12), 1024 << 12, 1024 << 12, 1, NULL);
@@ -8465,14 +8468,14 @@ ARM void fld::FieldData::setFieldCamera()
     int y = position_.vy.value / FX32_ONE;
 #ifdef DQIV_NATIVE
     if (pc::wideFieldFrame()) {
-        left += x;
-        right += x;
-        top += y;
-        bottom += y;
-        pc::zoomFieldRect(left, top, right, bottom);
-        x = 0;
-        y = 0;
-    }
+        // To the sub-pixel, as the player camera.
+        left = (left << 12) + position_.vx.value;
+        right = (right << 12) + position_.vx.value;
+        top = (top << 12) + position_.vy.value;
+        bottom = (bottom << 12) + position_.vy.value;
+        pc::zoomFieldRectFx(left, top, right, bottom);
+        func_020657d4(top, bottom, left, right, -(1024 << 12), 1024 << 12, 1024 << 12, 1, NULL);
+    } else
 #endif
     func_020657d4((top + y) << 12, (bottom + y) << 12, (left + x) << 12, (right + x) << 12, -(1024 << 12), 1024 << 12, 1024 << 12, 1, NULL);
     G3_StoreMtx(0);

@@ -61,6 +61,16 @@ void applyView(TownCamera* camera)
     // Frames drawn without the camera logic in between (talks, scenes): the
     // zoom starts again from the game's lens instead of adding up.
     undoView(camera);
+    // The party in the middle of the picture (settings) while the camera
+    // follows it; the DS framing in scenes where the game moves the camera,
+    // reached smoothly too.
+    static float s_centre = 0;
+    const float centre = camera->cameraLock_ == 0 && pc::gameSettings().centredCamera ? 1.f : 0.f;
+    s_centre += (centre - s_centre) * 0.15f;
+    if (std::abs(centre - s_centre) < 0.01f) {
+        s_centre = centre;
+    }
+    pc::setUnifiedCentre(s_centre);
     // The player's zoom while the camera follows the party; the game's own
     // framing in scenes where it moves the camera, reached smoothly.
     static float s_zoom = 100;
@@ -141,6 +151,7 @@ ARM void TownCamera::terminate()
 {
 #ifdef DQIV_NATIVE
     undoView(this);
+    pc::setUnifiedCentre(0);
 #endif
     if (changeDefaultAngleFlag_ == 1) {
         camera_.m_camera0.setAngle(default_angle);
@@ -271,6 +282,8 @@ ARM void TownCamera::draw()
             cam = &camera_.m_camera0;
             no = 0;
         }
+        // Rooms with cameras of their own keep the DS framing.
+        pc::setUnifiedCentre(0);
 #endif
         cam->m_pos.vx.value = TownStageManager::getSingleton()->GetCameraCentFX32(no).x;
         cam->m_pos.vy.value = TownStageManager::getSingleton()->GetCameraCentFX32(no).y;

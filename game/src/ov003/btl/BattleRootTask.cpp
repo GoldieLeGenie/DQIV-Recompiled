@@ -24,6 +24,10 @@
 #include "main/encount/Encount.hpp"
 #include "main/text/TextAPI.hpp"
 #include "main/cmn/CommonCounterInfo.hpp"
+#ifdef DQIV_NATIVE
+#include "main/achievement/AchievementTriggers.hpp"
+#include "ov003/status/MonsterPartyWithDraw.hpp"
+#endif
 
 static int endTaskIndex;
 static int levelupBgmCount;
@@ -327,6 +331,23 @@ THUMB void btl::ExitTask::initialize()
 
 THUMB void btl::ExitTask::terminate()
 {
+#ifdef DQIV_NATIVE
+    {
+        // The monsters fought: the encounter's groups and those still listed.
+        int monsters[16];
+        int count = 0;
+        encount::Encount* encounter = encount::Encount::getSingleton();
+        for (int i = 0; i < 4; i++) {
+            if (encounter->monsterIndex_[i] != encount::Encount::MONSTER_NONE) {
+                monsters[count++] = encounter->monsterIndex_[i];
+            }
+        }
+        for (int i = 0; i < g_monster.monsterCount_ && i < 12 && count < 16; i++) {
+            monsters[count++] = g_monster.monster_[i].characterIndex_;
+        }
+        achievement::onBattleEnd(status::g_BattleResult.playerVictory_ != 0, monsters, count);
+    }
+#endif
     if (status::g_BattleResult.playerVictory_) {
         g_Global.endBattle(false);
     } else if (status::g_BattleResult.playerDemolition_) {

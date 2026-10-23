@@ -5,12 +5,16 @@
 #include <functional>
 #include <memory>
 #include <span>
+#include <string>
+#include <vector>
 
 struct SDL_Window;
 struct SDL_Gamepad;
 
 namespace pc {
 class AudioOutput;
+// A PNG file as straight ARGB pixels (empty when it can't be read).
+std::vector<std::uint32_t> decodePng(const std::vector<std::uint8_t>& data,int& width,int& height);
 
 // Game window: OpenGL presentation, input, audio output, frame pacing and the
 // PC interface (settings screen, frame counter).
@@ -53,5 +57,12 @@ private:
     std::uint64_t nextShown_=0; // when the next interpolated frame is due (a steady cadence across the game's frames)
     void drawInterface(int width,int height);
     void setFullscreen(bool);
+    // An unlocked achievement, announced in the window's bottom right corner for a few seconds.
+    int toast_=-1;
+    std::uint64_t toastStart_=0;
+    std::unique_ptr<TextCanvas> toastPicture_;
+    std::vector<std::uint32_t> toastFaded_;
+    void drawToast(int width,int height,float scale);
+    void buildToast(float scale);
 };
 }

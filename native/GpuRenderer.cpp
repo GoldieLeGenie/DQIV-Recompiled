@@ -1049,8 +1049,9 @@ void GpuRenderer::present(const GpuLayout& layout,std::span<const std::uint32_t>
     }
     std::optional<ProfileScope> stage(std::in_place,"present-upload");
     for(auto& upload:takeHdUploads()) {
-        // Scale2x twice, then premultiplied for filtering.
-        auto pixels=scale2x(scale2x(upload.pixels,hdSourceSize,hdSourceSize),hdSourceSize*2,hdSourceSize*2);
+        // Scale2x twice (unless already full size), then premultiplied for filtering.
+        auto pixels=upload.pixels.size()==std::size_t(hdCellSize*hdCellSize)?upload.pixels:
+            scale2x(scale2x(upload.pixels,hdSourceSize,hdSourceSize),hdSourceSize*2,hdSourceSize*2);
         for(auto& p:pixels) {
             const unsigned a=p>>24;
             auto channel=[&](unsigned shift){return (((p>>shift)&255)*a+127)/255;};

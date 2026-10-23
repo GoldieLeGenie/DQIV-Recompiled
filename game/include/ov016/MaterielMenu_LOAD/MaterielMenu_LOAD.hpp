@@ -6,6 +6,7 @@
 #include "main/menu/MaterielMenu_NameEdit.hpp"
 #ifdef DQIV_NATIVE
 #include "ov016/MenuSettings/SettingsPanel.hpp"
+#include "ov016/MenuAchievements/AchievementsPanel.hpp"
 #endif
 
 struct MaterielMenu_LOAD : menu::MenuBase
@@ -24,7 +25,8 @@ struct MaterielMenu_LOAD : menu::MenuBase
         LOAD_BLANK = 10,
         LOAD_END = 11,
 #ifdef DQIV_NATIVE
-        LOAD_SETTINGS = 12, // the PC version's settings, the last entry of the root menu
+        LOAD_SETTINGS = 12, // the PC version's settings, after the original entries of the root menu
+        LOAD_ACHIEVEMENTS = 13, // the PC version's achievements, the last entry
 #endif
     };
     static const int ROOT_COUNT;
@@ -49,6 +51,8 @@ struct MaterielMenu_LOAD : menu::MenuBase
 #ifdef DQIV_NATIVE
     menu::MenuItem settingsItem_;
     SettingsPanel settings_;
+    menu::MenuItem achievementsItem_;
+    AchievementsPanel achievements_;
     int rootCount() const;              // the original entries
 #endif
 

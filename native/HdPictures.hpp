@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <memory>
 #include <span>
 #include <vector>
 // High-resolution menu icons. Game code registers the 8-bit tiles it writes to
@@ -27,12 +28,16 @@ bool hdFrameTags(bool sub,std::span<const std::uint8_t> vram,unsigned vramMask,s
 // rectangle (x, y, width, height) of a DS screen (0 top, 1 bottom) until
 // cleared; `source` as for registerHdPicture.
 void placeHdPicture(int screen,int x,int y,int width,int height,std::span<const std::uint8_t> source);
+// The same with a full-colour picture: straight ARGB, hdCellSize x hdCellSize,
+// told apart from the others by `key`.
+void placeHdPicture(int screen,int x,int y,int width,int height,std::uint64_t key,
+    std::shared_ptr<const std::vector<std::uint32_t>> argb);
 void clearHdPictures(int screen);
 // Adds the placed pictures of `screen` to its recipe plane 3 (256 x 192),
 // where it has no tag yet. `palette`: the main engine's standard palette.
 void hdScreenTags(int screen,std::span<const std::uint8_t> palette,std::span<std::uint32_t> tags);
 // Pictures that got an atlas cell since the last call: straight ARGB,
-// hdSourceSize x hdSourceSize.
+// hdSourceSize x hdSourceSize (to be upscaled), or already hdCellSize x hdCellSize.
 struct HdUpload {int cell=0;std::vector<std::uint32_t> pixels;};
 std::vector<HdUpload> takeHdUploads();
 }

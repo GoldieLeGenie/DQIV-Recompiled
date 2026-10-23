@@ -28,6 +28,9 @@
 #include "main/cmn/CommonChapterTitle.hpp"
 #include "main/Commands/CommonScriptCommand.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
+#ifdef DQIV_NATIVE
+#include "main/achievement/AchievementTriggers.hpp"
+#endif
 #include "main/menu/MaterielMenuWindowManager.hpp"
 #include "main/script/ScriptBaseCommand.hpp"
 #include "ov000/town/TownSystem.hpp"
@@ -479,6 +482,9 @@ THUMB int cmd_set_chapter(int* param)
     const char* church[6] = { "hak1f1", "mbk1f1", "mfk1f1", "mhk1f1", "cff1", "hck1f1" };
     const char* map[5] = { "caf1", "cbf2", "mfm1f1", "mhg1n1", "mlm1f1" };
     status::g_Story.setChapter(param[0]);
+#ifdef DQIV_NATIVE
+    achievement::onChapter(param[0]);
+#endif
     dss::Fix32Vector3 pos;
     dss::Fix32Vector3 unused;
     switch (param[0]) {

@@ -1,5 +1,8 @@
 #pragma ipa file
 #include "ov027/MaterielMenu_CHURCH/MaterielMenu_CHURCH.hpp"
+#ifdef DQIV_NATIVE
+#include "Settings.hpp"
+#endif
 #include "main/menu/TownMenu_MESSAGE.hpp"
 #include "main/text/TextAPI.hpp"
 #include "main/global/Global.hpp"
@@ -108,6 +111,12 @@ THUMB bool MaterielMenu_CHURCH_ROOT::rootUpdate()
         }
         break;
     case 7:
+#ifdef DQIV_NATIVE
+        // "Please turn the power OFF": the PC version closes once it is read.
+        if (stat == 1 || stat == 2) {
+            pc::requestQuit();
+        }
+#endif
         return true;
     case 1:
         if (stat == 1 || stat == 2) {

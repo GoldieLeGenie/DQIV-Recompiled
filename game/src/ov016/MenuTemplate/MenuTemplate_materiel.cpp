@@ -200,23 +200,21 @@ THUMB void MenuTemplate_materiel::MATERIEL_DIARY_MENU(menu::MenuItem* menuitem, 
         menuitem->setMenuItem(menu4, 1, 4, 4);
     }
 #ifdef DQIV_NATIVE
-    // The settings entry after the four original ones.
-    static MENUITEM_DATA menu5[6] = {
-        {1, 2, 0, 0, 0x100, 0xc0},
-        {1, 2, 0, 0, 0x100, 0xc0},
-        {1, 2, 0, 0, 0x100, 0xc0},
-        {1, 2, 0, 0, 0x100, 0xc0},
-        {1, 2, 0, 0, 0x100, 0xc0},
-        {-1, -1, 0, 0, 0, 0},
-    };
-    if (num == 5) {
-        for (int i = 0; i < 5; i++) {
-            menu5[i].x = 18;
-            menu5[i].y = 16 + i * 14;
-            menu5[i].w = 140;
-            menu5[i].h = 12;
+    // The settings, achievements and quit entries after the original ones.
+    static MENUITEM_DATA menu6[8];
+    if (num >= 5 && num <= 7) {
+        static const MENUITEM_DATA end = {-1, -1, 0, 0, 0, 0};
+        for (int i = 0; i < num; i++) {
+            menu6[i] = end;
+            menu6[i].code = 1;
+            menu6[i].view = 2;
+            menu6[i].x = 18;
+            menu6[i].y = 16 + i * 14;
+            menu6[i].w = 140;
+            menu6[i].h = 12;
         }
-        menuitem->setMenuItem(menu5, 1, 5, 5);
+        menu6[num] = end;
+        menuitem->setMenuItem(menu6, 1, num, num);
     }
 #endif
 }

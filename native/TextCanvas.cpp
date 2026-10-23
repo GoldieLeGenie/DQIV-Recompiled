@@ -3,6 +3,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include <algorithm>
+#include <cmath>
 #include <stdexcept>
 #include <string>
 
@@ -68,7 +69,7 @@ void TextCanvas::text(int x,int y,std::string_view utf8,int size,std::uint32_t a
     for(int row=std::max(0,int(rect.top));row<std::min(height_,int(rect.bottom));++row)
         std::fill_n(mask_+std::size_t(row)*width_+std::max(0,int(rect.left)),std::max(0,std::min(width_,int(rect.right))-std::max(0,int(rect.left))),0u);
     GdiFlush();
-    const UINT format=DT_SINGLELINE|DT_NOPREFIX|DT_TOP|(align==1?DT_CENTER:align==2?DT_RIGHT:DT_LEFT);
+    const UINT format=DT_SINGLELINE|DT_NOPREFIX|DT_TOP|DT_END_ELLIPSIS|(align==1?DT_CENTER:align==2?DT_RIGHT:DT_LEFT);
     DrawTextW(dc,string.c_str(),int(string.size()),&rect,format);
     GdiFlush();
     SelectObject(dc,previous);DeleteObject(font);
@@ -77,6 +78,32 @@ void TextCanvas::text(int x,int y,std::string_view utf8,int size,std::uint32_t a
             const auto m=mask_[std::size_t(row)*width_+column];
             const unsigned coverage=std::max({m&255,(m>>8)&255,(m>>16)&255});
             if(coverage){auto& p=pixels_[std::size_t(row)*width_+column];p=blend(p,argb,coverage);}
+        }
+}
+void TextCanvas::image(int x,int y,int width,int height,const std::uint32_t* argb,int sourceWidth,int sourceHeight) {
+    if(width<=0||height<=0||sourceWidth<=0||sourceHeight<=0)return;
+    const auto at=[&](int column,int row) {
+        return argb[std::size_t(std::clamp(row,0,sourceHeight-1))*sourceWidth+std::clamp(column,0,sourceWidth-1)];
+    };
+    for(int row=std::max(0,y);row<std::min(height_,y+height);++row)
+        for(int column=std::max(0,x);column<std::min(width_,x+width);++column) {
+            // Bilinear: the source point under the pixel's centre.
+            const float u=(column-x+0.5f)*sourceWidth/width-0.5f,v=(row-y+0.5f)*sourceHeight/height-0.5f;
+            const int u0=int(std::floor(u)),v0=int(std::floor(v));
+            const float fu=u-u0,fv=v-v0;
+            const std::uint32_t corners[4]={at(u0,v0),at(u0+1,v0),at(u0,v0+1),at(u0+1,v0+1)};
+            const float weights[4]={(1-fu)*(1-fv),fu*(1-fv),(1-fu)*fv,fu*fv};
+            float alpha=0,channels[3]={};
+            for(int i=0;i<4;++i) {
+                const float a=float(corners[i]>>24)*weights[i];
+                alpha+=a;
+                for(int c=0;c<3;++c)channels[c]+=float((corners[i]>>(c*8))&255)*a;
+            }
+            if(alpha<=0)continue;
+            std::uint32_t colour=0;
+            for(int c=0;c<3;++c)colour|=std::uint32_t(std::lround(channels[c]/alpha))<<(c*8);
+            auto& p=pixels_[std::size_t(row)*width_+column];
+            p=blend(p,colour|0xff000000u,unsigned(std::lround(alpha)));
         }
 }
 }

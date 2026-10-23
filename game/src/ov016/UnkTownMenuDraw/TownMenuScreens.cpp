@@ -13,6 +13,12 @@
 #include "ov016/status/PlayerItemInfo.hpp"
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/menu/MenuCommonDraw.hpp"
+#ifdef DQIV_NATIVE
+#include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_ROOT.hpp"
+#include "Achievements.hpp"
+#include "Settings.hpp"
+#include <stdio.h>
+#endif
 
 // not in the ROM (dead-stripped), keeps the const locals of this file
 THUMB void unkfunc_unused_11()
@@ -603,6 +609,15 @@ THUMB void drawTacticsCommandList(int mode, char* command, int count)
         return;
     }
     for (int i = 0; i < count; i++) {
+#ifdef DQIV_NATIVE
+        if (command[i] == TownMenu_OPERATION_ROOT::COMMAND_ACHIEVEMENTS) {
+            // The PC version's command: its name (a string) in the game's language.
+            static char s_achievements[48];
+            snprintf(s_achievements, sizeof(s_achievements), "%s", pc::achievementsTitle(pc::gameSettings().language));
+            drawCommandLabel((i % 2) * 0x50 + 0x20 + (i % 2) * 16, (i / 2) * 16 + 0x24 + (i / 2) * 8, (int)s_achievements);
+            continue;
+        }
+#endif
         drawCommandLabel((i % 2) * 0x50 + 0x20 + (i % 2) * 16, (i / 2) * 16 + 0x24 + (i / 2) * 8, tactics[command[i]]);
     }
     drawMenuFrame(0x10, 0x18, 0xd0, ((count - 1) / 2) * 0x18 + 0x28, -1);

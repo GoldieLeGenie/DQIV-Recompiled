@@ -43,6 +43,7 @@ void loadSettings() {
         else if(key=="battleBoost")s.battleBoost=std::clamp(value,0,3);
         else if(key=="cameraZoom")s.cameraZoom=std::clamp(value,cameraZoomMin,cameraZoomMax);
         else if(key=="mobileSound")s.mobileSound=value!=0;
+        else if(key=="centredCamera")s.centredCamera=value!=0;
         else if(key.rfind("key",0)==0&&key.size()>3) {
             const int i=std::atoi(key.c_str()+3);
             if(i>=0&&i<controlCount)s.keys[i]=static_cast<unsigned>(std::stoul(line.substr(equals+1)));
@@ -60,7 +61,7 @@ void saveSettings() {
     const auto& s=gameSettings();
     file<<"language="<<s.language<<"\nshowFps="<<s.showFps<<"\nfullscreen="<<s.fullscreen<<"\nwindowSize="<<s.windowSize
         <<"\nwide="<<s.wide<<"\nbattleLayout="<<s.battleLayout<<"\nbattleZoom="<<s.battleZoom<<"\nstretch="<<s.stretch<<"\nvsync="<<s.vsync<<"\nquality="<<s.quality
-        <<"\nsmoothTextures="<<s.smoothTextures<<"\nvolume="<<s.volume<<"\ntextSpeed="<<s.textSpeed<<"\nframeRate="<<s.frameRate<<"\nbattleBoost="<<s.battleBoost<<"\ncameraZoom="<<s.cameraZoom<<"\nmobileSound="<<s.mobileSound<<"\n";
+        <<"\nsmoothTextures="<<s.smoothTextures<<"\nvolume="<<s.volume<<"\ntextSpeed="<<s.textSpeed<<"\nframeRate="<<s.frameRate<<"\nbattleBoost="<<s.battleBoost<<"\ncameraZoom="<<s.cameraZoom<<"\nmobileSound="<<s.mobileSound<<"\ncentredCamera="<<s.centredCamera<<"\n";
     for(int i=0;i<controlCount;++i)file<<"key"<<i<<"="<<s.keys[i]<<"\npad"<<i<<"="<<s.pads[i]<<"\n";
 }
 namespace {
@@ -78,6 +79,8 @@ const char* japanese(const char* en) {
         {"Battle messages","せんとうメッセージ"},
         {"Battle speed","せんとうの はやさ"},
         {"Camera zoom","カメラズーム"},
+        {"Quit game","ゲームを おわる"},
+        {"Centred camera","カメラを まんなかに"},
         {"DS screens","DSのがめん"},
         {"Battle display","せんとうの がめん"},
         {"Battle zoom","せんとうの ズーム"},
@@ -211,6 +214,7 @@ const char* settingLabel(int item,int language) {
     case settingFrameRate:return pick(language,"Frame rate","Images par seconde","Bildrate","Fotogrammi al secondo","Imágenes por segundo");
     case settingBattleBoost:return pick(language,"Battle speed","Vitesse des combats","Kampftempo","Velocità battaglie","Velocidad de combate");
     case settingCameraZoom:return pick(language,"Camera zoom","Zoom caméra","Kamerazoom","Zoom telecamera","Zoom de cámara");
+    case settingCentredCamera:return pick(language,"Centred camera","Caméra centrée","Zentrierte Kamera","Telecamera centrata","Cámara centrada");
     case settingMobileSound:return pick(language,"HD sound","Son HD","HD-Sound","Audio HD","Sonido HD");
     }
     return "";
@@ -234,6 +238,7 @@ std::string settingValue(int item,int language) {
         return pick(language,"DS screens","Écrans DS","DS-Bildschirme","Schermi DS","Pantallas DS");
     case settingBattleZoom:return std::to_string(s.battleZoom)+"%";
     case settingStretch:return yesNo(s.stretch,language);
+    case settingCentredCamera:return yesNo(s.centredCamera,language);
     case settingVsync:return yesNo(s.vsync,language);
     case settingQuality:
         if(s.quality==0)return pick(language,"Auto","Auto","Auto","Auto","Auto");
@@ -267,6 +272,9 @@ const char* settingHint(int item,int language) {
         "Grand : monstres agrandis pour remplir la zone de combat ; Panorama : le zoom ci-dessous.","Groß: Monster vergrößert, um den Kampfbereich zu füllen; Panorama: der Zoom unten.",
         "Grande: mostri ingranditi per riempire l'area di battaglia; Panorama: lo zoom sotto.","Grande: monstruos ampliados para llenar la zona de combate; Panorama: el zoom de abajo.");
     case settingPicture:return pick(language,"16:9 fills the screen; DS screens keeps the original layout.","16:9 remplit l'écran ; Écrans DS garde la disposition d'origine.","16:9 füllt den Bildschirm; DS-Bildschirme: Original.","16:9 riempie lo schermo; Schermi DS: disposizione originale.","16:9 llena la pantalla; Pantallas DS: disposición original.");
+    case settingCentredCamera:return pick(language,"Towns and dungeons: the party in the middle of the picture (No: as on the DS).",
+        "Villes et donjons : le groupe au milieu de l'image (Non : comme sur la DS).","Städte und Dungeons: die Gruppe in der Bildmitte (Nein: wie auf dem DS).",
+        "Città e dungeon: il gruppo al centro dell'immagine (No: come sul DS).","Pueblos y mazmorras: el grupo en el centro de la imagen (No: como en DS).");
     case settingStretch:return pick(language,"Fills the window instead of keeping proportions.","Remplit la fenêtre au lieu de garder les proportions.","Füllt das Fenster statt die Proportionen zu halten.","Riempie la finestra invece di mantenere le proporzioni.","Llena la ventana en lugar de mantener las proporciones.");
     case settingVsync:return pick(language,"Avoids tearing.","Évite les déchirures de l'image.","Verhindert Bildrisse.","Evita lo strappo dell'immagine.","Evita el desgarro de la imagen.");
     case settingQuality:return pick(language,"3D supersampling; Auto adapts to the graphics card.","Suréchantillonnage 3D ; Auto s'adapte à la carte graphique.","3D-Supersampling; Auto passt sich der Grafikkarte an.","Supersampling 3D; Auto si adatta alla scheda video.","Supermuestreo 3D; Auto se adapta a la tarjeta gráfica.");
@@ -290,6 +298,7 @@ bool changeSetting(int item,int step) {
     case settingBattleView:s.battleLayout=cycle(s.battleLayout,0,battleLayoutCount-1);return true;
     case settingBattleZoom:s.battleZoom=cycle(s.battleZoom/25-4,0,3)*25+100;return true;
     case settingStretch:s.stretch=!s.stretch;return true;
+    case settingCentredCamera:s.centredCamera=!s.centredCamera;return true;
     case settingVsync:s.vsync=!s.vsync;return true;
     case settingQuality:s.quality=cycle(s.quality,0,4);return true;
     case settingTextures:s.smoothTextures=!s.smoothTextures;return true;
@@ -328,5 +337,9 @@ void zoomCamera(int step) {
     s.cameraZoom=std::clamp(s.cameraZoom+step,cameraZoomMin,cameraZoomMax);
 }
 void requestSettingsApply() {applyRequested=true;}
+namespace {bool quitRequested=false;}
+void requestQuit() {quitRequested=true;}
+bool takeQuitRequest() {const bool requested=quitRequested;quitRequested=false;return requested;}
+const char* quitLabel(int language) {return pick(language,"Quit game","Quitter le jeu","Spiel beenden","Esci dal gioco","Salir del juego");}
 bool takeSettingsApply() {const bool requested=applyRequested;applyRequested=false;return requested;}
 }

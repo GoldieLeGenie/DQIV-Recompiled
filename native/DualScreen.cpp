@@ -50,14 +50,18 @@ double battleSpanTop=0,battleSpanBottom=0;bool battleSpan=false;
 // scene, in DS bottom screen pixels; the room the windows leave the monsters.
 constexpr double feetAnchor=-0.25,zoomLift=0.3,anchorY=(1-feetAnchor)*96,liftY=zoomLift*96;
 constexpr double topLimit=30;}
+namespace {double unifiedCentre=0;}
+void setUnifiedCentre(double centre) {unifiedCentre=std::clamp(centre,0.0,1.0);}
 void extendProjection(std::int32_t (&m)[4][4]) {
     std::memcpy(originalProjection,m,sizeof originalProjection);
     // x' = x * 256 / width; y' = (y - w) / 2: the bottom camera's view lands in
-    // the lower half and its continuation fills the upper half.
+    // the lower half and its continuation fills the upper half. Centred
+    // (towns): y' = (y - w) / 2 + c w / 2, the view moved up to the middle.
     const double xScale=256.0/dualScreen().canvasWidth;
+    const double centre=wideBattleFrame()?0:unifiedCentre;
     for(auto& row:m) {
         row[0]=static_cast<std::int32_t>(std::lround(row[0]*xScale));
-        row[1]=static_cast<std::int32_t>(std::lround((double(row[1])-row[3])/2));
+        row[1]=static_cast<std::int32_t>(std::lround((double(row[1])-row[3])/2+centre*row[3]/2));
     }
     if(!wideBattleFrame()) {battleZoomSettled=false;battleFit=0;battleExtent=0;battleAcross=0;battleSpan=false;}
     battleProjection=wideBattleFrame();
@@ -162,6 +166,12 @@ void zoomFieldRect(int& left,int& top,int& right,int& bottom) {
     if(zoom==1.f)return;
     const float cx=(left+right)*0.5f,cy=(top+bottom)*0.5f,hw=(right-left)*0.5f/zoom,hh=(bottom-top)*0.5f/zoom;
     left=int(std::lround(cx-hw));right=int(std::lround(cx+hw));top=int(std::lround(cy-hh));bottom=int(std::lround(cy+hh));
+}
+void zoomFieldRectFx(int& left,int& top,int& right,int& bottom) {
+    const double zoom=fieldZoom();
+    if(zoom==1.0)return;
+    const double cx=(double(left)+right)*0.5,cy=(double(top)+bottom)*0.5,hw=(double(right)-left)*0.5/zoom,hh=(double(bottom)-top)*0.5/zoom;
+    left=int(std::llround(cx-hw));right=int(std::llround(cx+hw));top=int(std::llround(cy-hh));bottom=int(std::llround(cy+hh));
 }
 int fieldZoomExtraX() {
     const float zoom=fieldZoom(),half=128.f+float(fieldExtendX());

@@ -33,6 +33,8 @@ extern "C" {
 }
 #include "main/global/GameApplication.hpp"
 #include "main/global/GlobalDQ4.hpp"
+#include "main/achievement/AchievementTriggers.hpp"
+#include "Achievements.hpp"
 #include <array>
 #include <cstdio>
 #include <exception>
@@ -136,9 +138,13 @@ int main() {
     try {
         std::cout.setf(std::ios::unitbuf);
         pc::loadSettings();
+        pc::loadAchievements();
         preferFastCores();
         pc::Assets assets=openResources();
         pc::GameWindow window(false,false);
+        pc::setPictureReader([&assets](const std::string& name,int& width,int& height) {
+            return assets.contains(name)?pc::decodePng(assets.read(name),width,height):std::vector<std::uint32_t>{};
+        });
         // Both DS screens become one picture, presented by the GPU.
         pc::dualScreen().unified=true;
         pc::dualScreen().canvasWidth=384*16/9.f;
@@ -209,6 +215,7 @@ int main() {
                 pc::ProfileScope step("frame");
                 if(!g_GlobalDQ4.nativeStep())break;
             }
+            achievement::onFrame();
             pc::profileFrame();
             geometry.clearTriangles();
         }

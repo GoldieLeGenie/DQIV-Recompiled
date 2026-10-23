@@ -1,5 +1,10 @@
 #pragma ipa file
 #include "main/menu/MaterielMenu_SAVE.hpp"
+#ifdef DQIV_NATIVE
+#include "main/dss/Pad.hpp"
+#include "Settings.hpp"
+#include <nitro/pad.h>
+#endif
 #include "main/object/DisplayCharacter.hpp"
 #include "main/menu/MaterielMenuWindowManager.hpp"
 #include "main/menu/TownMenu_MESSAGE.hpp"
@@ -526,6 +531,12 @@ THUMB void MaterielMenu_SAVE::commandUpdate()
                 messageCounter_++;
             }
         }
+#ifdef DQIV_NATIVE
+        // "Please turn the power OFF": the PC version closes on A, B or Start.
+        else if (dss::g_Pad.edge() & (PAD_BUTTON_A | PAD_BUTTON_B | PAD_BUTTON_START)) {
+            pc::requestQuit();
+        }
+#endif
         break;
     case MENU_END:
         close();

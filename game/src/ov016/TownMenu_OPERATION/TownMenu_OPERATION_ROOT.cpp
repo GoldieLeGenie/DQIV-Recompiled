@@ -2,6 +2,9 @@
 #include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_CAREER.hpp"
 #include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_EQUIP.hpp"
 #include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_SETTING.hpp"
+#ifdef DQIV_NATIVE
+#include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_ACHIEVEMENTS.hpp"
+#endif
 #include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_TACTICS.hpp"
 #include "ov016/TownMenu_OPERATION/TownMenu_OPERATION_SHIFT_PARTY.hpp"
 #include "ov016/TownMenu_ROOT/TownMenu_ROOT.hpp"
@@ -243,6 +246,12 @@ THUMB void TownMenu_OPERATION_ROOT::menuUpdate()
             close();
             gTownMenu_OPERATION_SETTING.open();
             break;
+#ifdef DQIV_NATIVE
+        case COMMAND_ACHIEVEMENTS:
+            close();
+            gTownMenu_OPERATION_ACHIEVEMENTS.open();
+            break;
+#endif
         case 8:
             mode_ = 8;
             g_TownMenuMessage.openMessageForMENU();
@@ -363,12 +372,22 @@ THUMB int TownMenu_OPERATION_ROOT::setupCommandList(char* command)
         for (char i = 0; i < 9; i++) {
             command[i] = i;
         }
+#ifdef DQIV_NATIVE
+        command[9] = COMMAND_ACHIEVEMENTS;
+        return 10;
+#endif
         return 9;
     }
     char normal[8] = { 0, 1, 2, 4, 5, 6, 8, 7 };
     for (char i = 0; i < 8; i++) {
         command[i] = normal[i];
     }
+#ifdef DQIV_NATIVE
+    // The PC version's achievements, after the settings.
+    command[8] = COMMAND_ACHIEVEMENTS;
+    command[9] = -1;
+    return 9;
+#endif
     command[8] = -1;
     return 8;
 }

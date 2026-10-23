@@ -68,6 +68,7 @@ void SettingsPanel::buildRows()
         rows_[rowCount_++] = pc::settingWindowSize;
         rows_[rowCount_++] = pc::settingFrameRate;
         rows_[rowCount_++] = pc::settingCameraZoom;
+        rows_[rowCount_++] = pc::settingCentredCamera;
         rows_[rowCount_++] = pc::settingPicture;
         rows_[rowCount_++] = pc::settingBattleView;
         rows_[rowCount_++] = pc::settingBattleZoom;

@@ -1,10 +1,16 @@
 #include "ov003/btl/BeforeActionTask.hpp"
 #include "ov003/btl/selectAI.hpp"
+#ifdef DQIV_NATIVE
+#include "main/achievement/AchievementTriggers.hpp"
+#endif
 
 ARM void btl::BeforeActionTask::initialize()
 {
     btl::selectAI(useActionParam_);
     useActionParam_->clearMessage();
+#ifdef DQIV_NATIVE
+    achievement::onAction(*useActionParam_);
+#endif
 
     unsigned int actionIndex = useActionParam_->actionIndex_;
     if ((actionIndex - 0x201) > 1)

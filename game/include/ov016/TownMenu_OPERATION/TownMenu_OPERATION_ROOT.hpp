@@ -7,13 +7,21 @@
 // town operation menu root 
 struct TownMenu_OPERATION_ROOT : menu::MenuBase
 {
+#ifdef DQIV_NATIVE
+    // After the game's nine commands (0..8).
+    enum { COMMAND_ACHIEVEMENTS = 9 };
+#endif
     menu::MenuItem menuItem_;               /* 0x1C */
     menu::MenuItem cancelItem_;             /* 0x80 */
     menu::MenuItem sortItem_;               /* 0xE4 */
     menu::MenuItem charaItem_;              /* 0x148 */
     int sortDone_;                            /* 0x1AC */
     unsigned char mode_;                    /* 0x1B0 */
+#ifdef DQIV_NATIVE
+    char command_[10];                      // one more: the achievements
+#else
     char command_[9];                       /* 0x1B1 */
+#endif
     unsigned char commandCount_;            /* 0x1BA */
     unsigned char abort_;                   /* 0x1BB */
     unsigned char saveCount_;               /* 0x1BC */

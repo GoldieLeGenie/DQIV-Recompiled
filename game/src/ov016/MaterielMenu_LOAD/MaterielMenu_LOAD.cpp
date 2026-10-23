@@ -9,6 +9,7 @@
 #include "main/menu/MenuPartsDraw.hpp"
 #include "main/text/TextAPI.hpp"
 #include "Settings.hpp"
+#include "Achievements.hpp"
 #include "main/dss/Pad.hpp"
 #include <nitro/pad.h>
 #include <stdio.h>
@@ -39,6 +40,7 @@ THUMB void MaterielMenu_LOAD::menuSetup()
     sexualityItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
 #ifdef DQIV_NATIVE
     settingsItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
+    achievementsItem_.setup(menu::MenuItem::MENUITEM_TYPE_TOUCH_PAD_CANCEL, menu::MenuItem::CURSORTYPE_ACTIVE);
 #endif
     status_ = LOAD_MODESELECT;
     country_ = 0;
@@ -58,9 +60,10 @@ THUMB void MaterielMenu_LOAD::menuSetup()
 THUMB void MaterielMenu_LOAD::menuExecute()
 {
 #ifdef DQIV_NATIVE
-    // The original entries, then the settings.
-    MenuTemplate_materiel::MATERIEL_DIARY_MENU(&rootItem_, rootCount() + 1);
+    // The original entries, then the settings, the achievements and quitting.
+    MenuTemplate_materiel::MATERIEL_DIARY_MENU(&rootItem_, rootCount() + 3);
     settings_.execute(settingsItem_);
+    achievements_.execute(achievementsItem_);
     MenuTemplate_materiel::MATERIEL_DIARY_LOAD(&dataItem_);
     MenuTemplate_materiel::MATERIEL_SEXUALITY(&sexualityItem_);
     return;
@@ -93,9 +96,13 @@ THUMB void MaterielMenu_LOAD::menuDraw()
     int rootResumeMessage[4] = { 0x80000196, 0x8000019f, 0x80000197, 0x80000198 };
     if (status_ == LOAD_MODESELECT) {
 #ifdef DQIV_NATIVE
-        // One more line for the settings.
+        // Three more lines: the settings, the achievements and quitting.
         static char s_settingsEntry[48];
+        static char s_achievementsEntry[48];
+        static char s_quitEntry[48];
+        copyText(s_quitEntry, sizeof(s_quitEntry), pc::quitLabel(pc::gameSettings().language));
         copyText(s_settingsEntry, sizeof(s_settingsEntry), pc::settingsTitle(pc::gameSettings().language));
+        copyText(s_achievementsEntry, sizeof(s_achievementsEntry), pc::achievementsTitle(pc::gameSettings().language));
         if (resume_ == 1) {
             drawMessageColumnSmall(rootResumeMessage, ROOT_RESUME_COUNT, 0x18, 0x10);
         } else {
@@ -107,7 +114,11 @@ THUMB void MaterielMenu_LOAD::menuDraw()
             { 0xff, 0x00, 0, 0, 0, 0, 0, 0 },
         };
         drawMenuParts(entry, &param, 0, rootCount() * 14, 1);
-        drawFrameStyleA(8, 8, 0xa0, resume_ == 1 ? 0x48 + 16 : 0x38 + 16, -1);
+        param = (int)s_achievementsEntry;
+        drawMenuParts(entry, &param, 0, (rootCount() + 1) * 14, 1);
+        param = (int)s_quitEntry;
+        drawMenuParts(entry, &param, 0, (rootCount() + 2) * 14, 1);
+        drawFrameStyleA(8, 8, 0xa0, resume_ == 1 ? 0x48 + 44 : 0x38 + 44, -1);
         rootItem_.drawActive();
         return;
 #endif
@@ -147,6 +158,9 @@ THUMB void MaterielMenu_LOAD::menuDraw()
 #ifdef DQIV_NATIVE
     if (status_ == LOAD_SETTINGS) {
         settings_.draw(settingsItem_, 0, 0x100, drawFrameStyleA);
+    }
+    if (status_ == LOAD_ACHIEVEMENTS) {
+        achievements_.draw(achievementsItem_, 0, 0x100, drawFrameStyleA);
     }
 #endif
 }
@@ -190,6 +204,12 @@ THUMB void MaterielMenu_LOAD::menuUpdate()
         }
         // The language may have changed.
         country_ = status::g_Game.language;
+        break;
+    case LOAD_ACHIEVEMENTS:
+        if (achievements_.update(achievementsItem_, redraw_)) {
+            changeStatus(LOAD_MODESELECT);
+            redraw_ = 1;
+        }
         break;
 #endif
     case LOAD_WRITECHECK: {
@@ -345,6 +365,17 @@ THUMB void MaterielMenu_LOAD::rootUpdate()
             redraw_ = 1;
             break;
         }
+        if (rootItem_.active_ == rootCount() + 2) {
+            pc::requestQuit();
+            break;
+        }
+        if (rootItem_.active_ == rootCount() + 1) {
+            achievementsItem_.active_ = 0;
+            achievements_.open();
+            changeStatus(LOAD_ACHIEVEMENTS);
+            redraw_ = 1;
+            break;
+        }
 #endif
         if (!profile::SaveLoad::isCardOK()) {
             stat_ = menu::MenuBase::MENUBASE_STAT_OK;
@@ -383,7 +414,7 @@ THUMB void MaterielMenu_LOAD::rootUpdate()
         break;
     case 5:
 #ifdef DQIV_NATIVE
-        rootItem_.active_ = rootCount();
+        rootItem_.active_ = rootCount() + 2;
         break;
 #endif
         if (resume_ != 0) {

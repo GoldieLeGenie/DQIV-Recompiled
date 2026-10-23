@@ -68,6 +68,8 @@ add_library(dqiv_core STATIC
     native/NitroGeometry.cpp
     game/libs/NitroSDK/src/gx/g3_util.c
     native/SaveStore.cpp
+    native/Achievements.cpp
+    native/AchievementTexts.cpp
     native/SoundWave.cpp
     native/SoundMixer.cpp
     game/libs/NitroSDK/src/fx/fx_atan.c

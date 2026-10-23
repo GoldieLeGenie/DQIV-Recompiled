@@ -18,8 +18,11 @@ public:
     void clear(std::uint32_t argb=0);
     // Blends a rectangle of straight ARGB colour over the picture.
     void fill(int x,int y,int width,int height,std::uint32_t argb);
-    // Text in UTF-8, `size` pixels tall, aligned 0 left, 1 centre, 2 right inside [x, x+boxWidth).
+    // Text in UTF-8, `size` pixels tall, aligned 0 left, 1 centre, 2 right inside [x, x+boxWidth)
+    // (cut with an ellipsis when longer).
     void text(int x,int y,std::string_view utf8,int size,std::uint32_t argb,bool bold=false,int align=0,int boxWidth=0);
+    // Blends a straight-ARGB picture (top-down) over the rectangle, scaled to fit it.
+    void image(int x,int y,int width,int height,const std::uint32_t* argb,int sourceWidth,int sourceHeight);
 private:
     int width_,height_;
     std::vector<std::uint32_t> pixels_;

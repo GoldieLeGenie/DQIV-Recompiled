@@ -22,6 +22,9 @@ struct GameSettings {
     int battleBoost=0;        // battles run 1, 2, 3 or 4 times as fast
     // Camera of towns, dungeons and the world map.
     int cameraZoom=100;       // percent: above 100 closer, below farther
+    // Towns and dungeons: the party in the middle of the picture (false: in the
+    // middle of the DS bottom screen, the picture's lower half).
+    bool centredCamera=true;
     bool mobileSound=true;    // the smartphone version's music and sounds instead of the DS sequences
     // Controls, in the order of controlBits then party chat: an SDL keycode
     // and an SDL gamepad button (or padLeftTrigger / padRightTrigger).
@@ -81,7 +84,7 @@ void saveSettings();
 // The settings, as the game's menus list them.
 enum SettingItem {settingLanguage,settingFps,settingFullscreen,settingWindowSize,settingPicture,settingStretch,
     settingVsync,settingQuality,settingTextures,settingVolume,settingTextSpeed,settingFrameRate,settingBattleBoost,
-    settingCameraZoom,settingMobileSound,settingBattleView,settingBattleZoom,settingCount};
+    settingCameraZoom,settingMobileSound,settingBattleView,settingBattleZoom,settingCentredCamera,settingCount};
 inline constexpr int cameraZoomMin=50,cameraZoomMax=200;
 // Changes the camera zoom by `step` (percent); for the mouse wheel and the right stick.
 void zoomCamera(int step);
@@ -101,4 +104,8 @@ const char* soundsLabel(int language);
 // Settings changed outside the window (the game's menu) wait to be applied by it.
 void requestSettingsApply();
 bool takeSettingsApply();
+// The game asks the window to close (the DS would be switched off there).
+void requestQuit();
+bool takeQuitRequest();
+const char* quitLabel(int language); // the entry in the adventure log menu
 }

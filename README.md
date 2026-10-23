@@ -16,6 +16,7 @@ The game keeps its files in a `saves` folder next to the executable:
 | --- | --- |
 | `dqiv_eur.sav` | the game save |
 | `settings.ini` | the PC settings |
+| `achievements.ini` | the achievements unlocked |
 | `journal.txt` | the log (details of an error, if the game stops) |
 
 Moving the game together with its `saves` folder keeps your progress. On the first start, a save from an earlier version (`%LOCALAPPDATA%\DQIV-PC`) is copied into `saves` automatically.
@@ -138,8 +139,13 @@ The same screen, in the game's style, opens from "Settings" in the adventure log
 
 On laptops with two graphics chips, the game asks for the dedicated one (NVIDIA / AMD).
 
+### Achievements
+
+The 80 achievements of [RetroAchievements' set](https://retroachievements.org/game/9770) are earned in the game itself: when one is unlocked, a notification with its badge, its title and its description slides in at the bottom right of the screen. **Misc > Achievements** during a game, or "Achievements" in the adventure log menu, lists them on two pages (L / R): those unlocked and those still missing, with their badges and descriptions. Titles and descriptions follow the game's language (French, German, Italian and Spanish use the names of the official translations; Japanese shows the English ones). They are kept in `saves\achievements.ini`, for every adventure log. The badges are in `addons\achievements`.
+
 ### More
 
+- **Quitting**: "Quit game" in the adventure log menu closes the game (keyboard or gamepad). After "End adventure" at a church, the "turn the power off" screen closes the game on A, B or Start.
 - **Quick save anywhere**: Misc > Quick save works everywhere, dungeons included, except in the middle of an action (rope, fall, stairs). The game then goes on; on the DS it stopped. Resuming the interrupted adventure from the adventure log menu brings you back to the exact same spot.
 - **Shops**: the buy list has tabs at the top: every item first, then the categories the shop sells (weapons, armour, shields, helmets, accessories, items); L / R switch tabs. Every item has its HD icon next to its name.
 - **Menus over the world**: the scenery stays on the whole 16:9 picture, frozen as on the DS, and the windows float over it. There are no black bars or stacked DS screens.
