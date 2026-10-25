@@ -44,7 +44,7 @@ Function keys:
 - **F9**: window size.
 - **F10**: stretch or keep proportions.
 - **F11**: fullscreen.
-- **F12**: PNG screenshot, saved in `%APPDATA%\DQIV-PC`.
+- **F12**: PNG screenshot, saved in `%AppData\Roaming\DQIV-PC`.
 
 ## What's new
 
@@ -152,7 +152,7 @@ The 80 achievements of [RetroAchievements' set](https://retroachievements.org/ga
 - **Two-screen scenes** (logos, casino, monster book, adventure log menus): both screens are placed side by side and enlarged. When one screen stays empty, the other is shown alone at twice the size.
 - **Transitions**: the shattering effect when a battle starts covers the whole 16:9 picture. The ending's staff roll scrolls from one screen to the other without a break.
 - **Wireless**: the DS radio is emulated with no other console in range (tag mode, exchanges). The game behaves like a single DS and stays fully playable.
-- **Crash fixes**: a division by zero that crashed the original code after the Master Kung battle (chapter 2) now behaves as on the DS. Any other error shows a message, with its details in `saves\journal.txt`.
+
 
 ## Building
 
